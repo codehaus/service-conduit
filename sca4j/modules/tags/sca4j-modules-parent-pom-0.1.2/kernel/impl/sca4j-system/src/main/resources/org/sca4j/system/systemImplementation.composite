@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           name="org.sca4j.fabric.SystemImplementation"
+           autowire="true">
+
+    <!-- System implementation type -->
+    <component name="SystemImplementationLoader" sca4j:key="sca4j:implementation.system">
+        <sca4j:implementation.system class="org.sca4j.system.introspection.SystemImplementationLoader"/>
+    </component>
+
+    <component name="SystemComponentBuilder">
+        <sca4j:implementation.system class="org.sca4j.system.runtime.SystemComponentBuilder"/>
+        <reference name="transformerRegistry" target="PullTransformerRegistry"/>
+    </component>
+
+    <component name="SystemSourceWireAttacher" sca4j:key="org.sca4j.system.provision.SystemWireSourceDefinition">
+        <sca4j:implementation.system class="org.sca4j.system.runtime.SystemSourceWireAttacher"/>
+        <reference name="transformerRegistry" target="PullTransformerRegistry"/>
+    </component>
+
+    <component name="SystemTargetWireAttacher" sca4j:key="org.sca4j.system.provision.SystemWireTargetDefinition">
+        <sca4j:implementation.system class="org.sca4j.system.runtime.SystemTargetWireAttacher"/>
+    </component>
+
+
+    <component name="SystemImplementationProcessorImpl">
+        <sca4j:implementation.system class="org.sca4j.system.introspection.SystemImplementationProcessorImpl"/>
+        <reference name="classWalker" target="SystemClassWalker"/>
+        <reference name="heuristic" target="SystemHeuristic"/>
+    </component>
+
+    <component name="SystemClassWalker">
+        <sca4j:implementation.system class="org.sca4j.introspection.impl.DefaultClassWalker"/>
+    </component>
+
+    <component name="SystemHeuristic">
+        <sca4j:implementation.system class="org.sca4j.system.introspection.SystemHeuristic"/>
+        <reference name="service" target="SystemServiceHeuristic"/>
+        <reference name="constructor" target="SystemConstructorHeuristic"/>
+        <reference name="injection" target="SystemUnannotatedHeuristic"/>
+    </component>
+
+    <component name="SystemServiceHeuristic">
+        <sca4j:implementation.system class="org.sca4j.system.introspection.SystemServiceHeuristic"/>
+    </component>
+
+    <component name="SystemConstructorHeuristic">
+        <sca4j:implementation.system class="org.sca4j.system.introspection.SystemConstructorHeuristic"/>
+    </component>
+
+    <component name="SystemUnannotatedHeuristic">
+        <sca4j:implementation.system class="org.sca4j.system.introspection.SystemUnannotatedHeuristic"/>
+    </component>
+
+    <component name="SystemComponentGenerator">
+        <sca4j:implementation.system class="org.sca4j.system.control.SystemComponentGenerator"/>
+    </component>
+
+</composite>

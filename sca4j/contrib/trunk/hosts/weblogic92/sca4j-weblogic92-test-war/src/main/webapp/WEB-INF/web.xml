@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+
+<web-app version="2.4"
+         xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" >
+
+    <display-name>Fabric3 Web Calculator</display-name>
+
+    <listener>
+        <listener-class>org.sca4j.runtime.weblogic92.WeblogicContextListener</listener-class>
+    </listener>
+
+    <context-param>
+        <param-name>sca4j.composite</param-name>
+        <param-value>WebCalculator</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>sca4j.compositeNamespace</param-name>
+        <param-value>http://sca4j.org/xmlns/sca/tutorials/0.5</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>sca4j.component</param-name>
+        <param-value>calculator</param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>CalculatorServlet</servlet-name>
+        <servlet-class>org.sca4j.tutorials.webcalc.ui.CalculatorServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CalculatorServlet</servlet-name>
+        <url-pattern>/calculatorServlet</url-pattern>
+    </servlet-mapping>
+
+
+</web-app>

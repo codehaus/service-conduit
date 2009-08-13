@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<!--
+    Policy configuraion.
+    
+    $Rev: 593 $ $Date: 2007-07-26 04:55:15 +0100 (Thu, 26 Jul 2007) $
+-->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           targetNamespace="urn:sca4j.org"
+           name="ResourceExtension"
+           autowire="true">
+
+    <!-- Processor for F3 resources -->
+    <component name="SCA4JResourceProcessor" sca4j:key="org.sca4j.api.annotation.Resource">
+        <sca4j:implementation.system class="org.sca4j.resource.introspection.SCA4JResourceProcessor"/>
+    </component>
+
+    <!-- Processor for JSR250 resources -->
+    <component name="JSR250ResourceProcessor" sca4j:key="javax.annotation.Resource">
+        <sca4j:implementation.system class="org.sca4j.resource.introspection.JSR250ResourceProcessor"/>
+    </component>
+
+    <!-- Wire Target Definition Generator -->
+    <component name="SystemSourcedResourceWireGenerator">
+        <sca4j:implementation.system class="org.sca4j.resource.generator.SystemSourcedResourceWireGenerator"/>
+    </component>
+
+    <!-- Wire Attacher for System Sourced Resources -->
+    <component name="SystemSourcedResourceWireAttacher" sca4j:key="org.sca4j.resource.model.SystemSourcedWireTargetDefinition">
+        <sca4j:implementation.system class="org.sca4j.resource.wire.SystemSourcedResourceWireAttacher"/>
+    </component>
+
+    <!-- Datasource registry -->
+    <component name="DataSourceRegistry">
+        <sca4j:implementation.system class="org.sca4j.resource.ds.DataSourceRegistryImpl"/>
+    </component>
+
+</composite>

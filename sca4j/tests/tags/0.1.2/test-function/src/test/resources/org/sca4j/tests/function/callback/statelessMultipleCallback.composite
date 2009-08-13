@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           name="StatelessMultipleCallbackComposite" autowire="true">
+
+    <component name="CallbackMultipleTestComponent">
+        <sca4j:junit class="org.sca4j.tests.function.callback.multiple.stateless.MulipleClientStatelessCallbackTest"/>
+        <reference name="testClientOne" target="FirstTestClient/TestClientOne"/>
+        <reference name="testClientTwo" target="SecondTestClient/TestClientTwo"/>
+    </component>
+
+    <component name="FirstTestClient">
+        <implementation.java class="org.sca4j.tests.function.callback.multiple.stateless.TestClientOneImpl"/>
+        <reference name="testService" target="TestService"/>
+    </component>
+    
+    <component name="SecondTestClient">
+        <implementation.java class="org.sca4j.tests.function.callback.multiple.stateless.TestClientTwoImpl"/>
+        <reference name="testService" target="TestService"/>
+    </component>
+
+    <component name="TestService">
+        <implementation.java class="org.sca4j.tests.function.callback.multiple.stateless.TestServiceImpl"/>
+    </component>
+
+</composite>

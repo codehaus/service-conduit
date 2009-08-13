@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           name="PropertiesComposite">
+
+    <component name="PublicFieldPropertyTypesTest">
+        <sca4j:junit class="org.sca4j.tests.function.properties.PropertyTypeTest"/>
+        <reference name="service" target="PublicFieldPropertyTypesImpl"/>
+    </component>
+
+    <component name="PublicFieldPropertyTypesImpl">
+        <implementation.java class="org.sca4j.tests.function.properties.PublicFieldPropertyTypesImpl"/>
+        <property name="booleanPrimitive">true</property>
+        <property name="bytePrimitive">12</property>
+        <property name="shortPrimitive">1234</property>
+        <property name="intPrimitive">12345678</property>
+        <property name="longPrimitive">123451234512345</property>
+        <property name="floatPrimitive">1.2345</property>
+        <property name="doublePrimitive">1.2345e10</property>
+        <property name="string">Hello World</property>
+        <property name="booleanValue">true</property>
+        <property name="byteValue">12</property>
+        <property name="shortValue">1234</property>
+        <property name="integerValue">12345678</property>
+        <property name="longValue">123451234512345</property>
+        <property name="floatValue">1.2345</property>
+        <property name="doubleValue">1.2345e10</property>
+        <property name="classValue">org.sca4j.tests.function.properties.PropertyTypes</property>
+        <property name="uriValue">urn:sca4j:test</property>
+        <property name="urlValue">file://./root</property>
+        <property name="dateValue">31/10/2007</property>
+        <property name="calendarValue">2007-10-31T01:00:00Z</property>
+<!--
+        <property name="intArray">
+            <int>1</int>
+            <int>2</int>
+            <int>3</int>
+        </property>
+-->
+        <property name="mapValue">
+            <one>1</one>
+            <two>2</two>
+        </property>
+        <property name="propertiesValue"><![CDATA[
+prop1=value1
+prop2=value2
+        ]]></property>
+        <property name="listValue">value1 value2</property>
+        <property name="mapOfQNameToClassValue" xmlns:foo="urn:foo">
+            <foo:one>java.lang.String</foo:one>
+            <foo:two>java.util.Date</foo:two>
+        </property>
+    </component>
+
+    <component name="ProtectedFieldPropertyTypesTest">
+        <sca4j:junit class="org.sca4j.tests.function.properties.PropertyTypeTest"/>
+        <reference name="service" target="ProtectedFieldPropertyTypesImpl"/>
+    </component>
+
+    <component name="ProtectedFieldPropertyTypesImpl">
+        <implementation.java class="org.sca4j.tests.function.properties.ProtectedFieldPropertyTypesImpl"/>
+        <property name="booleanPrimitive">true</property>
+        <property name="bytePrimitive">12</property>
+        <property name="shortPrimitive">1234</property>
+        <property name="intPrimitive">12345678</property>
+        <property name="longPrimitive">123451234512345</property>
+        <property name="floatPrimitive">1.2345</property>
+        <property name="doublePrimitive">1.2345e10</property>
+        <property name="string">Hello World</property>
+        <property name="booleanValue">true</property>
+        <property name="byteValue">12</property>
+        <property name="shortValue">1234</property>
+        <property name="integerValue">12345678</property>
+        <property name="longValue">123451234512345</property>
+        <property name="floatValue">1.2345</property>
+        <property name="doubleValue">1.2345e10</property>
+        <property name="classValue">org.sca4j.tests.function.properties.PropertyTypes</property>
+        <property name="uriValue">urn:sca4j:test</property>
+        <property name="urlValue">file://./root</property>
+        <property name="dateValue">31/10/2007</property>
+        <property name="calendarValue">2007-10-31T01:00:00Z</property>
+        <property name="mapValue">
+            <one>1</one>
+            <two>2</two>
+        </property>
+        <property name="propertiesValue"><![CDATA[
+prop1=value1
+prop2=value2
+        ]]></property>
+        <property name="listValue">value1 value2</property>
+        <property name="mapOfQNameToClassValue" xmlns:foo="urn:foo">
+            <foo:one>java.lang.String</foo:one>
+            <foo:two>java.util.Date</foo:two>
+        </property>
+    </component>
+
+    <component name="PublicSetterPropertyTypesTest">
+        <sca4j:junit class="org.sca4j.tests.function.properties.PropertyTypeTest"/>
+        <reference name="service" target="PublicSetterPropertyTypesImpl"/>
+    </component>
+
+    <component name="PublicSetterPropertyTypesImpl">
+        <implementation.java class="org.sca4j.tests.function.properties.PublicSetterPropertyTypesImpl"/>
+        <property name="booleanPrimitive">true</property>
+        <property name="bytePrimitive">12</property>
+        <property name="shortPrimitive">1234</property>
+        <property name="intPrimitive">12345678</property>
+        <property name="longPrimitive">123451234512345</property>
+        <property name="floatPrimitive">1.2345</property>
+        <property name="doublePrimitive">1.2345e10</property>
+        <property name="string">Hello World</property>
+        <property name="booleanValue">true</property>
+        <property name="byteValue">12</property>
+        <property name="shortValue">1234</property>
+        <property name="integerValue">12345678</property>
+        <property name="longValue">123451234512345</property>
+        <property name="floatValue">1.2345</property>
+        <property name="doubleValue">1.2345e10</property>
+        <property name="classValue">org.sca4j.tests.function.properties.PropertyTypes</property>
+        <property name="uriValue">urn:sca4j:test</property>
+        <property name="urlValue">file://./root</property>
+        <property name="dateValue">31/10/2007</property>
+        <property name="calendarValue">2007-10-31T01:00:00Z</property>
+        <property name="mapValue">
+            <one>1</one>
+            <two>2</two>
+        </property>
+        <property name="propertiesValue"><![CDATA[
+prop1=value1
+prop2=value2
+        ]]></property>
+        <property name="listValue">value1 value2</property>
+        <property name="mapOfQNameToClassValue" xmlns:foo="urn:foo">
+            <foo:one>java.lang.String</foo:one>
+            <foo:two>java.util.Date</foo:two>
+        </property>
+    </component>
+
+    <component name="ProtectedSetterPropertyTypesTest">
+        <sca4j:junit class="org.sca4j.tests.function.properties.PropertyTypeTest"/>
+        <reference name="service" target="ProtectedSetterPropertyTypesImpl"/>
+    </component>
+
+    <component name="ProtectedSetterPropertyTypesImpl">
+        <implementation.java class="org.sca4j.tests.function.properties.ProtectedSetterPropertyTypesImpl"/>
+        <property name="booleanPrimitive">true</property>
+        <property name="bytePrimitive">12</property>
+        <property name="shortPrimitive">1234</property>
+        <property name="intPrimitive">12345678</property>
+        <property name="longPrimitive">123451234512345</property>
+        <property name="floatPrimitive">1.2345</property>
+        <property name="doublePrimitive">1.2345e10</property>
+        <property name="string">Hello World</property>
+        <property name="booleanValue">true</property>
+        <property name="byteValue">12</property>
+        <property name="shortValue">1234</property>
+        <property name="integerValue">12345678</property>
+        <property name="longValue">123451234512345</property>
+        <property name="floatValue">1.2345</property>
+        <property name="doubleValue">1.2345e10</property>
+        <property name="classValue">org.sca4j.tests.function.properties.PropertyTypes</property>
+        <property name="uriValue">urn:sca4j:test</property>
+        <property name="urlValue">file://./root</property>
+        <property name="dateValue">31/10/2007</property>
+        <property name="calendarValue">2007-10-31T01:00:00Z</property>
+        <property name="mapValue">
+            <one>1</one>
+            <two>2</two>
+        </property>
+        <property name="propertiesValue"><![CDATA[
+prop1=value1
+prop2=value2
+        ]]></property>
+        <property name="listValue">value1 value2</property>
+        <property name="mapOfQNameToClassValue" xmlns:foo="urn:foo">
+            <foo:one>java.lang.String</foo:one>
+            <foo:two>java.util.Date</foo:two>
+        </property>
+    </component>
+
+    <component name="PublicConstructorPropertyTypesTest">
+        <sca4j:junit class="org.sca4j.tests.function.properties.PropertyTypeTest"/>
+        <reference name="service" target="PublicConstructorPropertyTypesImpl"/>
+    </component>
+
+    <component name="PublicConstructorPropertyTypesImpl">
+        <implementation.java class="org.sca4j.tests.function.properties.PublicConstructorPropertyTypesImpl"/>
+        <property name="booleanPrimitive">true</property>
+        <property name="bytePrimitive">12</property>
+        <property name="shortPrimitive">1234</property>
+        <property name="intPrimitive">12345678</property>
+        <property name="longPrimitive">123451234512345</property>
+        <property name="floatPrimitive">1.2345</property>
+        <property name="doublePrimitive">1.2345e10</property>
+        <property name="string">Hello World</property>
+        <property name="booleanValue">true</property>
+        <property name="byteValue">12</property>
+        <property name="shortValue">1234</property>
+        <property name="integerValue">12345678</property>
+        <property name="longValue">123451234512345</property>
+        <property name="floatValue">1.2345</property>
+        <property name="doubleValue">1.2345e10</property>
+        <property name="classValue">org.sca4j.tests.function.properties.PropertyTypes</property>
+        <property name="uriValue">urn:sca4j:test</property>
+        <property name="urlValue">file://./root</property>
+        <property name="dateValue">31/10/2007</property>
+        <property name="calendarValue">2007-10-31T01:00:00Z</property>
+        <property name="mapValue">
+            <one>1</one>
+            <two>2</two>
+        </property>
+        <property name="propertiesValue"><![CDATA[
+prop1=value1
+prop2=value2
+        ]]></property>
+        <property name="listValue">value1 value2</property>
+        <property name="mapOfQNameToClassValue" xmlns:foo="urn:foo">
+            <foo:one>java.lang.String</foo:one>
+            <foo:two>java.util.Date</foo:two>
+        </property>
+    </component>
+
+    <component name="PropertyFromFileImpl">
+        <implementation.java class="org.sca4j.tests.function.properties.PropertyFromFileImpl"/>
+        <property name="string" file="string.xml"/>
+    </component>
+
+    <component name="PropertyFileTest">
+        <sca4j:junit class="org.sca4j.tests.function.properties.PropertyFileTest"/>
+        <property name="string" file="string.xml"/>
+        <reference name="javaComponent" target="PropertyFromFileImpl"/>
+    </component>
+
+    <property name="simple">Hello World</property>
+
+    <property name="complex">
+        <a xmlns="">Hello World</a>
+        <a xmlns="urn:foo">Hello Foo</a>
+    </property>
+
+    <component name="PropertyXPathTest">
+        <sca4j:junit class="org.sca4j.tests.function.properties.PropertyXPathTest"/>
+        <property name="simple" source="$simple"/>
+        <property name="complex" source="$complex/a"/>
+        <property name="complexWithNamespace" xmlns:foo="urn:foo" source="$complex/foo:a"/>
+    </component>
+</composite>

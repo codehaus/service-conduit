@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.sca4j</groupId>
+        <artifactId>fabric</artifactId>
+        <version>4</version>
+    </parent>
+    <groupId>org.sca4j</groupId>
+    <artifactId>sca4j-eclipse-logging</artifactId>
+    <version>0.5ALPHA3-SNAPSHOT</version>
+    <name>SCA4J Eclipse Logging</name>
+    <description>SCA4J Integration with Eclipse Logging.</description>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-monitor</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.core</groupId>
+            <artifactId>runtime</artifactId>
+            <version>3.3.100-v20070530</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.eclipse.equinox</groupId>
+                    <artifactId>app</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <scm>
+        <connection>scm:svn:http://svn.codehaus.org/sca4j/contrib/trunk/sca4j-eclipse-logging</connection>
+        <developerConnection>scm:svn:https://svn.codehaus.org/sca4j/contrib/trunk/sca4j-eclipse-logging</developerConnection>
+        <url>http://svn.sca4j.codehaus.org/browse/sca4j/contrib/trunk/sca4j-eclipse-logging</url>
+    </scm>
+
+</project>

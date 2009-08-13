@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.sca4j</groupId>
+        <artifactId>ci</artifactId>
+        <version>0.1.1</version>
+    </parent>
+
+    <artifactId>test-clover</artifactId>
+    <packaging>jar</packaging>
+    <name>SCA4J Test Integration with Clover</name>
+    <description>SCA4J Test Integration with Clover.</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.sca4j.spec</groupId>
+            <artifactId>sca-api-r1.0</artifactId>
+            <version>0.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+    </dependencies>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>atlassian-m2-repository</id>
+            <name>Atlassian Maven 2.x Repository</name>
+            <url>http://repository.atlassian.com/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <build>
+        <defaultGoal>verify</defaultGoal>
+        <plugins>
+            <plugin>
+                <groupId>org.sca4j</groupId>
+                <artifactId>sca4j-itest-plugin</artifactId>
+                <version>0.1.1</version>
+                <configuration>
+                    <runtimeVersion>0.1.1</runtimeVersion>
+                    <compositeName>CloverTestComposite</compositeName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.atlassian.maven.plugins</groupId>
+                <artifactId>maven-clover-plugin</artifactId>
+                <version>3.6</version>
+                <executions>
+                    <execution>
+                        <phase>pre-site</phase>
+                        <goals>
+                            <goal>instrument</goal>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <licenseLocation>${user.home}/sca4j.clover.license</licenseLocation>
+                    <jdk>1.5</jdk>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

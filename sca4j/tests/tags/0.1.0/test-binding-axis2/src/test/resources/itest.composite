@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           name="Axis2TestComposite">
+
+    <component name="EchoTest">
+        <sca4j:junit class="org.sca4j.tests.binding.axis2.Axis2EchoTest"/>
+        <reference name="service">
+            <binding.ws uri="http://localhost:8900/axis2/echoService
+                             http://localhost:8901/axis2/echoService" sca4j:impl="axis2"/>
+            <operation name="echoWsUsernameToken"  requires="sca:authentication.message"/>
+            <operation name="echoWsX509Token"  requires="sca:authentication.message"/>
+        </reference>
+        <reference name="faultService">
+            <!--<binding.ws uri="http://localhost:${axis.port}/axis2/faultService" sca4j:impl="axis2"/>-->
+            <binding.ws uri="http://localhost:8900/axis2/faultService" sca4j:impl="axis2">
+            	<config>
+            		<parameter name="enableMTOM">false</parameter>
+            	</config>
+            </binding.ws>
+        </reference>
+    </component>
+
+    <component name="EchoService">
+        <implementation.java class="org.sca4j.tests.binding.axis2.Axis2EchoServiceImpl"/>
+        <service name="Axis2EchoService">
+            <binding.ws uri="echoService" sca4j:impl="axis2"/>
+            <operation name="echoWsUsernameToken"  requires="sca:authentication.message"/>
+            <operation name="echoWsX509Token"  requires="sca:authentication.message"/>
+        </service>
+    </component>
+
+    <component name="FaultService">
+        <implementation.java class="org.sca4j.tests.binding.axis2.Axis2FaultServiceImpl"/>
+        <service name="Axis2FaultService">
+            <binding.ws uri="faultService" sca4j:impl="axis2"/>            
+        </service>
+    </component>
+
+</composite>

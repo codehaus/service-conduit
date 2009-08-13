@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<weblogic-web-app xmlns="http://www.bea.com/ns/weblogic/90">
+	<description>Fabric3 Weblogic Console extension</description>
+	<weblogic-version>9.2</weblogic-version>
+
+	<jsp-descriptor>
+		<package-prefix>jsp_servlet</package-prefix>
+		<page-check-seconds>-1</page-check-seconds>
+		<precompile>false</precompile>
+		<verbose>false</verbose>
+	</jsp-descriptor>
+	<container-descriptor>
+		<servlet-reload-check-secs>-1</servlet-reload-check-secs>
+	</container-descriptor>
+
+	<context-root>sca4j</context-root>
+
+</weblogic-web-app>
+
+

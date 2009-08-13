@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           name="CardTestComposite"
+           autowire="true">
+    
+    <component name="TestClient">
+        <sca4j:junit class="tests.rs.TestClient"/>
+        <reference name="cardService">
+            <sca4j:binding.rs uri="http://localhost:8900/esb"/>
+        </reference>
+        <reference name="outboundProxy" target="MockComponent/CardService" />
+    </component>
+    
+    <component name="CardService">
+        <implementation.composite scdlResource="card.composite" />
+        <service name="cardService">
+            <sca4j:binding.rs uri="/esb"/>
+        </service>
+        <reference name="outboundProxy" target="MockComponent/CardService" />
+    </component>
+    
+    <component name="MockComponent">
+        <sca4j:implementation.mock>
+            tests.rs.CardService
+        </sca4j:implementation.mock>
+    </component>
+    
+</composite>

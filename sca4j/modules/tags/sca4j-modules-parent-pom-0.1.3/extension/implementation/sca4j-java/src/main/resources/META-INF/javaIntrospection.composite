@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<!--
+    Configuration of components used during introspection.
+    
+    $Rev: 5312 $ $Date: 2008-09-01 18:25:44 +0100 (Mon, 01 Sep 2008) $
+-->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           name="JavaIntrospectionExtension" 
+           targetNamespace="urn:sca4j.org"
+           autowire="true">
+
+
+    <component name="JavaImplementationLoader" sca4j:key="sca:implementation.java">
+        <sca4j:implementation.system class="org.sca4j.java.introspection.JavaImplementationLoader"/>
+    </component>
+
+    <component name="JavaImplementationProcessorImpl">
+        <sca4j:implementation.system class="org.sca4j.java.introspection.JavaImplementationProcessorImpl"/>
+        <reference name="classWalker" target="ClassWalker"/>
+        <reference name="heuristic" target="JavaHeuristic"/>
+    </component>
+
+    <component name="ClassWalker">
+        <sca4j:implementation.system class="org.sca4j.introspection.impl.DefaultClassWalker"/>
+    </component>
+
+    <component name="JavaHeuristic">
+        <sca4j:implementation.system class="org.sca4j.java.introspection.JavaHeuristic"/>
+        <reference name="service" target="JavaServiceHeuristic"/>
+        <reference name="dataType" target="JavaDataTypeHeuristic"/>
+    </component>
+
+    <component name="JavaServiceHeuristic">
+        <sca4j:implementation.system class="org.sca4j.java.introspection.JavaServiceHeuristic"/>
+    </component>
+
+    <component name="JavaDataTypeHeuristic">
+        <sca4j:implementation.system class="org.sca4j.java.introspection.JavaDataTypeHeuristic"/>
+    </component>
+</composite>

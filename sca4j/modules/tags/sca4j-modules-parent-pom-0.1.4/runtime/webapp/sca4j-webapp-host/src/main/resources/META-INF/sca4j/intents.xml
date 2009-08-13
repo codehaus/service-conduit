@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<definitions 
+    xmlns="http://www.osoa.org/xmlns/sca/1.0" 
+    targetNamespace="http://www.osoa.org/xmlns/sca/1.0">
+
+    <intent name="managedTransaction" constrains="implementation">
+        <description>
+            Used to indicate a component runs in a managed transaction.
+        </description>
+    </intent>
+
+    <intent name="propagatesTransaction" constrains="binding">
+        <description>
+            Used to indicate a service or reference propogates the transaction
+        </description>
+    </intent>
+
+    <intent name="suspendsTransaction" constrains="binding">
+        <description>
+            Used to indicate a service or reference suspends the transaction
+        </description>
+    </intent>
+
+    <intent name="transactedOneWay" constrains="binding">
+        <description>
+            Indicates the reference will include one way invocation in the 
+            transaction or include message receipt on a service in a transaction.
+        </description>
+    </intent>
+
+    <intent name="transactedOneWay.global" constrains="binding">
+        <description>
+            Qualifies transactedOneWay to use global transactions.
+        </description>
+    </intent>
+
+    <intent name="transactedOneWay.local" constrains="binding">
+        <description>
+            Qualifies transactedOneWay to use local transactions.
+        </description>
+    </intent>
+    
+    <intent name="authentication" constrains="binding">
+        <description>
+            Inidicates the client needs to authenticate before interaction.
+        </description>
+    </intent>
+    
+    <intent name="confidentiality" constrains="binding">
+        <description>
+            Inidicates the interaction needs confidentiality.
+        </description>
+    </intent>
+    
+    <intent name="integrity" constrains="binding">
+        <description>
+            Inidicates the interaction needs integrity.
+        </description>
+    </intent>
+    
+    <intent name="authentication.message" constrains="binding">
+        <description>
+            Inidicates the client needs to message level authenticate before interaction.
+        </description>
+    </intent>
+    
+    <intent name="confidentiality.message" constrains="binding">
+        <description>
+            Inidicates the interaction needs message level confidentiality.
+        </description>
+    </intent>
+    
+    <intent name="integrity.message" constrains="binding">
+        <description>
+            Inidicates the interaction needs message level integrity.
+        </description>
+    </intent>
+    
+    <intent name="authentication.transport" constrains="binding">
+        <description>
+            Inidicates the client needs to transport level authenticate before interaction.
+        </description>
+    </intent>
+    
+    <intent name="confidentiality.transport" constrains="binding">
+        <description>
+            Inidicates the interaction needs transport level confidentiality.
+        </description>
+    </intent>
+    
+    <intent name="integrity.transport" constrains="binding">
+        <description>
+            Inidicates the interaction needs transport level integrity.
+        </description>
+    </intent>
+
+</definitions>

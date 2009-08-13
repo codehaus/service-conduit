@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           name="AnnotationProcessorsComposite" 
+           targetNamespace="urn:org.sca4j"
+           autowire="true">
+
+    <!-- OSOA Specification Annotations -->
+
+    <component name="CallbackProcessor" sca4j:key="org.osoa.sca.annotations.Callback">
+        <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.CallbackProcessor"/>
+    </component>
+
+    <component name="ContextProcessor" sca4j:key="org.osoa.sca.annotations.Context">
+        <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.ContextProcessor"/>
+    </component>
+
+    <component name="ConversationIDProcessor" sca4j:key="org.osoa.sca.annotations.ConversationID">
+        <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.ConversationIDProcessor"/>
+    </component>
+
+    <component name="DestroyProcessor" sca4j:key="org.osoa.sca.annotations.Destroy">
+        <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.DestroyProcessor"/>
+    </component>
+
+    <component name="EagerInitProcessor" sca4j:key="org.osoa.sca.annotations.EagerInit">
+        <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.EagerInitProcessor"/>
+    </component>
+
+    <component name="InitProcessor" sca4j:key="org.osoa.sca.annotations.Init">
+        <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.InitProcessor"/>
+    </component>
+
+    <component name="PropertyProcessor" sca4j:key="org.osoa.sca.annotations.Property">
+        <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.PropertyProcessor"/>
+    </component>
+
+    <component name="ReferenceProcessor" sca4j:key="org.osoa.sca.annotations.Reference">
+        <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.ReferenceProcessor"/>
+    </component>
+
+    <component name="RemotableProcessor" sca4j:key="org.osoa.sca.annotations.Remotable">
+        <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.RemotableProcessor"/>
+    </component>
+
+    <component name="ScopeProcessor" sca4j:key="org.osoa.sca.annotations.Scope">
+        <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.ScopeProcessor"/>
+    </component>
+
+    <component name="ServiceProcessor" sca4j:key="org.osoa.sca.annotations.Service">
+        <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.ServiceProcessor"/>
+    </component>
+
+    <!-- SCA4J Annotations -->
+
+    <component name="MonitorProcessor" sca4j:key="org.sca4j.api.annotation.Monitor">
+        <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.MonitorProcessor"/>
+    </component>
+
+    <component name="ConversationProcessor" sca4j:key="org.sca4j.api.annotation.scope.Conversation">
+        <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.ConversationProcessor"/>
+    </component>
+
+    <component name="CompositeProcessor" sca4j:key="org.sca4j.api.annotation.scope.Composite">
+        <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.CompositeProcessor"/>
+    </component>
+
+    <component name="RequestProcessor" sca4j:key="org.sca4j.api.annotation.scope.Request">
+        <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.RequestProcessor"/>
+    </component>
+
+    <component name="StatelessProcessor" sca4j:key="org.sca4j.api.annotation.scope.Stateless">
+        <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.StatelessProcessor"/>
+    </component>
+
+</composite>

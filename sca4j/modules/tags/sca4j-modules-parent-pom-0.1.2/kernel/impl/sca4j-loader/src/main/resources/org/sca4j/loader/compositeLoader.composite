@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           name="CompositeLoaderBootComposite" 
+           targetNamespace="urn:sca4j.org"
+        >
+
+    <!-- Common SCDL loader implementations -->
+    <component name="OperationLoader" sca4j:key="sca:operation">
+        <sca4j:implementation.system class="org.sca4j.loader.common.OperationLoader"/>
+    </component>
+    <component name="ComponentReferenceLoader">
+        <sca4j:implementation.system class="org.sca4j.loader.common.ComponentReferenceLoader"/>
+    </component>
+    <component name="ComponentServiceLoader">
+        <sca4j:implementation.system class="org.sca4j.loader.common.ComponentServiceLoader"/>
+    </component>
+    <component name="PropertyLoader">
+        <sca4j:implementation.system class="org.sca4j.loader.common.PropertyLoader"/>
+    </component>
+    <component name="JavaInterfaceLoader" sca4j:key="sca:interface.java">
+        <sca4j:implementation.system class="org.sca4j.loader.common.JavaInterfaceLoader"/>
+    </component>
+
+    <!-- Composite SCDL loader implementations -->
+    <component name="PropertyValueLoader">
+        <sca4j:implementation.system class="org.sca4j.loader.composite.PropertyValueLoader"/>
+    </component>
+    <component name="ComponentLoader">
+        <sca4j:implementation.system class="org.sca4j.loader.composite.ComponentLoader"/>
+        <reference name="propertyValue" target="PropertyValueLoader"/>
+        <reference name="reference" target="ComponentReferenceLoader"/>
+        <reference name="service" target="ComponentServiceLoader"/>
+        <reference name="loaderHelper" target="LoaderHelper"/>
+    </component>
+    <component name="IncludeLoader">
+        <sca4j:implementation.system class="org.sca4j.loader.composite.IncludeLoader"/>
+    </component>
+    <component name="CompositeReferenceLoader">
+        <sca4j:implementation.system class="org.sca4j.loader.composite.CompositeReferenceLoader"/>
+    </component>
+    <component name="CompositeServiceLoader">
+        <sca4j:implementation.system class="org.sca4j.loader.composite.CompositeServiceLoader"/>
+    </component>
+    <component name="WireLoader">
+        <sca4j:implementation.system class="org.sca4j.loader.composite.WireLoader"/>
+    </component>
+
+    <component name="CompositeLoader">
+        <sca4j:implementation.system class="org.sca4j.loader.composite.CompositeLoader"/>
+        <reference name="include" target="IncludeLoader"/>
+        <reference name="property" target="PropertyLoader"/>
+        <reference name="service" target="CompositeServiceLoader"/>
+        <reference name="reference" target="CompositeReferenceLoader"/>
+        <reference name="component" target="ComponentLoader"/>
+        <reference name="wire" target="WireLoader"/>
+    </component>
+
+    <!-- Composite implementation type -->
+    <component name="ImplementationCompositeLoader">
+        <sca4j:implementation.system class="org.sca4j.loader.composite.ImplementationCompositeLoader"/>
+    </component>
+
+    <component name="ComponentTypeLoader">
+        <sca4j:implementation.system class="org.sca4j.loader.componentType.ComponentTypeLoader"/>
+        <reference name="property" target="PropertyLoader"/>
+        <reference name="service" target="ComponentServiceLoader"/>
+        <reference name="reference" target="ComponentReferenceLoader"/>
+    </component>
+</composite>

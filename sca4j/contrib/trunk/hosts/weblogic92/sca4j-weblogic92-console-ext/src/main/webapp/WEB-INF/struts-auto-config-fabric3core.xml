@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+	"struts-config_1_1.dtd">
+<struts-config>
+
+	<form-beans>
+
+		<form-bean name="sca4jForm" type="org.apache.struts.action.DynaActionForm">
+                        <form-property name="name"
+                           type="java.lang.String"/>
+            <form-property name="handle"
+                           type="com.bea.console.handles.Handle"/>
+            <form-property name="subDomains" type="java.util.Collection" />
+            <form-property name="components" type="java.util.Collection" />               
+		</form-bean>
+		</form-beans>
+
+  <action-mappings>
+        <action path="/Fabric3CoreDomainAction"
+                type="org.sca4j.console.Fabric3CoreDomainAction"
+                name="sca4jForm"
+                scope="request"
+                validate="false">
+            <forward name="success"
+                     contextRelative="true"
+                     path="/core/Fabric3Core.jsp"/>
+        </action>
+	</action-mappings>
+	<controller processorClass="com.bea.console.internal.ConsolePageFlowRequestProcessor">
+      <set-property  property="nocache" value="true"/>
+      <set-property property="contentType" value="text/html;charset=UTF-8"/>
+	</controller>
+    <message-resources null="false" parameter="sca4j"/>
+
+	
+	
+</struts-config>

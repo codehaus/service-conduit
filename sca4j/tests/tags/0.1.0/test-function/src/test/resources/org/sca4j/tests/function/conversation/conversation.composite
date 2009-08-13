@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           name="ConversationComposite">
+
+    <component name="ConversationTest">
+        <sca4j:junit class="org.sca4j.tests.function.conversation.ConversationTest"/>
+        <reference name="service" target="ConversationalServiceImpl"/>
+        <reference name="subService" target="ConversationalServiceImpl"/>
+        <reference name="compositeService" target="CompositeServiceImpl"/>
+        <reference name="compositeSubService" target="CompositeServiceImpl"/>
+        <!--<reference name="maxAgeService" target="MaxAgeConversationalService"/>-->
+    </component>
+
+    <component name="ConversationPropagationTest">
+        <sca4j:junit class="org.sca4j.tests.function.conversation.ConversationPropagationTest"/>
+        <reference name="service" target="ClientToIntermediary"/>
+        <reference name="compositeService" target="ConversationPropagationComponent"/>
+    </component>
+
+    <component name="ConversationalServiceImpl">
+        <implementation.java class="org.sca4j.tests.function.conversation.ConversationalServiceImpl"/>
+    </component>
+
+    <!--<component name="MaxAgeConversationalService">-->
+        <!--<implementation.java class="org.sca4j.tests.function.conversation.MaxAgeConversationalServiceImpl"/>-->
+    <!--</component>-->
+
+    <component name="CompositeServiceImpl">
+        <implementation.java class="org.sca4j.tests.function.conversation.CompositeServiceImpl"/>
+    </component>
+
+    <component name="ClientToIntermediary" requires="sca4j:propagatesConversation">
+        <implementation.java class="org.sca4j.tests.function.conversation.ClientToIntermediaryImpl"/>
+        <reference name="service1" target="IntermediaryService1"/>
+        <reference name="service2" target="IntermediaryService2"/>
+    </component>
+    
+    <component name="IntermediaryService1" requires="sca4j:propagatesConversation">
+        <implementation.java class="org.sca4j.tests.function.conversation.IntermediaryServiceImpl"/>
+        <reference name="conversationalService" target="ConversationalServiceImpl"/>
+    </component>
+
+    <component name="IntermediaryService2" requires="sca4j:propagatesConversation">
+        <implementation.java class="org.sca4j.tests.function.conversation.IntermediaryServiceImpl"/>
+        <reference name="conversationalService" target="ConversationalServiceImpl"/>
+    </component>
+
+    <component name="ConversationPropagationComponent">
+        <implementation.composite name="ConversationPropagationComposite"/>
+    </component>
+
+</composite>

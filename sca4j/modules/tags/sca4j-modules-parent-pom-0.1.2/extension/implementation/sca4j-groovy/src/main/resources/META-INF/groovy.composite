@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           targetNamespace="urn:sca4j.org"
+           name="GroovyExtension"
+           autowire="true">
+
+    <component name="GroovyImplementationLoader" sca4j:key="sca4j:groovy">
+        <sca4j:implementation.system class="org.sca4j.groovy.introspection.GroovyImplementationLoader"/>
+        <reference name="implementationProcessor" target="GroovyImplementationProcessor"/>
+    </component>
+
+    <component name="GroovyImplementationProcessor">
+        <sca4j:implementation.system class="org.sca4j.groovy.introspection.GroovyImplementationProcessor"/>
+        <reference name="classWalker" target="GroovyClassWalker"/>
+        <reference name="heuristic" target="GroovyHeuristic"/>
+    </component>
+
+    <component name="GroovyClassWalker">
+        <sca4j:implementation.system class="org.sca4j.introspection.impl.DefaultClassWalker"/>
+    </component>
+
+    <component name="GroovyHeuristic">
+        <sca4j:implementation.system class="org.sca4j.groovy.introspection.GroovyHeuristic"/>
+    </component>
+
+    <component name="GroovyComponentGenerator">
+        <sca4j:implementation.system class="org.sca4j.groovy.control.GroovyComponentGenerator"/>
+    </component>
+
+    <component name="GroovyComponentBuilder">
+        <sca4j:implementation.system class="org.sca4j.groovy.runtime.GroovyComponentBuilder"/>
+        <reference name="transformerRegistry" target="PullTransformerRegistry"/>
+    </component>
+
+    <component name="GroovyInstanceFactoryBuilder">
+        <sca4j:implementation.system class="org.sca4j.groovy.runtime.GroovyInstanceFactoryBuilder"/>
+    </component>
+
+    <component name="GroovySourceWireAttacher" sca4j:key="org.sca4j.groovy.provision.GroovyWireSourceDefinition">
+        <sca4j:implementation.system class="org.sca4j.groovy.runtime.GroovySourceWireAttacher"/>
+        <reference name="transformerRegistry" target="PullTransformerRegistry"/>
+    </component>
+
+    <component name="GroovyTargetWireAttacher" sca4j:key="org.sca4j.groovy.provision.GroovyWireTargetDefinition">
+        <sca4j:implementation.system class="org.sca4j.groovy.runtime.GroovyTargetWireAttacher"/>
+    </component>
+</composite>

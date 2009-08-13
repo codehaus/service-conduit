@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:f3="http://fabric3.org/xmlns/sca/2.0-alpha"
+           xmlns:system="http://fabric3.org/xmlns/sca/system/2.0-alpha"
+           xmlns:sca="http://www.osoa.org/xmlns/sca/1.0"
+           targetNamespace="org.codehaus.fabric3"
+           name="AQBindingExtension">
+
+    <!-- JTA Transaction Handler -->
+    <component name="JTATransactionHandler">
+        <system:implementation.system class="org.fabric3.binding.aq.runtime.tx.JtaTransactionHandler"/>
+    </component>
+
+    <!-- AQ Host -->
+    <component name="AQHost">
+        <system:implementation.system class="org.fabric3.binding.aq.runtime.host.standalone.DefaultAQHost"/>
+    </component>
+
+    <!-- AQ Binding Loader -->
+    <component name="AQBindingLoader" f3:key="sca:binding.aq" >
+        <system:implementation.system class="org.fabric3.binding.aq.introspection.AQBindingLoader"/>
+    </component>
+
+    <!-- AQ Binding Generator -->
+    <component name="AQBindingGenerator"  f3:key="org.fabric3.binding.aq.scdl.AQBindingDefinition">
+        <system:implementation.system class="org.fabric3.binding.aq.control.AQBindingGenerator"/>
+    </component>
+
+   <!-- AQ Wire Attachers -->
+    <component f3:key="org.fabric3.binding.aq.provision.AQWireSourceDefinition" name="org.fabric3.binding.aq.runtime.wire.AQSourceWireAttacher">
+        <system:implementation.system class="org.fabric3.binding.aq.runtime.wire.AQSourceWireAttacher"/>
+        <reference name="connectionFactoryAccessor" target="XAConnectionFactory"/>
+        <reference name="destinationFactory" target="XAFactory"/>
+    </component>
+    
+    <component f3:key="org.fabric3.binding.aq.provision.AQWireTargetDefinition" name="org.fabric3.binding.aq.runtime.wire.AQTargetWireAttacher">
+        <system:implementation.system class="org.fabric3.binding.aq.runtime.wire.AQTargetWireAttacher"/>
+        <reference name="connectionFactoryAccessor" target="XAConnectionFactory"/>
+        <reference name="destinationFactory" target="XAFactory"/>
+    </component>
+    
+     <!-- Always create connection factory strategy -->
+    <component name="ConnectionFactory">
+        <system:implementation.system class="org.fabric3.binding.aq.runtime.connectionfactory.DefaultConnectionFactoryAccessor"/>
+    </component>
+    
+    <!-- Always create connection factory strategy -->
+    <component name="XAConnectionFactory">
+        <system:implementation.system class="org.fabric3.binding.aq.runtime.connectionfactory.XAConnectionFactoryAccessor"/>
+    </component> 
+
+    <!-- Destination Factory to be used for creating destinations -->
+    <component name="DestinationFactory">
+        <system:implementation.system class="org.fabric3.binding.aq.runtime.destination.DefaultDestinationFactory"/>
+    </component>
+    
+    <component name="XAFactory">
+        <system:implementation.system class="org.fabric3.binding.aq.runtime.destination.XADestinationFactory"/>
+    </component>   
+
+    <!-- Feature -->
+    <system:feature name="AQBindingFeature">{http://fabric3.org/xmlns/binding}aq</system:feature>
+
+</composite>

@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.sca4j</groupId>
+        <artifactId>ci</artifactId>
+        <version>3</version>
+    </parent>
+
+    <artifactId>test-runtime-tomcat</artifactId>
+    <packaging>war</packaging>
+    <name>SCA4J Webapp Tomcat Smoketest</name>
+    <description>SCA4J Webapp Tomcat Smoketest.</description>
+
+    <dependencies>
+        <!-- use the released version of the API -->
+        <dependency>
+            <groupId>org.sca4j.webapp</groupId>
+            <artifactId>sca4j-webapp-api</artifactId>
+            <version>0.1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.4</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- JavaEE APIs needed by SCA4J Runtime but not supplied by Tomcat -->
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>1.1</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-jta_1.0.1B_spec</artifactId>
+            <version>1.1.1</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>geronimo-spec</groupId>
+            <artifactId>geronimo-spec-jta</artifactId>
+            <version>1.0.1B-rc4</version>
+        </dependency>
+        <dependency>
+            <groupId>geronimo-spec</groupId>
+            <artifactId>geronimo-spec-j2ee-connector</artifactId>
+            <version>1.5-rc4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate</artifactId>
+            <version>3.2.4.ga</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.transaction</groupId>
+                    <artifactId>jta</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.security</groupId>
+                    <artifactId>jacc</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.sca4j</groupId>
+                <artifactId>sca4j-webapp-plugin</artifactId>
+                <version>0.1.1</version>
+                <executions>
+                    <execution>
+                        <id>sca4j-war</id>
+                        <goals>
+                            <goal>sca4j-war</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- use the latest version of the runtime -->
+                    <runTimeVersion>0.1.1</runTimeVersion>
+
+                    <extensions>
+                        <!-- include the Groovy extension to verify extensions are handled correctly -->
+                        <dependency>
+                            <groupId>org.sca4j</groupId>
+                            <artifactId>sca4j-groovy</artifactId>
+                            <version>0.1.1</version>
+                        </dependency>
+                        <!-- JPA Hibernate Extensions -->
+                        <dependency>
+                            <groupId>org.sca4j</groupId>
+                            <artifactId>sca4j-jpa-hibernate</artifactId>
+                            <version>0.1.1</version>
+                        </dependency>
+                        <!-- JPA Core Components -->
+                        <dependency>
+                            <groupId>org.sca4j</groupId>
+                            <artifactId>sca4j-jpa-spi</artifactId>
+                            <version>0.1.1</version>
+                        </dependency>
+                        <!-- Transaction Manager Using JOTM -->
+                        <dependency>
+                            <groupId>org.sca4j</groupId>
+                            <artifactId>sca4j-tx-jotm</artifactId>
+                            <version>0.1.1</version>
+                        </dependency>
+                        <!-- Declarative Transaction Policies -->
+                        <dependency>
+                            <groupId>org.sca4j</groupId>
+                            <artifactId>sca4j-tx</artifactId>
+                            <version>0.1.1</version>
+                        </dependency>
+                        <!-- JSR 250 Resource Support and Datasource Management -->
+                        <dependency>
+                            <groupId>org.sca4j</groupId>
+                            <artifactId>sca4j-resource</artifactId>
+                            <version>0.1.1</version>
+                        </dependency>
+                        <!-- Test Extension to Install the Datasource -->
+                        <dependency>
+                            <groupId>org.sca4j</groupId>
+                            <artifactId>test-ds-extension</artifactId>
+                            <version>0.1-SNAPSHOT</version>
+                        </dependency>
+                    </extensions>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+                <configuration>
+                    <container>
+                        <containerId>tomcat5x</containerId>
+                        <zipUrlInstaller>
+                            <url>http://www.apache.org/dist/tomcat/tomcat-5/v5.5.25/bin/apache-tomcat-5.5.25.zip</url>
+                            <installDir>${project.build.directory}/install</installDir>
+                        </zipUrlInstaller>
+                    </container>
+                    <wait>false</wait>
+                    <configuration>
+                        <home>${project.build.directory}/tomcat5x</home>
+                        <properties>
+                            <cargo.servlet.port>8900</cargo.servlet.port>
+                        </properties>
+                    </configuration>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>start-container</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>stop-container</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <includes>
+                                <include>**/SmokeTest*.java</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

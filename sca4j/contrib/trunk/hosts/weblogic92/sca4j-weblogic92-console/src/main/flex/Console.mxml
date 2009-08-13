@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!-- dpcontrols/TreeSimple.mxml -->
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml">
+
+    <mx:Script>
+        <![CDATA[
+        
+            import mx.collections.XMLListCollection;
+            import mx.rpc.events.ResultEvent;
+            import mx.controls.Alert;
+            
+            private function send_data():void {
+                topologyRequest.send();
+            }
+            
+            private function loadTopologyTree(event:ResultEvent):void {
+                topologyTree.dataProvider = event.result;
+                callLater(expandAll);
+            }
+            
+            private function expandAll():void {
+                for (var i:int = 0; i < topologyTree.dataProvider.length; i ++){
+                    topologyTree.expandChildrenOf(topologyTree.dataProvider[i], true)
+                } 
+            }
+            
+            
+        ]]>
+    </mx:Script>
+    
+    <mx:HTTPService id="topologyRequest" result="loadTopologyTree(event);" url="service/console" useProxy="false" method="GET" resultFormat="e4x">
+        <mx:request xmlns="">
+            <url>{serverAddress.text}</url>
+            <port>{serverPort.text}</port>
+            <user>{userName.text}</user>
+            <password>{password.text}</password>
+        </mx:request>
+    </mx:HTTPService>
+    
+    <mx:Panel id="mainPanel">
+        <mx:VBox>
+            <mx:Form id="securityForm" x="22" y="10" width="493">
+                <mx:HBox>
+                    <mx:VBox>
+                        <mx:Label text="Server Address"/>
+                        <mx:Label text="Server Port"/>
+                        <mx:Label text="User Name"/>
+                        <mx:Label text="Password"/>
+                    </mx:VBox>
+                    <mx:VBox>
+                        <mx:TextInput id="serverAddress" text="localHost"/>
+                        <mx:TextInput id="serverPort" text="7001"/>
+                        <mx:TextInput id="userName" text="weblogic"/>
+                        <mx:TextInput id="password" text="password" displayAsPassword="true"/>
+                        <mx:Button label="Submit" click="send_data()"/>
+                    </mx:VBox>
+                    </mx:HBox>
+            </mx:Form>
+            <mx:HBox>
+                <mx:Tree id="topologyTree" labelField="@name" showRoot="true" width="300" height="300"/>
+                <mx:VBox>
+                    <!-- Create an HBox container to hold the three buttons. -->
+                    <mx:TabBar dataProvider="{myViewStack}" borderStyle="solid"/>
+                    <mx:ViewStack id="myViewStack" borderStyle="solid" width="100%">
+                        <mx:Canvas id="workScheduler" label="Work Scheduler" width="500"/>
+                    </mx:ViewStack>
+                </mx:VBox>
+            </mx:HBox>
+        </mx:VBox>
+    </mx:Panel>
+    
+</mx:Application>

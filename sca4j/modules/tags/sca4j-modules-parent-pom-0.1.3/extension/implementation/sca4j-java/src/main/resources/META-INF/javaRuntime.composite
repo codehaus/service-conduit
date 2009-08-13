@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<!--
+    Configuration of components used at runtime.
+
+    $Rev: 5317 $ $Date: 2008-09-01 19:32:44 +0100 (Mon, 01 Sep 2008) $
+-->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           name="JavaRuntimeExtension"
+           targetNamespace="urn:sca4j.org"
+           autowire="true">
+
+    <component name="JavaComponentBuilder">
+        <sca4j:implementation.system class="org.sca4j.java.runtime.JavaComponentBuilder"/>
+        <reference name="transformerRegistry" target="PullTransformerRegistry"/>
+    </component>
+
+    <component name="JavaSourceWireAttacher" sca4j:key="org.sca4j.java.provision.JavaWireSourceDefinition">
+        <sca4j:implementation.system class="org.sca4j.java.runtime.JavaSourceWireAttacher"/>
+        <reference name="transformerRegistry" target="PullTransformerRegistry"/>
+    </component>
+
+    <component name="JavaTargetWireAttacher" sca4j:key="org.sca4j.java.provision.JavaWireTargetDefinition">
+        <sca4j:implementation.system class="org.sca4j.java.runtime.JavaTargetWireAttacher"/>
+    </component>
+
+</composite>

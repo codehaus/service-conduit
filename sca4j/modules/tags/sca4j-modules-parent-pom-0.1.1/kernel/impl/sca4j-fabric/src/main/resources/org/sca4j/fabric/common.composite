@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           name="CommonBootComposite"
+           autowire="true">
+
+    <include name="AsssemblyBootComposite" scdlLocation="assembly.composite"/>
+
+    <include name="CommandGeneratorsBootComposite" scdlLocation="commandGenerators.composite"/>
+
+    <include name="CommonExecutorsBootComposite" scdlLocation="commandExecutors.composite"/>
+
+    <component name="PhysicalOperationHelper">
+        <sca4j:implementation.system class="org.sca4j.fabric.generator.wire.PhysicalOperationHelperImpl"/>
+    </component>
+
+    <component name="PhysicalModelGenerator">
+        <sca4j:implementation.system class="org.sca4j.fabric.generator.PhysicalModelGeneratorImpl"/>
+    </component>
+    <!-- the wire forces a reinjection of the generator into the RuntimeDomain -->
+    <wire source="RuntimeDomain/physicalModelGenerator" target="PhysicalModelGenerator"/>
+
+    <component name="PhysicalWireGenerator">
+        <sca4j:implementation.system class="org.sca4j.fabric.generator.wire.PhysicalWireGeneratorImpl"/>
+    </component>
+
+    <component name="ApplicationDomain">
+        <sca4j:implementation.system class="org.sca4j.fabric.domain.DistributedDomain"/>
+        <reference name="logicalComponentManager" target="LogicalComponentManager"/>
+    </component>
+
+    <component name="BindingSelector">
+        <sca4j:implementation.system class="org.sca4j.fabric.binding.BindingSelectorImpl"/>
+        <reference name="logicalComponentManager" target="LogicalComponentManager"/>
+    </component>
+
+    <component name="ConfigurableBindingSelectionStrategy">
+        <sca4j:implementation.system class="org.sca4j.fabric.binding.ConfigurableBindingSelectionStrategy"/>
+        <!-- allows users to configure the SCA binding preference through a systemConfig entry -->
+        <property name="scaBindingOrder" source="$systemConfig//bindings/binding.sca/provider.order"/>
+    </component>
+
+    <component name="GeneratorRegistry">
+        <sca4j:implementation.system class="org.sca4j.fabric.generator.GeneratorRegistryImpl"/>
+    </component>
+
+    <component name="AdvertismentService">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.advertisement.DefaultAdvertismentService"/>
+    </component>
+
+    <component name="FeatureLoader" sca4j:key="sca4j:feature">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.advertisement.FeatureLoader"/>
+    </component>
+
+    <!-- Default scopes -->
+    <component name="StatelessScopeContainer">
+        <sca4j:implementation.system class="org.sca4j.fabric.component.scope.StatelessScopeContainer"/>
+    </component>
+
+    <component name="ConversationalScopeContainer">
+        <sca4j:implementation.system class="org.sca4j.fabric.component.scope.ConversationalScopeContainer"/>
+        <reference name="store" target="MemoryStore"/>
+    </component>
+
+    <component name="MemoryStore">
+        <sca4j:implementation.system class="org.sca4j.fabric.component.scope.NonExpiringMemoryStore"/>
+    </component>
+
+    <component name="EventService">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.event.EventServiceImpl"/>
+    </component>
+
+    <component name="ClassLoaderGenerator">
+        <sca4j:implementation.system class="org.sca4j.fabric.generator.classloader.ClassLoaderCommandGeneratorImpl"/>
+    </component>
+
+    <component name="ClassLoaderBuilder">
+        <sca4j:implementation.system class="org.sca4j.fabric.builder.classloader.ClassLoaderBuilderImpl"/>
+    </component>
+
+    <component name="SingletonComponentSynthesizer">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.synthesizer.SingletonComponentSynthesizer"/>
+    </component>
+
+    <!-- Definitions registry -->
+    <component name="DefinitionsRegistry">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.definitions.DefaultDefinitionsRegistry"/>
+    </component>
+
+    <component name="ClasspathProcessorRegistry">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.ClasspathProcessorRegistryImpl"/>
+    </component>
+
+    <component name="JarClasspathProcessor">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.processor.JarClasspathProcessor"/>
+    </component>
+
+    <component name="ProcessorRegistry">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.ProcessorRegistryImpl"/>
+    </component>
+    <!-- reinjects the metadata store after runtime bootstrap -->
+    <wire source="MetaDataStore/processorRegistry" target="ProcessorRegistry"/>
+
+</composite>

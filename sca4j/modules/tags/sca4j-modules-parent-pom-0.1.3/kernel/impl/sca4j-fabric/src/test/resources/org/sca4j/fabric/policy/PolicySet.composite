@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+           name="org.sca4j.fabric.policy.testCase">
+    <policySet name="BasicMsgProtSecurity"
+               provides="sec.confidentiality" appliesTo="binding.ws binding.jms"
+               xmlns="http://www.osoa.org/xmlns/sca/1.0">
+        <wsp:PolicyAttachment/>
+        <intentMap provides="sec.confidentiality" default="transport">
+            <qualifier name="transport">
+                <wsp:PolicyAttachment/>
+                <wsp:PolicyAttachment/>
+            </qualifier>
+            <qualifier name="message">
+                <intentMap provides="sec.confidentiality/message"
+                           default="all">
+                    <qualifier name="all">
+                        <wsp:PolicyAttachment/>
+                    </qualifier>
+                    <qualifier name="body">
+                        <wsp:PolicyAttachment/>
+                    </qualifier>
+                </intentMap>
+            </qualifier>
+        </intentMap>
+    </policySet>
+
+    <policySet name="Authentication"
+               provides="sec.authentication" appliesTo="binding.ws binding.jms">
+        <wsp:PolicyAttachment/>
+        <intentMap provides="authentication" default="cert">
+            <qualifier name="cert">
+                <wsp:PolicyAttachment/>
+                <wsp:PolicyAttachment/>
+            </qualifier>
+            <qualifier name="basic">
+                <wsp:PolicyAttachment/>
+            </qualifier>
+        </intentMap>
+    </policySet>
+
+</composite>

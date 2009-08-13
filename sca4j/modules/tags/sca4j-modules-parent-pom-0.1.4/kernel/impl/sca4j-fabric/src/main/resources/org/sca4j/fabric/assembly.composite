@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           name="AssemblyBootComposite" 
+           targetNamespace="urn:sca4j.org"
+           autowire="true">
+
+    <component name="RuntimeRoutingService">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.routing.RuntimeRoutingService"/>
+    </component>
+    <!-- this wire reinjects the routing service into the RuntimeDomain -->
+    <wire source="RuntimeDomain/routingService" target="RuntimeRoutingService"/>
+
+    <component name="LogicalModelGenerator">
+        <sca4j:implementation.system class="org.sca4j.fabric.instantiator.LogicalModelInstantiatorImpl"/>
+        <reference name="atomicComponentInstantiator" target="AtomicComponentInstantiator"/>
+        <reference name="compositeComponentInstantiator" target="CompositeComponentInstantiator"/>
+    </component>
+
+    <component name="AtomicComponentInstantiator">
+        <sca4j:implementation.system class="org.sca4j.fabric.instantiator.component.AtomicComponentInstantiator"/>
+    </component>
+
+    <component name="CompositeComponentInstantiator">
+        <sca4j:implementation.system class="org.sca4j.fabric.instantiator.component.CompositeComponentInstantiator"/>
+        <reference name="atomicComponentInstantiator" target="AtomicComponentInstantiator"/>
+    </component>
+
+    <component name="WireInstantiator">
+        <sca4j:implementation.system class="org.sca4j.fabric.instantiator.component.WireInstantiatorImpl"/>
+    </component>
+
+    <component name="LogicalComponentManager">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.lcm.LogicalComponentManagerImpl"/>
+    </component>
+
+    <component name="WiringService">
+        <sca4j:implementation.system class="org.sca4j.fabric.instantiator.ResolutionServiceImpl"/>
+    </component>
+
+    <component name="PromotionNormalizer">
+        <sca4j:implementation.system class="org.sca4j.fabric.instantiator.normalize.PromotionNormalizerImpl"/>
+    </component>
+
+    <component name="DocumentLoader">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.documentloader.DocumentLoaderImpl"/>
+    </component>
+
+    <component name="TargetPromotionService">
+        <sca4j:implementation.system class="org.sca4j.fabric.instantiator.promotion.DefaultPromotionResolutionService"/>
+    </component>
+
+    <component name="ExplicitTargetResolutionService">
+        <sca4j:implementation.system class="org.sca4j.fabric.instantiator.target.ExplicitTargetResolutionService"/>
+    </component>
+
+    <component name="TypeBasedAutoWireResolutionService">
+        <sca4j:implementation.system class="org.sca4j.fabric.instantiator.target.TypeBasedAutowireResolutionService"/>
+    </component>
+
+    <component name="ServiceContractResolver">
+        <sca4j:implementation.system class="org.sca4j.fabric.instantiator.target.ServiceContractResolverImpl"/>
+    </component>
+
+</composite>

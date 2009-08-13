@@ -1,0 +1,31 @@
+<!--
+  Skeleton settings file for Maven2 containing configuration elements for
+  the Codehaus servers and GPG keyring password for release signing.
+
+  Replace yourCodehausUserid, yourCodehausPassword and yourGpgPassphase with your values
+-->
+<settings>
+    <servers>
+        <server>
+            <id>dav.codehaus.org</id>
+            <username>${yourCodehausUserid}</username>
+            <password>${yourCodehausPassword}</password>
+            <directoryPermissions>775</directoryPermissions>
+            <filePermissions>664</filePermissions>
+        </server>
+    </servers>
+    <profiles>
+        <profile>
+            <id>release-profile</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <properties>
+                <gpg.passphrase>${yourGpgPassphrase}</gpg.passphrase>
+            </properties>
+        </profile>
+    </profiles>
+</settings>

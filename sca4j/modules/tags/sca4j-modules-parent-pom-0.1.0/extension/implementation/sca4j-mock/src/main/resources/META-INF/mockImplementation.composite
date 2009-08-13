@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<!--
+    Mock Implementation configuraion.
+    
+    $Rev: 593 $ $Date: 2007-07-26 04:55:15 +0100 (Thu, 26 Jul 2007) $
+-->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           targetNamespace="urn:sca4j.org"
+           name="MockImplementationExtension"
+           autowire="true">
+
+    <!-- Implementation loader -->
+    <component name="ImplementationMockLoader" sca4j:key="sca4j:implementation.mock">
+        <sca4j:implementation.system class="org.sca4j.mock.ImplementationMockLoader"/>
+    </component>
+
+    <!-- Component type loader -->
+    <component name="MockComponentTypeLoader">
+        <sca4j:implementation.system class="org.sca4j.mock.MockComponentTypeLoaderImpl"/>
+    </component>
+
+    <!-- Generator -->
+    <component name="MockComponentGenerator">
+        <sca4j:implementation.system class="org.sca4j.mock.MockComponentGenerator"/>
+    </component>
+
+    <!-- Builder -->
+    <component name="MockComponentBuilder">
+        <sca4j:implementation.system class="org.sca4j.mock.MockComponentBuilder"/>
+    </component>
+
+    <!-- Target Wire attacher -->
+    <component name="MockTargetWireAttacher" sca4j:key="org.sca4j.mock.MockWireTargetDefinition">
+        <sca4j:implementation.system class="org.sca4j.mock.MockTargetWireAttacher"/>
+    </component>
+
+    <!-- Source Wire attacher -->
+    <component name="MockSourceWireAttacher" sca4j:key="org.sca4j.mock.MockWireSourceDefinition">
+        <sca4j:implementation.system class="org.sca4j.mock.MockSourceWireAttacher"/>
+    </component>
+
+    <!-- IMock control -->
+    <component name="IMocksControlProxy">
+        <sca4j:implementation.system class="org.sca4j.mock.IMocksControlProxy"/>
+    </component>
+
+</composite>

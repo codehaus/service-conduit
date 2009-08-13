@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           name="PhysicalBootComposite"
+           autowire="true">
+
+    <component name="Connector">
+        <sca4j:implementation.system class="org.sca4j.fabric.builder.ConnectorImpl"/>
+    </component>
+
+    <component name="PhysicalComponentBuilderRegistry">
+        <sca4j:implementation.system class="org.sca4j.fabric.builder.component.DefaultComponentBuilderRegistry"/>
+    </component>
+
+    <component name="ExpressionExpander">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.expression.ExpressionExpanderImpl"/>
+    </component>
+
+    <!-- add the default evaluators. Host properties override system properties which override environment properties -->
+    <component name="HostPropertiesExpressionEvaluator" sca4j:key="100">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.expression.HostPropertiesExpressionEvaluator"/>
+    </component>
+
+    <component name="SystemPropertyEvaluator" sca4j:key="101">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.expression.SystemPropertyEvaluator"/>
+    </component>
+
+    <component name="EnvironmentPropertyEvaluator" sca4j:key="102">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.expression.EnvironmentPropertyEvaluator"/>
+    </component>
+
+</composite>

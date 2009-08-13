@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<!--
+    Policy configuraion.
+    
+    $Rev: 593 $ $Date: 2007-07-26 04:55:15 +0100 (Thu, 26 Jul 2007) $
+-->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           targetNamespace="urn:sca4j.org"
+           name="JpaExtension"
+           autowire="true">
+
+    <!-- Persistence Unit Annotation Processor -->
+    <component  name="PersistenceUnitProcessor" sca4j:key="javax.persistence.PersistenceUnit">
+        <sca4j:implementation.system class="org.sca4j.jpa.introspection.PersistenceUnitProcessor"/>
+    </component>
+
+    <!-- Persistence Context Annotation Processor -->
+    <component name="PersistenceContextProcessor" sca4j:key="javax.persistence.PersistenceContext">
+        <sca4j:implementation.system class="org.sca4j.jpa.introspection.PersistenceContextProcessor"/>
+    </component>
+
+    <!-- Persistence Unit Wire Target Definition Generator -->
+    <component name="PersistenceUnitResourceWireGenerator">
+        <sca4j:implementation.system class="org.sca4j.jpa.control.PersistenceUnitResourceWireGenerator"/>
+    </component>
+
+    <!-- Persistence Context Wire Target Definition Generator -->
+    <component name="PersistenceContextResourceWireGenerator">
+        <sca4j:implementation.system class="org.sca4j.jpa.control.PersistenceContextResourceWireGenerator"/>
+    </component>
+
+    <!-- Persistence Unit Wire Target Attacher -->
+    <component name="PersistenceUnitWireAttacher" sca4j:key="org.sca4j.jpa.provision.PersistenceUnitWireTargetDefinition" >
+        <sca4j:implementation.system class="org.sca4j.jpa.runtime.PersistenceUnitWireAttacher"/>
+    </component>
+
+    <!-- Persistence Context Wire Target Attacher -->
+    <component name="PersistenceContextWireAttacher" sca4j:key="org.sca4j.jpa.provision.PersistenceContextWireTargetDefinition" >
+        <sca4j:implementation.system class="org.sca4j.jpa.runtime.PersistenceContextWireAttacher"/>
+    </component>
+
+    <!-- Persistence Unit Scanner -->
+    <component name="ClasspathPersistenceUnitScanner">
+        <sca4j:implementation.system class="org.sca4j.jpa.runtime.ClasspathPersistenceUnitScanner"/>
+    </component>
+
+    <!-- EMF Builder -->
+    <component name="CachingEmfBuilder">
+        <sca4j:implementation.system class="org.sca4j.jpa.runtime.CachingEmfBuilder"/>
+    </component>
+
+    <!-- Entity Manager Service -->
+    <component name="EntityManagerService">
+        <sca4j:implementation.system class="org.sca4j.jpa.runtime.EntityManagerServiceImpl"/>
+    </component>
+
+</composite>

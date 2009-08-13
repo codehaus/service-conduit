@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           name="DeploymentBootComposite"
+           autowire="true">
+
+    <!-- Content type resolver -->
+    <component name="ContentTypeResolver">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contenttype.ExtensionMapContentTypeResolver"/>
+        <property name="extensionMap">
+            <xml>application/xml</xml>
+            <composite>text/vnd.sca4j.composite+xml</composite>
+            <zip>application/zip</zip>
+            <jar>application/zip</jar>
+            <definitions>text/vnd.sca4j.definitions+xml</definitions>
+        </property>
+    </component>
+
+    <!-- Contribution Service -->
+    <component name="ContributionService">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.ContributionServiceImpl"/>
+    </component>
+
+    <component name="ContributionLoader">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.ContributionLoaderImpl"/>
+    </component>
+
+    <component name="DependencyService">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.DependencyServiceImpl"/>
+    </component>
+
+    <component name="ArchiveContributionProcessor">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.processor.ArchiveContributionProcessor"/>
+    </component>
+
+    <component name="ZipContributionHandler">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.processor.ZipContributionHandler"/>
+    </component>
+
+    <component name="XmlResourceProcessor">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.processor.XmlResourceProcessor"/>
+    </component>
+
+    <component name="CompositeResourceProcessor">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.processor.CompositeResourceProcessor"/>
+    </component>
+
+    <component name="XmlContributionProcessor">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.processor.XmlContributionProcessor"/>
+    </component>
+
+    <component name="XmlManifestProcessorRegistry">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.manifest.XmlManifestProcessorRegistryImpl"/>
+    </component>
+
+    <component name="XmlIndexerRegistry">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.processor.XmlIndexerRegistryImpl"/>
+    </component>
+
+    <component name="XmlPRocessorRegistry">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.processor.XmlProcessorRegistryImpl"/>
+    </component>
+
+    <component name="XmlResourceElementLoaderRegistry">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.processor.XmlResourceElementLoaderRegistryImpl"/>
+    </component>
+
+    <component name="XmlManifestProcessor">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.manifest.XmlManifestProcessor"/>
+    </component>
+
+    <component name="DefinitionsProcessor">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.processor.DefinitionsProcessor"/>
+        <reference name="loader" target="DefinitionsLoader"/>
+    </component>
+
+    <component name="ContributionElementLoader">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.manifest.ContributionElementLoader"/>
+    </component>
+
+    <component name="QNameExportLoader" sca4j:key="sca:export">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.manifest.QNameExportLoader"/>
+    </component>
+
+    <component name="QNameImportLoader" sca4j:key="sca:import">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.manifest.QNameImportLoader"/>
+    </component>
+
+    <component name="MavenImportLoader" sca4j:key="sca4j:import">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.manifest.MavenImportLoader"/>
+    </component>
+
+    <component name="MavenExportLoader" sca4j:key="sca4j:export">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.manifest.MavenExportLoader"/>
+    </component>
+
+    <component name="MavenPOMLoader">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.manifest.MavenPOMProcessor"/>
+    </component>
+
+    <component name="JavaExportLoader" sca4j:key="sca:export.java">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.manifest.JavaExportLoader"/>
+    </component>
+
+    <component name="JavaImportLoader" sca4j:key="sca:import.java">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.manifest.JavaImportLoader"/>
+    </component>
+
+
+</composite>

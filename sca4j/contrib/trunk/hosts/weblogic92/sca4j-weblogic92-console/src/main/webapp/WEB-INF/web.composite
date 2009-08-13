@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           name="WeblogicConsole"
+           xmlns:rs="http://www.fabric3.org/xmlns/rs/1.0"
+           targetNamespace="http://fabric3.org/xmlns/weblogic">
+
+    <component name="weblogicConsole">
+        <implementation.web/>
+    </component>
+
+    <component name="DomainTopologyService">
+        <rs:implementation.rs class="org.fabric3.weblogic92.console.service.DefaultDomainTopologyService" uri="/console" />
+        <reference name="jmxConnectionService" target="JmxConnectionService"/>
+        <property name="domainServer">weblogic.management.mbeanservers.domainruntime</property>
+        <property name="runtimeServer">weblogic.management.mbeanservers.runtime</property>
+        <property name="domainRuntimeService">com.bea:Name=DomainRuntimeService,Type=weblogic.management.mbeanservers.domainruntime.DomainRuntimeServiceMBean</property>
+    </component>
+
+    <component name="JmxConnectionService">
+        <implementation.java class="org.fabric3.weblogic92.console.service.DefaultJmxConnectionService"/>
+    </component>
+
+</composite>

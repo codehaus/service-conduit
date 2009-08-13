@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<weblogic-portal-extension
+    xmlns="http://www.bea.com/servers/portal/weblogic-portal/8.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.bea.com/servers/portal/weblogic-portal/8.0 netuix-extension-1_0_0.xsd">
+
+    <provider-info>
+        <title>Fabric3 Extension</title>
+        <version>1.0</version>
+        <description>Extension to add a tab for controlling the JMX Component</description>
+        <author>Fabric3 Team</author>
+    </provider-info>
+
+    <portal-file>/console.portal</portal-file>
+
+       <book-extension>
+        <book-location>
+             <parent-label-location label="CoreServerTabsBook" />
+             <book-insertion-point action="append" />
+        </book-location>
+        <book-content content-uri="/controls/sca4jcore.pinc" />
+   </book-extension>
+
+</weblogic-portal-extension>

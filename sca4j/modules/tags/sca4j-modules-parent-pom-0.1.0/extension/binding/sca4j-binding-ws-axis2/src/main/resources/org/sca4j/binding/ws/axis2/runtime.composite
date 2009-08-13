@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           targetNamespace="urn:sca4j.org"
+           name="Axis2RuntimeExtension"
+           autowire="true">
+
+    <!-- Feature -->
+    <sca4j:feature name="WsAxis2BindingFeature">{http://sca4j.org/xmlns/binding}ws-axis2</sca4j:feature>
+
+    <component sca4j:key="org.sca4j.binding.ws.axis2.provision.Axis2WireSourceDefinition" name="Axis2SourceWireAttacher">
+        <sca4j:implementation.system class="org.sca4j.binding.ws.axis2.runtime.Axis2SourceWireAttacher"/>
+    </component>
+    <component sca4j:key="org.sca4j.binding.ws.axis2.provision.Axis2WireTargetDefinition" name="Axis2TargetWireAttacher">
+        <sca4j:implementation.system class="org.sca4j.binding.ws.axis2.runtime.Axis2TargetWireAttacher"/>
+    </component>
+
+    <!-- Axis service provisioner -->
+    <component name="Axis2ServiceProvisioner">
+        <sca4j:implementation.system class="org.sca4j.binding.ws.axis2.runtime.Axis2ServiceProvisionerImpl"/>
+    </component>
+
+    <!-- WS Policy Applier -->
+    <component name="NeethiPolicyApplier">
+        <sca4j:implementation.system class="org.sca4j.binding.ws.axis2.runtime.policy.NeethiPolicyApplier"/>
+    </component>
+    
+    <!-- Configurator -->
+    <component name="Axis2F3Configurator">
+        <sca4j:implementation.system class="org.sca4j.binding.ws.axis2.runtime.config.SCA4JConfiguratorImpl"/>
+    </component>
+
+    <!-- Jaxb Databinding Interceptor Builder -->
+    <component sca4j:key="org.sca4j.binding.ws.axis2.provision.jaxb.JaxbInterceptorDefinition" name="jaxbInterceptorBuilder">
+        <sca4j:implementation.system class="org.sca4j.binding.ws.axis2.runtime.jaxb.JaxbInterceptorBuilder"/>
+    </component>
+</composite>

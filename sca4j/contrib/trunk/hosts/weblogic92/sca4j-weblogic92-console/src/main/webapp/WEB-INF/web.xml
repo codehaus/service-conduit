@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app version="2.4"
+         xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" >
+
+    <display-name>Fabric3 Weblogic Administration Console</display-name>
+
+    <listener>
+        <listener-class>org.sca4j.runtime.webapp.Fabric3ContextListener</listener-class>
+    </listener>
+
+    <context-param>
+        <param-name>sca4j.composite</param-name>
+        <param-value>WeblogicConsole</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>sca4j.compositeNamespace</param-name>
+        <param-value>http://sca4j.org/xmlns/weblogic</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>sca4j.component</param-name>
+        <param-value>weblogicConsole</param-value>
+    </context-param> 
+    
+    <servlet>
+        <servlet-name>Fabric3Servlet</servlet-name>
+        <servlet-class>org.sca4j.runtime.webapp.Fabric3Servlet</servlet-class>
+    </servlet>
+ 
+    <servlet-mapping>
+        <servlet-name>Fabric3Servlet</servlet-name>
+        <url-pattern>/service/*</url-pattern>
+    </servlet-mapping>
+
+</web-app>

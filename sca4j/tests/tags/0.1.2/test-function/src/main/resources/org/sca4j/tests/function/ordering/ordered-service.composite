@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           name="OrderingTest"
+           autowire="false">
+	
+    <service name="OrderedDisplayService" promote="OrderedDisplayService/ItemDisplayService"/>	
+		   		   
+    <component name="OrderedDisplayService">
+        <implementation.java class="org.sca4j.tests.function.ordering.OrderedDisplayService"/>
+		<reference name="items" target="Item1 Item2 Item3 Item4 Item5 Item6 Item7 Item8"/>
+    </component>
+	
+    <component name="Item1">
+        <implementation.java class="org.sca4j.tests.function.ordering.ItemImpl"/>
+        <property name="typeName">ONE</property>
+    </component>			
+	
+    <component name="Item2">
+        <implementation.java class="org.sca4j.tests.function.ordering.ItemImpl"/>
+        <property name="typeName">TWO</property>
+    </component>				
+
+	<component name="Item3">
+        <implementation.java class="org.sca4j.tests.function.ordering.ItemImpl"/>
+        <property name="typeName">THREE</property>
+    </component>	
+
+	<component name="Item4">
+        <implementation.java class="org.sca4j.tests.function.ordering.ItemImpl"/>
+        <property name="typeName">FOUR</property>
+    </component>			
+	
+    <component name="Item5">
+        <implementation.java class="org.sca4j.tests.function.ordering.ItemImpl"/>
+        <property name="typeName">FIVE</property>
+    </component>				
+
+	<component name="Item6">
+        <implementation.java class="org.sca4j.tests.function.ordering.ItemImpl"/>
+        <property name="typeName">SIX</property>
+    </component>
+	
+	<component name="Item7">
+        <implementation.java class="org.sca4j.tests.function.ordering.ItemImpl"/>
+        <property name="typeName">SEVEN</property>
+    </component>
+
+	<component name="Item8">
+        <implementation.java class="org.sca4j.tests.function.ordering.ItemImpl"/>
+        <property name="typeName">EIGHT</property>
+    </component>	
+
+</composite>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           name="WiringComposite">
+
+    <component name="WiringTest">
+        <sca4j:junit class="org.sca4j.tests.function.wiring.WiringTest"/>
+        <reference name="testService" target="TestComponent"/>
+    </component>
+
+    <component name="SingeReferenceTest">
+        <sca4j:junit class="org.sca4j.tests.function.wiring.SingleReferenceTest"/>
+    </component>
+
+    <reference name="promotedDefaultReference" promote="SingeReferenceTest">
+        <sca4j:binding.test uri="WiringCompositeHelloService"/>
+    </reference>
+
+    <component name="TestComponent">
+        <implementation.java class="org.sca4j.tests.function.wiring.TestComponent"/>
+        <reference name="targetConstructor" target="HelloService"/>
+        <reference name="service" target="HelloService"/>
+        <reference name="promotedReference"/>
+    </component>
+
+    <component name="HelloService">
+        <implementation.java class="org.sca4j.tests.function.common.HelloServiceImpl"/>
+    </component>
+
+    <reference name="promotedReference" promote="TestComponent/promotedReference TestComponent/nonConfiguredPromotedReference">
+        <sca4j:binding.test uri="WiringCompositeHelloService"/>
+    </reference>
+
+    <wire source="TestComponent/wireElementReference" target="HelloService"/>
+
+    <!-- verifies a wire contained in another composite-->
+    <component name="WireBagTest">
+        <sca4j:junit class="org.sca4j.tests.function.wiring.WireBagTest"/>
+    </component>
+    <include name="WiringBagComposite"/>
+    
+</composite>

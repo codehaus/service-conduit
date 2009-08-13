@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.sca4j</groupId>
+        <artifactId>ci</artifactId>
+        <version>0.1.0</version>
+    </parent>
+
+    <artifactId>test-jpa-implementation</artifactId>
+    <name>SCA4J JPA Implementation  Test</name>
+    <packaging>jar</packaging>
+    <description>SCA4J JPA Implementation Test.</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.sca4j.spec</groupId>
+            <artifactId>sca-api-r1.0</artifactId>
+            <version>0.2.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-jpa-api</artifactId>
+            <version>0.1.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+
+        <defaultGoal>verify</defaultGoal>
+
+        <plugins>
+            <plugin>
+                <groupId>org.sca4j</groupId>
+                <artifactId>sca4j-itest-plugin</artifactId>
+                <configuration>
+                    <runtimeVersion>${runtime.version}</runtimeVersion>
+                    <systemConfigDir>classes/META-INF</systemConfigDir>
+                    <extensions>
+                        <!-- JPA Hibernate Extensions -->
+                        <dependency>
+                            <groupId>org.sca4j</groupId>
+                            <artifactId>sca4j-jpa-hibernate</artifactId>
+                            <version>0.1.0</version>
+                        </dependency>
+                        <!-- JPA Core Components -->
+                        <dependency>
+                            <groupId>org.sca4j</groupId>
+                            <artifactId>sca4j-jpa-spi</artifactId>
+                            <version>0.1.0</version>
+                        </dependency>
+                        <!-- Transaction Manager Using JOTM -->
+                        <dependency>
+                            <groupId>org.sca4j</groupId>
+                            <artifactId>sca4j-tx-jotm</artifactId>
+                            <version>0.1.0</version>
+                        </dependency>
+                        <!-- Declarative Transaction Policies -->
+                        <dependency>
+                            <groupId>org.sca4j</groupId>
+                            <artifactId>sca4j-tx</artifactId>
+                            <version>0.1.0</version>
+                        </dependency>
+                        <!-- JSR 250 Resource Support and Datasource Management -->
+                        <dependency>
+                            <groupId>org.sca4j</groupId>
+                            <artifactId>sca4j-resource</artifactId>
+                            <version>0.1.0</version>
+                        </dependency>
+                        <!-- Test Extension to Install the Datasource -->
+                        <dependency>
+                            <groupId>org.sca4j</groupId>
+                            <artifactId>test-ds-extension</artifactId>
+                            <version>0.1.0</version>
+                        </dependency>
+                    </extensions>
+                    <!-- API classes need to be shared between the application and extension classloaders -->
+                    <shared>
+                        <dependency>
+                            <groupId>org.sca4j</groupId>
+                            <artifactId>sca4j-jpa-api</artifactId>
+                            <version>0.1.0</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>javax.persistence</groupId>
+                            <artifactId>persistence-api</artifactId>
+                            <version>1.0</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>geronimo-spec</groupId>
+                            <artifactId>geronimo-spec-jta</artifactId>
+                            <version>1.0.1B-rc4</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>geronimo-spec</groupId>
+                            <artifactId>geronimo-spec-j2ee-connector</artifactId>
+                            <version>1.5-rc4</version>
+                        </dependency>
+                    </shared>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>testDB</directory>
+                            <includes>
+                                <include>**/**</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

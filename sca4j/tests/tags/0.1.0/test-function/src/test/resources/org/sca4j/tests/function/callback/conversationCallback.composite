@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           name="ConversationCallbackComposite" autowire="false">
+
+    <component name="ConversationCallbackTestComponent">
+        <sca4j:junit class="org.sca4j.tests.function.callback.conversation.ConversationalCallbackTest"/>
+        <reference name="client" target="ConversationalCallbackClient/ConversationalClientService"/>
+        <reference name="conversationalToCompositeClient" target="ConversationalToCompositeClient/ConversationalClientService"/>
+        <reference name="conversationalCallbackClientEndsService" target="ConversationalCallbackClientEndsService/ConversationalCallbackClientEndsService"/>
+    </component>
+
+    <component name="ConversationalCallbackClient">
+        <implementation.java class="org.sca4j.tests.function.callback.conversation.ConversationalClientServiceImpl"/>
+        <reference name="forwardService" target="ConversationalForwardService/ForwardService"/>
+    </component>
+
+    <component name="ConversationalForwardService">
+        <implementation.java class="org.sca4j.tests.function.callback.conversation.ForwardServiceImpl"/>
+    </component>
+
+    <component name="ConversationalToCompositeClient">
+        <implementation.java class="org.sca4j.tests.function.callback.conversation.ConversationalToCompositeClientServiceImpl"/>
+        <reference name="compositeService" target="CompositeService/CompositeService"/>
+    </component>
+
+    <component name="CompositeService">
+        <implementation.java class="org.sca4j.tests.function.callback.conversation.CompositeServiceImpl"/>
+        <reference name="forwardService" target="CompositeCallbackForwardService/ForwardService"/>
+    </component>
+
+    <component name="CompositeCallbackForwardService">
+        <implementation.java class="org.sca4j.tests.function.callback.conversation.CompositeForwardServiceImpl"/>
+    </component>
+
+    <component name="ConversationalCallbackClientEndsService">
+        <implementation.java class="org.sca4j.tests.function.callback.conversation.ConversationalCallbackClientEndsServiceImpl"/>
+        <reference name="forwardService" target="ForwardCallbackEndsService/ForwardCallbackEndsService"/>
+    </component>
+
+    <component name="ForwardCallbackEndsService">
+        <implementation.java class="org.sca4j.tests.function.callback.conversation.ForwardCallbackEndsServiceImpl"/>
+    </component>
+
+</composite>

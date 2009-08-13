@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           xmlns:introspection="urn:maven:org.sca4j:sca4j-introspection"
+           name="WebappSystemComposite"
+           autowire="true">
+
+    <!-- include the thread pool -->
+    <include name="ThreadPool" scdlResource="META-INF/threadPool.composite"/>
+
+    <!-- include host services configuration -->
+    <include name="org.sca4j.fabric.host.services" scdlResource="org/sca4j/fabric/hostServices.composite"/>
+
+    <!-- include monitor configuration -->
+    <include name="org.sca4j.fabric.Monitor" scdlResource="org/sca4j/fabric/monitor.composite"/>
+
+    <!-- include policy configuration -->
+    <include name="org.sca4j.fabric.Policy" scdlResource="org/sca4j/policy/policy.composite"/>
+
+    <!-- include physical deployment configuration -->
+    <include name="org.sca4j.fabric.Common" scdlResource="org/sca4j/fabric/common.composite"/>
+
+    <!-- include physical deployment configuration -->
+    <include name="org.sca4j.fabric.Physical" scdlResource="org/sca4j/fabric/physical.composite"/>
+
+    <!-- Introspection Components -->
+    <include name="introspection:Helper" scdlResource="org/sca4j/introspection/impl/helper.composite"/>
+    <include name="introspection:AnnotationProcessors" scdlResource="org/sca4j/introspection/impl/annotation/processors.composite"/>
+    <include name="loader:loader" scdlResource="org/sca4j/loader/loader.composite"/>
+
+    <!-- include deployment configuration -->
+    <include name="org.sca4j.fabric.Deployment" scdlResource="org/sca4j/fabric/deployment.composite"/>
+    <include name="org.sca4j.fabric.Stores" scdlResource="org/sca4j/fabric/nonPersistentStore.composite"/>
+
+    <include name="org.sca4j.fabric.FileSystemResolver" scdlResource="org/sca4j/fabric/localProvisioning.composite"/>
+    
+    <!-- proxy service implementation -->
+    <include name="org.sca4j.JDKProxy" scdlResource="META-INF/jdkproxy.composite"/>
+
+    <!-- Pojo implementation type -->
+    <include name="org.sca4j.fabric.PojoImplementation" scdlResource="org/sca4j/pojo/pojoImplementation.composite"/>
+
+    <!-- System implementation type -->
+    <include name="org.sca4j.launcher.SystemImplementation" scdlResource="org/sca4j/system/systemImplementation.composite"/>
+
+    <!-- Singleton implementation type -->
+    <include name="org.sca4j.fabric.SingletonImplementation" scdlResource="org/sca4j/fabric/singletonImplementation.composite"/>
+
+    <!-- JMX components -->
+    <include name="org.sca4j.jmx.JMXExtension" scdlResource="org/sca4j/jmx/jmx.composite"/>
+    
+    <!-- include Java implementation type -->
+    <include name="org.sca4j.JavaControl" scdlResource="META-INF/javaControl.composite"/>
+    <include name="org.sca4j.JavaIntrospection" scdlResource="META-INF/javaIntrospection.composite"/>
+    <include name="org.sca4j.JavaRuntime" scdlResource="META-INF/javaRuntime.composite"/>
+
+    <!-- include web implementation type -->
+    <include name="org.sca4j.WebControl" scdlResource="META-INF/webControl.composite"/>
+    <include name="org.sca4j.WebIntrospection" scdlResource="META-INF/webIntrospection.composite"/>
+    <include name="org.sca4j.WebRuntime" scdlResource="META-INF/webRuntime.composite"/>
+
+    <!-- include transform configuration -->
+    <include name="org.sca4j.transform.Transform" scdlResource="org/sca4j/transform/transform.composite"/>
+
+    <!-- Web app ServletHost -->
+    <component name="servletHost">
+        <sca4j:implementation.system class="org.sca4j.runtime.webapp.ServletHostImpl"/>
+    </component>
+
+    <component name="WebApplicationActivator">
+        <sca4j:implementation.system class="org.sca4j.runtime.webapp.activator.EmbeddedWebApplicationActivator"/>
+    </component>
+
+    <!-- no recovery for the webapp runtime -->
+    <component name="assemblyRecoveryService">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.lcm.NonPersistentLogicalComponentStore"/>
+    </component>
+
+    <component name="RuntimeInfoService">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.runtime.DefaultRuntimeInfoService"/>
+    </component>
+
+    <component name="MessagingService">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.messaging.NullMessagingService"/>
+    </component>
+
+    <component name="MessagingEventService">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.messaging.MessagingEventServiceImpl"/>
+    </component>
+
+    <component name="DiscoveryService">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.discovery.SingleVMDiscoveryService"/>
+    </component>
+
+    <component name="WarContributionProcessor">
+        <sca4j:implementation.system class="org.sca4j.runtime.webapp.contribution.WarContributionProcessor"/>
+    </component>
+
+    <component name="WebXmlIndexer">
+        <sca4j:implementation.system class="org.sca4j.runtime.webapp.contribution.WebXmlIndexer"/>
+        <property name="namespace">false</property>
+    </component>
+
+    <component name="WebXmlIndexerNamepsaceAware">
+        <sca4j:implementation.system class="org.sca4j.runtime.webapp.contribution.WebXmlIndexer"/>
+        <property name="namespace">true</property>
+    </component>
+
+</composite>

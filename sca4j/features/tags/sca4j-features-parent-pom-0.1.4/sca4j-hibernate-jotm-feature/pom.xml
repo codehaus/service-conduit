@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+        <groupId>org.sca4j</groupId>
+        <artifactId>sca4j-features-parent-pom</artifactId>
+        <version>0.1.4</version>
+    </parent>
+    
+    <groupId>org.sca4j</groupId>
+    <artifactId>sca4j-hibernate-jotm-feature</artifactId>
+    <name>SCA4J Hibernate with JOTM Feature</name>
+    <description>SCA4J Extensions to Support Hibernate with Jotm</description>
+    <packaging>f3-feature-set</packaging>
+
+    <build>
+
+        <defaultGoal>install</defaultGoal>
+
+        <plugins>
+            <plugin>
+                <groupId>org.sca4j</groupId>
+                <artifactId>sca4j-feature-set-plugin</artifactId>
+                <version>${feature.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <includes>
+                        <dependency>
+                            <groupId>org.sca4j</groupId>
+                            <artifactId>sca4j-hibernate-feature</artifactId>
+                            <version>${feature.version}</version>
+                            <type>xml</type>
+                        </dependency>
+                    </includes>
+                    <extensions>
+                        <!-- JOTM Extension -->
+                        <dependency>
+                            <groupId>org.sca4j</groupId>
+                            <artifactId>sca4j-tx-jotm</artifactId>
+                            <version>${feature.version}</version>
+                        </dependency>
+                    </extensions>
+                    <!-- API classes need to be shared between the application and extension classloaders -->
+                    <shared>
+                        <dependency>
+                            <groupId>geronimo-spec</groupId>
+                            <artifactId>geronimo-spec-jta</artifactId>
+                            <version>1.0.1B-rc4</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>geronimo-spec</groupId>
+                            <artifactId>geronimo-spec-j2ee-connector</artifactId>
+                            <version>1.5-rc4</version>
+                        </dependency>
+                    </shared>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

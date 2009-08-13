@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.sca4j</groupId>
+        <artifactId>parent</artifactId>
+        <version>2</version>
+    </parent>
+        
+    <artifactId>ci</artifactId>
+    <version>0.1.2</version>
+    <packaging>pom</packaging>
+
+    <name>SCA4J Continuous Integration Tests</name>
+    <description>POM to run the integration tests depending on available resources.</description>
+
+    <properties>
+        <runtime.version>0.1.2</runtime.version>
+    </properties>
+    
+    <modules>
+        <module>test-rs</module>
+        <module>test-function</module>
+        <module>test-groovy</module>
+        <module>test-policy</module>
+        <module>test-mock</module>
+        <module>test-security-policy</module>
+        <module>test-runtime-jetty</module>
+        <module>test-binding-axis2</module>
+        <module>test-binding-axis2-jaxb</module>
+        <module>test-binding-burlap</module>
+        <module>test-binding-hessian</module>
+        <module>test-binding-jms</module>
+        <module>test-ds-extension</module>
+        <module>test-jpa</module>
+        <module>test-ftp-security-policy</module>
+        <module>test-ftp-server-extension</module>
+        <module>test-binding-ftp</module>
+        <module>test-binding-tcp</module>
+    </modules>
+
+    <repositories>
+        <repository>
+            <id>sca4j</id>
+            <url>http://www.sca4j.org/nexus/content/repositories/releases</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <build>
+        <defaultGoal>verify</defaultGoal>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.sca4j</groupId>
+                    <artifactId>sca4j-contribution-plugin</artifactId>
+                    <version>0.1.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.sca4j</groupId>
+                    <artifactId>sca4j-itest-plugin</artifactId>
+                    <version>0.1.2</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+</project>

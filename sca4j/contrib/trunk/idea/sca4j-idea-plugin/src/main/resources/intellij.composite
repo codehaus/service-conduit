@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<!--
+    Default system configuration for the launcher environment.
+
+    $Rev: 2249 $ $Date: 2007-12-11 19:22:58 -0800 (Tue, 11 Dec 2007) $
+-->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:system="http://fabric3.org/xmlns/sca/system/2.0-alpha"
+           name="org.fabric3.itest.IntellijComposite"
+           autowire="true">
+
+    <!-- include host services configuration -->
+    <include name="org.fabric3.fabric.host.services" scdlResource="org/fabric3/fabric/hostServices.composite"/>
+
+    <!-- include policy configuration -->
+    <include name="org.fabric3.fabric.Policy" scdlResource="org/fabric3/policy/policy.composite"/>
+
+    <!-- include name="org.fabric3.fabric.Resource" scdlResource="META-INF/resource.composite"/-->
+
+    <!-- include physical deployment configuration -->
+    <include name="org.fabric3.fabric.Common" scdlResource="org/fabric3/fabric/common.composite"/>
+
+    <!-- include exception formatters  -->
+    <include name="org.fabric3.fabric.Formatters" scdlResource="org/fabric3/fabric/formatters.composite"/>
+
+    <!-- include physical deployment configuration -->
+    <include name="org.fabric3.fabric.Physical" scdlResource="org/fabric3/fabric/physical.composite"/>
+
+    <!-- include loader configuration -->
+    <include name="org.fabric3.fabric.Loader" scdlResource="org/fabric3/loader/loader.composite"/>
+
+    <!-- include implementation processor configuration -->
+    <include name="org.fabric3.fabric.Implementation" scdlResource="org/fabric3/fabric/implementation.composite"/>
+
+    <!-- Java interface definition language -->
+    <include name="org.fabric3.fabric.InterfaceJava" scdlResource="org/fabric3/fabric/interfaceJava.composite"/>
+
+    <!-- include composite implementation type -->
+    <include name="org.fabric3.fabric.Composite" scdlResource="org/fabric3/fabric/composite.composite"/>
+
+    <!-- Pojo implementation type -->
+    <include name="org.fabric3.fabric.PojoImplementation"
+             scdlResource="org/fabric3/fabric/pojoImplementation.composite"/>
+
+    <!-- System implementation type -->
+    <include name="org.fabric3.fabric.SystemImplementation"
+             scdlResource="org/fabric3/fabric/systemImplementation.composite"/>
+
+    <!-- Java implementation type -->
+    <include name="org.fabric3.fabric.JavaImplementation" scdlResource="org/fabric3/java/javaImplementation.composite"/>
+
+    <!-- include deployment configuration -->
+    <include name="org.fabric3.fabric.Deployment" scdlResource="org/fabric3/fabric/deployment.composite"/>
+
+    <include name="org.fabric3.fabric.FileSystemResolver"
+             scdlResource="org/fabric3/fabric/fileSystemResolver.composite"/>
+
+    <!-- include transform configuration -->
+    <include name="org.fabric3.transform.Transform" scdlResource="org/fabric3/transform/transform.composite"/>
+
+    <!-- include JUnit implementation type -->
+    <include name="org.fabric3.itest.JunitImplementation" scdlLocation="junitImplementation.composite"/>
+
+    <!-- no recovery for the iTest runtime   -->
+    <component name="assemblyRecoveryService">
+        <system:implementation.system class="org.fabric3.fabric.assembly.store.NonPersistentAssemblyStore"/>
+    </component>
+
+    <component name="RuntimeInfoService">
+        <system:implementation.system class="org.fabric3.fabric.services.runtime.DefaultRuntimeInfoService"/>
+    </component>
+
+    <component name="MessagingService">
+        <system:implementation.system class="org.fabric3.fabric.services.messaging.NullMessagingService"/>
+    </component>
+
+    <component name="DiscoveryService">
+        <system:implementation.system class="org.fabric3.fabric.services.discovery.SingleVMDiscoveryService"/>
+    </component>
+
+    <component name="MessageDestinationService">
+        <system:implementation.system class="org.fabric3.fabric.services.messaging.NullMessageDestinationService"/>
+    </component>
+
+    <component name="ContributionStore">
+        <system:implementation.system class="org.fabric3.maven.MavenArchiveStore"/>
+    </component>
+
+    <component name="ModuleContributionProcessor">
+        <system:implementation.system class="org.fabric3.idea.contribution.IntelliJModuleContributionProcessor"/>
+    </component>
+
+    <component name="ModuleClasspathProcessor">
+        <system:implementation.system class="org.fabric3.idea.contribution.IntelliJModuleClasspathProcessor"/>
+    </component>
+
+</composite>
