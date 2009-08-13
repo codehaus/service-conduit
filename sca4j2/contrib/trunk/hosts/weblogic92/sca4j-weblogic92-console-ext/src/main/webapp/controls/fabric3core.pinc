@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portal:root
+   xmlns:netuix="http://www.bea.com/servers/netuix/xsd/controls/netuix/1.0.0"
+   xmlns:html="http://www.w3.org/1999/xhtml-netuix-modified/1.0.0"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:portal="http://www.bea.com/servers/netuix/xsd/portal/support/1.0.0"
+   xsi:schemaLocation="http://www.bea.com/servers/netuix/xsd/portal/support
+      /1.0.0 portal-support-1_0_0.xsd">
+   <netuix:page markupName="page" markupType="Page"
+      definitionLabel="Fabric3Core" title="Fabric3"
+      skeletonUri="/framework/skeletons/default/wlsworkspace/page_content.jsp">
+         <netuix:meta name="skeleton-resource-bundle" content="fabric3"/>
+         <netuix:content>
+            <netuix:gridLayout columns="1" markupType="Layout"
+               markupName="singleColumnLayout">
+            <netuix:placeholder flow="vertical" markupType="Placeholder"
+               markupName="singleColumn_columnOne">
+               <netuix:portletInstance markupType="Portlet"
+                  instanceLabel="fabric3CorePortlet"
+                  contentUri="/portlets/fabric3core.portlet"/>
+            </netuix:placeholder>
+         </netuix:gridLayout>
+      </netuix:content>
+   </netuix:page>
+</portal:root>

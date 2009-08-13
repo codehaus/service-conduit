@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           name="PerformanceComposite"
+           autowire="true">
+
+    <component name="SubmissionProcessorTest">
+        <sca4j:junit class="org.sca4j.test.performance.impl.DefaultSubmissionProcessorITest" />
+    </component>
+
+    <component name="SubmissionProcessor">
+        <implementation.java class="org.sca4j.test.performance.impl.DefaultSubmissionProcessor" />
+    </component>
+
+    <component name="Parser">
+        <implementation.java class="org.sca4j.test.performance.impl.DefaultParser" />
+        <property name="count">1000000</property>
+    </component>
+
+    <component name="Translator">
+        <implementation.java class="org.sca4j.test.performance.impl.DefaultTranslator" />
+    </component>
+
+    <component name="Validator">
+        <implementation.java class="org.sca4j.test.performance.impl.DefaultValidator" />
+    </component>
+
+    <component name="PaymentStore">
+        <implementation.java class="org.sca4j.test.performance.impl.DefaultPaymentStore" />
+    </component>
+
+    <component name="ExceptionStore">
+        <implementation.java class="org.sca4j.test.performance.impl.DefaultExceptionStore" />
+    </component>
+
+    <component name="Rule0">
+        <implementation.java class="org.sca4j.test.performance.impl.DefaultRule" />
+        <property name="uri">Rule0</property>
+    </component>
+
+    <component name="Rule1">
+        <implementation.java class="org.sca4j.test.performance.impl.DefaultRule" />
+        <property name="uri">Rule1</property>
+    </component>
+
+    <component name="Rule2">
+        <implementation.java class="org.sca4j.test.performance.impl.DefaultRule" />
+        <property name="uri">Rule2</property>
+    </component>
+
+    <component name="Rule3">
+        <implementation.java class="org.sca4j.test.performance.impl.DefaultRule" />
+        <property name="uri">Rule3</property>
+    </component>
+
+    <component name="Rule4">
+        <implementation.java class="org.sca4j.test.performance.impl.DefaultRule" />
+        <property name="uri">Rule4</property>
+    </component>
+
+    <component name="Rule5">
+        <implementation.java class="org.sca4j.test.performance.impl.DefaultRule" />
+        <property name="uri">Rule5</property>
+    </component>
+
+    <component name="Rule6">
+        <implementation.java class="org.sca4j.test.performance.impl.DefaultRule" />
+        <property name="uri">Rule6</property>
+    </component>
+
+    <component name="Rule7">
+        <implementation.java class="org.sca4j.test.performance.impl.DefaultRule" />
+        <property name="uri">Rule7</property>
+    </component>
+
+    <component name="Rule8">
+        <implementation.java class="org.sca4j.test.performance.impl.DefaultRule" />
+        <property name="uri">Rule8</property>
+    </component>
+
+    <component name="Rule9">
+        <implementation.java class="org.sca4j.test.performance.impl.DefaultRule" />
+        <property name="uri">Rule9</property>
+    </component>
+
+</composite>

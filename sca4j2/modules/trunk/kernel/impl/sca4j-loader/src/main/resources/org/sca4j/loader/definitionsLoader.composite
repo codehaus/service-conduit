@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           name="DefinitionsLoaderBootComposite" 
+           targetNamespace="urn:sca4j.org">
+
+    <!-- Definitions SCDL loader implementation -->
+    <component name="DefinitionsLoader">
+        <sca4j:implementation.system class="org.sca4j.loader.definitions.DefinitionsLoader"/>
+    </component>
+
+    <component name="DefinitionsIndexer">
+        <sca4j:implementation.system class="org.sca4j.loader.definitions.DefinitionsIndexer"/>
+    </component>
+
+    <component name="IntentLoader" sca4j:key="sca:intent">
+        <sca4j:implementation.system class="org.sca4j.loader.definitions.IntentLoader"/>
+    </component>
+
+    <component name="PolicySetLoader" sca4j:key="sca:policySet">
+        <sca4j:implementation.system class="org.sca4j.loader.definitions.PolicySetLoader"/>
+    </component>
+
+    <component name="BindingTypeLoader" sca4j:key="sca:bindingType">
+        <sca4j:implementation.system class="org.sca4j.loader.definitions.BindingTypeLoader"/>
+    </component>
+
+    <component name="ImplementationTypeLoader" sca4j:key="sca:implementationType">
+        <sca4j:implementation.system class="org.sca4j.loader.definitions.ImplementationTypeLoader"/>
+    </component>
+
+</composite>

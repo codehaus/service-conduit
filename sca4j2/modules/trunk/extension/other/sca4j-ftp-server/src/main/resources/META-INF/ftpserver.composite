@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           targetNamespace="urn:sca4j.org"
+           name="FtpServerExtension"
+           autowire="true">
+    <!--
+    The FTP composite has the following configurable parameters, which are sourced from the runtime domain configuration property:
+
+    1. commandPort - the port to accept FTP commands on
+    2. minPassivePort - the lowest port number for passive connections
+    3. maxPassivePort - the highest port number for passive connections
+    4. listenAddress - the machine address the server should bind to. Used for multi-homed machines
+    5. idelTimeout - the timeout in milliseconds to use for socket connections
+    -->
+
+    <property name="config"/>
+
+    <service name="ftpContainer" promote="DefaultFtpLetContainer/FtpLetContainer"/>
+	
+    <!-- FTP Server -->
+    <component name="SCA4JFtpHost">
+        <sca4j:implementation.system class="org.sca4j.ftp.server.host.SCA4JFtpHost"/>
+        <property name="commandPort" source="$config//commandPort"/>
+        <property name="listenAddress" source="$config//listenAddress"/>
+        <property name="idleTimeout" source="$config//idleTimeout"/>
+    </component>
+
+    <!-- promote the reference so it can be autowired -->
+    <reference name="WorkScheduler" promote="SCA4JFtpHost/workScheduler"/>
+
+    <!-- Protocol codec factory -->
+    <component name="CodecFactory">
+        <sca4j:implementation.system class="org.sca4j.ftp.server.codec.CodecFactory"/>
+    </component>
+
+    <!-- FTP Handler -->
+    <component name="FtpHandler">
+        <sca4j:implementation.system class="org.sca4j.ftp.server.host.FtpHandler"/>
+    </component>
+
+    <!-- USER Request Handler -->
+    <component name="UserRequestHandler" sca4j:key="USER">
+        <sca4j:implementation.system class="org.sca4j.ftp.server.handler.UserRequestHandler"/>
+    </component>
+
+    <!-- PASS Request Handler -->
+    <component name="PassRequestHandler" sca4j:key="PASS">
+        <sca4j:implementation.system class="org.sca4j.ftp.server.handler.PassRequestHandler"/>
+    </component>
+
+    <!-- SITE Request Handler -->
+    <component name="QuoteRequestHandler" sca4j:key="SITE">
+        <sca4j:implementation.system class="org.sca4j.ftp.server.handler.SiteRequestHandler"/>
+    </component>
+
+    <!-- PASV Request Handler -->
+    <component name="PasvRequestHandler" sca4j:key="PASV">
+        <sca4j:implementation.system class="org.sca4j.ftp.server.handler.PasvRequestHandler"/>
+        <property name="listenAddress" source="$config//listenAddress"/>
+        <property name="idleTimeout" source="$config//idleTimeout"/>
+    </component>
+
+    <!-- STOR Request Handler -->
+    <component name="StorRequestHandler" sca4j:key="STOR">
+        <sca4j:implementation.system class="org.sca4j.ftp.server.handler.StorRequestHandler"/>
+        <property name="idleTimeout" source="$config//idleTimeout"/>
+    </component>
+
+    <!-- QUIT Request Handler -->
+    <component name="QuitRequestHandler" sca4j:key="QUIT">
+        <sca4j:implementation.system class="org.sca4j.ftp.server.handler.QuitRequestHandler"/>
+    </component>
+
+    <!-- LIST Request Handler -->
+    <component name="ListRequestHandler" sca4j:key="LIST">
+        <sca4j:implementation.system class="org.sca4j.ftp.server.handler.ListRequestHandler"/>
+    </component>
+
+    <!-- CWD Request Handler -->
+    <component name="CwdRequestHandler" sca4j:key="CWD">
+        <sca4j:implementation.system class="org.sca4j.ftp.server.handler.CwdRequestHandler"/>
+    </component>
+
+    <!-- TYPE Request Handler -->
+    <component name="TypeRequestHandler" sca4j:key="TYPE">
+        <sca4j:implementation.system class="org.sca4j.ftp.server.handler.TypeRequestHandler"/>
+    </component>
+
+    <!-- PWD Request Handler -->
+    <component name="PwdRequestHandler" sca4j:key="PWD">
+        <sca4j:implementation.system class="org.sca4j.ftp.server.handler.PwdRequestHandler"/>
+    </component>
+
+    <!-- CWD Request Handler -->
+    <component name="SystRequestHandler" sca4j:key="SYST">
+        <sca4j:implementation.system class="org.sca4j.ftp.server.handler.SystRequestHandler"/>
+    </component>
+
+    <!-- RETR Request Handler -->
+    <component name="RetrRequestHandler" sca4j:key="RETR">
+        <sca4j:implementation.system class="org.sca4j.ftp.server.handler.RetrRequestHandler"/>
+        <property name="idleTimeout" source="$config//idleTimeout"/>
+    </component>
+
+    <!-- User Manager -->
+    <component name="FileSystemUserManager">
+        <sca4j:implementation.system class="org.sca4j.ftp.server.security.FileSystemUserManager"/>
+        <property name="users" source="$config//users/*"/>
+        <property name="userFile" source="$config//userFile"/>
+    </component>
+
+    <!-- Passive Connection Service -->
+    <component name="PassiveConnectionService">
+        <sca4j:implementation.system class="org.sca4j.ftp.server.passive.PassiveConnectionServiceImpl"/>
+        <property name="minPort" source="$config//minPassivePort"/>
+        <property name="maxPort" source="$config//maxPassivePort"/>
+    </component>
+
+    <!-- FtpLet container -->
+    <component name="DefaultFtpLetContainer">
+        <sca4j:implementation.system class="org.sca4j.ftp.server.ftplet.DefaultFtpLetContainer"/>
+    </component>
+
+</composite>

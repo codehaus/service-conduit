@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<definitions 
+    xmlns="http://www.osoa.org/xmlns/sca/1.0" 
+    targetNamespace="http://www.osoa.org/xmlns/sca/1.0">
+
+    <!-- Realized by the managedTransactionPolicy -->
+    <intent name="managedTransaction" constrains="implementation">
+        <description>
+            Used to indicate a component runs in a managed transaction.
+        </description>
+    </intent>
+
+    <!-- Realized by the propagatesTransactionPolicy -->
+    <intent name="propagatesTransaction" constrains="binding">
+        <description>
+            Used to indicate a service or reference propogates the transaction
+        </description>
+    </intent> 
+
+    <!-- Realized by the suspendsTransactionPolicy -->
+    <intent name="suspendsTransaction" constrains="binding">
+        <description>
+            Used to indicate a service or reference suspends the transaction
+        </description>
+    </intent>
+
+    <!-- Needs to be implemented by the binding type --> 
+    <intent name="transactedOneWay" constrains="binding">
+        <description>
+            Indicates the reference will include one way invocation in the 
+            transaction or include message receipt on a service in a transaction.
+        </description>
+    </intent> 
+
+    <!-- Needs to be implemented by the binding type --> 
+    <intent name="transactedOneWay.global" constrains="binding">
+        <description>
+            Qualifies transactedOneWay to use global transactions.
+        </description>
+    </intent>
+
+    <!-- Needs to be implemented by the binding type --> 
+    <intent name="transactedOneWay.local" constrains="binding">
+        <description>
+            Qualifies transactedOneWay to use local transactions.
+        </description>
+    </intent>
+
+</definitions>

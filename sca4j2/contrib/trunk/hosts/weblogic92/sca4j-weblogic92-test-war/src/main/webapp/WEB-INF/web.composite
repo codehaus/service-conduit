@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           name="WebCalculator"
+           targetNamespace="http://fabric3.org/xmlns/sca/tutorials/0.5">
+
+    <component name="calculator">
+        <implementation.web/>
+        <reference name="calculatorService" target="CalculatorService"/>
+    </component>
+
+    <component name="CalculatorService">
+        <implementation.java class="org.fabric3.tutorials.webcalc.calculator.CalculatorServiceImpl"/>
+        <reference name="addService" target="AddService"/>
+        <reference name="subtractService" target="SubtractService"/>
+        <reference name="multiplyService" target="MultiplyService"/>
+        <reference name="divideService" target="DivideService"/>
+    </component>
+
+    <component name="AddService">
+        <implementation.java class="org.fabric3.tutorials.webcalc.calculator.AddServiceImpl"/>
+    </component>
+
+    <component name="SubtractService">
+        <implementation.java class="org.fabric3.tutorials.webcalc.calculator.SubtractServiceImpl"/>
+    </component>
+
+    <component name="MultiplyService">
+        <implementation.java class="org.fabric3.tutorials.webcalc.calculator.MultiplyServiceImpl"/>
+    </component>
+
+    <component name="DivideService">
+        <implementation.java class="org.fabric3.tutorials.webcalc.calculator.DivideServiceImpl"/>
+    </component>
+
+
+</composite>

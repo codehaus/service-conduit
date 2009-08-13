@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:f3="http://fabric3.org/xmlns/sca/2.0-alpha"
+           name="AQTestComposite">
+           
+     <component name="TestAsynsTest">
+         <f3:junit class="org.fabric3.binding.aq.test.AQBindingAsyncTest"/>
+         <reference name="proxyEchoService" target="proxyEchoService"/>                                       
+    </component>            
+           
+    <component name="proxyEchoService" requires="sca:managedTransaction">
+         <implementation.java class="org.fabric3.binding.aq.test.ProxyEchoServiceImpl"/>
+         <reference name="echoService">
+              <binding.aq destinationName="FIRE_FORGET_Q" dataSourceKey="AQDataSource"/>           
+         </reference>        
+    </component>        
+    
+    <component name="echoService">
+          <implementation.java class="org.fabric3.binding.aq.test.EchoServiceImpl" />
+          <service name="EchoService">
+               <binding.aq destinationName="FIRE_FORGET_Q" dataSourceKey="AQDataSource" initialState="STARTED" consumerCount="1"/>             
+          </service>          
+     </component>
+     
+</composite>
