@@ -1,21 +1,25 @@
 /* 
  * SCA4J
- * Copyright (c) 2009-2012 Service Symphony Ltd
+ * Copyright (c) 2009-2099 Service Symphony Ltd 
+ *
+ * Licensed to you under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.  A copy of the license
+ * is included in this distrubtion or you may obtain a copy at
+ *
+ *    http://www.opensource.org/licenses/apache2.0.php
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed
+ * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+ * CONDITIONS OF ANY KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations under the License.
+ *
+ * This project contains code licensed from the Apache Software Foundation under
+ * the Apache License, Version 2.0 and original code from project contributors.
  * 
- * This proprietary software may be used only connection with the Fabric3 license
- * (the ?~@~\License?~@~]), a copy of which is included in the software or may be
- * obtained at: http://www.servicesymphony.com/licenses/license.html.
- * 
- * Software distributed under the License is distributed on an ?~@~\as is?~@~] basis,
- * without warranties or conditions of any kind.  See the License for the
- * specific language governing permissions and limitations of use of the software.
- * This software is distributed in conjunction with other software licensed under
- * different terms.  See the separate licenses for those programs included in the
- * distribution for the permitted and restricted uses of such software.
  * 
  * ---- Original Codehaus Header ----
  * 
- * Copyright (c) 2007 fabric3 project contributors
+ * Copyright (c) 2007 - 2008 fabric3 project contributors
  * 
  * Licensed to you under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License.  A copy of the license
