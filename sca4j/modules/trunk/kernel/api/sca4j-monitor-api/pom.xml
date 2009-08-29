@@ -30,7 +30,7 @@
         <dependency>
             <groupId>org.sca4j.spec</groupId>
             <artifactId>sca-api-r1.0</artifactId>
-            <version>0.2.1</version>
+            <version>0.2.2</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
