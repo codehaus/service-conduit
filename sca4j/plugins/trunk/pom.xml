@@ -46,7 +46,12 @@
                     <encoding>UTF-8</encoding>
                     <includes>
                         <include>**/*.java</include>
+                        <include>**/*.xml</include>
+                        <include>**/*.composite</include>
                     </includes>
+                    <mapping>
+                        <composite>XML_STYLE</composite>
+                    </mapping>
                 </configuration>
                 <executions>
                     <execution>

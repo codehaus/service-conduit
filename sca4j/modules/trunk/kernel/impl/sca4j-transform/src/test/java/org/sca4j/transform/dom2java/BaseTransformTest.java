@@ -17,7 +17,7 @@
  * the Apache License, Version 2.0 and original code from project contributors.
  *
  *
- * ---- Original Codehaus Header ----
+ * Original Codehaus Header
  *
  * Copyright (c) 2007 - 2008 fabric3 project contributors
  *
@@ -35,7 +35,7 @@
  * This project contains code licensed from the Apache Software Foundation under
  * the Apache License, Version 2.0 and original code from project contributors.
  *
- * ---- Original Apache Header ----
+ * Original Apache Header
  *
  * Copyright (c) 2005 - 2006 The Apache Software Foundation
  *
