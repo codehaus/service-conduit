@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.sca4j</groupId>
     <artifactId>parent</artifactId>
-    <version>4</version>
+    <version>5-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>SCA4J Project Parent</name>
     <description>Parent POM defining project wide settings.</description>
@@ -80,9 +80,9 @@
     </distributionManagement>   
   
     <scm>
-        <connection>scm:svn:https://www.sca4j.org/svn/sca4j/parent-pom/tags/parent-4</connection>
-        <developerConnection>scm:svn:https://www.sca4j.org/svn/sca4j/parent-pom/tags/parent-4</developerConnection>
-        <url>http://www.sca4j.org/svn/sca4j/parent-pom/tags/parent-4</url>
+        <connection>scm:svn:https://www.sca4j.org/svn/sca4j/parent-pom/trunk</connection>
+        <developerConnection>scm:svn:https://www.sca4j.org/svn/sca4j/parent-pom/trunk</developerConnection>
+        <url>http://www.sca4j.org/svn/sca4j/parent-pom/trunk</url>
     </scm>
 
 </project>
