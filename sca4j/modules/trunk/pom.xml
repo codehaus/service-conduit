@@ -54,8 +54,35 @@
         </repository>
     </repositories>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>mc-release</id>
+            <url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <build>
         <defaultGoal>install</defaultGoal>
+        <plugins>
+            <plugin>
+                <groupId>com.google.code.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <configuration>
+                    <header>../../etc/java-header</header>
+                    <encoding>UTF-8</encoding>
+                    <includes>
+                        <include>**/*.java</include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -63,18 +90,6 @@
                     <artifactId>sca4j-contribution-plugin</artifactId>
                     <version>0.1.5-SNAPSHOT</version>
                 </plugin>                
-                <!--plugin>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>RELEASE</version>
-                    <configuration>
-                        <verbose>true</verbose>
-                        <fork>true</fork>
-                        <executable>/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/bin/javac</executable>
-                        <compilerVersion>1.5</compilerVersion>
-                        <source>1.5</source>
-                        <target>1.5</target>
-                    </configuration>
-                </plugin-->
             </plugins>
         </pluginManagement>
     </build>
