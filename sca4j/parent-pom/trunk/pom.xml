@@ -70,11 +70,11 @@
     <distributionManagement>
         <repository>
             <id>sca4j.repo</id>
-            <url>https://www.sca4j.org/nexus/content/repositories/releases</url>
+            <url>http://www.sca4j.org/nexus/content/repositories/releases</url>
         </repository>
         <snapshotRepository>
             <id>sca4j.repo</id>
-            <url>https://www.sca4j.org/nexus/content/repositories/snapshots</url>
+            <url>http://www.sca4j.org/nexus/content/repositories/snapshots</url>
             <uniqueVersion>false</uniqueVersion>
         </snapshotRepository>
     </distributionManagement>   
