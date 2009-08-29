@@ -28,6 +28,36 @@
     <name>SCA API Version 1.0</name>
     <description>Service Component Architecture V1.0 Java API and Annotations</description>
 
+    <build>
+        <plugins>    
+            <plugin>
+                <groupId>com.google.code.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <configuration>
+                    <header>../../etc/java-header</header>
+                    <encoding>UTF-8</encoding>
+                    <includes>
+                        <include>**/*.java</include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>mc-release</id>
+            <url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <scm>
         <connection>scm:svn:https://www.sca4j.org/svn/sca4j/spec/trunk</connection>
         <developerConnection>scm:svn:https://www.sca4j.org/svn/sca4j/spec/trunk</developerConnection>
