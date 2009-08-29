@@ -98,7 +98,6 @@ public class SCA4JFtpHost implements FtpHost {
         acceptor.setHandler(ftpHandler);
         monitor.extensionStarted();
         acceptor.setCloseOnDeactivation(true);
-        acceptor.setReuseAddress(true);
         acceptor.bind(socketAddress);
         monitor.startFtpListener(commandPort);
     }
