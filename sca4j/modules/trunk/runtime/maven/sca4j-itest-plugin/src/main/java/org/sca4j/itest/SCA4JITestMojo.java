@@ -359,6 +359,7 @@ public class SCA4JITestMojo extends AbstractMojo {
         testMetadata.setReportsDirectory(reportsDirectory);
         testMetadata.setTrimStackTrace(trimStackTrace);
         testMetadata.setBuildDirectory(buildDirectory);
+        testMetadata.setProperties(properties);
         
         try {
             
