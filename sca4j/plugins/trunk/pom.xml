@@ -27,7 +27,7 @@
     <name>SCA4J Plugins Parent POM</name>
     <description>SCA4J Plugins Parent POM.</description>
     <packaging>pom</packaging>
-    <version>0.1.6-SNAPSHOT</version>
+    <version>0.1.5-SNAPSHOT</version>
 
     <modules>
         <module>sca4j-contribution-plugin</module>
