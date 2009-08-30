@@ -36,7 +36,7 @@
     </modules>
  
     
-    <build>
+    <!--build>
         <plugins>
             <plugin>
                 <groupId>com.google.code.maven-license-plugin</groupId>
@@ -62,7 +62,7 @@
                 </executions>
             </plugin>
         </plugins>
-    </build>
+    </buildi-->
 
     <repositories>
         <repository>
