@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>ci</artifactId>
-        <version>0.1.5-SNAPSHOT</version>
+        <version>0.1.6-SNAPSHOT</version>
     </parent>
 
     <artifactId>test-binding-axis2</artifactId>
@@ -71,34 +71,34 @@
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-binding-ws</artifactId>
-                            <version>0.1.5-SNAPSHOT</version>
+                            <version>0.1.6-SNAPSHOT</version>
                         </dependency>
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>test-security-policy</artifactId>
-                            <version>0.1.5-SNAPSHOT</version>
+                            <version>0.1.6-SNAPSHOT</version>
                         </dependency>
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>test-axis2-audit-policy</artifactId>
-                            <version>0.1.5-SNAPSHOT</version>
+                            <version>0.1.6-SNAPSHOT</version>
                         </dependency>
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-binding-ws-axis2</artifactId>
-                            <version>0.1.5-SNAPSHOT</version>
+                            <version>0.1.6-SNAPSHOT</version>
                         </dependency>
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-jetty</artifactId>
-                            <version>0.1.5-SNAPSHOT</version>
+                            <version>0.1.6-SNAPSHOT</version>
                         </dependency>
                     </extensions>
                     <shared>
                     	<dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>test-axis2-audit-module</artifactId>
-                            <version>0.1.5-SNAPSHOT</version>
+                            <version>0.1.6-SNAPSHOT</version>
                         </dependency>
                         <dependency>
                             <groupId>commons-codec</groupId>

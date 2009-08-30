@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>ci</artifactId>
-        <version>0.1.5-SNAPSHOT</version>
+        <version>0.1.6-SNAPSHOT</version>
     </parent>
 
     <artifactId>test-jpa</artifactId>
@@ -87,7 +87,7 @@
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-hibernate-jotm-feature</artifactId>
-                            <version>0.1.5-SNAPSHOT</version>
+                            <version>0.1.6-SNAPSHOT</version>
                             <type>xml</type>
                         </dependency>
                     </features>
@@ -96,7 +96,7 @@
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>test-ds-extension</artifactId>
-                            <version>0.1.5-SNAPSHOT</version>
+                            <version>0.1.6-SNAPSHOT</version>
                         </dependency>
                     </extensions>
                     <fork>true</fork>

@@ -36,7 +36,7 @@
         <dependency>
             <groupId>org.sca4j.webapp</groupId>
             <artifactId>sca4j-webapp-api</artifactId>
-            <version>0.1.5-SNAPSHOT</version>
+            <version>0.1.6-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -103,7 +103,7 @@
             <plugin>
                 <groupId>org.sca4j</groupId>
                 <artifactId>sca4j-webapp-plugin</artifactId>
-                <version>0.1.5-SNAPSHOT</version>
+                <version>0.1.6-SNAPSHOT</version>
                 <executions>
                     <execution>
                         <id>sca4j-war</id>
@@ -114,44 +114,44 @@
                 </executions>
                 <configuration>
                     <!-- use the latest version of the runtime -->
-                    <runTimeVersion>0.1.5-SNAPSHOT</runTimeVersion>
+                    <runTimeVersion>0.1.6-SNAPSHOT</runTimeVersion>
 
                     <extensions>
                         <!-- include the Groovy extension to verify extensions are handled correctly -->
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-groovy</artifactId>
-                            <version>0.1.5-SNAPSHOT</version>
+                            <version>0.1.6-SNAPSHOT</version>
                         </dependency>
                         <!-- JPA Hibernate Extensions -->
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-jpa-hibernate</artifactId>
-                            <version>0.1.5-SNAPSHOT</version>
+                            <version>0.1.6-SNAPSHOT</version>
                         </dependency>
                         <!-- JPA Core Components -->
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-jpa-spi</artifactId>
-                            <version>0.1.5-SNAPSHOT</version>
+                            <version>0.1.6-SNAPSHOT</version>
                         </dependency>
                         <!-- Transaction Manager Using JOTM -->
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-tx-jotm</artifactId>
-                            <version>0.1.5-SNAPSHOT</version>
+                            <version>0.1.6-SNAPSHOT</version>
                         </dependency>
                         <!-- Declarative Transaction Policies -->
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-tx</artifactId>
-                            <version>0.1.5-SNAPSHOT</version>
+                            <version>0.1.6-SNAPSHOT</version>
                         </dependency>
                         <!-- JSR 250 Resource Support and Datasource Management -->
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-resource</artifactId>
-                            <version>0.1.5-SNAPSHOT</version>
+                            <version>0.1.6-SNAPSHOT</version>
                         </dependency>
                         <!-- Test Extension to Install the Datasource -->
                         <dependency>

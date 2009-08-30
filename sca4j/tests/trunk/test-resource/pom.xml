@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>ci</artifactId>
-        <version>0.1.5-SNAPSHOT</version>
+        <version>0.1.6-SNAPSHOT</version>
     </parent>
 
     <artifactId>test-resource</artifactId>
@@ -35,7 +35,7 @@
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-api</artifactId>
-            <version>0.1.5-SNAPSHOT</version>
+            <version>0.1.6-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.sca4j</groupId>
@@ -55,14 +55,14 @@
                 <groupId>org.sca4j</groupId>
                 <artifactId>sca4j-itest-plugin</artifactId>
                 <!-- generally this should point to the latest plugin and kernel version -->
-                <version>0.1.5-SNAPSHOT</version>
+                <version>0.1.6-SNAPSHOT</version>
                 <configuration>
-                    <runtimeVersion>0.1.5-SNAPSHOT</runtimeVersion>
+                    <runtimeVersion>0.1.6-SNAPSHOT</runtimeVersion>
                     <extensions>
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-resource</artifactId>
-                            <version>0.1.5-SNAPSHOT</version>
+                            <version>0.1.6-SNAPSHOT</version>
                         </dependency>
                         <dependency>
                             <groupId>org.sca4j</groupId>
