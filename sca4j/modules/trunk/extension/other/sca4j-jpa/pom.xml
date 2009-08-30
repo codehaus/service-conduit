@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>sca4j-extension-other-parent-pom</artifactId>
-        <version>0.1.5</version>
+        <version>0.1.6-SNAPSHOT</version>
     </parent>
 
     <groupId>org.sca4j</groupId>
@@ -45,21 +45,21 @@
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-resource</artifactId>
-            <version>0.1.5</version>
+            <version>0.1.6-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-pojo</artifactId>
-            <version>0.1.5</version>
+            <version>0.1.6-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-java</artifactId>
-            <version>0.1.5</version>
+            <version>0.1.6-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
@@ -103,14 +103,14 @@
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-introspection</artifactId>
-            <version>0.1.5</version>
+            <version>0.1.6-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-introspection-spi</artifactId>
-            <version>0.1.5</version>
+            <version>0.1.6-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
