@@ -74,7 +74,6 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
-import org.sca4j.featureset.FeatureSet;
 import org.xml.sax.SAXException;
 
 /**

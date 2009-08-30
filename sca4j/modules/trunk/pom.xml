@@ -63,7 +63,7 @@
 
     <build>
         <defaultGoal>install</defaultGoal>
-        <plugins>
+        <!--plugins>
             <plugin>
                 <groupId>com.google.code.maven-license-plugin</groupId>
                 <artifactId>maven-license-plugin</artifactId>
@@ -87,13 +87,13 @@
                     </execution>
                 </executions>
             </plugin>
-        </plugins>
+        </plugins-->
         <pluginManagement>
             <plugins>
                 <plugin>
                     <groupId>org.sca4j</groupId>
                     <artifactId>sca4j-contribution-plugin</artifactId>
-                    <version>0.1.5-SNAPSHOT</version>
+                    <version>0.1.5</version>
                 </plugin>                
             </plugins>
         </pluginManagement>

@@ -81,7 +81,6 @@ import java.util.Set;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.sca4j.featureset.FeatureSet;
 import org.sca4j.host.contribution.ContributionSource;
 import org.sca4j.host.contribution.FileContributionSource;
 
