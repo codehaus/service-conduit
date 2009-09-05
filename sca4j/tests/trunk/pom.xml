@@ -83,7 +83,7 @@
     <build>
         <defaultGoal>verify</defaultGoal>
         <plugins>
-            <plugin>
+            <!--plugin>
                 <groupId>com.google.code.maven-license-plugin</groupId>
                 <artifactId>maven-license-plugin</artifactId>
                 <configuration>
@@ -105,7 +105,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin-->
         </plugins>
         <pluginManagement>
             <plugins>
