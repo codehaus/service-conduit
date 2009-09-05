@@ -131,6 +131,7 @@ public class SCA4JFtpHost implements FtpHost {
         acceptor.getFilterChain().addLast("threadPool", new ExecutorFilter(filterExecutor));
         acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(codecFactory));
         acceptor.setHandler(ftpHandler);
+        acceptor.setReuseAddress(true);
         monitor.extensionStarted();
         acceptor.setCloseOnDeactivation(true);
         acceptor.bind(socketAddress);
