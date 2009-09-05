@@ -59,9 +59,7 @@ import javax.jms.Message;
 import javax.jms.Session;
 
 import org.sca4j.binding.jms.common.TransactionType;
-import org.sca4j.binding.jms.runtime.JMSObjectFactory;
 import org.sca4j.binding.jms.runtime.helper.JmsHelper;
-import org.sca4j.binding.jms.runtime.tx.TransactionHandler;
 import org.sca4j.host.work.DefaultPausableWork;
 
 /**
@@ -87,17 +85,11 @@ public class ConsumerWorker extends DefaultPausableWork {
      */
     public void execute() {
         
-        JMSObjectFactory requestFactory = template.requestJMSObjectFactory;
-        JMSObjectFactory reqponseFactory = template.responseJMSObjectFactory;
-        TransactionType transactionType = template.transactionType;
-        TransactionHandler transactionHandler = template.transactionHandler;
-        
         Connection requestConnection = null;
         Session requestSession = null;
         Connection responseConnection = null;
         Session responseSession = null;
         Destination responseDestination = null;
-        
 
         ClassLoader oldCl = Thread.currentThread().getContextClassLoader();
         
@@ -110,38 +102,39 @@ public class ConsumerWorker extends DefaultPausableWork {
                 Thread.sleep(template.exceptionTimeout);
             }
             
-            requestConnection = requestFactory.getConnection();
-            requestSession = requestFactory.getSession(requestConnection);
+            requestConnection =  template.requestFactory.getConnection();
+            requestSession =  template.requestFactory.getSession(requestConnection, template.transactionType);
             requestConnection.start();
             
-            if (transactionType == TransactionType.GLOBAL) {
-                transactionHandler.enlist(requestSession);
+            if (template.transactionType == TransactionType.GLOBAL) {
+                template.transactionHandler.enlist(requestSession);
             }
-            Message message = requestSession.createConsumer(requestFactory.getDestination()).receive(template.pollingInterval);
+            Message message = requestSession.createConsumer(template.requestFactory.getDestination()).receive(template.pollingInterval);
             
             if (message != null) {
                 
-                if (reqponseFactory != null) {
-                    responseConnection = reqponseFactory.getConnection();
-                    responseSession = reqponseFactory.getSession(responseConnection);
-                    if (transactionType == TransactionType.GLOBAL) {
-                        transactionHandler.enlist(responseSession);
+                if (template.responseFactory != null) {
+                    responseConnection = template.responseFactory.getConnection();
+                    responseSession = template.responseFactory.getSession(responseConnection, template.transactionType);
+                    if (template.transactionType == TransactionType.GLOBAL) {
+                        template.transactionHandler.enlist(responseSession);
                     }
-                    responseDestination = reqponseFactory.getDestination();
+                    responseDestination = template.responseFactory.getDestination();
                 }
                 template.messageListener.onMessage(message, responseSession, responseDestination);
                 
-                if (transactionType == TransactionType.GLOBAL) {
-                    transactionHandler.commit();
+                if (template.transactionType == TransactionType.GLOBAL) {
+                    template.transactionHandler.commit();
                 } else {
                     requestSession.commit();
                 }
                 
             }
             
-        } catch (Exception ex) {            
-            if (transactionType == TransactionType.GLOBAL) {
-                transactionHandler.rollback();
+        } catch (Exception ex) {  
+            reportException(ex);          
+            if (template.transactionType == TransactionType.GLOBAL) {
+                template.transactionHandler.rollback();
             } else {
                 try {
                     if (requestSession != null) {
@@ -150,9 +143,7 @@ public class ConsumerWorker extends DefaultPausableWork {
                 } catch (JMSException ne) {
                     reportException(ne);
                 }
-                reportException(ex);
             }
-            
         } finally {
             Thread.currentThread().setContextClassLoader(oldCl);
             JmsHelper.closeQuietly(requestConnection);

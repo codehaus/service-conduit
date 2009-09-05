@@ -114,8 +114,8 @@ public class StandalonePullJmsHost implements JmsHost {
         template.transactionHandler = transactionHandler;
         template.transactionType = transactionType;
         template.messageListener = messageListener; 
-        template.responseJMSObjectFactory = responseJMSObjectFactory;
-        template.requestJMSObjectFactory = requestJMSObjectFactory; 
+        template.responseFactory = responseJMSObjectFactory;
+        template.requestFactory = requestJMSObjectFactory; 
         template.pollingInterval = metadata.getPollingInterval();
         template.exceptionTimeout = metadata.getExceptionTimeout();
         template.cl = cl;

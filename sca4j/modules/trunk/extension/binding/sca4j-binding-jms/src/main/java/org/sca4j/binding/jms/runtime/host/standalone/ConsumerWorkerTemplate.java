@@ -71,8 +71,8 @@ public class ConsumerWorkerTemplate {
     public int exceptionTimeout;
     public TransactionType transactionType;
     public ClassLoader cl;
-    public JMSObjectFactory responseJMSObjectFactory;
-    public JMSObjectFactory requestJMSObjectFactory;
+    public JMSObjectFactory responseFactory;
+    public JMSObjectFactory requestFactory;
     public JMSRuntimeMonitor monitor;
 
 }

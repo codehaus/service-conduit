@@ -70,8 +70,6 @@
  */
 package org.sca4j.binding.jms.runtime.tx;
 
-import javax.jms.Connection;
-import javax.jms.JMSException;
 import javax.jms.Session;
 import javax.jms.XASession;
 import javax.transaction.Transaction;
@@ -152,19 +150,6 @@ public class JtaTransactionHandler implements TransactionHandler {
         try {
             transactionManager.rollback();
         } catch (Exception e) {
-            throw new JmsTxException(e);
-        }
-
-    }
-
-    /**
-     * @see org.sca4j.binding.jms.runtime.tx.TransactionHandler#createSession(javax.jms.Connection)
-     */
-    public Session createSession(Connection con) throws JmsTxException {
-
-        try {
-            return con.createSession(false, Session.SESSION_TRANSACTED);
-        } catch (JMSException e) {
             throw new JmsTxException(e);
         }
 

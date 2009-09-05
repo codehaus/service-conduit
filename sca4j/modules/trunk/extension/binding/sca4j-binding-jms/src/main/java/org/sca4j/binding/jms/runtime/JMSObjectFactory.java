@@ -58,6 +58,8 @@ import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Session;
 
+import org.sca4j.binding.jms.common.TransactionType;
+
 /**
  * This is a factory class handling cache, recover. etc for a
  * connectionFactory/destination pair related JMS objects.
@@ -90,8 +92,8 @@ public class JMSObjectFactory {
         return destination;
     }
 
-    public Session getSession(Connection connection) throws JMSException {
-        return connection.createSession(true, Session.SESSION_TRANSACTED);
+    public Session getSession(Connection connection, TransactionType transactionType) throws JMSException {
+        return connection.createSession(transactionType == TransactionType.LOCAL? true : false, Session.SESSION_TRANSACTED);
     }
 
 }

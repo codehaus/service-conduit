@@ -70,7 +70,6 @@
  */
 package org.sca4j.binding.jms.runtime.tx;
 
-import javax.jms.Connection;
 import javax.jms.Session;
 
 /**
@@ -83,7 +82,5 @@ public interface TransactionHandler {
     void commit() throws JmsTxException;
 
     void rollback() throws JmsTxException;
-
-    Session createSession(Connection con) throws JmsTxException;
 
 }
