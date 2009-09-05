@@ -99,30 +99,24 @@ public class OneWayMessageListenerImpl implements ResponseMessageListener {
     /*
      * Handle the message
      */
-    public void onMessage(Message request, Session responseSession, Destination responseDestination) {
+    public void onMessage(Message request, Session responseSession, Destination responseDestination) throws JMSException {
 
-        try {
-
-            String opName = request.getStringProperty("scaOperationName");
-            ChainHolder holder = getInterceptorHolder(opName);
-            Interceptor interceptor = holder.getHeadInterceptor();
-            PayloadType payloadType = holder.getType();
-            Object payload = MessageHelper.getPayload(request, payloadType);
-            if (payloadType != PayloadType.OBJECT) {
-                // Encode primitives and streams as an array. Text payloads mus
-                // be decoded by an interceptor downstream. Object messages are
-                // already encoded.
-                payload = new Object[] { payload };
-            }
-            WorkContext workContext = new WorkContext();
-            org.sca4j.spi.invocation.Message inMessage = new MessageImpl(payload, false, workContext);
-            org.sca4j.spi.invocation.Message outMessage = interceptor.invoke(inMessage);
-            if (outMessage.isFault()) {
-                throw new SCA4JJmsException("Error with in the UnderlyingService " + outMessage);
-            }
-
-        } catch (JMSException ex) {
-            throw new SCA4JJmsException("Unable to send response", ex);
+        String opName = request.getStringProperty("scaOperationName");
+        ChainHolder holder = getInterceptorHolder(opName);
+        Interceptor interceptor = holder.getHeadInterceptor();
+        PayloadType payloadType = holder.getType();
+        Object payload = MessageHelper.getPayload(request, payloadType);
+        if (payloadType != PayloadType.OBJECT) {
+            // Encode primitives and streams as an array. Text payloads mus
+            // be decoded by an interceptor downstream. Object messages are
+            // already encoded.
+            payload = new Object[] { payload };
+        }
+        WorkContext workContext = new WorkContext();
+        org.sca4j.spi.invocation.Message inMessage = new MessageImpl(payload, false, workContext);
+        org.sca4j.spi.invocation.Message outMessage = interceptor.invoke(inMessage);
+        if (outMessage.isFault()) {
+            throw new SCA4JJmsException("Error with in the UnderlyingService " + outMessage);
         }
 
     }

@@ -53,6 +53,7 @@
 package org.sca4j.binding.jms.runtime;
 
 import javax.jms.Destination;
+import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
 
@@ -71,6 +72,6 @@ public interface ResponseMessageListener {
      * @param responseDestination JMSDestination to which the response is sent
      * @see javax.jms.MessageListener#onMessage(javax.jms.Message)
      */
-    public abstract void onMessage(Message request, Session responseSession, Destination responseDestination);
+    public abstract void onMessage(Message request, Session responseSession, Destination responseDestination) throws JMSException;
 
 }

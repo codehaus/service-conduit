@@ -86,6 +86,10 @@ import org.sca4j.scdl.ModelObject;
  * @version $Revision: 5322 $ $Date: 2008-09-02 20:15:34 +0100 (Tue, 02 Sep
  *          2008) $
  */
+/**
+ * @author meerajk
+ *
+ */
 public class JmsBindingMetadata extends ModelObject {
     private static final long serialVersionUID = 4623441503097788831L;
 
@@ -129,6 +133,63 @@ public class JmsBindingMetadata extends ModelObject {
      * operation properties
      */
     private Map<String, OperationPropertiesDefinition> operationProperties;
+    
+    /**
+     * Interval at which the service binding pools.
+     */
+    private int pollingInterval = 1000;
+
+    /**
+     * Sleep timeout on exception.
+     */
+    private int exceptionTimeout = 60000;
+
+    /**
+     * Consumer count.
+     */
+    private int consumerCount = 1;
+    
+    /**
+     * @return Polling interval.
+     */
+    public int getPollingInterval() {
+        return pollingInterval;
+    }
+
+    /**
+     * @param pollingInterval Polling interval.
+     */
+    public void setPollingInterval(int pollingInterval) {
+        this.pollingInterval = pollingInterval;
+    }
+    
+    /**
+     * @return Consumer count.
+     */
+    public int getConsumerCount() {
+        return consumerCount;
+    }
+
+    /**
+     * @param consumerCount Consumer count.
+     */
+    public void setConsumerCount(int consumerCount) {
+        this.consumerCount = consumerCount;
+    }
+
+    /**
+     * @return Exception timeout.
+     */
+    public int getExceptionTimeout() {
+        return exceptionTimeout;
+    }
+
+    /**
+     * @param exceptionTimeout Exception timeout.
+     */
+    public void setExceptionTimeout(int exceptionTimeout) {
+        this.exceptionTimeout = exceptionTimeout;
+    }
 
     /**
      * @return the connectionFactory

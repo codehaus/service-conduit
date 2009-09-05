@@ -65,68 +65,14 @@ import org.sca4j.binding.jms.runtime.tx.TransactionHandler;
  */
 public class ConsumerWorkerTemplate {
 
-    private final TransactionHandler transactionHandler;
-    private final ResponseMessageListener listener;
-    private final long readTimeout;
-    private final TransactionType transactionType;
-    private final ClassLoader cl;
-    private final JMSObjectFactory responseJMSObjectFactory;
-    private final JMSObjectFactory requestJMSObjectFactory;
-    private JMSRuntimeMonitor monitor;
-
-    /**
-     * @param session
-     * @param transactionHandler
-     * @param transactionType
-     * @param consumer
-     * @param listener
-     * @param responseJMSObjectFactory
-     * @param readTimeout
-     * @param cl
-     * @param monitor
-     */
-    public ConsumerWorkerTemplate(TransactionHandler transactionHandler, TransactionType transactionType, ResponseMessageListener listener,
-            JMSObjectFactory responseJMSObjectFactory, JMSObjectFactory requestJMSObjectFactory, long readTimeout, ClassLoader cl, JMSRuntimeMonitor monitor) {
-        this.transactionHandler = transactionHandler;
-        this.transactionType = transactionType;
-        this.listener = listener;
-        this.responseJMSObjectFactory = responseJMSObjectFactory;
-        this.requestJMSObjectFactory = requestJMSObjectFactory;
-        this.readTimeout = readTimeout;
-        this.cl = cl;
-        this.monitor = monitor;
-    }
-
-    public TransactionHandler getTransactionHandler() {
-        return transactionHandler;
-    }
-
-    public ResponseMessageListener getListener() {
-        return listener;
-    }
-
-    public long getReadTimeout() {
-        return readTimeout;
-    }
-
-    public TransactionType getTransactionType() {
-        return transactionType;
-    }
-
-    public ClassLoader getCl() {
-        return cl;
-    }
-
-    public JMSObjectFactory getResponseJMSObjectFactory() {
-        return responseJMSObjectFactory;
-    }
-
-    public JMSRuntimeMonitor getMonitor() {
-        return monitor;
-    }
-
-    public JMSObjectFactory getRequestJMSObjectFactory() {
-        return requestJMSObjectFactory;
-    }
+    public TransactionHandler transactionHandler;
+    public ResponseMessageListener messageListener;
+    public int pollingInterval;
+    public int exceptionTimeout;
+    public TransactionType transactionType;
+    public ClassLoader cl;
+    public JMSObjectFactory responseJMSObjectFactory;
+    public JMSObjectFactory requestJMSObjectFactory;
+    public JMSRuntimeMonitor monitor;
 
 }

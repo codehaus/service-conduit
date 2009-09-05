@@ -77,6 +77,7 @@ import org.sca4j.binding.jms.common.OperationPropertiesDefinition;
 import org.sca4j.binding.jms.common.PropertyAwareObject;
 import org.sca4j.binding.jms.common.ResponseDefinition;
 import org.sca4j.binding.jms.scdl.JmsBindingDefinition;
+import org.sca4j.host.Namespaces;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.InvalidValue;
 import org.sca4j.introspection.xml.LoaderHelper;
@@ -115,6 +116,9 @@ public class JmsBindingLoader implements TypeLoader<JmsBindingDefinition> {
         ATTRIBUTES.put("JMSDeliveryMode", "JMSDeliveryMode");
         ATTRIBUTES.put("JMSCorrelationId", "JMSCorrelationId");
         ATTRIBUTES.put("name", "name");
+        ATTRIBUTES.put("pollingInterval", "pollingInterval");
+        ATTRIBUTES.put("exceptionTimeout", "exceptionTimeout");
+        ATTRIBUTES.put("consumerCount", "consumerCount");
     }
 
     private final LoaderHelper loaderHelper;
@@ -158,6 +162,20 @@ public class JmsBindingLoader implements TypeLoader<JmsBindingDefinition> {
         metadata.setJndiUrl(reader.getAttributeValue(null, "jndiURL"));
         metadata.setInitialContextFactory(reader.getAttributeValue(null, "initialContextFactory"));
         loaderHelper.loadPolicySetsAndIntents(bd, reader, introspectionContext);
+        
+        String pollingInterval = reader.getAttributeValue(Namespaces.SCA4J_NS, "pollingInterval");
+        if (pollingInterval != null) {
+            metadata.setPollingInterval(Integer.parseInt(pollingInterval));
+        }
+        String exceptionTimeout = reader.getAttributeValue(Namespaces.SCA4J_NS, "exceptionTimeout");
+        if (pollingInterval != null) {
+            metadata.setExceptionTimeout(Integer.parseInt(exceptionTimeout));
+        }
+        String consumerCount = reader.getAttributeValue(Namespaces.SCA4J_NS, "consumerCount");
+        if (pollingInterval != null) {
+            metadata.setConsumerCount(Integer.parseInt(consumerCount));
+        }
+        
         if (uri != null) {
             while (true) {
                 if (END_ELEMENT == reader.next() && "binding.jms".equals(reader.getName().getLocalPart())) {

@@ -114,65 +114,36 @@ public class ResponseMessageListenerImpl implements ResponseMessageListener {
         this.transactionType = transactionType;
     }
 
-    public void onMessage(Message request, Session responseSession, Destination responseDestination) {
+    public void onMessage(Message request, Session responseSession, Destination responseDestination) throws JMSException {
 
-        try {
+        String opName = request.getStringProperty("scaOperationName");
+        ChainHolder holder = getInterceptorHolder(opName);
+        Interceptor interceptor = holder.getHeadInterceptor();
+        PayloadType payloadType = holder.getType();
+        Object payload = MessageHelper.getPayload(request, payloadType);
+        if (payloadType != PayloadType.OBJECT) {
+            payload = new Object[] { payload };
+        }
+        WorkContext workContext = new WorkContext();
+        org.sca4j.spi.invocation.Message inMessage = new MessageImpl(payload, false, workContext);
+        org.sca4j.spi.invocation.Message outMessage = interceptor.invoke(inMessage);
 
-            String opName = request.getStringProperty("scaOperationName");
-            ChainHolder holder = getInterceptorHolder(opName);
-            Interceptor interceptor = holder.getHeadInterceptor();
-            PayloadType payloadType = holder.getType();
-            Object payload = MessageHelper.getPayload(request, payloadType);
-            if (payloadType != PayloadType.OBJECT) {
-                // Encode primitives and streams as an array. Text payloads mus
-                // be decoded by an interceptor downstream. Object messages are
-                // already encoded.
-                payload = new Object[] { payload };
-            }
-            WorkContext workContext = new WorkContext();
-            // List<CallFrame> callFrames = (List<CallFrame>)
-            // payload[payload.length-1];
-            //
-            // CallFrame previous = workContext.peekCallFrame();
-            // Copy correlation and conversation information from incoming frame
-            // to new frame
-            // Note that the callback URI is set to the callback address of this
-            // service so its callback wire can be mapped in the case of a
-            // bidirectional service
-            // Object id = previous.getCorrelationId(Object.class);
-            // ConversationContext context = previous.getConversationContext();
-            // Conversation conversation = previous.getConversation();
-            // CallFrame frame = new CallFrame(callBackURI, id, conversation,
-            // context);
-            // callFrames.add(frame);
-            // workContext.addCallFrames(callFrames);
-            // Object[] netPayload = new Object[payload.length-1];
-            // System.arraycopy(payload, 0, netPayload, 0, payload.length-1);
-            org.sca4j.spi.invocation.Message inMessage = new MessageImpl(payload, false, workContext);
-            org.sca4j.spi.invocation.Message outMessage = interceptor.invoke(inMessage);
+        Object responsePayload = outMessage.getBody();
+        Message response = createMessage(responsePayload, responseSession, payloadType);
 
-            Object responsePayload = outMessage.getBody();
-            Message response = createMessage(responsePayload, responseSession, payloadType);
-
-            switch (correlationScheme) {
-            case RequestCorrelIDToCorrelID: {
+        switch (correlationScheme) {
+            case RequestCorrelIDToCorrelID: 
                 response.setJMSCorrelationID(request.getJMSCorrelationID());
                 break;
-            }
-            case RequestMsgIDToCorrelID: {
+            case RequestMsgIDToCorrelID: 
                 response.setJMSCorrelationID(request.getJMSMessageID());
                 break;
-            }
-            }
-            MessageProducer producer = responseSession.createProducer(responseDestination);
-            producer.send(response);
+        }
+        MessageProducer producer = responseSession.createProducer(responseDestination);
+        producer.send(response);
 
-            if (transactionType == TransactionType.LOCAL) {
-                responseSession.commit();
-            }
-
-        } catch (JMSException ex) {
-            throw new SCA4JJmsException("Unable to send response", ex);
+        if (transactionType == TransactionType.LOCAL) {
+            responseSession.commit();
         }
 
     }

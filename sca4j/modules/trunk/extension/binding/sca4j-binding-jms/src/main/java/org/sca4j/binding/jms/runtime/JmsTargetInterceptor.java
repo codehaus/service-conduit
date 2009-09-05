@@ -144,27 +144,9 @@ public class JmsTargetInterceptor implements Interceptor {
 
             MessageProducer producer = session.createProducer(destination);
             Object[] payload = (Object[]) message.getBody();
-            // payload = attachFramesToTail(payload,
-            // message.getWorkContext().getCallFrameStack());
 
             javax.jms.Message jmsMessage = createMessage(session, payload);
             jmsMessage.setObjectProperty("scaOperationName", methodName);
-
-            // CallFrame previous = message.getWorkContext().peekCallFrame();
-            // if( previous.getConversation()!=null){
-            // Object conversationID =
-            // previous.getConversation().getConversationID();
-            // if(conversationID != null){
-            // jmsMessage.setStringProperty("scaConversationId",
-            // String.valueOf(conversationID));
-            // }
-            // ConversationContext conversationContext =
-            // previous.getConversationContext();
-            // if(ConversationContext.NEW.equals(conversationContext)){
-            // jmsMessage.setStringProperty("scaConversationStart",
-            // String.valueOf(conversationID));
-            // }
-            // }
             producer.send(jmsMessage);
 
             String correlationId = null;

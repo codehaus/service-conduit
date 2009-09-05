@@ -54,6 +54,7 @@ package org.sca4j.binding.jms.runtime.host;
 
 import java.net.URI;
 
+import org.sca4j.binding.jms.common.JmsBindingMetadata;
 import org.sca4j.binding.jms.common.TransactionType;
 import org.sca4j.binding.jms.runtime.JMSObjectFactory;
 import org.sca4j.binding.jms.runtime.ResponseMessageListener;
@@ -65,26 +66,21 @@ import org.sca4j.binding.jms.runtime.tx.TransactionHandler;
 public interface JmsHost {
 
     /**
-     * Register a
-     * <code>ResponseMessageListener<code> which handle inbound message and send response.
-     * 
-     * @param requestJMSObjectFactory Factory for creating JMS objects for
-     *            request.
-     * @param responseJMSObjectFactory Factory for creating JMS objects for
-     *            response.
-     * @param messageListener Message listener.
-     * @param transactionType Transaction type.
-     * @param transactionHandler Transaction handler.
-     * @param cl Classloader to use.
-     * @param serviceUri URI of the service to which the binding is attached.
+     * @param requestJMSObjectFactory
+     * @param responseJMSObjectFactory
+     * @param messageListener
+     * @param transactionType
+     * @param transactionHandler
+     * @param cl
+     * @param serviceUri
+     * @param metadata
      */
-    public void registerResponseListener(JMSObjectFactory requestJMSObjectFactory, JMSObjectFactory responseJMSObjectFactory, ResponseMessageListener messageListener,
-            TransactionType transactionType, TransactionHandler transactionHandler, ClassLoader cl, URI serviceUri);
-
-    /**
-     * Unregister message listener at the endpoint at serviceUri
-     * 
-     * @param serviceUri URI of the service to which the binding is attached.
-     */
-    public void unregisterListener(URI serviceUri);
+    public void registerResponseListener(JMSObjectFactory requestJMSObjectFactory, 
+                                         JMSObjectFactory responseJMSObjectFactory, 
+                                         ResponseMessageListener messageListener,
+                                         TransactionType transactionType, 
+                                         TransactionHandler transactionHandler, 
+                                         ClassLoader cl, 
+                                         URI serviceUri,
+                                         JmsBindingMetadata metadata);
 }

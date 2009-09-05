@@ -52,18 +52,15 @@
  */
 package org.sca4j.binding.jms.runtime.host.standalone;
 
+import javax.jms.Connection;
 import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Message;
-import javax.jms.MessageConsumer;
 import javax.jms.Session;
 
-import org.sca4j.binding.jms.common.SCA4JJmsException;
 import org.sca4j.binding.jms.common.TransactionType;
 import org.sca4j.binding.jms.runtime.JMSObjectFactory;
-import org.sca4j.binding.jms.runtime.JMSRuntimeMonitor;
-import org.sca4j.binding.jms.runtime.ResponseMessageListener;
-import org.sca4j.binding.jms.runtime.tx.JmsTxException;
+import org.sca4j.binding.jms.runtime.helper.JmsHelper;
 import org.sca4j.binding.jms.runtime.tx.TransactionHandler;
 import org.sca4j.host.work.DefaultPausableWork;
 
@@ -74,115 +71,92 @@ import org.sca4j.host.work.DefaultPausableWork;
  */
 public class ConsumerWorker extends DefaultPausableWork {
 
-    private final Session session;
-    private final TransactionHandler transactionHandler;
-    private final MessageConsumer consumer;
-    private final ResponseMessageListener listener;
-    private final long readTimeout;
-    private final TransactionType transactionType;
-    private final ClassLoader cl;
-    private final JMSObjectFactory responseJMSObjectFactory;
-    private final JMSObjectFactory requestJMSObjectFactory;
-    private JMSRuntimeMonitor monitor;
+    private ConsumerWorkerTemplate template;
+    private boolean exception;
 
     /**
-     * @param session Session used to receive messages.
-     * @param transactionHandler Transaction handler.
-     * @param consumer Message consumer.
-     * @param listener Delegate message listener.
-     * @param readTimeout Read timeout.
+     * @param template
      */
     public ConsumerWorker(ConsumerWorkerTemplate template) {
-
         super(true);
-
-        try {
-
-            transactionHandler = template.getTransactionHandler();
-            transactionType = template.getTransactionType();
-            listener = template.getListener();
-            responseJMSObjectFactory = template.getResponseJMSObjectFactory();
-            requestJMSObjectFactory = template.getRequestJMSObjectFactory();
-            session = requestJMSObjectFactory.createSession();
-            consumer = session.createConsumer(requestJMSObjectFactory.getDestination());
-            readTimeout = template.getReadTimeout();
-            cl = template.getCl();
-            monitor = template.getMonitor();
-
-        } catch (JMSException e) {
-            throw new SCA4JJmsException("Unale to create consumer", e);
-        }
-
+        this.template = template;
     }
 
     /**
      * @see java.lang.Runnable#run()
      */
     public void execute() {
+        
+        JMSObjectFactory requestFactory = template.requestJMSObjectFactory;
+        JMSObjectFactory reqponseFactory = template.responseJMSObjectFactory;
+        TransactionType transactionType = template.transactionType;
+        TransactionHandler transactionHandler = template.transactionHandler;
+        
+        Connection requestConnection = null;
+        Session requestSession = null;
+        Connection responseConnection = null;
         Session responseSession = null;
         Destination responseDestination = null;
+        
 
         ClassLoader oldCl = Thread.currentThread().getContextClassLoader();
+        
         try {
 
-            Thread.currentThread().setContextClassLoader(cl);
+            Thread.currentThread().setContextClassLoader(template.cl);
+            
+            if (exception) {
+                exception = false;
+                Thread.sleep(template.exceptionTimeout);
+            }
+            
+            requestConnection = requestFactory.getConnection();
+            requestSession = requestFactory.getSession(requestConnection);
+            requestConnection.start();
+            
             if (transactionType == TransactionType.GLOBAL) {
-                transactionHandler.enlist(session);
+                transactionHandler.enlist(requestSession);
             }
-            Message message = consumer.receive(readTimeout);
-            try {
-                if (message != null) {
-                    if (responseJMSObjectFactory != null) {
-                        responseSession = responseJMSObjectFactory.createSession();
-                        if (transactionType == TransactionType.GLOBAL) {
-                            transactionHandler.enlist(responseSession);
-                        }
-                        responseDestination = responseJMSObjectFactory.getDestination();
-                    }
-                    listener.onMessage(message, responseSession, responseDestination);
+            Message message = requestSession.createConsumer(requestFactory.getDestination()).receive(template.pollingInterval);
+            
+            if (message != null) {
+                
+                if (reqponseFactory != null) {
+                    responseConnection = reqponseFactory.getConnection();
+                    responseSession = reqponseFactory.getSession(responseConnection);
                     if (transactionType == TransactionType.GLOBAL) {
-                        transactionHandler.commit();
-                        transactionHandler.enlist(session);
-                    } else {
-                        session.commit();
+                        transactionHandler.enlist(responseSession);
                     }
+                    responseDestination = reqponseFactory.getDestination();
                 }
-            } catch (JmsTxException e) {
+                template.messageListener.onMessage(message, responseSession, responseDestination);
+                
                 if (transactionType == TransactionType.GLOBAL) {
-                    transactionHandler.rollback();
+                    transactionHandler.commit();
                 } else {
-                    try {
-                        session.rollback();
-                    } catch (JMSException ne) {
-                        reportException(ne);
-                    }
-                    reportException(e);
+                    requestSession.commit();
                 }
-            } catch (SCA4JJmsException se) {
-                if (transactionType == TransactionType.GLOBAL) {
-                    transactionHandler.rollback();
-                } else {
-                    try {
-                        session.rollback();
-                    } catch (JMSException ne) {
-                        reportException(ne);
-                    }
-                    reportException(se);
-                }
+                
             }
-        } catch (JMSException ex) {
+            
+        } catch (Exception ex) {            
             if (transactionType == TransactionType.GLOBAL) {
                 transactionHandler.rollback();
             } else {
                 try {
-                    session.rollback();
+                    if (requestSession != null) {
+                        requestSession.rollback();
+                    }
                 } catch (JMSException ne) {
                     reportException(ne);
                 }
                 reportException(ex);
             }
+            
         } finally {
             Thread.currentThread().setContextClassLoader(oldCl);
+            JmsHelper.closeQuietly(requestConnection);
+            JmsHelper.closeQuietly(responseConnection);
         }
 
     }
@@ -191,9 +165,8 @@ public class ConsumerWorker extends DefaultPausableWork {
      * Report an exception.
      */
     private void reportException(Exception e) {
-        if (monitor != null) {
-            monitor.jmsListenerError(e);
-        }
+        template.monitor.jmsListenerError(e);
+        exception = true;
     }
 
 }

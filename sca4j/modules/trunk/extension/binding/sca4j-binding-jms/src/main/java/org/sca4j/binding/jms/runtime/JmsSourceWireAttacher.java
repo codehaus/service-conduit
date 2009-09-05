@@ -88,7 +88,7 @@ import org.sca4j.spi.wire.Wire;
  * @version $Revision: 5363 $ $Date: 2008-09-09 01:39:36 +0100 (Tue, 09 Sep
  *          2008) $
  */
-public class JmsSourceWireAttacher implements SourceWireAttacher<JmsWireSourceDefinition>, JmsSourceWireAttacherMBean {
+public class JmsSourceWireAttacher implements SourceWireAttacher<JmsWireSourceDefinition> {
 
     private JmsHost jmsHost;
     private Map<CreateOption, DestinationStrategy> destinationStrategies = new HashMap<CreateOption, DestinationStrategy>();
@@ -182,11 +182,17 @@ public class JmsSourceWireAttacher implements SourceWireAttacher<JmsWireSourceDe
         } else {
             messageListener = new ResponseMessageListenerImpl(operations, correlationScheme, messageTypes, transactionType, callbackUri);
         }
-        jmsHost.registerResponseListener(requestJMSObjectFactory, responseJMSObjectFactory, messageListener, transactionType, transactionHandler, cl, serviceUri);
+        jmsHost.registerResponseListener(requestJMSObjectFactory, 
+                                         responseJMSObjectFactory, 
+                                         messageListener, 
+                                         transactionType, 
+                                         transactionHandler, 
+                                         cl, 
+                                         serviceUri,
+                                         metadata);
     }
 
     public void detachFromSource(JmsWireSourceDefinition source, PhysicalWireTargetDefinition target, Wire wire) throws WiringException {
-        jmsHost.unregisterListener(target.getUri());
     }
 
     public void attachObjectFactory(JmsWireSourceDefinition source, ObjectFactory<?> objectFactory, PhysicalWireTargetDefinition definition) throws WiringException {
