@@ -38,6 +38,7 @@
     </properties>
     
     <modules>
+        <module>test-generic-runtime</module>
         <module>test-performance</module>
         <module>test-rs</module>
         <module>test-function</module>
