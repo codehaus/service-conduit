@@ -30,6 +30,18 @@
     <dependencies>
 
         <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-fabric</artifactId>
+            <version>0.1.6-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-generic-runtime-api</artifactId>
             <version>0.1.6-SNAPSHOT</version>
@@ -51,6 +63,12 @@
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-monitor</artifactId>
             <version>0.1.6-SNAPSHOT</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>stax</groupId>
+            <artifactId>stax-api</artifactId>
+            <version>1.0</version>
         </dependency>
         
     </dependencies>

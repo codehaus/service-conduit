@@ -52,11 +52,17 @@
  */
 package org.sca4.runtime.generic.impl;
 
-import java.net.URL;
+import java.io.IOException;
+import java.net.URI;
+import java.util.Properties;
 
 import javax.xml.namespace.QName;
 
-import org.sca4j.host.runtime.HostInfo;
+import org.sca4j.fabric.runtime.AbstractRuntime;
+import org.sca4j.host.runtime.BootConfiguration;
+import org.sca4j.host.runtime.InitializationException;
+import org.sca4j.monitor.impl.JavaLoggingMonitorFactory;
+import org.sca4j.runtime.generic.GenericHostInfo;
 import org.sca4j.runtime.generic.GenericRuntime;
 
 /**
@@ -65,27 +71,43 @@ import org.sca4j.runtime.generic.GenericRuntime;
  * @author meerajk
  *
  */
-public class GenericRuntimeImpl implements GenericRuntime {
+public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> implements GenericRuntime {
     
-    private HostInfo hostInfo;
-    private ClassLoader rootClassLoader;
-
+    private static GenericRuntimeImpl INSTANCE = null;
+    
     /**
-     * @see org.sca4j.runtime.generic.GenericRuntime#contributeExtension(java.net.URL)
+     * Gets the singleton instance of the generic runtime.
+     * @return Singleton instance of the generic runtime.
+     * @throws IOException If unable to scan the classpath.
      */
-    public void contributeExtension(URL contributionUrl) {
+    public static synchronized  GenericRuntime getInstance(URI domain, Properties hostProperties) throws IOException {
+        if (INSTANCE == null) {
+            INSTANCE = new GenericRuntimeImpl(domain, hostProperties);
+        }
+        return INSTANCE;
+    }
+    
+    /**
+     * Contributes a deployable to the domain.
+     * 
+     * @param deployable Qualified name of the deployable.
+     * @param extension Whether this is an extension or a user contribution.
+     */
+    public void contriute(QName deployable, boolean extension) {
+        
     }
 
     /**
-     * @see org.sca4j.runtime.generic.GenericRuntime#contribute(java.net.URL)
-     */
-    public void contribute(URL contributionUrl) {
-    }
-
-    /**
+     * @throws InitializationException 
      * @see org.sca4j.runtime.generic.GenericRuntime#boot()
      */
-    public void boot() {
+    public void boot() throws InitializationException {
+        
+        BootConfiguration bootConfiguration = getBootConfiguration();
+        
+        setMonitorFactory(new JavaLoggingMonitorFactory());
+        bootPrimordial(bootConfiguration);
+        bootSystem();
     }
 
     /**
@@ -94,19 +116,38 @@ public class GenericRuntimeImpl implements GenericRuntime {
     public <T> T getServiceProxy(Class<T> serviceClass, QName serviceName) {
         return null;
     }
-
-    /**
-     * @see org.sca4j.runtime.generic.GenericRuntime#setHostInfo(org.sca4j.host.runtime.HostInfo)
+    
+    /*
+     * Returns the boot configuration.
      */
-    public void setHostInfo(HostInfo hostInfo) {
-        this.hostInfo = hostInfo;
+    private BootConfiguration getBootConfiguration() {
+        
+        BootConfiguration bootConfiguration = new BootConfiguration();
+        
+        ClassLoader classLoader = getClass().getClassLoader();
+        bootConfiguration.setAppClassLoader(classLoader);
+        bootConfiguration.setBootClassLoader(classLoader);
+        bootConfiguration.setHostClassLoader(classLoader);
+        
+        bootConfiguration.setRuntime(this);
+        
+//        bootConfiguration.setBootLibraryExports(bootExports);
+//        bootConfiguration.setExtensions(extensions);
+//        bootConfiguration.setIntents(intents);
+//        bootConfiguration.setSystemConfig(systemConfig);
+//        bootConfiguration.setSystemConfigDocument(systemConfigDocument);
+//        bootConfiguration.setSystemScdl(systemScdl);
+        
+        return bootConfiguration;
+        
     }
-
-    /**
-     * @see org.sca4j.runtime.generic.GenericRuntime#setRootClassloader(java.lang.ClassLoader)
+    
+    /*
+     * Singleton constructor.
      */
-    public void setRootClassloader(ClassLoader rootClassLoader) {
-        this.rootClassLoader = rootClassLoader;
+    private GenericRuntimeImpl(URI domain, Properties hostProperties) throws IOException {
+        super(GenericHostInfo.class);
+        setHostInfo(new GenericHostInfo(domain, hostProperties));
     }
 
 }

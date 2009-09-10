@@ -52,42 +52,45 @@
  */
 package org.sca4j.runtime.generic;
 
-import javax.xml.namespace.QName;
+import java.io.File;
+import java.net.URI;
+import java.util.Properties;
 
+import org.sca4j.host.runtime.AbstractHostInfo;
 import org.sca4j.host.runtime.HostInfo;
-import org.sca4j.host.runtime.InitializationException;
-import org.sca4j.host.runtime.SCA4JRuntime;
 
-/**
- * Interface for the generic runtime.
- * 
- * @author meerajk
- *
- */
-public interface GenericRuntime extends SCA4JRuntime<GenericHostInfo> {
-    
+public class GenericHostInfo extends AbstractHostInfo implements HostInfo {
+
     /**
-     * Contributes a deployable to the domain.
+     * Initialises the state.
      * 
-     * @param deployable Qualified name of the deployable.
-     * @param extension Whether this is an extension or a user contribution.
+     * @param domain Name of the domain.
+     * @param baseDir Base directory.
+     * @param properties Host properties.
      */
-    void contriute(QName deployable, boolean extension);
-    
+    public GenericHostInfo(URI domain, Properties properties) {
+        super(domain, properties);
+    }
+
     /**
-     * Gets a service reference proxy.
-     * 
-     * @param <T> Type of the service.
-     * @param serviceClass Class of the service.
-     * @param serviceName Name of the service.
-     * @return Proxy to the service.
+     * @see org.sca4j.host.runtime.HostInfo#getBaseDir()
      */
-    <T> T getServiceProxy(Class<T> serviceClass, QName serviceName);
-    
+    public File getBaseDir() {
+        return null;
+    }
+
     /**
-     * Boots the runtime.
-     * @throws InitializationException 
+     * @see org.sca4j.host.runtime.HostInfo#getTempDir()
      */
-    void boot() throws InitializationException;
+    public File getTempDir() {
+        return new File(System.getProperty("java.io.tmpdir"));
+    }
+
+    /**
+     * @see org.sca4j.host.runtime.HostInfo#supportsClassLoaderIsolation()
+     */
+    public boolean supportsClassLoaderIsolation() {
+        return false;
+    }
 
 }
