@@ -75,21 +75,21 @@ import org.sca4j.host.contribution.ContributionService;
 import org.sca4j.host.contribution.ContributionSource;
 import org.sca4j.host.contribution.FileContributionSource;
 import org.sca4j.host.runtime.BootConfiguration;
-import org.sca4j.host.runtime.InitializationException;
-import org.sca4j.host.runtime.StartException;
 import org.sca4j.java.runtime.JavaComponent;
 import org.sca4j.monitor.impl.JavaLoggingMonitorFactory;
 import org.sca4j.pojo.PojoWorkContextTunnel;
 import org.sca4j.runtime.generic.GenericHostInfo;
 import org.sca4j.runtime.generic.GenericRuntime;
 import org.sca4j.services.xmlfactory.XMLFactory;
-import org.sca4j.spi.component.AtomicComponent;
-import org.sca4j.spi.component.GroupInitializationException;
 import org.sca4j.spi.component.InstanceLifecycleException;
 import org.sca4j.spi.component.InstanceWrapper;
 import org.sca4j.spi.domain.Domain;
 import org.sca4j.spi.invocation.CallFrame;
 import org.sca4j.spi.invocation.WorkContext;
+import org.sca4j.spi.model.instance.LogicalComponent;
+import org.sca4j.spi.model.instance.LogicalCompositeComponent;
+import org.sca4j.spi.model.instance.LogicalService;
+import org.sca4j.spi.services.lcm.LogicalComponentManager;
 
 /**
  * Default implementation of the generic runtime.
@@ -104,9 +104,8 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
     /**
      * Gets the singleton instance of the generic runtime.
      * @return Singleton instance of the generic runtime.
-     * @throws IOException If unable to scan the classpath.
      */
-    public static synchronized  GenericRuntimeImpl getInstance(URI domain, Properties hostProperties) throws IOException {
+    public static synchronized  GenericRuntimeImpl getInstance(URI domain, Properties hostProperties) {
         if (INSTANCE == null) {
             INSTANCE = new GenericRuntimeImpl(domain, hostProperties);
         }
@@ -147,26 +146,39 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
     }
 
     /**
-     * @throws InitializationException 
-     * @throws StartException 
      * @see org.sca4j.runtime.generic.GenericRuntime#boot()
      */
-    public void boot() throws InitializationException, StartException {
+    public void boot() {
         
-        BootConfiguration bootConfiguration = getBootConfiguration();
-        
-        setMonitorFactory(new JavaLoggingMonitorFactory());
-        bootPrimordial(bootConfiguration);
-        bootSystem();
-        joinDomain(-1);
-        start();
+        try {
+            BootConfiguration bootConfiguration = getBootConfiguration();
+            
+            setMonitorFactory(new JavaLoggingMonitorFactory());
+            bootPrimordial(bootConfiguration);
+            bootSystem();
+            joinDomain(-1);
+            start();
+        } catch (Exception e) {
+            throw new AssertionError(e);
+        }
         
     }
 
     /**
      * @see org.sca4j.runtime.generic.GenericRuntime#getServiceProxy(java.lang.Class, javax.xml.namespace.QName)
      */
-    public <T> T getServiceProxy(Class<T> serviceClass, URI uri) {
+    public <T> T getServiceProxy(Class<T> serviceClass, String serviceName) {
+        
+        LogicalComponentManager logicalComponentManager = getSystemComponent(LogicalComponentManager.class, URI.create("sca4j://runtime/LogicalComponentManager"));
+        LogicalCompositeComponent domainComponent = logicalComponentManager.getRootComponent();
+        
+        LogicalService logicalService = domainComponent.getService(serviceName);
+        URI promotedUri = logicalService.getPromotedUri();
+        URI componentUri = URI.create(promotedUri.toString().substring(0, promotedUri.toString().indexOf('#')));
+        LogicalComponent<?> logicalComponent = domainComponent.getComponent(componentUri);
+        
+        URI uri = getUri(logicalComponent, promotedUri);
+        uri = URI.create(uri.toString().substring(0, uri.toString().indexOf('#')));
         
         JavaComponent<?> javaComponent = (JavaComponent<?>) getComponentManager().getComponent(uri);
         WorkContext workContext = new WorkContext();
@@ -175,12 +187,27 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
             InstanceWrapper<?> wrapper = javaComponent.getScopeContainer().getWrapper(javaComponent, workContext);
             return serviceClass.cast(wrapper.getInstance());
         } catch (InstanceLifecycleException e) {
-            // FIXME throw something better
             throw new AssertionError();
         } finally {
             PojoWorkContextTunnel.setThreadWorkContext(oldContext);
         }
         
+    }
+    
+    /*
+     * Get to the normalized URI.
+     */
+    private URI getUri(LogicalComponent<?> logicalComponent, URI componentUri) {
+        if (logicalComponent instanceof LogicalCompositeComponent) {
+            LogicalCompositeComponent logicalCompositeComponent = (LogicalCompositeComponent) logicalComponent;
+            String fragment = componentUri.getFragment();
+            LogicalService logicalService = logicalComponent.getService(fragment);
+            URI promotedUri = logicalService.getPromotedUri();
+            URI uri = URI.create(promotedUri.toString().substring(0, promotedUri.toString().indexOf('#')));
+            LogicalComponent<?> childComponent = logicalCompositeComponent.getComponent(uri);
+            return getUri(childComponent, promotedUri);
+        }
+        return componentUri;
     }
     
     /*
@@ -216,7 +243,7 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
     /*
      * Singleton constructor.
      */
-    private GenericRuntimeImpl(URI domain, Properties hostProperties) throws IOException {
+    private GenericRuntimeImpl(URI domain, Properties hostProperties) {
         super(GenericHostInfo.class);
         setHostInfo(new GenericHostInfo(domain, hostProperties));
         setMBeanServer(MBeanServerFactory.createMBeanServer());
@@ -226,6 +253,7 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
      * Gets the composite QName.
      */
     private QName parseCompositeQName(URL url) throws IOException, XMLStreamException {
+        
         XMLStreamReader reader = null;
         InputStream stream = null;
         try {

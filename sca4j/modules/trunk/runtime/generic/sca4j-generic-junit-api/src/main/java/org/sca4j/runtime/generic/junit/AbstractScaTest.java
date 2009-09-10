@@ -52,19 +52,11 @@
  */
 package org.sca4j.runtime.generic.junit;
 
-import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
-
-import javax.xml.stream.XMLStreamException;
 
 import junit.framework.TestCase;
 
 import org.sca4.runtime.generic.impl.GenericRuntimeImpl;
-import org.sca4j.host.contribution.ContributionException;
-import org.sca4j.host.domain.DeploymentException;
-import org.sca4j.host.runtime.InitializationException;
-import org.sca4j.host.runtime.StartException;
 
 /**
  * Abstract super class for all JUnit test.
@@ -72,21 +64,16 @@ import org.sca4j.host.runtime.StartException;
  */
 public class AbstractScaTest extends TestCase {
     
-    protected GenericRuntimeImpl genericRuntime;
+    private GenericRuntimeImpl genericRuntime;
     
-    public AbstractScaTest(String applicationScdl) throws IOException, InitializationException, ContributionException, URISyntaxException, StartException, XMLStreamException, DeploymentException {
-        
-        long now = System.currentTimeMillis();
-        
-        genericRuntime = GenericRuntimeImpl.getInstance(URI.create("test"), System.getProperties());
+    public AbstractScaTest(String applicationScdl) {
+        genericRuntime = GenericRuntimeImpl.getInstance(URI.create(""), System.getProperties());
         genericRuntime.boot();
-        System.err.println("Runtime booted in " + (System.currentTimeMillis() - now) + " milli seconds");
-        
-        now = System.currentTimeMillis();
         genericRuntime.contriute(applicationScdl);
-        System.err.println("Application activated in " + (System.currentTimeMillis() - now) + " milli seconds");
-        
-        
+    }
+    
+    protected <T> T getServiceProxy(Class<T> serviceClass, String serviceName) {
+        return genericRuntime.getServiceProxy(serviceClass, serviceName);
     }
 
 }
