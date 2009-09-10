@@ -37,6 +37,7 @@
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-generic-junit-api</artifactId>
             <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
