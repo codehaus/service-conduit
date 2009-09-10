@@ -108,22 +108,8 @@
     <include name="org.sca4j.JavaIntrospection" scdlResource="META-INF/javaIntrospection.composite"/>
     <include name="org.sca4j.JavaRuntime" scdlResource="META-INF/javaRuntime.composite"/>
 
-    <!-- include web implementation type -->
-    <include name="org.sca4j.WebControl" scdlResource="META-INF/webControl.composite"/>
-    <include name="org.sca4j.WebIntrospection" scdlResource="META-INF/webIntrospection.composite"/>
-    <include name="org.sca4j.WebRuntime" scdlResource="META-INF/webRuntime.composite"/>
-
     <!-- include transform configuration -->
     <include name="org.sca4j.transform.Transform" scdlResource="org/sca4j/transform/transform.composite"/>
-
-    <!-- Web app ServletHost -->
-    <component name="servletHost">
-        <sca4j:implementation.system class="org.sca4j.runtime.webapp.ServletHostImpl"/>
-    </component>
-
-    <component name="WebApplicationActivator">
-        <sca4j:implementation.system class="org.sca4j.runtime.webapp.activator.EmbeddedWebApplicationActivator"/>
-    </component>
 
     <!-- no recovery for the webapp runtime -->
     <component name="assemblyRecoveryService">
@@ -145,19 +131,7 @@
     <component name="DiscoveryService">
         <sca4j:implementation.system class="org.sca4j.fabric.services.discovery.SingleVMDiscoveryService"/>
     </component>
-
-    <component name="WarContributionProcessor">
-        <sca4j:implementation.system class="org.sca4j.runtime.webapp.contribution.WarContributionProcessor"/>
-    </component>
-
-    <component name="WebXmlIndexer">
-        <sca4j:implementation.system class="org.sca4j.runtime.webapp.contribution.WebXmlIndexer"/>
-        <property name="namespace">false</property>
-    </component>
-
-    <component name="WebXmlIndexerNamepsaceAware">
-        <sca4j:implementation.system class="org.sca4j.runtime.webapp.contribution.WebXmlIndexer"/>
-        <property name="namespace">true</property>
-    </component>
+    
+    <include name="org.sca4j.Jhost" scdlResource="META-INF/host.composite"/>
 
 </composite>

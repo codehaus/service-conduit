@@ -54,11 +54,19 @@ package org.sca4.runtime.generic.impl;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Properties;
 
+import javax.management.MBeanServer;
+import javax.management.MBeanServerFactory;
 import javax.xml.namespace.QName;
 
 import org.sca4j.fabric.runtime.AbstractRuntime;
+import org.sca4j.host.contribution.ContributionSource;
+import org.sca4j.host.contribution.FileContributionSource;
 import org.sca4j.host.runtime.BootConfiguration;
 import org.sca4j.host.runtime.InitializationException;
 import org.sca4j.monitor.impl.JavaLoggingMonitorFactory;
@@ -131,12 +139,17 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
         
         bootConfiguration.setRuntime(this);
         
-//        bootConfiguration.setBootLibraryExports(bootExports);
-//        bootConfiguration.setExtensions(extensions);
-//        bootConfiguration.setIntents(intents);
-//        bootConfiguration.setSystemConfig(systemConfig);
-//        bootConfiguration.setSystemConfigDocument(systemConfigDocument);
-//        bootConfiguration.setSystemScdl(systemScdl);
+        List<String> bootExports = new ArrayList<String>();
+        bootExports.add("META-INF/maven/org.sca4j/sca4j-spi/pom.xml");
+        bootExports.add("META-INF/maven/org.sca4j/sca4j-pojo/pom.xml");
+        bootExports.add("META-INF/maven/org.sca4j/sca4j-java/pom.xml");
+        bootConfiguration.setBootLibraryExports(bootExports);
+        
+        bootConfiguration.setExtensions(new LinkedList<ContributionSource>());
+        ContributionSource intents = new FileContributionSource(classLoader.getResource("META-INF/intents.xml"), -1, null);
+        bootConfiguration.setIntents(intents);
+        bootConfiguration.setSystemConfig(classLoader.getResource("META-INF/systemConfig.xml"));
+        bootConfiguration.setSystemScdl(classLoader.getResource("META-INF/system.composite"));
         
         return bootConfiguration;
         
@@ -148,6 +161,7 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
     private GenericRuntimeImpl(URI domain, Properties hostProperties) throws IOException {
         super(GenericHostInfo.class);
         setHostInfo(new GenericHostInfo(domain, hostProperties));
+        setMBeanServer(MBeanServerFactory.createMBeanServer());
     }
 
 }
