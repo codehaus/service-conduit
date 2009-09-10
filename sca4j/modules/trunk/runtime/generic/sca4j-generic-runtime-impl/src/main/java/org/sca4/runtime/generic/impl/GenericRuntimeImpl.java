@@ -172,13 +172,7 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
         LogicalComponentManager logicalComponentManager = getSystemComponent(LogicalComponentManager.class, URI.create("sca4j://runtime/LogicalComponentManager"));
         LogicalCompositeComponent domainComponent = logicalComponentManager.getRootComponent();
         
-        LogicalService logicalService = domainComponent.getService(serviceName);
-        URI promotedUri = logicalService.getPromotedUri();
-        URI componentUri = URI.create(promotedUri.toString().substring(0, promotedUri.toString().indexOf('#')));
-        LogicalComponent<?> logicalComponent = domainComponent.getComponent(componentUri);
-        
-        URI uri = getUri(logicalComponent, promotedUri);
-        uri = URI.create(uri.toString().substring(0, uri.toString().indexOf('#')));
+        URI uri = getUri(domainComponent, serviceName);
         
         JavaComponent<?> javaComponent = (JavaComponent<?>) getComponentManager().getComponent(uri);
         WorkContext workContext = new WorkContext();
@@ -197,17 +191,20 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
     /*
      * Get to the normalized URI.
      */
-    private URI getUri(LogicalComponent<?> logicalComponent, URI componentUri) {
+    private URI getUri(LogicalCompositeComponent parent, String serviceName) {
+        
+        LogicalService logicalService = parent.getService(serviceName);
+        URI promotedUri = logicalService.getPromotedUri();
+        String fragment = promotedUri.getFragment();
+        URI componentUri = URI.create(promotedUri.toString().substring(0, promotedUri.toString().indexOf('#')));
+        
+        LogicalComponent<?> logicalComponent = parent.getComponent(componentUri);
         if (logicalComponent instanceof LogicalCompositeComponent) {
             LogicalCompositeComponent logicalCompositeComponent = (LogicalCompositeComponent) logicalComponent;
-            String fragment = componentUri.getFragment();
-            LogicalService logicalService = logicalComponent.getService(fragment);
-            URI promotedUri = logicalService.getPromotedUri();
-            URI uri = URI.create(promotedUri.toString().substring(0, promotedUri.toString().indexOf('#')));
-            LogicalComponent<?> childComponent = logicalCompositeComponent.getComponent(uri);
-            return getUri(childComponent, promotedUri);
+            return getUri(logicalCompositeComponent, fragment);
         }
-        return componentUri;
+        return logicalComponent.getUri();
+        
     }
     
     /*
