@@ -52,26 +52,44 @@
  */
 package org.sca4.runtime.generic.impl;
 
+import static org.sca4j.fabric.runtime.ComponentNames.APPLICATION_DOMAIN_URI;
+import static org.sca4j.fabric.runtime.ComponentNames.XML_FACTORY_URI;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
-import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
 import javax.xml.namespace.QName;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 
 import org.sca4j.fabric.runtime.AbstractRuntime;
+import org.sca4j.fabric.runtime.ComponentNames;
+import org.sca4j.host.contribution.ContributionService;
 import org.sca4j.host.contribution.ContributionSource;
 import org.sca4j.host.contribution.FileContributionSource;
 import org.sca4j.host.runtime.BootConfiguration;
 import org.sca4j.host.runtime.InitializationException;
+import org.sca4j.host.runtime.StartException;
+import org.sca4j.java.runtime.JavaComponent;
 import org.sca4j.monitor.impl.JavaLoggingMonitorFactory;
+import org.sca4j.pojo.PojoWorkContextTunnel;
 import org.sca4j.runtime.generic.GenericHostInfo;
 import org.sca4j.runtime.generic.GenericRuntime;
+import org.sca4j.services.xmlfactory.XMLFactory;
+import org.sca4j.spi.component.AtomicComponent;
+import org.sca4j.spi.component.GroupInitializationException;
+import org.sca4j.spi.component.InstanceLifecycleException;
+import org.sca4j.spi.component.InstanceWrapper;
+import org.sca4j.spi.domain.Domain;
+import org.sca4j.spi.invocation.CallFrame;
+import org.sca4j.spi.invocation.WorkContext;
 
 /**
  * Default implementation of the generic runtime.
@@ -88,7 +106,7 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
      * @return Singleton instance of the generic runtime.
      * @throws IOException If unable to scan the classpath.
      */
-    public static synchronized  GenericRuntime getInstance(URI domain, Properties hostProperties) throws IOException {
+    public static synchronized  GenericRuntimeImpl getInstance(URI domain, Properties hostProperties) throws IOException {
         if (INSTANCE == null) {
             INSTANCE = new GenericRuntimeImpl(domain, hostProperties);
         }
@@ -96,33 +114,73 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
     }
     
     /**
-     * Contributes a deployable to the domain.
-     * 
-     * @param deployable Qualified name of the deployable.
-     * @param extension Whether this is an extension or a user contribution.
+     * @see org.sca4j.runtime.generic.GenericRuntime#contriute(java.lang.String)
      */
-    public void contriute(QName deployable, boolean extension) {
+    public void contriute(String scdlPath) {
+        
+        try {
+            
+            ContributionService contributionService = getSystemComponent(ContributionService.class, ComponentNames.CONTRIBUTION_SERVICE_URI);
+            
+            URL applicationScdlUrl = getClass().getClassLoader().getResource(scdlPath);
+            
+            applicationScdlUrl = applicationScdlUrl.toURI().toURL();
+            QName compositeQName = parseCompositeQName(applicationScdlUrl);
+            
+            URL baseUrl = new URL(applicationScdlUrl.toString().substring(0, applicationScdlUrl.toString().indexOf(scdlPath)));
+            URI contributionUri = baseUrl.toURI();
+            
+            ContributionSource contributionSource = new FileContributionSource(contributionUri, baseUrl, -1, null, "application/vnd.sca4j.test");
+            contributionService.contribute(contributionSource);
+            Domain domain = getSystemComponent(Domain.class, APPLICATION_DOMAIN_URI);
+            domain.include(compositeQName);
+
+            WorkContext workContext = new WorkContext();
+            CallFrame frame = new CallFrame(URI.create("test"));
+            workContext.addCallFrame(frame);
+            getScopeContainer().startContext(workContext);
+            
+        } catch (Exception e) {
+            throw new AssertionError(e);
+        }
         
     }
 
     /**
      * @throws InitializationException 
+     * @throws StartException 
      * @see org.sca4j.runtime.generic.GenericRuntime#boot()
      */
-    public void boot() throws InitializationException {
+    public void boot() throws InitializationException, StartException {
         
         BootConfiguration bootConfiguration = getBootConfiguration();
         
         setMonitorFactory(new JavaLoggingMonitorFactory());
         bootPrimordial(bootConfiguration);
         bootSystem();
+        joinDomain(-1);
+        start();
+        
     }
 
     /**
      * @see org.sca4j.runtime.generic.GenericRuntime#getServiceProxy(java.lang.Class, javax.xml.namespace.QName)
      */
-    public <T> T getServiceProxy(Class<T> serviceClass, QName serviceName) {
-        return null;
+    public <T> T getServiceProxy(Class<T> serviceClass, URI uri) {
+        
+        JavaComponent<?> javaComponent = (JavaComponent<?>) getComponentManager().getComponent(uri);
+        WorkContext workContext = new WorkContext();
+        WorkContext oldContext = PojoWorkContextTunnel.setThreadWorkContext(workContext);
+        try {
+            InstanceWrapper<?> wrapper = javaComponent.getScopeContainer().getWrapper(javaComponent, workContext);
+            return serviceClass.cast(wrapper.getInstance());
+        } catch (InstanceLifecycleException e) {
+            // FIXME throw something better
+            throw new AssertionError();
+        } finally {
+            PojoWorkContextTunnel.setThreadWorkContext(oldContext);
+        }
+        
     }
     
     /*
@@ -162,6 +220,39 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
         super(GenericHostInfo.class);
         setHostInfo(new GenericHostInfo(domain, hostProperties));
         setMBeanServer(MBeanServerFactory.createMBeanServer());
+    }
+    
+    /*
+     * Gets the composite QName.
+     */
+    private QName parseCompositeQName(URL url) throws IOException, XMLStreamException {
+        XMLStreamReader reader = null;
+        InputStream stream = null;
+        try {
+            stream = url.openStream();
+            XMLFactory xmlFactory = getSystemComponent(XMLFactory.class, XML_FACTORY_URI);
+            reader = xmlFactory.newInputFactoryInstance().createXMLStreamReader(stream);
+            reader.nextTag();
+            String name = reader.getAttributeValue(null, "name");
+            String targetNamespace = reader.getAttributeValue(null, "targetNamespace");
+            return new QName(targetNamespace, name);
+        } finally {
+            try {
+                if (stream != null) {
+                    stream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (XMLStreamException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 }

@@ -52,11 +52,14 @@
  */
 package org.sca4j.runtime.generic;
 
+import java.net.URI;
+
 import javax.xml.namespace.QName;
 
 import org.sca4j.host.runtime.HostInfo;
 import org.sca4j.host.runtime.InitializationException;
 import org.sca4j.host.runtime.SCA4JRuntime;
+import org.sca4j.host.runtime.StartException;
 
 /**
  * Interface for the generic runtime.
@@ -69,10 +72,9 @@ public interface GenericRuntime extends SCA4JRuntime<GenericHostInfo> {
     /**
      * Contributes a deployable to the domain.
      * 
-     * @param deployable Qualified name of the deployable.
-     * @param extension Whether this is an extension or a user contribution.
+     * @param scdlPath SCDLpath for the deployable.
      */
-    void contriute(QName deployable, boolean extension);
+    void contriute(String scdlPath);
     
     /**
      * Gets a service reference proxy.
@@ -82,12 +84,13 @@ public interface GenericRuntime extends SCA4JRuntime<GenericHostInfo> {
      * @param serviceName Name of the service.
      * @return Proxy to the service.
      */
-    <T> T getServiceProxy(Class<T> serviceClass, QName serviceName);
+    <T> T getServiceProxy(Class<T> serviceClass, URI uri);
     
     /**
      * Boots the runtime.
      * @throws InitializationException 
+     * @throws StartException 
      */
-    void boot() throws InitializationException;
+    void boot() throws InitializationException, StartException;
 
 }

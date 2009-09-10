@@ -54,12 +54,17 @@ package org.sca4j.runtime.generic.junit;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 
-import org.sca4.runtime.generic.impl.GenericRuntimeImpl;
-import org.sca4j.host.runtime.InitializationException;
-import org.sca4j.runtime.generic.GenericRuntime;
+import javax.xml.stream.XMLStreamException;
 
 import junit.framework.TestCase;
+
+import org.sca4.runtime.generic.impl.GenericRuntimeImpl;
+import org.sca4j.host.contribution.ContributionException;
+import org.sca4j.host.domain.DeploymentException;
+import org.sca4j.host.runtime.InitializationException;
+import org.sca4j.host.runtime.StartException;
 
 /**
  * Abstract super class for all JUnit test.
@@ -67,13 +72,21 @@ import junit.framework.TestCase;
  */
 public class AbstractScaTest extends TestCase {
     
-    private GenericRuntime genericRuntime;
+    protected GenericRuntimeImpl genericRuntime;
     
-    public AbstractScaTest() throws IOException, InitializationException {
+    public AbstractScaTest(String applicationScdl) throws IOException, InitializationException, ContributionException, URISyntaxException, StartException, XMLStreamException, DeploymentException {
+        
         long now = System.currentTimeMillis();
+        
         genericRuntime = GenericRuntimeImpl.getInstance(URI.create("test"), System.getProperties());
         genericRuntime.boot();
         System.err.println("Runtime booted in " + (System.currentTimeMillis() - now) + " milli seconds");
+        
+        now = System.currentTimeMillis();
+        genericRuntime.contriute(applicationScdl);
+        System.err.println("Application activated in " + (System.currentTimeMillis() - now) + " milli seconds");
+        
+        
     }
 
 }

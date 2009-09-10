@@ -57,4 +57,8 @@
            xmlns:sca4j="urn:sca4j.org"
            name="HostComposite"
            autowire="true">
+           
+    <component name="TestContributionProcessor">
+        <sca4j:implementation.system class="org.sca4j.runtime.generic.junit.TestContributionProcessor" />
+    </component>
 </composite>
