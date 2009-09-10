@@ -34,6 +34,12 @@
     <dependencies>
 
         <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-generic-junit-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.sca4j.spec</groupId>
             <artifactId>sca-api-r1.0</artifactId>
             <version>0.2.2</version>
