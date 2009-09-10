@@ -52,10 +52,27 @@
  */
 package org.sca4j.generic.runtime.test;
 
-public class HelloWorldImpl implements HelloWorld {
+import java.util.UUID;
 
-    public String sayHello(String name) {
-        return "Hello, " + name;
+public class Employee {
+    
+    private String id;
+    private String name;
+    
+    public Employee() {
+    }
+    
+    public Employee(String name) {
+        this.id = UUID.randomUUID().toString();
+        this.name = name;
+    }
+    
+    public String getId() {
+        return id;
+    }
+    
+    public String getName() {
+        return name;
     }
 
 }

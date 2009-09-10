@@ -52,16 +52,22 @@
  */
 package org.sca4j.generic.runtime.test;
 
-/**
- * @author meerajk
- *
- */
-public interface HelloWorld {
+import java.util.HashMap;
+import java.util.Map;
+
+import org.sca4j.api.annotation.scope.Composite;
+
+@Composite
+public class EmployeeDaoImpl implements EmployeeDao {
     
-    /**
-     * @param name
-     * @return
-     */
-    String sayHello(String name);
+    private Map<String, Employee> store = new HashMap<String, Employee>();
+
+    public void create(Employee employee) {
+        store.put(employee.getId(), employee);
+    }
+
+    public Employee find(String id) {
+        return store.get(id);
+    }
 
 }

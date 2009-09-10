@@ -56,12 +56,17 @@
 <composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
            xmlns:sca="http://www.osoa.org/xmlns/sca/1.0"
            xmlns:sca4j="urn:sca4j.org"
-           name="HelloComposite">
+           name="ServiceComposite"
+           autowire="true">
            
-    <service name="helloWorld" promote="HelloWorld" />
+    <service name="employeeService" promote="EmployeeService" />
 
-    <component name="HelloWorld">
-        <implementation.java class="org.sca4j.generic.runtime.test.HelloWorldImpl"/>
+    <component name="EmployeeService">
+        <implementation.java class="org.sca4j.generic.runtime.test.EmployeeServiceImpl"/>
+    </component>
+
+    <component name="EmployeeDao">
+        <implementation.composite scdlResource="META-INF/dao.composite" />
     </component>
     
 </composite>

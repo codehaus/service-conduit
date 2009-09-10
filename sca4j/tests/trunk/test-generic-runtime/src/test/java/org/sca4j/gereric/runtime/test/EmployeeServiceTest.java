@@ -17,30 +17,27 @@
 package org.sca4j.gereric.runtime.test;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.sca4j.generic.runtime.test.HelloWorld;
+import org.sca4j.generic.runtime.test.EmployeeService;
 import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.host.domain.DeploymentException;
 import org.sca4j.host.runtime.InitializationException;
 import org.sca4j.host.runtime.StartException;
 import org.sca4j.runtime.generic.junit.AbstractScaTest;
 
-public class GenericRuntimeTest extends AbstractScaTest {
+public class EmployeeServiceTest extends AbstractScaTest {
     
-    public GenericRuntimeTest() throws IOException, InitializationException, ContributionException, StartException, URISyntaxException, DeploymentException, XMLStreamException {
-        super("META-INF/hello.composite");
-        // TODO Auto-generated constructor stub
+    public EmployeeServiceTest() throws IOException, InitializationException, ContributionException, StartException, URISyntaxException, DeploymentException, XMLStreamException {
+        super("META-INF/root.composite");
     }
 
     public void test() throws Exception {
-        
-        HelloWorld helloWorld = genericRuntime.getServiceProxy(HelloWorld.class, URI.create("test/HelloWorld"));
-        assertEquals("Hello, Meeraj", helloWorld.sayHello("Meeraj"));
-        
+        EmployeeService employeeService = getServiceProxy(EmployeeService.class, "employeeService");
+        String id = employeeService.createEmployee("Meeraj Kunnumpurath");
+        assertEquals("Meeraj Kunnumpurath", employeeService.findName(id));
     }
 
 }
