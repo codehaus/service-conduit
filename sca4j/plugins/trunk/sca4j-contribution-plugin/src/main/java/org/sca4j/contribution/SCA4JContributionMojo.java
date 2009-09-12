@@ -217,6 +217,11 @@ public class SCA4JContributionMojo extends AbstractMojo {
      * @parameter
      */
     protected File composite;
+    
+    /**
+     * @parameter
+     */
+    protected boolean extension = true;
 
     /**
      * @parameter
@@ -377,6 +382,7 @@ public class SCA4JContributionMojo extends AbstractMojo {
         }
 
         Element root = document.createElement("contribution");
+        root.setAttribute("extension", String.valueOf(extension));
         addNamespaces(root);
         generateSCAManifestContents(document, root);
         document.appendChild(root);
