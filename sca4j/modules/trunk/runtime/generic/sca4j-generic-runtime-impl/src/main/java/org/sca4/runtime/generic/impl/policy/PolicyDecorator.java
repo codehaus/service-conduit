@@ -50,72 +50,24 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.runtime.generic.junit;
+package org.sca4.runtime.generic.impl.policy;
 
-import java.net.URI;
-import java.util.Properties;
+import java.util.Set;
 
-import javax.management.MBeanServer;
-import javax.management.MBeanServerFactory;
-
-import junit.framework.TestCase;
-
-import org.sca4.runtime.generic.impl.GenericRuntimeImpl;
-import org.sca4j.monitor.MonitorFactory;
-import org.sca4j.monitor.impl.JavaLoggingMonitorFactory;
+import javax.xml.namespace.QName;
 
 /**
- * Abstract super class for all JUnit test.
+ * Helper for policy resolution at the boundary.
  *
  */
-public class AbstractScaTest extends TestCase {
-    
-    private GenericRuntimeImpl genericRuntime;
+public interface PolicyDecorator {
     
     /**
-     * Initialises the test with the application SCDL.
-     * @param applicationScdl Application SCDL.
+     * @param <T>
+     * @param instance Instance to be decorated.
+     * @param intents Intents to be resolved.
+     * @return Decorated instance.
      */
-    public AbstractScaTest(String applicationScdl) {
-        genericRuntime = new GenericRuntimeImpl(URI.create(""), System.getProperties(), getMonitorFactory(), getMBeanServer());
-        genericRuntime.boot();
-        genericRuntime.contriute(applicationScdl);
-    }
-    
-    /**
-     * Gets a service proxy.
-     * 
-     * @param <T> Type of the service proxy.
-     * @param serviceClass Service proxy class.
-     * @param serviceName Service name.
-     * @return Service proxy instance.
-     */
-    protected <T> T getServiceProxy(Class<T> serviceClass, String serviceName) {
-        return genericRuntime.getServiceProxy(serviceClass, serviceName);
-    }
-    
-    /**
-     * Override if you want to use a different monitor factory.
-     * @return JDK 1.4 logging monitor factory.
-     */
-    protected MonitorFactory getMonitorFactory() {
-        return new JavaLoggingMonitorFactory();
-    }
-    
-    /**
-     * Override if you want to provide additionalhost proeprties.
-     * @return System properties.
-     */
-    protected Properties getHostProperties() {
-        return System.getProperties();
-    }
-    
-    /**
-     * Override if you want to provide a different MBean server.
-     * @return Default platform MBean server.
-     */
-    protected MBeanServer getMBeanServer() {
-        return MBeanServerFactory.newMBeanServer();
-    }
+    <T> T getDecoratedService(T instance, Class<?> serviceClass, Set<QName> intents);
 
 }

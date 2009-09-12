@@ -64,13 +64,15 @@ import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
-import javax.management.MBeanServerFactory;
+import javax.management.MBeanServer;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
+import org.sca4.runtime.generic.impl.policy.PolicyDecorator;
 import org.sca4j.fabric.runtime.AbstractRuntime;
 import org.sca4j.fabric.runtime.ComponentNames;
 import org.sca4j.host.contribution.ContributionService;
@@ -78,7 +80,7 @@ import org.sca4j.host.contribution.ContributionSource;
 import org.sca4j.host.contribution.FileContributionSource;
 import org.sca4j.host.runtime.BootConfiguration;
 import org.sca4j.java.runtime.JavaComponent;
-import org.sca4j.monitor.impl.JavaLoggingMonitorFactory;
+import org.sca4j.monitor.MonitorFactory;
 import org.sca4j.pojo.PojoWorkContextTunnel;
 import org.sca4j.runtime.generic.GenericHostInfo;
 import org.sca4j.runtime.generic.GenericRuntime;
@@ -101,18 +103,20 @@ import org.sca4j.spi.services.lcm.LogicalComponentManager;
  *
  */
 public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> implements GenericRuntime {
-    
-    private static GenericRuntimeImpl INSTANCE = null;
-    
+
     /**
-     * Gets the singleton instance of the generic runtime.
-     * @return Singleton instance of the generic runtime.
+     * Creates a new runtime.
+     * 
+     * @param domain Domain to use.
+     * @param hostProperties Host properties to use.
+     * @param monitorFactory Monitor factory to use.
+     * @param mBeanServer MBean server to use.
      */
-    public static synchronized  GenericRuntimeImpl getInstance(URI domain, Properties hostProperties) {
-        if (INSTANCE == null) {
-            INSTANCE = new GenericRuntimeImpl(domain, hostProperties);
-        }
-        return INSTANCE;
+    public GenericRuntimeImpl(URI domain, Properties hostProperties, MonitorFactory monitorFactory, MBeanServer mBeanServer) {
+        super(GenericHostInfo.class);
+        setHostInfo(new GenericHostInfo(domain, hostProperties));
+        setMBeanServer(mBeanServer);
+        setMonitorFactory(monitorFactory);
     }
     
     /**
@@ -155,7 +159,6 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
         
         try {
             BootConfiguration bootConfiguration = getBootConfiguration();
-            setMonitorFactory(new JavaLoggingMonitorFactory());
             bootPrimordial(bootConfiguration);
             bootSystem();
             joinDomain(-1);
@@ -174,14 +177,22 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
         LogicalComponentManager logicalComponentManager = getSystemComponent(LogicalComponentManager.class, URI.create("sca4j://runtime/LogicalComponentManager"));
         LogicalCompositeComponent domainComponent = logicalComponentManager.getRootComponent();
         
-        URI uri = getUri(domainComponent, serviceName);
+        LogicalComponent<?> logicalComponent = getUri(domainComponent, serviceName);
+        URI uri = logicalComponent.getUri();
         
         JavaComponent<?> javaComponent = (JavaComponent<?>) getComponentManager().getComponent(uri);
         WorkContext workContext = new WorkContext();
         WorkContext oldContext = PojoWorkContextTunnel.setThreadWorkContext(workContext);
         try {
             InstanceWrapper<?> wrapper = javaComponent.getScopeContainer().getWrapper(javaComponent, workContext);
-            return serviceClass.cast(wrapper.getInstance());
+            T instance = serviceClass.cast(wrapper.getInstance());
+            Set<QName> intents = logicalComponent.getIntents();
+            if (intents == null) {
+                return instance;
+            } else {
+                PolicyDecorator policyDecorator = getSystemComponent(PolicyDecorator.class, URI.create("sca4j://runtime/PolicyDecorator"));
+                return policyDecorator.getDecoratedService(instance, serviceClass, intents);
+            }
         } catch (InstanceLifecycleException e) {
             throw new AssertionError();
         } finally {
@@ -193,7 +204,7 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
     /*
      * Get to the normalized URI.
      */
-    private URI getUri(LogicalCompositeComponent parent, String serviceName) {
+    private LogicalComponent<?> getUri(LogicalCompositeComponent parent, String serviceName) {
         
         LogicalService logicalService = parent.getService(serviceName);
         URI promotedUri = logicalService.getPromotedUri();
@@ -205,7 +216,7 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
             LogicalCompositeComponent logicalCompositeComponent = (LogicalCompositeComponent) logicalComponent;
             return getUri(logicalCompositeComponent, fragment);
         }
-        return logicalComponent.getUri();
+        return logicalComponent;
         
     }
     
@@ -289,15 +300,6 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
                 e.printStackTrace();
             }
         }
-    }
-
-    /*
-     * Singleton constructor.
-     */
-    private GenericRuntimeImpl(URI domain, Properties hostProperties) {
-        super(GenericHostInfo.class);
-        setHostInfo(new GenericHostInfo(domain, hostProperties));
-        setMBeanServer(MBeanServerFactory.createMBeanServer());
     }
     
     /*

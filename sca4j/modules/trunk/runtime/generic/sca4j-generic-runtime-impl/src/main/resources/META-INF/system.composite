@@ -115,6 +115,12 @@
     <component name="assemblyRecoveryService">
         <sca4j:implementation.system class="org.sca4j.fabric.services.lcm.NonPersistentLogicalComponentStore"/>
     </component>
+    
+    <!-- policy decorator -->
+    <component name="PolicyDecorator">
+        <sca4j:implementation.system class="org.sca4.runtime.generic.impl.policy.DefaultPolicyDecorator"/>
+    </component>
+    
 
     <component name="RuntimeInfoService">
         <sca4j:implementation.system class="org.sca4j.fabric.services.runtime.DefaultRuntimeInfoService"/>
