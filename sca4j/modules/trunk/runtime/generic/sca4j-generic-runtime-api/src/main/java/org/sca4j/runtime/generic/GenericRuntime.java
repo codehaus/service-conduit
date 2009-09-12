@@ -52,8 +52,6 @@
  */
 package org.sca4j.runtime.generic;
 
-import java.net.URI;
-
 import org.sca4j.host.runtime.SCA4JRuntime;
 
 /**

@@ -90,6 +90,7 @@
                         <deployable>META-INF/javaRuntime.composite</deployable>
                         <deployable>META-INF/javaIntrospection.composite</deployable>
                     </deployables>
+                    <extension>false</extension>
                 </configuration>
             </plugin>
         </plugins>

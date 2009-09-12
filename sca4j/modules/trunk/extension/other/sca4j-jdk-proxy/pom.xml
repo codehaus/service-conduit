@@ -66,6 +66,7 @@
                     <deployables>
                         <deployable>META-INF/jdkproxy.composite</deployable>
                     </deployables>
+                    <extension>false</extension>
                 </configuration>
             </plugin>
         </plugins>

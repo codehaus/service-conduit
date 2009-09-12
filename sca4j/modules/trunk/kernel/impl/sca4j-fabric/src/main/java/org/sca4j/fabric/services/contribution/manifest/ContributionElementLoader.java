@@ -193,7 +193,7 @@ public class ContributionElementLoader implements TypeLoader<ContributionManifes
     private void validateAttributes(XMLStreamReader reader, IntrospectionContext context) {
         for (int i = 0; i < reader.getAttributeCount(); i++) {
             String name = reader.getAttributeLocalName(i);
-            if (!"composite".equals(name)) {
+            if (!"composite".equals(name) && !"extension".equals(name)) {
                 context.addError(new UnrecognizedAttribute(name, reader));
             }
         }
