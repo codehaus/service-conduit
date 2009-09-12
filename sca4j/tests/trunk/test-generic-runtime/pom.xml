@@ -34,10 +34,53 @@
     <dependencies>
 
         <dependency>
+            <groupId>geronimo-spec</groupId>
+            <artifactId>geronimo-spec-jta</artifactId>
+            <version>1.0.1B-rc4</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>geronimo-spec</groupId>
+            <artifactId>geronimo-spec-j2ee-connector</artifactId>
+            <version>1.5-rc4</version>
+         </dependency>
+
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-resource</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-generic-junit-api</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-tx</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-tx-jotm</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-jpa</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>

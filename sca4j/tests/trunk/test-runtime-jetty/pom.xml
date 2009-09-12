@@ -103,6 +103,7 @@
                     <container>
                         <containerId>jetty6x</containerId>
                         <type>embedded</type>
+                        <timeout>1200000</timeout>
                     </container>
                     <wait>false</wait>
                     <configuration>
