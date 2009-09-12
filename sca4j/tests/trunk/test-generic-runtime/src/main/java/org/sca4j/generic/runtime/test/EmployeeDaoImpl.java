@@ -52,22 +52,24 @@
  */
 package org.sca4j.generic.runtime.test;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.sca4j.api.annotation.scope.Composite;
 
 @Composite
 public class EmployeeDaoImpl implements EmployeeDao {
     
-    private Map<String, Employee> store = new HashMap<String, Employee>();
+    @PersistenceContext(name = "employeeEmf", unitName = "employee")
+    protected EntityManager entityManager;
 
     public void create(Employee employee) {
-        store.put(employee.getId(), employee);
+        entityManager.persist(employee);
+        entityManager.flush();
     }
 
     public Employee find(String id) {
-        return store.get(id);
+        return entityManager.find(Employee.class, id);
     }
 
 }

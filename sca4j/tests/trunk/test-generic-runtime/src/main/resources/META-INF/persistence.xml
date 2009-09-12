@@ -53,20 +53,17 @@
     The Apache Software Foundation (http://www.apache.org/).
 
 -->
-<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
-           xmlns:sca="http://www.osoa.org/xmlns/sca/1.0"
-           xmlns:sca4j="urn:sca4j.org"
-           name="ServiceComposite"
-           autowire="true">
-           
-    <service name="employeeService" promote="EmployeeService" />
-
-    <component name="EmployeeService" requires="sca:managedTransaction" >
-        <implementation.java class="org.sca4j.generic.runtime.test.EmployeeServiceImpl"/>
-    </component>
-
-    <component name="EmployeeDao">
-        <implementation.composite scdlResource="META-INF/dao.composite" />
-    </component>
-    
-</composite>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" version="1.0">
+   <persistence-unit name="employee" transaction-type="JTA">
+      <provider>org.hibernate.ejb.HibernatePersistence</provider>
+      <jta-data-source>EmployeeDS</jta-data-source>
+      <class>org.sca4j.generic.runtime.test.Employee</class>
+      <properties>
+         <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
+         <property name="hibernate.transaction.manager_lookup_class"  value="org.sca4j.jpa.hibernate.SCA4JHibernateTransactionManagerLookup"/>
+         <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+      </properties>
+   </persistence-unit>
+</persistence>

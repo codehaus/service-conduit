@@ -54,8 +54,13 @@ package org.sca4j.generic.runtime.test;
 
 import java.util.UUID;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Employee {
     
+    @Id
     private String id;
     private String name;
     

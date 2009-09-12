@@ -36,6 +36,7 @@ public class EmployeeServiceTest extends AbstractScaTest {
 
     public void test() throws Exception {
         EmployeeService employeeService = getServiceProxy(EmployeeService.class, "employeeService");
+        System.err.println(employeeService.getClass());
         String id = employeeService.createEmployee("Meeraj Kunnumpurath");
         assertEquals("Meeraj Kunnumpurath", employeeService.findName(id));
     }
