@@ -58,6 +58,7 @@ import static org.sca4j.fabric.runtime.ComponentNames.XML_FACTORY_URI;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -223,7 +224,7 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
     /*
      * Returns the boot configuration.
      */
-    private BootConfiguration getBootConfiguration() throws IOException, XMLFactoryInstantiationException, XMLStreamException {
+    private BootConfiguration getBootConfiguration() throws IOException, XMLFactoryInstantiationException, XMLStreamException, URISyntaxException {
         
         BootConfiguration bootConfiguration = new BootConfiguration();
         
@@ -254,7 +255,7 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
     /*
      * Gets the list of extensions.
      */
-    private List<ContributionSource> getExtensions() throws IOException, XMLFactoryInstantiationException, XMLStreamException {
+    private List<ContributionSource> getExtensions() throws IOException, XMLFactoryInstantiationException, XMLStreamException, URISyntaxException {
         
         List<ContributionSource> extensions = new LinkedList<ContributionSource>();
         Enumeration<URL> resources = getClass().getClassLoader().getResources("META-INF/sca-contribution.xml");
@@ -262,10 +263,19 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
         while (resources.hasMoreElements()) {
             URL resource = resources.nextElement();
             if (isExtension(resource)) {
-                String resourceUrl = resource.toExternalForm().substring(4);
-                int index = resourceUrl.indexOf("!/META-INF/sca-contribution.xml");
-                resourceUrl = resourceUrl.substring(0, index);
-                extensions.add(new FileContributionSource(new URL(resourceUrl), 1, null));
+                String resourceUrl;
+                if ("jar".equals(resource.getProtocol())) {
+                    resourceUrl = resource.toExternalForm().substring(4);
+                    int index = resourceUrl.indexOf("!/META-INF/sca-contribution.xml");
+                    resourceUrl = resourceUrl.substring(0, index);
+                    extensions.add(new FileContributionSource(new URL(resourceUrl), 1, null));
+                } else {
+                    resourceUrl = resource.toExternalForm();
+                    int index = resourceUrl.indexOf("/META-INF/sca-contribution.xml");
+                    resourceUrl = resourceUrl.substring(0, index);
+                    extensions.add(new FileContributionSource(resource.toURI(), new URL(resourceUrl), 1, null, "application/vnd.sca4j"));
+                }
+                
             }
         }
         return extensions;

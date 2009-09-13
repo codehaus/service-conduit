@@ -137,7 +137,7 @@ public class ClasspathContributionProcessor implements ContributionProcessor {
         ContributionManifest manifest;
         try {
             URL sourceUrl = contribution.getLocation();
-            URL manifestURL = new URL(sourceUrl.toExternalForm() + "/classes/META-INF/sca-contribution.xml");
+            URL manifestURL = new URL(sourceUrl + "/META-INF/sca-contribution.xml");
             ClassLoader cl = getClass().getClassLoader();
             URI uri = contribution.getUri();
             IntrospectionContext childContext = new DefaultIntrospectionContext(cl, uri, null);
