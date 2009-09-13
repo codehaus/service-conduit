@@ -137,7 +137,9 @@
     <component name="DiscoveryService">
         <sca4j:implementation.system class="org.sca4j.fabric.services.discovery.SingleVMDiscoveryService"/>
     </component>
-    
-    <include name="org.sca4j.Jhost" scdlResource="META-INF/host.composite"/>
+           
+    <component name="ClasspathContributionProcessor">
+        <sca4j:implementation.system class="org.sca4.runtime.generic.impl.contribution.ClasspathContributionProcessor" />
+    </component>
 
 </composite>

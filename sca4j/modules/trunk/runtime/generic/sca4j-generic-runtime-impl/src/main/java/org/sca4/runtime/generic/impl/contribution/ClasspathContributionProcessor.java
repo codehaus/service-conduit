@@ -50,7 +50,7 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.runtime.generic.junit;
+package org.sca4.runtime.generic.impl.contribution;
 
 import java.io.File;
 import java.io.FileNotFoundException;
