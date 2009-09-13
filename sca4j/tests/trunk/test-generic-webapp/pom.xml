@@ -39,6 +39,52 @@
             <version>0.1.6-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>geronimo-spec</groupId>
+            <artifactId>geronimo-spec-jta</artifactId>
+            <version>1.0.1B-rc4</version>
+        </dependency>
+        <dependency>
+            <groupId>geronimo-spec</groupId>
+            <artifactId>geronimo-spec-j2ee-connector</artifactId>
+            <version>1.5-rc4</version>
+         </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>test-ds-extension</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-resource</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-tx</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-jpa</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-tx-jotm</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j.spec</groupId>
+            <artifactId>sca-api-r1.0</artifactId>
+            <version>0.2.2</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>2.4</version>
@@ -52,7 +98,7 @@
 
     <build>
         <finalName>${artifactId}</finalName>
-        <!--plugins>
+        <plugins>
             <plugin>
                 <groupId>org.codehaus.cargo</groupId>
                 <artifactId>cargo-maven2-plugin</artifactId>
@@ -98,12 +144,12 @@
                         </goals>
                         <configuration>
                             <includes>
-                                <include>**/SmokeTest*.java</include>
+                                <include>**/EmployeeTest*.java</include>
                             </includes>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-        </plugins-->
+        </plugins>
     </build>
 </project>
