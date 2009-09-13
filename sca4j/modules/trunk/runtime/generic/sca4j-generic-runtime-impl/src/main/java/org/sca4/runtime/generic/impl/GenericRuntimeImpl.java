@@ -136,7 +136,7 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
             URL baseUrl = new URL(applicationScdlUrl.toString().substring(0, applicationScdlUrl.toString().indexOf(scdlPath)));
             URI contributionUri = baseUrl.toURI();
             
-            ContributionSource contributionSource = new FileContributionSource(contributionUri, baseUrl, -1, null, "application/vnd.sca4j.test");
+            ContributionSource contributionSource = new FileContributionSource(contributionUri, baseUrl, -1, null, "application/vnd.sca4j");
             contributionService.contribute(contributionSource);
             Domain domain = getSystemComponent(Domain.class, APPLICATION_DOMAIN_URI);
             domain.include(compositeQName);

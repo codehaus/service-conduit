@@ -86,13 +86,13 @@ import org.sca4j.spi.services.contribution.Resource;
  *
  */
 @EagerInit
-public class TestContributionProcessor implements ContributionProcessor {
+public class ClasspathContributionProcessor implements ContributionProcessor {
 
     private ProcessorRegistry registry;
     private ContentTypeResolver contentTypeResolver;
     private Loader loader;
 
-    public TestContributionProcessor(@Reference ProcessorRegistry registry, @Reference ContentTypeResolver contentTypeResolver, @Reference Loader loader) {
+    public ClasspathContributionProcessor(@Reference ProcessorRegistry registry, @Reference ContentTypeResolver contentTypeResolver, @Reference Loader loader) {
         this.registry = registry;
         this.contentTypeResolver = contentTypeResolver;
         this.loader = loader;
@@ -110,7 +110,7 @@ public class TestContributionProcessor implements ContributionProcessor {
      * @see org.sca4j.spi.services.contribution.ContributionProcessor#getContentTypes()
      */
     public List<String> getContentTypes() {
-        return Collections.singletonList("application/vnd.sca4j.test");
+        return Collections.singletonList("application/vnd.sca4j");
     }
 
     /**

@@ -59,6 +59,6 @@
            autowire="true">
            
     <component name="TestContributionProcessor">
-        <sca4j:implementation.system class="org.sca4j.runtime.generic.junit.TestContributionProcessor" />
+        <sca4j:implementation.system class="org.sca4j.runtime.generic.junit.ClasspathContributionProcessor" />
     </component>
 </composite>
