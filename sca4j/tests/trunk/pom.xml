@@ -63,6 +63,7 @@
         <module>test-ssl-policy</module>
         <module>test-binding-http</module>
         <module>test-generic-webapp</module>
+        <module>test-webapp-jms</module>
     </modules>
 
     <repositories>
