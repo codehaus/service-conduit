@@ -168,11 +168,12 @@ public class JmsBindingLoader implements TypeLoader<JmsBindingDefinition> {
             metadata.setPollingInterval(Integer.parseInt(pollingInterval));
         }
         String exceptionTimeout = reader.getAttributeValue(Namespaces.SCA4J_NS, "exceptionTimeout");
-        if (pollingInterval != null) {
+        if (exceptionTimeout != null) {
             metadata.setExceptionTimeout(Integer.parseInt(exceptionTimeout));
+            System.err.println("Esception timeout set to" + metadata.getExceptionTimeout());
         }
         String consumerCount = reader.getAttributeValue(Namespaces.SCA4J_NS, "consumerCount");
-        if (pollingInterval != null) {
+        if (consumerCount != null) {
             metadata.setConsumerCount(Integer.parseInt(consumerCount));
         }
         

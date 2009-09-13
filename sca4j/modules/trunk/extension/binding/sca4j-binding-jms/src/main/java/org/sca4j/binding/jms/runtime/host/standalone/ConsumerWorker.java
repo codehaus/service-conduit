@@ -99,7 +99,10 @@ public class ConsumerWorker extends DefaultPausableWork {
             
             if (exception) {
                 exception = false;
+                System.err.println("There was an exception sleeping for " + template.exceptionTimeout);
                 Thread.sleep(template.exceptionTimeout);
+            } else {
+                System.err.println("There was no exception polling at " + template.pollingInterval);
             }
             
             requestConnection =  template.requestFactory.getConnection();
