@@ -50,55 +50,44 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.runtime.generic.junit;
+package org.sca4j.runtime.generic.web;
 
 import java.net.URI;
 import java.util.Properties;
 
 import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
-
-import junit.framework.TestCase;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 
 import org.sca4.runtime.generic.impl.GenericRuntimeImpl;
 import org.sca4j.monitor.MonitorFactory;
 import org.sca4j.monitor.impl.JavaLoggingMonitorFactory;
 
 /**
- * Abstract super class for all JUnit test.
+ * Context listener for booting SCA4J.
  *
  */
-public class AbstractScaTest extends TestCase {
+public class Sca4jContextListener implements ServletContextListener {
     
-    private GenericRuntimeImpl genericRuntime;
-    
+    public static final String SCA4J_RUNTIME = "sca4j.runtime";
+
     /**
-     * Initialises the test with the application SCDL.
-     * @param applicationScdl Application SCDL.
+     * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
      */
-    public AbstractScaTest(String applicationScdl) {
-        genericRuntime = new GenericRuntimeImpl(URI.create(""), System.getProperties(), getMonitorFactory(), getMBeanServer());
+    public void contextDestroyed(ServletContextEvent servletContextEvent) {
+        GenericRuntimeImpl genericRuntime = new GenericRuntimeImpl(URI.create(""), System.getProperties(), getMonitorFactory(), getMBeanServer());
         genericRuntime.boot();
-        genericRuntime.contriute(applicationScdl);
+        genericRuntime.contriute("web.composite");
+        servletContextEvent.getServletContext().setAttribute(SCA4J_RUNTIME, genericRuntime);
     }
-    
+
     /**
-     * Shuts down the runtime.
+     * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
      */
-    protected void shutdown() {
+    public void contextInitialized(ServletContextEvent servletContextEvent) {
+        GenericRuntimeImpl genericRuntime = (GenericRuntimeImpl) servletContextEvent.getServletContext().getAttribute(SCA4J_RUNTIME);
         genericRuntime.shutdown();
-    }
-    
-    /**
-     * Gets a service proxy.
-     * 
-     * @param <T> Type of the service proxy.
-     * @param serviceClass Service proxy class.
-     * @param serviceName Service name.
-     * @return Service proxy instance.
-     */
-    protected <T> T getServiceProxy(Class<T> serviceClass, String serviceName) {
-        return genericRuntime.getServiceProxy(serviceClass, serviceName);
     }
     
     /**
