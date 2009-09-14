@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>ci</artifactId>
-        <version>0.1.6-SNAPSHOT</version>
+        <version>0.1.7-SNAPSHOT</version>
     </parent>
 
     <artifactId>test-runtime-jetty</artifactId>
@@ -50,7 +50,7 @@
         <dependency>
             <groupId>org.sca4j.webapp</groupId>
             <artifactId>sca4j-webapp-api</artifactId>
-            <version>0.1.6-SNAPSHOT</version>
+            <version>0.1.7-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -72,7 +72,7 @@
             <plugin>
                 <groupId>org.sca4j</groupId>
                 <artifactId>sca4j-webapp-plugin</artifactId>
-                <version>0.1.6-SNAPSHOT</version>
+                <version>0.1.7-SNAPSHOT</version>
                 <executions>
                     <execution>
                         <id>sca4j-war</id>
@@ -83,13 +83,13 @@
                 </executions>
                 <configuration>
                     <!-- use the latest version of the runtime -->
-                    <runTimeVersion>0.1.6-SNAPSHOT</runTimeVersion>
+                    <runTimeVersion>0.1.7-SNAPSHOT</runTimeVersion>
                     <!-- include the Groovy extension to verify extensions are handled correctly -->
                     <extensions>
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-groovy</artifactId>
-                            <version>0.1.6-SNAPSHOT</version>
+                            <version>0.1.7-SNAPSHOT</version>
                         </dependency>
                     </extensions>
                 </configuration>
