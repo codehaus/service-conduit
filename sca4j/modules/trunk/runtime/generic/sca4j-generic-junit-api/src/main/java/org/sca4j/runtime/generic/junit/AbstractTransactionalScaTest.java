@@ -53,76 +53,58 @@
 package org.sca4j.runtime.generic.junit;
 
 import java.net.URI;
-import java.util.Properties;
 
-import javax.management.MBeanServer;
-import javax.management.MBeanServerFactory;
-
-import junit.framework.TestCase;
-
-import org.sca4.runtime.generic.impl.GenericRuntimeImpl;
-import org.sca4j.monitor.MonitorFactory;
-import org.sca4j.monitor.impl.JavaLoggingMonitorFactory;
+import javax.transaction.TransactionManager;
 
 /**
- * Abstract super class for all JUnit test.
+ * Unit test with transaction capabilities.
  *
  */
-public class AbstractScaTest extends TestCase {
+public abstract class AbstractTransactionalScaTest extends AbstractScaTest {
     
-    protected GenericRuntimeImpl genericRuntime;
-    
+    private TransactionManager transactionManager;
+    private boolean commit;
+
     /**
-     * Initialises the test with the application SCDL.
-     * @param applicationScdl Application SCDL.
+     * @param applicationScdl Application SCDL to test.
+     * @param commit True to commit transaction.
      */
-    public AbstractScaTest(String applicationScdl) {
-        genericRuntime = new GenericRuntimeImpl(URI.create(""), System.getProperties(), getMonitorFactory(), getMBeanServer());
-        genericRuntime.boot();
-        genericRuntime.contriute(applicationScdl);
+    public AbstractTransactionalScaTest(String applicationScdl, boolean commit) {
+        super(applicationScdl);
+        this.commit = commit;
+    }
+
+    /**
+     * @see junit.framework.TestCase#setUp()
+     */
+    @Override
+    protected void setUp() throws Exception {
+        transactionManager = genericRuntime.getSystemComponent(TransactionManager.class, URI.create("sca4j://runtime/TransactionManager"));
+        transactionManager.begin();
+        setUpInternal();
+    }
+
+    /**
+     * @see junit.framework.TestCase#tearDown()
+     */
+    @Override
+    protected void tearDown() throws Exception {
+        tearDownInternal();
+        if (commit) {
+            transactionManager.commit();
+        } else {
+            transactionManager.rollback();
+        }
     }
     
     /**
-     * Shuts down the runtime.
+     * Called by sub-classes.
      */
-    protected void shutdown() {
-        genericRuntime.shutdown();
-    }
+    protected abstract void setUpInternal();
     
     /**
-     * Gets a service proxy.
-     * 
-     * @param <T> Type of the service proxy.
-     * @param serviceName Service name.
-     * @return Service proxy instance.
+     * Called by sub-classes.
      */
-    @SuppressWarnings("unchecked")
-    protected <T> T getServiceProxy(String serviceName) {
-        return (T) genericRuntime.getServiceProxy(serviceName);
-    }
-    
-    /**
-     * Override if you want to use a different monitor factory.
-     * @return JDK 1.4 logging monitor factory.
-     */
-    protected MonitorFactory getMonitorFactory() {
-        return new JavaLoggingMonitorFactory();
-    }
-    
-    /**
-     * Override if you want to provide additionalhost proeprties.
-     * @return System properties.
-     */
-    protected Properties getHostProperties() {
-        return System.getProperties();
-    }
-    
-    /**
-     * Override if you want to provide a different MBean server.
-     * @return Default platform MBean server.
-     */
-    protected MBeanServer getMBeanServer() {
-        return MBeanServerFactory.newMBeanServer();
-    }
+    protected abstract void tearDownInternal();
 
 }
