@@ -58,6 +58,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.osoa.sca.annotations.Destroy;
 import org.osoa.sca.annotations.Reference;
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.binding.jms.common.JmsBindingMetadata;
@@ -130,6 +131,19 @@ public class StandalonePullJmsHost implements JmsHost {
         consumerWorkerMap.put(serviceUri, consumerWorkers);
         monitor.registerListener(requestJMSObjectFactory.getDestination());
 
+    }
+    
+    /**
+     * Stops all the consumers.
+     */
+    @Destroy
+    public void destroy() {
+        for (List<ConsumerWorker> consumerWorkers : consumerWorkerMap.values()) {
+            for (ConsumerWorker consumerWorker : consumerWorkers) {
+                consumerWorker.stop();
+            }
+            
+        }
     }
 
 }
