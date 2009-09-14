@@ -94,9 +94,11 @@ public class DefaultPolicyDecorator implements PolicyDecorator {
      * @see org.sca4.runtime.generic.impl.policy.PolicyDecorator#getDecoratedService(java.lang.Object, javax.xml.namespace.QName[])
      */
     @SuppressWarnings("unchecked")
-    public <T> T getDecoratedService(T instance, Class<?> serviceClass, Set<QName> intents) {
+    public <T> T getDecoratedService(T instance, String serviceClassName, Set<QName> intents) {
         
         try {
+            
+            Class<?> serviceClass = Class.forName(serviceClassName);
             
             Map<Method, Interceptor> interceptors = new HashMap<Method, Interceptor>();
             for (Method method : serviceClass.getDeclaredMethods()) {
@@ -129,6 +131,8 @@ public class DefaultPolicyDecorator implements PolicyDecorator {
         } catch (GenerationException e) {
             throw new AssertionError(e);
         } catch (BuilderException e) {
+            throw new AssertionError(e);
+        } catch (ClassNotFoundException e) {
             throw new AssertionError(e);
         }
         

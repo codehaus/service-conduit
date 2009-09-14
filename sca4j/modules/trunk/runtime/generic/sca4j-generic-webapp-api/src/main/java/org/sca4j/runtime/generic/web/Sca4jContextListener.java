@@ -57,6 +57,7 @@ import java.util.Properties;
 
 import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -79,7 +80,11 @@ public class Sca4jContextListener implements ServletContextListener {
         GenericRuntimeImpl genericRuntime = new GenericRuntimeImpl(URI.create(""), System.getProperties(), getMonitorFactory(), getMBeanServer());
         genericRuntime.boot();
         genericRuntime.contriute("META-INF/web.composite");
-        servletContextEvent.getServletContext().setAttribute(SCA4J_RUNTIME, genericRuntime);
+        ServletContext servletContext = servletContextEvent.getServletContext();
+        servletContext.setAttribute(SCA4J_RUNTIME, genericRuntime);
+        for (String serviceName : genericRuntime.getServices()) {
+            servletContext.setAttribute(serviceName, genericRuntime.getServiceProxy(serviceName));
+        }
     }
 
     /**

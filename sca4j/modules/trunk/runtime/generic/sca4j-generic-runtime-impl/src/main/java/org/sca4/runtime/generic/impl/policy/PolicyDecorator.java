@@ -68,6 +68,6 @@ public interface PolicyDecorator {
      * @param intents Intents to be resolved.
      * @return Decorated instance.
      */
-    <T> T getDecoratedService(T instance, Class<?> serviceClass, Set<QName> intents);
+    <T> T getDecoratedService(T instance, String serviceClassName, Set<QName> intents);
 
 }

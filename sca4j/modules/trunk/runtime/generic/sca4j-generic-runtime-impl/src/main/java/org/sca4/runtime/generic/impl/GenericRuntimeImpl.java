@@ -80,11 +80,13 @@ import org.sca4j.host.contribution.ContributionService;
 import org.sca4j.host.contribution.ContributionSource;
 import org.sca4j.host.contribution.FileContributionSource;
 import org.sca4j.host.runtime.BootConfiguration;
+import org.sca4j.introspection.impl.contract.JavaServiceContract;
 import org.sca4j.java.runtime.JavaComponent;
 import org.sca4j.monitor.MonitorFactory;
 import org.sca4j.pojo.PojoWorkContextTunnel;
 import org.sca4j.runtime.generic.GenericHostInfo;
 import org.sca4j.runtime.generic.GenericRuntime;
+import org.sca4j.scdl.ServiceContract;
 import org.sca4j.services.xmlfactory.XMLFactory;
 import org.sca4j.services.xmlfactory.XMLFactoryInstantiationException;
 import org.sca4j.spi.component.InstanceLifecycleException;
@@ -169,16 +171,35 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
         }
         
     }
+    
+    /**
+     * @see org.sca4j.runtime.generic.GenericRuntime#getServices()
+     */
+    public List<String> getServices() {
+        
+        LogicalComponentManager logicalComponentManager = getSystemComponent(LogicalComponentManager.class, URI.create("sca4j://runtime/LogicalComponentManager"));
+        LogicalCompositeComponent domainComponent = logicalComponentManager.getRootComponent();
+        
+        List<String> services = new LinkedList<String>();
+        for (LogicalService logicalService : domainComponent.getServices()) {
+            services.add(logicalService.getUri().toASCIIString().substring(1));
+        }
+        
+        return services;
+        
+    }
 
     /**
-     * @see org.sca4j.runtime.generic.GenericRuntime#getServiceProxy(java.lang.Class, javax.xml.namespace.QName)
+     * @see org.sca4j.runtime.generic.GenericRuntime#getServiceProxy(javax.xml.namespace.QName)
      */
-    public <T> T getServiceProxy(Class<T> serviceClass, String serviceName) {
+    @SuppressWarnings("unchecked")
+    public <T> T getServiceProxy(String serviceName) {
         
         LogicalComponentManager logicalComponentManager = getSystemComponent(LogicalComponentManager.class, URI.create("sca4j://runtime/LogicalComponentManager"));
         LogicalCompositeComponent domainComponent = logicalComponentManager.getRootComponent();
         
         LogicalComponent<?> logicalComponent = getUri(domainComponent, serviceName);
+        JavaServiceContract serviceContract = (JavaServiceContract) getServiceContract(domainComponent, serviceName);
         URI uri = logicalComponent.getUri();
         
         JavaComponent<?> javaComponent = (JavaComponent<?>) getComponentManager().getComponent(uri);
@@ -186,13 +207,13 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
         WorkContext oldContext = PojoWorkContextTunnel.setThreadWorkContext(workContext);
         try {
             InstanceWrapper<?> wrapper = javaComponent.getScopeContainer().getWrapper(javaComponent, workContext);
-            T instance = serviceClass.cast(wrapper.getInstance());
+            T instance = (T) wrapper.getInstance();
             Set<QName> intents = logicalComponent.getIntents();
             if (intents == null) {
                 return instance;
             } else {
                 PolicyDecorator policyDecorator = getSystemComponent(PolicyDecorator.class, URI.create("sca4j://runtime/PolicyDecorator"));
-                return policyDecorator.getDecoratedService(instance, serviceClass, intents);
+                return policyDecorator.getDecoratedService(instance, serviceContract.getQualifiedInterfaceName(), intents);
             }
         } catch (InstanceLifecycleException e) {
             throw new AssertionError();
@@ -218,6 +239,25 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
             return getUri(logicalCompositeComponent, fragment);
         }
         return logicalComponent;
+        
+    }
+    
+    /*
+     * Get to the normalized service contract.
+     */
+    private ServiceContract<?> getServiceContract(LogicalCompositeComponent parent, String serviceName) {
+        
+        LogicalService logicalService = parent.getService(serviceName);
+        URI promotedUri = logicalService.getPromotedUri();
+        String fragment = promotedUri.getFragment();
+        URI componentUri = URI.create(promotedUri.toString().substring(0, promotedUri.toString().indexOf('#')));
+        
+        LogicalComponent<?> logicalComponent = parent.getComponent(componentUri);
+        if (logicalComponent instanceof LogicalCompositeComponent) {
+            LogicalCompositeComponent logicalCompositeComponent = (LogicalCompositeComponent) logicalComponent;
+            return getServiceContract(logicalCompositeComponent, fragment);
+        }
+        return logicalComponent.getService(fragment).getDefinition().getServiceContract();
         
     }
     

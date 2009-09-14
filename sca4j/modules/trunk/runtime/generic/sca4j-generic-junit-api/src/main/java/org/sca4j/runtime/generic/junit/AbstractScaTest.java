@@ -93,12 +93,12 @@ public class AbstractScaTest extends TestCase {
      * Gets a service proxy.
      * 
      * @param <T> Type of the service proxy.
-     * @param serviceClass Service proxy class.
      * @param serviceName Service name.
      * @return Service proxy instance.
      */
-    protected <T> T getServiceProxy(Class<T> serviceClass, String serviceName) {
-        return genericRuntime.getServiceProxy(serviceClass, serviceName);
+    @SuppressWarnings("unchecked")
+    protected <T> T getServiceProxy(String serviceName) {
+        return (T) genericRuntime.getServiceProxy(serviceName);
     }
     
     /**

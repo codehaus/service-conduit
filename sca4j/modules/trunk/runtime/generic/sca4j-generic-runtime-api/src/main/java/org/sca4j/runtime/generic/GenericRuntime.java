@@ -52,6 +52,8 @@
  */
 package org.sca4j.runtime.generic;
 
+import java.util.List;
+
 import org.sca4j.host.runtime.SCA4JRuntime;
 
 /**
@@ -72,11 +74,17 @@ public interface GenericRuntime extends SCA4JRuntime<GenericHostInfo> {
      * Gets a service reference proxy.
      * 
      * @param <T> Type of the service.
-     * @param serviceClass Class of the service.
      * @param serviceName Name of the service.
      * @return Proxy to the service.
      */
-    <T> T getServiceProxy(Class<T> serviceClass, String serviceName);
+    <T> T getServiceProxy(String serviceName);
+    
+    /**
+     * Returns the names of all the promoted services.
+     * 
+     * @return List of all the promoted services.
+     */
+    List<String> getServices();
     
     /**
      * Boots the runtime.
