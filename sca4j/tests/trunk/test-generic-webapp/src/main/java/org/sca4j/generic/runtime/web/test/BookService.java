@@ -58,7 +58,7 @@ package org.sca4j.generic.runtime.web.test;
  */
 public interface BookService {
     
-    String createEmployee(String name);
+    String createBook(String name);
     
     String findName(String id);
 

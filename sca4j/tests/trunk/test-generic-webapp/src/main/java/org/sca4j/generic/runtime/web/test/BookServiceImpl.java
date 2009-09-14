@@ -60,7 +60,7 @@ public class BookServiceImpl implements BookService {
     
     @Reference protected BookDao employeeDao;
 
-    public String createEmployee(String name) {
+    public String createBook(String name) {
         Book employee = new Book(name);
         employeeDao.create(employee);
         return employee.getId();

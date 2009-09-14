@@ -58,7 +58,7 @@
     <testDsConfig>
         <driver>org.apache.derby.jdbc.EmbeddedDriver</driver>
         <url>jdbc:derby:testDB;create=true</url>
-        <keys>EmployeeDS</keys>
+        <keys>BookDS</keys>
         <minSize>10</minSize>
         <maxSize>10</maxSize>
     </testDsConfig>

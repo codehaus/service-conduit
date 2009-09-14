@@ -16,26 +16,17 @@
  */
 package org.sca4j.gereric.runtime.test;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-
-import javax.xml.stream.XMLStreamException;
-
 import org.sca4j.generic.runtime.test.EmployeeService;
-import org.sca4j.host.contribution.ContributionException;
-import org.sca4j.host.domain.DeploymentException;
-import org.sca4j.host.runtime.InitializationException;
-import org.sca4j.host.runtime.StartException;
 import org.sca4j.runtime.generic.junit.AbstractScaTest;
 
 public class EmployeeServiceTest extends AbstractScaTest {
     
-    public EmployeeServiceTest() throws IOException, InitializationException, ContributionException, StartException, URISyntaxException, DeploymentException, XMLStreamException {
+    public EmployeeServiceTest() {
         super("META-INF/root.composite");
     }
 
     public void test() throws Exception {
-        EmployeeService employeeService = getServiceProxy(EmployeeService.class, "employeeService");
+        EmployeeService employeeService = getServiceProxy("employeeService");
         String id = employeeService.createEmployee("Meeraj Kunnumpurath");
         assertEquals("Meeraj Kunnumpurath", employeeService.findName(id));
     }
