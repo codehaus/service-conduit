@@ -52,38 +52,14 @@
  */
 package org.sca4j.generic.runtime.web.test;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import junit.framework.TestCase;
-
-public class EmployeeTest extends TestCase {
+/**
+ * @author meerajk
+ *
+ */
+public interface BookService {
     
-    private URL base;
+    String createEmployee(String name);
     
-    public void testCreate() throws Exception {
-        assertNotNull(runTest(new URL(base, "employee?name=Meeraj")));
-    }
-
-    private String runTest(URL url) throws IOException {
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        Reader reader = new InputStreamReader(connection.getInputStream());
-        StringBuilder result = new StringBuilder();
-        int ch;
-        while ((ch = reader.read()) != -1) {
-            result.append((char)ch);
-        }
-        reader.close();
-        assertEquals(200, connection.getResponseCode());
-        return result.toString();
-    }
-
-    protected void setUp() throws Exception {
-        super.setUp();
-        base = new URL("http://localhost:8900/test-generic-webapp/");
-    }
+    String findName(String id);
 
 }

@@ -59,9 +59,9 @@
            name="RootComposite"
            autowire="true">
            
-    <service name="employeeService" promote="EmployeeService" />
+    <service name="bookService" promote="BookService" />
 
-    <component name="EmployeeService">
+    <component name="BookService">
         <implementation.composite scdlResource="META-INF/service.composite" />
     </component>
     

@@ -52,44 +52,32 @@
  */
 package org.sca4j.generic.runtime.web.test;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.UUID;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-import org.sca4j.runtime.generic.GenericRuntime;
-import org.sca4j.runtime.generic.web.Sca4jContextListener;
-
-public class EmployeeServlet extends HttpServlet {
-
-    private static final long serialVersionUID = -2348761362252070724L;
-
-    private GenericRuntime genericRuntime;
+@Entity
+public class Book {
     
-    /**
-     * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String name = req.getParameter("name");
-        String id = genericRuntime.getServiceProxy(EmployeeService.class, "employeeService").createEmployee(name);
-        PrintWriter writer = resp.getWriter();
-        writer.print(id);
-        writer.flush();
-        writer.close();
+    @Id
+    private String id;
+    private String name;
+    
+    public Book() {
     }
-
-    /**
-     * @see javax.servlet.GenericServlet#init(javax.servlet.ServletConfig)
-     */
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        genericRuntime = (GenericRuntime) config.getServletContext().getAttribute(Sca4jContextListener.SCA4J_RUNTIME);
+    
+    public Book(String name) {
+        this.id = UUID.randomUUID().toString();
+        this.name = name;
+    }
+    
+    public String getId() {
+        return id;
+    }
+    
+    public String getName() {
+        return name;
     }
 
 }

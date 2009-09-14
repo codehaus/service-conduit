@@ -58,10 +58,10 @@
            xmlns:sca4j="urn:sca4j.org"
            name="DaoComposite">
            
-    <service name="employeeDao" promote="EmployeeDao" />
+    <service name="bookDao" promote="BookDao" />
 
-    <component name="EmployeeDao">
-        <implementation.java class="org.sca4j.generic.runtime.web.test.EmployeeDaoImpl"/>
+    <component name="BookDao">
+        <implementation.java class="org.sca4j.generic.runtime.web.test.BookDaoImpl"/>
     </component>
     
 </composite>

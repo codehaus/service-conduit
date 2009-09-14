@@ -144,7 +144,7 @@
                         </goals>
                         <configuration>
                             <includes>
-                                <include>**/EmployeeTest*.java</include>
+                                <include>**/BookTest*.java</include>
                             </includes>
                         </configuration>
                     </execution>

@@ -38,6 +38,7 @@
     </properties>
     
     <modules>
+        <!--module>test-generic-webapp</module-->
         <module>test-generic-runtime</module>
         <module>test-performance</module>
         <module>test-rs</module>
@@ -62,8 +63,6 @@
         <module>test-binding-tcp</module>
         <module>test-ssl-policy</module>
         <module>test-binding-http</module>
-        <module>test-generic-webapp</module>
-        <module>test-webapp-jms</module>
     </modules>
 
     <repositories>

@@ -11,13 +11,13 @@
     </listener>
 
     <servlet>
-        <servlet-name>EmployeeServlet</servlet-name>
-        <servlet-class>org.sca4j.generic.runtime.web.test.EmployeeServlet</servlet-class>
+        <servlet-name>BookServlet</servlet-name>
+        <servlet-class>org.sca4j.generic.runtime.web.test.BookServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>EmployeeServlet</servlet-name>
-        <url-pattern>/employee</url-pattern>
+        <servlet-name>BookServlet</servlet-name>
+        <url-pattern>/book</url-pattern>
     </servlet-mapping>
 
 </web-app>

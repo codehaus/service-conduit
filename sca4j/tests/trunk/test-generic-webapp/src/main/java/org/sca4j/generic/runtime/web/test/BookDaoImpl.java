@@ -52,10 +52,24 @@
  */
 package org.sca4j.generic.runtime.web.test;
 
-public interface EmployeeDao {
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.sca4j.api.annotation.scope.Composite;
+
+@Composite
+public class BookDaoImpl implements BookDao {
     
-    void create(Employee employee);
-    
-    Employee find(String id);
+    @PersistenceContext(name = "employeeEmf", unitName = "employee")
+    protected EntityManager entityManager;
+
+    public void create(Book employee) {
+        entityManager.persist(employee);
+        entityManager.flush();
+    }
+
+    public Book find(String id) {
+        return entityManager.find(Book.class, id);
+    }
 
 }

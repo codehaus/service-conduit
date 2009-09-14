@@ -56,12 +56,12 @@ import org.osoa.sca.annotations.Reference;
 import org.sca4j.api.annotation.scope.Stateless;
 
 @Stateless
-public class EmployeeServiceImpl implements EmployeeService {
+public class BookServiceImpl implements BookService {
     
-    @Reference protected EmployeeDao employeeDao;
+    @Reference protected BookDao employeeDao;
 
     public String createEmployee(String name) {
-        Employee employee = new Employee(name);
+        Book employee = new Book(name);
         employeeDao.create(employee);
         return employee.getId();
     }

@@ -59,13 +59,13 @@
            name="ServiceComposite"
            autowire="true">
            
-    <service name="employeeService" promote="EmployeeService" />
+    <service name="bookService" promote="BookService" />
 
-    <component name="EmployeeService" requires="sca:managedTransaction" >
-        <implementation.java class="org.sca4j.generic.runtime.web.test.EmployeeServiceImpl"/>
+    <component name="BookService" requires="sca:managedTransaction" >
+        <implementation.java class="org.sca4j.generic.runtime.web.test.BookServiceImpl"/>
     </component>
 
-    <component name="EmployeeDao">
+    <component name="BookDao">
         <implementation.composite scdlResource="META-INF/dao.composite" />
     </component>
     
