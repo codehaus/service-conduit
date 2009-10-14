@@ -58,7 +58,9 @@ import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.spi.PersistenceUnitInfo;
 import javax.xml.parsers.DocumentBuilder;
@@ -79,6 +81,7 @@ public class ClasspathPersistenceUnitScanner implements PersistenceUnitScanner {
     private static DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
     private Map<String, PersistenceUnitInfo> persistenceUnitInfos = new HashMap<String, PersistenceUnitInfo>();
+    private Set<URL> parsedUrls = new HashSet<URL>();
 
     /**
      * @see org.sca4j.jpa.runtime.PersistenceUnitScanner#getPersistenceUnitInfo(java.lang.String, java.lang.ClassLoader)
@@ -96,17 +99,23 @@ public class ClasspathPersistenceUnitScanner implements PersistenceUnitScanner {
                 DocumentBuilder db = dbf.newDocumentBuilder();
 
                 Enumeration<URL> persistenceUnitUrls = classLoader.getResources("META-INF/persistence.xml");
-
+                
                 while (persistenceUnitUrls.hasMoreElements()) {
 
                     URL persistenceUnitUrl = persistenceUnitUrls.nextElement();
+                    if (parsedUrls.contains(persistenceUnitUrl)) {
+                    	continue;
+                    }
+                    parsedUrls.add(persistenceUnitUrl);
+                    
                     Document persistenceDom = db.parse(persistenceUnitUrl.openStream());
                     URL rootUrl = getRootJarUrl(persistenceUnitUrl);
 
-                    PersistenceUnitInfo info = PersistenceUnitInfoImpl.getInstance(unitName, persistenceDom, classLoader, rootUrl);
-                    if (info != null) {
-                        persistenceUnitInfos.put(unitName, info);
-                        return info;
+                    for (PersistenceUnitInfo info : PersistenceUnitInfoImpl.parse(persistenceDom, classLoader, rootUrl)) {
+                    	persistenceUnitInfos.put(info.getPersistenceUnitName(), info);
+                    }
+                    if (persistenceUnitInfos.containsKey(unitName)) {
+                        return persistenceUnitInfos.get(unitName);
                     }
 
                 }

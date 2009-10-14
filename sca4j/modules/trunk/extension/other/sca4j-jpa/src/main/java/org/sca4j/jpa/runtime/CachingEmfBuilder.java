@@ -70,19 +70,16 @@
  */
 package org.sca4j.jpa.runtime;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.spi.PersistenceProvider;
-
-import org.sca4j.jpa.spi.delegate.EmfBuilderDelegate;
-import org.sca4j.jpa.spi.EmfBuilderException;
 
 import org.osoa.sca.annotations.Destroy;
 import org.osoa.sca.annotations.Reference;
 import org.osoa.sca.annotations.Service;
+import org.sca4j.jpa.spi.EmfBuilderException;
+import org.sca4j.jpa.spi.delegate.EmfBuilderDelegate;
 
 /**
  * Creates entity manager factories using the JPA provider SPI. Creation of entity manager factories are expensive operations and hence created
@@ -150,26 +147,12 @@ public class CachingEmfBuilder implements EmfBuilder, EmfCache {
     */
     private EntityManagerFactory createEntityManagerFactory(String unitName, ClassLoader classLoader) throws EmfBuilderException {
 
-        PersistenceUnitInfoImpl info = (PersistenceUnitInfoImpl) scanner.getPersistenceUnitInfo(unitName, classLoader);
+    	PersistenceUnitInfoImpl info = (PersistenceUnitInfoImpl) scanner.getPersistenceUnitInfo(unitName, classLoader);
         String providerClass = info.getPersistenceProviderClassName();
         String dataSourceName = info.getDataSourceName();
 
         EmfBuilderDelegate delegate = delegates.get(providerClass);
-        if (delegate != null) {
-            return delegate.build(info, classLoader, dataSourceName);
-        }
-
-        // No configured delegates, try standard JPA
-        try {
-            PersistenceProvider provider = (PersistenceProvider) classLoader.loadClass(providerClass).newInstance();
-            return provider.createContainerEntityManagerFactory(info, Collections.emptyMap());
-        } catch (InstantiationException ex) {
-            throw new EmfBuilderException(ex);
-        } catch (IllegalAccessException ex) {
-            throw new EmfBuilderException(ex);
-        } catch (ClassNotFoundException ex) {
-            throw new EmfBuilderException(ex);
-        }
+        return delegate.build(info, classLoader, dataSourceName);
 
     }
     

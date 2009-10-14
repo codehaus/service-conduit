@@ -63,6 +63,7 @@ import javax.sql.DataSource;
 import org.hibernate.ejb.Ejb3Configuration;
 import org.osoa.sca.annotations.Reference;
 
+import org.sca4j.host.PerformanceMonitor;
 import org.sca4j.jpa.spi.EmfBuilderException;
 import org.sca4j.jpa.spi.delegate.EmfBuilderDelegate;
 import org.sca4j.resource.jndi.proxy.jdbc.DataSourceProxy;
@@ -90,18 +91,23 @@ public class HibernateDelegate implements EmfBuilderDelegate {
 
     public EntityManagerFactory build(PersistenceUnitInfo info, ClassLoader classLoader, String dataSourceName) throws EmfBuilderException {
 
-        Ejb3Configuration cfg = new Ejb3Configuration();
-
-        if (dataSourceName != null) {
-            DataSource dataSource = dataSourceRegistry.getDataSource(dataSourceName);
-            if (dataSource == null) {
-                dataSource = mapDataSource(dataSourceName, dataSourceName);
-            }
-            cfg.setDataSource(dataSource);
-        }
-        cfg.configure(info, Collections.emptyMap());
-
-        return cfg.buildEntityManagerFactory();
+    	try {
+    		PerformanceMonitor.start("Hibernate building " + info.getPersistenceUnitName());
+	        Ejb3Configuration cfg = new Ejb3Configuration();
+	
+	        if (dataSourceName != null) {
+	            DataSource dataSource = dataSourceRegistry.getDataSource(dataSourceName);
+	            if (dataSource == null) {
+	                dataSource = mapDataSource(dataSourceName, dataSourceName);
+	            }
+	            cfg.setDataSource(dataSource);
+	        }
+	        cfg.configure(info, Collections.emptyMap());
+	
+	        return cfg.buildEntityManagerFactory();
+    	} finally {
+    		PerformanceMonitor.end();
+    	}
     }
 
     /**

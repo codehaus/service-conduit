@@ -138,14 +138,14 @@ class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
      * @param rootUrl
      * @return
      */
-    public static PersistenceUnitInfoImpl getInstance(String unitName, Node persistenceDom, ClassLoader classLoader, URL rootUrl) {
-    	PersistenceUnitInfoImpl matchedUnit = null;		
+    public static List<PersistenceUnitInfoImpl> parse(Node persistenceDom, ClassLoader classLoader, URL rootUrl) {
+    	List<PersistenceUnitInfoImpl> units = new LinkedList<PersistenceUnitInfoImpl>();		
 		List<String> persistenceUnitNames = getPersistenceUnitNames(persistenceDom);
-		if(persistenceUnitNames.contains(unitName)) {
-			matchedUnit = new PersistenceUnitInfoImpl(unitName, persistenceDom, classLoader, rootUrl);			
+		for (String persistenceUnitName : persistenceUnitNames) {
+			units.add(new PersistenceUnitInfoImpl(persistenceUnitName, persistenceDom, classLoader, rootUrl));			
 		}		
 
-		return matchedUnit;    	
+		return units;    	
     }    
     
     /**
