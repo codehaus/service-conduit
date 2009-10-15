@@ -103,11 +103,14 @@ public class Axis2ServiceProvisionerImpl implements Axis2ServiceProvisioner {
     private ConfigurationContext configurationContext;
     private String servicePath = "axis2";
 
-    public Axis2ServiceProvisionerImpl(@Reference ServletHost servletHost,
+    public Axis2ServiceProvisionerImpl(@Reference(required = false) ServletHost servletHost,
                                        @Reference ClassLoaderRegistry classLoaderRegistry,
                                        @Reference PolicyApplier policyApplier,
                                        @Reference SCA4JConfigurator f3Configurator,
                                        @Monitor ServiceProvisionerMonitor monitor) {
+        if (servletHost == null) {
+            throw new AssertionError("Please configure a servlet host");
+        }
         this.servletHost = servletHost;
         this.classLoaderRegistry = classLoaderRegistry;
         this.policyApplier = policyApplier;
