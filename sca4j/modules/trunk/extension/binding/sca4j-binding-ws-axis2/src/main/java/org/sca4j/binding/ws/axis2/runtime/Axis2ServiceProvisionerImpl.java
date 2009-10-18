@@ -109,7 +109,7 @@ public class Axis2ServiceProvisionerImpl implements Axis2ServiceProvisioner {
                                        @Reference SCA4JConfigurator f3Configurator,
                                        @Monitor ServiceProvisionerMonitor monitor) {
         if (servletHost == null) {
-            throw new AssertionError("Please configure a servlet host");
+            throw new AssertionError("Please configure a servlet host");    
         }
         this.servletHost = servletHost;
         this.classLoaderRegistry = classLoaderRegistry;
