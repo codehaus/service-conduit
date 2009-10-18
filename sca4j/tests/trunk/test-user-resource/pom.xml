@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>ci</artifactId>
-        <version>0.1.7-SNAPSHOT</version>
+        <version>0.1.8-SNAPSHOT</version>
     </parent>
 
     <name>SCA4J Test User Resource Extension</name>
@@ -43,7 +43,7 @@
             <plugin>
                 <groupId>org.sca4j</groupId>
                 <artifactId>sca4j-contribution-plugin</artifactId>
-                <version>0.1.7-SNAPSHOT</version>
+                <version>${sca4j.version}</version>
                 <extensions>true</extensions>
                 <configuration>
                     <mavenImports>

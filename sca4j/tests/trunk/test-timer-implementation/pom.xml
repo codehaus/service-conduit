@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>ci</artifactId>
-        <version>0.1.7-SNAPSHOT</version>
+        <version>0.1.8-SNAPSHOT</version>
     </parent>
 
     <artifactId>test-timer-implementation</artifactId>
@@ -49,44 +49,44 @@
             <plugin>
                 <groupId>org.sca4j</groupId>
                 <artifactId>sca4j-itest-plugin</artifactId>
-                <version>0.1.7-SNAPSHOT</version>
+                <version>${sca4j.version}</version>
                 <configuration>
-                    <runtimeVersion>0.1.7-SNAPSHOT</runtimeVersion>
+                    <runtimeVersion>${sca4j.version}</runtimeVersion>
                     <extensions>
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-resource</artifactId>
-                            <version>0.1.7-SNAPSHOT</version>
+                            <version>${sca4j.version}</version>
                         </dependency>
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-timer-spi</artifactId>
-                            <version>0.1.7-SNAPSHOT</version>
+                            <version>${sca4j.version}</version>
                         </dependency>
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-tx-jotm</artifactId>
-                            <version>0.1.7-SNAPSHOT</version>
+                            <version>${sca4j.version}</version>
                         </dependency>
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-timer-quartz</artifactId>
-                            <version>0.1.7-SNAPSHOT</version>
+                            <version>${sca4j.version}</version>
                         </dependency>
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-timer-loader</artifactId>
-                            <version>0.1.7-SNAPSHOT</version>
+                            <version>${sca4j.version}</version>
                         </dependency>
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-timer-provision</artifactId>
-                            <version>0.1.7-SNAPSHOT</version>
+                            <version>${sca4j.version}</version>
                         </dependency>
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-timer-runtime</artifactId>
-                            <version>0.1.7-SNAPSHOT</version>
+                            <version>${sca4j.version}</version>
                         </dependency>
                     </extensions>
                     <shared>

@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>ci</artifactId>
-        <version>0.1.7-SNAPSHOT</version>
+        <version>0.1.8-SNAPSHOT</version>
     </parent>
 
     <artifactId>test-ds-extension</artifactId>
@@ -45,7 +45,7 @@
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-xapool</artifactId>
-            <version>0.1.7-SNAPSHOT</version>
+            <version>${sca4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.derby</groupId>

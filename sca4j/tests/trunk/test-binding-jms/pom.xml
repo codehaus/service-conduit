@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>ci</artifactId>
-        <version>0.1.7-SNAPSHOT</version>
+        <version>0.1.8-SNAPSHOT</version>
     </parent>
 
     <artifactId>test-binding-jms</artifactId>
@@ -65,37 +65,37 @@
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-binding-jms</artifactId>
-                            <version>0.1.7-SNAPSHOT</version>
+                            <version>${sca4j.version}</version>
                         </dependency>
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-jaxb</artifactId>
-                            <version>0.1.7-SNAPSHOT</version>
+                            <version>${sca4j.version}</version>
                         </dependency>
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-databinding-jaxb-provision</artifactId>
-                            <version>0.1.7-SNAPSHOT</version>
+                            <version>${sca4j.version}</version>
                         </dependency>
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-databinding-jaxb-loader</artifactId>
-                            <version>0.1.7-SNAPSHOT</version>
+                            <version>${sca4j.version}</version>
                         </dependency>
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-databinding-jaxb-runtime</artifactId>
-                            <version>0.1.7-SNAPSHOT</version>
+                            <version>${sca4j.version}</version>
                         </dependency>
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-tx-jotm</artifactId>
-                            <version>0.1.7-SNAPSHOT</version>
+                            <version>${sca4j.version}</version>
                         </dependency>
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-tx</artifactId>
-                            <version>0.1.7-SNAPSHOT</version>
+                            <version>${sca4j.version}</version>
                         </dependency>
                     </extensions>
                     <shared>
