@@ -67,6 +67,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.sca4j.host.perf.PerformanceMonitor;
 import org.sca4j.jpa.runtime.SCA4JJpaRuntimeException;
 
 import org.w3c.dom.Document;
@@ -106,18 +107,19 @@ public class ClasspathPersistenceUnitScanner implements PersistenceUnitScanner {
                     if (parsedUrls.contains(persistenceUnitUrl)) {
                     	continue;
                     }
-                    parsedUrls.add(persistenceUnitUrl);
                     
+                    PerformanceMonitor.start("Loading persistence info " + persistenceUnitUrl);
                     Document persistenceDom = db.parse(persistenceUnitUrl.openStream());
                     URL rootUrl = getRootJarUrl(persistenceUnitUrl);
-
                     for (PersistenceUnitInfo info : PersistenceUnitInfoImpl.parse(persistenceDom, classLoader, rootUrl)) {
                     	persistenceUnitInfos.put(info.getPersistenceUnitName(), info);
                     }
+                    parsedUrls.add(persistenceUnitUrl);
+                    PerformanceMonitor.end();
                     if (persistenceUnitInfos.containsKey(unitName)) {
                         return persistenceUnitInfos.get(unitName);
                     }
-
+                    
                 }
 
             } catch (IOException ex) {

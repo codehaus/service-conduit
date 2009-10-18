@@ -80,6 +80,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public abstract class DefaultPausableWork implements PausableWork {
 	
+	private static final long DELAY_ON_PAUSE = 2000L;
+	
 	private AtomicBoolean active = new AtomicBoolean(true);
 	private AtomicBoolean paused = new AtomicBoolean(false);
 	private boolean daemon;
@@ -128,6 +130,11 @@ public abstract class DefaultPausableWork implements PausableWork {
 		if (daemon) {
 			while (active.get()) {
 				if (paused.get()) {
+					try {
+						Thread.sleep(DELAY_ON_PAUSE);
+					} catch (InterruptedException e) {
+						continue;
+					}
 					continue;
 				}
 				execute();

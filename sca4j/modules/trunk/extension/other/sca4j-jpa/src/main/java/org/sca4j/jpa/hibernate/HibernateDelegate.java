@@ -55,6 +55,7 @@ package org.sca4j.jpa.hibernate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import javax.naming.NamingException;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.spi.PersistenceUnitInfo;
@@ -62,7 +63,8 @@ import javax.sql.DataSource;
 
 import org.hibernate.ejb.Ejb3Configuration;
 import org.osoa.sca.annotations.Reference;
-
+import org.sca4j.host.perf.PerformanceMonitor;
+import org.sca4j.host.runtime.HostInfo;
 import org.sca4j.jpa.spi.EmfBuilderException;
 import org.sca4j.jpa.spi.delegate.EmfBuilderDelegate;
 import org.sca4j.resource.jndi.proxy.jdbc.DataSourceProxy;
@@ -77,6 +79,12 @@ public class HibernateDelegate implements EmfBuilderDelegate {
 
     private DataSourceRegistry dataSourceRegistry;
     private ComponentSynthesizer synthesizer;
+    private HostInfo hostInfo;
+    
+    @Reference
+    public void setHostInfo(HostInfo hostInfo) {
+    	this.hostInfo = hostInfo;
+    }
 
     @Reference
     public void setDataSourceRegistry(DataSourceRegistry dataSourceRegistry) {
@@ -99,24 +107,21 @@ public class HibernateDelegate implements EmfBuilderDelegate {
             }
             cfg.setDataSource(dataSource);
         }
-        cfg.configure(info, Collections.emptyMap());
-
-        return cfg.buildEntityManagerFactory();
+        
+        if (hostInfo.isLive()) {
+        	PerformanceMonitor.start("EJB3 configuration " + info.getPersistenceUnitName());
+        	cfg.configure(info, Collections.emptyMap());
+	        PerformanceMonitor.end();
+	        PerformanceMonitor.start("Building entity manager factory " + info.getPersistenceUnitName());
+	        EntityManagerFactory emf = cfg.buildEntityManagerFactory();
+	        PerformanceMonitor.end();
+	        return emf;
+        } else {
+        	return new EntityManagerFactoryProxy(info, cfg);
+        }
+        
     }
-
-    /**
-     * Maps a datasource from JNDI to a SCA4J system component. This provides the defaulting behavior where a user does not have to explicitly
-     * configure a SCA4J DataSourceProxy when deploying to a managed environment that provides its own datasources.
-     * <p/>
-     * This mapping is done by creating a DataSourceProxy component dynamically, registering it with the DataSourceRegistry using the JNDI name as a
-     * key, and adding it as a system component. Since the defaulting behavior derives the key from the JNDI name, a datasource is only mapped to a
-     * sngle key. If a datasource must be mapped to multiple keys, manual configuration of a DataSourceProxy must be done.
-     *
-     * @param datasource      the datasource name
-     * @param persistenceUnit the persistence unit the datasource is found in
-     * @return a proxy to the datasource bound to the JNDI name
-     * @throws DataSourceInitException if an error mapping the datasource is encountered
-     */
+    
     private DataSource mapDataSource(String datasource, String persistenceUnit) throws DataSourceInitException {
         DataSourceProxy proxy = new DataSourceProxy();
         proxy.setDataSourceRegistry(dataSourceRegistry);

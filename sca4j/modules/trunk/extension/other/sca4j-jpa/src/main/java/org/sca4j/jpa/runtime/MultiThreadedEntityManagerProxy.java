@@ -52,11 +52,16 @@
  */
 package org.sca4j.jpa.runtime;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.FlushModeType;
 import javax.persistence.LockModeType;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 import javax.transaction.SystemException;
 import javax.transaction.Transaction;
 import javax.transaction.TransactionManager;
@@ -64,6 +69,7 @@ import javax.transaction.TransactionManager;
 import org.osoa.sca.Conversation;
 import org.osoa.sca.ServiceRuntimeException;
 
+import org.sca4j.host.perf.PerformanceMonitor;
 import org.sca4j.pojo.PojoWorkContextTunnel;
 import org.sca4j.spi.invocation.WorkContext;
 
@@ -142,8 +148,69 @@ public class MultiThreadedEntityManagerProxy implements EntityManagerProxy {
         return getEntityManager().createQuery(qlString);
     }
 
-    public Query createNamedQuery(String name) {
-        return getEntityManager().createNamedQuery(name);
+    public Query createNamedQuery(final String name) {
+    	final Query query = getEntityManager().createNamedQuery(name);
+    	return new Query() {
+
+			public int executeUpdate() {
+				PerformanceMonitor.start("Executing update " + name);
+				try {
+					return query.executeUpdate();
+				} finally {
+					PerformanceMonitor.end();
+				}
+			}
+
+			public List getResultList() {
+				return query.getResultList();
+			}
+
+			public Object getSingleResult() {
+				return query.getSingleResult();
+			}
+
+			public Query setFirstResult(int arg0) {
+				return query.setFirstResult(arg0);
+			}
+
+			public Query setFlushMode(FlushModeType arg0) {
+				return query.setFlushMode(arg0);
+			}
+
+			public Query setHint(String arg0, Object arg1) {
+				return query.setHint(arg0, arg1);
+			}
+
+			public Query setMaxResults(int arg0) {
+				return query.setMaxResults(arg0);
+			}
+
+			public Query setParameter(String arg0, Object arg1) {
+				return query.setParameter(arg0, arg1);
+			}
+
+			public Query setParameter(int arg0, Object arg1) {
+				return query.setParameter(arg0, arg1);
+			}
+
+			public Query setParameter(String arg0, Date arg1, TemporalType arg2) {
+				return query.setParameter(arg0, arg1);
+			}
+
+			public Query setParameter(String arg0, Calendar arg1,
+					TemporalType arg2) {
+				return query.setParameter(arg0, arg1, arg2);
+			}
+
+			public Query setParameter(int arg0, Date arg1, TemporalType arg2) {
+				return query.setParameter(arg0, arg1, arg2);
+			}
+
+			public Query setParameter(int arg0, Calendar arg1, TemporalType arg2) {
+				return query.setParameter(arg0, arg1, arg2);
+			}
+    		
+    	};
     }
 
     public Query createNativeQuery(String sqlString) {

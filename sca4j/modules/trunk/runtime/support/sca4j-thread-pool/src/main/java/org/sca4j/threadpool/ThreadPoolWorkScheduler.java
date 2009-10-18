@@ -79,6 +79,7 @@ public class ThreadPoolWorkScheduler implements WorkScheduler, WorkSchedulerMBea
 
     private ThreadPoolExecutor executor;
     private final Set<DefaultPausableWork> workInProgress = new CopyOnWriteArraySet<DefaultPausableWork>();
+    private final Set<DecoratingWork> workDue = new CopyOnWriteArraySet<DecoratingWork>();
     private final AtomicBoolean paused = new AtomicBoolean();
     private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
     
@@ -121,36 +122,15 @@ public class ThreadPoolWorkScheduler implements WorkScheduler, WorkSchedulerMBea
 		lock.lock();
 		try {
 	        Runnable runnable = new DecoratingWork(work);
-	        executor.submit(runnable);
+	        if (paused.get()) {
+	        	workDue.add((DecoratingWork) runnable);
+	        } else {
+	        	executor.submit(runnable);
+	        }
 		} finally {
 			lock.unlock();
 		}
         
-	}
-	
-	private class DecoratingWork implements Runnable {
-
-		private DefaultPausableWork work;
-		
-		public DecoratingWork(DefaultPausableWork work) {
-			this.work = work;
-		}
-		
-		public void run() {
-
-			if (paused.get()) {
-				work.pause();
-			}
-			workInProgress.add(work);
-			
-			try {
-				work.run();
-			} finally {
-				workInProgress.remove(work);
-			}
-			
-		}
-		
 	}
 	
 	// ------------------ Management operations
@@ -198,6 +178,11 @@ public class ThreadPoolWorkScheduler implements WorkScheduler, WorkSchedulerMBea
 			for (PausableWork pausableWork : workInProgress) {
 				pausableWork.start();
 			}
+			for (DecoratingWork decoratingWork : workDue) {
+				workDue.remove(decoratingWork);
+				workInProgress.add(decoratingWork.work);
+				executor.submit(decoratingWork);
+			}
 		} finally {
 			lock.unlock();
 		}
@@ -221,6 +206,31 @@ public class ThreadPoolWorkScheduler implements WorkScheduler, WorkSchedulerMBea
 
 	public Status getStatus() {
 		return paused.get() ? Status.PAUSED : Status.STARTED;
+	}
+	
+	private class DecoratingWork implements Runnable {
+
+		private DefaultPausableWork work;
+		
+		public DecoratingWork(DefaultPausableWork work) {
+			this.work = work;
+		}
+		
+		public void run() {
+
+			if (paused.get()) {
+				work.pause();
+			}
+			workInProgress.add(work);
+			
+			try {
+				work.run();
+			} finally {
+				workInProgress.remove(work);
+			}
+			
+		}
+		
 	}
 
 }

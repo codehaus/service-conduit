@@ -115,6 +115,13 @@ public class WebappHostInfoImpl extends AbstractHostInfo implements WebappHostIn
         return tempDir;
     }
     
+    /**
+     * @see org.sca4j.host.runtime.HostInfo#isLive()
+     */
+    public boolean isLive() {
+    	return true;
+    }
+    
     private static Properties convert(ServletContext servletContext) {
         Properties props = new Properties();
         Enumeration<String> initParameters = servletContext.getInitParameterNames();

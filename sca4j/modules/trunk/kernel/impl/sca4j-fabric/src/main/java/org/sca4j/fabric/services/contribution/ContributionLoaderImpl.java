@@ -59,6 +59,7 @@ import java.util.List;
 
 import org.osoa.sca.annotations.Reference;
 
+import org.sca4j.host.perf.PerformanceMonitor;
 import org.sca4j.host.runtime.HostInfo;
 import org.sca4j.spi.classloader.MultiParentClassLoader;
 import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
@@ -93,7 +94,8 @@ public class ContributionLoaderImpl implements ContributionLoader {
     }
 
     public ClassLoader loadContribution(Contribution contribution) throws ContributionLoadException, MatchingExportNotFoundException {
-        URI contributionUri = contribution.getUri();
+        PerformanceMonitor.start("Loaded contribution " + contribution.getLocation());
+    	URI contributionUri = contribution.getUri();
         ClassLoader cl = classLoaderRegistry.getClassLoader(APP_CLASSLOADER);
         if (!classloaderIsolation) {
             // the host environment does not support classloader isolation so only verify extensions are present
@@ -115,6 +117,7 @@ public class ContributionLoaderImpl implements ContributionLoader {
         resolveImports(contribution, loader);
         // register the classloader
         classLoaderRegistry.register(contributionUri, loader);
+        PerformanceMonitor.end();
         return loader;
     }
 

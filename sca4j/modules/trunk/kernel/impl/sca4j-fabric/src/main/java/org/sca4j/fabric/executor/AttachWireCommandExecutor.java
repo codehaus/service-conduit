@@ -56,7 +56,6 @@ import org.osoa.sca.annotations.Constructor;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.fabric.builder.Connector;
 import org.sca4j.fabric.command.AttachWireCommand;
 import org.sca4j.spi.builder.BuilderException;
@@ -96,7 +95,7 @@ public class AttachWireCommandExecutor implements CommandExecutor<AttachWireComm
 
         for (PhysicalWireDefinition physicalWireDefinition : command.getPhysicalWireDefinitions()) {
             try {
-                connector.connect(physicalWireDefinition);
+            	connector.connect(physicalWireDefinition);
             } catch (BuilderException e) {
                 throw new ExecutionException(e.getMessage(), e);
             }

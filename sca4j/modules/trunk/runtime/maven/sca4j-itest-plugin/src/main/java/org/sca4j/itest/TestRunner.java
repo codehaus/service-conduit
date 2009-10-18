@@ -83,6 +83,7 @@ import org.sca4j.host.contribution.FileContributionSource;
 import org.sca4j.host.contribution.ValidationException;
 import org.sca4j.host.domain.AssemblyException;
 import org.sca4j.host.domain.DeploymentException;
+import org.sca4j.host.perf.PerformanceMonitor;
 import org.sca4j.host.runtime.BootConfiguration;
 import org.sca4j.jmx.agent.Agent;
 import org.sca4j.jmx.agent.DefaultAgent;
@@ -109,6 +110,7 @@ public class TestRunner {
     private static final String DEFAULT_SYSTEM_CONFIG_DIR = "test-classes" + File.separator + "META-INF" + File.separator;
     
     private TestMetadata testMetadata;
+    private MonitorFactory monitorFactory;
     
     public static void main(String[] args) throws IOException {
         
@@ -117,15 +119,16 @@ public class TestRunner {
             fileInputStream = new FileInputStream(args[0]);
             XStream xstream = new XStream();
             TestMetadata testMetadata = (TestMetadata) xstream.fromXML(fileInputStream);
-            new TestRunner(testMetadata).executeTests();
+            new TestRunner(testMetadata, null).executeTests();
         } finally {
             fileInputStream.close();
         }
         
     }
     
-    public TestRunner(TestMetadata testMetadata) {
+    public TestRunner(TestMetadata testMetadata, MavenMonitorFactory monitorFactory) {
         this.testMetadata = testMetadata;
+        this.monitorFactory = monitorFactory;
     }
 
     public void executeTests() {
@@ -143,17 +146,27 @@ public class TestRunner {
             
             runtime = createRuntime(bootClassLoader, testMetadata.getModuleDependencies());
             BootConfiguration configuration = createBootConfiguration(runtime, bootClassLoader, hostClassLoader, hostClassLoader);            
-
+            
+            PerformanceMonitor.start("Boot primodial");
             runtime.bootPrimordial(configuration);
+            PerformanceMonitor.end();
+            PerformanceMonitor.start("Boot system");
             runtime.bootSystem();
+            PerformanceMonitor.end();
             runtime.joinDomain(-1);
+            PerformanceMonitor.start("Runtime started");
             runtime.start();
+            PerformanceMonitor.end();
+            PerformanceMonitor.start("Test suite created");
             if (testMetadata.getCompositeName() == null) {
                 testSuite = createTestSuite(runtime, testMetadata.getTestScdl().toURI().toURL());
             } else {
                 testSuite = createTestSuite(runtime);
             }
+            PerformanceMonitor.end();
+            PerformanceMonitor.start("Test executed");
             boolean success = runSurefire(testSuite);
+            PerformanceMonitor.end();
             
             if (!success) {
                 String msg = "There were test failures";
@@ -245,7 +258,9 @@ public class TestRunner {
     }
     
     private MavenEmbeddedRuntime createRuntime(ClassLoader bootClassLoader, Set<URL> moduleDependencies) {
-        MonitorFactory monitorFactory = new JavaLoggingMonitorFactory();
+    	if (monitorFactory == null) {
+    		monitorFactory = new JavaLoggingMonitorFactory();
+    	}
         MavenEmbeddedRuntime runtime = instantiate(MavenEmbeddedRuntime.class, testMetadata.getRuntimeImpl(), bootClassLoader);
         runtime.setMonitorFactory(monitorFactory);
 
@@ -334,7 +349,9 @@ public class TestRunner {
         URI domain = URI.create(testMetadata.getTestDomain());
         Composite composite;
         try {
+            PerformanceMonitor.start("Composite activated");
             composite = runtime.activate(getBuildDirectoryUrl(), testScdlURL);
+            PerformanceMonitor.end();
         } catch (ValidationException e) {
             // print out the validaiton errors
             reportContributionErrors(e);
@@ -345,7 +362,9 @@ public class TestRunner {
             String msg = "Deployment errors were found";
             throw new RuntimeException(msg);
         }
+        PerformanceMonitor.start("Context started");
         runtime.startContext(domain);
+        PerformanceMonitor.end();
         return createTestSuite(runtime, composite, domain);
     }
 

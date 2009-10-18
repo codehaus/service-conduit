@@ -120,4 +120,9 @@ public interface HostInfo {
      * @return the temporary directory.
      */
     File getTempDir();
+    
+    /**
+     * @return True is this is a live environment.
+     */
+    boolean isLive();
 }

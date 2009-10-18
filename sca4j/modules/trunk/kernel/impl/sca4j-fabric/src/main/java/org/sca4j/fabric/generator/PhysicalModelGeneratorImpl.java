@@ -66,6 +66,7 @@ import org.osoa.sca.annotations.Reference;
 
 import org.sca4j.fabric.generator.classloader.ClassLoaderCommandGenerator;
 import org.sca4j.fabric.instantiator.LogicalChange;
+import org.sca4j.host.perf.PerformanceMonitor;
 import org.sca4j.spi.command.Command;
 import org.sca4j.spi.generator.AddCommandGenerator;
 import org.sca4j.spi.generator.CommandGenerator;
@@ -108,19 +109,24 @@ public class PhysicalModelGeneratorImpl implements PhysicalModelGenerator {
         List<LogicalComponent<?>> sorted = topologicalSort(components);
 
         CommandMap commandMap = new CommandMap();
+        PerformanceMonitor.start("Classloader command generation");
         Map<URI, Set<Command>> commandsPerRuntime = classLoaderCommandGenerator.generate(sorted);
         for (Map.Entry<URI, Set<Command>> entry : commandsPerRuntime.entrySet()) {
             for (Command command : entry.getValue()) {
                 commandMap.addCommand(entry.getKey(), command);
             }
         }
+        PerformanceMonitor.end();
+        
         for (CommandGenerator generator : addCommandGenerators) {
+        	PerformanceMonitor.start("Command generation for " + generator);
             for (LogicalComponent<?> component : sorted) {
                 Command command = generator.generate(component);
                 if (command != null) {
                     commandMap.addCommand(component.getRuntimeId(), command);
                 }
             }
+            PerformanceMonitor.end();
         }
         for (LogicalComponent<?> component : components) {
             component.setProvisioned(true);

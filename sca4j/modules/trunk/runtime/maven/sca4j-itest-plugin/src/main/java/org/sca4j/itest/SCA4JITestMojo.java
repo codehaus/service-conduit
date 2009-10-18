@@ -74,6 +74,7 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
+import org.sca4j.host.perf.PerformanceMonitor;
 import org.xml.sax.SAXException;
 
 /**
@@ -336,6 +337,8 @@ public class SCA4JITestMojo extends AbstractMojo {
 
     public void execute() throws MojoExecutionException, MojoFailureException {
 
+    	PerformanceMonitor.start("Test started");
+    	
         if (!testScdl.exists()) {
             getLog().info("No itest SCDL found, skipping integration tests");
             return;
@@ -367,10 +370,18 @@ public class SCA4JITestMojo extends AbstractMojo {
 
         TestMetadata testMetadata = new TestMetadata();
         
+        PerformanceMonitor.start("Calculate runtime artifacts");
         Set<Artifact> runtimeArtifacts = artifactHelper.calculateRuntimeArtifacts(runtimeVersion);
+        PerformanceMonitor.end();
+        PerformanceMonitor.start("Calculate dependencies");
         Set<Artifact> dependencies = artifactHelper.calculateDependencies();
+        PerformanceMonitor.end();
+        PerformanceMonitor.start("Calculate host artifacts");
         Set<Artifact> hostArtifacts = artifactHelper.calculateHostArtifacts(runtimeArtifacts, shared, featureSets);
+        PerformanceMonitor.end();
+        PerformanceMonitor.start("Calculate module dependencies");
         Set<URL> moduleDependencies = artifactHelper.calculateModuleDependencies(dependencies, hostArtifacts);
+        PerformanceMonitor.end();
         
         testMetadata.setModuleDependencies(moduleDependencies);
         testMetadata.setRuntimeArtifacts(toFiles(runtimeArtifacts));
@@ -399,7 +410,7 @@ public class SCA4JITestMojo extends AbstractMojo {
         try {
             
             if (!fork) {
-                TestRunner runner = new TestRunner(testMetadata);
+                TestRunner runner = new TestRunner(testMetadata, new MavenMonitorFactory(getLog(), "sca4j"));
                 runner.executeTests();
             } else {
                 new Fork().run(testMetadata, getLog(), jvmargs);
@@ -410,7 +421,11 @@ public class SCA4JITestMojo extends AbstractMojo {
             throw new AssertionError(e);
         } catch (InterruptedException e) {
             throw new AssertionError(e);
+        } finally {
+        	PerformanceMonitor.end();
         }
+        
+        
         
     }
 

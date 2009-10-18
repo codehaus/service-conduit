@@ -115,9 +115,9 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
      * @param monitorFactory Monitor factory to use.
      * @param mBeanServer MBean server to use.
      */
-    public GenericRuntimeImpl(URI domain, Properties hostProperties, MonitorFactory monitorFactory, MBeanServer mBeanServer) {
+    public GenericRuntimeImpl(URI domain, Properties hostProperties, MonitorFactory monitorFactory, MBeanServer mBeanServer, boolean live) {
         super(GenericHostInfo.class);
-        setHostInfo(new GenericHostInfo(domain, hostProperties));
+        setHostInfo(new GenericHostInfo(domain, hostProperties, live));
         setMBeanServer(mBeanServer);
         setMonitorFactory(monitorFactory);
     }

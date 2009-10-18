@@ -71,7 +71,6 @@
 package org.sca4j.jpa.runtime;
 
 import static org.sca4j.jpa.runtime.JpaConstants.CLASS;
-import static org.sca4j.jpa.runtime.JpaConstants.EXCLUDE_UNLISTED_CLASSES;
 import static org.sca4j.jpa.runtime.JpaConstants.JAR_FILE;
 import static org.sca4j.jpa.runtime.JpaConstants.JTA_DATA_SOURCE;
 import static org.sca4j.jpa.runtime.JpaConstants.MAPPING_FILE;
@@ -97,8 +96,6 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-
-import org.sca4j.jpa.runtime.SCA4JJpaRuntimeException;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -173,7 +170,8 @@ class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
      * @see javax.persistence.spi.PersistenceUnitInfo#excludeUnlistedClasses()
      */
     public boolean excludeUnlistedClasses() {    	
-        return getBooleanValue(persistenceDom, EXCLUDE_UNLISTED_CLASSES);
+        //return getBooleanValue(persistenceDom, EXCLUDE_UNLISTED_CLASSES);
+    	return true;
     }
 
     /**
@@ -340,13 +338,6 @@ class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
             throw new SCA4JJpaRuntimeException(ex);
         }
 
-    }
-
-    /*
-     * Gets single value for the specified expression.
-     */
-    private boolean getBooleanValue(Node context, String expression) {
-        return Boolean.valueOf(getSingleValue(context, expression));
     }
 
     /**

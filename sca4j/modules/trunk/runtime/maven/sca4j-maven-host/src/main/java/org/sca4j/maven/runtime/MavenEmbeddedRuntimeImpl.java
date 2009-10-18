@@ -92,6 +92,7 @@ import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.host.contribution.ContributionService;
 import org.sca4j.host.contribution.ContributionSource;
 import org.sca4j.host.domain.DeploymentException;
+import org.sca4j.host.perf.PerformanceMonitor;
 import org.sca4j.maven.contribution.ModuleContributionSource;
 import org.sca4j.pojo.PojoWorkContextTunnel;
 import org.sca4j.pojo.component.InvokerInterceptor;
@@ -139,9 +140,13 @@ public class MavenEmbeddedRuntimeImpl extends AbstractRuntime<MavenHostInfo> imp
         Domain domain = getSystemComponent(Domain.class, APPLICATION_DOMAIN_URI);
         ContributionService contributionService =
                 getSystemComponent(ContributionService.class, CONTRIBUTION_SERVICE_URI);
+        PerformanceMonitor.start("Contributed user code");
         contributionService.contribute(source);
+        PerformanceMonitor.end();
         // activate the deployable composite in the domain
+        PerformanceMonitor.start("Included user code");
         domain.include(qName);
+        PerformanceMonitor.end();
         ResourceElement<?, ?> element = getMetaDataStore().resolve(new QNameSymbol(qName));
         assert element != null;
         return (Composite) element.getValue();

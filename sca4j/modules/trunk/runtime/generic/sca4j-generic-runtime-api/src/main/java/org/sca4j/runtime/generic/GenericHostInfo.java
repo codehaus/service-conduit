@@ -60,6 +60,8 @@ import org.sca4j.host.runtime.AbstractHostInfo;
 import org.sca4j.host.runtime.HostInfo;
 
 public class GenericHostInfo extends AbstractHostInfo implements HostInfo {
+	
+	private boolean live;
 
     /**
      * Initialises the state.
@@ -68,8 +70,9 @@ public class GenericHostInfo extends AbstractHostInfo implements HostInfo {
      * @param baseDir Base directory.
      * @param properties Host properties.
      */
-    public GenericHostInfo(URI domain, Properties properties) {
+    public GenericHostInfo(URI domain, Properties properties, boolean live) {
         super(domain, properties);
+        this.live = live;
     }
 
     /**
@@ -91,6 +94,13 @@ public class GenericHostInfo extends AbstractHostInfo implements HostInfo {
      */
     public boolean supportsClassLoaderIsolation() {
         return false;
+    }
+    
+    /**
+     * @see org.sca4j.host.runtime.HostInfo#isLive()
+     */
+    public boolean isLive() {
+    	return live;
     }
 
 }

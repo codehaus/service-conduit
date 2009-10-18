@@ -112,4 +112,11 @@ public class MavenHostInfoImpl extends AbstractHostInfo implements MavenHostInfo
     public File getTempDir() {
         return tempDir;
     }
+    
+    /**
+     * @see org.sca4j.host.runtime.HostInfo#isLive()
+     */
+    public boolean isLive() {
+    	return false;
+    }
 }

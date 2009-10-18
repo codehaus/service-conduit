@@ -68,6 +68,7 @@ import org.sca4j.fabric.services.routing.RoutingService;
 import org.sca4j.host.domain.AssemblyException;
 import org.sca4j.host.domain.DeploymentException;
 import org.sca4j.host.domain.DomainException;
+import org.sca4j.host.perf.PerformanceMonitor;
 import org.sca4j.scdl.Composite;
 import org.sca4j.spi.domain.Domain;
 import org.sca4j.spi.generator.CommandMap;
@@ -141,24 +142,30 @@ public abstract class AbstractDomain implements Domain {
 
         LogicalCompositeComponent domain = logicalComponentManager.getRootComponent();
 
+        PerformanceMonitor.start("Logical model generated " + composite.getName());
         LogicalChange change = logicalModelInstantiator.include(domain, composite);
         if (change.hasErrors()) {
             throw new AssemblyException(change.getErrors(), change.getWarnings());
         } else if (change.hasWarnings()) {
             // TOOD log warnings 
         }
+        PerformanceMonitor.end();
         Collection<LogicalComponent<?>> components = domain.getComponents();
 
         // Allocate the components to runtime nodes
         try {
+            PerformanceMonitor.start("aAllocated " + composite.getName());
             allocate(components);
+            PerformanceMonitor.end();
         } catch (AllocationException e) {
             throw new DeploymentException("Error deploying composite: " + composite.getName());
         }
 
         try {
             // generate and provision any new components and new wires
+            PerformanceMonitor.start("Physical model generated " + composite.getName());
             CommandMap commandMap = physicalModelGenerator.generate(components);
+            PerformanceMonitor.end();
             routingService.route(commandMap);
         } catch (GenerationException e) {
             throw new DeploymentException("Error deploying: " + composite.getName(), e);

@@ -64,6 +64,7 @@ import javax.xml.stream.XMLStreamWriter;
 import org.osoa.sca.annotations.Reference;
 
 import org.sca4j.api.annotation.Monitor;
+import org.sca4j.host.perf.PerformanceMonitor;
 import org.sca4j.scdl.Scope;
 import org.sca4j.services.xmlfactory.XMLFactory;
 import org.sca4j.services.xmlfactory.XMLFactoryInstantiationException;
@@ -135,7 +136,9 @@ public class FederatedRoutingService implements RoutingService {
 
         for (Command command : commands) {
             try {
+
                 executorRegistry.execute(command);
+
             } catch (ExecutionException e) {
                 throw new RoutingException(e);
             }
