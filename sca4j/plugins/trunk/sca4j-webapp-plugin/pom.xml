@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>sca4j-plugins-parent-pom</artifactId>
-        <version>0.1.8-SNAPSHOT</version>
+        <version>0.1.8</version>
     </parent>
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-webapp-plugin</artifactId>
