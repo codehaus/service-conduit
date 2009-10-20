@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>sca4j-extension-binding-parent-pom</artifactId>
-        <version>0.1.8-SNAPSHOT</version>
+        <version>0.1.8</version>
     </parent>
 
     <groupId>org.sca4j</groupId>
@@ -55,21 +55,21 @@
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-spi</artifactId>
-            <version>0.1.8-SNAPSHOT</version>
+            <version>0.1.8</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-transform</artifactId>
-            <version>0.1.8-SNAPSHOT</version>
+            <version>0.1.8</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-binding-ws</artifactId>
-            <version>0.1.8-SNAPSHOT</version>
+            <version>0.1.8</version>
             <scope>provided</scope>
         </dependency>
 
