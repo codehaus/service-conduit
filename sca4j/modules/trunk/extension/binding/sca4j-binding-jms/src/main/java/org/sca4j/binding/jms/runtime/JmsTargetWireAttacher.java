@@ -171,20 +171,20 @@ public class JmsTargetWireAttacher implements TargetWireAttacher<JmsWireTargetDe
         ConnectionFactoryDefinition connectionFactoryDefinition = metadata.getConnectionFactory();
         CreateOption create = connectionFactoryDefinition.getCreate();
 
-        ConnectionFactory reqCf = connectionFactoryStrategies.get(create).getConnectionFactory(connectionFactoryDefinition, env);
+        ConnectionFactory reqCf = connectionFactoryStrategies.get(create).getConnectionFactory(connectionFactoryDefinition, env, cl);
 
         DestinationDefinition destinationDefinition = metadata.getDestination();
         create = destinationDefinition.getCreate();
-        Destination reqDestination = destinationStrategies.get(create).getDestination(destinationDefinition, reqCf, env);
+        Destination reqDestination = destinationStrategies.get(create).getDestination(destinationDefinition, reqCf, env, cl);
 
         if (!metadata.noResponse()) {
             connectionFactoryDefinition = metadata.getResponseConnectionFactory();
             create = connectionFactoryDefinition.getCreate();
-            resCf = connectionFactoryStrategies.get(create).getConnectionFactory(connectionFactoryDefinition, env);
+            resCf = connectionFactoryStrategies.get(create).getConnectionFactory(connectionFactoryDefinition, env, cl);
 
             destinationDefinition = metadata.getResponseDestination();
             create = destinationDefinition.getCreate();
-            resDestination = destinationStrategies.get(create).getDestination(destinationDefinition, resCf, env);
+            resDestination = destinationStrategies.get(create).getDestination(destinationDefinition, resCf, env, cl);
         }
 
         Map<String, PayloadType> payloadTypes = targetDefinition.getPayloadTypes();

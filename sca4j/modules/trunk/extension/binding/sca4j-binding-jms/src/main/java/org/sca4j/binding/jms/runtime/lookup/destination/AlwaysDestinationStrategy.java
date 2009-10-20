@@ -95,7 +95,7 @@ public class AlwaysDestinationStrategy implements DestinationStrategy {
      * @see org.sca4j.binding.jms.runtime.lookup.destination.DestinationStrategy#getDestination(org.sca4j.binding.jms.common.DestinationDefinition,
      *      javax.jms.ConnectionFactory, java.util.Hashtable)
      */
-    public Destination getDestination(DestinationDefinition definition, ConnectionFactory cf, Hashtable<String, String> env) {
+    public Destination getDestination(DestinationDefinition definition, ConnectionFactory cf, Hashtable<String, String> env, ClassLoader classLoader) {
 
         Connection connection = null;
 

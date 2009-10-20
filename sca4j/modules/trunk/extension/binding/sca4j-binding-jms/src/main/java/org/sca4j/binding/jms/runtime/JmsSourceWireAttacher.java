@@ -160,12 +160,12 @@ public class JmsSourceWireAttacher implements SourceWireAttacher<JmsWireSourceDe
 
         ConnectionFactoryDefinition connectionFactory = metadata.getConnectionFactory();
         DestinationDefinition destination = metadata.getDestination();
-        JMSObjectFactory requestJMSObjectFactory = buildObjectFactory(connectionFactory, destination, env);
+        JMSObjectFactory requestJMSObjectFactory = buildObjectFactory(connectionFactory, destination, env, cl);
 
         if (!metadata.noResponse()) {
             ConnectionFactoryDefinition responseConnectionFactory = metadata.getResponseConnectionFactory();
             DestinationDefinition responseDestination = metadata.getResponseDestination();
-            responseJMSObjectFactory = buildObjectFactory(responseConnectionFactory, responseDestination, env);
+            responseJMSObjectFactory = buildObjectFactory(responseConnectionFactory, responseDestination, env, cl);
         }
 
         String callbackUri = null;
@@ -199,12 +199,12 @@ public class JmsSourceWireAttacher implements SourceWireAttacher<JmsWireSourceDe
         throw new UnsupportedOperationException();
     }
 
-    private JMSObjectFactory buildObjectFactory(ConnectionFactoryDefinition connectionFactoryDefinition, DestinationDefinition destinationDefinition, Hashtable<String, String> env) {
+    private JMSObjectFactory buildObjectFactory(ConnectionFactoryDefinition connectionFactoryDefinition, DestinationDefinition destinationDefinition, Hashtable<String, String> env, ClassLoader cl) {
         CreateOption create = connectionFactoryDefinition.getCreate();
 
-        ConnectionFactory connectionFactory = connectionFactoryStrategies.get(create).getConnectionFactory(connectionFactoryDefinition, env);
+        ConnectionFactory connectionFactory = connectionFactoryStrategies.get(create).getConnectionFactory(connectionFactoryDefinition, env, cl);
         create = destinationDefinition.getCreate();
-        Destination reqDestination = destinationStrategies.get(create).getDestination(destinationDefinition, connectionFactory, env);
+        Destination reqDestination = destinationStrategies.get(create).getDestination(destinationDefinition, connectionFactory, env, cl);
         return new JMSObjectFactory(connectionFactory, reqDestination, 1);
     }
 

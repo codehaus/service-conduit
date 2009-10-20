@@ -92,6 +92,6 @@ public interface ConnectionFactoryStrategy {
      * @param env JNDI environment.
      * @return Lokked up or created destination.
      */
-    ConnectionFactory getConnectionFactory(ConnectionFactoryDefinition definition, Hashtable<String, String> env);
+    ConnectionFactory getConnectionFactory(ConnectionFactoryDefinition definition, Hashtable<String, String> env, ClassLoader classLoader);
 
 }

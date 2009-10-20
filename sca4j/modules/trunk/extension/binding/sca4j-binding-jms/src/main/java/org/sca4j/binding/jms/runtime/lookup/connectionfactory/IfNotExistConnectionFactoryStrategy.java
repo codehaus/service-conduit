@@ -92,11 +92,11 @@ public class IfNotExistConnectionFactoryStrategy implements ConnectionFactoryStr
      * @see org.sca4j.binding.jms.runtime.lookup.connectionfactory.ConnectionFactoryStrategy#getConnectionFactory(org.sca4j.binding.jms.common.ConnectionFactoryDefinition,
      *      java.util.Hashtable)
      */
-    public ConnectionFactory getConnectionFactory(ConnectionFactoryDefinition definition, Hashtable<String, String> env) {
+    public ConnectionFactory getConnectionFactory(ConnectionFactoryDefinition definition, Hashtable<String, String> env, ClassLoader classLoader) {
         try {
-            return (ConnectionFactory) JndiHelper.lookup(definition.getName(), env);
+            return (ConnectionFactory) JndiHelper.lookup(definition.getName(), env, classLoader);
         } catch (NameNotFoundException ex) {
-            return always.getConnectionFactory(definition, env);
+            return always.getConnectionFactory(definition, env, classLoader);
         }
 
     }

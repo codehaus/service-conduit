@@ -94,6 +94,6 @@ public interface DestinationStrategy {
      * @param env JNDI environment.
      * @return Lokked up or created destination.
      */
-    Destination getDestination(DestinationDefinition definition, ConnectionFactory cf, Hashtable<String, String> env);
+    Destination getDestination(DestinationDefinition definition, ConnectionFactory cf, Hashtable<String, String> env, ClassLoader classLoader);
 
 }

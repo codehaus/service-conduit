@@ -94,7 +94,7 @@ public class JndiHelper {
     /*
      * Looks up the administered object.
      */
-    public static Object lookup(String name, Hashtable<String, String> env) throws NameNotFoundException {
+    public static Object lookup(String name, Hashtable<String, String> env, ClassLoader classLoader) throws NameNotFoundException {
 
         ClassLoader oldCl = Thread.currentThread().getContextClassLoader();
 
@@ -102,7 +102,7 @@ public class JndiHelper {
 
         try {
 
-            Thread.currentThread().setContextClassLoader(JndiHelper.class.getClassLoader());
+            Thread.currentThread().setContextClassLoader(classLoader);
 
             ctx = new InitialContext(env);
 
