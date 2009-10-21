@@ -87,12 +87,20 @@ public class JaxbInterceptorBuilder implements InterceptorBuilder<JaxbIntercepto
         ClassLoader classLoader = classLoaderRegistry.getClassLoader(classLoaderId);
 
         try {
+            
+            Class<?> interfaceClass = classLoader.loadClass(definition.getInterfaze());
+            Method interceptedMethod = null;
+            for (Method method : interfaceClass.getDeclaredMethods()) {
+                if (definition.getOperation().equals(method.getName())) {
+                    interceptedMethod = method;
+                }
+            }
             Set<String> classNames = definition.getClassNames();
             Set<String> faultNames = definition.getFaultNames();
             Map<Class<?>, Constructor<?>> faultMapping = getFaultMapping(classLoader, faultNames);
 
             JAXBContext context = getJAXBContext(classLoader, classNames);
-            return new JaxbInterceptor(classLoader, context, definition.isService(), faultMapping);
+            return new JaxbInterceptor(classLoader, context, definition.isService(), faultMapping, interceptedMethod);
 
         } catch (NoSuchMethodException e) {
             throw new JaxbBuilderException(e);

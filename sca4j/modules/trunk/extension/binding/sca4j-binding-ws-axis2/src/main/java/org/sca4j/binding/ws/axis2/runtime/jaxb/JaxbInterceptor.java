@@ -80,13 +80,19 @@ public class JaxbInterceptor implements Interceptor {
     private final Jaxb2OMElement outTransformer;
     private final boolean service;
     private final Map<Class<?>, Constructor<?>> faultMapping;
+    private final Method interceptedMethod;
 
-    public JaxbInterceptor(ClassLoader classLoader, JAXBContext jaxbContext, boolean service, Map<Class<?>, Constructor<?>> faultMapping) throws JAXBException {
+    public JaxbInterceptor(ClassLoader classLoader, 
+                           JAXBContext jaxbContext, 
+                           boolean service, Map<Class<?>, 
+                           Constructor<?>> faultMapping,
+                           Method interceptedMethod) throws JAXBException {
         this.classLoader = classLoader;
         inTransformer = new OMElement2Jaxb(jaxbContext);
         outTransformer = new Jaxb2OMElement(jaxbContext);
         this.service = service;
         this.faultMapping = faultMapping;
+        this.interceptedMethod = interceptedMethod;
     }
 
     public Interceptor getNext() {

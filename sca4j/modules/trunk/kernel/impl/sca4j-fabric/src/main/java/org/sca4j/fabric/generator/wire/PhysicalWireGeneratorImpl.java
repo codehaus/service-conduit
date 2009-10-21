@@ -133,7 +133,6 @@ public class PhysicalWireGeneratorImpl implements PhysicalWireGenerator {
 
         // Generates the target side of the wire
         ResourceWireGenerator targetGenerator = getGenerator(resourceDefinition);
-        @SuppressWarnings("unchecked")
         PhysicalWireTargetDefinition pwtd = targetGenerator.generateWireTargetDefinition(resource);
         boolean optimizable = pwtd.isOptimizable();
 
@@ -372,12 +371,13 @@ public class PhysicalWireGeneratorImpl implements PhysicalWireGenerator {
 
         List<? extends Operation<?>> operations = contract.getOperations();
         Set<PhysicalOperationDefinition> physicalOperations = new HashSet<PhysicalOperationDefinition>(operations.size());
+        String interfaze = contract.getQualifiedInterfaceName();
 
         for (Operation<?> operation : operations) {
             PhysicalOperationDefinition physicalOperation = physicalOperationHelper.mapOperation(operation);
             if (policyResult != null) {
                 List<PolicySet> policies = policyResult.getInterceptedPolicySets(operation);
-                Set<PhysicalInterceptorDefinition> interceptors = generateInterceptorDefinitions(policies, operation, logicalBinding);
+                Set<PhysicalInterceptorDefinition> interceptors = generateInterceptorDefinitions(policies, operation, logicalBinding, interfaze);
                 physicalOperation.setInterceptors(interceptors);
             }
             physicalOperations.add(physicalOperation);
@@ -390,7 +390,8 @@ public class PhysicalWireGeneratorImpl implements PhysicalWireGenerator {
     @SuppressWarnings("unchecked")
     private Set<PhysicalInterceptorDefinition> generateInterceptorDefinitions(List<PolicySet> policies,
                                                                               Operation<?> operation,
-                                                                              LogicalBinding<?> logicalBinding) throws GenerationException {
+                                                                              LogicalBinding<?> logicalBinding,
+                                                                              String interfaze) throws GenerationException {
 
         if (policies == null) {
             return Collections.EMPTY_SET;
@@ -401,6 +402,8 @@ public class PhysicalWireGeneratorImpl implements PhysicalWireGenerator {
             QName qName = policy.getExtensionName();
             InterceptorDefinitionGenerator idg = generatorRegistry.getInterceptorDefinitionGenerator(qName);
             PhysicalInterceptorDefinition pid = idg.generate(policy.getExtension(), operation, logicalBinding);
+            pid.setInterfaze(interfaze);
+            pid.setOperation(operation.getName());
             if (pid != null) {
                 interceptors.add(pid);
             }

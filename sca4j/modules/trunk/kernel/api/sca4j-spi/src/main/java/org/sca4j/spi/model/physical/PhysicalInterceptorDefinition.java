@@ -77,4 +77,23 @@ package org.sca4j.spi.model.physical;
  * @version $Rev: 3715 $ $Date: 2008-04-24 18:54:02 +0100 (Thu, 24 Apr 2008) $
  */
 public class PhysicalInterceptorDefinition  {
+    
+    private String interfaze;
+    private String operation;
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
+
+    public String getInterfaze() {
+        return interfaze;
+    }
+
+    public void setInterfaze(String interfaze) {
+        this.interfaze = interfaze;
+    }
 }
