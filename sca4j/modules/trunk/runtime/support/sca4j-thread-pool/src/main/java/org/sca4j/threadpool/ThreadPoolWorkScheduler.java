@@ -76,35 +76,15 @@ import org.osoa.sca.annotations.Property;
  */
 @EagerInit
 public class ThreadPoolWorkScheduler implements WorkScheduler, WorkSchedulerMBean {
+    
+    @Property public int size = 20;
+    @Property public boolean pauseOnStart = false;
 
     private ThreadPoolExecutor executor;
-    private final Set<DefaultPausableWork> workInProgress = new CopyOnWriteArraySet<DefaultPausableWork>();
-    private final Set<DecoratingWork> workDue = new CopyOnWriteArraySet<DecoratingWork>();
+    private final Set<DefaultPausableWork> daemonWork = new CopyOnWriteArraySet<DefaultPausableWork>(); 
+    private final Set<DefaultPausableWork> nonDaemonWork = new CopyOnWriteArraySet<DefaultPausableWork>();
     private final AtomicBoolean paused = new AtomicBoolean();
     private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
-    
-    private int size = 20;
-    private boolean pauseOnStart = false;
-    
-    /**
-     * Sets the pool size.
-     * 
-     * @param size Pool size.
-     */
-    @Property
-    public void setSize(int size) {
-    	this.size = size;
-    }
-    
-    /**
-     * Indicates whether to start this in a paused state.
-     * 
-     * @param pauseOnStart True if we want to start this in a pased state.
-     */
-    @Property
-    public void setPauseOnStart(boolean pauseOnStart) {
-    	this.pauseOnStart = pauseOnStart;
-    }
 
     /**
      * Initializes the thread-pool. Supports unbounded work with a fixed pool size. If all the workers 
@@ -116,17 +96,21 @@ public class ThreadPoolWorkScheduler implements WorkScheduler, WorkSchedulerMBea
         paused.set(pauseOnStart);
     }
 
-	public <T extends DefaultPausableWork> void scheduleWork(T work) {
+    public <T extends DefaultPausableWork> void scheduleWork(T work) {
 		
 		Lock lock = readWriteLock.readLock();
 		lock.lock();
 		try {
-	        Runnable runnable = new DecoratingWork(work);
-	        if (paused.get()) {
-	        	workDue.add((DecoratingWork) runnable);
-	        } else {
-	        	executor.submit(runnable);
-	        }
+		    if (work.isDaemon()) {
+                daemonWork.add(work);
+		    }
+		    if (paused.get()) {
+		        if (!work.isDaemon()) {
+		            nonDaemonWork.add(work);
+		        }
+		    } else {
+		        executor.submit(work);
+		    }
 		} finally {
 			lock.unlock();
 		}
@@ -134,36 +118,6 @@ public class ThreadPoolWorkScheduler implements WorkScheduler, WorkSchedulerMBea
 	}
 	
 	// ------------------ Management operations
-	public int getActiveCount() {
-		return executor.getActiveCount();
-	}
-
-	public int getPoolSize() {
-		return executor.getCorePoolSize();
-	}
-
-	public void pause() {
-		
-		if (paused.get()) {
-			return;
-		}
-		
-		Lock lock = readWriteLock.writeLock();
-		lock.lock();
-		try {
-			paused.set(true);
-			for (PausableWork pausableWork : workInProgress) {
-				pausableWork.pause();
-			}
-		} finally {
-			lock.unlock();
-		}
-		
-	}
-
-	public void setPoolSize(int poolSize) {
-		executor.setCorePoolSize(poolSize);
-	}
 
 	public void start() {
 		
@@ -172,17 +126,20 @@ public class ThreadPoolWorkScheduler implements WorkScheduler, WorkSchedulerMBea
 		}
 		
 		Lock lock = readWriteLock.writeLock();
-		lock.lock();
 		try {
-			paused.set(false);
-			for (PausableWork pausableWork : workInProgress) {
-				pausableWork.start();
+
+	        lock.lock();
+		    executor = new ThreadPoolExecutor(size, size, Long.MAX_VALUE, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+            paused.set(false);
+            
+			for (PausableWork pausableWork : daemonWork) {
+				executor.submit(pausableWork);
 			}
-			for (DecoratingWork decoratingWork : workDue) {
-				workDue.remove(decoratingWork);
-				workInProgress.add(decoratingWork.work);
-				executor.submit(decoratingWork);
-			}
+			
+            for (PausableWork pausableWork : nonDaemonWork) {
+                executor.submit(pausableWork);
+            }
+            
 		} finally {
 			lock.unlock();
 		}
@@ -190,47 +147,28 @@ public class ThreadPoolWorkScheduler implements WorkScheduler, WorkSchedulerMBea
 	}
 
 	public void stop() {
+        
+        if (paused.get()) {
+            return;
+        }
 		
 		Lock lock = readWriteLock.writeLock();
-		lock.lock();
 		try {
-			for (PausableWork pausableWork : workInProgress) {
+
+	        lock.lock();
+            paused.set(true);
+            
+			for (PausableWork pausableWork : daemonWork) {
 				pausableWork.stop();
 			}
+			
 			executor.shutdown();
+			executor = null;
+			
 		} finally {
 			lock.unlock();
 		}
 		
 	}
-
-	public Status getStatus() {
-		return paused.get() ? Status.PAUSED : Status.STARTED;
-	}
 	
-	private class DecoratingWork implements Runnable {
-
-		private DefaultPausableWork work;
-		
-		public DecoratingWork(DefaultPausableWork work) {
-			this.work = work;
-		}
-		
-		public void run() {
-
-			if (paused.get()) {
-				work.pause();
-			}
-			workInProgress.add(work);
-			
-			try {
-				work.run();
-			} finally {
-				workInProgress.remove(work);
-			}
-			
-		}
-		
-	}
-
 }
