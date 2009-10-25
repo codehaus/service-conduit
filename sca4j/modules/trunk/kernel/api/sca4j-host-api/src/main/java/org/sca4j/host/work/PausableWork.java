@@ -79,16 +79,6 @@ package org.sca4j.host.work;
 public interface PausableWork extends Runnable {
 	
 	/**
-	 * Pause the work if possible.
-	 */
-	void pause();
-	
-	/**
-	 * Restart any paused work.
-	 */
-	void start();
-	
-	/**
 	 * Stop the work.
 	 */
 	void stop();

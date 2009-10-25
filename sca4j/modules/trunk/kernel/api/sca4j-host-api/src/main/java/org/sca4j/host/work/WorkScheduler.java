@@ -90,6 +90,6 @@ public interface WorkScheduler {
      * 
      * @param work The unit of work that needs to be asynchronously executed.
      */
-    <T extends DefaultPausableWork>void scheduleWork(T work);
+    <T extends DefaultPausableWork> void scheduleWork(T work);
 
 }

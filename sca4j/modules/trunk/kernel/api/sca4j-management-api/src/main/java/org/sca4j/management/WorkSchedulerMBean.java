@@ -60,23 +60,16 @@ import org.sca4j.api.annotation.Management;
  */
 @Management
 public interface WorkSchedulerMBean {
-	
-	enum Status {
-		STARTED, PAUSED;
-	}
-
-	void setPoolSize(int poolSize);
-
-	int getPoolSize();
-
-	int getActiveCount();
-
-	void pause();
-
-	void stop();
-
-	void start();
-	
-	Status getStatus();
+    
+    /**
+     * Starts the work scheduler.
+     */
+    void start();
+    
+    /**
+     * Stops the work scheduler.
+     */
+    void stop();
+    
 
 }

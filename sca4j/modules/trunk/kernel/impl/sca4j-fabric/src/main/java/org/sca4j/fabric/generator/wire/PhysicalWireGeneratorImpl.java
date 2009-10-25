@@ -402,6 +402,9 @@ public class PhysicalWireGeneratorImpl implements PhysicalWireGenerator {
             QName qName = policy.getExtensionName();
             InterceptorDefinitionGenerator idg = generatorRegistry.getInterceptorDefinitionGenerator(qName);
             PhysicalInterceptorDefinition pid = idg.generate(policy.getExtension(), operation, logicalBinding);
+            if (pid == null) {
+                continue;
+            }
             pid.setInterfaze(interfaze);
             pid.setOperation(operation.getName());
             if (pid != null) {

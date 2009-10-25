@@ -80,10 +80,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public abstract class DefaultPausableWork implements PausableWork {
 	
-	private static final long DELAY_ON_PAUSE = 2000L;
-	
 	private AtomicBoolean active = new AtomicBoolean(true);
-	private AtomicBoolean paused = new AtomicBoolean(false);
 	private boolean daemon;
 	
 	/**
@@ -102,20 +99,6 @@ public abstract class DefaultPausableWork implements PausableWork {
 	}
 	
 	/**
-	 * Pauses the job.
-	 */
-	public final void pause() {
-		paused.set(true);
-	}
-	
-	/**
-	 * Restarts the job.
-	 */
-	public final void start() {
-		paused.set(false);
-	}
-	
-	/**
 	 * Terminates the job.
 	 */
 	public final void stop() {
@@ -125,26 +108,22 @@ public abstract class DefaultPausableWork implements PausableWork {
 	/**
 	 * Runs the job.
 	 */
-	public final void run() {		
-		
+	public final void run() {
 		if (daemon) {
 			while (active.get()) {
-				if (paused.get()) {
-					try {
-						Thread.sleep(DELAY_ON_PAUSE);
-					} catch (InterruptedException e) {
-						continue;
-					}
-					continue;
-				}
 				execute();
 			}
 		} else {
-			while (paused.get()) {
-			}
 			execute();
 		}
-		
+	}
+	
+	/**
+	 * Checks whether the work is daemon.
+	 * @return True if the work is daemon.
+	 */
+	public boolean isDaemon() {
+	    return daemon;
 	}
 	
 	/**
