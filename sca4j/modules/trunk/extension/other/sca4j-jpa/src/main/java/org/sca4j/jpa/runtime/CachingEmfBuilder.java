@@ -78,7 +78,7 @@ import javax.persistence.EntityManagerFactory;
 import org.osoa.sca.annotations.Destroy;
 import org.osoa.sca.annotations.Reference;
 import org.osoa.sca.annotations.Service;
-import org.sca4j.jpa.spi.EmfBuilderException;
+import org.sca4j.host.jpa.EmfBuilder;
 import org.sca4j.jpa.spi.delegate.EmfBuilderDelegate;
 
 /**
@@ -113,7 +113,7 @@ public class CachingEmfBuilder implements EmfBuilder, EmfCache {
         this.delegates = delegates;
     }
 
-    public synchronized EntityManagerFactory build(String unitName, ClassLoader classLoader) throws EmfBuilderException {
+    public synchronized EntityManagerFactory build(String unitName, ClassLoader classLoader) {
 
         if (cache.containsKey(unitName)) {
             return cache.get(unitName);
@@ -145,7 +145,7 @@ public class CachingEmfBuilder implements EmfBuilder, EmfCache {
     /*
     * Creates the entity manager factory using the JPA provider API.
     */
-    private EntityManagerFactory createEntityManagerFactory(String unitName, ClassLoader classLoader) throws EmfBuilderException {
+    private EntityManagerFactory createEntityManagerFactory(String unitName, ClassLoader classLoader) {
 
     	PersistenceUnitInfoImpl info = (PersistenceUnitInfoImpl) scanner.getPersistenceUnitInfo(unitName, classLoader);
         String providerClass = info.getPersistenceProviderClassName();

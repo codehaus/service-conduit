@@ -55,7 +55,7 @@ package org.sca4j.jpa.spi.delegate;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.spi.PersistenceUnitInfo;
 
-import org.sca4j.jpa.spi.EmfBuilderException;
+import org.sca4j.host.jpa.EmfBuilderException;
 
 /**
  * Delegate interface for creating entity manager factories for adding provider specific hook-ins.
@@ -73,6 +73,6 @@ public interface EmfBuilderDelegate {
      * @return Entity manager factory.
      * @throws EmfBuilderException if an error building the factory occurs
      */
-    EntityManagerFactory build(PersistenceUnitInfo info, ClassLoader classLoader, String dataSourceName) throws EmfBuilderException;
+    EntityManagerFactory build(PersistenceUnitInfo info, ClassLoader classLoader, String dataSourceName);
 
 }

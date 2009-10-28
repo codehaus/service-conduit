@@ -68,11 +68,9 @@
  * specific language governing permissions and limitations
  * under the License.    
  */
-package org.sca4j.jpa.runtime;
+package org.sca4j.host.jpa;
 
 import javax.persistence.EntityManagerFactory;
-
-import org.sca4j.jpa.spi.EmfBuilderException;
 
 /**
  * Abstraction for building entity manager factory instances for the specified persistence unit names.
@@ -89,6 +87,6 @@ public interface EmfBuilder {
      * @return Entity manager factory.
      * @throws EmfBuilderException if an error occurs building the EMF
      */
-    EntityManagerFactory build(String unitName, ClassLoader classLoader) throws EmfBuilderException;
+    EntityManagerFactory build(String unitName, ClassLoader classLoader);
 
 }

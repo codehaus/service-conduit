@@ -74,8 +74,9 @@ import java.net.URI;
 
 import javax.persistence.EntityManagerFactory;
 
+import org.osoa.sca.annotations.Reference;
+import org.sca4j.host.jpa.EmfBuilder;
 import org.sca4j.jpa.provision.PersistenceUnitWireTargetDefinition;
-import org.sca4j.jpa.spi.EmfBuilderException;
 import org.sca4j.jpa.spi.classloading.EmfClassLoaderService;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.SingletonObjectFactory;
@@ -83,7 +84,6 @@ import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.TargetWireAttacher;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
 import org.sca4j.spi.wire.Wire;
-import org.osoa.sca.annotations.Reference;
 
 /**
  * Attaches the target side of entity manager factories.
@@ -121,8 +121,6 @@ public class PersistenceUnitWireAttacher implements TargetWireAttacher<Persisten
             Thread.currentThread().setContextClassLoader(appCl);
             EntityManagerFactory entityManagerFactory = emfBuilder.build(unitName, appCl);
             return new SingletonObjectFactory<EntityManagerFactory>(entityManagerFactory);
-        } catch (EmfBuilderException e) {
-            throw new WiringException(e);
         } finally {
             Thread.currentThread().setContextClassLoader(oldCl);
         }

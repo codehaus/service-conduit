@@ -52,7 +52,7 @@
  */
 package org.sca4j.jpa.hibernate;
 
-import org.sca4j.jpa.spi.EmfBuilderException;
+import org.sca4j.host.jpa.EmfBuilderException;
 
 /**
  * @version $Revision$ $Date$

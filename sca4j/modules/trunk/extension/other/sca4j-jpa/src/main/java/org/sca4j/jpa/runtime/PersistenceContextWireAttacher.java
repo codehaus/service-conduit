@@ -71,13 +71,13 @@
 package org.sca4j.jpa.runtime;
 
 import java.net.URI;
+
 import javax.transaction.TransactionManager;
 
 import org.osoa.sca.annotations.Reference;
-
+import org.sca4j.host.jpa.EmfBuilder;
 import org.sca4j.jpa.provision.PersistenceContextWireTargetDefinition;
 import org.sca4j.jpa.spi.classloading.EmfClassLoaderService;
-import org.sca4j.jpa.spi.EmfBuilderException;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.TargetWireAttacher;
@@ -129,8 +129,6 @@ public class PersistenceContextWireAttacher implements TargetWireAttacher<Persis
             } else {
                 return new StatefulEntityManagerProxyFactory(unitName, extended, emService, tm);
             }
-        } catch (EmfBuilderException e) {
-            throw new WiringException(e);
         } finally {
             Thread.currentThread().setContextClassLoader(oldCl);
         }

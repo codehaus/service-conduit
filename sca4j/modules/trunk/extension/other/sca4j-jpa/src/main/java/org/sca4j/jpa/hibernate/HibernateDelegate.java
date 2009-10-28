@@ -65,7 +65,6 @@ import org.hibernate.ejb.Ejb3Configuration;
 import org.osoa.sca.annotations.Reference;
 import org.sca4j.host.perf.PerformanceMonitor;
 import org.sca4j.host.runtime.HostInfo;
-import org.sca4j.jpa.spi.EmfBuilderException;
 import org.sca4j.jpa.spi.delegate.EmfBuilderDelegate;
 import org.sca4j.resource.jndi.proxy.jdbc.DataSourceProxy;
 import org.sca4j.spi.resource.DataSourceRegistry;
@@ -96,7 +95,7 @@ public class HibernateDelegate implements EmfBuilderDelegate {
         this.synthesizer = synthesizer;
     }
 
-    public EntityManagerFactory build(PersistenceUnitInfo info, ClassLoader classLoader, String dataSourceName) throws EmfBuilderException {
+    public EntityManagerFactory build(PersistenceUnitInfo info, ClassLoader classLoader, String dataSourceName) {
 
     	Ejb3Configuration cfg = new Ejb3Configuration();
 	
@@ -122,7 +121,7 @@ public class HibernateDelegate implements EmfBuilderDelegate {
         
     }
     
-    private DataSource mapDataSource(String datasource, String persistenceUnit) throws DataSourceInitException {
+    private DataSource mapDataSource(String datasource, String persistenceUnit) {
         DataSourceProxy proxy = new DataSourceProxy();
         proxy.setDataSourceRegistry(dataSourceRegistry);
         try {
@@ -134,11 +133,11 @@ public class HibernateDelegate implements EmfBuilderDelegate {
             synthesizer.registerComponent(datasource + "Component", DataSource.class, proxy, false);
             return proxy;
         } catch (NamingException e) {
-            throw new DataSourceInitException("Datasource " + datasource + " specified in persistent unit " + persistenceUnit
+            throw new AssertionError("Datasource " + datasource + " specified in persistent unit " + persistenceUnit
                     + " was not found. The datasource must either be explicitly declared as part of the SCA4J system configuration or provided"
-                    + " via JNDI using the name of the data source.", e);
+                    + " via JNDI using the name of the data source.");
         } catch (ComponentRegistrationException e) {
-            throw new DataSourceInitException("Error registering datasource " + datasource + " specified in persistent unit " + persistenceUnit, e);
+            throw new AssertionError("Error registering datasource " + datasource + " specified in persistent unit " + persistenceUnit);
         }
     }
 
