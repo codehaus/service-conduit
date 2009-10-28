@@ -69,6 +69,7 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
+import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.surefire.report.BriefConsoleReporter;
 import org.apache.maven.surefire.report.BriefFileReporter;
 import org.apache.maven.surefire.report.Reporter;
@@ -112,7 +113,7 @@ public class TestRunner {
     private TestMetadata testMetadata;
     private MonitorFactory monitorFactory;
     
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, MojoFailureException {
         
         FileInputStream fileInputStream = null;
         try {
@@ -131,7 +132,7 @@ public class TestRunner {
         this.monitorFactory = monitorFactory;
     }
 
-    public void executeTests() {
+    public void executeTests() throws MojoFailureException {
         
         SurefireTestSuite testSuite;
         MavenEmbeddedRuntime runtime = null;
@@ -170,9 +171,11 @@ public class TestRunner {
             
             if (!success) {
                 String msg = "There were test failures";
-                throw new RuntimeException(msg);
+                throw new MojoFailureException(msg);
             }
             
+        } catch (MojoFailureException e) {
+            throw e;
         } catch (Exception e) {
             // trap any other exception
             throw new AssertionError(e);
