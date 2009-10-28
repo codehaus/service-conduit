@@ -62,6 +62,7 @@
       <class>org.sca4j.generic.runtime.test.Employee</class>
       <properties>
          <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
+         <property name="hibernate.show_sql" value="true"/>
          <property name="hibernate.transaction.manager_lookup_class"  value="org.sca4j.jpa.hibernate.SCA4JHibernateTransactionManagerLookup"/>
          <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
       </properties>

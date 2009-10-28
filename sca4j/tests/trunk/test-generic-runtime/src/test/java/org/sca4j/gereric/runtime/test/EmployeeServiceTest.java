@@ -16,6 +16,9 @@
  */
 package org.sca4j.gereric.runtime.test;
 
+import javax.persistence.EntityManager;
+
+import org.sca4j.generic.runtime.test.Employee;
 import org.sca4j.generic.runtime.test.EmployeeService;
 import org.sca4j.runtime.generic.junit.AbstractTransactionalScaTest;
 
@@ -29,6 +32,11 @@ public class EmployeeServiceTest extends AbstractTransactionalScaTest {
         EmployeeService employeeService = getServiceProxy("employeeService");
         String id = employeeService.createEmployee("Meeraj Kunnumpurath");
         assertEquals("Meeraj Kunnumpurath", employeeService.findName(id));
+        EntityManager em = getEntityManager("employee");
+        Employee employee = new Employee("Neil Ellis");
+        em.persist(employee);
+        em.flush();
+        assertEquals("Neil Ellis", em.find(Employee.class, employee.getId()).getName());
     }
 
     @Override
