@@ -52,6 +52,9 @@
  */
 package org.sca4j.junit.runtime;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
 import org.sca4j.junit.provision.JUnitWireSourceDefinition;
@@ -65,14 +68,21 @@ import org.sca4j.spi.wire.Wire;
 public class JunitSourceWireAttacher implements SourceWireAttacher<JUnitWireSourceDefinition> {
 
 	private WireHolder holder;
+	private List<String> tests;
 
     public JunitSourceWireAttacher(@Reference WireHolder holder) {
         this.holder = holder;
+        String test = System.getProperty("itest");
+        if (test != null) {
+            tests = Arrays.asList(test.split(","));
+        }
     }
 
     public void attachToSource(JUnitWireSourceDefinition source, PhysicalWireTargetDefinition target, Wire wire) throws WiringException {
         final String testName = source.getTestName();
-        holder.put(testName, wire);
+        if (tests == null || tests.contains(testName)) {
+            holder.put(testName, wire);
+        }
     }
 
     public void attachObjectFactory(JUnitWireSourceDefinition source, ObjectFactory<?> objectFactory, PhysicalWireTargetDefinition target)
