@@ -93,7 +93,7 @@
                 <plugin>
                     <groupId>org.sca4j</groupId>
                     <artifactId>sca4j-contribution-plugin</artifactId>
-                    <version>0.1.9</version>
+                    <version>0.1.10-SNAPSHOT</version>
                 </plugin>                
             </plugins>
         </pluginManagement>
