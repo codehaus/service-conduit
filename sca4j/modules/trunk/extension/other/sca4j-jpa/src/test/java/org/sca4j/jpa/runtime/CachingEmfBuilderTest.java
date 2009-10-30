@@ -72,7 +72,6 @@ package org.sca4j.jpa.runtime;
 
 import javax.persistence.EntityManagerFactory;
 
-import org.sca4j.host.jpa.EmfBuilder;
 
 import junit.framework.TestCase;
 

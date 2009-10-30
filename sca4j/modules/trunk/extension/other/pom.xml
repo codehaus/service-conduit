@@ -46,9 +46,5 @@
 		<module>sca4j-xapool</module>
 		<module>sca4j-timer-spi</module>
 		<module>sca4j-timer-quartz</module>
-		<module>sca4j-jaxb</module>
-		<module>sca4j-databinding-jaxb-provision</module>
-		<module>sca4j-databinding-jaxb-loader</module>
-		<module>sca4j-databinding-jaxb-runtime</module>
 	</modules>
 </project>

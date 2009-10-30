@@ -54,10 +54,7 @@ package org.sca4j.runtime.generic.junit;
 
 import java.net.URI;
 
-import javax.persistence.EntityManager;
 import javax.transaction.TransactionManager;
-
-import org.sca4j.host.jpa.EmfBuilder;
 
 /**
  * Unit test with transaction capabilities.
@@ -98,16 +95,6 @@ public abstract class AbstractTransactionalScaTest extends AbstractScaTest {
         } else {
             transactionManager.rollback();
         }
-    }
-    
-    /**
-     * Gets a names entity manager.
-     * @param unitName Persitence unit name.
-     * @return ENtity manager.
-     */
-    protected EntityManager getEntityManager(String unitName) {
-        EmfBuilder emfBuilder = genericRuntime.getSystemComponent(EmfBuilder.class, URI.create("sca4j://runtime/CachingEmfBuilder"));
-        return emfBuilder.build(unitName, getClass().getClassLoader()).createEntityManager();
     }
     
     /**

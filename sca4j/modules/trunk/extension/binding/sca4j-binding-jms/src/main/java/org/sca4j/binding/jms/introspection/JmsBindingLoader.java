@@ -52,19 +52,20 @@
  */
 package org.sca4j.binding.jms.introspection;
 
+import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
+import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
+
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.xml.namespace.QName;
-import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
-import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import org.osoa.sca.Constants;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.binding.jms.common.ConnectionFactoryDefinition;
 import org.sca4j.binding.jms.common.CorrelationScheme;
 import org.sca4j.binding.jms.common.CreateOption;
@@ -83,7 +84,6 @@ import org.sca4j.introspection.xml.InvalidValue;
 import org.sca4j.introspection.xml.LoaderHelper;
 import org.sca4j.introspection.xml.TypeLoader;
 import org.sca4j.introspection.xml.UnrecognizedAttribute;
-import org.sca4j.jaxb.control.api.JAXBTransformationService;
 
 /**
  * @version $Revision: 5137 $ $Date: 2008-08-02 08:54:51 +0100 (Sat, 02 Aug
@@ -129,9 +129,8 @@ public class JmsBindingLoader implements TypeLoader<JmsBindingDefinition> {
      * @param loaderHelper the loaderHelper
      * @param transformationService the JAXB transformation service
      */
-    public JmsBindingLoader(@Reference LoaderHelper loaderHelper, @Reference JAXBTransformationService transformationService) {
+    public JmsBindingLoader(@Reference LoaderHelper loaderHelper) {
         this.loaderHelper = loaderHelper;
-        transformationService.registerBinding(BINDING_QNAME, JAXBTransformationService.DATATYPE_XML);
     }
 
     public JmsBindingDefinition load(XMLStreamReader reader, IntrospectionContext introspectionContext) throws XMLStreamException {

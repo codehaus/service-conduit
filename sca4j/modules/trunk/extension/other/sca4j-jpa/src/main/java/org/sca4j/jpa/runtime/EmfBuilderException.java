@@ -50,47 +50,25 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.jaxb.runtime.impl;
+package org.sca4j.jpa.runtime;
 
-import java.util.Map;
-import javax.xml.bind.JAXBContext;
-import javax.xml.namespace.QName;
-
-import org.osoa.sca.annotations.Reference;
-
-import org.sca4j.jaxb.provision.ServiceTransformingInterceptorDefinition;
-import org.sca4j.jaxb.runtime.spi.DataBindingTransformerFactory;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
-import org.sca4j.transform.PullTransformer;
+import org.sca4j.host.SCA4JException;
 
 /**
- * Builds a transforming interceptor for the service side of a wire.
- *
  * @version $Revision$ $Date$
  */
-public class ServiceTransformingInterceptorBuilder
-        extends AbstractTransformingInterceptorBuilder<ServiceTransformingInterceptorDefinition, TransformingInterceptor<?, ?>> {
-    private Map<QName, DataBindingTransformerFactory<?>> factories;
+public class EmfBuilderException extends SCA4JException {
+    private static final long serialVersionUID = 8918152702982814428L;
 
-    public ServiceTransformingInterceptorBuilder(@Reference ClassLoaderRegistry classLoaderRegistry) {
-        super(classLoaderRegistry);
+    public EmfBuilderException(String message, Throwable cause) {
+        super(message, cause);
     }
 
-    @Reference
-    public void setFactories(Map<QName, DataBindingTransformerFactory<?>> factories) {
-        this.factories = factories;
+    public EmfBuilderException(String message) {
+        super(message);
     }
 
-    @SuppressWarnings({"unchecked"})
-    protected TransformingInterceptor<?, ?> build(QName dataType, JAXBContext context, ClassLoader classLoader)
-            throws TransformingBuilderException {
-        DataBindingTransformerFactory<?> factory = factories.get(dataType);
-        if (factory == null) {
-            throw new TransformingBuilderException("No DataBindingTransformerFactory found for: " + dataType);
-        }
-        PullTransformer<?, Object> inTransformer = factory.createToJAXBTransformer(context);
-        PullTransformer<Object, ?> outTransformer = factory.createFromJAXBTransformer(context);
-        return new TransformingInterceptor(inTransformer, outTransformer, classLoader);
+    public EmfBuilderException(Throwable cause) {
+        super(cause);
     }
-
 }
