@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.sca4j</groupId>
+        <artifactId>sca4j-plugins-parent-pom</artifactId>
+        <version>0.1.9</version>
+    </parent>
+    <groupId>org.sca4j</groupId>
+    <artifactId>sca4j-webapp-plugin</artifactId>
+    <packaging>maven-plugin</packaging>
+    <name>SCA4J Webapp Plugin</name>
+    <description>SCA4J Webapp Plugin.</description>
+
+    <distributionManagement>
+        <site>
+            <id>dav.codehaus.org</id>
+            <name>SCA4J Website</name>
+            <url>dav:https://dav.codehaus.org/sca4j/sca4j-webapp-plugin</url>
+        </site>
+    </distributionManagement>
+
+    <dependencies>
+    
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-plugin-api</artifactId>
+            <version>2.0</version>
+        </dependency>
+        
+         <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-project</artifactId>
+            <version>2.0.4</version>
+            <scope>compile</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-artifact</artifactId>
+            <version>2.0</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-utils</artifactId>
+            <version>1.4.1</version>
+        </dependency>
+        
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-plugin-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <goalPrefix>sca4j</goalPrefix>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
