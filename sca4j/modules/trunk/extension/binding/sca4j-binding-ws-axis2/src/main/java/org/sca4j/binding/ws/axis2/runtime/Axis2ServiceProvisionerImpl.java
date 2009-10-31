@@ -80,6 +80,7 @@ import org.sca4j.binding.ws.axis2.provision.AxisPolicy;
 import org.sca4j.binding.ws.axis2.runtime.config.SCA4JConfigurator;
 import org.sca4j.binding.ws.axis2.runtime.policy.PolicyApplier;
 import org.sca4j.binding.ws.axis2.runtime.servlet.SCA4JAxisServlet;
+import org.sca4j.host.runtime.HostInfo;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.host.ServletHost;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
@@ -102,25 +103,24 @@ public class Axis2ServiceProvisionerImpl implements Axis2ServiceProvisioner {
 
     private ConfigurationContext configurationContext;
     private String servicePath = "axis2";
+    private HostInfo hostInfo;
 
-    public Axis2ServiceProvisionerImpl(@Reference(required = false) ServletHost servletHost,
-                                       @Reference ClassLoaderRegistry classLoaderRegistry,
-                                       @Reference PolicyApplier policyApplier,
-                                       @Reference SCA4JConfigurator f3Configurator,
-                                       @Monitor ServiceProvisionerMonitor monitor) {
+    public Axis2ServiceProvisionerImpl(@Reference(required = false) ServletHost servletHost, @Reference ClassLoaderRegistry classLoaderRegistry,
+            @Reference PolicyApplier policyApplier, @Reference SCA4JConfigurator f3Configurator, @Monitor ServiceProvisionerMonitor monitor, @Reference HostInfo hostInfo) {
         if (servletHost == null) {
-            throw new AssertionError("Please configure a servlet host");    
+            throw new AssertionError("Please configure a servlet host");
         }
         this.servletHost = servletHost;
         this.classLoaderRegistry = classLoaderRegistry;
         this.policyApplier = policyApplier;
         this.f3Configurator = f3Configurator;
         this.monitor = monitor;
+        this.hostInfo = hostInfo;
     }
 
     /**
      * TODO Make configurable: FABRICTHREE-276
-     *
+     * 
      * @param servicePath Service path for Axis requests.
      */
     @Property
@@ -130,7 +130,7 @@ public class Axis2ServiceProvisionerImpl implements Axis2ServiceProvisioner {
 
     /**
      * Initializes the servlet mapping.
-     *
+     * 
      * @throws Exception If unable to create configuration context.
      */
     @Init
@@ -165,7 +165,7 @@ public class Axis2ServiceProvisionerImpl implements Axis2ServiceProvisioner {
             axisService.addParameter(interfaceParameter);
 
             setMessageReceivers(wire, axisService);
-            
+
             // Reset the name
             axisService.setName(uri);
 
@@ -180,6 +180,10 @@ public class Axis2ServiceProvisionerImpl implements Axis2ServiceProvisioner {
     }
 
     private void applyPolicies(Axis2WireSourceDefinition pwsd, AxisService axisService) throws WiringException, AxisFault {
+
+        if ("true".equals(hostInfo.getProperty("axis2.policy.disable", "false"))) {
+            return;
+        }
 
         for (Iterator<?> i = axisService.getOperations(); i.hasNext();) {
 
@@ -206,11 +210,11 @@ public class Axis2ServiceProvisionerImpl implements Axis2ServiceProvisioner {
                 if (message != null) {
                     axisDescription = axisOperation.getMessage(message);
                 }
-                
-                if(opaquePolicy != null) {
+
+                if (opaquePolicy != null) {
                     policyApplier.applyPolicy(axisDescription, opaquePolicy);
                 }
-                
+
             }
 
         }
@@ -233,16 +237,14 @@ public class Axis2ServiceProvisionerImpl implements Axis2ServiceProvisioner {
             AxisOperation axisOp = (AxisOperation) i.next();
             InvocationChain invocationChain = interceptors.get(axisOp.getName().getLocalPart());
             MessageReceiver messageReceiver = null;
-            if (WSDL2Constants.MEP_URI_IN_ONLY.equals(axisOp.getMessageExchangePattern()) || 
-                WSDL2Constants.MEP_URI_ROBUST_IN_ONLY.equals(axisOp.getMessageExchangePattern())) {
-                messageReceiver = new InOnlyServiceProxy(invocationChain);           
-            } else {//Default MEP is IN-OUT for backward compatibility
+            if (WSDL2Constants.MEP_URI_IN_ONLY.equals(axisOp.getMessageExchangePattern()) || WSDL2Constants.MEP_URI_ROBUST_IN_ONLY.equals(axisOp.getMessageExchangePattern())) {
+                messageReceiver = new InOnlyServiceProxy(invocationChain);
+            } else {// Default MEP is IN-OUT for backward compatibility
                 messageReceiver = new InOutServiceProxy(invocationChain);
             }
             axisOp.setMessageReceiver(messageReceiver);
         }
 
     }
-
 
 }
