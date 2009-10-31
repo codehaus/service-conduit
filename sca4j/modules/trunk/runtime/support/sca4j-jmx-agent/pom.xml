@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>sca4j-runtime-support-parent-pom</artifactId>
-        <version>0.1.10</version>
+        <version>0.1.11-SNAPSHOT</version>
     </parent>
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-jmx-agent</artifactId>
@@ -30,7 +30,7 @@
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-host-api</artifactId>
-            <version>0.1.10</version>
+            <version>0.1.11-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
