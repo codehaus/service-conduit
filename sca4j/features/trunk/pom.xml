@@ -30,7 +30,7 @@
     <version>0.1.12-SNAPSHOT</version>
 
     <properties>
-        <feature.version>0.1.11</feature.version>
+        <feature.version>0.1.12-SNAPSHOT</feature.version>
     </properties>
 
     <modules>
