@@ -299,6 +299,9 @@ class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
                 Element property = (Element) nodeList.item(i);
                 data.put(property.getAttribute(PROPERTY_NAME), property.getAttribute(PROPERTY_VALUE));
             }
+            if (!data.containsKey("hibernate.transaction.manager_lookup_class")) {
+                data.put("hibernate.transaction.manager_lookup_class", "org.sca4j.jpa.hibernate.SCA4JHibernateTransactionManagerLookup");
+            }
             return data;
         } catch (XPathExpressionException ex) {
             throw new SCA4JJpaRuntimeException(ex);
