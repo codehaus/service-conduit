@@ -20,12 +20,12 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>sca4j-plugins-parent-pom</artifactId>
-        <version>0.1.11</version>
+        <version>0.1.12-SNAPSHOT</version>
     </parent>
 
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-feature-set-plugin</artifactId>
-    <version>0.1.11</version>
+    <version>0.1.12-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
     <name>SCA4J Feature Set Plugin</name>
     <description>SCA4J Feature Set Plugin.</description>
