@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>sca4j-kernel-api-parent-pom</artifactId>
-        <version>0.1.11</version>
+        <version>0.1.12-SNAPSHOT</version>
     </parent>
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-spi</artifactId>
@@ -31,37 +31,37 @@
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-api</artifactId>
-            <version>0.1.11</version>
+            <version>0.1.12-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-host-api</artifactId>
-            <version>0.1.11</version>
+            <version>0.1.12-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-introspection-spi</artifactId>
-            <version>0.1.11</version>
+            <version>0.1.12-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-transform-api</artifactId>
-            <version>0.1.11</version>
+            <version>0.1.12-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-xmlfactory</artifactId>
-            <version>0.1.11</version>
+            <version>0.1.12-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-scdl</artifactId>
-            <version>0.1.11</version>
+            <version>0.1.12-SNAPSHOT</version>
         </dependency>
 
         <dependency>
