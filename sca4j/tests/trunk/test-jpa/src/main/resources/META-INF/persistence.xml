@@ -73,7 +73,6 @@
        <class>org.sca4j.jpa.model.ExEmployee</class>
        <properties>
           <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
-          <property name="hibernate.transaction.manager_lookup_class" value="org.sca4j.jpa.hibernate.SCA4JHibernateTransactionManagerLookup"/>
           <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
        </properties>
     </persistence-unit>
