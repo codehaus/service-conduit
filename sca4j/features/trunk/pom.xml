@@ -37,6 +37,7 @@
         <module>sca4j-default-feature</module>
         <module>sca4j-hibernate-feature</module>
         <module>sca4j-hibernate-jotm-feature</module>
+        <module>sca4j-jpa-jotm-axis-feature</module>
     </modules>
 
     <repositories>
