@@ -140,8 +140,11 @@ public class TestRunner {
         try {
             
             ClassLoader parentClassLoader = getClass().getClassLoader();
-            ClassLoader hostClassLoader = createHostClassLoader(parentClassLoader, testMetadata.getHostArtifacts());
-            ClassLoader bootClassLoader = createBootClassLoader(hostClassLoader, testMetadata.getRuntimeArtifacts());
+            //ClassLoader hostClassLoader = createHostClassLoader(parentClassLoader, testMetadata.getHostArtifacts());
+            //ClassLoader bootClassLoader = createBootClassLoader(hostClassLoader, testMetadata.getRuntimeArtifacts());
+            
+            ClassLoader hostClassLoader = createClassLoader(parentClassLoader, testMetadata.getClasspath());
+            ClassLoader bootClassLoader = hostClassLoader;
             
             Thread.currentThread().setContextClassLoader(bootClassLoader);
             
@@ -305,6 +308,15 @@ public class TestRunner {
                 // toURI should have encoded the URL
                 throw new AssertionError(e);
             }
+
+        }
+        return new URLClassLoader(urls.toArray(new URL[urls.size()]), parent);
+    }
+
+    private ClassLoader createClassLoader(ClassLoader parent, Set<URL> hostArtifacts) {
+        List<URL> urls = new ArrayList<URL>(hostArtifacts.size());
+        for (URL artifact : hostArtifacts) {
+            urls.add(artifact);
 
         }
         return new URLClassLoader(urls.toArray(new URL[urls.size()]), parent);

@@ -311,7 +311,7 @@ public class SCA4JContributionMojo extends AbstractMojo {
             if (!classesDirectory.exists()) {
                 throw new FileNotFoundException(String.format("Unable to package contribution, %s does not exist.", classesDirectory));
             } else {
-                includeDependencies();
+                //includeDependencies();
                 generateSCAManifest();
                 archiver.getArchiver().addDirectory(classesDirectory, DEFAULT_INCLUDES, DEFAULT_EXCLUDES);
             }

@@ -40,14 +40,12 @@
             <groupId>geronimo-spec</groupId>
             <artifactId>geronimo-spec-jta</artifactId>
             <version>1.0.1B-rc4</version>
-            <scope>provided</scope>
         </dependency>
         
         <dependency>
             <groupId>geronimo-spec</groupId>
             <artifactId>geronimo-spec-j2ee-connector</artifactId>
             <version>1.5-rc4</version>
-            <scope>provided</scope>
          </dependency>
 
         <dependency>
@@ -55,7 +53,6 @@
             <artifactId>stax-api</artifactId>
             <!-- use version 1.0 as it is the version bundled in JDK 6 -->
             <version>1.0</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>

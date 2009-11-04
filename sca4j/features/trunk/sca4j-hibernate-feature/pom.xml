@@ -61,14 +61,6 @@
                             <version>${feature.version}</version>
                         </dependency>
                     </extensions>
-                    <!-- API classes need to be shared between the application and extension classloaders -->
-                    <shared>
-                        <dependency>
-                            <groupId>javax.persistence</groupId>
-                            <artifactId>persistence-api</artifactId>
-                            <version>1.0</version>
-                        </dependency>
-                    </shared>
                 </configuration>
             </plugin>
         </plugins>

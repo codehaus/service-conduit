@@ -102,7 +102,7 @@ public class MavenHostInfoImpl extends AbstractHostInfo implements MavenHostInfo
     }
 
     public boolean supportsClassLoaderIsolation() {
-        return true;
+        return false;
     }
 
     public Set<URL> getDependencyUrls() {

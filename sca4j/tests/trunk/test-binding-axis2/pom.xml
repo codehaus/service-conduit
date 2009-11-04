@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>ci</artifactId>
-        <version>0.1.11-SNAPSHOT</version>
+        <version>0.1.12-SNAPSHOT</version>
     </parent>
 
     <artifactId>test-binding-axis2</artifactId>
@@ -40,7 +40,7 @@
         <dependency>
             <groupId>org.apache.ws.commons.axiom</groupId>
             <artifactId>axiom-api</artifactId>
-            <version>1.2.5</version>
+            <version>1.2.7</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -56,6 +56,11 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>test-axis2-audit-module</artifactId>
+            <version>${sca4j.version}</version>
         </dependency>
     </dependencies>
 
@@ -94,29 +99,6 @@
                             <version>${sca4j.version}</version>
                         </dependency>
                     </extensions>
-                    <shared>
-                    	<dependency>
-                            <groupId>org.sca4j</groupId>
-                            <artifactId>test-axis2-audit-module</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>commons-codec</groupId>
-                            <artifactId>commons-codec</artifactId>
-                            <version>1.3</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.apache.axis2</groupId>
-                            <artifactId>axis2-kernel</artifactId>
-                            <version>1.4.1</version>
-                            <exclusions>
-                                <exclusion>
-                                    <groupId>org.apache.ant</groupId>
-                                    <artifactId>ant</artifactId>
-                                </exclusion>
-                            </exclusions>
-                        </dependency>
-                    </shared>
                     <systemConfig>
                         <![CDATA[
                         <config>

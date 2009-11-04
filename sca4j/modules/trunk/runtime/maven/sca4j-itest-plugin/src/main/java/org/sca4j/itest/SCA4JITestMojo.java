@@ -382,11 +382,16 @@ public class SCA4JITestMojo extends AbstractMojo {
         PerformanceMonitor.start("Calculate module dependencies");
         Set<URL> moduleDependencies = artifactHelper.calculateModuleDependencies(dependencies, hostArtifacts);
         PerformanceMonitor.end();
+        PerformanceMonitor.start("Calculate classpath");
+        Set<URL> classpath = artifactHelper.getClasspathArtifacts(runtimeVersion, featureSets, extensions);
+        PerformanceMonitor.end();
+        
         
         testMetadata.setModuleDependencies(moduleDependencies);
         testMetadata.setRuntimeArtifacts(toFiles(runtimeArtifacts));
         testMetadata.setHostArtifacts(toFiles(hostArtifacts));
-
+        testMetadata.setClasspath(classpath);
+        
         testMetadata.setRuntimeImpl(runtimeImpl);
         testMetadata.setManagementDomain(managementDomain);
         testMetadata.setExtensions(extensionHelper.processExtensions(extensions, featureSets));

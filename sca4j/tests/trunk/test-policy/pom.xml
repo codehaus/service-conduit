@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>ci</artifactId>
-        <version>0.1.11-SNAPSHOT</version>
+        <version>0.1.12-SNAPSHOT</version>
     </parent>
 
     <artifactId>test-policy</artifactId>
@@ -86,18 +86,6 @@
                             <version>${sca4j.version}</version>
                         </dependency>
                     </extensions>
-                    <shared>
-                        <dependency>
-                            <groupId>geronimo-spec</groupId>
-                            <artifactId>geronimo-spec-jta</artifactId>
-                            <version>1.0.1B-rc4</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>geronimo-spec</groupId>
-                            <artifactId>geronimo-spec-j2ee-connector</artifactId>
-                            <version>1.5-rc4</version>
-                        </dependency>
-                    </shared>
                 </configuration>
                 <executions>
                     <execution>

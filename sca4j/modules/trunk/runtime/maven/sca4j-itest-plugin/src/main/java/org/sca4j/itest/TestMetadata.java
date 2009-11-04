@@ -85,6 +85,7 @@ public class TestMetadata {
     private Set<File> runtimeArtifacts;
     private Set<File> hostArtifacts;
     private Set<URL> moduleDependencies;
+    private Set<URL> classpath;
     private List<ContributionSource> extensions;
     private File outputDirectory;
     private String coordinatorImpl;
@@ -167,6 +168,14 @@ public class TestMetadata {
 
     public Set<URL> getModuleDependencies() {
         return moduleDependencies;
+    }
+
+    public void setClasspath(Set<URL> classpath) {
+        this.classpath = classpath;
+    }
+
+    public Set<URL> getClasspath() {
+        return classpath;
     }
 
     public void setHostArtifacts(Set<File> hostArtifacts) {

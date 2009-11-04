@@ -74,10 +74,12 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.maven.artifact.Artifact;
@@ -128,6 +130,83 @@ public class ArtifactHelper {
     public void setProject(MavenProject project) {
         this.project = project;
         this.remoteRepositories = project.getRemoteArtifactRepositories();
+    }
+    
+    public Set<URL> getClasspathArtifacts(String runtimeVersion, List<FeatureSet> featureSets, Dependency[] extensions) {
+        
+        try {
+            
+            Map<String, Artifact> artifacts = new HashMap<String, Artifact>();
+            
+            Set<URL> classpath = new HashSet<URL>();
+            
+            // Add runtime artifacts to the classpath
+            for (Artifact artifact : calculateRuntimeArtifacts(runtimeVersion)) {
+                // classpath.add(artifact.getFile().toURI().toURL());
+                String key = artifact.getGroupId() + "-" + artifact.getArtifactId();
+                artifacts.put(key, artifact);
+            }
+            
+            // Add all project artifacts to the classpath
+            for (Artifact artifact : calculateDependencies()) {
+                classpath.add(artifact.getFile().toURI().toURL());
+                String key = artifact.getGroupId() + "-" + artifact.getArtifactId();
+                if (artifacts.containsKey(key)) {
+                    if (artifact.getVersion().compareTo(artifacts.get(key).getVersion()) > 0) {
+                        artifacts.put(key, artifact);
+                    }
+                } else {
+                    artifacts.put(key, artifact);
+                }
+            }
+            
+            // Add all the extensions and their transitive dependencies
+            if (extensions != null) {
+                for (Dependency extension : extensions) {
+                    for (Artifact artifact : resolveAll(extension)) {
+                        String key = artifact.getGroupId() + "-" + artifact.getArtifactId();
+                        if (artifacts.containsKey(key)) {
+                            if (artifact.getVersion().compareTo(artifacts.get(key).getVersion()) > 0) {
+                                artifacts.put(key, artifact);
+                            }
+                        } else {
+                            artifacts.put(key, artifact);
+                        }
+                    }
+                }
+            }
+            
+            // Add all the features and their transitive dependencies
+            for (FeatureSet featureSet : featureSets) {
+                for (Dependency extension : featureSet.getExtensions()) {
+                    for (Artifact artifact : resolveAll(extension)) {
+                        String key = artifact.getGroupId() + "-" + artifact.getArtifactId();
+                        if (artifacts.containsKey(key)) {
+                            if (artifact.getVersion().compareTo(artifacts.get(key).getVersion()) > 0) {
+                                artifacts.put(key, artifact);
+                            }
+                        } else {
+                            artifacts.put(key, artifact);
+                        }
+                    }
+                }
+            }
+            
+            for (Artifact artifact : artifacts.values()) {
+                classpath.add(artifact.getFile().toURI().toURL());
+            }
+            
+            classpath.add(new File(project.getBuild().getOutputDirectory()).toURI().toURL());
+            classpath.add(new File(project.getBuild().getTestOutputDirectory()).toURI().toURL());
+            
+            return classpath;
+            
+        } catch (MalformedURLException e) {
+            throw new AssertionError(e);
+        } catch (MojoExecutionException e) {
+            throw new AssertionError(e);
+        }
+        
     }
 
     public Set<Artifact> calculateRuntimeArtifacts(String runtimeVersion) throws MojoExecutionException {

@@ -237,7 +237,8 @@ public class MetaDataStoreImpl implements MetaDataStore {
                                                                                              ValidationContext context)
             throws MetaDataStoreException {
         URI contributionUri = contribution.getUri();
-        ClassLoader loader = classLoaderRegistry.getClassLoader(contributionUri);
+        //ClassLoader loader = classLoaderRegistry.getClassLoader(contributionUri);
+        ClassLoader loader = getClass().getClassLoader();
         assert loader != null;
         for (Resource resource : contribution.getResources()) {
             for (ResourceElement<?, ?> element : resource.getResourceElements()) {

@@ -57,19 +57,6 @@
                             <version>${feature.version}</version>
                         </dependency>
                     </extensions>
-                    <!-- API classes need to be shared between the application and extension classloaders -->
-                    <shared>
-                        <dependency>
-                            <groupId>geronimo-spec</groupId>
-                            <artifactId>geronimo-spec-jta</artifactId>
-                            <version>1.0.1B-rc4</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>geronimo-spec</groupId>
-                            <artifactId>geronimo-spec-j2ee-connector</artifactId>
-                            <version>1.5-rc4</version>
-                        </dependency>
-                    </shared>
                 </configuration>
             </plugin>
         </plugins>
