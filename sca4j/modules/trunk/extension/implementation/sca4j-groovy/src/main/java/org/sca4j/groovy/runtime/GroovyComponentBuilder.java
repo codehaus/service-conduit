@@ -54,6 +54,10 @@ package org.sca4j.groovy.runtime;
 
 import java.net.URI;
 
+import org.osoa.sca.annotations.EagerInit;
+import org.osoa.sca.annotations.Init;
+import org.osoa.sca.annotations.Reference;
+import org.sca4j.groovy.provision.GroovyComponentDefinition;
 import org.sca4j.pojo.builder.PojoComponentBuilder;
 import org.sca4j.pojo.instancefactory.InstanceFactoryBuilderRegistry;
 import org.sca4j.pojo.provision.InstanceFactoryDefinition;
@@ -63,14 +67,8 @@ import org.sca4j.spi.builder.component.ComponentBuilderRegistry;
 import org.sca4j.spi.component.InstanceFactoryProvider;
 import org.sca4j.spi.component.ScopeContainer;
 import org.sca4j.spi.component.ScopeRegistry;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.transform.PullTransformer;
 import org.sca4j.transform.TransformerRegistry;
-import org.sca4j.groovy.provision.GroovyComponentDefinition;
-
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Init;
-import org.osoa.sca.annotations.Reference;
 
 /**
  * @version $Rev: 5250 $ $Date: 2008-08-21 02:18:25 +0100 (Thu, 21 Aug 2008) $
@@ -80,9 +78,8 @@ public class GroovyComponentBuilder<T> extends PojoComponentBuilder<T, GroovyCom
     public GroovyComponentBuilder(@Reference ComponentBuilderRegistry builderRegistry,
                                   @Reference ScopeRegistry scopeRegistry,
                                   @Reference InstanceFactoryBuilderRegistry providerBuilders,
-                                  @Reference ClassLoaderRegistry classLoaderRegistry,
                                   @Reference(name = "transformerRegistry")TransformerRegistry<PullTransformer<?, ?>> transformerRegistry) {
-        super(builderRegistry, scopeRegistry, providerBuilders, classLoaderRegistry,transformerRegistry);
+        super(builderRegistry, scopeRegistry, providerBuilders,transformerRegistry);
     }
 
     @Init
@@ -94,7 +91,7 @@ public class GroovyComponentBuilder<T> extends PojoComponentBuilder<T, GroovyCom
         URI componentId = definition.getComponentId();
         int initLevel = definition.getInitLevel();
         URI groupId = definition.getGroupId();
-        ClassLoader classLoader = classLoaderRegistry.getClassLoader(definition.getClassLoaderId());
+        ClassLoader classLoader = getClass().getClassLoader();
 
         // get the scope container for this component
         String scopeName = definition.getScope();

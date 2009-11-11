@@ -54,10 +54,7 @@ package org.sca4j.jpa.hibernate;
 
 import java.net.URI;
 
-import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.jpa.spi.classloading.EmfClassLoaderService;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 
 /**
  * Returns the previously constructed classloader. The Hibernate extension implicitly imports the Hibernate extension contribution into any
@@ -66,13 +63,8 @@ import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
  * @version $Revision$ $Date$
  */
 public class HibernateEmfClassLoaderService implements EmfClassLoaderService {
-    private ClassLoaderRegistry classLoaderRegistry;
-
-    public HibernateEmfClassLoaderService(@Reference ClassLoaderRegistry classLoaderRegistry) {
-        this.classLoaderRegistry = classLoaderRegistry;
-    }
 
     public ClassLoader getEmfClassLoader(URI classLoaderUri) {
-        return classLoaderRegistry.getClassLoader(classLoaderUri);
+        return getClass().getClassLoader();
     }
 }

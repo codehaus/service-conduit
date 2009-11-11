@@ -75,10 +75,6 @@ import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.Map;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-
 import org.sca4j.pojo.component.PojoComponent;
 import org.sca4j.pojo.provision.PojoWireSourceDefinition;
 import org.sca4j.scdl.DataType;
@@ -87,11 +83,13 @@ import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
 import org.sca4j.spi.model.type.JavaClass;
 import org.sca4j.spi.model.type.JavaParameterizedType;
 import org.sca4j.spi.model.type.XSDSimpleType;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.transform.PullTransformer;
 import org.sca4j.transform.TransformContext;
 import org.sca4j.transform.TransformationException;
 import org.sca4j.transform.TransformerRegistry;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  * @version $Revision$ $Date$
@@ -101,11 +99,9 @@ public abstract class PojoSourceWireAttacher {
     private static final XSDSimpleType SOURCE_TYPE = new XSDSimpleType(Node.class, XSDSimpleType.STRING);
 
     protected TransformerRegistry<PullTransformer<?, ?>> transformerRegistry;
-    protected ClassLoaderRegistry classLoaderRegistry;
 
-    protected PojoSourceWireAttacher(TransformerRegistry<PullTransformer<?, ?>> transformerRegistry, ClassLoaderRegistry classLoaderRegistry) {
+    protected PojoSourceWireAttacher(TransformerRegistry<PullTransformer<?, ?>> transformerRegistry) {
         this.transformerRegistry = transformerRegistry;
-        this.classLoaderRegistry = classLoaderRegistry;
     }
 
     @SuppressWarnings("unchecked")
@@ -146,10 +142,10 @@ public abstract class PojoSourceWireAttacher {
 
             URI sourceId = sourceDefinition.getClassLoaderId();
             URI targetId = targetDefinition.getClassLoaderId();
-            ClassLoader sourceClassLoader = classLoaderRegistry.getClassLoader(sourceId);
+            ClassLoader sourceClassLoader = getClass().getClassLoader();
             ClassLoader targetClassLoader = null;
             if (targetId != null) {
-            	targetClassLoader = classLoaderRegistry.getClassLoader(targetId);
+            	targetClassLoader = getClass().getClassLoader();
             }
 
             TransformContext context = new TransformContext(sourceClassLoader, targetClassLoader, null, null);

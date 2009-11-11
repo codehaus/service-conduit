@@ -54,11 +54,11 @@ package org.sca4j.java.runtime;
 
 import java.lang.reflect.Method;
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.java.provision.JavaWireTargetDefinition;
 import org.sca4j.pojo.component.InvokerInterceptor;
 import org.sca4j.pojo.provision.PojoWireSourceDefinition;
@@ -71,7 +71,6 @@ import org.sca4j.spi.component.Component;
 import org.sca4j.spi.component.ScopeContainer;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.spi.services.componentmanager.ComponentManager;
 import org.sca4j.spi.util.UriHelper;
 import org.sca4j.spi.wire.InvocationChain;
@@ -83,13 +82,21 @@ import org.sca4j.spi.wire.Wire;
  * @version $Rev: 5247 $ $Date: 2008-08-21 01:11:32 +0100 (Thu, 21 Aug 2008) $
  */
 public class JavaTargetWireAttacher implements TargetWireAttacher<JavaWireTargetDefinition> {
+    
+    private static Map<String, Class<?>> primitives = new HashMap<String, Class<?>>();
+    static {
+        primitives.put("int", int.class);
+        primitives.put("float", float.class);
+        primitives.put("double", double.class);
+        primitives.put("short", short.class);
+        primitives.put("boolean", boolean.class);
+        primitives.put("long", long.class);
+    }
 
     private final ComponentManager manager;
-    private final ClassLoaderRegistry classLoaderRegistry;
 
-    public JavaTargetWireAttacher(@Reference ComponentManager manager, @Reference ClassLoaderRegistry classLoaderRegistry) {
+    public JavaTargetWireAttacher(@Reference ComponentManager manager) {
         this.manager = manager;
-        this.classLoaderRegistry = classLoaderRegistry;
     }
 
     public void attachToTarget(PhysicalWireSourceDefinition sourceDefinition, JavaWireTargetDefinition targetDefinition, Wire wire)
@@ -114,7 +121,11 @@ public class JavaTargetWireAttacher implements TargetWireAttacher<JavaWireTarget
             for (int i = 0; i < params.size(); i++) {
                 String param = params.get(i);
                 try {
-                    paramTypes[i] = classLoaderRegistry.loadClass(loader, param);
+                    if (primitives.containsKey(param)) {
+                        paramTypes[i] = primitives.get(param);
+                    } else {
+                        paramTypes[i] = getClass().getClassLoader().loadClass(param);
+                    }
                 } catch (ClassNotFoundException e) {
                     URI sourceUri = sourceDefinition.getUri();
                     URI targetUri = targetDefinition.getUri();

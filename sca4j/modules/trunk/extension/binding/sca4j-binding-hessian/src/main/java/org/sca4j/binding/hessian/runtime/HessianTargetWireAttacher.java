@@ -74,12 +74,9 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.Map;
 
-import com.caucho.hessian.io.SerializerFactory;
 import org.osoa.sca.annotations.Destroy;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
-import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.binding.hessian.provision.HessianWireTargetDefinition;
 import org.sca4j.spi.ObjectFactory;
@@ -88,9 +85,10 @@ import org.sca4j.spi.builder.component.TargetWireAttacher;
 import org.sca4j.spi.builder.component.WireAttachException;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;
+
+import com.caucho.hessian.io.SerializerFactory;
 
 /**
  * Wire attacher for Hessian binding.
@@ -99,13 +97,10 @@ import org.sca4j.spi.wire.Wire;
  */
 @EagerInit
 public class HessianTargetWireAttacher implements TargetWireAttacher<HessianWireTargetDefinition> {
-    private final ClassLoaderRegistry classLoaderRegistry;
     private final HessianWireAttacherMonitor monitor;
     private final SerializerFactory serializerFactory;
 
-    public HessianTargetWireAttacher(@Reference ClassLoaderRegistry classLoaderRegistry,
-                                     @Monitor HessianWireAttacherMonitor monitor) {
-        this.classLoaderRegistry = classLoaderRegistry;
+    public HessianTargetWireAttacher(@Monitor HessianWireAttacherMonitor monitor) {
         this.monitor = monitor;
         this.serializerFactory = new SerializerFactory();
     }
@@ -125,7 +120,7 @@ public class HessianTargetWireAttacher implements TargetWireAttacher<HessianWire
                                Wire wire) throws WiringException {
 
         URI id = targetDefinition.getClassLoaderId();
-        ClassLoader loader = classLoaderRegistry.getClassLoader(id);
+        ClassLoader loader = getClass().getClassLoader();
         URI uri = targetDefinition.getUri();
 
         try {

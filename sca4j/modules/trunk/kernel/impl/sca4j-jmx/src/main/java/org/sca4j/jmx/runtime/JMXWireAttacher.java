@@ -59,6 +59,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
 import javax.management.IntrospectionException;
 import javax.management.JMException;
 import javax.management.MBeanAttributeInfo;
@@ -70,13 +71,11 @@ import javax.management.ObjectName;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Property;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.jmx.provision.JMXWireSourceDefinition;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.SourceWireAttacher;
 import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.spi.util.UriHelper;
 import org.sca4j.spi.wire.Wire;
 
@@ -88,14 +87,11 @@ public class JMXWireAttacher implements SourceWireAttacher<JMXWireSourceDefiniti
 
     private static final String DOMAIN = "f3-management";
     private final MBeanServer mBeanServer;
-    private final ClassLoaderRegistry classLoaderRegistry;
     private final String subDomain;
 
     public JMXWireAttacher(@Reference MBeanServer mBeanServer,
-                           @Reference ClassLoaderRegistry classLoaderRegistry,
                            @Property(name = "subDomain")String subDomain) {
         this.mBeanServer = mBeanServer;
-        this.classLoaderRegistry = classLoaderRegistry;
         this.subDomain = subDomain;
     }
 
@@ -117,7 +113,7 @@ public class JMXWireAttacher implements SourceWireAttacher<JMXWireSourceDefiniti
         String component = UriHelper.getDefragmentedNameAsString(uri);
         String service = uri.getFragment();
         try {
-            Class<?> managementInterface = classLoaderRegistry.loadClass(source.getClassLoaderId(), source.getInterfaceName());
+            Class<?> managementInterface = getClass().getClassLoader().loadClass(source.getInterfaceName());
             ObjectName name = new ObjectName(DOMAIN + ":SubDomain=" + subDomain + ",type=service,component=\"" + component + "\",service=" + service);
             OptimizedMBean<?> mbean = createOptimizedMBean(objectFactory, managementInterface);
             if (!mBeanServer.isRegistered(name)) {

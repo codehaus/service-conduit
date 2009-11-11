@@ -58,33 +58,25 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.ws.WebFault;
 
-import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.binding.ws.axis2.provision.jaxb.JaxbInterceptorDefinition;
 import org.sca4j.spi.builder.BuilderException;
 import org.sca4j.spi.builder.interceptor.InterceptorBuilder;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 
 /**
  * @version $Revision$ $Date$
  */
 public class JaxbInterceptorBuilder implements InterceptorBuilder<JaxbInterceptorDefinition, JaxbInterceptor> {
 
-    private ClassLoaderRegistry classLoaderRegistry;
-
-    public JaxbInterceptorBuilder(@Reference ClassLoaderRegistry classLoaderRegistry) {
-        this.classLoaderRegistry = classLoaderRegistry;
-    }
-
     public JaxbInterceptor build(JaxbInterceptorDefinition definition) throws BuilderException {
 
         URI classLoaderId = definition.getClassLoaderId();
 
-        ClassLoader classLoader = classLoaderRegistry.getClassLoader(classLoaderId);
+        ClassLoader classLoader = getClass().getClassLoader();
 
         try {
             
@@ -116,7 +108,7 @@ public class JaxbInterceptorBuilder implements InterceptorBuilder<JaxbIntercepto
         Class<?>[] classes = new Class<?>[classNames.size()];
         int i = 0;
         for (String className : classNames) {
-            classes[i++] = classLoaderRegistry.loadClass(classLoader, className);
+            classes[i++] = getClass().getClassLoader().loadClass(className);
         }
         ClassLoader old = Thread.currentThread().getContextClassLoader();
         try {
@@ -133,7 +125,7 @@ public class JaxbInterceptorBuilder implements InterceptorBuilder<JaxbIntercepto
             throws ClassNotFoundException, NoSuchMethodException {
         Map<Class<?>, Constructor<?>> mapping = new HashMap<Class<?>, Constructor<?>>(faultNames.size());
         for (String faultName : faultNames) {
-            Class<?> clazz = classLoaderRegistry.loadClass(classLoader, faultName);
+            Class<?> clazz = getClass().getClassLoader().loadClass(faultName);
             WebFault fault = clazz.getAnnotation(WebFault.class);
             if (fault == null) {
                 // FIXME throw someting

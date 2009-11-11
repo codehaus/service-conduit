@@ -90,7 +90,6 @@ import org.sca4j.fabric.component.scope.CompositeScopeContainer;
 import org.sca4j.fabric.component.scope.ScopeContainerMonitor;
 import org.sca4j.fabric.component.scope.ScopeRegistryImpl;
 import org.sca4j.fabric.runtime.bootstrap.ScdlBootstrapperImpl;
-import org.sca4j.fabric.services.classloading.ClassLoaderRegistryImpl;
 import org.sca4j.fabric.services.componentmanager.ComponentManagerImpl;
 import org.sca4j.fabric.services.contribution.MetaDataStoreImpl;
 import org.sca4j.fabric.services.contribution.ProcessorRegistryImpl;
@@ -126,7 +125,6 @@ import org.sca4j.spi.domain.Domain;
 import org.sca4j.spi.invocation.CallFrame;
 import org.sca4j.spi.invocation.WorkContext;
 import org.sca4j.spi.runtime.RuntimeServices;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.spi.services.componentmanager.ComponentManager;
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.ContributionManifest;
@@ -166,7 +164,6 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
     private LogicalComponentManager logicalComponentManager;
     private ComponentManager componentManager;
     private CompositeScopeContainer scopeContainer;
-    private ClassLoaderRegistry classLoaderRegistry;
     private MetaDataStore metaDataStore;
     private ScopeRegistry scopeRegistry;
     private ClassLoader hostClassLoader;
@@ -195,9 +192,8 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
         }
         
         componentManager = new ComponentManagerImpl();
-        classLoaderRegistry = new ClassLoaderRegistryImpl();
         ProcessorRegistry processorRegistry = new ProcessorRegistryImpl();
-        metaDataStore = new MetaDataStoreImpl(classLoaderRegistry, processorRegistry);
+        metaDataStore = new MetaDataStoreImpl(processorRegistry);
         
         scopeContainer = new CompositeScopeContainer(getMonitorFactory().getMonitor(ScopeContainerMonitor.class));
         scopeContainer.start();
@@ -321,10 +317,6 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
 
     public ScopeContainer<?> getScopeContainer() {
         return scopeContainer;
-    }
-
-    public ClassLoaderRegistry getClassLoaderRegistry() {
-        return classLoaderRegistry;
     }
 
     public MetaDataStore getMetaDataStore() {

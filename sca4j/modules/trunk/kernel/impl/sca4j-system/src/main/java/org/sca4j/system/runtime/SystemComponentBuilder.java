@@ -75,7 +75,6 @@ import java.net.URI;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.pojo.builder.PojoComponentBuilder;
 import org.sca4j.pojo.instancefactory.InstanceFactoryBuilderRegistry;
 import org.sca4j.pojo.provision.InstanceFactoryDefinition;
@@ -85,7 +84,6 @@ import org.sca4j.spi.builder.component.ComponentBuilderRegistry;
 import org.sca4j.spi.component.InstanceFactoryProvider;
 import org.sca4j.spi.component.ScopeContainer;
 import org.sca4j.spi.component.ScopeRegistry;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.system.provision.SystemComponentDefinition;
 import org.sca4j.transform.PullTransformer;
 import org.sca4j.transform.TransformerRegistry;
@@ -100,9 +98,8 @@ public class SystemComponentBuilder<T> extends PojoComponentBuilder<T, SystemCom
             @Reference ComponentBuilderRegistry builderRegistry,
             @Reference ScopeRegistry scopeRegistry,
             @Reference InstanceFactoryBuilderRegistry providerBuilders,
-            @Reference ClassLoaderRegistry classLoaderRegistry,
             @Reference(name = "transformerRegistry")TransformerRegistry<PullTransformer<?, ?>> transformerRegistry) {
-        super(builderRegistry, scopeRegistry, providerBuilders, classLoaderRegistry, transformerRegistry);
+        super(builderRegistry, scopeRegistry, providerBuilders, transformerRegistry);
     }
 
     @Init
@@ -114,7 +111,7 @@ public class SystemComponentBuilder<T> extends PojoComponentBuilder<T, SystemCom
         URI componentId = definition.getComponentId();
         int initLevel = definition.getInitLevel();
         URI groupId = definition.getGroupId();
-        ClassLoader classLoader = classLoaderRegistry.getClassLoader(definition.getClassLoaderId());
+        ClassLoader classLoader = getClass().getClassLoader();
 
         // get the scope container for this component
         ScopeContainer<?> scopeContainer = scopeRegistry.getScopeContainer(Scope.COMPOSITE);

@@ -74,9 +74,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.caucho.hessian.io.SerializerFactory;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.binding.hessian.provision.HessianWireSourceDefinition;
 import org.sca4j.spi.ObjectFactory;
@@ -85,9 +83,10 @@ import org.sca4j.spi.builder.component.SourceWireAttacher;
 import org.sca4j.spi.host.ServletHost;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;
+
+import com.caucho.hessian.io.SerializerFactory;
 
 /**
  * Wire attacher for Hessian binding.
@@ -95,7 +94,6 @@ import org.sca4j.spi.wire.Wire;
  * @version $Revision: 5175 $ $Date: 2008-08-08 09:56:42 +0100 (Fri, 08 Aug 2008) $
  */
 public class HessianSourceWireAttacher implements SourceWireAttacher<HessianWireSourceDefinition> {
-    private final ClassLoaderRegistry classLoaderRegistry;
     private final ServletHost servletHost;
     private final HessianWireAttacherMonitor monitor;
     private final SerializerFactory serializerFactory;
@@ -108,10 +106,8 @@ public class HessianSourceWireAttacher implements SourceWireAttacher<HessianWire
      * @param monitor             the Hessian monitor
      */
     public HessianSourceWireAttacher(@Reference ServletHost servletHost,
-                                     @Reference ClassLoaderRegistry classLoaderRegistry,
                                      @Monitor HessianWireAttacherMonitor monitor) {
         this.servletHost = servletHost;
-        this.classLoaderRegistry = classLoaderRegistry;
         this.monitor = monitor;
         this.serializerFactory = new SerializerFactory();
     }
@@ -127,7 +123,7 @@ public class HessianSourceWireAttacher implements SourceWireAttacher<HessianWire
             ops.put(entry.getKey().getName(), entry);
         }
         URI id = sourceDefinition.getClassLoaderId();
-        ClassLoader loader = classLoaderRegistry.getClassLoader(id);
+        ClassLoader loader = getClass().getClassLoader();
         if (loader == null) {
             throw new WiringException("Classloader not found: " + id, id.toString());
         }

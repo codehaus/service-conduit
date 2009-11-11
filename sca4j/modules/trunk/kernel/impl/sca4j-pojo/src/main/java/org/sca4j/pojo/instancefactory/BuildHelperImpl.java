@@ -55,23 +55,19 @@ package org.sca4j.pojo.instancefactory;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
-import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.scdl.Signature;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 
 /**
  * @version $Rev: 5240 $ $Date: 2008-08-20 21:17:05 +0100 (Wed, 20 Aug 2008) $
  */
 public class BuildHelperImpl implements InstanceFactoryBuildHelper {
-    private final ClassLoaderRegistry classLoaderRegistry;
-
-    public BuildHelperImpl(@Reference ClassLoaderRegistry classLoaderRegistry) {
-        this.classLoaderRegistry = classLoaderRegistry;
-    }
 
     public Class<?> loadClass(ClassLoader cl, String name) throws ClassNotFoundException {
-        return classLoaderRegistry.loadClass(cl, name);
+        try {
+            return cl.loadClass(name);
+        } catch (ClassNotFoundException e) {
+            throw e;
+        }
     }
 
     public <T> Constructor<T> getConstructor(Class<T> implClass, Signature signature) throws ClassNotFoundException, NoSuchMethodException {

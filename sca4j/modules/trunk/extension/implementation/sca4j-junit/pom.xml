@@ -37,6 +37,12 @@
         </dependency>
         <dependency>
             <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-maven-api</artifactId>
+            <version>0.1.12-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
             <artifactId>sca4j-pojo</artifactId>
             <version>0.1.12-SNAPSHOT</version>
             <scope>provided</scope>

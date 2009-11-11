@@ -75,7 +75,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.binding.burlap.provision.BurlapWireSourceDefinition;
 import org.sca4j.spi.ObjectFactory;
@@ -84,7 +83,6 @@ import org.sca4j.spi.builder.component.SourceWireAttacher;
 import org.sca4j.spi.host.ServletHost;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;
 
@@ -95,7 +93,6 @@ import org.sca4j.spi.wire.Wire;
  */
 public class BurlapSourceWireAttacher implements SourceWireAttacher<BurlapWireSourceDefinition> {
     private final ServletHost servletHost;
-    private final ClassLoaderRegistry classLoaderRegistry;
     private final BurlapWireAttacherMonitor monitor;
 
     /**
@@ -106,10 +103,8 @@ public class BurlapSourceWireAttacher implements SourceWireAttacher<BurlapWireSo
      * @param monitor             the Burlap monitor
      */
     public BurlapSourceWireAttacher(@Reference ServletHost servletHost,
-                                    @Reference ClassLoaderRegistry classLoaderRegistry,
                                     @Monitor BurlapWireAttacherMonitor monitor) {
         this.servletHost = servletHost;
-        this.classLoaderRegistry = classLoaderRegistry;
         this.monitor = monitor;
     }
 
@@ -123,7 +118,7 @@ public class BurlapSourceWireAttacher implements SourceWireAttacher<BurlapWireSo
             ops.put(entry.getKey().getName(), entry);
         }
         URI id = sourceDefinition.getClassLoaderId();
-        ClassLoader loader = classLoaderRegistry.getClassLoader(id);
+        ClassLoader loader = getClass().getClassLoader();
         if (loader == null) {
             throw new WiringException("Classloader not found", id.toString());
         }

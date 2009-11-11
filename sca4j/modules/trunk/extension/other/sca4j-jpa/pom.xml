@@ -31,15 +31,6 @@
 
     <packaging>sca-contribution-jar</packaging>
 
-    <repositories>
-        <repository>
-	        <id>java.net</id>
-	        <url>https://maven-repository.dev.java.net/nonav/repository</url>
-	        <layout>legacy</layout>
-	        <snapshots><enabled>false</enabled></snapshots>
-        </repository>
-    </repositories>
-
     <dependencies>
 
         <dependency>

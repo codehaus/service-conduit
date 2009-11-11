@@ -57,12 +57,6 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.osoa.sca.annotations.Reference;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-
-import org.sca4j.host.expression.ExpressionExpander;
 import org.sca4j.pojo.instancefactory.InstanceFactoryBuilderRegistry;
 import org.sca4j.pojo.provision.PojoComponentDefinition;
 import org.sca4j.scdl.DataType;
@@ -79,10 +73,12 @@ import org.sca4j.spi.component.ScopeRegistry;
 import org.sca4j.spi.model.type.JavaClass;
 import org.sca4j.spi.model.type.JavaParameterizedType;
 import org.sca4j.spi.model.type.XSDSimpleType;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.transform.PullTransformer;
 import org.sca4j.transform.TransformContext;
 import org.sca4j.transform.TransformerRegistry;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  * Base class for ComponentBuilders that build components based on POJOs.
@@ -94,7 +90,6 @@ public abstract class PojoComponentBuilder<T, PCD extends PojoComponentDefinitio
     protected final ComponentBuilderRegistry builderRegistry;
     protected final ScopeRegistry scopeRegistry;
     protected final InstanceFactoryBuilderRegistry providerBuilders;
-    protected final ClassLoaderRegistry classLoaderRegistry;
     protected final TransformerRegistry<PullTransformer<?, ?>> transformerRegistry;
 
     private static final XSDSimpleType SOURCE_TYPE = new XSDSimpleType(Node.class, XSDSimpleType.STRING);
@@ -114,19 +109,17 @@ public abstract class PojoComponentBuilder<T, PCD extends PojoComponentDefinitio
     protected PojoComponentBuilder(ComponentBuilderRegistry builderRegistry,
                                    ScopeRegistry scopeRegistry,
                                    InstanceFactoryBuilderRegistry providerBuilders,
-                                   ClassLoaderRegistry classLoaderRegistry,
                                    TransformerRegistry<PullTransformer<?, ?>> transformerRegistry) {
         this.builderRegistry = builderRegistry;
         this.scopeRegistry = scopeRegistry;
         this.providerBuilders = providerBuilders;
-        this.classLoaderRegistry = classLoaderRegistry;
         this.transformerRegistry = transformerRegistry;
     }
 
     protected void createPropertyFactories(PCD definition, InstanceFactoryProvider<T> provider) throws BuilderException {
         Map<String, Document> propertyValues = definition.getPropertyValues();
 
-        ClassLoader cl = classLoaderRegistry.getClassLoader(definition.getClassLoaderId());
+        ClassLoader cl = getClass().getClassLoader();
         TransformContext context = new TransformContext(null, cl, null, null);
         for (Map.Entry<String, Document> entry : propertyValues.entrySet()) {
             String name = entry.getKey();

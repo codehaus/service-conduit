@@ -56,7 +56,6 @@ import java.net.URI;
 
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.pojo.builder.PojoSourceWireAttacher;
 import org.sca4j.scdl.InjectableAttribute;
 import org.sca4j.scdl.InjectableAttributeType;
@@ -65,7 +64,6 @@ import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.SourceWireAttacher;
 import org.sca4j.spi.builder.component.WireAttachException;
 import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.spi.services.componentmanager.ComponentManager;
 import org.sca4j.spi.services.proxy.ProxyService;
 import org.sca4j.spi.util.UriHelper;
@@ -84,9 +82,8 @@ public class SystemSourceWireAttacher extends PojoSourceWireAttacher implements 
     private ProxyService proxyService;
 
     public SystemSourceWireAttacher(@Reference ComponentManager manager,
-                                    @Reference(name = "transformerRegistry")TransformerRegistry<PullTransformer<?, ?>> transformerRegistry,
-                                    @Reference ClassLoaderRegistry classLoaderRegistry) {
-        super(transformerRegistry, classLoaderRegistry);
+                                    @Reference(name = "transformerRegistry")TransformerRegistry<PullTransformer<?, ?>> transformerRegistry) {
+        super(transformerRegistry);
         this.manager = manager;
     }
 
@@ -115,7 +112,7 @@ public class SystemSourceWireAttacher extends PojoSourceWireAttacher implements 
 
         Class<?> type;
         try {
-            type = classLoaderRegistry.loadClass(sourceDefinition.getClassLoaderId(), sourceDefinition.getInterfaceName());
+            type = getClass().getClassLoader().loadClass(sourceDefinition.getInterfaceName());
         } catch (ClassNotFoundException e) {
             String name = sourceDefinition.getInterfaceName();
             throw new WireAttachException("Unable to load interface class: " + name, sourceUri, null, e);

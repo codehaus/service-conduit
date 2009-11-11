@@ -84,7 +84,6 @@ import org.sca4j.spi.component.ScopeRegistry;
 import org.sca4j.spi.domain.Domain;
 import org.sca4j.spi.model.instance.LogicalCompositeComponent;
 import org.sca4j.spi.runtime.RuntimeServices;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.spi.services.componentmanager.ComponentManager;
 import org.sca4j.spi.services.contribution.MetaDataStore;
 import org.sca4j.spi.services.lcm.LogicalComponentManager;
@@ -112,7 +111,6 @@ public abstract class AbstractBootstrapper implements Bootstrapper {
     // runtime components - these are persistent and supplied by the runtime implementation
     private MonitorFactory monitorFactory;
     private HostInfo hostInfo;
-    private ClassLoaderRegistry classLoaderRegistry;
     private MetaDataStore metaDataStore;
     private ScopeRegistry scopeRegistry;
     private LogicalCompositeComponent domain;
@@ -147,7 +145,6 @@ public abstract class AbstractBootstrapper implements Bootstrapper {
         logicalComponetManager = runtimeServices.getLogicalComponentManager();
         componentManager = runtimeServices.getComponentManager();
         domain = logicalComponetManager.getRootComponent();
-        classLoaderRegistry = runtimeServices.getClassLoaderRegistry();
         metaDataStore = runtimeServices.getMetaDataStore();
         scopeRegistry = runtimeServices.getScopeRegistry();
         scopeContainer = runtimeServices.getScopeContainer();
@@ -163,7 +160,6 @@ public abstract class AbstractBootstrapper implements Bootstrapper {
         registerRuntimeComponents(runtime);
 
         runtimeDomain = BootstrapAssemblyFactory.createDomain(monitorFactory,
-                                                              classLoaderRegistry,
                                                               scopeRegistry,
                                                               componentManager,
                                                               logicalComponetManager,
@@ -174,9 +170,6 @@ public abstract class AbstractBootstrapper implements Bootstrapper {
 
         // create and register bootstrap components provided by this bootstrapper
         registerDomain(runtime);
-
-        // register the classloaders
-        registerClassLoaders(bootClassLoader, appClassLoader);
 
     }
 
@@ -253,7 +246,6 @@ public abstract class AbstractBootstrapper implements Bootstrapper {
         registerComponent("ComponentManager", ComponentManager.class, componentManager, true);
         registerComponent("RuntimeLogicalComponentManager", LogicalComponentManager.class, logicalComponetManager, true);
         registerComponent("CompositeScopeContainer", ScopeContainer.class, scopeContainer, true);
-        registerComponent("ClassLoaderRegistry", ClassLoaderRegistry.class, classLoaderRegistry, true);
 
         registerComponent("ScopeRegistry", ScopeRegistry.class, scopeRegistry, true);
 
@@ -264,18 +256,6 @@ public abstract class AbstractBootstrapper implements Bootstrapper {
         registerComponent("RuntimeDomain", Domain.class, runtimeDomain, true);
         // the following is a hack to initialize the domain
         runtime.getSystemComponent(Domain.class, ComponentNames.RUNTIME_DOMAIN_URI);
-    }
-
-    private void registerClassLoaders(ClassLoader bootClassLoader, ClassLoader appClassLoader) {
-
-        classLoaderRegistry.register(HOST_CLASSLOADER_ID, hostClassLoader);
-        classLoaderRegistry.register(BOOT_CLASSLOADER_ID, bootClassLoader);
-        classLoaderRegistry.register(RUNTIME_URI, new MultiParentClassLoader(RUNTIME_URI, bootClassLoader));
-
-        URI domainId = hostInfo.getDomain();
-        classLoaderRegistry.register(APPLICATION_CLASSLOADER_ID, appClassLoader);
-        MultiParentClassLoader applicationClassLoader = new MultiParentClassLoader(domainId, appClassLoader);
-        classLoaderRegistry.register(domainId, applicationClassLoader);
     }
 
     private <S, I extends S> void registerComponent(String name, Class<S> type, I instance, boolean introspect) throws InitializationException {

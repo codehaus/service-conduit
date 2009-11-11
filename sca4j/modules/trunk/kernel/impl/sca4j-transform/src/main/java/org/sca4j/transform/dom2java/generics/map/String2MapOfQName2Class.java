@@ -60,12 +60,9 @@ import javax.xml.namespace.QName;
 
 import org.sca4j.scdl.DataType;
 import org.sca4j.spi.model.type.JavaParameterizedType;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
-import org.sca4j.transform.TransformContext;
 import org.sca4j.transform.AbstractPullTransformer;
+import org.sca4j.transform.TransformContext;
 import org.sca4j.transform.TransformationException;
-
-import org.osoa.sca.annotations.Reference;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -82,7 +79,6 @@ public class String2MapOfQName2Class extends AbstractPullTransformer<Node, Map<Q
     private static Map<QName, Class<?>> FIELD = null;
     private static JavaParameterizedType TARGET = null;
     
-    private ClassLoaderRegistry classLoaderRegistry;
     
     static {
         try {
@@ -91,10 +87,6 @@ public class String2MapOfQName2Class extends AbstractPullTransformer<Node, Map<Q
         } catch (NoSuchFieldException ignore) {
             throw new AssertionError();
         }
-    }
-    
-    public String2MapOfQName2Class(@Reference ClassLoaderRegistry classLoaderRegistry) {
-        this.classLoaderRegistry = classLoaderRegistry;
     }
 
     /**
@@ -123,7 +115,7 @@ public class String2MapOfQName2Class extends AbstractPullTransformer<Node, Map<Q
                 String classText = element.getTextContent();
 
                 try {
-                    Class<?> clazz = classLoaderRegistry.loadClass(context.getTargetClassLoader(), classText);
+                    Class<?> clazz = getClass().getClassLoader().loadClass(classText);
                     map.put(qname, clazz);
                 } catch (ClassNotFoundException e) {
                     throw new TransformationException(e);

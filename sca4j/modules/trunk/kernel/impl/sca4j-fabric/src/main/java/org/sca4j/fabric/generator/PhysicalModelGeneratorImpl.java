@@ -52,19 +52,14 @@
  */
 package org.sca4j.fabric.generator;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
-
-import org.sca4j.fabric.generator.classloader.ClassLoaderCommandGenerator;
 import org.sca4j.fabric.instantiator.LogicalChange;
 import org.sca4j.host.perf.PerformanceMonitor;
 import org.sca4j.spi.command.Command;
@@ -94,12 +89,9 @@ public class PhysicalModelGeneratorImpl implements PhysicalModelGenerator {
 
     private final List<CommandGenerator> addCommandGenerators;
     private final List<CommandGenerator> removeCommandGenerators;
-    private ClassLoaderCommandGenerator classLoaderCommandGenerator;
 
     public PhysicalModelGeneratorImpl(@Reference(name = "addCommandGenerators")List<AddCommandGenerator> addGenerators,
-                                      @Reference(name = "removeCommandGenerators")List<RemoveCommandGenerator> removeGenerators,
-                                      @Reference ClassLoaderCommandGenerator classLoaderCommandGenerator) {
-        this.classLoaderCommandGenerator = classLoaderCommandGenerator;
+                                      @Reference(name = "removeCommandGenerators")List<RemoveCommandGenerator> removeGenerators) {
         // sort the command generators
         this.addCommandGenerators = sort(addGenerators);
         this.removeCommandGenerators = sort(removeGenerators);
@@ -109,14 +101,6 @@ public class PhysicalModelGeneratorImpl implements PhysicalModelGenerator {
         List<LogicalComponent<?>> sorted = topologicalSort(components);
 
         CommandMap commandMap = new CommandMap();
-        PerformanceMonitor.start("Classloader command generation");
-        Map<URI, Set<Command>> commandsPerRuntime = classLoaderCommandGenerator.generate(sorted);
-        for (Map.Entry<URI, Set<Command>> entry : commandsPerRuntime.entrySet()) {
-            for (Command command : entry.getValue()) {
-                commandMap.addCommand(entry.getKey(), command);
-            }
-        }
-        PerformanceMonitor.end();
         
         for (CommandGenerator generator : addCommandGenerators) {
         	PerformanceMonitor.start("Command generation for " + generator);

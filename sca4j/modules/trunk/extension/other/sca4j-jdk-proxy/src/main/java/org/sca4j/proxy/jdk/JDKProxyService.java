@@ -82,14 +82,12 @@ import org.osoa.sca.CallableReference;
 import org.osoa.sca.Conversation;
 import org.osoa.sca.annotations.Constructor;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.scdl.Scope;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.component.ScopeContainer;
 import org.sca4j.spi.component.ScopeRegistry;
 import org.sca4j.spi.model.physical.InteractionType;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.spi.services.proxy.ProxyCreationException;
 import org.sca4j.spi.services.proxy.ProxyService;
 import org.sca4j.spi.wire.InvocationChain;
@@ -101,7 +99,17 @@ import org.sca4j.spi.wire.Wire;
  * @version $$Rev: 3150 $$ $$Date: 2008-03-21 14:12:51 -0700 (Fri, 21 Mar 2008) $$
  */
 public class JDKProxyService implements ProxyService {
-    private ClassLoaderRegistry classLoaderRegistry;
+    
+    private static Map<String, Class<?>> primitives = new HashMap<String, Class<?>>();
+    static {
+        primitives.put("int", int.class);
+        primitives.put("float", float.class);
+        primitives.put("double", double.class);
+        primitives.put("short", short.class);
+        primitives.put("boolean", boolean.class);
+        primitives.put("long", long.class);
+    }
+    
     private ScopeRegistry scopeRegistry;
     private ScopeContainer<Conversation> conversationalContainer;
 
@@ -117,8 +125,7 @@ public class JDKProxyService implements ProxyService {
      * @param scopeRegistry
      */
     @Constructor
-    public JDKProxyService(@Reference ClassLoaderRegistry classLoaderRegistry, @Reference ScopeRegistry scopeRegistry) {
-        this.classLoaderRegistry = classLoaderRegistry;
+    public JDKProxyService(@Reference ScopeRegistry scopeRegistry) {
         this.scopeRegistry = scopeRegistry;
     }
 
@@ -228,7 +235,11 @@ public class JDKProxyService implements ProxyService {
         List<String> params = operation.getParameters();
         Class<?>[] types = new Class<?>[params.size()];
         for (int i = 0; i < params.size(); i++) {
-            types[i] = classLoaderRegistry.loadClass(clazz.getClassLoader(), params.get(i));
+            if (primitives.containsKey(params.get(i))) {
+                types[i] = primitives.get(params.get(i));
+            } else {
+                types[i] = getClass().getClassLoader().loadClass(params.get(i));
+            }
         }
         return clazz.getMethod(name, types);
     }

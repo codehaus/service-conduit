@@ -52,15 +52,12 @@
  */
 package org.sca4j.transform.dom2java;
 
-import org.osoa.sca.annotations.Reference;
-import org.w3c.dom.Node;
-
 import org.sca4j.scdl.DataType;
 import org.sca4j.spi.model.type.JavaClass;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
-import org.sca4j.transform.TransformContext;
 import org.sca4j.transform.AbstractPullTransformer;
+import org.sca4j.transform.TransformContext;
 import org.sca4j.transform.TransformationException;
+import org.w3c.dom.Node;
 
 /**
  * @version $Rev: 3524 $ $Date: 2008-03-31 22:43:51 +0100 (Mon, 31 Mar 2008) $
@@ -68,19 +65,13 @@ import org.sca4j.transform.TransformationException;
 public class String2Class extends AbstractPullTransformer<Node, Class<?>> {
     private static final JavaClass<Class> TARGET = new JavaClass<Class>(Class.class);
 
-    private final ClassLoaderRegistry classLoaderRegistry;
-
-    public String2Class(@Reference ClassLoaderRegistry classLoaderRegistry) {
-        this.classLoaderRegistry = classLoaderRegistry;
-    }
-
     public DataType<?> getTargetType() {
         return TARGET;
     }
 
     public Class<?> transform(Node node, TransformContext context) throws TransformationException {
         try {
-            return classLoaderRegistry.loadClass(context.getTargetClassLoader(), node.getTextContent());
+            return getClass().getClassLoader().loadClass(node.getTextContent());
         } catch (ClassNotFoundException e) {
             throw new TransformationException(e);
         }

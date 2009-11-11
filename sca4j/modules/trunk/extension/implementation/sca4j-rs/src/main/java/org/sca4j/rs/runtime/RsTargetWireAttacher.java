@@ -61,7 +61,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.UriBuilder;
 
-import org.osoa.sca.annotations.Reference;
 import org.sca4j.rs.provision.RsWireTargetDefinition;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;
@@ -69,7 +68,6 @@ import org.sca4j.spi.builder.component.TargetWireAttacher;
 import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;
@@ -83,17 +81,11 @@ import com.sun.jersey.api.client.WebResource;
  */
 public class RsTargetWireAttacher implements TargetWireAttacher<RsWireTargetDefinition> {
 
-    private final ClassLoaderRegistry classLoaderRegistry;
-
-    public RsTargetWireAttacher(@Reference ClassLoaderRegistry classLoaderRegistry) {
-        this.classLoaderRegistry = classLoaderRegistry;
-    }
-
     public void attachToTarget(PhysicalWireSourceDefinition source, RsWireTargetDefinition target, Wire wire) throws WiringException {
         
         try {
             URI id = target.getClassLoaderId();
-            ClassLoader classLoader = classLoaderRegistry.getClassLoader(id);
+            ClassLoader classLoader = getClass().getClassLoader();
             final Class<?> referenceClass = classLoader.loadClass(target.getInterfaze());
             Path servicePath = referenceClass.getAnnotation(Path.class);
             for (Method method : referenceClass.getDeclaredMethods()) {

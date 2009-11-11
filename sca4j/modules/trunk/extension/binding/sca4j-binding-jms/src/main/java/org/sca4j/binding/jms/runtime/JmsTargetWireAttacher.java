@@ -73,11 +73,11 @@ package org.sca4j.binding.jms.runtime;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
+
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.binding.jms.common.ConnectionFactoryDefinition;
 import org.sca4j.binding.jms.common.CorrelationScheme;
 import org.sca4j.binding.jms.common.CreateOption;
@@ -92,7 +92,6 @@ import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.TargetWireAttacher;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;
@@ -113,11 +112,6 @@ public class JmsTargetWireAttacher implements TargetWireAttacher<JmsWireTargetDe
      * Connection factory strategies.
      */
     private Map<CreateOption, ConnectionFactoryStrategy> connectionFactoryStrategies = new HashMap<CreateOption, ConnectionFactoryStrategy>();
-
-    /**
-     * Classloader registry.
-     */
-    private ClassLoaderRegistry classLoaderRegistry;
 
     /**
      * Injects the wire attacher registries.
@@ -145,23 +139,13 @@ public class JmsTargetWireAttacher implements TargetWireAttacher<JmsWireTargetDe
         this.connectionFactoryStrategies = strategies;
     }
 
-    /**
-     * Injects the classloader registry.
-     * 
-     * @param classLoaderRegistry Classloader registry.
-     */
-    @Reference
-    public void setClassloaderRegistry(ClassLoaderRegistry classLoaderRegistry) {
-        this.classLoaderRegistry = classLoaderRegistry;
-    }
-
     public void attachToTarget(PhysicalWireSourceDefinition sourceDefinition, JmsWireTargetDefinition targetDefinition, Wire wire) throws WiringException {
 
         SCA4JMessageReceiver messageReceiver = null;
         Destination resDestination = null;
         ConnectionFactory resCf = null;
 
-        ClassLoader cl = classLoaderRegistry.getClassLoader(targetDefinition.getClassloaderUri());
+        ClassLoader cl = getClass().getClassLoader();
 
         JmsBindingMetadata metadata = targetDefinition.getMetadata();
 

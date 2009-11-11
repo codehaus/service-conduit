@@ -30,26 +30,6 @@
     <name>SCA4J WS Binding (Axis2)</name>
     <description>SCA4J WS Binding Implementation using Axis2.</description>
 
-    <repositories>
-        <repository>
-            <id>apache-snapshot</id>
-            <name>Apache Snapshot Repo</name>
-            <url>http://people.apache.org/repo/m2-snapshot-repository/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>java.net</id>
-            <url>https://maven-repository.dev.java.net/nonav/repository</url>
-            <layout>legacy</layout>
-            <snapshots><enabled>false</enabled></snapshots>
-        </repository>
-    </repositories>    
-
     <dependencies>
 
         <dependency>

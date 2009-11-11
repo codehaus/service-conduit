@@ -56,11 +56,11 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
+
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.binding.jms.common.ConnectionFactoryDefinition;
 import org.sca4j.binding.jms.common.CorrelationScheme;
 import org.sca4j.binding.jms.common.CreateOption;
@@ -78,7 +78,6 @@ import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.SourceWireAttacher;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;
 
@@ -93,7 +92,6 @@ public class JmsSourceWireAttacher implements SourceWireAttacher<JmsWireSourceDe
     private JmsHost jmsHost;
     private Map<CreateOption, DestinationStrategy> destinationStrategies = new HashMap<CreateOption, DestinationStrategy>();
     private Map<CreateOption, ConnectionFactoryStrategy> connectionFactoryStrategies = new HashMap<CreateOption, ConnectionFactoryStrategy>();
-    private ClassLoaderRegistry classLoaderRegistry;
     private TransactionHandler transactionHandler;
 
     /**
@@ -127,16 +125,6 @@ public class JmsSourceWireAttacher implements SourceWireAttacher<JmsWireSourceDe
     }
 
     /**
-     * Injects the classloader registry.
-     * 
-     * @param classLoaderRegistry Classloader registry.
-     */
-    @Reference
-    public void setClassloaderRegistry(ClassLoaderRegistry classLoaderRegistry) {
-        this.classLoaderRegistry = classLoaderRegistry;
-    }
-
-    /**
      * Injected JMS host.
      * 
      * @param jmsHost JMS Host to use.
@@ -151,7 +139,7 @@ public class JmsSourceWireAttacher implements SourceWireAttacher<JmsWireSourceDe
         JMSObjectFactory responseJMSObjectFactory = null;
         URI serviceUri = target.getUri();
 
-        ClassLoader cl = classLoaderRegistry.getClassLoader(source.getClassLoaderId());
+        ClassLoader cl = getClass().getClassLoader();
 
         JmsBindingMetadata metadata = source.getMetadata();
         Hashtable<String, String> env = metadata.getEnv();

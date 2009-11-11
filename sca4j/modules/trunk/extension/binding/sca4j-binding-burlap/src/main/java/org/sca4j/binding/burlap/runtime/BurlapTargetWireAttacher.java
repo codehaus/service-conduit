@@ -77,8 +77,6 @@ import java.util.Map;
 import org.osoa.sca.annotations.Destroy;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
-import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.binding.burlap.provision.BurlapWireTargetDefinition;
 import org.sca4j.spi.ObjectFactory;
@@ -87,7 +85,6 @@ import org.sca4j.spi.builder.component.TargetWireAttacher;
 import org.sca4j.spi.builder.component.WireAttachException;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;
 
@@ -98,7 +95,6 @@ import org.sca4j.spi.wire.Wire;
  */
 @EagerInit
 public class BurlapTargetWireAttacher implements TargetWireAttacher<BurlapWireTargetDefinition> {
-    private final ClassLoaderRegistry classLoaderRegistry;
     private final BurlapWireAttacherMonitor monitor;
 
     /**
@@ -107,9 +103,7 @@ public class BurlapTargetWireAttacher implements TargetWireAttacher<BurlapWireTa
      * @param classLoaderRegistry the classloader registry to resolve the target classloader from
      * @param monitor             the Burlap monitor
      */
-    public BurlapTargetWireAttacher(@Reference ClassLoaderRegistry classLoaderRegistry,
-                                    @Monitor BurlapWireAttacherMonitor monitor) {
-        this.classLoaderRegistry = classLoaderRegistry;
+    public BurlapTargetWireAttacher(@Monitor BurlapWireAttacherMonitor monitor) {
         this.monitor = monitor;
     }
 
@@ -128,7 +122,7 @@ public class BurlapTargetWireAttacher implements TargetWireAttacher<BurlapWireTa
                                Wire wire) throws WiringException {
 
         URI id = targetDefinition.getClassLoaderId();
-        ClassLoader loader = classLoaderRegistry.getClassLoader(id);
+        ClassLoader loader = getClass().getClassLoader();
         URI uri = targetDefinition.getUri();
 
         try {

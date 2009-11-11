@@ -50,39 +50,15 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.spi.services.contribution;
+package org.sca4j.maven.runtime;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.List;
+import java.net.URI;
+import java.util.Map;
 
-/**
- * A registry of classpath processors
- *
- * @version $Rev: 1052 $ $Date: 2007-09-05 18:16:29 +0100 (Wed, 05 Sep 2007) $
- */
-public interface ClasspathProcessorRegistry {
+import org.sca4j.spi.wire.Wire;
 
-    /**
-     * Registers the processor
-     *
-     * @param processor the processor
-     */
-    void register(ClasspathProcessor processor);
+public interface WireHolder extends Map<String, Wire> {
+    
+    URI COMPONENT_URI = URI.create("sca4j://runtime/TestWireHolder");
 
-    /**
-     * De-registers the processor
-     *
-     * @param processor the processor
-     */
-    void unregister(ClasspathProcessor processor);
-
-    /**
-     * Processes the given url
-     *
-     * @param url the url to process
-     * @return the classpath
-     * @throws IOException if an error occurs processing the url
-     */
-    List<URL> process(URL url) throws IOException;
 }

@@ -73,7 +73,6 @@ import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.invocation.WorkContext;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;
 
@@ -83,13 +82,11 @@ import org.sca4j.spi.wire.Wire;
 @EagerInit
 public class RsSourceWireAttacher implements SourceWireAttacher<RsWireSourceDefinition> {
 
-    private final ClassLoaderRegistry classLoaderRegistry;
     private final ServletHost servletHost;
     private final Map<URI, RsWebApplication> webApplications = new ConcurrentHashMap<URI, RsWebApplication>();
 
-    public RsSourceWireAttacher(@Reference ServletHost servletHost, @Reference ClassLoaderRegistry classLoaderRegistry) {
+    public RsSourceWireAttacher(@Reference ServletHost servletHost) {
         this.servletHost = servletHost;
-        this.classLoaderRegistry = classLoaderRegistry;
     }
 
     public void attachToSource(RsWireSourceDefinition sourceDefinition, PhysicalWireTargetDefinition targetDefinition, Wire wire) throws WireAttachException {
@@ -126,7 +123,7 @@ public class RsSourceWireAttacher implements SourceWireAttacher<RsWireSourceDefi
 
     private void provision(RsWireSourceDefinition sourceDefinition, final Wire wire, RsWebApplication application) throws ClassNotFoundException {
         
-        ClassLoader classLoader = classLoaderRegistry.getClassLoader(sourceDefinition.getClassLoaderId());
+        ClassLoader classLoader = getClass().getClassLoader();
         Class<?> serviceInterface = classLoader.loadClass(sourceDefinition.getInterfaze());
 
         Object instance = Proxy.newProxyInstance(classLoader, new Class[] {serviceInterface}, new InvocationHandler() {

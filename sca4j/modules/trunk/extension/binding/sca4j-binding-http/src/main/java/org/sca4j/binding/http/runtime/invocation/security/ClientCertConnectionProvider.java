@@ -61,13 +61,9 @@ import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.protocol.Protocol;
 import org.apache.commons.httpclient.protocol.ProtocolSocketFactory;
-import org.osoa.sca.annotations.Reference;
 import org.sca4j.binding.http.provision.security.ClientCertAuthenticationPolicy;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 
 public class ClientCertConnectionProvider implements ConnectionProvider<ClientCertAuthenticationPolicy> {
-  
-    @Reference protected ClassLoaderRegistry classLoaderRegistry;
 
     public HttpClient createClient(ClientCertAuthenticationPolicy authenticationPolicy, URL url, URI classLoaderId) {
         
@@ -83,7 +79,7 @@ public class ClientCertConnectionProvider implements ConnectionProvider<ClientCe
             
             // TODO Replace this with a custom protocol handler.
             if (authenticationPolicy.isClasspath()) {
-                ClassLoader classLoader = classLoaderRegistry.getClassLoader(classLoaderId);
+                ClassLoader classLoader = getClass().getClassLoader();
                 keyStore = classLoader.getResource(authenticationPolicy.getKeyStore());
                 trustStore = classLoader.getResource(authenticationPolicy.getTrustStore());
             } else {

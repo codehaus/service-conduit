@@ -81,9 +81,6 @@ import org.sca4j.scdl.Signature;
 import org.sca4j.spi.builder.component.ComponentBuilderRegistry;
 import org.sca4j.spi.component.InstanceFactoryProvider;
 import org.sca4j.spi.component.ScopeRegistry;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
-import org.sca4j.system.runtime.SystemComponent;
-import org.sca4j.system.runtime.SystemComponentBuilder;
 import org.sca4j.system.provision.SystemComponentDefinition;
 
 /**
@@ -99,7 +96,6 @@ public class SystemPhysicalComponentBuilderTestCase<T> extends TestCase {
     private SystemComponentDefinition definition;
     private URI componentId;
     private URI groupId;
-    private ClassLoaderRegistry classLoaderRegistry;
     private ClassLoader classLoader;
 
     public void testBuildSimplePOJO() throws Exception {
@@ -118,9 +114,6 @@ public class SystemPhysicalComponentBuilderTestCase<T> extends TestCase {
         scopeRegistry = EasyMock.createMock(ScopeRegistry.class);
 
         classLoader = getClass().getClassLoader();
-        classLoaderRegistry = EasyMock.createMock(ClassLoaderRegistry.class);
-        EasyMock.expect(classLoaderRegistry.getClassLoader(groupId)).andStubReturn(classLoader);
-        EasyMock.replay(classLoaderRegistry);
 
         providerBuilders = EasyMock.createMock(InstanceFactoryBuilderRegistry.class);
         providerDefinition = new InstanceFactoryDefinition();
@@ -132,7 +125,6 @@ public class SystemPhysicalComponentBuilderTestCase<T> extends TestCase {
         builder = new SystemComponentBuilder<T>(builderRegistry,
                                                 scopeRegistry,
                                                 providerBuilders,
-                                                classLoaderRegistry,
                                                 null);
 
         definition = new SystemComponentDefinition();

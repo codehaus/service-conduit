@@ -68,9 +68,6 @@ import com.thoughtworks.xstream.mapper.ImmutableTypesMapper;
 import com.thoughtworks.xstream.mapper.ImplicitCollectionMapper;
 import com.thoughtworks.xstream.mapper.Mapper;
 import com.thoughtworks.xstream.mapper.OuterClassMapper;
-import org.osoa.sca.annotations.Reference;
-
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 
 /**
  * Default implemenation of XStreamFactory. The factory may be configured with custom converters and drivers.
@@ -78,11 +75,10 @@ import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
  * @version $Rev: 4842 $ $Date: 2008-06-20 11:47:22 +0100 (Fri, 20 Jun 2008) $
  */
 public class XStreamFactoryImpl implements XStreamFactory {
-    private ClassLoaderRegistry registry;
+    
     private ReflectionProvider reflectionProvider;
 
-    public XStreamFactoryImpl(@Reference ClassLoaderRegistry registry) {
-        this.registry = registry;
+    public XStreamFactoryImpl() {
         JVM jvm = new JVM();
         reflectionProvider = jvm.bestReflectionProvider();
     }
@@ -90,30 +86,7 @@ public class XStreamFactoryImpl implements XStreamFactory {
     public XStream createInstance() {
         ClassLoader cl = XStreamFactoryImpl.class.getClassLoader();
         ClassLoaderStaxDriver driver = new ClassLoaderStaxDriver(cl);
-        Mapper mapper = buildMapper(cl);
-        return new XStream(reflectionProvider, mapper, driver);
-    }
-
-
-    private Mapper buildMapper(ClassLoader cl) {
-        // method exists to replace the default Mapper with the ClassLoaderMapper
-        Mapper mapper = new ClassLoaderMapper(registry, cl);
-        // note do not use  XStream11XmlFriendlyMapper
-        mapper = new ClassAliasingMapper(mapper);
-        mapper = new FieldAliasingMapper(mapper);
-        mapper = new AttributeAliasingMapper(mapper);
-        mapper = new AttributeMapper(mapper);
-        mapper = new ImplicitCollectionMapper(mapper);
-        mapper = new DynamicProxyMapper(mapper);
-        if (JVM.is15()) {
-            mapper = new EnumMapper(mapper);
-        }
-        mapper = new OuterClassMapper(mapper);
-        mapper = new ArrayMapper(mapper);
-        mapper = new DefaultImplementationsMapper(mapper);
-        mapper = new ImmutableTypesMapper(mapper);
-        mapper = new CachingMapper(mapper);
-        return mapper;
+        return new XStream(reflectionProvider, driver);
     }
 
 

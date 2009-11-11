@@ -84,7 +84,6 @@ import org.sca4j.host.runtime.HostInfo;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.host.ServletHost;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;
 import org.w3c.dom.Element;
@@ -96,7 +95,6 @@ import org.w3c.dom.Element;
 public class Axis2ServiceProvisionerImpl implements Axis2ServiceProvisioner {
 
     private final ServletHost servletHost;
-    private final ClassLoaderRegistry classLoaderRegistry;
     private final PolicyApplier policyApplier;
     private final SCA4JConfigurator f3Configurator;
     private ServiceProvisionerMonitor monitor;
@@ -105,13 +103,12 @@ public class Axis2ServiceProvisionerImpl implements Axis2ServiceProvisioner {
     private String servicePath = "axis2";
     private HostInfo hostInfo;
 
-    public Axis2ServiceProvisionerImpl(@Reference(required = false) ServletHost servletHost, @Reference ClassLoaderRegistry classLoaderRegistry,
+    public Axis2ServiceProvisionerImpl(@Reference(required = false) ServletHost servletHost, 
             @Reference PolicyApplier policyApplier, @Reference SCA4JConfigurator f3Configurator, @Monitor ServiceProvisionerMonitor monitor, @Reference HostInfo hostInfo) {
         if (servletHost == null) {
             throw new AssertionError("Please configure a servlet host");
         }
         this.servletHost = servletHost;
-        this.classLoaderRegistry = classLoaderRegistry;
         this.policyApplier = policyApplier;
         this.f3Configurator = f3Configurator;
         this.monitor = monitor;
@@ -151,7 +148,7 @@ public class Axis2ServiceProvisionerImpl implements Axis2ServiceProvisioner {
             URI classLoaderUri = pwsd.getClassLoaderId();
             String serviceClass = pwsd.getServiceInterface();
 
-            ClassLoader classLoader = classLoaderRegistry.getClassLoader(classLoaderUri);
+            ClassLoader classLoader = getClass().getClassLoader();
 
             AxisService axisService = new AxisService();
 

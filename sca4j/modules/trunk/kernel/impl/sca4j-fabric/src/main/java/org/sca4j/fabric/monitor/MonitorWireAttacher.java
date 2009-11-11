@@ -53,7 +53,6 @@
 package org.sca4j.fabric.monitor;
 
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.host.perf.PerformanceMonitor;
 import org.sca4j.monitor.MonitorFactory;
 import org.sca4j.spi.ObjectFactory;
@@ -62,7 +61,6 @@ import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.TargetWireAttacher;
 import org.sca4j.spi.builder.component.WireAttachException;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.spi.wire.Wire;
 
 /**
@@ -74,11 +72,9 @@ import org.sca4j.spi.wire.Wire;
  */
 public class MonitorWireAttacher implements TargetWireAttacher<MonitorWireTargetDefinition> {
     private final MonitorFactory monitorFactory;
-    private final ClassLoaderRegistry classLoaderRegistry;
 
-    public MonitorWireAttacher(@Reference MonitorFactory monitorFactory, @Reference ClassLoaderRegistry classLoaderRegistry) {
+    public MonitorWireAttacher(@Reference MonitorFactory monitorFactory) {
         this.monitorFactory = monitorFactory;
-        this.classLoaderRegistry = classLoaderRegistry;
     }
 
     public void attachToTarget(PhysicalWireSourceDefinition source, MonitorWireTargetDefinition target, Wire wire) throws WiringException {
@@ -88,7 +84,7 @@ public class MonitorWireAttacher implements TargetWireAttacher<MonitorWireTarget
     public ObjectFactory<?> createObjectFactory(MonitorWireTargetDefinition target) throws WiringException {
         try {
         	PerformanceMonitor.start("Monitor factory creation " + target.getMonitorType());
-            Class<?> type = classLoaderRegistry.loadClass(target.getClassLoaderId(), target.getMonitorType());
+            Class<?> type = getClass().getClassLoader().loadClass(target.getMonitorType());
             Object monitor = monitorFactory.getMonitor(type, target.getUri());
             PerformanceMonitor.end();
             return new SingletonObjectFactory<Object>(monitor);

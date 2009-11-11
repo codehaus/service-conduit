@@ -38,14 +38,6 @@
 
     <repositories>
         <repository>
-            <id>java.net</id>
-            <url>https://maven-repository.dev.java.net/nonav/repository</url>
-            <layout>legacy</layout>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
             <id>sca4j</id>
             <url>http://www.sca4j.org/nexus/content/repositories/releases</url>
             <snapshots>
@@ -54,12 +46,12 @@
         </repository>
     </repositories>
 
-    <pluginRepositories>
+    <!--pluginRepositories>
         <pluginRepository>
             <id>mc-release</id>
             <url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
         </pluginRepository>
-    </pluginRepositories>
+    </pluginRepositories-->
 
     <build>
         <defaultGoal>install</defaultGoal>

@@ -52,19 +52,17 @@
  */
 package org.sca4j.mock;
 
-import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.easymock.IMocksControl;
+import org.osoa.sca.annotations.EagerInit;
+import org.osoa.sca.annotations.Init;
+import org.osoa.sca.annotations.Reference;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.BuilderException;
 import org.sca4j.spi.builder.component.ComponentBuilder;
 import org.sca4j.spi.builder.component.ComponentBuilderRegistry;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Init;
-import org.osoa.sca.annotations.Reference;
 
 /**
  * @version $Revision$ $Date$
@@ -73,14 +71,11 @@ import org.osoa.sca.annotations.Reference;
 public class MockComponentBuilder<T> implements ComponentBuilder<MockComponentDefinition, MockComponent<T>> {
     
     private final ComponentBuilderRegistry builderRegistry;
-    private final ClassLoaderRegistry classLoaderRegistry;
     private final IMocksControl control;
     
     public MockComponentBuilder(@Reference ComponentBuilderRegistry builderRegistry,
-                                @Reference ClassLoaderRegistry classLoaderRegistry,
                                 @Reference IMocksControl control) {
         this.builderRegistry = builderRegistry;
-        this.classLoaderRegistry = classLoaderRegistry;
         this.control = control;
     }
     
@@ -92,7 +87,7 @@ public class MockComponentBuilder<T> implements ComponentBuilder<MockComponentDe
     public MockComponent<T> build(MockComponentDefinition componentDefinition) throws BuilderException {
         
         List<String> interfaces = componentDefinition.getInterfaces();
-        ClassLoader classLoader = classLoaderRegistry.getClassLoader(componentDefinition.getClassLoaderId());
+        ClassLoader classLoader = getClass().getClassLoader();
 
         List<Class<?>> mockedInterfaces = new LinkedList<Class<?>>();
         for(String interfaze : interfaces) {

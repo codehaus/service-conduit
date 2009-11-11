@@ -57,6 +57,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.sca4j.maven.runtime.WireHolder;
 import org.sca4j.spi.wire.Wire;
 
 public class JUnitWireHolder implements WireHolder {

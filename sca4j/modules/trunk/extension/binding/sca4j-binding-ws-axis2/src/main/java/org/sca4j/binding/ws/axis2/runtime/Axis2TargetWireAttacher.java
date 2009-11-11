@@ -77,7 +77,6 @@ import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.TargetWireAttacher;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;
@@ -91,14 +90,11 @@ import org.sca4j.spi.wire.Wire;
 public class Axis2TargetWireAttacher implements TargetWireAttacher<Axis2WireTargetDefinition> {
     private final PolicyApplier policyApplier;
     private final SCA4JConfigurator f3Configurator;
-    private ClassLoaderRegistry classLoaderRegistry;
 
     public Axis2TargetWireAttacher(@Reference PolicyApplier policyApplier,
-                                   @Reference SCA4JConfigurator f3Configurator,
-                                   @Reference ClassLoaderRegistry classLoaderRegistry) {
+                                   @Reference SCA4JConfigurator f3Configurator) {
         this.policyApplier = policyApplier;
         this.f3Configurator = f3Configurator;
-        this.classLoaderRegistry = classLoaderRegistry;
     }
 
     public void attachToTarget(PhysicalWireSourceDefinition source, Axis2WireTargetDefinition target, Wire wire) throws WiringException {
@@ -141,7 +137,7 @@ public class Axis2TargetWireAttacher implements TargetWireAttacher<Axis2WireTarg
         try {
             return new URL(wsdlLocation);
         } catch (MalformedURLException e) {
-            return classLoaderRegistry.getClassLoader(classLoaderId).getResource(wsdlLocation);
+            return getClass().getClassLoader().getResource(wsdlLocation);
         }        
     }
     

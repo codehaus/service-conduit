@@ -63,10 +63,6 @@
         <sca4j:implementation.system class="org.sca4j.fabric.executor.CommandExecutorRegistryImpl"/>
     </component>
 
-    <component name="ClassloaderProvisionCommandExecutor">
-        <sca4j:implementation.system class="org.sca4j.fabric.executor.ProvisionClassloaderCommandExecutor"/>
-    </component>
-
     <component name="ComponentBuildCommandExecutor">
         <sca4j:implementation.system class="org.sca4j.fabric.executor.BuildComponentCommandExecutor"/>
     </component>
@@ -97,10 +93,6 @@
 
     <component name="WireDetachCommandExecutor">
         <sca4j:implementation.system class="org.sca4j.fabric.executor.DetachWireCommandExecutor"/>
-    </component>
-
-    <component name="UnprovisionClassloaderCommandExecutor">
-        <sca4j:implementation.system class="org.sca4j.fabric.executor.UnprovisionClassloaderCommandExecutor"/>
     </component>
 
 

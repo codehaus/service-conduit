@@ -52,26 +52,24 @@
  */
 package org.sca4j.system.runtime;
 
-import java.net.URI;
-import java.util.Map;
-import java.util.List;
 import java.lang.reflect.Method;
+import java.net.URI;
+import java.util.List;
+import java.util.Map;
 
-import org.osoa.sca.annotations.Reference;
 import org.osoa.sca.annotations.EagerInit;
-
+import org.osoa.sca.annotations.Reference;
 import org.sca4j.spi.ObjectFactory;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
-import org.sca4j.spi.services.componentmanager.ComponentManager;
-import org.sca4j.spi.component.ScopeContainer;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.TargetWireAttacher;
 import org.sca4j.spi.builder.component.WireAttachException;
-import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
+import org.sca4j.spi.component.ScopeContainer;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
+import org.sca4j.spi.services.componentmanager.ComponentManager;
 import org.sca4j.spi.util.UriHelper;
-import org.sca4j.spi.wire.Wire;
 import org.sca4j.spi.wire.InvocationChain;
+import org.sca4j.spi.wire.Wire;
 import org.sca4j.system.provision.SystemWireTargetDefinition;
 
 /**
@@ -81,12 +79,9 @@ import org.sca4j.system.provision.SystemWireTargetDefinition;
 public class SystemTargetWireAttacher implements TargetWireAttacher<SystemWireTargetDefinition> {
 
     private final ComponentManager manager;
-    private final ClassLoaderRegistry classLoaderRegistry;
 
-    public SystemTargetWireAttacher(@Reference ComponentManager manager,
-                                    @Reference ClassLoaderRegistry classLoaderRegistry) {
+    public SystemTargetWireAttacher(@Reference ComponentManager manager) {
         this.manager = manager;
-        this.classLoaderRegistry = classLoaderRegistry;
     }
 
     public void attachToTarget(PhysicalWireSourceDefinition source, SystemWireTargetDefinition target, Wire wire) throws WiringException {
@@ -106,7 +101,7 @@ public class SystemTargetWireAttacher implements TargetWireAttacher<SystemWireTa
             for (int i = 0; i < params.size(); i++) {
                 String param = params.get(i);
                 try {
-                    paramTypes[i] = classLoaderRegistry.loadClass(loader, param);
+                    paramTypes[i] = getClass().getClassLoader().loadClass(param);
                 } catch (ClassNotFoundException e) {
                     URI sourceUri = source.getUri();
                     URI targetUri = target.getUri();

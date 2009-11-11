@@ -62,13 +62,10 @@ import javax.management.MBeanServer;
 import org.sca4j.fabric.allocator.Allocator;
 import org.sca4j.fabric.allocator.LocalAllocator;
 import org.sca4j.fabric.builder.ConnectorImpl;
-import org.sca4j.fabric.builder.classloader.ClassLoaderBuilder;
-import org.sca4j.fabric.builder.classloader.ClassLoaderBuilderImpl;
 import org.sca4j.fabric.builder.component.DefaultComponentBuilderRegistry;
 import org.sca4j.fabric.command.AttachWireCommand;
 import org.sca4j.fabric.command.BuildComponentCommand;
 import org.sca4j.fabric.command.InitializeComponentCommand;
-import org.sca4j.fabric.command.ProvisionClassloaderCommand;
 import org.sca4j.fabric.command.StartComponentCommand;
 import org.sca4j.fabric.command.StartCompositeContextCommand;
 import org.sca4j.fabric.domain.RuntimeDomain;
@@ -76,14 +73,11 @@ import org.sca4j.fabric.executor.AttachWireCommandExecutor;
 import org.sca4j.fabric.executor.BuildComponentCommandExecutor;
 import org.sca4j.fabric.executor.CommandExecutorRegistryImpl;
 import org.sca4j.fabric.executor.InitializeComponentCommandExecutor;
-import org.sca4j.fabric.executor.ProvisionClassloaderCommandExecutor;
 import org.sca4j.fabric.executor.StartComponentCommandExecutor;
 import org.sca4j.fabric.executor.StartCompositeContextCommandExecutor;
 import org.sca4j.fabric.generator.GeneratorRegistryImpl;
 import org.sca4j.fabric.generator.PhysicalModelGenerator;
 import org.sca4j.fabric.generator.PhysicalModelGeneratorImpl;
-import org.sca4j.fabric.generator.classloader.ClassLoaderCommandGenerator;
-import org.sca4j.fabric.generator.classloader.ClassLoaderCommandGeneratorImpl;
 import org.sca4j.fabric.generator.component.BuildComponentCommandGenerator;
 import org.sca4j.fabric.generator.component.InitializeComponentCommandGenerator;
 import org.sca4j.fabric.generator.component.StartComponentCommandGenerator;
@@ -123,9 +117,6 @@ import org.sca4j.fabric.monitor.MonitorWireAttacher;
 import org.sca4j.fabric.monitor.MonitorWireGenerator;
 import org.sca4j.fabric.monitor.MonitorWireTargetDefinition;
 import org.sca4j.fabric.policy.NullPolicyResolver;
-import org.sca4j.fabric.services.contribution.ClasspathProcessorRegistryImpl;
-import org.sca4j.fabric.services.contribution.LocalContributionUriResolver;
-import org.sca4j.fabric.services.contribution.processor.JarClasspathProcessor;
 import org.sca4j.fabric.services.documentloader.DocumentLoader;
 import org.sca4j.fabric.services.documentloader.DocumentLoaderImpl;
 import org.sca4j.fabric.services.routing.RuntimeRoutingService;
@@ -153,9 +144,7 @@ import org.sca4j.spi.generator.GeneratorRegistry;
 import org.sca4j.spi.generator.RemoveCommandGenerator;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
 import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.spi.services.componentmanager.ComponentManager;
-import org.sca4j.spi.services.contribution.ClasspathProcessorRegistry;
 import org.sca4j.spi.services.contribution.MetaDataStore;
 import org.sca4j.spi.services.lcm.LogicalComponentManager;
 import org.sca4j.system.control.SystemComponentGenerator;
@@ -182,7 +171,6 @@ import org.sca4j.transform.dom2java.generics.map.String2MapOfString2String;
 public class BootstrapAssemblyFactory {
 
     public static Domain createDomain(MonitorFactory monitorFactory,
-                                      ClassLoaderRegistry classLoaderRegistry,
                                       ScopeRegistry scopeRegistry,
                                       ComponentManager componentManager,
                                       LogicalComponentManager logicalComponentManager,
@@ -194,7 +182,6 @@ public class BootstrapAssemblyFactory {
         Allocator allocator = new LocalAllocator();
         CommandExecutorRegistry commandRegistry =
                 createCommandExecutorRegistry(monitorFactory,
-                                              classLoaderRegistry,
                                               scopeRegistry,
                                               componentManager,
                                               mbServer,
@@ -243,7 +230,6 @@ public class BootstrapAssemblyFactory {
     }
 
     private static CommandExecutorRegistry createCommandExecutorRegistry(MonitorFactory monitorFactory,
-                                                                         ClassLoaderRegistry classLoaderRegistry,
                                                                          ScopeRegistry scopeRegistry,
                                                                          ComponentManager componentManager,
                                                                          MBeanServer mbeanServer,
@@ -252,7 +238,7 @@ public class BootstrapAssemblyFactory {
                                                                          HostInfo info) {
 
         InstanceFactoryBuilderRegistry providerRegistry = new DefaultInstanceFactoryBuilderRegistry();
-        InstanceFactoryBuildHelper buildHelper = new BuildHelperImpl(classLoaderRegistry);
+        InstanceFactoryBuildHelper buildHelper = new BuildHelperImpl();
         ReflectiveInstanceFactoryBuilder provider = new ReflectiveInstanceFactoryBuilder(providerRegistry, buildHelper);
         provider.init();
 
@@ -262,7 +248,7 @@ public class BootstrapAssemblyFactory {
         transformerRegistry.register(new String2Integer());
         transformerRegistry.register(new String2Boolean());
         transformerRegistry.register(new String2MapOfString2String());
-        transformerRegistry.register(new String2Class(classLoaderRegistry));
+        transformerRegistry.register(new String2Class());
         transformerRegistry.register(new String2QName());
         transformerRegistry.register(new String2ListOfString());
         transformerRegistry.register(new String2ListOfQName());
@@ -272,31 +258,26 @@ public class BootstrapAssemblyFactory {
         SystemComponentBuilder<?> builder = new SystemComponentBuilder<Object>(registry,
                                                                                scopeRegistry,
                                                                                providerRegistry,
-                                                                               classLoaderRegistry,
                                                                                transformerRegistry);
         builder.init();
 
         Map<Class<? extends PhysicalWireSourceDefinition>, SourceWireAttacher<? extends PhysicalWireSourceDefinition>> sourceAttachers =
                 new ConcurrentHashMap<Class<? extends PhysicalWireSourceDefinition>, SourceWireAttacher<? extends PhysicalWireSourceDefinition>>();
         sourceAttachers.put(SystemWireSourceDefinition.class,
-                            new SystemSourceWireAttacher(componentManager, transformerRegistry, classLoaderRegistry));
+                            new SystemSourceWireAttacher(componentManager, transformerRegistry));
         sourceAttachers.put(SingletonWireSourceDefinition.class, new SingletonSourceWireAttacher(componentManager));
 
-        sourceAttachers.put(JMXWireSourceDefinition.class, new JMXWireAttacher(mbeanServer, classLoaderRegistry, jmxSubDomain));
+        sourceAttachers.put(JMXWireSourceDefinition.class, new JMXWireAttacher(mbeanServer, jmxSubDomain));
 
         Map<Class<? extends PhysicalWireTargetDefinition>, TargetWireAttacher<? extends PhysicalWireTargetDefinition>> targetAttachers =
                 new ConcurrentHashMap<Class<? extends PhysicalWireTargetDefinition>, TargetWireAttacher<? extends PhysicalWireTargetDefinition>>();
         targetAttachers.put(SingletonWireTargetDefinition.class, new SingletonTargetWireAttacher(componentManager));
-        targetAttachers.put(SystemWireTargetDefinition.class, new SystemTargetWireAttacher(componentManager, classLoaderRegistry));
-        targetAttachers.put(MonitorWireTargetDefinition.class, new MonitorWireAttacher(monitorFactory, classLoaderRegistry));
+        targetAttachers.put(SystemWireTargetDefinition.class, new SystemTargetWireAttacher(componentManager));
+        targetAttachers.put(MonitorWireTargetDefinition.class, new MonitorWireAttacher(monitorFactory));
 
         ConnectorImpl connector = new ConnectorImpl();
         connector.setSourceAttachers(sourceAttachers);
         connector.setTargetAttachers(targetAttachers);
-
-        ClasspathProcessorRegistry cpRegistry = new ClasspathProcessorRegistryImpl();
-
-        ClassLoaderBuilder classLoaderBuilder = createClassLoaderBuilder(classLoaderRegistry, cpRegistry, metaDataStore, info);
 
         CommandExecutorRegistryImpl commandRegistry = new CommandExecutorRegistryImpl();
 
@@ -305,21 +286,9 @@ public class BootstrapAssemblyFactory {
         commandRegistry.register(BuildComponentCommand.class, new BuildComponentCommandExecutor(registry, componentManager));
         commandRegistry.register(AttachWireCommand.class, new AttachWireCommandExecutor(connector));
         commandRegistry.register(StartComponentCommand.class, new StartComponentCommandExecutor(componentManager));
-        commandRegistry.register(ProvisionClassloaderCommand.class, new ProvisionClassloaderCommandExecutor(classLoaderBuilder));
 
         return commandRegistry;
 
-    }
-
-    private static ClassLoaderBuilder createClassLoaderBuilder(ClassLoaderRegistry classLoaderRegistry,
-                                                               ClasspathProcessorRegistry cpRegistry,
-                                                               MetaDataStore metaDataStore,
-                                                               HostInfo info) {
-
-        LocalContributionUriResolver resolver = new LocalContributionUriResolver(metaDataStore);
-        JarClasspathProcessor classpathProcessor = new JarClasspathProcessor(cpRegistry, info);
-        classpathProcessor.init();
-        return new ClassLoaderBuilderImpl(classLoaderRegistry, resolver, cpRegistry, info);
     }
 
     private static PhysicalModelGenerator createPhysicalModelGenerator(LogicalComponentManager logicalComponentManager,
@@ -328,8 +297,6 @@ public class BootstrapAssemblyFactory {
         GeneratorRegistry generatorRegistry = createGeneratorRegistry();
         PhysicalOperationHelper physicalOperationHelper = new PhysicalOperationHelperImpl();
         PhysicalWireGenerator wireGenerator = new PhysicalWireGeneratorImpl(generatorRegistry, new NullPolicyResolver(), physicalOperationHelper);
-
-        ClassLoaderCommandGenerator classLoaderCommandGenerator = new ClassLoaderCommandGeneratorImpl(metaDataStore);
 
         List<AddCommandGenerator> commandGenerators = new ArrayList<AddCommandGenerator>();
         commandGenerators.add(new BuildComponentCommandGenerator(generatorRegistry, 1));
@@ -342,7 +309,7 @@ public class BootstrapAssemblyFactory {
         List<RemoveCommandGenerator> removeCmdGenerator = new ArrayList<RemoveCommandGenerator>(2);
         removeCmdGenerator.add(new StopCompositeContextCommandGenerator(0));
         removeCmdGenerator.add(new StopComponentCommandGenerator(1));
-        return new PhysicalModelGeneratorImpl(commandGenerators, removeCmdGenerator, classLoaderCommandGenerator);
+        return new PhysicalModelGeneratorImpl(commandGenerators, removeCmdGenerator);
     }
 
     private static GeneratorRegistry createGeneratorRegistry() {

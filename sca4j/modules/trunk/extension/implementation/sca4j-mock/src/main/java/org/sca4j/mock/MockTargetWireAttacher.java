@@ -52,7 +52,6 @@
  */
 package org.sca4j.mock;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URI;
@@ -62,7 +61,6 @@ import java.util.Map;
 
 import org.easymock.IMocksControl;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.SingletonObjectFactory;
 import org.sca4j.spi.builder.WiringException;
@@ -72,7 +70,6 @@ import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;
@@ -82,11 +79,9 @@ import org.sca4j.spi.wire.Wire;
  */
 public class MockTargetWireAttacher implements TargetWireAttacher<MockWireTargetDefinition> {
 
-    private final ClassLoaderRegistry classLoaderRegistry;
     private final IMocksControl control;
 
-    public MockTargetWireAttacher(@Reference ClassLoaderRegistry classLoaderRegistry, @Reference IMocksControl control) {
-        this.classLoaderRegistry = classLoaderRegistry;
+    public MockTargetWireAttacher(@Reference IMocksControl control) {
         this.control = control;
     }
 
@@ -149,7 +144,7 @@ public class MockTargetWireAttacher implements TargetWireAttacher<MockWireTarget
     private Class<?> loadInterface(MockWireTargetDefinition target) throws WireAttachException {
         String interfaceClass = target.getMockedInterface();
         try {
-            ClassLoader classLoader = classLoaderRegistry.getClassLoader(target.getClassLoaderId());
+            ClassLoader classLoader = getClass().getClassLoader();
             return classLoader.loadClass(interfaceClass);
         } catch (ClassNotFoundException e) {
             URI targetUri = target.getUri();

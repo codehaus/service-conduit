@@ -54,7 +54,6 @@ package org.sca4j.spi.runtime;
 
 import org.sca4j.spi.component.ScopeContainer;
 import org.sca4j.spi.component.ScopeRegistry;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.spi.services.componentmanager.ComponentManager;
 import org.sca4j.spi.services.contribution.MetaDataStore;
 import org.sca4j.spi.services.lcm.LogicalComponentManager;
@@ -95,13 +94,6 @@ public interface RuntimeServices {
      * @return the ScopeContainer used to manage runtime component instances
      */
     ScopeContainer<?> getScopeContainer();
-
-    /**
-     * Returns the ClassLoaderRegistry used to manage runtime classloaders.
-     *
-     * @return the ClassLoaderRegistry used to manage runtime classloaders
-     */
-    ClassLoaderRegistry getClassLoaderRegistry();
 
     /**
      * Returns the MetaDataStore used to index contribution resources.

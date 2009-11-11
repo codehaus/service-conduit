@@ -119,14 +119,6 @@
         <sca4j:implementation.system class="org.sca4j.fabric.services.event.EventServiceImpl"/>
     </component>
 
-    <component name="ClassLoaderGenerator">
-        <sca4j:implementation.system class="org.sca4j.fabric.generator.classloader.ClassLoaderCommandGeneratorImpl"/>
-    </component>
-
-    <component name="ClassLoaderBuilder">
-        <sca4j:implementation.system class="org.sca4j.fabric.builder.classloader.ClassLoaderBuilderImpl"/>
-    </component>
-
     <component name="SingletonComponentSynthesizer">
         <sca4j:implementation.system class="org.sca4j.fabric.services.synthesizer.SingletonComponentSynthesizer"/>
     </component>
@@ -134,14 +126,6 @@
     <!-- Definitions registry -->
     <component name="DefinitionsRegistry">
         <sca4j:implementation.system class="org.sca4j.fabric.services.definitions.DefaultDefinitionsRegistry"/>
-    </component>
-
-    <component name="ClasspathProcessorRegistry">
-        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.ClasspathProcessorRegistryImpl"/>
-    </component>
-
-    <component name="JarClasspathProcessor">
-        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.processor.JarClasspathProcessor"/>
     </component>
 
     <component name="ProcessorRegistry">

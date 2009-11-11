@@ -56,7 +56,6 @@ import java.net.URI;
 
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.java.provision.JavaWireSourceDefinition;
 import org.sca4j.pojo.builder.PojoSourceWireAttacher;
 import org.sca4j.scdl.InjectableAttribute;
@@ -67,7 +66,6 @@ import org.sca4j.spi.builder.component.SourceWireAttacher;
 import org.sca4j.spi.builder.component.WireAttachException;
 import org.sca4j.spi.component.ScopeContainer;
 import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.spi.services.componentmanager.ComponentManager;
 import org.sca4j.spi.services.proxy.ProxyService;
 import org.sca4j.spi.util.UriHelper;
@@ -95,10 +93,9 @@ public class JavaSourceWireAttacher extends PojoSourceWireAttacher implements So
      */
     public JavaSourceWireAttacher(@Reference ComponentManager manager,
                                   @Reference ProxyService proxyService,
-                                  @Reference ClassLoaderRegistry classLoaderRegistry,
                                   @Reference(name = "transformerRegistry")TransformerRegistry<PullTransformer<?, ?>> transformerRegistry) {
     	
-        super(transformerRegistry, classLoaderRegistry);
+        super(transformerRegistry);
         this.manager = manager;
         this.proxyService = proxyService;
     }
@@ -116,7 +113,7 @@ public class JavaSourceWireAttacher extends PojoSourceWireAttacher implements So
 
         Class<?> type;
         try {
-            type = classLoaderRegistry.loadClass(sourceDefinition.getClassLoaderId(), sourceDefinition.getInterfaceName());
+            type = getClass().getClassLoader().loadClass(sourceDefinition.getInterfaceName());
         } catch (ClassNotFoundException e) {
             String name = sourceDefinition.getInterfaceName();
             throw new WireAttachException("Unable to load interface class: " + name, sourceUri, null, e);

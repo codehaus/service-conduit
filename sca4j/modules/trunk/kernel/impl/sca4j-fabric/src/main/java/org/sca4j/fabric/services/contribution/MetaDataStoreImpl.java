@@ -58,14 +58,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
 import javax.xml.namespace.QName;
 
 import org.osoa.sca.Constants;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.scdl.ValidationContext;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.Export;
 import org.sca4j.spi.services.contribution.Import;
@@ -87,10 +86,8 @@ public class MetaDataStoreImpl implements MetaDataStore {
     private Map<QName, Map<Export, Contribution>> exportsToContributionCache =
             new ConcurrentHashMap<QName, Map<Export, Contribution>>();
     private ProcessorRegistry processorRegistry;
-    private ClassLoaderRegistry classLoaderRegistry;
 
-    public MetaDataStoreImpl(ClassLoaderRegistry classLoaderRegistry, ProcessorRegistry processorRegistry) {
-        this.classLoaderRegistry = classLoaderRegistry;
+    public MetaDataStoreImpl(ProcessorRegistry processorRegistry) {
         this.processorRegistry = processorRegistry;
     }
 

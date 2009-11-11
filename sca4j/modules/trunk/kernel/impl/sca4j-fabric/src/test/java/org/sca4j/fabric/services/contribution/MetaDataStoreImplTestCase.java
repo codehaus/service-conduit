@@ -57,20 +57,19 @@ import java.io.Serializable;
 import java.net.URI;
 import java.net.URL;
 import java.util.List;
+
 import javax.xml.namespace.QName;
 
 import junit.framework.TestCase;
 
 import org.sca4j.fabric.util.FileHelper;
-import org.sca4j.fabric.services.classloading.ClassLoaderRegistryImpl;
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.ContributionManifest;
 import org.sca4j.spi.services.contribution.QNameExport;
 import org.sca4j.spi.services.contribution.QNameImport;
 import org.sca4j.spi.services.contribution.QNameSymbol;
-import org.sca4j.spi.services.contribution.ResourceElement;
 import org.sca4j.spi.services.contribution.Resource;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
+import org.sca4j.spi.services.contribution.ResourceElement;
 
 /**
  * @version $Rev: 5299 $ $Date: 2008-08-29 23:02:05 +0100 (Fri, 29 Aug 2008) $
@@ -115,9 +114,7 @@ public class MetaDataStoreImplTestCase extends TestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        ClassLoaderRegistry registry = new ClassLoaderRegistryImpl();
-        registry.register(URI.create("resource"), getClass().getClassLoader());
-        store = new MetaDataStoreImpl(registry, null);
+        store = new MetaDataStoreImpl(null);
         Contribution contribution = new Contribution(RESOURCE_URI);
         ContributionManifest manifest = new ContributionManifest();
         QNameExport export = new QNameExport(IMPORT_EXPORT_QNAME);

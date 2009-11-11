@@ -73,12 +73,11 @@ package org.sca4j.pojo.instancefactory;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.net.URI;
-import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.sca4j.pojo.provision.InstanceFactoryDefinition;
 import org.sca4j.scdl.ConstructorInjectionSite;
 import org.sca4j.scdl.FieldInjectionSite;
 import org.sca4j.scdl.InjectableAttribute;
@@ -87,15 +86,12 @@ import org.sca4j.scdl.InjectionSite;
 import org.sca4j.scdl.MethodInjectionSite;
 import org.sca4j.scdl.Signature;
 import org.sca4j.spi.component.InstanceFactoryProvider;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
-import org.sca4j.spi.services.classloading.DuplicateClassLoaderException;
-import org.sca4j.pojo.provision.InstanceFactoryDefinition;
 
 /**
  * @version $Date: 2008-08-20 22:25:50 +0100 (Wed, 20 Aug 2008) $ $Revision: 5245 $
  */
 public class ReflectiveIFProviderBuilderTestCase extends TestCase {
-    private InstanceFactoryBuildHelper helper = new BuildHelperImpl(new MockClassLoaderRegistry());
+    private InstanceFactoryBuildHelper helper = new BuildHelperImpl();
     private ReflectiveInstanceFactoryBuilder builder = new ReflectiveInstanceFactoryBuilder(null, helper);
     private InstanceFactoryDefinition definition;
     private Constructor<Foo> constructor;
@@ -179,36 +175,5 @@ public class ReflectiveIFProviderBuilderTestCase extends TestCase {
 
     public static class Bar {
 
-    }
-
-    private class MockClassLoaderRegistry implements ClassLoaderRegistry {
-
-        public void register(URI id, ClassLoader classLoader) throws DuplicateClassLoaderException {
-
-        }
-
-        public ClassLoader unregister(URI id) {
-            return null;
-        }
-
-        public ClassLoader getClassLoader(URI id) {
-            return null;
-        }
-
-        public Map<URI, ClassLoader> getClassLoaders() {
-            return null;
-        }
-
-        public Class<?> loadClass(URI classLoaderId, String className) throws ClassNotFoundException {
-            return null;
-        }
-
-        public Class<?> loadClass(ClassLoader cl, String className) throws ClassNotFoundException {
-            return Class.forName(className, true, cl);
-        }
-
-        public List<URI> resolveParentUris(ClassLoader cl) {
-            return null;
-        }
     }
 }

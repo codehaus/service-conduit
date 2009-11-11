@@ -58,7 +58,6 @@ import org.osoa.sca.annotations.Reference;
 import org.sca4j.binding.http.runtime.introspection.ServiceIntrospector;
 import org.sca4j.binding.http.runtime.introspection.ServiceMetadata;
 import org.sca4j.spi.builder.WiringException;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 
 /**
  * Abstract super class for the source and target wire attacher.
@@ -66,12 +65,11 @@ import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
  */
 public class AbstractWireAttacher {
     
-    @Reference protected ClassLoaderRegistry classLoaderRegistry;
     @Reference protected ServiceIntrospector serviceIntrospector;
     
     protected Class<?> getServiceInterface(URI classloaderId, String interfaceFqn) throws WiringException {
         try {
-            return classLoaderRegistry.getClassLoader(classloaderId).loadClass(interfaceFqn);
+            return getClass().getClassLoader().loadClass(interfaceFqn);
         } catch (ClassNotFoundException e) {
             throw new WiringException(e);
         }

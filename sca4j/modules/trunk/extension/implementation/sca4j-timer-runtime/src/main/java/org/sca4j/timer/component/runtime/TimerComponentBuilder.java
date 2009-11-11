@@ -57,7 +57,6 @@ import java.net.URI;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.pojo.builder.PojoComponentBuilder;
 import org.sca4j.pojo.component.PojoComponentContext;
 import org.sca4j.pojo.component.PojoRequestContext;
@@ -72,7 +71,6 @@ import org.sca4j.spi.builder.component.ComponentBuilderRegistry;
 import org.sca4j.spi.component.InstanceFactoryProvider;
 import org.sca4j.spi.component.ScopeContainer;
 import org.sca4j.spi.component.ScopeRegistry;
-import org.sca4j.spi.services.classloading.ClassLoaderRegistry;
 import org.sca4j.spi.services.proxy.ProxyService;
 import org.sca4j.timer.component.provision.TimerComponentDefinition;
 import org.sca4j.timer.component.provision.TriggerData;
@@ -92,12 +90,11 @@ public class TimerComponentBuilder<T> extends PojoComponentBuilder<T, TimerCompo
     public TimerComponentBuilder(@Reference ComponentBuilderRegistry builderRegistry,
                                  @Reference ScopeRegistry scopeRegistry,
                                  @Reference InstanceFactoryBuilderRegistry providerBuilders,
-                                 @Reference ClassLoaderRegistry classLoaderRegistry,
                                  @Reference(name = "transformerRegistry")TransformerRegistry<PullTransformer<?, ?>> transformerRegistry,
                                  @Reference ProxyService proxyService,
                                  @Reference(name = "nonTrxTimerService")TimerService nonTrxTimerService,
                                  @Reference(name = "trxTimerService")TimerService trxTimerService) {
-        super(builderRegistry, scopeRegistry, providerBuilders, classLoaderRegistry, transformerRegistry);
+        super(builderRegistry, scopeRegistry, providerBuilders, transformerRegistry);
         this.proxyService = proxyService;
         this.nonTrxTimerService = nonTrxTimerService;
         this.trxTimerService = trxTimerService;
@@ -112,7 +109,7 @@ public class TimerComponentBuilder<T> extends PojoComponentBuilder<T, TimerCompo
         URI componentId = definition.getComponentId();
         int initLevel = definition.getInitLevel();
         URI groupId = definition.getGroupId();
-        ClassLoader classLoader = classLoaderRegistry.getClassLoader(definition.getClassLoaderId());
+        ClassLoader classLoader = getClass().getClassLoader();
 
         // get the scope container for this component
         String scopeName = definition.getScope();

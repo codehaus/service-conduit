@@ -118,9 +118,4 @@
         <property name="order">2</property>
     </component>
 
-    <component name="UnprovisionClassloaderCommandGenerator">
-        <sca4j:implementation.system class="org.sca4j.fabric.generator.classloader.UnprovisionClassloaderCommandGenerator"/>
-        <property name="order">3</property>
-    </component>
-
 </composite>
