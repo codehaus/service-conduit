@@ -139,8 +139,6 @@ public class TestRunner {
         try {
             
             ClassLoader parentClassLoader = getClass().getClassLoader();
-            //ClassLoader hostClassLoader = createHostClassLoader(parentClassLoader, testMetadata.getHostArtifacts());
-            //ClassLoader bootClassLoader = createBootClassLoader(hostClassLoader, testMetadata.getRuntimeArtifacts());
             
             ClassLoader hostClassLoader = createClassLoader(parentClassLoader, testMetadata.getClasspath());
             ClassLoader bootClassLoader = hostClassLoader;
@@ -167,6 +165,12 @@ public class TestRunner {
                 testSuite = createTestSuite(runtime);
             }
             PerformanceMonitor.end();
+            
+            // Just verify the composites and don't run the tests
+            if (System.getProperty("sca4j.verify") != null) {
+                return;
+            }
+            
             PerformanceMonitor.start("Test executed");
             boolean success = runSurefire(testSuite);
             PerformanceMonitor.end();
