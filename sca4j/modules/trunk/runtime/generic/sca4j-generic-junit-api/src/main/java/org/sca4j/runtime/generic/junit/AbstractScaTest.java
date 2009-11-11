@@ -57,10 +57,13 @@ import java.util.Properties;
 
 import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
+import javax.persistence.EntityManager;
+import javax.transaction.TransactionManager;
 
 import junit.framework.TestCase;
 
 import org.sca4.runtime.generic.impl.GenericRuntimeImpl;
+import org.sca4j.host.jpa.EmfBuilder;
 import org.sca4j.monitor.MonitorFactory;
 import org.sca4j.monitor.impl.JavaLoggingMonitorFactory;
 
@@ -123,6 +126,24 @@ public class AbstractScaTest extends TestCase {
      */
     protected MBeanServer getMBeanServer() {
         return MBeanServerFactory.newMBeanServer();
+    }
+    
+    /**
+     * Returns the transaction manager.
+     * @return Gets the transaction manager.
+     */
+    protected TransactionManager getTransactionManager() {
+        return genericRuntime.getSystemComponent(TransactionManager.class, URI.create("sca4j://runtime/TransactionManager"));
+    }
+    
+    /**
+     * Returns a named entity manager.
+     * @param name Name of the entity manager persistence unit.
+     * @return ENtity manager instance.
+     */
+    protected EntityManager getEntityManager(String name) {
+        EmfBuilder emfBuilder = genericRuntime.getSystemComponent(EmfBuilder.class, URI.create("sca4j://runtime/CachingEmfBuilder"));
+        return emfBuilder.build(name, getClass().getClassLoader()).createEntityManager();
     }
 
 }

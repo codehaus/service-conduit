@@ -78,6 +78,7 @@ import javax.persistence.EntityManagerFactory;
 import org.osoa.sca.annotations.Destroy;
 import org.osoa.sca.annotations.Reference;
 import org.osoa.sca.annotations.Service;
+import org.sca4j.host.jpa.EmfBuilder;
 import org.sca4j.jpa.spi.delegate.EmfBuilderDelegate;
 
 /**

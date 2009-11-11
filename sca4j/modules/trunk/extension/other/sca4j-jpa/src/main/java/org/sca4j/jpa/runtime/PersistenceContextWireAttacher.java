@@ -75,6 +75,7 @@ import java.net.URI;
 import javax.transaction.TransactionManager;
 
 import org.osoa.sca.annotations.Reference;
+import org.sca4j.host.jpa.EmfBuilder;
 import org.sca4j.jpa.provision.PersistenceContextWireTargetDefinition;
 import org.sca4j.jpa.spi.classloading.EmfClassLoaderService;
 import org.sca4j.spi.ObjectFactory;

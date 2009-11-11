@@ -50,7 +50,7 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.jpa.runtime;
+package org.sca4j.host.jpa;
 
 import org.sca4j.host.SCA4JException;
 

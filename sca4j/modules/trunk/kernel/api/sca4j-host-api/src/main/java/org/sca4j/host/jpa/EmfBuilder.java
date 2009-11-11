@@ -68,7 +68,7 @@
  * specific language governing permissions and limitations
  * under the License.    
  */
-package org.sca4j.jpa.runtime;
+package org.sca4j.host.jpa;
 
 import javax.persistence.EntityManagerFactory;
 

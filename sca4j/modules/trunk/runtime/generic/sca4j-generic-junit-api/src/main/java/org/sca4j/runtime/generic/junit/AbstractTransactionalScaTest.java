@@ -52,8 +52,6 @@
  */
 package org.sca4j.runtime.generic.junit;
 
-import java.net.URI;
-
 import javax.transaction.TransactionManager;
 
 /**
@@ -79,7 +77,7 @@ public abstract class AbstractTransactionalScaTest extends AbstractScaTest {
      */
     @Override
     protected void setUp() throws Exception {
-        transactionManager = genericRuntime.getSystemComponent(TransactionManager.class, URI.create("sca4j://runtime/TransactionManager"));
+        transactionManager = getTransactionManager();
         transactionManager.begin();
         setUpInternal();
     }

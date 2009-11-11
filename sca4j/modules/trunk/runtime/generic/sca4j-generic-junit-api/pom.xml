@@ -48,6 +48,12 @@
             <version>0.1.12-SNAPSHOT</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-host-api</artifactId>
+            <version>0.1.12-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
 </project>
