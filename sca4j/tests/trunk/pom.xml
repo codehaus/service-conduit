@@ -48,7 +48,7 @@
         <module>test-policy</module>
         <module>test-mock</module>
         <module>test-security-policy</module>
-        <!--module>test-runtime-jetty</module-->
+        <module>test-runtime-jetty</module>
         <module>test-axis2-audit-module</module>
         <module>test-axis2-audit-policy</module>
         <module>test-binding-axis2</module>

@@ -67,7 +67,6 @@ import java.util.Set;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.AbstractMojo;
@@ -282,15 +281,6 @@ public class SCA4JITestMojo extends AbstractMojo {
      * @required
      */
     public ArtifactRepository localRepository;
-
-    /**
-     * Used to look up Artifacts in the remote repository.
-     *
-     * @parameter expression="${component.org.apache.maven.artifact.factory.ArtifactFactory}"
-     * @required
-     * @readonly
-     */
-    public ArtifactFactory artifactFactory;
 
     /**
      * @parameter expression="${component.org.sca4j.itest.ArtifactHelper}"
