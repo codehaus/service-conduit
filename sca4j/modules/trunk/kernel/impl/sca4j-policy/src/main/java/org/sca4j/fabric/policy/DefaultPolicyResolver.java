@@ -72,12 +72,10 @@ package org.sca4j.fabric.policy;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
+
 import javax.xml.namespace.QName;
 
 import org.osoa.sca.annotations.Reference;
-import org.w3c.dom.Element;
-
 import org.sca4j.fabric.policy.helper.ImplementationPolicyHelper;
 import org.sca4j.fabric.policy.helper.InteractionPolicyHelper;
 import org.sca4j.fabric.policy.infoset.PolicyInfosetBuilder;
@@ -95,6 +93,7 @@ import org.sca4j.spi.policy.PolicyResolver;
 import org.sca4j.spi.policy.PolicyResult;
 import org.sca4j.util.closure.Closure;
 import org.sca4j.util.closure.CollectionUtils;
+import org.w3c.dom.Element;
 
 /**
  * @version $Revision$ $Date$
@@ -109,6 +108,15 @@ public class DefaultPolicyResolver implements PolicyResolver {
     private static final Closure<PolicySet, Boolean> INTERCEPTION = new Closure<PolicySet, Boolean>() {
         public Boolean execute(PolicySet policySet) {
             return policySet.getPhase() == PolicyPhase.INTERCEPTION;
+        }
+    };
+
+    /**
+     * Closure for filtering provided policies by bindings or implementations.
+     */
+    private static final Closure<PolicySet, Boolean> PROVIDED = new Closure<PolicySet, Boolean>() {
+        public Boolean execute(PolicySet policySet) {
+            return policySet.getPhase() == PolicyPhase.PROVIDED;
         }
     };
 
@@ -142,15 +150,6 @@ public class DefaultPolicyResolver implements PolicyResolver {
             };
         }
 
-    };
-
-    /**
-     * Closure for filtering provided policies by bindings or implementations.
-     */
-    private static final Closure<PolicySet, Boolean> PROVIDED = new Closure<PolicySet, Boolean>() {
-        public Boolean execute(PolicySet policySet) {
-            return policySet.getPhase() == PolicyPhase.PROVIDED;
-        }
     };
 
     private final InteractionPolicyHelper interactionPolicyHelper;
@@ -200,7 +199,7 @@ public class DefaultPolicyResolver implements PolicyResolver {
                 policyResult.addSourceIntents(operation, implementationPolicyHelper.getProvidedIntents(target, operation));
             }
 
-            Set<PolicySet> policies;
+            List<PolicySet> policies;
             Element policyInfoset;
 
             // Don't do policy resolution on souce components for implementation intents

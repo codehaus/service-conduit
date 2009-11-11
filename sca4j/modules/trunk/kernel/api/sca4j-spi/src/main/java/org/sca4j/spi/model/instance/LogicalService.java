@@ -53,12 +53,11 @@
 package org.sca4j.spi.model.instance;
 
 import java.net.URI;
-import java.util.Set;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
 import org.osoa.sca.Constants;
-
 import org.sca4j.scdl.ServiceDefinition;
 
 /**
@@ -116,42 +115,42 @@ public class LogicalService extends Bindable {
     /**
      * @return Intents declared on the SCA artifact.
      */
-    public Set<QName> getIntents() {
+    public List<QName> getIntents() {
         return definition.getIntents();
     }
     
     /**
      * @param intents Intents declared on the SCA artifact.
      */
-    public void setIntents(Set<QName> intents) {
+    public void setIntents(List<QName> intents) {
         definition.setIntents(intents);
     }
     
     /**
      * @param intents Adds intents to the definition.
      */
-    public void addIntents(Set<QName> intents) {
+    public void addIntents(List<QName> intents) {
         definition.addIntents(intents);
     }
 
     /**
      * @return Policy sets declared on the SCA artifact.
      */
-    public Set<QName> getPolicySets() {
+    public List<QName> getPolicySets() {
         return definition.getPolicySets();
     }
 
     /**
      * @param policySets Policy sets declared on the SCA artifact.
      */
-    public void setPolicySets(Set<QName> policySets) {
+    public void setPolicySets(List<QName> policySets) {
         definition.setPolicySets(policySets);
     }
     
     /**
      * @param policySets Adds policy sets to the definition.
      */
-    public void addPolicySets(Set<QName> policySets) {
+    public void addPolicySets(List<QName> policySets) {
         definition.addPolicySets(policySets);
     }
 

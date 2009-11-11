@@ -53,8 +53,8 @@
 package org.sca4j.fabric.policy.helper;
 
 import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
@@ -82,22 +82,32 @@ public class AbstractPolicyHelper {
     /*
      * Resolve the policies.
      */
-    protected Set<PolicySet> resolvePolicies(Set<Intent> requiredIntents, Element target, String operation) throws PolicyResolutionException {
+    protected List<PolicySet> resolvePolicies(List<Intent> requiredIntents, List<QName> requestedPolicies, Element target, String operation) throws PolicyResolutionException {
 
-        Set<PolicySet> policies = new LinkedHashSet<PolicySet>();
-        
-        for (PolicySet policySet : definitionsRegistry.getAllDefinitions(PolicySet.class)) {
-            Iterator<Intent> iterator = requiredIntents.iterator();
-            while(iterator.hasNext()) {
-                Intent intent = iterator.next();
+        List<PolicySet> policies = new LinkedList<PolicySet>();
+
+        Iterator<Intent> iterator = requiredIntents.iterator();
+        while(iterator.hasNext()) {
+            Intent intent = iterator.next();
+            for (PolicySet policySet : definitionsRegistry.getAllDefinitions(PolicySet.class)) {
                 if(policySet.doesProvide(intent.getName())) {
                     String appliesTo = policySet.getAppliesTo();
                     if (appliesTo == null || policySetEvaluator.doesApply(target, appliesTo, operation)) {
-                        policies.add(policySet);
+                        if (!policies.contains(policySet)) {
+                            policies.add(policySet);
+                        }
                         iterator.remove();
                     }
                 }
             }
+        }
+        
+        for (QName policy : requestedPolicies) {
+            PolicySet policySet = definitionsRegistry.getDefinition(policy, PolicySet.class);
+            if (policySet == null) {
+                throw new PolicyResolutionException("Unregistered policy set requested", policy);
+            }
+            policies.add(policySet);
         }
         
         return policies;
@@ -107,7 +117,7 @@ public class AbstractPolicyHelper {
     /*
      * Filter invalid intents.
      */
-    protected void filterInvalidIntents(QName type, Set<Intent> requiredIntents) throws PolicyResolutionException {
+    protected void filterInvalidIntents(QName type, List<Intent> requiredIntents) throws PolicyResolutionException {
 
         for (Iterator<Intent> it = requiredIntents.iterator();it.hasNext();) {
             
@@ -138,11 +148,11 @@ public class AbstractPolicyHelper {
     /*
      * Aggregate intents from ancestors.
      */
-    protected Set<QName> aggregateIntents(final LogicalScaArtifact<?> scaArtifact) {
+    protected List<QName> aggregateIntents(final LogicalScaArtifact<?> scaArtifact) {
 
         LogicalScaArtifact<?> temp = scaArtifact;
 
-        Set<QName> intentNames = new LinkedHashSet<QName>();
+        List<QName> intentNames = new LinkedList<QName>();
         while (temp != null) {
             intentNames.addAll(temp.getIntents());
             temp = temp.getParent();
@@ -152,11 +162,27 @@ public class AbstractPolicyHelper {
     }
 
     /*
+     * Aggregate policies from ancestors.
+     */
+    protected List<QName> aggregatePolicies(final LogicalScaArtifact<?> scaArtifact) {
+
+        LogicalScaArtifact<?> temp = scaArtifact;
+
+        List<QName> policies = new LinkedList<QName>();
+        while (temp != null) {
+            policies.addAll(temp.getPolicySets());
+            temp = temp.getParent();
+        }
+        return policies;
+
+    }
+
+    /*
      * Expand profile intents.
      */
-    protected Set<Intent> resolveProfileIntents(Set<QName> intentNames) throws PolicyResolutionException {
+    protected List<Intent> resolveProfileIntents(List<QName> intentNames) throws PolicyResolutionException {
 
-        Set<Intent> requiredIntents = new LinkedHashSet<Intent>();
+        List<Intent> requiredIntents = new LinkedList<Intent>();
 
         for (QName intentName : intentNames) {
 

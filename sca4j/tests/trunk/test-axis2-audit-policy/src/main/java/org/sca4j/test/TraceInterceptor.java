@@ -50,69 +50,26 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.spi.classloader;
+package org.sca4j.test;
 
-import java.net.URI;
-import java.net.URL;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.regex.Pattern;
+import org.sca4j.spi.invocation.Message;
+import org.sca4j.spi.wire.Interceptor;
 
-/**
- * A ClassLoader implementations that only loads classes matching a set of regular expression patterns from its parent. For example,
- * <code>org.sca4j.test.*</code> loads all classes in the <code>org.sca4j.test</code> package and its subpackages.
- *
- * @version $Revision$ $Date$
- */
-public class FilteringMultiparentClassLoader extends MultiParentClassLoader {
-    private Set<Pattern> patterns = new HashSet<Pattern>();
+public class TraceInterceptor implements Interceptor {
 
-    public FilteringMultiparentClassLoader(URI name, ClassLoader parent, Set<String> filters) {
-        super(name, parent);
-        compile(filters);
+    private Interceptor interceptor;
+    
+    public Interceptor getNext() {
+        return interceptor;
     }
 
-    public FilteringMultiparentClassLoader(URI name, URL[] urls, ClassLoader parent, Set<String> filters) {
-        super(name, urls, parent);
-        compile(filters);
+    public Message invoke(Message message) {
+        System.err.println("************** trace interceptor called");
+        return interceptor.invoke(message);
     }
 
-    public Set<Pattern> getPatterns() {
-        return patterns;
-    }
-
-    protected synchronized Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
-        Class clazz = findLoadedClass(name);
-        if (clazz == null) {
-            boolean found = false;
-            for (Pattern pattern : patterns) {
-                String replacedName = name.replace(".", "\\.");
-                if (pattern.matcher(replacedName).matches()) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                // check in the current classloader's classpath
-                clazz = findClass(name);
-            }
-            if (clazz == null) {
-                clazz = super.loadClass(name, resolve);
-                return clazz;
-            }
-        }
-        if (resolve) {
-            resolveClass(clazz);
-        }
-        return clazz;
-    }
-
-    private void compile(Set<String> filters) {
-        for (String filter : filters) {
-            String replacedFilter = filter.replace(".", "..");
-            Pattern p = Pattern.compile(replacedFilter);
-            patterns.add(p);
-        }
+    public void setNext(Interceptor interceptor) {
+        this.interceptor = interceptor;
     }
 
 }

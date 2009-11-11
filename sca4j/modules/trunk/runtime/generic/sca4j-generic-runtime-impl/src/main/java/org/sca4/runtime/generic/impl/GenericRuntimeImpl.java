@@ -65,7 +65,6 @@ import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
-import java.util.Set;
 
 import javax.management.MBeanServer;
 import javax.xml.namespace.QName;
@@ -208,7 +207,7 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
         try {
             InstanceWrapper<?> wrapper = javaComponent.getScopeContainer().getWrapper(javaComponent, workContext);
             T instance = (T) wrapper.getInstance();
-            Set<QName> intents = logicalComponent.getIntents();
+            List<QName> intents = logicalComponent.getIntents();
             if (intents == null) {
                 return instance;
             } else {

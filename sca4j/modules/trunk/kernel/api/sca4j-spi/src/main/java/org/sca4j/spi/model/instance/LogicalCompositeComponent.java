@@ -53,13 +53,11 @@
 package org.sca4j.spi.model.instance;
 
 import java.net.URI;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Collection;
 
 import org.sca4j.scdl.ComponentDefinition;
 import org.sca4j.scdl.CompositeImplementation;

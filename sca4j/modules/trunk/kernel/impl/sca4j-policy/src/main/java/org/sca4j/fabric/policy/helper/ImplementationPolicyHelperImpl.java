@@ -52,13 +52,14 @@
  */
 package org.sca4j.fabric.policy.helper;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.osoa.sca.annotations.Reference;
 import org.sca4j.fabric.policy.infoset.PolicySetEvaluator;
 import org.sca4j.scdl.Implementation;
 import org.sca4j.scdl.Operation;
@@ -68,7 +69,6 @@ import org.sca4j.scdl.definitions.PolicySet;
 import org.sca4j.spi.model.instance.LogicalComponent;
 import org.sca4j.spi.policy.PolicyResolutionException;
 import org.sca4j.spi.services.definitions.DefinitionsRegistry;
-import org.osoa.sca.annotations.Reference;
 import org.w3c.dom.Element;
 
 /**
@@ -81,7 +81,7 @@ public class ImplementationPolicyHelperImpl extends AbstractPolicyHelper impleme
         super(definitionsRegistry, policySetEvaluator);
     }
     
-    public Set<Intent> getProvidedIntents(LogicalComponent<?> logicalComponent, Operation<?> operation) throws PolicyResolutionException {
+    public List<Intent> getProvidedIntents(LogicalComponent<?> logicalComponent, Operation<?> operation) throws PolicyResolutionException {
         
         Implementation<?> implementation = logicalComponent.getDefinition().getImplementation();
         QName type = implementation.getType();
@@ -89,14 +89,13 @@ public class ImplementationPolicyHelperImpl extends AbstractPolicyHelper impleme
         
         // FIXME This should not happen, all implementation types should be registsred
         if(implementationType == null) {
-            return Collections.emptySet();
+            return Collections.emptyList();
         }
         
-        Set<QName> mayProvidedIntents = implementationType.getMayProvide();
+        List<QName> mayProvidedIntents = implementationType.getMayProvide();
 
-        Set<Intent> requiredIntents = getRequestedIntents(logicalComponent, operation);
-        
-        Set<Intent> intentsToBeProvided = new LinkedHashSet<Intent>();
+        List<Intent> requiredIntents = getRequestedIntents(logicalComponent, operation);
+        List<Intent> intentsToBeProvided = new LinkedList<Intent>();
         for(Intent intent : requiredIntents) {
             if(mayProvidedIntents.contains(intent.getName())) {
                 intentsToBeProvided.add(intent);
@@ -106,14 +105,14 @@ public class ImplementationPolicyHelperImpl extends AbstractPolicyHelper impleme
         
     }
     
-    public Set<PolicySet> resolveIntents(LogicalComponent<?> logicalComponent, Operation<?> operation, Element target) throws PolicyResolutionException {
+    public List<PolicySet> resolveIntents(LogicalComponent<?> logicalComponent, Operation<?> operation, Element target) throws PolicyResolutionException {
         
         Implementation<?> implementation = logicalComponent.getDefinition().getImplementation();
         QName type = implementation.getType();
         ImplementationType implementationType = definitionsRegistry.getDefinition(type, ImplementationType.class);
         
-        Set<QName> alwaysProvidedIntents = new LinkedHashSet<QName>();
-        Set<QName> mayProvidedIntents = new LinkedHashSet<QName>();
+        List<QName> alwaysProvidedIntents = new ArrayList<QName>();
+        List<QName> mayProvidedIntents = new ArrayList<QName>();
 
         // FIXME This should not happen, all implementation types should be registsred
         if(implementationType != null) {
@@ -121,8 +120,9 @@ public class ImplementationPolicyHelperImpl extends AbstractPolicyHelper impleme
             mayProvidedIntents = implementationType.getMayProvide();
         }
 
-        Set<Intent> requiredIntents = getRequestedIntents(logicalComponent, operation);
-        Set<Intent> requiredIntentsCopy = new HashSet<Intent>(requiredIntents);
+        List<Intent> requiredIntents = getRequestedIntents(logicalComponent, operation);
+        List<Intent> requiredIntentsCopy = new LinkedList<Intent>(requiredIntents);
+        List<QName> requestedPolicies = getRequestedPolicies(logicalComponent, operation);
         
         // Remove intents that are provided
         for(Intent intent : requiredIntentsCopy) {
@@ -132,7 +132,7 @@ public class ImplementationPolicyHelperImpl extends AbstractPolicyHelper impleme
             }
         }
         
-        Set<PolicySet> policies = resolvePolicies(requiredIntents, target, operation.getName());        
+        List<PolicySet> policies = resolvePolicies(requiredIntents, requestedPolicies, target, operation.getName());        
         if(requiredIntents.size() > 0) {
             throw new PolicyResolutionException("Unable to resolve all intents", requiredIntents);
         }
@@ -141,21 +141,33 @@ public class ImplementationPolicyHelperImpl extends AbstractPolicyHelper impleme
         
     }
 
-    private Set<Intent> getRequestedIntents(LogicalComponent<?> logicalComponent, Operation<?> operation) throws PolicyResolutionException {
+    private List<Intent> getRequestedIntents(LogicalComponent<?> logicalComponent, Operation<?> operation) throws PolicyResolutionException {
         
         // Aggregate all the intents from the ancestors
-        Set<QName> intentNames = new LinkedHashSet<QName>();
+        List<QName> intentNames = new LinkedList<QName>();
         intentNames.addAll(operation.getIntents());
         intentNames.addAll(logicalComponent.getDefinition().getImplementation().getIntents());
         intentNames.addAll(aggregateIntents(logicalComponent));
         
         // Expand all the profile intents
-        Set<Intent> requiredIntents = resolveProfileIntents(intentNames);
+        List<Intent> requiredIntents = resolveProfileIntents(intentNames);
         
         // Remove intents not applicable to the artifact
         filterInvalidIntents(Intent.IMPLEMENTATION, requiredIntents);
         
         return requiredIntents;
+        
+    }
+
+    private List<QName> getRequestedPolicies(LogicalComponent<?> logicalComponent, Operation<?> operation) throws PolicyResolutionException {
+        
+        // Aggregate all the intents from the ancestors
+        List<QName> policies = new LinkedList<QName>();
+        policies.addAll(operation.getPolicySets());
+        policies.addAll(logicalComponent.getDefinition().getImplementation().getPolicySets());
+        policies.addAll(aggregatePolicies(logicalComponent));
+        
+        return policies;
         
     }
 

@@ -70,14 +70,14 @@
  */
 package org.sca4j.loader.definitions;
 
-import java.util.Set;
+import java.util.List;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.InvalidPrefixException;
 import org.sca4j.introspection.xml.LoaderHelper;
@@ -106,8 +106,8 @@ public class ImplementationTypeLoader implements TypeLoader<ImplementationType> 
         try {
             String name = reader.getAttributeValue(null, "name");
             QName qName = helper.createQName(name, reader);
-            Set<QName> alwaysProvides = helper.parseListOfQNames(reader, "alwaysProvides");
-            Set<QName> mayProvide = helper.parseListOfQNames(reader, "mayProvide");
+            List<QName> alwaysProvides = helper.parseListOfQNames(reader, "alwaysProvides");
+            List<QName> mayProvide = helper.parseListOfQNames(reader, "mayProvide");
 
             LoaderUtil.skipToEndElement(reader);
 

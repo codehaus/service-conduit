@@ -54,7 +54,6 @@ package org.sca4j.binding.ws.axis2.runtime.jaxb;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -71,10 +70,21 @@ import org.sca4j.spi.builder.interceptor.InterceptorBuilder;
  * @version $Revision$ $Date$
  */
 public class JaxbInterceptorBuilder implements InterceptorBuilder<JaxbInterceptorDefinition, JaxbInterceptor> {
+    
+    private static final Map<String, Class<?>> PRIMITIVES = new HashMap<String, Class<?>>();
+    static {
+        PRIMITIVES.put("byte", byte.class);
+        PRIMITIVES.put("short", short.class);
+        PRIMITIVES.put("int", int.class);
+        PRIMITIVES.put("char", char.class);
+        PRIMITIVES.put("long", long.class);
+        PRIMITIVES.put("float", float.class);
+        PRIMITIVES.put("double", double.class);
+        PRIMITIVES.put("boolean", boolean.class);
+        PRIMITIVES.put("void", void.class);
+    }
 
     public JaxbInterceptor build(JaxbInterceptorDefinition definition) throws BuilderException {
-
-        URI classLoaderId = definition.getClassLoaderId();
 
         ClassLoader classLoader = getClass().getClassLoader();
 
@@ -105,10 +115,15 @@ public class JaxbInterceptorBuilder implements InterceptorBuilder<JaxbIntercepto
     }
 
     private JAXBContext getJAXBContext(ClassLoader classLoader, Set<String> classNames) throws JAXBException, ClassNotFoundException {
+        
         Class<?>[] classes = new Class<?>[classNames.size()];
         int i = 0;
         for (String className : classNames) {
-            classes[i++] = getClass().getClassLoader().loadClass(className);
+            if (PRIMITIVES.containsKey(className)) {
+                classes[i++] = PRIMITIVES.get(className);
+            } else {
+                classes[i++] = getClass().getClassLoader().loadClass(className);
+            }
         }
         ClassLoader old = Thread.currentThread().getContextClassLoader();
         try {

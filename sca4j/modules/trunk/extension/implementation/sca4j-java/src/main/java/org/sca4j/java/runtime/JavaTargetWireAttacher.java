@@ -83,14 +83,17 @@ import org.sca4j.spi.wire.Wire;
  */
 public class JavaTargetWireAttacher implements TargetWireAttacher<JavaWireTargetDefinition> {
     
-    private static Map<String, Class<?>> primitives = new HashMap<String, Class<?>>();
+    private static final Map<String, Class<?>> PRIMITIVES = new HashMap<String, Class<?>>();
     static {
-        primitives.put("int", int.class);
-        primitives.put("float", float.class);
-        primitives.put("double", double.class);
-        primitives.put("short", short.class);
-        primitives.put("boolean", boolean.class);
-        primitives.put("long", long.class);
+        PRIMITIVES.put("byte", byte.class);
+        PRIMITIVES.put("short", short.class);
+        PRIMITIVES.put("int", int.class);
+        PRIMITIVES.put("char", char.class);
+        PRIMITIVES.put("long", long.class);
+        PRIMITIVES.put("float", float.class);
+        PRIMITIVES.put("double", double.class);
+        PRIMITIVES.put("boolean", boolean.class);
+        PRIMITIVES.put("void", void.class);
     }
 
     private final ComponentManager manager;
@@ -121,8 +124,8 @@ public class JavaTargetWireAttacher implements TargetWireAttacher<JavaWireTarget
             for (int i = 0; i < params.size(); i++) {
                 String param = params.get(i);
                 try {
-                    if (primitives.containsKey(param)) {
-                        paramTypes[i] = primitives.get(param);
+                    if (PRIMITIVES.containsKey(param)) {
+                        paramTypes[i] = PRIMITIVES.get(param);
                     } else {
                         paramTypes[i] = getClass().getClassLoader().loadClass(param);
                     }

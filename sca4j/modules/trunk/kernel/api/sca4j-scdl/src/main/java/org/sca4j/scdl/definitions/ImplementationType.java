@@ -70,7 +70,7 @@
  */
 package org.sca4j.scdl.definitions;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
@@ -87,7 +87,7 @@ public class ImplementationType extends AbstractType {
      * @param alwaysProvide Intents this implementation always provide.
      * @param mayProvide  Intents this implementation may provide.
      */
-    public ImplementationType(final QName name, Set<QName> alwaysProvide, Set<QName> mayProvide) {
+    public ImplementationType(final QName name, List<QName> alwaysProvide, List<QName> mayProvide) {
         super(name, alwaysProvide, mayProvide);
     }
 

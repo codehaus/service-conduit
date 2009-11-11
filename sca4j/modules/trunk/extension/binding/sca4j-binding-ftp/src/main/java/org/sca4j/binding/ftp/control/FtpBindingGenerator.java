@@ -156,7 +156,7 @@ public class FtpBindingGenerator implements BindingGenerator<FtpWireSourceDefini
             return null;
         }
         if (policySets.size() != 1) {
-            throw new GenerationException("Invalid policy configuration, only supports security policy");
+            throw new GenerationException("Invalid policy configuration, only supports security policy " + policySets);
         }
 
         PolicySet policySet = policySets.iterator().next();

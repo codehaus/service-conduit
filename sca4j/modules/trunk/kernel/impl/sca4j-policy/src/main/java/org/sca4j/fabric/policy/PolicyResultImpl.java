@@ -56,7 +56,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.sca4j.scdl.Operation;
 import org.sca4j.scdl.definitions.Intent;
@@ -104,7 +103,7 @@ public class PolicyResultImpl implements PolicyResult {
      * @param operation Operation against which the intent was requested.
      * @param intents   Intents that are provided.
      */
-    void addSourceIntents(Operation<?> operation, Set<Intent> intents) {
+    void addSourceIntents(Operation<?> operation, List<Intent> intents) {
         sourcePolicy.addIntents(operation, intents);
     }
 
@@ -114,7 +113,7 @@ public class PolicyResultImpl implements PolicyResult {
      * @param operation Operation against which the intent was requested.
      * @param intents   Intents that are provided.
      */
-    void addTargetIntents(Operation<?> operation, Set<Intent> intents) {
+    void addTargetIntents(Operation<?> operation, List<Intent> intents) {
         targetPolicy.addIntents(operation, intents);
     }
 
@@ -124,7 +123,7 @@ public class PolicyResultImpl implements PolicyResult {
      * @param operation  Operation against which the intent was requested.
      * @param policySets Resolved policy sets.
      */
-    void addSourcePolicySets(Operation<?> operation, Set<PolicySet> policySets) {
+    void addSourcePolicySets(Operation<?> operation, List<PolicySet> policySets) {
         sourcePolicy.addPolicySets(operation, policySets);
     }
 
@@ -134,7 +133,7 @@ public class PolicyResultImpl implements PolicyResult {
      * @param operation  Operation against which the intent was requested.
      * @param policySets Resolved policy sets.
      */
-    void addTargetPolicySets(Operation<?> operation, Set<PolicySet> policySets) {
+    void addTargetPolicySets(Operation<?> operation, List<PolicySet> policySets) {
         targetPolicy.addPolicySets(operation, policySets);
     }
 
@@ -144,7 +143,7 @@ public class PolicyResultImpl implements PolicyResult {
      * @param operation  Operation against which the intent was requested.
      * @param policySets Resolved policy sets.
      */
-    void addInterceptedPolicySets(Operation<?> operation, Set<PolicySet> policySets) {
+    void addInterceptedPolicySets(Operation<?> operation, List<PolicySet> policySets) {
 
         if (!interceptedPolicySets.containsKey(operation)) {
             interceptedPolicySets.put(operation, new ArrayList<PolicySet>());

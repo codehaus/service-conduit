@@ -53,7 +53,8 @@
 package org.sca4j.spi.model.instance;
 
 import java.net.URI;
-import java.util.Set;
+import java.util.List;
+
 import javax.xml.namespace.QName;
 
 import org.osoa.sca.Constants;
@@ -111,7 +112,7 @@ public final class LogicalWire extends LogicalScaArtifact<LogicalComponent<?>> {
      * @return Intents declared on the SCA artifact.
      */
     @Override
-    public final Set<QName> getIntents() {
+    public final List<QName> getIntents() {
         throw new UnsupportedOperationException("Intents are not supported on wires");
     }
 
@@ -119,7 +120,7 @@ public final class LogicalWire extends LogicalScaArtifact<LogicalComponent<?>> {
      * Policy sets are not supported on wires.
      */
     @Override
-    public final Set<QName> getPolicySets() {
+    public final List<QName> getPolicySets() {
         throw new UnsupportedOperationException("Policy sets are not supported on wires");
     }
 
@@ -127,7 +128,7 @@ public final class LogicalWire extends LogicalScaArtifact<LogicalComponent<?>> {
      * Intents are not supported on wires.
      */
     @Override
-    public final void setIntents(Set<QName> intents) {
+    public final void setIntents(List<QName> intents) {
         throw new UnsupportedOperationException("Intents are not supported on wires");
     }
 
@@ -137,7 +138,7 @@ public final class LogicalWire extends LogicalScaArtifact<LogicalComponent<?>> {
      * @param policySets Policy sets declared on the SCA artifact.
      */
     @Override
-    public final void setPolicySets(Set<QName> policySets) {
+    public final void setPolicySets(List<QName> policySets) {
         throw new UnsupportedOperationException("Policy sets are not supported on wires");
     }
 

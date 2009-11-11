@@ -94,7 +94,6 @@ import org.sca4j.maven.runtime.WireHolder;
 import org.sca4j.monitor.MonitorFactory;
 import org.sca4j.monitor.impl.JavaLoggingMonitorFactory;
 import org.sca4j.scdl.Composite;
-import org.sca4j.spi.classloader.MultiParentClassLoader;
 import org.sca4j.spi.wire.Wire;
 import org.xml.sax.InputSource;
 
@@ -281,36 +280,6 @@ public class TestRunner {
         runtime.setMBeanServer(agent.getMBeanServer());
 
         return runtime;
-    }
-
-    private ClassLoader createBootClassLoader(ClassLoader parent, Set<File> artifacts) {
-        URL[] urls = new URL[artifacts.size()];
-        int i = 0;
-        for (File artifact : artifacts) {
-            assert artifact != null;
-            try {
-                urls[i++] = artifact.toURI().toURL();
-            } catch (MalformedURLException e) {
-                // toURI should have made this valid
-                throw new AssertionError(e);
-            }
-        }
-        return new MultiParentClassLoader(URI.create("sca4j://runtime/BootClassLoader"), urls, parent);
-    }
-
-    private ClassLoader createHostClassLoader(ClassLoader parent, Set<File> hostArtifacts) {
-        List<URL> urls = new ArrayList<URL>(hostArtifacts.size());
-        for (File artifact : hostArtifacts) {
-            try {
-                URL url = artifact.toURI().toURL();
-                urls.add(url);
-            } catch (MalformedURLException e) {
-                // toURI should have encoded the URL
-                throw new AssertionError(e);
-            }
-
-        }
-        return new URLClassLoader(urls.toArray(new URL[urls.size()]), parent);
     }
 
     private ClassLoader createClassLoader(ClassLoader parent, Set<URL> hostArtifacts) {

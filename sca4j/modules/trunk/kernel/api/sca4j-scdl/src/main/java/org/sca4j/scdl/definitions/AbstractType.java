@@ -70,7 +70,8 @@
  */
 package org.sca4j.scdl.definitions;
 
-import java.util.Set;
+import java.util.List;
+
 import javax.xml.namespace.QName;
 
 /**
@@ -81,15 +82,15 @@ import javax.xml.namespace.QName;
 public class AbstractType extends AbstractDefinition {
     private static final long serialVersionUID = -2910491671004468756L;
 
-    private final Set<QName> alwaysProvide;
-    private final Set<QName> mayProvide;
+    private final List<QName> alwaysProvide;
+    private final List<QName> mayProvide;
 
     /**
      * @param name Name of the binding type.
      * @param alwaysProvide Intents this binding always provide.
      * @param mayProvide  Intents this binding may provide.
      */
-    public AbstractType(final QName name, Set<QName> alwaysProvide, Set<QName> mayProvide) {
+    public AbstractType(final QName name, List<QName> alwaysProvide, List<QName> mayProvide) {
         super(name);
         this.alwaysProvide = alwaysProvide;
         this.mayProvide = mayProvide;
@@ -98,14 +99,14 @@ public class AbstractType extends AbstractDefinition {
     /**
      * @return Intents this binding always provide.
      */
-    public Set<QName> getAlwaysProvide() {
+    public List<QName> getAlwaysProvide() {
         return alwaysProvide;
     }
 
     /**
      * @return Intents this binding may provide.
      */
-    public Set<QName> getMayProvide() {
+    public List<QName> getMayProvide() {
         return mayProvide;
     }
 

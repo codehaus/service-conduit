@@ -72,9 +72,8 @@ package org.sca4j.loader.impl;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.xml.XMLConstants;
@@ -85,16 +84,15 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import org.sca4j.host.Namespaces;
+import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.InvalidPrefixException;
 import org.sca4j.introspection.xml.LoaderHelper;
-import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.scdl.PolicyAware;
 import org.sca4j.transform.TransformationException;
 import org.sca4j.transform.xml.Stream2Element2;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * Default implementation of the loader helper.
@@ -174,9 +172,9 @@ public class DefaultLoaderHelper implements LoaderHelper {
 
     }
 
-    public Set<QName> parseListOfQNames(XMLStreamReader reader, String attribute) throws InvalidPrefixException {
+    public List<QName> parseListOfQNames(XMLStreamReader reader, String attribute) throws InvalidPrefixException {
 
-        Set<QName> qNames = new HashSet<QName>();
+        List<QName> qNames = new LinkedList<QName>();
 
         String val = reader.getAttributeValue(null, attribute);
         if (val != null) {

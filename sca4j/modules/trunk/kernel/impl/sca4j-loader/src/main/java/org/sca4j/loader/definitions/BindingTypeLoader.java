@@ -70,6 +70,7 @@
  */
 package org.sca4j.loader.definitions;
 
+import java.util.List;
 import java.util.Set;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
@@ -107,10 +108,10 @@ public class BindingTypeLoader implements TypeLoader<BindingType> {
         String name = reader.getAttributeValue(null, "name");
         QName qName = new QName(context.getTargetNamespace(), name);
 
-        Set<QName> alwaysProvides;
+        List<QName> alwaysProvides;
         try {
             alwaysProvides = helper.parseListOfQNames(reader, "alwaysProvides");
-            Set<QName> mayProvide = helper.parseListOfQNames(reader, "mayProvide");
+            List<QName> mayProvide = helper.parseListOfQNames(reader, "mayProvide");
             LoaderUtil.skipToEndElement(reader);
             return new BindingType(qName, alwaysProvides, mayProvide);
         } catch (InvalidPrefixException e) {

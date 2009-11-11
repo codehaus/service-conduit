@@ -52,33 +52,29 @@
  */
 package org.sca4j.fabric.runtime.bootstrap;
 
-import java.net.URI;
-import javax.management.MBeanServer;
+import static org.sca4j.fabric.runtime.ComponentNames.BOOT_CLASSLOADER_ID;
 
-import org.w3c.dom.Document;
+import java.net.URI;
+
+import javax.management.MBeanServer;
 
 import org.sca4j.fabric.instantiator.component.AtomicComponentInstantiator;
 import org.sca4j.fabric.instantiator.component.ComponentInstantiator;
 import org.sca4j.fabric.runtime.ComponentNames;
-import static org.sca4j.fabric.runtime.ComponentNames.APPLICATION_CLASSLOADER_ID;
-import static org.sca4j.fabric.runtime.ComponentNames.BOOT_CLASSLOADER_ID;
-import static org.sca4j.fabric.runtime.ComponentNames.RUNTIME_URI;
 import org.sca4j.fabric.services.documentloader.DocumentLoader;
 import org.sca4j.fabric.services.documentloader.DocumentLoaderImpl;
 import org.sca4j.fabric.services.synthesizer.SingletonComponentSynthesizer;
 import org.sca4j.host.domain.DeploymentException;
 import org.sca4j.host.runtime.Bootstrapper;
-import org.sca4j.host.runtime.SCA4JRuntime;
 import org.sca4j.host.runtime.HostInfo;
 import org.sca4j.host.runtime.InitializationException;
-import org.sca4j.host.work.WorkScheduler;
+import org.sca4j.host.runtime.SCA4JRuntime;
 import org.sca4j.introspection.IntrospectionHelper;
 import org.sca4j.introspection.contract.ContractProcessor;
 import org.sca4j.introspection.impl.DefaultIntrospectionHelper;
 import org.sca4j.introspection.impl.contract.DefaultContractProcessor;
 import org.sca4j.monitor.MonitorFactory;
 import org.sca4j.scdl.Composite;
-import org.sca4j.spi.classloader.MultiParentClassLoader;
 import org.sca4j.spi.component.ScopeContainer;
 import org.sca4j.spi.component.ScopeRegistry;
 import org.sca4j.spi.domain.Domain;
@@ -91,6 +87,7 @@ import org.sca4j.spi.services.synthesize.ComponentRegistrationException;
 import org.sca4j.spi.services.synthesize.ComponentSynthesizer;
 import org.sca4j.system.introspection.BootstrapIntrospectionFactory;
 import org.sca4j.system.introspection.SystemImplementationProcessor;
+import org.w3c.dom.Document;
 
 /**
  * The base Bootstrapper implementation.

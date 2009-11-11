@@ -53,12 +53,12 @@
 package org.sca4j.fabric.policy.helper;
 
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.osoa.sca.annotations.Reference;
 import org.sca4j.fabric.policy.infoset.PolicySetEvaluator;
 import org.sca4j.scdl.Operation;
 import org.sca4j.scdl.definitions.BindingType;
@@ -67,7 +67,6 @@ import org.sca4j.scdl.definitions.PolicySet;
 import org.sca4j.spi.model.instance.LogicalBinding;
 import org.sca4j.spi.policy.PolicyResolutionException;
 import org.sca4j.spi.services.definitions.DefinitionsRegistry;
-import org.osoa.sca.annotations.Reference;
 import org.w3c.dom.Element;
 
 /**
@@ -80,21 +79,21 @@ public class InteractionPolicyHelperImpl extends AbstractPolicyHelper implements
         super(definitionsRegistry, policySetEvaluator);
     }
 
-    public Set<Intent> getProvidedIntents(LogicalBinding<?> logicalBinding, Operation<?> operation) throws PolicyResolutionException {
+    public List<Intent> getProvidedIntents(LogicalBinding<?> logicalBinding, Operation<?> operation) throws PolicyResolutionException {
         
         QName type = logicalBinding.getBinding().getType();
         BindingType bindingType = definitionsRegistry.getDefinition(type, BindingType.class);
         
         // FIXME This should not happen, all binding types should be registsred
         if (bindingType == null) {
-            return Collections.emptySet();
+            return Collections.emptyList();
         }
 
-        Set<QName> mayProvidedIntents = bindingType.getMayProvide();
+        List<QName> mayProvidedIntents = bindingType.getMayProvide();
         
-        Set<Intent> requiredIntents = getRequestedIntents(logicalBinding, operation);
+        List<Intent> requiredIntents = getRequestedIntents(logicalBinding, operation);
         
-        Set<Intent> intentsToBeProvided = new LinkedHashSet<Intent>();
+        List<Intent> intentsToBeProvided = new LinkedList<Intent>();
         for(Intent intent : requiredIntents) {
             if(mayProvidedIntents.contains(intent.getName())) {
                 intentsToBeProvided.add(intent);
@@ -105,13 +104,13 @@ public class InteractionPolicyHelperImpl extends AbstractPolicyHelper implements
         
     }
     
-    public Set<PolicySet> resolveIntents(LogicalBinding<?> logicalBinding, Operation<?> operation, Element target) throws PolicyResolutionException {
+    public List<PolicySet> resolveIntents(LogicalBinding<?> logicalBinding, Operation<?> operation, Element target) throws PolicyResolutionException {
 
         QName type = logicalBinding.getBinding().getType();
         BindingType bindingType = definitionsRegistry.getDefinition(type, BindingType.class);
         
-        Set<QName> alwaysProvidedIntents = new LinkedHashSet<QName>();
-        Set<QName> mayProvidedIntents = new LinkedHashSet<QName>();
+        List<QName> alwaysProvidedIntents = new LinkedList<QName>();
+        List<QName> mayProvidedIntents = new LinkedList<QName>();
 
         // FIXME This should not happen, all binding types should be registsred
         if (bindingType != null) {
@@ -119,8 +118,9 @@ public class InteractionPolicyHelperImpl extends AbstractPolicyHelper implements
             mayProvidedIntents = bindingType.getMayProvide();
         }
 
-        Set<Intent> requiredIntents = getRequestedIntents(logicalBinding, operation);
-        Set<Intent> requiredIntentsCopy = new HashSet<Intent>(requiredIntents);
+        List<Intent> requiredIntents = getRequestedIntents(logicalBinding, operation);
+        List<Intent> requiredIntentsCopy = new LinkedList<Intent>(requiredIntents);
+        List<QName> requestedPolicies = getRequestedPolicies(logicalBinding, operation);
         
         // Remove intents that are provided
         for(Intent intent : requiredIntentsCopy) {
@@ -130,7 +130,7 @@ public class InteractionPolicyHelperImpl extends AbstractPolicyHelper implements
             }
         }
         
-        Set<PolicySet> policies = resolvePolicies(requiredIntents, target, operation.getName());        
+        List<PolicySet> policies = resolvePolicies(requiredIntents, requestedPolicies, target, operation.getName());        
         if(requiredIntents.size() > 0) {
             throw new PolicyResolutionException("Unable to resolve all intents", requiredIntents);
         }
@@ -139,22 +139,35 @@ public class InteractionPolicyHelperImpl extends AbstractPolicyHelper implements
         
     }
 
-    private Set<Intent> getRequestedIntents(LogicalBinding<?> logicalBinding, 
+    private List<Intent> getRequestedIntents(LogicalBinding<?> logicalBinding, 
                                             Operation<?> operation) throws PolicyResolutionException {
         
         // Aggregate all the intents from the ancestors
-        Set<QName> intentNames = new LinkedHashSet<QName>();
+        List<QName> intentNames = new LinkedList<QName>();
         intentNames.addAll(operation.getIntents());
         intentNames.addAll(logicalBinding.getBinding().getIntents());
         intentNames.addAll(aggregateIntents(logicalBinding));
         
         // Expand all the profile intents
-        Set<Intent> requiredIntents = resolveProfileIntents(intentNames);
+        List<Intent> requiredIntents = resolveProfileIntents(intentNames);
         
         // Remove intents not applicable to the artifact
         filterInvalidIntents(Intent.BINDING, requiredIntents);
         
         return requiredIntents;
+        
+    }
+
+    private List<QName> getRequestedPolicies(LogicalBinding<?> logicalBinding, 
+            Operation<?> operation) throws PolicyResolutionException {
+        
+        // Aggregate all the intents from the ancestors
+        List<QName> policies = new LinkedList<QName>();
+        policies.addAll(operation.getPolicySets());
+        policies.addAll(logicalBinding.getBinding().getPolicySets());
+        policies.addAll(aggregatePolicies(logicalBinding));
+        
+        return policies;
         
     }
 

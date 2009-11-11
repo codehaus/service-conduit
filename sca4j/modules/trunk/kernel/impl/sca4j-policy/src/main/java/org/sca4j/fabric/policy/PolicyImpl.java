@@ -56,7 +56,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.sca4j.scdl.Operation;
 import org.sca4j.scdl.definitions.Intent;
@@ -102,7 +101,7 @@ public class PolicyImpl implements Policy {
      * @param operation Operation against which the intent was requested.
      * @param intents Intents that are provided.
      */
-    void addIntents(Operation<?> operation, Set<Intent> intents) {
+    void addIntents(Operation<?> operation, List<Intent> intents) {
         
         if (!intentMap.containsKey(operation)) {
             intentMap.put(operation, new ArrayList<Intent>());
@@ -119,7 +118,7 @@ public class PolicyImpl implements Policy {
      * @param operation Operation against which the intent was requested.
      * @param policySets Resolved policy sets.
      */
-    void addPolicySets(Operation<?> operation, Set<PolicySet> policySets) {
+    void addPolicySets(Operation<?> operation, List<PolicySet> policySets) {
         
         if (!policySetMap.containsKey(operation)) {
             policySetMap.put(operation, new ArrayList<PolicySet>());

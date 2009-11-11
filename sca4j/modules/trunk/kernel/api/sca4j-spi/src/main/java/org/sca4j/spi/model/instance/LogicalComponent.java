@@ -55,17 +55,17 @@ package org.sca4j.spi.model.instance;
 import java.net.URI;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
 import javax.xml.namespace.QName;
 
 import org.osoa.sca.Constants;
-import org.w3c.dom.Document;
-
 import org.sca4j.scdl.AbstractComponentType;
 import org.sca4j.scdl.Autowire;
 import org.sca4j.scdl.ComponentDefinition;
 import org.sca4j.scdl.Implementation;
+import org.w3c.dom.Document;
 
 /**
  * Represents an instantiated component in the service network.
@@ -306,28 +306,28 @@ public class LogicalComponent<I extends Implementation<?>> extends LogicalScaArt
     /**
      * @return Intents declared on the SCA artifact.
      */
-    public Set<QName> getIntents() {
+    public List<QName> getIntents() {
         return definition.getIntents();
     }
 
     /**
      * @param intents Intents declared on the SCA artifact.
      */
-    public void setIntents(Set<QName> intents) {
+    public void setIntents(List<QName> intents) {
         definition.setIntents(intents);
     }
 
     /**
      * @return Policy sets declared on the SCA artifact.
      */
-    public Set<QName> getPolicySets() {
+    public List<QName> getPolicySets() {
         return definition.getPolicySets();
     }
 
     /**
      * @param policySets Policy sets declared on the SCA artifact.
      */
-    public void setPolicySets(Set<QName> policySets) {
+    public void setPolicySets(List<QName> policySets) {
         definition.setPolicySets(policySets);
     }
 

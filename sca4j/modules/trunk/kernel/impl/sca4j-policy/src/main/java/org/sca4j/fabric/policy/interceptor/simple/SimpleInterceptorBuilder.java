@@ -91,8 +91,9 @@ public class SimpleInterceptorBuilder implements InterceptorBuilder<SimpleInterc
         String className = definition.getInterceptorClass();
 
         try {
+            ClassLoader classLoader = getClass().getClassLoader();
             @SuppressWarnings("unchecked")
-            Class<Interceptor> interceptorClass = (Class<Interceptor>) Class.forName(className);
+            Class<Interceptor> interceptorClass = (Class<Interceptor>) classLoader.loadClass(className);
             return interceptorClass.newInstance();
         } catch (InstantiationException ex) {
             throw new SimpleInterceptorBuilderException("Unable to instantiate", className, ex);

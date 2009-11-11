@@ -52,7 +52,7 @@
  */
 package org.sca4j.fabric.policy.helper;
 
-import java.util.Set;
+import java.util.List;
 
 import org.sca4j.scdl.Operation;
 import org.sca4j.scdl.definitions.Intent;
@@ -76,7 +76,7 @@ public interface ImplementationPolicyHelper {
      * @return Set of intents that need to be explictly provided by the implementation.
      * @throws PolicyResolutionException If there are any unidentified intents.
      */
-    Set<Intent> getProvidedIntents(LogicalComponent<?> logicalComponent, Operation<?> operation) 
+    List<Intent> getProvidedIntents(LogicalComponent<?> logicalComponent, Operation<?> operation) 
     throws PolicyResolutionException;
     
     /**
@@ -87,6 +87,6 @@ public interface ImplementationPolicyHelper {
      * @return Set of resolved policies.
      * @throws PolicyResolutionException If all intents cannot be resolved.
      */
-    Set<PolicySet> resolveIntents(LogicalComponent<?> logicalComponent, Operation<?> operation, Element target) throws PolicyResolutionException;
+    List<PolicySet> resolveIntents(LogicalComponent<?> logicalComponent, Operation<?> operation, Element target) throws PolicyResolutionException;
 
 }

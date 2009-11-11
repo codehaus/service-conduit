@@ -56,8 +56,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.xml.namespace.QName;
 
@@ -94,7 +94,7 @@ public class DefaultPolicyDecorator implements PolicyDecorator {
      * @see org.sca4.runtime.generic.impl.policy.PolicyDecorator#getDecoratedService(java.lang.Object, javax.xml.namespace.QName[])
      */
     @SuppressWarnings("unchecked")
-    public <T> T getDecoratedService(T instance, String serviceClassName, Set<QName> intents) {
+    public <T> T getDecoratedService(T instance, String serviceClassName, List<QName> intents) {
         
         try {
             

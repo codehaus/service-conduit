@@ -70,6 +70,12 @@
         </description>
     </intent>
     
+    <intent name="trace" constrains="binding">
+        <description>
+            Traces method calls.
+        </description>
+    </intent>
+    
     <!-- SERICE AUDIT POLICY -->
     <policySet name="AuditServicePolicy1" 
                provides="sca4j:audit.message" 
@@ -88,5 +94,9 @@
                provides="sca4j:audit.message" 
                appliesTo="@name='service' and ../@name='EchoTest' and $Operation='echoNoSecurity'">
         <sca4j:axisConfig module="axis2_audit"/>
+    </policySet>
+    
+    <policySet name="TracePolicy" provides="sca4j:trace" sca4j:phase="INTERCEPTION">
+        <sca4j:interceptor class="org.sca4j.test.TraceInterceptor" />
     </policySet>
 </definitions>

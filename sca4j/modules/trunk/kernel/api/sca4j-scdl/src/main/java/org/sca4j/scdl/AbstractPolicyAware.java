@@ -70,8 +70,9 @@
  */
 package org.sca4j.scdl;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.xml.namespace.QName;
 
 /**
@@ -82,18 +83,18 @@ import javax.xml.namespace.QName;
 public abstract class AbstractPolicyAware extends ModelObject implements PolicyAware {
     private static final long serialVersionUID = -3494285576822641528L;
 
-    private Set<QName> intents = new LinkedHashSet<QName>();
-    private Set<QName> policySets = new LinkedHashSet<QName>();
+    private List<QName> intents = new LinkedList<QName>();
+    private List<QName> policySets = new LinkedList<QName>();
 
-    public Set<QName> getIntents() {
+    public List<QName> getIntents() {
         return intents;
     }
 
-    public Set<QName> getPolicySets() {
+    public List<QName> getPolicySets() {
         return policySets;
     }
 
-    public void setIntents(Set<QName> intents) {
+    public void setIntents(List<QName> intents) {
         this.intents = intents;
     }
 
@@ -101,11 +102,11 @@ public abstract class AbstractPolicyAware extends ModelObject implements PolicyA
         intents.add(intent);
     }
 
-    public void addIntents(Set<QName> intents) {
+    public void addIntents(List<QName> intents) {
         this.intents.addAll(intents);
     }
 
-    public void setPolicySets(Set<QName> policySets) {
+    public void setPolicySets(List<QName> policySets) {
         this.policySets = policySets;
     }
 
@@ -113,7 +114,7 @@ public abstract class AbstractPolicyAware extends ModelObject implements PolicyA
         policySets.add(policySet);
     }
 
-    public void addPolicySets(Set<QName> policySets) {
+    public void addPolicySets(List<QName> policySets) {
         this.policySets.addAll(policySets);
     }
 

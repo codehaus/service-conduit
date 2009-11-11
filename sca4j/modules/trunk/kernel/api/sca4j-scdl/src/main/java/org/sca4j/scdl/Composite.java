@@ -76,7 +76,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
 import javax.xml.namespace.QName;
 
 /**
@@ -105,8 +105,8 @@ public class Composite extends AbstractComponentType<CompositeService, Composite
     private final List<WireDefinition> wiresView = new ArrayList<WireDefinition>();
 
     private QName constrainingType;
-    private Set<QName> intents;
-    private Set<QName> policySets;
+    private List<QName> intents;
+    private List<QName> policySets;
 
     /**
      * Constructor defining the composite name.
@@ -201,7 +201,6 @@ public class Composite extends AbstractComponentType<CompositeService, Composite
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     /**
      * Get all properties including the ones are from included composites
      * @return
@@ -216,7 +215,6 @@ public class Composite extends AbstractComponentType<CompositeService, Composite
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     /**
      * Get all references including the ones are from included composites
      * @return
@@ -230,7 +228,6 @@ public class Composite extends AbstractComponentType<CompositeService, Composite
         referencesView.put(reference.getName(), reference);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     /**
      * Get all services including the ones are from included composites
@@ -248,7 +245,6 @@ public class Composite extends AbstractComponentType<CompositeService, Composite
     /**
      * Get all components including the ones are from included composites
      */
-    @SuppressWarnings("unchecked")
     public Map<String, ComponentDefinition<? extends Implementation<?>>> getComponents() {
         return componentsView;
     }
@@ -286,7 +282,6 @@ public class Composite extends AbstractComponentType<CompositeService, Composite
     /**
      * Get all wires including the ones are from included composites
      */
-    @SuppressWarnings("unchecked")
     public List<WireDefinition> getWires() {
         return wiresView;
     }
@@ -346,19 +341,19 @@ public class Composite extends AbstractComponentType<CompositeService, Composite
     }
 
 
-    public Set<QName> getIntents() {
+    public List<QName> getIntents() {
         return intents;
     }
 
-    public void setIntents(Set<QName> intents) {
+    public void setIntents(List<QName> intents) {
         this.intents = intents;
     }
 
-    public Set<QName> getPolicySets() {
+    public List<QName> getPolicySets() {
         return policySets;
     }
 
-    public void setPolicySets(Set<QName> policySets) {
+    public void setPolicySets(List<QName> policySets) {
         this.policySets = policySets;
     }
 

@@ -70,10 +70,8 @@
  */
 package org.sca4j.spi.model.physical;
 
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Represents an operation.
@@ -99,7 +97,7 @@ public class PhysicalOperationDefinition  {
     private boolean endsConversation;
 
     // Interceptors defined against the operation
-    private Set<PhysicalInterceptorDefinition> interceptors = new HashSet<PhysicalInterceptorDefinition>();
+    private List<PhysicalInterceptorDefinition> interceptors = new LinkedList<PhysicalInterceptorDefinition>();
 
     /**
      * Returns the fully qualified parameter types for this operation.
@@ -142,7 +140,7 @@ public class PhysicalOperationDefinition  {
      *
      * @return Inteceptor definitions for this operation.
      */
-    public Set<PhysicalInterceptorDefinition> getInterceptors() {
+    public List<PhysicalInterceptorDefinition> getInterceptors() {
         return interceptors;
     }
 
@@ -151,7 +149,7 @@ public class PhysicalOperationDefinition  {
      *
      * @param interceptors the interceptor definitions available for this operations
      */
-    public void setInterceptors(Set<PhysicalInterceptorDefinition> interceptors) {
+    public void setInterceptors(List<PhysicalInterceptorDefinition> interceptors) {
         this.interceptors = interceptors;
     }
 

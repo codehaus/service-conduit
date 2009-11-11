@@ -52,7 +52,8 @@
  */
 package org.sca4j.scdl;
 
-import java.util.Set;
+import java.util.List;
+
 import javax.xml.namespace.QName;
 
 /**
@@ -66,26 +67,26 @@ public interface PolicyAware {
      *
      * @return the intents this definition references
      */
-    Set<QName> getIntents();
+    List<QName> getIntents();
 
     /**
      * Returns the policySets this definition references.
      *
      * @return the policySets this definition references
      */
-    Set<QName> getPolicySets();
+    List<QName> getPolicySets();
 
     /**
      * Sets the intents this definition references.
      *
      * @param intents the intents this definition references
      */
-    void setIntents(Set<QName> intents);
+    void setIntents(List<QName> intents);
 
     /**
      * Returns the policySets this definition references.
      *
      * @param policySets the policySets this definition references
      */
-    void setPolicySets(Set<QName> policySets);
+    void setPolicySets(List<QName> policySets);
 }

@@ -52,9 +52,9 @@
  */
 package org.sca4j.spi.model.instance;
 
-import java.net.URI;
-import java.util.Set;
 import java.io.Serializable;
+import java.net.URI;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
@@ -110,21 +110,21 @@ public abstract class LogicalScaArtifact<P extends LogicalScaArtifact<?>> implem
     /**
      * @return Intents declared on the SCA artifact.
      */
-    public abstract Set<QName> getIntents();
+    public abstract List<QName> getIntents();
     
     /**
      * @param intents Intents declared on the SCA artifact.
      */
-    public abstract void setIntents(Set<QName> intents);
+    public abstract void setIntents(List<QName> intents);
 
     /**
      * @return Policy sets declared on the SCA artifact.
      */
-    public abstract Set<QName> getPolicySets() ;
+    public abstract List<QName> getPolicySets() ;
 
     /**
      * @param policySets Policy sets declared on the SCA artifact.
      */
-    public abstract void setPolicySets(Set<QName> policySets) ;
+    public abstract void setPolicySets(List<QName> policySets) ;
 
 }

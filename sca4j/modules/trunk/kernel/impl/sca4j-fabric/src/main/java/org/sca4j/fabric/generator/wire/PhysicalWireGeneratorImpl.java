@@ -55,13 +55,13 @@ package org.sca4j.fabric.generator.wire;
 import java.net.URI;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+
 import javax.xml.namespace.QName;
 
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.scdl.BindingDefinition;
 import org.sca4j.scdl.Implementation;
 import org.sca4j.scdl.Operation;
@@ -377,7 +377,7 @@ public class PhysicalWireGeneratorImpl implements PhysicalWireGenerator {
             PhysicalOperationDefinition physicalOperation = physicalOperationHelper.mapOperation(operation);
             if (policyResult != null) {
                 List<PolicySet> policies = policyResult.getInterceptedPolicySets(operation);
-                Set<PhysicalInterceptorDefinition> interceptors = generateInterceptorDefinitions(policies, operation, logicalBinding, interfaze);
+                List<PhysicalInterceptorDefinition> interceptors = generateInterceptorDefinitions(policies, operation, logicalBinding, interfaze);
                 physicalOperation.setInterceptors(interceptors);
             }
             physicalOperations.add(physicalOperation);
@@ -388,16 +388,16 @@ public class PhysicalWireGeneratorImpl implements PhysicalWireGenerator {
     }
 
     @SuppressWarnings("unchecked")
-    private Set<PhysicalInterceptorDefinition> generateInterceptorDefinitions(List<PolicySet> policies,
+    private List<PhysicalInterceptorDefinition> generateInterceptorDefinitions(List<PolicySet> policies,
                                                                               Operation<?> operation,
                                                                               LogicalBinding<?> logicalBinding,
                                                                               String interfaze) throws GenerationException {
 
         if (policies == null) {
-            return Collections.EMPTY_SET;
+            return Collections.EMPTY_LIST;
         }
 
-        Set<PhysicalInterceptorDefinition> interceptors = new LinkedHashSet<PhysicalInterceptorDefinition>();
+        List<PhysicalInterceptorDefinition> interceptors = new LinkedList<PhysicalInterceptorDefinition>();
         for (PolicySet policy : policies) {
             QName qName = policy.getExtensionName();
             InterceptorDefinitionGenerator idg = generatorRegistry.getInterceptorDefinitionGenerator(qName);

@@ -159,7 +159,7 @@ public class LogicalReference extends Bindable {
      *
      * @return the intents declared on the SCA artifact
      */
-    public Set<QName> getIntents() {
+    public List<QName> getIntents() {
         return definition.getIntents();
     }
 
@@ -168,7 +168,7 @@ public class LogicalReference extends Bindable {
      *
      * @param intents Intents declared on the SCA artifact
      */
-    public void setIntents(Set<QName> intents) {
+    public void setIntents(List<QName> intents) {
         definition.setIntents(intents);
     }
 
@@ -177,7 +177,7 @@ public class LogicalReference extends Bindable {
      *
      * @param intents the intents
      */
-    public void addIntents(Set<QName> intents) {
+    public void addIntents(List<QName> intents) {
         definition.addIntents(intents);
     }
 
@@ -186,7 +186,7 @@ public class LogicalReference extends Bindable {
      *
      * @return policy sets declared on the SCA artifact
      */
-    public Set<QName> getPolicySets() {
+    public List<QName> getPolicySets() {
         return definition.getPolicySets();
     }
 
@@ -195,7 +195,7 @@ public class LogicalReference extends Bindable {
      *
      * @param policySets the policy sets
      */
-    public void setPolicySets(Set<QName> policySets) {
+    public void setPolicySets(List<QName> policySets) {
         definition.setPolicySets(policySets);
     }
 
@@ -204,7 +204,7 @@ public class LogicalReference extends Bindable {
      *
      * @param policySets the policy sets.
      */
-    public void addPolicySets(Set<QName> policySets) {
+    public void addPolicySets(List<QName> policySets) {
         definition.addPolicySets(policySets);
     }
 

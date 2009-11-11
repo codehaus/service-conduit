@@ -72,15 +72,14 @@ package org.sca4j.introspection.xml;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Set;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import org.w3c.dom.Document;
-
-import org.sca4j.scdl.PolicyAware;
 import org.sca4j.introspection.IntrospectionContext;
+import org.sca4j.scdl.PolicyAware;
+import org.w3c.dom.Document;
 
 /**
  * Interface for the helper class for loading intents and policy sets into elements aginst which intents and policies can be declared.
@@ -139,7 +138,7 @@ public interface LoaderHelper {
      * @return Set containing the qualified names.
      * @throws InvalidPrefixException If the qualified name cannot be resolved.
      */
-    Set<QName> parseListOfQNames(XMLStreamReader reader, String attribute) throws InvalidPrefixException;
+    List<QName> parseListOfQNames(XMLStreamReader reader, String attribute) throws InvalidPrefixException;
 
     /**
      * Constructs a QName from the given name. If a namespace prefix is not specified in the name, the namespace context is used

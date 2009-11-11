@@ -52,12 +52,12 @@
  */
 package org.sca4j.spi.model.instance;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.sca4j.scdl.BindingDefinition;
 import org.osoa.sca.Constants;
+import org.sca4j.scdl.BindingDefinition;
 
 /**
  * Represents a resolved binding
@@ -93,28 +93,28 @@ public class LogicalBinding<BD extends BindingDefinition> extends LogicalScaArti
     /**
      * @return Intents declared on the SCA artifact.
      */
-    public Set<QName> getIntents() {
+    public List<QName> getIntents() {
         return binding.getIntents();
     }
     
     /**
      * @param intents Intents declared on the SCA artifact.
      */
-    public void setIntents(Set<QName> intents) {
+    public void setIntents(List<QName> intents) {
         binding.setIntents(intents);
     }
 
     /**
      * @return Policy sets declared on the SCA artifact.
      */
-    public Set<QName> getPolicySets() {
+    public List<QName> getPolicySets() {
         return binding.getPolicySets();
     }
 
     /**
      * @param policySets Policy sets declared on the SCA artifact.
      */
-    public void setPolicySets(Set<QName> policySets) {
+    public void setPolicySets(List<QName> policySets) {
         binding.setPolicySets(policySets);
     }
 

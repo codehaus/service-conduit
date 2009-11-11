@@ -53,17 +53,17 @@
 package org.sca4j.binding.ws.axis2.runtime.jaxb;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Map;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.ws.WebFault;
 
 import org.apache.axiom.om.OMElement;
-
-import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.invocation.Message;
+import org.sca4j.spi.wire.Interceptor;
 
 /**
  * Interceptor that transforms an OMElement to a JAXB bound object on the way in and JAXB bound object to OMElement on the way out.

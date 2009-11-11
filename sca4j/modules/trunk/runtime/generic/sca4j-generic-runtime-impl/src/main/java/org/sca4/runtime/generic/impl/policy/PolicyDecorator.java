@@ -52,7 +52,7 @@
  */
 package org.sca4.runtime.generic.impl.policy;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
@@ -68,6 +68,6 @@ public interface PolicyDecorator {
      * @param intents Intents to be resolved.
      * @return Decorated instance.
      */
-    <T> T getDecoratedService(T instance, String serviceClassName, Set<QName> intents);
+    <T> T getDecoratedService(T instance, String serviceClassName, List<QName> intents);
 
 }

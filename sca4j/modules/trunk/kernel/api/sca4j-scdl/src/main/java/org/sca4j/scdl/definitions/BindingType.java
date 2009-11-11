@@ -70,7 +70,7 @@
  */
 package org.sca4j.scdl.definitions;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
@@ -87,7 +87,7 @@ public class BindingType extends AbstractType {
      * @param alwaysProvide Intents this binding always provide.
      * @param mayProvide  Intents this binding may provide.
      */
-    public BindingType(final QName name, Set<QName> alwaysProvide, Set<QName> mayProvide) {
+    public BindingType(final QName name, List<QName> alwaysProvide, List<QName> mayProvide) {
         super(name, alwaysProvide, mayProvide);
     }
 

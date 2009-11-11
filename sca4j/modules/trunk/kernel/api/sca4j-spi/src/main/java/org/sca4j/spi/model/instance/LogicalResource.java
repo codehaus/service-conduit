@@ -71,7 +71,7 @@
 package org.sca4j.spi.model.instance;
 
 import java.net.URI;
-import java.util.Set;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
@@ -132,28 +132,28 @@ public class LogicalResource<RD extends ResourceDefinition> extends LogicalScaAr
     /**
      * @return Intents declared on the SCA artifact.
      */
-    public Set<QName> getIntents() {
+    public List<QName> getIntents() {
         throw new UnsupportedOperationException();
     }
     
     /**
      * @param intents Intents declared on the SCA artifact.
      */
-    public void setIntents(Set<QName> intents) {
+    public void setIntents(List<QName> intents) {
         throw new UnsupportedOperationException();
     }
 
     /**
      * @return Policy sets declared on the SCA artifact.
      */
-    public Set<QName> getPolicySets() {
+    public List<QName> getPolicySets() {
         throw new UnsupportedOperationException();
     }
 
     /**
      * @param policySets Policy sets declared on the SCA artifact.
      */
-    public void setPolicySets(Set<QName> policySets) {
+    public void setPolicySets(List<QName> policySets) {
         throw new UnsupportedOperationException();
     }
 
