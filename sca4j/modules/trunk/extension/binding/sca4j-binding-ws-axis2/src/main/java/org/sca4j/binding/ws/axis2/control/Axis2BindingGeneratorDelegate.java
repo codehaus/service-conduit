@@ -133,6 +133,28 @@ public class Axis2BindingGeneratorDelegate implements BindingGeneratorDelegate<W
 
     }
     
+    /*private void introspectJaxb(ServiceContract<?> serviceContract) {
+        try {
+            for (Method method : getClass().getClassLoader().loadClass(serviceContract.getQualifiedInterfaceName()).getMethods()) {
+
+                
+                boolean jaxbBinding = method.getReturnType().getAnnotation(XmlRootElement.class) != null;
+                for (Class<?> parameterType :method.getParameterTypes()) {
+                    jaxbBinding = jaxbBinding || parameterType.getAnnotation(XmlRootElement.class) != null;
+                }
+                for (Class<?> exceptionType : method.getExceptionTypes()) {
+                    jaxbBinding = jaxbBinding || exceptionType.getAnnotation(WebFault.class) != null;
+                }
+                
+                if (jaxbBinding) {
+                    operation.addIntent(JaxbInterceptorDefinitionGenerator.EXTENSION_NAME);
+                }
+            }
+        } catch (ClassNotFoundException e) {
+            throw new Axis2GenerationException(e);
+        }
+    }*/
+    
     private void addOperationInfo(Axis2WireTargetDefinition hwtd, ServiceContract<?> serviceContract) {
     	for (Operation<?> operation : serviceContract.getOperations()) {
             Map<String, String> info = operation.getInfo(org.sca4j.binding.ws.axis2.common.Constant.AXIS2_JAXWS_QNAME);

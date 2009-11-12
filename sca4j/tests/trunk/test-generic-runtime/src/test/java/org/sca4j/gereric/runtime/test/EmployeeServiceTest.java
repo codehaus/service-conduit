@@ -16,27 +16,29 @@
  */
 package org.sca4j.gereric.runtime.test;
 
-import org.sca4j.generic.runtime.test.EmployeeService;
-import org.sca4j.runtime.generic.junit.AbstractTransactionalScaTest;
+import javax.persistence.EntityManager;
 
-public class EmployeeServiceTest extends AbstractTransactionalScaTest {
+import org.sca4j.generic.runtime.test.Employee;
+import org.sca4j.generic.runtime.test.EmployeeService;
+import org.sca4j.runtime.generic.junit.AbstractScaTest;
+
+public class EmployeeServiceTest extends AbstractScaTest {
     
     public EmployeeServiceTest() {
-        super("META-INF/root.composite", false);
+        super("META-INF/root.composite");
     }
 
     public void test() throws Exception {
+        getTransactionManager().begin();
         EmployeeService employeeService = getServiceProxy("employeeService");
         String id = employeeService.createEmployee("Meeraj Kunnumpurath");
         assertEquals("Meeraj Kunnumpurath", employeeService.findName(id));
-    }
-
-    @Override
-    protected void setUpInternal() {
-    }
-
-    @Override
-    protected void tearDownInternal() {
+        Employee employee = new Employee("Babur Begg");
+        EntityManager entityManager = getEntityManager("employee");
+        entityManager.persist(employee);
+        entityManager.flush();
+        assertEquals("Babur Begg", entityManager.find(Employee.class, employee.getId()).getName());
+        getTransactionManager().rollback();
     }
 
 }

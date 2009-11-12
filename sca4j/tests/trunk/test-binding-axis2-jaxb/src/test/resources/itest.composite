@@ -61,16 +61,16 @@
 
     <component name="WeatherTest">
         <sca4j:junit class="org.sca4j.tests.binding.axis.jaxb.WeatherServiceTest"/>
-        <reference name="weatherService" requires="sca4j:trace sca4j:dataBinding.jaxb">
+        <reference name="weatherService" requires="sca4j:trace">
              <binding.ws wsdlElement="urn:sca4j.org:tests:axis2#wsdl.port(WeatherService/WeatherServiceHttpSoap11Endpoint)" 
                          wsdli:wsdlLocation="WeatherService.wsdl"
                          uri="http://localhost:8900/axis2/weatherService"/>
         </reference>
     </component>
 
-    <component name="WeatherService" requires="sca:managedTransaction">
+    <component name="WeatherService">
         <implementation.java class="org.sca4j.tests.binding.axis.jaxb.WeatherServiceImpl"/>
-        <service name="WeatherService" requires="sca4j:dataBinding.jaxb">
+        <service name="WeatherService">
             <binding.ws uri="weatherService" sca4j:impl="axis2"/>
         </service>
     </component>

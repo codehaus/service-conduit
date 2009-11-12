@@ -90,16 +90,6 @@
                         </dependency>
                         <dependency>
                             <groupId>org.sca4j</groupId>
-                            <artifactId>sca4j-tx</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.sca4j</groupId>
-                            <artifactId>sca4j-tx-jotm</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.sca4j</groupId>
                             <artifactId>test-axis2-audit-policy</artifactId>
                             <version>${sca4j.version}</version>
                         </dependency>

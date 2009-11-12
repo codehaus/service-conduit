@@ -52,11 +52,7 @@
  */
 package org.sca4j.binding.ws.axis2.runtime;
 
-import java.security.Principal;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Vector;
-import javax.security.auth.Subject;
 
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.soap.SOAPBody;
@@ -65,12 +61,6 @@ import org.apache.axiom.soap.SOAPFactory;
 import org.apache.axis2.AxisFault;
 import org.apache.axis2.context.MessageContext;
 import org.apache.axis2.receivers.AbstractInOutMessageReceiver;
-import org.apache.ws.security.WSConstants;
-import org.apache.ws.security.WSSecurityEngineResult;
-import org.apache.ws.security.handler.WSHandlerConstants;
-import org.apache.ws.security.handler.WSHandlerResult;
-import org.apache.ws.security.util.WSSecurityUtil;
-
 import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.invocation.WorkContext;
@@ -104,8 +94,7 @@ public class InOutServiceProxy extends AbstractInOutMessageReceiver {
         Object[] args = bodyContent == null ? null : new Object[]{bodyContent};
 
         WorkContext workContext = new WorkContext();
-        //Attach authenticated Subject to work context
-        attachSubjectToWorkContext(workContext, inMessage);
+        ServiceProxyHelper.attachSubjectToWorkContext(workContext, inMessage);
 
         Message input = new MessageImpl(args, false, workContext);
 
@@ -129,45 +118,6 @@ public class InOutServiceProxy extends AbstractInOutMessageReceiver {
 
         outMessage.setEnvelope(envelope);
 
-    }
-
-    /**
-     * Attaches the Security principal found after axis2/wss4j security processing to work context.
-     *
-     * @param workContext f3 work context
-     * @param inMessage   In coming axis2 message context
-     * @see org.apache.ws.security.processor.SignatureProcessor
-     * @see org.apache.rampart.handler.RampartReceiver
-     */
-    @SuppressWarnings("unchecked")
-    private void attachSubjectToWorkContext(WorkContext workContext, MessageContext inMessage) {
-        Vector<WSHandlerResult> wsHandlerResults = (Vector<WSHandlerResult>) inMessage.getProperty(WSHandlerConstants.RECV_RESULTS);
-
-        // Iterate over principals
-        if ((wsHandlerResults != null) && (wsHandlerResults.size() > 0)) {
-            HashSet<Principal> principals = new HashSet<Principal>();
-
-            for (WSHandlerResult wsHandlerResult : wsHandlerResults) {//Iterate through all wsHandler results to find Principals
-                Principal foundPrincipal = null;
-                WSSecurityEngineResult signResult = WSSecurityUtil.fetchActionResult(wsHandlerResult.getResults(), WSConstants.UT);
-                if (signResult == null) {
-                    signResult = WSSecurityUtil.fetchActionResult(wsHandlerResult.getResults(), WSConstants.SIGN);
-                }
-
-                if (signResult != null) {
-                    foundPrincipal = (Principal) signResult.get(WSSecurityEngineResult.TAG_PRINCIPAL);
-                }
-
-                //Create Subject with principal found
-                if (foundPrincipal != null) {
-                    principals.add(foundPrincipal);
-                }
-            }
-
-            if (principals.size() > 0) {// If we have found principals then set newly created Subject on work context
-                workContext.setSubject(new Subject(false, principals, new HashSet<Principal>(), new HashSet<Principal>()));
-            }
-        }
     }
 
     /*

@@ -59,6 +59,7 @@ import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.ws.WebFault;
 
 import org.apache.axiom.om.OMElement;
@@ -81,18 +82,21 @@ public class JaxbInterceptor implements Interceptor {
     private final boolean service;
     private final Map<Class<?>, Constructor<?>> faultMapping;
     private final Method interceptedMethod;
-
+    private boolean jaxbBinding;
+    
     public JaxbInterceptor(ClassLoader classLoader, 
                            JAXBContext jaxbContext, 
                            boolean service, Map<Class<?>, 
                            Constructor<?>> faultMapping,
-                           Method interceptedMethod) throws JAXBException {
+                           Method interceptedMethod,
+                           boolean jaxbBinding) throws JAXBException {
         this.classLoader = classLoader;
         inTransformer = new OMElement2Jaxb(jaxbContext);
         outTransformer = new Jaxb2OMElement(jaxbContext);
         this.service = service;
         this.faultMapping = faultMapping;
         this.interceptedMethod = interceptedMethod;
+        this.jaxbBinding = jaxbBinding;
     }
 
     public Interceptor getNext() {
@@ -100,6 +104,10 @@ public class JaxbInterceptor implements Interceptor {
     }
 
     public Message invoke(Message message) {
+        
+        if (!jaxbBinding) {
+            return next.invoke(message);
+        }
 
         ClassLoader oldCl = Thread.currentThread().getContextClassLoader();
 
@@ -111,7 +119,7 @@ public class JaxbInterceptor implements Interceptor {
         }
 
     }
-
+    
     private Message interceptService(Message message) {
 
         Object[] payload = (Object[]) message.getBody();

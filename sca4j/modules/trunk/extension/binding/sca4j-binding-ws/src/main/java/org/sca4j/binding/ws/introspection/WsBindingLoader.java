@@ -70,6 +70,7 @@ import org.osoa.sca.Constants;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
 import org.sca4j.binding.ws.scdl.WsBindingDefinition;
+import org.sca4j.host.Namespaces;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.InvalidValue;
 import org.sca4j.introspection.xml.LoaderHelper;
@@ -131,6 +132,10 @@ public class WsBindingLoader implements TypeLoader<WsBindingDefinition> {
                 bd = new WsBindingDefinition(endpointUri, implementation, wsdlLocation, wsdlElement, loaderHelper.loadKey(reader));
             }
             loaderHelper.loadPolicySetsAndIntents(bd, reader, introspectionContext);
+            QName jaxbDataBinding = new QName(Namespaces.SCA4J_NS, "dataBinding.jaxb");
+            if (!bd.getIntents().contains(jaxbDataBinding)) {
+                bd.getIntents().add(0, jaxbDataBinding);
+            }
             
             //Load optional config parameters
             loadConfig(bd, reader);

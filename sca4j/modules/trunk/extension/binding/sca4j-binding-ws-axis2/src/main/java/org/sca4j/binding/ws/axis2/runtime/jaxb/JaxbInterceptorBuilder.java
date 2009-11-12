@@ -60,6 +60,7 @@ import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.ws.WebFault;
 
 import org.sca4j.binding.ws.axis2.provision.jaxb.JaxbInterceptorDefinition;
@@ -97,12 +98,17 @@ public class JaxbInterceptorBuilder implements InterceptorBuilder<JaxbIntercepto
                     interceptedMethod = method;
                 }
             }
-            Set<String> classNames = definition.getClassNames();
-            Set<String> faultNames = definition.getFaultNames();
-            Map<Class<?>, Constructor<?>> faultMapping = getFaultMapping(classLoader, faultNames);
-
-            JAXBContext context = getJAXBContext(classLoader, classNames);
-            return new JaxbInterceptor(classLoader, context, definition.isService(), faultMapping, interceptedMethod);
+            
+            boolean jaxbBinding = introspectJaxb(interceptedMethod);
+            if (jaxbBinding) {
+                Set<String> classNames = definition.getClassNames();
+                Set<String> faultNames = definition.getFaultNames();
+                Map<Class<?>, Constructor<?>> faultMapping = getFaultMapping(classLoader, faultNames);
+                JAXBContext context = getJAXBContext(classLoader, classNames);
+                return new JaxbInterceptor(classLoader, context, definition.isService(), faultMapping, interceptedMethod, jaxbBinding);
+            } else {
+                return new JaxbInterceptor(classLoader, null, definition.isService(), null, interceptedMethod, jaxbBinding);
+            }
 
         } catch (NoSuchMethodException e) {
             throw new JaxbBuilderException(e);
@@ -152,5 +158,16 @@ public class JaxbInterceptorBuilder implements InterceptorBuilder<JaxbIntercepto
             mapping.put(faultType, constructor);
         }
         return mapping;
+    }
+    
+    private boolean introspectJaxb(Method interceptedMethod) {
+        boolean jaxbBinding = interceptedMethod.getReturnType().getAnnotation(XmlRootElement.class) != null;
+        for (Class<?> parameterType : interceptedMethod.getParameterTypes()) {
+            jaxbBinding = jaxbBinding || parameterType.getAnnotation(XmlRootElement.class) != null;
+        }
+        for (Class<?> exceptionType : interceptedMethod.getExceptionTypes()) {
+            jaxbBinding = jaxbBinding || exceptionType.getAnnotation(WebFault.class) != null;
+        }
+        return jaxbBinding;
     }
 }

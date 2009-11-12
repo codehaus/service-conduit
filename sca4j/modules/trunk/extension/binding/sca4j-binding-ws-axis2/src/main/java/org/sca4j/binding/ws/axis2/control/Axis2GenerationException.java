@@ -70,5 +70,12 @@ public class Axis2GenerationException extends GenerationException {
     public Axis2GenerationException(String message) {
         super(message);
     }
+    
+    /**
+     * @param cause Cause for the exception.
+     */
+    public Axis2GenerationException(Throwable cause) {
+        super(cause);
+    }
 
 }

@@ -83,7 +83,7 @@ import org.w3c.dom.Element;
 @EagerInit
 public class JaxbInterceptorDefinitionGenerator implements InterceptorDefinitionGenerator {
 
-    private static final QName EXTENSION_NAME = new QName(Namespaces.SCA4J_NS, "dataBinding.jaxb");
+    public static final QName EXTENSION_NAME = new QName(Namespaces.SCA4J_NS, "dataBinding.jaxb");
     
     private GeneratorRegistry generatorRegistry;
 
@@ -127,19 +127,20 @@ public class JaxbInterceptorDefinitionGenerator implements InterceptorDefinition
 
             // in JAX-WS, the fault class is a wrapper for the fault message
             // the actual fault is returned by the getFaultInfo() method
-            if (!webFaultClass.isAnnotationPresent(WebFault.class)) {
-                throw new InvalidWebFaultException(webFaultClass.getName());
-            }
-            Method getFaultInfo;
+//            if (!webFaultClass.isAnnotationPresent(WebFault.class)) {
+//                throw new InvalidWebFaultException(webFaultClass.getName());
+//            }
+            Method getFaultInfo = null;
             try {
                 getFaultInfo = webFaultClass.getMethod("getFaultInfo");
             } catch (NoSuchMethodException e) {
-                throw new MissingFaultInfoException(webFaultClass.getName());
             }
-            Class<?> faultClass = getFaultInfo.getReturnType();
+            Class<?> faultClass = getFaultInfo != null ? getFaultInfo.getReturnType() : null;
 
             faultNames.add(webFaultClass.getName());
-            classNames.add(faultClass.getName());
+            if (faultClass != null) {
+                classNames.add(faultClass.getName());
+            }
         }
 
         // return type

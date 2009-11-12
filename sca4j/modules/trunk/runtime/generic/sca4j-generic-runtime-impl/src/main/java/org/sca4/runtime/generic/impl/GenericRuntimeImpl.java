@@ -171,6 +171,10 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
         
     }
     
+    public <T> T getBinding(Class<T> endpointInterface, QName bindingType, QName ... intents) {
+        return null;
+    }
+    
     /**
      * @see org.sca4j.runtime.generic.GenericRuntime#getServices()
      */
