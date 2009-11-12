@@ -58,8 +58,8 @@ package org.sca4j.generic.runtime.test;
  */
 public interface EmployeeService {
     
-    String createEmployee(String name);
+    Employee createEmployee(Employee employee);
     
-    String findName(String id);
+    Employee findName(Employee employee);
 
 }

@@ -63,6 +63,9 @@
 
     <component name="EmployeeService">
         <implementation.composite scdlResource="META-INF/service.composite" />
+        <service name="employeeService">
+            <binding.ws uri="employee" />
+        </service>
     </component>
     
 </composite>

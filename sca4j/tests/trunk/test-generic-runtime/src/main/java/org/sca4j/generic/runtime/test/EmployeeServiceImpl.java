@@ -60,14 +60,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     
     @Reference protected EmployeeDao employeeDao;
 
-    public String createEmployee(String name) {
-        Employee employee = new Employee(name);
+    public Employee createEmployee(Employee employee) {
         employeeDao.create(employee);
-        return employee.getId();
+        return employee;
     }
 
-    public String findName(String id) {
-        return employeeDao.find(id).getName();
+    public Employee findName(Employee employee) {
+        return employeeDao.find(employee.getId());
     }
 
 }

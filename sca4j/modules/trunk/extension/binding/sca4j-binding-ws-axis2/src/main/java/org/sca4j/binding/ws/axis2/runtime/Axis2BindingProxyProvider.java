@@ -22,15 +22,13 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.net.URI;
-import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.namespace.QName;
 
-import org.apache.axis2.client.Options;
-import org.apache.axis2.description.AxisService;
+import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
 import org.sca4j.binding.ws.axis2.introspection.JaxbMethodInfo;
 import org.sca4j.binding.ws.axis2.runtime.config.SCA4JConfigurator;
@@ -45,6 +43,7 @@ import org.sca4j.spi.invocation.WorkContext;
  * @author meerajk
  *
  */
+@EagerInit
 public class Axis2BindingProxyProvider implements BindingProxyProvider {
     
     @Reference public SCA4JConfigurator configurator;
@@ -79,9 +78,7 @@ public class Axis2BindingProxyProvider implements BindingProxyProvider {
                 jaxbInterceptor = new JaxbInterceptor(null, false, null, method, false);
             }
             
-            URL wsdlUrl = new URL(endpointUris.get(0).toString() + "?WSDL");
-            AxisService axisService = AxisService.createClientSideAxisService(wsdlUrl, null, null, new Options());
-            jaxbInterceptor.setNext(new Axis2TargetInterceptor(endpointUris, method.getName(), null, null, null, configurator, policyApplier, axisService));
+            jaxbInterceptor.setNext(new Axis2TargetInterceptor(endpointUris, method.getName(), null, null, null, configurator, policyApplier, null));
             Message message = new MessageImpl(parameters, false, new WorkContext());
             
             return jaxbInterceptor.invoke(message).getBody();

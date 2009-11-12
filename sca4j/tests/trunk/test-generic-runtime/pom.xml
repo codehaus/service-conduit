@@ -84,6 +84,24 @@
 
         <dependency>
             <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-binding-ws</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-binding-ws-axis2</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-jetty</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sca4j</groupId>
             <artifactId>sca4j-tx-jotm</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>

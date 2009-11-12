@@ -23,6 +23,7 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
+import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
 import org.sca4j.spi.binding.BindingProxyProvider;
 import org.sca4j.spi.binding.BindingProxyProviderRegistry;
@@ -31,6 +32,7 @@ import org.sca4j.spi.binding.BindingProxyProviderRegistry;
  * @author meerajk
  *
  */
+@EagerInit
 public class DefaultBindingProxyProviderRegistry implements BindingProxyProviderRegistry {
     
     @Reference(required = false) protected Map<QName, BindingProxyProvider> bindingProxyProviders;
@@ -39,6 +41,7 @@ public class DefaultBindingProxyProviderRegistry implements BindingProxyProvider
      * @see org.sca4j.spi.binding.BindingProxyProviderRegistry#getBinding(javax.xml.namespace.QName, java.lang.Class, java.net.URI, javax.xml.namespace.QName[])
      */
     public <T> T getBinding(QName bindingType, Class<T> endpointInterface, URI endpoint, QName... intents) {
+        System.err.println("************* " + bindingProxyProviders);
         return bindingProxyProviders.get(bindingType).getBinding(endpointInterface, endpoint, intents);
     }
 

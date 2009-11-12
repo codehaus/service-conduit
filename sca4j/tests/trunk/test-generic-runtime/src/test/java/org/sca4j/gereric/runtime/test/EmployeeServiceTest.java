@@ -16,7 +16,10 @@
  */
 package org.sca4j.gereric.runtime.test;
 
+import java.net.URI;
+
 import javax.persistence.EntityManager;
+import javax.xml.namespace.QName;
 
 import org.sca4j.generic.runtime.test.Employee;
 import org.sca4j.generic.runtime.test.EmployeeService;
@@ -29,16 +32,29 @@ public class EmployeeServiceTest extends AbstractScaTest {
     }
 
     public void test() throws Exception {
+        
         getTransactionManager().begin();
+        
         EmployeeService employeeService = getServiceProxy("employeeService");
-        String id = employeeService.createEmployee("Meeraj Kunnumpurath");
-        assertEquals("Meeraj Kunnumpurath", employeeService.findName(id));
-        Employee employee = new Employee("Babur Begg");
+        Employee employee = new Employee("Meeraj Kunnumpurath"); 
+        employeeService.createEmployee(employee);
+        assertEquals("Meeraj Kunnumpurath", employeeService.findName(employee).getName());
+        
+        employee = new Employee("Babur Begg");
         EntityManager entityManager = getEntityManager("employee");
         entityManager.persist(employee);
         entityManager.flush();
         assertEquals("Babur Begg", entityManager.find(Employee.class, employee.getId()).getName());
+        
         getTransactionManager().rollback();
+        
+        QName bindingType = new QName("http://www.osoa.org/xmlns/sca/1.0", "binding.ws");
+        URI endpointUri = URI.create("http://localhost:8080/axis2/employee");
+        employeeService = getBinding(EmployeeService.class, bindingType, endpointUri);
+        employee = new Employee("Neil Ellis");
+        employeeService.createEmployee(employee);
+        assertEquals("Neil Ellis", employeeService.findName(employee).getName());
+        
     }
 
 }

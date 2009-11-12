@@ -177,7 +177,7 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
      */
     public <T> T getBinding(Class<T> endpointInterface, QName bindingType, URI endpointUri, QName ... intents) {
         BindingProxyProviderRegistry providerRegistry = 
-            getSystemComponent(BindingProxyProviderRegistry.class, URI.create("sca4://runtime/BindingProxyProviderRegistry"));
+            getSystemComponent(BindingProxyProviderRegistry.class, URI.create("sca4j://runtime/BindingProxyProviderRegistry"));
         return providerRegistry.getBinding(bindingType, endpointInterface, endpointUri, intents);
     }
     
