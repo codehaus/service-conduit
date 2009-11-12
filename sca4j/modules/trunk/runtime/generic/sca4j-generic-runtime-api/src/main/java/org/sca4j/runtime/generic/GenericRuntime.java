@@ -52,7 +52,10 @@
  */
 package org.sca4j.runtime.generic;
 
+import java.net.URI;
 import java.util.List;
+
+import javax.xml.namespace.QName;
 
 import org.sca4j.host.runtime.SCA4JRuntime;
 
@@ -90,5 +93,16 @@ public interface GenericRuntime extends SCA4JRuntime<GenericHostInfo> {
      * Boots the runtime.
      */
     void boot();
+    
+    /**
+     * Gets a proxy to a binding.
+     * 
+     * @param <T> Type of the endpoint interface.
+     * @param endpointInterface Class of the endpoint interface.
+     * @param bindingType Binding type.
+     * @param intents Intents that are requested.
+     * @return A proxy to the binding.
+     */
+    <T> T getBinding(Class<T> endpointInterface, QName bindingType, URI endpointUri, QName ... intents);
 
 }

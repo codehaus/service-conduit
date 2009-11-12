@@ -52,17 +52,13 @@
  */
 package org.sca4j.binding.ws.axis2.runtime.jaxb;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.ws.WebFault;
 
+import org.sca4j.binding.ws.axis2.introspection.JaxbMethodInfo;
 import org.sca4j.binding.ws.axis2.provision.jaxb.JaxbInterceptorDefinition;
 import org.sca4j.spi.builder.BuilderException;
 import org.sca4j.spi.builder.interceptor.InterceptorBuilder;
@@ -71,19 +67,6 @@ import org.sca4j.spi.builder.interceptor.InterceptorBuilder;
  * @version $Revision$ $Date$
  */
 public class JaxbInterceptorBuilder implements InterceptorBuilder<JaxbInterceptorDefinition, JaxbInterceptor> {
-    
-    private static final Map<String, Class<?>> PRIMITIVES = new HashMap<String, Class<?>>();
-    static {
-        PRIMITIVES.put("byte", byte.class);
-        PRIMITIVES.put("short", short.class);
-        PRIMITIVES.put("int", int.class);
-        PRIMITIVES.put("char", char.class);
-        PRIMITIVES.put("long", long.class);
-        PRIMITIVES.put("float", float.class);
-        PRIMITIVES.put("double", double.class);
-        PRIMITIVES.put("boolean", boolean.class);
-        PRIMITIVES.put("void", void.class);
-    }
 
     public JaxbInterceptor build(JaxbInterceptorDefinition definition) throws BuilderException {
 
@@ -99,19 +82,17 @@ public class JaxbInterceptorBuilder implements InterceptorBuilder<JaxbIntercepto
                 }
             }
             
-            boolean jaxbBinding = introspectJaxb(interceptedMethod);
-            if (jaxbBinding) {
-                Set<String> classNames = definition.getClassNames();
-                Set<String> faultNames = definition.getFaultNames();
-                Map<Class<?>, Constructor<?>> faultMapping = getFaultMapping(classLoader, faultNames);
-                JAXBContext context = getJAXBContext(classLoader, classNames);
-                return new JaxbInterceptor(classLoader, context, definition.isService(), faultMapping, interceptedMethod, jaxbBinding);
+            JaxbMethodInfo jaxbMethodInfo = new JaxbMethodInfo(interceptedMethod);
+            List<Class<?>> jaxbClasses = jaxbMethodInfo.getJaxbClasses();
+            
+            if (jaxbClasses.size() > 0) {
+                JAXBContext context = JAXBContext.newInstance(jaxbClasses.toArray(new Class<?>[jaxbClasses.size()]));
+                return new JaxbInterceptor(context, definition.isService(), jaxbMethodInfo.getFaultConstructors(), interceptedMethod, true);
             } else {
-                return new JaxbInterceptor(classLoader, null, definition.isService(), null, interceptedMethod, jaxbBinding);
+                return new JaxbInterceptor(null, definition.isService(), null, interceptedMethod, false);
             }
+            
 
-        } catch (NoSuchMethodException e) {
-            throw new JaxbBuilderException(e);
         } catch (ClassNotFoundException e) {
             throw new JaxbBuilderException(e);
         } catch (JAXBException e) {
@@ -119,55 +100,5 @@ public class JaxbInterceptorBuilder implements InterceptorBuilder<JaxbIntercepto
         }
 
     }
-
-    private JAXBContext getJAXBContext(ClassLoader classLoader, Set<String> classNames) throws JAXBException, ClassNotFoundException {
-        
-        Class<?>[] classes = new Class<?>[classNames.size()];
-        int i = 0;
-        for (String className : classNames) {
-            if (PRIMITIVES.containsKey(className)) {
-                classes[i++] = PRIMITIVES.get(className);
-            } else {
-                classes[i++] = getClass().getClassLoader().loadClass(className);
-            }
-        }
-        ClassLoader old = Thread.currentThread().getContextClassLoader();
-        try {
-            // The JAXBContext searches the TCCL for the JAXB-RI. Set the TCCL to the Axis classloader (which loaded this class), as it has 
-            // visibility to the JAXB RI.
-            Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
-            return JAXBContext.newInstance(classes);
-        } finally {
-            Thread.currentThread().setContextClassLoader(old);
-        }
-    }
-
-    private Map<Class<?>, Constructor<?>> getFaultMapping(ClassLoader classLoader, Set<String> faultNames)
-            throws ClassNotFoundException, NoSuchMethodException {
-        Map<Class<?>, Constructor<?>> mapping = new HashMap<Class<?>, Constructor<?>>(faultNames.size());
-        for (String faultName : faultNames) {
-            Class<?> clazz = getClass().getClassLoader().loadClass(faultName);
-            WebFault fault = clazz.getAnnotation(WebFault.class);
-            if (fault == null) {
-                // FIXME throw someting
-                throw new RuntimeException();
-            }
-            Method getFaultInfo = clazz.getMethod("getFaultInfo");
-            Class<?> faultType = getFaultInfo.getReturnType();
-            Constructor<?> constructor = clazz.getConstructor(String.class, faultType);
-            mapping.put(faultType, constructor);
-        }
-        return mapping;
-    }
     
-    private boolean introspectJaxb(Method interceptedMethod) {
-        boolean jaxbBinding = interceptedMethod.getReturnType().getAnnotation(XmlRootElement.class) != null;
-        for (Class<?> parameterType : interceptedMethod.getParameterTypes()) {
-            jaxbBinding = jaxbBinding || parameterType.getAnnotation(XmlRootElement.class) != null;
-        }
-        for (Class<?> exceptionType : interceptedMethod.getExceptionTypes()) {
-            jaxbBinding = jaxbBinding || exceptionType.getAnnotation(WebFault.class) != null;
-        }
-        return jaxbBinding;
-    }
 }

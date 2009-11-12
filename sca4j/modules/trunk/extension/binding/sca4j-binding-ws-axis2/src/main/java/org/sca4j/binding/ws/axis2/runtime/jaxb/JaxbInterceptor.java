@@ -59,7 +59,6 @@ import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.ws.WebFault;
 
 import org.apache.axiom.om.OMElement;
@@ -76,7 +75,6 @@ import org.sca4j.spi.wire.Interceptor;
 public class JaxbInterceptor implements Interceptor {
 
     private Interceptor next;
-    private final ClassLoader classLoader;
     private final OMElement2Jaxb inTransformer;
     private final Jaxb2OMElement outTransformer;
     private final boolean service;
@@ -84,13 +82,11 @@ public class JaxbInterceptor implements Interceptor {
     private final Method interceptedMethod;
     private boolean jaxbBinding;
     
-    public JaxbInterceptor(ClassLoader classLoader, 
-                           JAXBContext jaxbContext, 
-                           boolean service, Map<Class<?>, 
-                           Constructor<?>> faultMapping,
+    public JaxbInterceptor(JAXBContext jaxbContext, 
+                           boolean service, 
+                           Map<Class<?>, Constructor<?>> faultMapping,
                            Method interceptedMethod,
                            boolean jaxbBinding) throws JAXBException {
-        this.classLoader = classLoader;
         inTransformer = new OMElement2Jaxb(jaxbContext);
         outTransformer = new Jaxb2OMElement(jaxbContext);
         this.service = service;
@@ -104,20 +100,10 @@ public class JaxbInterceptor implements Interceptor {
     }
 
     public Message invoke(Message message) {
-        
         if (!jaxbBinding) {
             return next.invoke(message);
         }
-
-        ClassLoader oldCl = Thread.currentThread().getContextClassLoader();
-
-        try {
-            Thread.currentThread().setContextClassLoader(classLoader);
-            return service ? interceptService(message) : interceptReference(message);
-        } finally {
-            Thread.currentThread().setContextClassLoader(oldCl);
-        }
-
+        return service ? interceptService(message) : interceptReference(message);
     }
     
     private Message interceptService(Message message) {

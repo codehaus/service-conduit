@@ -59,6 +59,7 @@ import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
 import javax.persistence.EntityManager;
 import javax.transaction.TransactionManager;
+import javax.xml.namespace.QName;
 
 import junit.framework.TestCase;
 
@@ -144,6 +145,19 @@ public class AbstractScaTest extends TestCase {
     protected EntityManager getEntityManager(String name) {
         EmfBuilder emfBuilder = genericRuntime.getSystemComponent(EmfBuilder.class, URI.create("sca4j://runtime/CachingEmfBuilder"));
         return emfBuilder.build(name, getClass().getClassLoader()).createEntityManager();
+    }
+    
+    /**
+     * Get the bindings with the specified intents.
+     * @param <T> Binding type.
+     * @param endpointInterface Endpoint interface for the binding.
+     * @param bindingType Qualified name of the bindings.
+     * @param endpointUri Endpoint URI.
+     * @param intents Intents that are requested.
+     * @return A proxy to the binding.
+     */
+    protected <T> T getBinding(Class<T> endpointInterface, QName bindingType, URI endpointUri, QName ... intents) {
+        return genericRuntime.getBinding(endpointInterface, bindingType, endpointUri, intents);
     }
 
 }

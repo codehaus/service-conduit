@@ -54,6 +54,7 @@
 
 -->
 <composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca="http://www.osoa.org/xmlns/sca/1.0"
            xmlns:sca4j="urn:sca4j.org"
            targetNamespace="urn:sca4j.org"
            name="Axis2ControllerExtension"
@@ -72,6 +73,11 @@
     <!--Jaxws Introspector -->
     <component name="JAXWSTypeIntrospector">
         <sca4j:implementation.system class="org.sca4j.binding.ws.axis2.introspection.JAXWSTypeIntrospector"/>
+    </component>
+    
+    <!--Axis2 Proxy Provider -->
+    <component name="ProxyProvider" sca4j:key="binding.ws">
+        <sca4j:implementation.system class="org.sca4j.binding.ws.axis2.runtime.Axis2BindingProxyProvider"/>
     </component>
 
 </composite>

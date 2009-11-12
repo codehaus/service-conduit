@@ -26,15 +26,16 @@ import javax.xml.namespace.QName;
  * Proxy service provider for bindings.
  *
  */
-public interface BindingProxyProvider {
+public interface BindingProxyProviderRegistry {
 
     /**
      * @param <T>
+     * @param bindingType
      * @param endpointInterface
      * @param endpoint
      * @param intents
      * @return
      */
-    <T> T getBinding(Class<T> endpointInterface, URI endpoint, QName ... intents);
+    <T> T getBinding(QName bindingType, Class<T> endpointInterface, URI endpoint, QName ... intents);
     
 }

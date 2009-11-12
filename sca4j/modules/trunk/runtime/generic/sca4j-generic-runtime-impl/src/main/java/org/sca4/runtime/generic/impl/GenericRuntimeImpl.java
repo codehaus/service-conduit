@@ -88,6 +88,7 @@ import org.sca4j.runtime.generic.GenericRuntime;
 import org.sca4j.scdl.ServiceContract;
 import org.sca4j.services.xmlfactory.XMLFactory;
 import org.sca4j.services.xmlfactory.XMLFactoryInstantiationException;
+import org.sca4j.spi.binding.BindingProxyProviderRegistry;
 import org.sca4j.spi.component.InstanceLifecycleException;
 import org.sca4j.spi.component.InstanceWrapper;
 import org.sca4j.spi.domain.Domain;
@@ -171,8 +172,13 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
         
     }
     
-    public <T> T getBinding(Class<T> endpointInterface, QName bindingType, QName ... intents) {
-        return null;
+    /**
+     * @see org.sca4j.runtime.generic.GenericRuntime#getBinding(java.lang.Class, javax.xml.namespace.QName, javax.xml.namespace.QName[])
+     */
+    public <T> T getBinding(Class<T> endpointInterface, QName bindingType, URI endpointUri, QName ... intents) {
+        BindingProxyProviderRegistry providerRegistry = 
+            getSystemComponent(BindingProxyProviderRegistry.class, URI.create("sca4://runtime/BindingProxyProviderRegistry"));
+        return providerRegistry.getBinding(bindingType, endpointInterface, endpointUri, intents);
     }
     
     /**
@@ -180,7 +186,8 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
      */
     public List<String> getServices() {
         
-        LogicalComponentManager logicalComponentManager = getSystemComponent(LogicalComponentManager.class, URI.create("sca4j://runtime/LogicalComponentManager"));
+        LogicalComponentManager logicalComponentManager = 
+            getSystemComponent(LogicalComponentManager.class, URI.create("sca4j://runtime/LogicalComponentManager"));
         LogicalCompositeComponent domainComponent = logicalComponentManager.getRootComponent();
         
         List<String> services = new LinkedList<String>();
@@ -198,7 +205,8 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
     @SuppressWarnings("unchecked")
     public <T> T getServiceProxy(String serviceName) {
         
-        LogicalComponentManager logicalComponentManager = getSystemComponent(LogicalComponentManager.class, URI.create("sca4j://runtime/LogicalComponentManager"));
+        LogicalComponentManager logicalComponentManager = 
+            getSystemComponent(LogicalComponentManager.class, URI.create("sca4j://runtime/LogicalComponentManager"));
         LogicalCompositeComponent domainComponent = logicalComponentManager.getRootComponent();
         
         LogicalComponent<?> logicalComponent = getUri(domainComponent, serviceName);

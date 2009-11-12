@@ -59,9 +59,14 @@
            targetNamespace="urn:sca4j.org"
            autowire="true">
 
+    <component name="BindingProxyProviderRegistry">
+        <sca4j:implementation.system class="org.sca4j.fabric.binding.DefaultBindingProxyProviderRegistry"/>
+    </component>
+
     <component name="RuntimeRoutingService">
         <sca4j:implementation.system class="org.sca4j.fabric.services.routing.RuntimeRoutingService"/>
     </component>
+    
     <!-- this wire reinjects the routing service into the RuntimeDomain -->
     <wire source="RuntimeDomain/routingService" target="RuntimeRoutingService"/>
 

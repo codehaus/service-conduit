@@ -16,25 +16,30 @@
  * This project contains code licensed from the Apache Software Foundation under
  * the Apache License, Version 2.0 and original code from project contributors.
  */
-package org.sca4j.spi.binding;
+package org.sca4j.fabric.binding;
 
 import java.net.URI;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
+import org.osoa.sca.annotations.Reference;
+import org.sca4j.spi.binding.BindingProxyProvider;
+import org.sca4j.spi.binding.BindingProxyProviderRegistry;
+
 /**
- * Proxy service provider for bindings.
+ * @author meerajk
  *
  */
-public interface BindingProxyProvider {
+public class DefaultBindingProxyProviderRegistry implements BindingProxyProviderRegistry {
+    
+    @Reference(required = false) protected Map<QName, BindingProxyProvider> bindingProxyProviders;
 
     /**
-     * @param <T>
-     * @param endpointInterface
-     * @param endpoint
-     * @param intents
-     * @return
+     * @see org.sca4j.spi.binding.BindingProxyProviderRegistry#getBinding(javax.xml.namespace.QName, java.lang.Class, java.net.URI, javax.xml.namespace.QName[])
      */
-    <T> T getBinding(Class<T> endpointInterface, URI endpoint, QName ... intents);
-    
+    public <T> T getBinding(QName bindingType, Class<T> endpointInterface, URI endpoint, QName... intents) {
+        return bindingProxyProviders.get(bindingType).getBinding(endpointInterface, endpoint, intents);
+    }
+
 }
