@@ -498,8 +498,6 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
                     
                 }
             }
-            System.err.println("Discovered extensions " + extensions.size());
-            Thread.dumpStack();
             return extensions;
         } catch (IOException e) {
             throw new AssertionError(e);
