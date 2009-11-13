@@ -78,13 +78,21 @@ import static org.sca4j.fabric.runtime.ComponentNames.METADATA_STORE_URI;
 import static org.sca4j.fabric.runtime.ComponentNames.RUNTIME_DOMAIN_URI;
 import static org.sca4j.fabric.runtime.ComponentNames.RUNTIME_URI;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.management.MBeanServer;
 import javax.xml.namespace.QName;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 
 import org.sca4j.fabric.component.scope.CompositeScopeContainer;
 import org.sca4j.fabric.component.scope.ScopeContainerMonitor;
@@ -100,6 +108,7 @@ import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.host.contribution.ContributionService;
 import org.sca4j.host.contribution.ContributionSource;
 import org.sca4j.host.contribution.Deployable;
+import org.sca4j.host.contribution.FileContributionSource;
 import org.sca4j.host.domain.DeploymentException;
 import org.sca4j.host.runtime.BootConfiguration;
 import org.sca4j.host.runtime.Bootstrapper;
@@ -181,6 +190,9 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
         bootExports = configuration.getBootLibraryExports();
         intents = configuration.getIntents();
         extensions = configuration.getExtensions();
+        if (extensions == null || extensions.size() == 0) {
+            extensions = discoverExtensions();
+        }
         bootstrapper = new ScdlBootstrapperImpl(configuration.getSystemScdl(), configuration.getSystemConfig(), configuration.getSystemConfigDocument());
         
         LogicalComponentStore store = new NonPersistentLogicalComponentStore(RUNTIME_URI, Autowire.ON);
@@ -457,6 +469,76 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
             throw new InitializationException(e);
         }
         
+    }
+    
+    /*
+     * Gets the list of extensions.
+     */
+    private List<ContributionSource> discoverExtensions() {
+        
+        try {
+            List<ContributionSource> extensions = new LinkedList<ContributionSource>();
+            Enumeration<URL> resources = getClass().getClassLoader().getResources("META-INF/sca-contribution.xml");
+            
+            while (resources.hasMoreElements()) {
+                URL resource = resources.nextElement();
+                if (isExtension(resource)) {
+                    String resourceUrl;
+                    if ("jar".equals(resource.getProtocol())) {
+                        resourceUrl = resource.toExternalForm().substring(4);
+                        int index = resourceUrl.indexOf("!/META-INF/sca-contribution.xml");
+                        resourceUrl = resourceUrl.substring(0, index);
+                        extensions.add(new FileContributionSource(new URL(resourceUrl), 1, null));
+                    } else {
+                        resourceUrl = resource.toExternalForm();
+                        int index = resourceUrl.indexOf("/META-INF/sca-contribution.xml");
+                        resourceUrl = resourceUrl.substring(0, index);
+                        extensions.add(new FileContributionSource(resource.toURI(), new URL(resourceUrl), 1, null, "application/vnd.sca4j"));
+                    }
+                    
+                }
+            }
+            System.err.println("Discovered extensions " + extensions.size());
+            Thread.dumpStack();
+            return extensions;
+        } catch (IOException e) {
+            throw new AssertionError(e);
+        } catch (XMLStreamException e) {
+            throw new AssertionError(e);
+        } catch (URISyntaxException e) {
+            throw new AssertionError(e);
+        }
+        
+    }
+    
+    /*
+     * Checks whether the contribution is an extension.
+     */
+    private boolean isExtension(URL url) throws IOException, XMLStreamException {
+        
+        XMLStreamReader reader = null;
+        InputStream stream = null;
+        try {
+            stream = url.openStream();
+            reader = XMLInputFactory.newInstance().createXMLStreamReader(stream);
+            reader.nextTag();
+            return Boolean.valueOf(reader.getAttributeValue(null, "extension"));
+        } finally {
+            try {
+                if (stream != null) {
+                    stream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (XMLStreamException e) {
+                e.printStackTrace();
+            }
+        }
     }
     
 }

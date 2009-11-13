@@ -61,14 +61,12 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
 import javax.management.MBeanServer;
 import javax.xml.namespace.QName;
-import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
@@ -292,8 +290,6 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
         bootExports.add("META-INF/maven/org.sca4j/sca4j-java/pom.xml");
         bootConfiguration.setBootLibraryExports(bootExports);
         
-        List<ContributionSource> extensions = getExtensions();
-        bootConfiguration.setExtensions(extensions);
         ContributionSource intents = new FileContributionSource(classLoader.getResource("META-INF/intents.xml"), -1, null);
         bootConfiguration.setIntents(intents);
         bootConfiguration.setSystemConfig(classLoader.getResource("META-INF/systemConfig.xml"));
@@ -301,66 +297,6 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
         
         return bootConfiguration;
         
-    }
-    
-    /*
-     * Gets the list of extensions.
-     */
-    private List<ContributionSource> getExtensions() throws IOException, XMLFactoryInstantiationException, XMLStreamException, URISyntaxException {
-        
-        List<ContributionSource> extensions = new LinkedList<ContributionSource>();
-        Enumeration<URL> resources = getClass().getClassLoader().getResources("META-INF/sca-contribution.xml");
-        
-        while (resources.hasMoreElements()) {
-            URL resource = resources.nextElement();
-            if (isExtension(resource)) {
-                String resourceUrl;
-                if ("jar".equals(resource.getProtocol())) {
-                    resourceUrl = resource.toExternalForm().substring(4);
-                    int index = resourceUrl.indexOf("!/META-INF/sca-contribution.xml");
-                    resourceUrl = resourceUrl.substring(0, index);
-                    extensions.add(new FileContributionSource(new URL(resourceUrl), 1, null));
-                } else {
-                    resourceUrl = resource.toExternalForm();
-                    int index = resourceUrl.indexOf("/META-INF/sca-contribution.xml");
-                    resourceUrl = resourceUrl.substring(0, index);
-                    extensions.add(new FileContributionSource(resource.toURI(), new URL(resourceUrl), 1, null, "application/vnd.sca4j"));
-                }
-                
-            }
-        }
-        return extensions;
-        
-    }
-    
-    /*
-     * Checks whether the contribution is an extension.
-     */
-    private boolean isExtension(URL url) throws IOException, XMLFactoryInstantiationException, XMLStreamException {
-        
-        XMLStreamReader reader = null;
-        InputStream stream = null;
-        try {
-            stream = url.openStream();
-            reader = XMLInputFactory.newInstance().createXMLStreamReader(stream);
-            reader.nextTag();
-            return Boolean.valueOf(reader.getAttributeValue(null, "extension"));
-        } finally {
-            try {
-                if (stream != null) {
-                    stream.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-            } catch (XMLStreamException e) {
-                e.printStackTrace();
-            }
-        }
     }
     
     /*

@@ -52,10 +52,20 @@
  */
 package org.sca4j.host.runtime;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Enumeration;
+import java.util.LinkedList;
 import java.util.List;
 
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+
 import org.sca4j.host.contribution.ContributionSource;
+import org.sca4j.host.contribution.FileContributionSource;
 import org.xml.sax.InputSource;
 
 /**
