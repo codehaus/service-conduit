@@ -189,10 +189,15 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
         
         bootExports = configuration.getBootLibraryExports();
         intents = configuration.getIntents();
-        extensions = configuration.getExtensions();
-        if (extensions == null || extensions.size() == 0) {
-            extensions = discoverExtensions();
+        extensions = discoverExtensions();
+        
+        List<ContributionSource> defaultExtensions = configuration.getExtensions();
+        for (ContributionSource contributionSource : defaultExtensions) {
+            if (!extensions.contains(contributionSource)) {
+                extensions.add(contributionSource);
+            }
         }
+        
         bootstrapper = new ScdlBootstrapperImpl(configuration.getSystemScdl(), configuration.getSystemConfig(), configuration.getSystemConfigDocument());
         
         LogicalComponentStore store = new NonPersistentLogicalComponentStore(RUNTIME_URI, Autowire.ON);
