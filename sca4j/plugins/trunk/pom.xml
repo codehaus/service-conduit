@@ -31,8 +31,6 @@
 
     <modules>
         <module>sca4j-contribution-plugin</module>
-        <module>sca4j-webapp-plugin</module>
-        <module>sca4j-feature-set-plugin</module>
     </modules>
  
     
