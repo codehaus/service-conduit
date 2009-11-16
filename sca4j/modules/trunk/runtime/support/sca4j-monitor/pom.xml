@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>sca4j-runtime-support-parent-pom</artifactId>
-        <version>0.2.0-SNAPSHOT</version>
+        <version>0.2.0</version>
     </parent>
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-monitor</artifactId>
@@ -30,12 +30,12 @@
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-api</artifactId>
-            <version>0.2.0-SNAPSHOT</version>
+            <version>0.2.0</version>
         </dependency>
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-monitor-api</artifactId>
-            <version>0.2.0-SNAPSHOT</version>
+            <version>0.2.0</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
