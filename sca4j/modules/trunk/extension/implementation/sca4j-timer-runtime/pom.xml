@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>sca4j-extension-implementation-parent-pom</artifactId>
-        <version>0.2.0</version>
+        <version>0.2.1-SNAPSHOT</version>
     </parent>
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-timer-runtime</artifactId>
@@ -31,25 +31,25 @@
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-pojo</artifactId>
-            <version>0.2.0</version>
+            <version>0.2.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-java</artifactId>
-            <version>0.2.0</version>
+            <version>0.2.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-timer-provision</artifactId>
-            <version>0.2.0</version>
+            <version>0.2.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-timer-spi</artifactId>
-            <version>0.2.0</version>
+            <version>0.2.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
