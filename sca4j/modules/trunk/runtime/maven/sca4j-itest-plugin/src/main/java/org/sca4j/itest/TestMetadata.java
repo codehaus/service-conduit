@@ -54,11 +54,8 @@ package org.sca4j.itest;
 
 import java.io.File;
 import java.net.URL;
-import java.util.List;
 import java.util.Properties;
 import java.util.Set;
-
-import org.sca4j.host.contribution.ContributionSource;
 
 /**
  * @author meerajk
@@ -82,11 +79,7 @@ public class TestMetadata {
     private String systemConfigDir;
     private String systemConfig;
 
-    private Set<File> runtimeArtifacts;
-    private Set<File> hostArtifacts;
-    private Set<URL> moduleDependencies;
     private Set<URL> classpath;
-    private List<ContributionSource> extensions;
     private File outputDirectory;
     private String coordinatorImpl;
 
@@ -154,44 +147,12 @@ public class TestMetadata {
         return outputDirectory;
     }
 
-    public void setExtensions(List<ContributionSource> extensions) {
-        this.extensions = extensions;
-    }
-
-    public List<ContributionSource> getExtensions() {
-        return extensions;
-    }
-
-    public void setModuleDependencies(Set<URL> moduleDependencies) {
-        this.moduleDependencies = moduleDependencies;
-    }
-
-    public Set<URL> getModuleDependencies() {
-        return moduleDependencies;
-    }
-
     public void setClasspath(Set<URL> classpath) {
         this.classpath = classpath;
     }
 
     public Set<URL> getClasspath() {
         return classpath;
-    }
-
-    public void setHostArtifacts(Set<File> hostArtifacts) {
-        this.hostArtifacts = hostArtifacts;
-    }
-
-    public Set<File> getHostArtifacts() {
-        return hostArtifacts;
-    }
-
-    public void setRuntimeArtifacts(Set<File> runtimeArtifacts) {
-        this.runtimeArtifacts = runtimeArtifacts;
-    }
-
-    public Set<File> getRuntimeArtifacts() {
-        return runtimeArtifacts;
     }
 
     public void setSystemConfigDir(String systemConfigDir) {

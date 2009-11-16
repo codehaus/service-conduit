@@ -202,8 +202,9 @@ public class XmlContributionProcessor implements ContributionProcessor {
     }
 
     private static List<String> initializeContentTypes() {
-        List<String> list = new ArrayList<String>(1);
+        List<String> list = new ArrayList<String>(2);
         list.add("application/xml");
+        list.add("application/vnd.sca4j");
         return list;
     }
 }

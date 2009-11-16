@@ -79,38 +79,7 @@
         </dependency>
         <dependency>
             <groupId>org.sca4j</groupId>
-            <artifactId>sca4j-jmx-agent</artifactId>
-            <version>0.1.12-SNAPSHOT</version>
-        </dependency>
-        <!-- dependency>
-            <groupId>org.sca4j</groupId>
-            <artifactId>sca4j-jdk-proxy</artifactId>
-            <version>0.1.12-SNAPSHOT</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.sca4j</groupId>
-            <artifactId>sca4j-pojo</artifactId>
-            <version>0.1.12-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.sca4j</groupId>
-            <artifactId>sca4j-java</artifactId>
-            <version>0.1.12-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.sca4j</groupId>
-            <artifactId>sca4j-junit</artifactId>
-            <version>0.1.12-SNAPSHOT</version>
-        </dependency-->
-        <dependency>
-            <groupId>org.sca4j</groupId>
-            <artifactId>sca4j-spi</artifactId>
-            <version>0.1.12-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.sca4j</groupId>
-            <artifactId>sca4j-monitor</artifactId>
+            <artifactId>sca4j-monitor-api</artifactId>
             <version>0.1.12-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -123,11 +92,6 @@
             <artifactId>wstx-asl</artifactId>
             <version>3.2.2</version>
             <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.sca4j</groupId>
-            <artifactId>sca4j-thread-pool</artifactId>
-            <version>0.1.12-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>

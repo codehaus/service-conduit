@@ -191,13 +191,6 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
         intents = configuration.getIntents();
         extensions = discoverExtensions();
         
-        List<ContributionSource> defaultExtensions = configuration.getExtensions();
-        for (ContributionSource contributionSource : defaultExtensions) {
-            if (!extensions.contains(contributionSource)) {
-                extensions.add(contributionSource);
-            }
-        }
-        
         bootstrapper = new ScdlBootstrapperImpl(configuration.getSystemScdl(), configuration.getSystemConfig(), configuration.getSystemConfigDocument());
         
         LogicalComponentStore store = new NonPersistentLogicalComponentStore(RUNTIME_URI, Autowire.ON);
@@ -489,10 +482,13 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
                 URL resource = resources.nextElement();
                 if (isExtension(resource)) {
                     String resourceUrl;
-                    if ("jar".equals(resource.getProtocol())) {
+                    if ("jar".equals(resource.getProtocol()) || "zip".equals(resource.getProtocol())) {
                         resourceUrl = resource.toExternalForm().substring(4);
                         int index = resourceUrl.indexOf("!/META-INF/sca-contribution.xml");
                         resourceUrl = resourceUrl.substring(0, index);
+                        if (!resourceUrl.startsWith("file")) {
+                            resourceUrl = "file:///" + resourceUrl;
+                        }
                         extensions.add(new FileContributionSource(new URL(resourceUrl), 1, null));
                     } else {
                         resourceUrl = resource.toExternalForm();

@@ -67,6 +67,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.management.MBeanServerFactory;
 import javax.xml.namespace.QName;
 
 import org.apache.maven.plugin.MojoFailureException;
@@ -86,13 +87,10 @@ import org.sca4j.host.domain.AssemblyException;
 import org.sca4j.host.domain.DeploymentException;
 import org.sca4j.host.perf.PerformanceMonitor;
 import org.sca4j.host.runtime.BootConfiguration;
-import org.sca4j.jmx.agent.Agent;
-import org.sca4j.jmx.agent.DefaultAgent;
 import org.sca4j.maven.runtime.ContextStartException;
 import org.sca4j.maven.runtime.MavenEmbeddedRuntime;
 import org.sca4j.maven.runtime.WireHolder;
 import org.sca4j.monitor.MonitorFactory;
-import org.sca4j.monitor.impl.JavaLoggingMonitorFactory;
 import org.sca4j.scdl.Composite;
 import org.sca4j.spi.wire.Wire;
 import org.xml.sax.InputSource;
@@ -145,7 +143,7 @@ public class TestRunner {
             
             Thread.currentThread().setContextClassLoader(bootClassLoader);
             
-            runtime = createRuntime(bootClassLoader, testMetadata.getModuleDependencies());
+            runtime = createRuntime(bootClassLoader, testMetadata.getClasspath());
             BootConfiguration configuration = createBootConfiguration(runtime, bootClassLoader, hostClassLoader, hostClassLoader);            
             
             PerformanceMonitor.start("Boot primodial");
@@ -180,13 +178,13 @@ public class TestRunner {
                 throw new MojoFailureException(msg);
             }
             
+            runtime.shutdown();
+            
         } catch (MojoFailureException e) {
             throw e;
         } catch (Exception e) {
             // trap any other exception
             throw new AssertionError(e);
-        } finally {
-            runtime.shutdown();
         }
         
     }
@@ -219,9 +217,6 @@ public class TestRunner {
             URL systemConfig = getSystemConfig();
             configuration.setSystemConfig(systemConfig);
         }
-
-        // process extensions
-        configuration.setExtensions(testMetadata.getExtensions());
 
         // process the baseline intents
         if (testMetadata.getIntentsLocation() == null) {
@@ -267,9 +262,7 @@ public class TestRunner {
     }
     
     private MavenEmbeddedRuntime createRuntime(ClassLoader bootClassLoader, Set<URL> moduleDependencies) {
-    	if (monitorFactory == null) {
-    		monitorFactory = new JavaLoggingMonitorFactory();
-    	}
+        
         MavenEmbeddedRuntime runtime = instantiate(MavenEmbeddedRuntime.class, testMetadata.getRuntimeImpl(), bootClassLoader);
         runtime.setMonitorFactory(monitorFactory);
 
@@ -280,8 +273,7 @@ public class TestRunner {
         runtime.setJmxSubDomain(testMetadata.getManagementDomain());
 
         // TODO Add better host JMX support from the next release
-        Agent agent = new DefaultAgent();
-        runtime.setMBeanServer(agent.getMBeanServer());
+        runtime.setMBeanServer(MBeanServerFactory.createMBeanServer());
 
         return runtime;
     }

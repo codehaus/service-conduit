@@ -56,32 +56,24 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.repository.ArtifactRepository;
-import org.apache.maven.model.Dependency;
+import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 import org.sca4j.host.perf.PerformanceMonitor;
-import org.xml.sax.SAXException;
 
 /**
  * Run integration tests on a SCA composite using an embedded SCA4J runtime.
  *
  * @version $Rev: 5478 $ $Date: 2008-09-26 00:54:18 +0100 (Fri, 26 Sep 2008) $
  * @goal test
- * @phase integration-test
+ * @phase test
  */
 public class SCA4JITestMojo extends AbstractMojo {
 
@@ -114,13 +106,6 @@ public class SCA4JITestMojo extends AbstractMojo {
      * @parameter
      */
     public String managementDomain = "itest-host";
-
-    /**
-     * Optional parameter for thread pool size.
-     *
-     * @parameter
-     */
-    public int numWorkers = 10;
 
     /**
      * The optional target namespace of the composite to activate.
@@ -232,34 +217,6 @@ public class SCA4JITestMojo extends AbstractMojo {
     public String runtimeVersion;
 
     /**
-     * Set of runtime extension artifacts that should be deployed to the runtime.
-     *
-     * @parameter
-     */
-    public Dependency[] extensions;
-
-    /**
-     * Set of runtime extension artifacts that should be deployed to the runtime expressed as feature sets.
-     *
-     * @parameter
-     */
-    public Dependency[] features;
-
-    /**
-     * Whether to exclude default features.
-     *
-     * @parameter
-     */
-    public boolean excludeDefaultFeatures;
-
-    /**
-     * Libraries available to application and runtime.
-     *
-     * @parameter
-     */
-    public Dependency[] shared;
-
-    /**
      * Properties passed to the runtime throught the HostInfo interface.
      *
      * @parameter
@@ -272,29 +229,6 @@ public class SCA4JITestMojo extends AbstractMojo {
      * @readonly
      */
     public List<String> testClassPath;
-
-    /**
-     * Location of the local repository.
-     *
-     * @parameter expression="${localRepository}"
-     * @readonly
-     * @required
-     */
-    public ArtifactRepository localRepository;
-
-    /**
-     * @parameter expression="${component.org.sca4j.itest.ArtifactHelper}"
-     * @required
-     * @readonly
-     */
-    public ArtifactHelper artifactHelper;
-
-    /**
-     * @parameter expression="${component.org.sca4j.itest.ExtensionHelper}"
-     * @required
-     * @readonly
-     */
-    public ExtensionHelper extensionHelper;
 
     /**
      * The sub-directory of the project's output directory which contains the systemConfig.xml file. Users are limited to specifying the (relative)
@@ -321,10 +255,6 @@ public class SCA4JITestMojo extends AbstractMojo {
     protected File outputDirectory;
 
 
-    // Resolved feature sets
-    private List<FeatureSet> featureSets = new LinkedList<FeatureSet>();
-
-
     public void execute() throws MojoExecutionException, MojoFailureException {
 
     	PerformanceMonitor.start("Test started");
@@ -338,53 +268,16 @@ public class SCA4JITestMojo extends AbstractMojo {
             return;
         }
 
-        artifactHelper.setLocalRepository(localRepository);
-        artifactHelper.setProject(project);
-
-        List<Dependency> featurestoInstall = getFeaturesToInstall();
-        if (!featurestoInstall.isEmpty()) {
-            for (Dependency feature : featurestoInstall) {
-                Artifact artifact = artifactHelper.resolve(feature);
-                try {
-                    FeatureSet featureSet = FeatureSet.deserialize(artifact.getFile());
-                    featureSets.add(featureSet);
-                } catch (ParserConfigurationException e) {
-                    throw new MojoExecutionException("Error booting SCA4J runtime", e);
-                } catch (SAXException e) {
-                    throw new MojoExecutionException("Error booting SCA4J runtime", e);
-                } catch (IOException e) {
-                    throw new MojoExecutionException("Error booting SCA4J runtime", e);
-                }
-            }
-        }
-
         TestMetadata testMetadata = new TestMetadata();
         
-        PerformanceMonitor.start("Calculate runtime artifacts");
-        Set<Artifact> runtimeArtifacts = artifactHelper.calculateRuntimeArtifacts(runtimeVersion);
-        PerformanceMonitor.end();
-        PerformanceMonitor.start("Calculate dependencies");
-        Set<Artifact> dependencies = artifactHelper.calculateDependencies();
-        PerformanceMonitor.end();
-        PerformanceMonitor.start("Calculate host artifacts");
-        Set<Artifact> hostArtifacts = artifactHelper.calculateHostArtifacts(runtimeArtifacts, shared, featureSets);
-        PerformanceMonitor.end();
-        PerformanceMonitor.start("Calculate module dependencies");
-        Set<URL> moduleDependencies = artifactHelper.calculateModuleDependencies(dependencies, hostArtifacts);
-        PerformanceMonitor.end();
         PerformanceMonitor.start("Calculate classpath");
-        Set<URL> classpath = artifactHelper.getClasspathArtifacts(runtimeVersion, featureSets, extensions);
+        Set<URL> classpath = getClasspathArtifacts();
         PerformanceMonitor.end();
         
-        
-        testMetadata.setModuleDependencies(moduleDependencies);
-        testMetadata.setRuntimeArtifacts(toFiles(runtimeArtifacts));
-        testMetadata.setHostArtifacts(toFiles(hostArtifacts));
         testMetadata.setClasspath(classpath);
         
         testMetadata.setRuntimeImpl(runtimeImpl);
         testMetadata.setManagementDomain(managementDomain);
-        testMetadata.setExtensions(extensionHelper.processExtensions(extensions, featureSets));
         testMetadata.setIntentsLocation(intentsLocation);
         testMetadata.setSystemScdl(systemScdl);
         testMetadata.setSystemConfigDir(systemConfigDir);
@@ -420,37 +313,38 @@ public class SCA4JITestMojo extends AbstractMojo {
         	PerformanceMonitor.end();
         }
         
-        
-        
-    }
-
-    private List<Dependency> getFeaturesToInstall() {
-        
-        List<Dependency> featuresToInstall = new ArrayList<Dependency>();
-
-        if (features != null) {
-            featuresToInstall.addAll(Arrays.asList(features));
-        }
-        
-        if (!excludeDefaultFeatures) {
-            Dependency dependency = new Dependency();
-            dependency.setArtifactId("sca4j-default-feature");
-            dependency.setGroupId("org.sca4j");
-            dependency.setVersion(runtimeVersion);
-            dependency.setType("xml");
-            featuresToInstall.add(dependency);
-        }
-        
-        return featuresToInstall;
-        
     }
     
-    private Set<File> toFiles(Set<Artifact> artifacts) {
-        Set<File> files = new HashSet<File>();
-        for (Artifact artifact : artifacts) {
-            files.add(artifact.getFile());
+    private Set<URL> getClasspathArtifacts() {
+        
+        try {
+            
+            Set<URL> classpath = new HashSet<URL>();
+            
+            classpath.addAll(calculateDependencies());
+            classpath.add(new File(project.getBuild().getOutputDirectory()).toURI().toURL());
+            classpath.add(new File(project.getBuild().getTestOutputDirectory()).toURI().toURL());
+            
+            if (System.getProperty("sca4j.debug") != null) {
+                System.err.println(classpath);
+            }
+            
+            return classpath;
+            
+        } catch (MalformedURLException e) {
+            throw new AssertionError(e);
+        } catch (DependencyResolutionRequiredException e) {
+            throw new AssertionError(e);
         }
-        return files;
+        
+    }
+
+    private Set<URL> calculateDependencies() throws MalformedURLException, DependencyResolutionRequiredException {
+        Set<URL> classpath = new HashSet<URL>();
+        for (Object element : project.getTestClasspathElements()) {
+            classpath.add(new File(element.toString()).toURI().toURL());
+        }
+        return classpath;
     }
 
 }
