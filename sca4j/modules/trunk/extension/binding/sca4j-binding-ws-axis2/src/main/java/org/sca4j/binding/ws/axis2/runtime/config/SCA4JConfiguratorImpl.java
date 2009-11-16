@@ -73,7 +73,6 @@ import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Property;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.host.work.WorkScheduler;
 
 /**
@@ -85,7 +84,6 @@ public class SCA4JConfiguratorImpl implements SCA4JConfigurator {
     private ConfigurationContext configurationContext;
     private String servicePath = "axis2";
     private Map<String, AxisModule> modules = new HashMap<String, AxisModule>();
-    private ClassLoader extensionClassLoader;
     private String chunkTransferEncoding = "true";
     private String cacheLargeAttachements = "true";
     private String cacheThreshold = "100000";
@@ -178,17 +176,6 @@ public class SCA4JConfiguratorImpl implements SCA4JConfigurator {
         org.apache.axis2.util.Utils.calculateDefaultModuleVersion(axisConfiguration.getModules(), axisConfiguration);
         axisConfiguration.validateSystemPredefinedPhases();
 
-    }
-
-    public void registerExtensionClassLoader(ClassLoader loader) {
-        extensionClassLoader = loader;
-    }
-
-    public ClassLoader getExtensionClassLoader() {
-        if (extensionClassLoader == null) {
-            return getClass().getClassLoader();
-        }
-        return extensionClassLoader;
     }
 
     public AxisModule getModule(String name) {

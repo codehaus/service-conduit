@@ -63,14 +63,4 @@ public interface SCA4JConfigurator {
     ConfigurationContext getConfigurationContext();
 
     AxisModule getModule(String name);
-
-    /**
-     * This is a temporary method until we figure out how to enable extension "fragments"
-     */
-    void registerExtensionClassLoader(ClassLoader loader);
-
-    /**
-     * This is a temporary method until we figure out how to enable extension "fragments"
-     */
-    ClassLoader getExtensionClassLoader();
 }

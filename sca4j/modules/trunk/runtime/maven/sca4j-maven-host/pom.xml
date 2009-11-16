@@ -26,7 +26,12 @@
     <name>SCA4J Maven Host</name>
     <description>SCA4J Maven Runtime Host.</description>
 
-    <dependencies>
+    <dependencies>        
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-thread-pool</artifactId>
+            <version>0.1.12-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-maven-api</artifactId>

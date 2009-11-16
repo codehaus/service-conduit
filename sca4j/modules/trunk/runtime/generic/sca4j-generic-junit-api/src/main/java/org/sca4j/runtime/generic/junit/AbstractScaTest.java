@@ -81,7 +81,7 @@ public class AbstractScaTest extends TestCase {
      * @param applicationScdl Application SCDL.
      */
     public AbstractScaTest(String applicationScdl) {
-        genericRuntime = new GenericRuntimeImpl(URI.create(""), System.getProperties(), getMonitorFactory(), getMBeanServer(), false);
+        genericRuntime = new GenericRuntimeImpl(URI.create(""), getProperties(), getMonitorFactory(), getMBeanServer(), false);
         genericRuntime.boot();
         genericRuntime.contriute(applicationScdl);
     }
@@ -127,6 +127,14 @@ public class AbstractScaTest extends TestCase {
      */
     protected MBeanServer getMBeanServer() {
         return MBeanServerFactory.newMBeanServer();
+    }
+    
+    /**
+     * Override if you want to provide a different set of host properties.
+     * @return System properties.
+     */
+    protected Properties getProperties() {
+        return System.getProperties();
     }
     
     /**

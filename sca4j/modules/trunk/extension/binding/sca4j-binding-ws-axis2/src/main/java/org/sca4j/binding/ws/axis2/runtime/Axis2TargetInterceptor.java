@@ -153,17 +153,8 @@ public class Axis2TargetInterceptor implements Interceptor {
         ClassLoader oldCl = currentThread.getContextClassLoader();
 
         try {
-            // The extension classloader is a temporary workaround for Axis2
-            // security. The security provider is installed in a separate
-            // extension
-            // contribution which is loaded in a child classloader of the Axis2
-            // extensin (i.e. it imports the Axis2 extension). Axis2 expects the
-            // security callback class to be visible from the TCCL. The
-            // extension classloader is the classloader that loaded the security
-            // contribution and hence has both the security and Axis2 classes
-            // visible to it.
 
-            currentThread.setContextClassLoader(f3Configurator.getExtensionClassLoader());
+            currentThread.setContextClassLoader(getClass().getClassLoader());
 
             ServiceClient sender = new ServiceClient(f3Configurator.getConfigurationContext(), null);
             sender.setOptions(options);

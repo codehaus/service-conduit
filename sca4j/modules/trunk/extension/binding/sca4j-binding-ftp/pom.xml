@@ -86,10 +86,6 @@
                            <groupId>org.sca4j</groupId>
                            <artifactId>sca4j-spi</artifactId>
                        </mavenImport>
-                        <mavenImport>
-                           <groupId>org.sca4j</groupId>
-                           <artifactId>sca4j-ftp-spi</artifactId>
-                       </mavenImport>
                     </mavenImports>
                     <deployables>
                         <deployable>META-INF/ftpbinding.composite</deployable>
