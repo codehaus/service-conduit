@@ -51,6 +51,52 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-maven-host</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>test-ftp-security-policy</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-ftp-spi</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-ftp-server</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>test-ftp-server-extension</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-binding-ftp</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-jetty</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-binding-ws</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-binding-ws-axis2</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -60,49 +106,6 @@
                 <groupId>org.sca4j</groupId>
                 <artifactId>sca4j-itest-plugin</artifactId>
                 <configuration>
-                    <runtimeVersion>${runtime.version}</runtimeVersion>
-                    <extensions>
-                        <dependency>
-                            <groupId>org.sca4j</groupId>
-                            <artifactId>test-ftp-security-policy</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.sca4j</groupId>
-                            <artifactId>sca4j-ftp-spi</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.sca4j</groupId>
-                            <artifactId>sca4j-ftp-server</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.sca4j</groupId>
-                            <artifactId>test-ftp-server-extension</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.sca4j</groupId>
-                            <artifactId>sca4j-binding-ftp</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.sca4j</groupId>
-                            <artifactId>sca4j-jetty</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.sca4j</groupId>
-                            <artifactId>sca4j-binding-ws</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.sca4j</groupId>
-                            <artifactId>sca4j-binding-ws-axis2</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>
-                    </extensions>
                     <systemConfig>
                         <![CDATA[
                         <config>

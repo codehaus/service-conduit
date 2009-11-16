@@ -64,37 +64,21 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-groovy</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j.webapp</groupId>
+            <artifactId>sca4j-webapp-host</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
         <finalName>${artifactId}</finalName>
         <plugins>
-            <plugin>
-                <groupId>org.sca4j</groupId>
-                <artifactId>sca4j-webapp-plugin</artifactId>
-                <version>${sca4j.version}</version>
-                <executions>
-                    <execution>
-                        <id>sca4j-war</id>
-                        <goals>
-                            <goal>sca4j-war</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <!-- use the latest version of the runtime -->
-                    <runTimeVersion>${sca4j.version}</runTimeVersion>
-                    <!-- include the Groovy extension to verify extensions are handled correctly -->
-                    <extensions>
-                        <dependency>
-                            <groupId>org.sca4j</groupId>
-                            <artifactId>sca4j-groovy</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>
-                    </extensions>
-                </configuration>
-            </plugin>
-
             <plugin>
                 <groupId>org.codehaus.cargo</groupId>
                 <artifactId>cargo-maven2-plugin</artifactId>

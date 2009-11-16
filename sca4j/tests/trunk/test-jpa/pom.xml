@@ -68,6 +68,36 @@
             </exclusions>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-maven-host</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-jpa</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-resource</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-tx</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-tx-jotm</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>test-ds-extension</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
 
     </dependencies>
 
@@ -80,25 +110,7 @@
                 <groupId>org.sca4j</groupId>
                 <artifactId>sca4j-itest-plugin</artifactId>
                 <configuration>
-                    <runtimeVersion>${runtime.version}</runtimeVersion>
                     <systemConfigDir>classes/META-INF</systemConfigDir>
-                    <features>
-                        <!-- JPA Hibernate Extensions -->
-                        <dependency>
-                            <groupId>org.sca4j</groupId>
-                            <artifactId>sca4j-hibernate-jotm-feature</artifactId>
-                            <version>${sca4j.version}</version>
-                            <type>xml</type>
-                        </dependency>
-                    </features>
-                    <extensions>
-                        <!-- Test Extension to Install the Datasource -->
-                        <dependency>
-                            <groupId>org.sca4j</groupId>
-                            <artifactId>test-ds-extension</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>
-                    </extensions>
                 </configuration>
                 <executions>
                     <execution>

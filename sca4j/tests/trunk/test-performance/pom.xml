@@ -47,6 +47,11 @@
             <artifactId>junit</artifactId>
             <version>3.8.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-maven-host</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -55,9 +60,6 @@
             <plugin>
                 <groupId>org.sca4j</groupId>
                 <artifactId>sca4j-itest-plugin</artifactId>
-                <configuration>
-                    <runtimeVersion>${runtime.version}</runtimeVersion>
-                </configuration>
                 <executions>
                     <execution>
                         <goals>

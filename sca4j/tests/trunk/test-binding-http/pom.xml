@@ -58,6 +58,26 @@
             <groupId>org.easymock</groupId>
             <artifactId>easymock</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-maven-host</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-binding-http</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>test-ssl-policy</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-jetty</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <defaultGoal>verify</defaultGoal>
@@ -67,24 +87,6 @@
                 <groupId>org.sca4j</groupId>
                 <artifactId>sca4j-itest-plugin</artifactId>
                 <configuration>
-                    <runtimeVersion>${runtime.version}</runtimeVersion>
-                    <extensions>
-                        <dependency>
-                            <groupId>org.sca4j</groupId>
-                            <artifactId>sca4j-binding-http</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.sca4j</groupId>
-                            <artifactId>test-ssl-policy</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.sca4j</groupId>
-                            <artifactId>sca4j-jetty</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>
-                    </extensions>
                     <!-- Set the Jetty Listen Port for Integration Tests -->
                     <systemConfig>
                         <![CDATA[

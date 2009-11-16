@@ -41,6 +41,16 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-maven-host</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-groovy</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -50,16 +60,6 @@
             <plugin>
                 <groupId>org.sca4j</groupId>
                 <artifactId>sca4j-itest-plugin</artifactId>
-                <configuration>
-                    <runtimeVersion>${runtime.version}</runtimeVersion>
-                    <extensions>
-                        <dependency>
-                            <groupId>org.sca4j</groupId>
-                            <artifactId>sca4j-groovy</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>
-                    </extensions>
-                </configuration>
                 <executions>
                     <execution>
                         <goals>

@@ -51,6 +51,12 @@
             <artifactId>sca4j-jetty</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-maven-host</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
