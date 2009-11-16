@@ -55,11 +55,11 @@
 -->
 <contribution xmlns="http://www.osoa.org/xmlns/sca/1.0"
               xmlns:sca4j="urn:sca4j.org">
-    <sca4j:import groupId="org.sca4j" artifactId="sca4j-spi" version="0.1.12-SNAPSHOT"/>
-    <sca4j:import groupId="org.sca4j" artifactId="sca4j-binding-ws" version="0.1.12-SNAPSHOT"/>
-    <sca4j:import groupId="org.sca4j" artifactId="sca4j-binding-ws-axis2" version="0.1.12-SNAPSHOT"/>
-    <sca4j:import groupId="org.sca4j" artifactId="test-security-policy" version="0.1.12-SNAPSHOT"/>
-    <sca4j:import groupId="org.sca4j" artifactId="test-axis2-audit-policy" version="0.1.12-SNAPSHOT"/>
+    <sca4j:import groupId="org.sca4j" artifactId="sca4j-spi" version="0.2.0-SNAPSHOT"/>
+    <sca4j:import groupId="org.sca4j" artifactId="sca4j-binding-ws" version="0.2.0-SNAPSHOT"/>
+    <sca4j:import groupId="org.sca4j" artifactId="sca4j-binding-ws-axis2" version="0.2.0-SNAPSHOT"/>
+    <sca4j:import groupId="org.sca4j" artifactId="test-security-policy" version="0.2.0-SNAPSHOT"/>
+    <sca4j:import groupId="org.sca4j" artifactId="test-axis2-audit-policy" version="0.2.0-SNAPSHOT"/>
     <deployable composite="Axis2TestComposite"/>
 </contribution>
 
