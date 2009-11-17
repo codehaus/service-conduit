@@ -74,6 +74,7 @@ import org.apache.axis2.description.AxisOperation;
 import org.apache.axis2.description.AxisService;
 import org.apache.axis2.description.OutInAxisOperation;
 import org.apache.axis2.description.WSDL2Constants;
+import org.apache.axis2.transport.http.HTTPConstants;
 import org.osoa.sca.ServiceUnavailableException;
 import org.sca4j.binding.ws.axis2.common.Constant;
 import org.sca4j.binding.ws.axis2.provision.AxisPolicy;
@@ -89,14 +90,14 @@ import org.sca4j.spi.wire.Interceptor;
 public class Axis2TargetInterceptor implements Interceptor {
 
     private Interceptor next;
-    private List<String> endpointUris;
+    private final List<String> endpointUris;
     private final String operation;
     private final Set<AxisPolicy> policies;
-    private Map<String, String> operationInfo;
-    private Map<String, String> config;
+    private final Map<String, String> operationInfo;
+    private final Map<String, String> config;
     private final SCA4JConfigurator f3Configurator;
     private final PolicyApplier policyApplier;
-    private AxisService axisService;
+    private final AxisService axisService;
 
     /**
      * Initializes the end point reference.
@@ -107,14 +108,14 @@ public class Axis2TargetInterceptor implements Interceptor {
      * @param f3Configurator a configuration helper for classloading
      * @param policyApplier the helper for applying configured policies
      */
-    public Axis2TargetInterceptor(List<String> endpointUris, 
-                                  String operation, 
-                                  Set<AxisPolicy> policies,
-                                  Map<String, String> operationInfo, 
-                                  Map<String, String> config,
-                                  SCA4JConfigurator f3Configurator, 
-                                  PolicyApplier policyApplier, 
-                                  AxisService axisService) {
+    public Axis2TargetInterceptor(List<String> endpointUris,
+            String operation,
+            Set<AxisPolicy> policies,
+            Map<String, String> operationInfo,
+            Map<String, String> config,
+            SCA4JConfigurator f3Configurator,
+            PolicyApplier policyApplier,
+            AxisService axisService) {
 
         this.operation = operation;
         this.endpointUris = endpointUris;
@@ -124,7 +125,7 @@ public class Axis2TargetInterceptor implements Interceptor {
         this.operationInfo = operationInfo;
         this.config = config;
         this.axisService = axisService;
-        
+
     }
 
     public Interceptor getNext() {
@@ -139,15 +140,7 @@ public class Axis2TargetInterceptor implements Interceptor {
         String endpointUri = getEndpointUri(random, failedUris);
 
         Object[] payload = (Object[]) msg.getBody();
-        OMElement message = payload == null ? null : (OMElement) payload[0];
-
-        Options options = new Options();
-        options.setTo(new EndpointReference(endpointUri));
-        options.setTransportInProtocol(Constants.TRANSPORT_HTTP);
-        options.setProperty(Constants.Configuration.ENABLE_MTOM, Constants.VALUE_TRUE);
-
-        applyOperationInfo(options);
-        applyConfig(options);
+        Axis2MessageContent messageContent = new Axis2MessageContent(payload);
 
         Thread currentThread = Thread.currentThread();
         ClassLoader oldCl = currentThread.getContextClassLoader();
@@ -157,9 +150,13 @@ public class Axis2TargetInterceptor implements Interceptor {
             currentThread.setContextClassLoader(getClass().getClassLoader());
 
             ServiceClient sender = new ServiceClient(f3Configurator.getConfigurationContext(), null);
-            sender.setOptions(options);
+            sender.setOptions(buildOptions(endpointUri));
             sender.getOptions().setTimeOutInMilliSeconds(0l);
             applyPolicies(sender, operation);
+            
+            for (OMElement header : messageContent.getHeaders()) {
+                sender.addHeader(header);
+            }            
 
             AxisOperation axisOperation = getAxisOperation(axisService, operation);
             Message ret = new MessageImpl();
@@ -167,9 +164,9 @@ public class Axis2TargetInterceptor implements Interceptor {
             if (WSDL2Constants.MEP_URI_OUT_ONLY.equals(axisOperation.getMessageExchangePattern())
                     || WSDL2Constants.MEP_URI_ROBUST_OUT_ONLY.equals(axisOperation.getMessageExchangePattern())) {
                 try {
-                    sender.sendRobust(message);
+                    sender.sendRobust(messageContent.getBody());
                 } catch (AxisFault e) {
-                    
+
                     if (e.getCause() instanceof ConnectException) {
                         throw e; //retry
                     }
@@ -177,7 +174,7 @@ public class Axis2TargetInterceptor implements Interceptor {
                 }
 
             } else {// Default MEP is IN-OUT
-                Object result = sender.sendReceive(message);
+                Object result = sender.sendReceive(messageContent.getBody());
                 if (result instanceof Throwable) {
                     ret.setBodyWithFault(result);
                 } else {
@@ -194,6 +191,18 @@ public class Axis2TargetInterceptor implements Interceptor {
         }
 
     }
+    
+    private Options buildOptions(String endpointUri) {
+        Options options = new Options();
+        options.setTo(new EndpointReference(endpointUri));
+        options.setTransportInProtocol(Constants.TRANSPORT_HTTP);
+        options.setProperty(Constants.Configuration.ENABLE_MTOM, Constants.VALUE_TRUE);
+        options.setProperty(HTTPConstants.CHUNKED, Constants.VALUE_FALSE);
+        
+        applyOperationInfo(options);
+        applyConfig(options);
+        return options;
+    }    
 
     private Message handleFault(Message msg, String endpointUri, AxisFault e, Random random, List<String> failedUris) {
 
@@ -281,7 +290,7 @@ public class Axis2TargetInterceptor implements Interceptor {
             if (message != null) {
                 axisDescription = axisOperation.getMessage(message);
             }
-            
+
             if(policy.getOpaquePolicy() != null) {
                 policyApplier.applyPolicy(axisDescription, policy.getOpaquePolicy());
             }

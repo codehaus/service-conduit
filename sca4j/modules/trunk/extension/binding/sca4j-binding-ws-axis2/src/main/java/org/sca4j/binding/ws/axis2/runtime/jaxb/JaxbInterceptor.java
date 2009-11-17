@@ -55,6 +55,7 @@ package org.sca4j.binding.ws.axis2.runtime.jaxb;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
@@ -81,18 +82,21 @@ public class JaxbInterceptor implements Interceptor {
     private final Map<Class<?>, Constructor<?>> faultMapping;
     private final Method interceptedMethod;
     private boolean jaxbBinding;
+    private final JAXBContext jaxbContext;
     
     public JaxbInterceptor(JAXBContext jaxbContext, 
                            boolean service, 
                            Map<Class<?>, Constructor<?>> faultMapping,
                            Method interceptedMethod,
                            boolean jaxbBinding) throws JAXBException {
-        inTransformer = new OMElement2Jaxb(jaxbContext);
-        outTransformer = new Jaxb2OMElement(jaxbContext);
+        this.jaxbContext = jaxbContext;
         this.service = service;
         this.faultMapping = faultMapping;
         this.interceptedMethod = interceptedMethod;
         this.jaxbBinding = jaxbBinding;
+        
+        inTransformer = new OMElement2Jaxb(jaxbContext);
+        outTransformer = new Jaxb2OMElement(jaxbContext);
     }
 
     public Interceptor getNext() {
@@ -162,9 +166,9 @@ public class JaxbInterceptor implements Interceptor {
         Object[] payload = (Object[]) message.getBody();
 
         if (payload != null && payload.length > 0) {
-            Object jaxbObject = payload[0];
-            OMElement omElement = outTransformer.transform(jaxbObject, null);
-            message.setBody(new Object[]{omElement});
+            JaxbMessageContentBuilder contentBuilder = new JaxbMessageContentBuilder(interceptedMethod, jaxbContext, payload);
+            List<MessageData> messageContent = contentBuilder.build();
+            message.setBody(messageContent.toArray());
         }
 
         Message response = next.invoke(message);
