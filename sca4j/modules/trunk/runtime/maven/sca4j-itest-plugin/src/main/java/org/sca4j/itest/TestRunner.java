@@ -73,6 +73,7 @@ import javax.xml.namespace.QName;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.surefire.report.BriefConsoleReporter;
 import org.apache.maven.surefire.report.BriefFileReporter;
+import org.apache.maven.surefire.report.DetailedConsoleReporter;
 import org.apache.maven.surefire.report.Reporter;
 import org.apache.maven.surefire.report.ReporterException;
 import org.apache.maven.surefire.report.ReporterManager;
@@ -307,7 +308,7 @@ public class TestRunner {
         List<Reporter> reports = new ArrayList<Reporter>();
         reports.add(new XMLReporter(testMetadata.getReportsDirectory(), testMetadata.isTrimStackTrace()));
         reports.add(new BriefFileReporter(testMetadata.getReportsDirectory(), testMetadata.isTrimStackTrace()));
-        reports.add(new BriefConsoleReporter(testMetadata.isTrimStackTrace()));
+        reports.add(new DetailedConsoleReporter(testMetadata.isTrimStackTrace()));
         ReporterManager reporterManager = new ReporterManager(reports);
         reporterManager.initResultsFromProperties(status);
 
