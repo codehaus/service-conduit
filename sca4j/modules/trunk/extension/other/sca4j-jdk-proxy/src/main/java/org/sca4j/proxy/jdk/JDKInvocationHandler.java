@@ -58,10 +58,13 @@ import java.lang.reflect.Proxy;
 import java.util.Map;
 import java.util.UUID;
 
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
+
 import org.osoa.sca.Conversation;
 import org.osoa.sca.ServiceReference;
 import org.osoa.sca.ServiceUnavailableException;
-
 import org.sca4j.pojo.ConversationImpl;
 import org.sca4j.pojo.PojoWorkContextTunnel;
 import org.sca4j.spi.component.ConversationExpirationCallback;
@@ -82,7 +85,7 @@ import org.sca4j.spi.wire.InvocationChain;
  *
  * @version $Rev: 3021 $ $Date: 2008-03-03 19:28:04 -0800 (Mon, 03 Mar 2008) $
  */
-public final class JDKInvocationHandler<B> implements ConversationExpirationCallback, InvocationHandler, ServiceReference<B> {
+public final class JDKInvocationHandler<B> implements ConversationExpirationCallback, InvocationHandler, ServiceReference<B>, MethodInterceptor {
     private final Class<B> businessInterface;
     private final B proxy;
     private final InteractionType type;
@@ -116,6 +119,7 @@ public final class JDKInvocationHandler<B> implements ConversationExpirationCall
      * @param scopeContainer the conversational scope container
      * @throws NoMethodForOperationException if an error occurs creating the proxy
      */
+    @SuppressWarnings("unchecked")
     public JDKInvocationHandler(Class<B> interfaze,
                                 InteractionType type,
                                 String callbackUri,
@@ -125,7 +129,14 @@ public final class JDKInvocationHandler<B> implements ConversationExpirationCall
         assert mapping != null;
         this.businessInterface = interfaze;
         ClassLoader loader = interfaze.getClassLoader();
-        this.proxy = interfaze.cast(Proxy.newProxyInstance(loader, new Class[]{interfaze}, this));
+       if (interfaze.isInterface()) {
+            this.proxy = interfaze.cast(Proxy.newProxyInstance(loader, new Class[]{interfaze}, this));
+        } else {
+            Enhancer enhancer = new Enhancer();
+            enhancer.setSuperclass(interfaze);
+            enhancer.setCallback(this);
+            this.proxy =  (B) enhancer.create();
+        }
         this.chains = mapping;
         this.scopeContainer = scopeContainer;
         this.type = type;
@@ -291,5 +302,9 @@ public final class JDKInvocationHandler<B> implements ConversationExpirationCall
         }
         String op = method.getName();
         throw new InstanceInvocationException("Operation not configured: " + op, op);
+    }
+
+    public Object intercept(Object object, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
+        return invoke(object, method, args);
     }
 }

@@ -68,82 +68,68 @@
  * specific language governing permissions and limitations
  * under the License.    
  */
-package org.sca4j.binding.tcp.runtime.handler;
+package org.sca4j.binding.tcp.runtime.wire;
 
-import org.apache.mina.core.service.IoHandler;
-import org.apache.mina.core.session.IdleStatus;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetEncoder;
+
+import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
-import org.sca4j.binding.tcp.runtime.monitor.TCPBindingMonitor;
-import org.sca4j.spi.invocation.Message;
-import org.sca4j.spi.invocation.MessageImpl;
-import org.sca4j.spi.invocation.WorkContext;
-import org.sca4j.spi.wire.Interceptor;
-import org.sca4j.spi.wire.Wire;
+import org.apache.mina.filter.codec.ProtocolCodecFactory;
+import org.apache.mina.filter.codec.ProtocolDecoder;
+import org.apache.mina.filter.codec.ProtocolEncoder;
+import org.apache.mina.filter.codec.ProtocolEncoderAdapter;
+import org.apache.mina.filter.codec.ProtocolEncoderOutput;
+import org.apache.mina.filter.codec.textline.TextLineDecoder;
 
 /**
- * Handler to TCP messages delivered.
+ * Protocol encoder and decoder factory for inbound and outbound messages.
  * 
  * @version $Revision$ $Date$
  */
-public class TCPHandler implements IoHandler {
-    private Wire wire;
-    private TCPBindingMonitor monitor;
+public class CodecFactory implements ProtocolCodecFactory {
+    
+    private static Charset CHARSET = Charset.forName("UTF-8");
+    private static CharsetEncoder CHARSET_ENCODER = CHARSET.newEncoder();
+    
+    private ProtocolDecoder decoder = new TextLineDecoder(CHARSET);
+    private ProtocolEncoder encoder = new ResponseEncoder();
 
     /**
-     * Inject wire on TCP Handler
+     * Gets the protocol decoder.
      * 
-     * @param wire {@link Wire}
-     * @param monitor
+     * @param session Session for which the decoder is created.
+     * @return Protocol decoder.
      */
-    public TCPHandler(Wire wire, TCPBindingMonitor monitor) {
-        this.wire = wire;
-        this.monitor = monitor;
+    public ProtocolDecoder getDecoder(IoSession session) throws Exception {
+        return decoder;
     }
 
     /**
-     * {@inheritDoc}
+     * Gets the protocol encoder.
+     * 
+     * @param session Session for which the encoder is created.
+     * @return Protocol encoder.
      */
-    public void messageReceived(IoSession session, Object message) throws Exception {
-        Interceptor interceptor = wire.getInvocationChains().values().iterator().next().getHeadInterceptor();
-        WorkContext workContext = new WorkContext();
-        Message input = new MessageImpl(new Object[] { message }, false, workContext);
-        Message msg = interceptor.invoke(input);
+    public ProtocolEncoder getEncoder(IoSession session) throws Exception {
+        return encoder;
+    }
+    
+    /*
+     * Response encoder.
+     */
+    private class ResponseEncoder extends ProtocolEncoderAdapter {
 
-        // TODO: Work out if service is of request/response type, and then write
-        // the response back.
-        if (!msg.isFault() && msg.getBody() != null) {
-            session.write(msg.getBody());
-            session.close(true);
+        public void encode(IoSession session, Object message, ProtocolEncoderOutput protocolEncoderOutput) throws Exception {
+            
+            String stringMessage = message.toString();
+            IoBuffer buffer = IoBuffer.allocate(stringMessage.length()).setAutoExpand(true);
+            buffer.putString(stringMessage, CHARSET_ENCODER);
+
+            buffer.flip();
+            protocolEncoderOutput.write(buffer);
+            
         }
-    }
-
-    public void exceptionCaught(org.apache.mina.core.session.IoSession arg0, Throwable arg1) throws Exception {
-        // TODO Auto-generated method stub
-        
-    }
-
-    public void messageSent(org.apache.mina.core.session.IoSession arg0, Object arg1) throws Exception {
-        // TODO Auto-generated method stub
-        
-    }
-
-    public void sessionClosed(org.apache.mina.core.session.IoSession arg0) throws Exception {
-        // TODO Auto-generated method stub
-        
-    }
-
-    public void sessionCreated(org.apache.mina.core.session.IoSession arg0) throws Exception {
-        // TODO Auto-generated method stub
-        
-    }
-
-    public void sessionIdle(org.apache.mina.core.session.IoSession arg0, IdleStatus arg1) throws Exception {
-        // TODO Auto-generated method stub
-        
-    }
-
-    public void sessionOpened(org.apache.mina.core.session.IoSession arg0) throws Exception {
-        // TODO Auto-generated method stub
         
     }
 

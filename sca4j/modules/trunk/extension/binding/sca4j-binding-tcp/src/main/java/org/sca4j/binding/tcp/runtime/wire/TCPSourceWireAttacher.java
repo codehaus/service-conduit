@@ -74,14 +74,14 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
-import java.nio.charset.Charset;
 import java.util.concurrent.ExecutorService;
 
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
-import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
 import org.apache.mina.filter.executor.ExecutorFilter;
 import org.apache.mina.transport.socket.SocketAcceptor;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
+import org.osoa.sca.annotations.Destroy;
+import org.osoa.sca.annotations.Reference;
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.binding.tcp.provision.TCPWireSourceDefinition;
 import org.sca4j.binding.tcp.runtime.concurrent.SCA4JExecutorService;
@@ -93,8 +93,6 @@ import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.SourceWireAttacher;
 import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
 import org.sca4j.spi.wire.Wire;
-import org.osoa.sca.annotations.Destroy;
-import org.osoa.sca.annotations.Reference;
 
 /**
  * @version $Revision$ $Date$
@@ -135,7 +133,7 @@ public class TCPSourceWireAttacher implements SourceWireAttacher<TCPWireSourceDe
             socketAddress = new InetSocketAddress(hostname, port);
             acceptor = new NioSocketAcceptor();
             acceptor.getFilterChain().addLast("threadPool", new ExecutorFilter(filterExecutor));
-            acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new TextLineCodecFactory(Charset.forName("UTF-8"))));
+            acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new CodecFactory()));
 
             acceptor.setHandler(new TCPHandler(wire, monitor));
             acceptor.bind(socketAddress);
