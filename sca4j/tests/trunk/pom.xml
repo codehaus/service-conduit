@@ -51,7 +51,7 @@
         <module>test-runtime-jetty</module>
         <module>test-axis2-audit-module</module>
         <module>test-axis2-audit-policy</module>
-        <!--module>test-binding-axis2</module-->
+        <module>test-binding-axis2</module>
         <module>test-binding-axis2-jaxb</module>
         <module>test-binding-burlap</module>
         <module>test-binding-hessian</module>

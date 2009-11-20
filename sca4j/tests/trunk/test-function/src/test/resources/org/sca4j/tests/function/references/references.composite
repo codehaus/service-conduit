@@ -57,6 +57,15 @@
            xmlns:sca4j="urn:sca4j.org"
            name="ReferencesComposite">
 
+    <component name="ClassInjectionTest">
+        <sca4j:junit class="org.sca4j.tests.function.references.ClassInjectionTest"/>
+        <reference name="injectedClass" target="InjectedClass"/>
+    </component>
+
+    <component name="InjectedClass">
+        <implementation.java class="org.sca4j.tests.function.references.InjectedClass"/>
+    </component>
+
     <component name="MultiplicityTest">
         <sca4j:junit class="org.sca4j.tests.function.references.MultiplicityTest"/>
         <reference name="listCdi1" target="map.one map.two map.three"/>
