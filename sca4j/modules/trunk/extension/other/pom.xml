@@ -36,7 +36,7 @@
 		<module>sca4j-ftp-api</module>
 		<module>sca4j-ftp-server</module>
 		<module>sca4j-ftp-spi</module>
-		<module>sca4j-jdk-proxy</module>
+		<module>sca4j-proxy</module>
 		<module>sca4j-jetty</module>
 		<module>sca4j-jpa</module>
 		<module>sca4j-marshal-xstream</module>

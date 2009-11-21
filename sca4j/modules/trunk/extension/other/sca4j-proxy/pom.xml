@@ -22,9 +22,9 @@
         <version>0.2.1-SNAPSHOT</version>
     </parent>
     <groupId>org.sca4j</groupId>
-    <artifactId>sca4j-jdk-proxy</artifactId>
-    <name>SCA4J JDK Proxy Service</name>
-    <description>SCA4J JDK Proxy Service.</description>
+    <artifactId>sca4j-proxy</artifactId>
+    <name>SCA4J Proxy Service</name>
+    <description>SCA4J Proxy Service.</description>
     <packaging>sca-contribution-jar</packaging>
 
     <dependencies>

@@ -39,7 +39,7 @@
         </dependency>
         <dependency>
             <groupId>org.sca4j</groupId>
-            <artifactId>sca4j-jdk-proxy</artifactId>
+            <artifactId>sca4j-proxy</artifactId>
             <version>0.2.1-SNAPSHOT</version>
             <scope>runtime</scope>
         </dependency>
