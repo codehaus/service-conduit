@@ -20,7 +20,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>sca4j-extension-implementation-parent-pom</artifactId>
-        <version>0.2.1-SNAPSHOT</version>
+        <version>0.2.1</version>
     </parent>
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-mock</artifactId>
@@ -33,14 +33,14 @@
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-pojo</artifactId>
-            <version>0.2.1-SNAPSHOT</version>
+            <version>0.2.1</version>
             <scope>provided</scope>
         </dependency>
         
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-introspection-spi</artifactId>
-            <version>0.2.1-SNAPSHOT</version>
+            <version>0.2.1</version>
             <scope>provided</scope>
         </dependency>
 
@@ -60,7 +60,7 @@
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-introspection</artifactId>
-            <version>0.2.1-SNAPSHOT</version>
+            <version>0.2.1</version>
             <scope>test</scope>
         </dependency>
 
