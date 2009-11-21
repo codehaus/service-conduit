@@ -19,11 +19,11 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>sca4j-plugins-parent-pom</artifactId>
-        <version>0.2.2-SNAPSHOT</version>
+        <version>0.2.2</version>
     </parent>
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-contribution-plugin</artifactId>
-    <version>0.2.2-SNAPSHOT</version>
+    <version>0.2.2</version>
     <packaging>maven-plugin</packaging>
     <name>SCA4J Contribution Plugin</name>
     <description>SCA4J Contribution Plugin.</description>
