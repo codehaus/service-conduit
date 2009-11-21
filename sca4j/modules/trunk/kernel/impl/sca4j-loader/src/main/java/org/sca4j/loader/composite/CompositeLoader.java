@@ -70,23 +70,25 @@
  */
 package org.sca4j.loader.composite;
 
-import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
-import javax.xml.namespace.NamespaceContext;
-import javax.xml.namespace.QName;
 import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
 import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
+import static org.osoa.sca.Constants.SCA_NS;
+
+import java.net.URI;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.xml.namespace.NamespaceContext;
+import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import static org.osoa.sca.Constants.SCA_NS;
 import org.osoa.sca.annotations.Constructor;
 import org.osoa.sca.annotations.Destroy;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
-
+import org.sca4j.host.Namespaces;
 import org.sca4j.introspection.DefaultIntrospectionContext;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.Loader;
@@ -123,16 +125,17 @@ public class CompositeLoader implements TypeLoader<Composite> {
     public static final QName COMPONENT = new QName(SCA_NS, "component");
     public static final QName WIRE = new QName(SCA_NS, "wire");
 
-    private static final Map<String, String> ATTRIBUTES = new HashMap<String, String>();
+    private static final Set<String> ATTRIBUTES = new HashSet<String>();
 
     static {
-        ATTRIBUTES.put("name", "name");
-        ATTRIBUTES.put("autowire", "autowire");
-        ATTRIBUTES.put("targetNamespace", "targetNamespace");
-        ATTRIBUTES.put("local", "local");
-        ATTRIBUTES.put("requires", "requires");
-        ATTRIBUTES.put("policySets", "policySets");
-        ATTRIBUTES.put("constrainingType", "constrainingType");
+        ATTRIBUTES.add("name");
+        ATTRIBUTES.add("autowire");
+        ATTRIBUTES.add("targetNamespace");
+        ATTRIBUTES.add("local");
+        ATTRIBUTES.add("requires");
+        ATTRIBUTES.add("policySets");
+        ATTRIBUTES.add("constrainingType");
+        ATTRIBUTES.add("promoteUnresolvedReferences");
     }
 
     private final LoaderRegistry registry;
@@ -220,6 +223,7 @@ public class CompositeLoader implements TypeLoader<Composite> {
     }
 
     public Composite load(XMLStreamReader reader, IntrospectionContext introspectionContext) throws XMLStreamException {
+        
         validateAttributes(reader, introspectionContext);
         String name = reader.getAttributeValue(null, "name");
         String targetNamespace = reader.getAttributeValue(null, "targetNamespace");
@@ -229,12 +233,15 @@ public class CompositeLoader implements TypeLoader<Composite> {
         NamespaceContext namespace = reader.getNamespaceContext();
         String constrainingTypeAttrbute = reader.getAttributeValue(null, "constrainingType");
         QName constrainingType = LoaderUtil.getQName(constrainingTypeAttrbute, targetNamespace, namespace);
-
+        boolean promoteUnresolvedReferences = Boolean.valueOf(reader.getAttributeValue(Namespaces.SCA4J_NS, "promoteUnresolvedReferences"));
+        
         Composite type = new Composite(compositeName);
         type.setLocal(local);
         type.setAutowire(Autowire.fromString(reader.getAttributeValue(null, "autowire")));
         type.setConstrainingType(constrainingType);
+        type.setPromoteUnresolvedReferences(promoteUnresolvedReferences);
         loaderHelper.loadPolicySetsAndIntents(type, reader, childContext);
+        
         while (true) {
             switch (reader.next()) {
             case START_ELEMENT:
@@ -385,7 +392,7 @@ public class CompositeLoader implements TypeLoader<Composite> {
     private void validateAttributes(XMLStreamReader reader, IntrospectionContext context) {
         for (int i = 0; i < reader.getAttributeCount(); i++) {
             String name = reader.getAttributeLocalName(i);
-            if (!ATTRIBUTES.containsKey(name)) {
+            if (!ATTRIBUTES.contains(name)) {
                 context.addError(new UnrecognizedAttribute(name, reader));
             }
         }

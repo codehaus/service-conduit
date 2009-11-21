@@ -130,6 +130,9 @@ public class ResolutionServiceImpl implements ResolutionService {
                         break;
                     }
                 }
+                if (!logicalReference.isResolved() && parent.getDefinition().getImplementation().getComponentType().isPromoteUnresolvedReferences()) {
+                    parent.addReference(logicalReference);
+                }
             }
         }
     }
