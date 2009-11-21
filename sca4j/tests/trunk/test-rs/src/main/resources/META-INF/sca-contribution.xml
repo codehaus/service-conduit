@@ -55,7 +55,7 @@
 -->
 <contribution xmlns="http://www.osoa.org/xmlns/sca/1.0"
               xmlns:sca4j="urn:sca4j.org">
-    <sca4j:import groupId="org.sca4j" artifactId="sca4j-spi" version="0.2.1-SNAPSHOT"/>
+    <sca4j:import groupId="org.sca4j" artifactId="sca4j-spi" version="0.2.2-SNAPSHOT"/>
     <deployable composite="CardTestComposite"/>
 </contribution>
 
