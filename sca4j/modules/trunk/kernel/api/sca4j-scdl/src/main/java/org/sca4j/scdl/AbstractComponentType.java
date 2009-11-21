@@ -72,6 +72,7 @@ package org.sca4j.scdl;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * The definition of the configurable aspects of an implementation in terms of the services it exposes, the services it references, and properties
@@ -189,6 +190,15 @@ public abstract class AbstractComponentType<S extends ServiceDefinition,
      */
     public void setMaxAge(long maxAge) {
         this.maxAge = maxAge;
+    }
+    
+    /**
+     * Returns the names of all the services.
+     * 
+     * @return Names of all the services.
+     */
+    public Set<String> getServiceNames() {
+        return services.keySet();
     }
 
     /**

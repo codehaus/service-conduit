@@ -109,6 +109,7 @@ public class ComponentDefinition<I extends Implementation<?>> extends AbstractPo
     private final Map<String, PropertyValue> propertyValues = new HashMap<String, PropertyValue>();
     private Document key;
     private URI contributionUri;
+    private boolean promoted;
 
     /**
      * Constructor specifying the component's name.
@@ -128,6 +129,24 @@ public class ComponentDefinition<I extends Implementation<?>> extends AbstractPo
     public ComponentDefinition(String name, I implementation) {
         this.name = name;
         this.implementation = implementation;
+    }
+
+    /**
+     * Indicates whether the services are implicitly promoted.
+     * 
+     * @return True if the services are implicitly promoted.
+     */
+    public boolean isPromoted() {
+        return promoted;
+    }
+
+    /**
+     * Indicates whether the services are implicitly promoted.
+     * 
+     * @param promoted True if the services are implicitly promoted.
+     */
+    public void setPromoted(boolean promoted) {
+        this.promoted = promoted;
     }
 
     /**

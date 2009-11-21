@@ -70,6 +70,8 @@
  */
 package org.sca4j.scdl;
 
+import java.util.Set;
+
 import javax.xml.namespace.QName;
 
 import org.sca4j.scdl.validation.MissingComponentType;
@@ -84,6 +86,15 @@ public abstract class Implementation<T extends AbstractComponentType<?, ?, ?, ?>
     private T componentType;
 
     protected Implementation() {
+    }
+    
+    /**
+     * Returns the names of all the services.
+     * 
+     * @return Names of all the services.
+     */
+    public Set<String> getServiceNames() {
+        return componentType.getServiceNames();
     }
 
     protected Implementation(T componentType) {

@@ -91,6 +91,8 @@ public class Composite extends AbstractComponentType<CompositeService, Composite
     private URI contributionUri;
     private boolean local;
     private Autowire autowire;
+    private boolean promoteUnresolvedReferences;
+
     private final Map<String, ComponentDefinition<? extends Implementation<?>>> components =
             new HashMap<String, ComponentDefinition<? extends Implementation<?>>>();
     private final Map<QName, Include> includes = new HashMap<QName, Include>();
@@ -116,6 +118,24 @@ public class Composite extends AbstractComponentType<CompositeService, Composite
     public Composite(QName name) {
         this.name = name;
         setScope("COMPOSITE");
+    }
+    
+    /**
+     * Check whether to promote unresolved references.
+     * 
+     * @return True if to promote unresolved references.
+     */
+    public boolean isPromoteUnresolvedReferences() {
+        return promoteUnresolvedReferences;
+    }
+
+    /**
+     * Sets whether to promote unresolved references.
+     * 
+     * @param promoteUnresolvedReferences Promote unresolved references.
+     */
+    public void setPromoteUnresolvedReferences(boolean promoteUnresolvedReferences) {
+        this.promoteUnresolvedReferences = promoteUnresolvedReferences;
     }
 
     /**

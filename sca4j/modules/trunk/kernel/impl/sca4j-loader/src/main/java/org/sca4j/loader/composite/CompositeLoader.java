@@ -70,6 +70,7 @@
  */
 package org.sca4j.loader.composite;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.namespace.NamespaceContext;
@@ -314,6 +315,18 @@ public class CompositeLoader implements TypeLoader<Composite> {
                         componentDefinition.setAutowire(type.getAutowire());
                     }
                     type.add(componentDefinition);
+                    if (componentDefinition.isPromoted()) {
+                        // Implicitly promote
+                        for (String serviceName : componentDefinition.getImplementation().getServiceNames()) {
+                            URI promotedUri = URI.create(key + "#" + serviceName);
+                            if (type.getServices().containsKey(serviceName)) {
+                                DuplicateService failure = new DuplicateService(key, reader);
+                                childContext.addError(failure);
+                            } else {
+                                type.add(new CompositeService(serviceName, null, promotedUri));
+                            }
+                        }
+                    }
                 } else if (WIRE.equals(qname)) {
                     WireDefinition wire = wireLoader.load(reader, childContext);
                     if (wire == null) {
