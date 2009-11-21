@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    SCA4J
+    Copyright (c) 2009 - 2099 Service Symphony Ltd
+
+    Licensed to you under the Apache License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License.  A copy of the license
+    is included in this distrubtion or you may obtain a copy at
+
+       http://www.opensource.org/licenses/apache2.0.php
+
+    Unless required by applicable law or agreed to in writing, software distributed
+    under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+    CONDITIONS OF ANY KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations under the License.
+
+    This project contains code licensed from the Apache Software Foundation under
+    the Apache License, Version 2.0 and original code from project contributors.
+
+
+    Original Codehaus Header
+
+    Copyright (c) 2007 - 2008 fabric3 project contributors
+
+    Licensed to you under the Apache License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License.  A copy of the license
+    is included in this distrubtion or you may obtain a copy at
+
+       http://www.opensource.org/licenses/apache2.0.php
+
+    Unless required by applicable law or agreed to in writing, software distributed
+    under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+    CONDITIONS OF ANY KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations under the License.
+
+    This project contains code licensed from the Apache Software Foundation under
+    the Apache License, Version 2.0 and original code from project contributors.
+
+    Original Apache Header
+
+    Copyright (c) 2005 - 2006 The Apache Software Foundation
+
+    Apache Tuscany is an effort undergoing incubation at The Apache Software
+    Foundation (ASF), sponsored by the Apache Web Services PMC. Incubation is
+    required of all newly accepted projects until a further review indicates that
+    the infrastructure, communications, and decision making process have stabilized
+    in a manner consistent with other successful ASF projects. While incubation
+    status is not necessarily a reflection of the completeness or stability of the
+    code, it does indicate that the project has yet to be fully endorsed by the ASF.
+
+    This product includes software developed by
+    The Apache Software Foundation (http://www.apache.org/).
+
+-->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           xmlns:sca="http://www.osoa.org/xmlns/sca/1.0"
+           targetNamespace="urn:sca4j.org"
+           name="JMSBindingExtension">
+
+    <!-- JTA Transaction Handler -->
+    <component name="JTATransactionHandler" sca4j:key="GLOBAL">
+        <sca4j:implementation.system class="org.sca4j.binding.jms.runtime.tx.JtaTransactionHandler"/>
+    </component>
+
+    <!-- JMS Host -->
+    <component name="JMSHost">
+        <sca4j:implementation.system class="org.sca4j.binding.jms.runtime.host.standalone.StandalonePullJmsHost"/>
+    </component>
+
+    <!-- JMS Binding Loader -->
+    <component sca4j:key="sca:binding.jms" name="JMSBindingLoader">
+        <sca4j:implementation.system class="org.sca4j.binding.jms.introspection.JmsBindingLoader"/>
+    </component>
+
+    <!-- JMS Binding Generator -->
+    <component name="JmsBindingGenerator" sca4j:key="org.sca4j.binding.jms.scdl.JmsBindingDefinition">
+        <sca4j:implementation.system class="org.sca4j.binding.jms.control.JmsBindingGenerator"/>
+    </component>
+
+    <component name="MessageTypeIntrospector">
+        <sca4j:implementation.system class="org.sca4j.binding.jms.control.PayloadTypeIntrospectorImpl"/>
+    </component>
+
+    <!-- JMS Source Wire Attacher -->
+    <component sca4j:key="org.sca4j.binding.jms.provision.JmsWireSourceDefinition" name="JmsSourceWireAttacher">
+        <sca4j:implementation.system class="org.sca4j.binding.jms.runtime.JmsSourceWireAttacher"/>
+    </component>
+
+    <!-- JMS Target Wire Attacher -->
+    <component sca4j:key="org.sca4j.binding.jms.provision.JmsWireTargetDefinition" name="JmsTargetWireAttacher">
+        <sca4j:implementation.system class="org.sca4j.binding.jms.runtime.JmsTargetWireAttacher"/>
+    </component>
+
+    <!-- Always create destination strategy -->
+    <component name="AlwaysCreateDestination" sca4j:key="always">
+        <sca4j:implementation.system class="org.sca4j.binding.jms.runtime.lookup.destination.AlwaysDestinationStrategy"/>
+    </component>
+
+    <!-- Never create destination strategy -->
+    <component name="NeverCreateDestination" sca4j:key="never">
+        <sca4j:implementation.system class="org.sca4j.binding.jms.runtime.lookup.destination.NeverDestinationStrategy"/>
+    </component>
+
+    <!-- If not exists create destination stragey -->
+    <component name="IfNotExistCreateDestination" sca4j:key="ifnotexist">
+        <sca4j:implementation.system class="org.sca4j.binding.jms.runtime.lookup.destination.IfNotExistDestinationStrategy"/>
+    </component>
+
+    <!-- Always create connection factory strategy -->
+    <component name="AlwaysCreateConnectionFactory" sca4j:key="always">
+        <sca4j:implementation.system class="org.sca4j.binding.jms.runtime.lookup.connectionfactory.AlwaysConnectionFactoryStrategy"/>
+    </component>
+
+    <!-- Never create connection factory strategy -->
+    <component name="NeverCreateConnectionFactory" sca4j:key="never">
+        <sca4j:implementation.system class="org.sca4j.binding.jms.runtime.lookup.connectionfactory.NeverConnectionFactoryStrategy"/>
+    </component>
+
+    <!-- If not exists create connection factory stragey -->
+    <component name="IfNotExistCreateConnectionFactory" sca4j:key="ifnotexist">
+        <sca4j:implementation.system class="org.sca4j.binding.jms.runtime.lookup.connectionfactory.IfNotExistConnectionFactoryStrategy"/>
+    </component>
+
+    <!-- Feature -->
+    <sca4j:feature name="JmsBindingFeature">{http://sca4j.org/xmlns/binding}jms</sca4j:feature>
+
+</composite>
