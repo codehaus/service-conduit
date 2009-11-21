@@ -19,7 +19,7 @@
 package org.sca4j.tests.function.autopromote;
 
 
-public class Target implements Service {
+public class TargetServiceImpl implements TargetService {
     
     public String echo(String text) {
         return text;

@@ -24,7 +24,7 @@
            name="AutoPromoteTargetComposite">
 
     <component name="Target" sca4j:promoted="true">
-        <implementation.java class="org.sca4j.tests.function.autopromote.Target"/>
+        <implementation.java class="org.sca4j.tests.function.autopromote.TargetServiceImpl"/>
     </component>
 
 </composite>

@@ -18,16 +18,8 @@
  */
 package org.sca4j.tests.function.autopromote;
 
-import org.osoa.sca.annotations.Reference;
-
-import junit.framework.TestCase;
-
-public class AutoPromoteTest extends TestCase {
+public interface SourceService {
     
-    @Reference protected SourceService sourceService;
-    
-    public void testEcho() {
-        assertEquals("test", sourceService.echo("test"));
-    }
+    String echo(String text);
 
 }

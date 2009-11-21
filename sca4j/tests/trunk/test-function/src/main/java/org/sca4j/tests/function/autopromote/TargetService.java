@@ -18,14 +18,8 @@
  */
 package org.sca4j.tests.function.autopromote;
 
-import org.osoa.sca.annotations.Reference;
-
-public class Source implements Service {
+public interface TargetService {
     
-    @Reference protected Service target;
-    
-    public String echo(String text) {
-        return target.echo(text);
-    }
+    String echo(String text);
 
 }

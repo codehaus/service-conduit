@@ -23,10 +23,10 @@
            xmlns:sca4j="urn:sca4j.org"
            name="AutoPromoteSourceComposite">
            
-    <reference name="target" promote="Source/target" />
+    <reference name="targetService" promote="Source/targetService" />
 
     <component name="Source" sca4j:promoted="true">
-        <implementation.java class="org.sca4j.tests.function.autopromote.Source"/>
+        <implementation.java class="org.sca4j.tests.function.autopromote.SourceServiceImpl"/>
     </component>
 
 </composite>
