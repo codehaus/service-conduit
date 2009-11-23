@@ -18,16 +18,14 @@
  */
 package org.sca4j.tests.function.autopromote;
 
-import org.osoa.sca.annotations.Reference;
+import org.osoa.sca.annotations.Property;
 
-import junit.framework.TestCase;
+public class InnerTargetServiceImpl implements InnerTargetService {
+    
+    @Property protected String id;
 
-public class AutoPromoteTest extends TestCase {
-    
-    @Reference protected SourceService sourceService;
-    
-    public void testEcho() {
-        assertEquals("1test", sourceService.echo("test"));
+    public String innerEcho(String text) {
+        return id + text;
     }
 
 }

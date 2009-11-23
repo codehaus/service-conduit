@@ -59,6 +59,7 @@
 
     <component name="AutowireTrueTest" autowire="true">
         <sca4j:junit class="org.sca4j.tests.function.autowire.AutowireTest"/>
+        <reference name="target" target="AutowireTarget" />
     </component>
 
     <component name="AutowireFalseTest" autowire="false">

@@ -70,6 +70,7 @@
 
     <component name="client" autowire="true">
         <implementation.java class="org.sca4j.tests.function.common.ClientImpl"/>
+        <reference name="source" target="Autowire"/>
     </component>
 
     <component name="target">

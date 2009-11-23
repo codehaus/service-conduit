@@ -18,11 +18,15 @@
  */
 package org.sca4j.tests.function.autopromote;
 
+import org.osoa.sca.annotations.Reference;
+
 
 public class TargetServiceImpl implements TargetService {
     
+    @Reference protected InnerTargetService innerTargetService;
+    
     public String echo(String text) {
-        return text;
+        return innerTargetService.innerEcho(text);
     }
 
 }

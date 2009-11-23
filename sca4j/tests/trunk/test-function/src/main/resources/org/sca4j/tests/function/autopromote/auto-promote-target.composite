@@ -25,6 +25,17 @@
 
     <component name="Target" sca4j:promoted="true">
         <implementation.java class="org.sca4j.tests.function.autopromote.TargetServiceImpl"/>
+        <reference name="innerTargetService" target="InnerTarget1" />
+    </component>
+
+    <component name="InnerTarget1">
+        <implementation.java class="org.sca4j.tests.function.autopromote.InnerTargetServiceImpl"/>
+        <property name="id">1</property>
+    </component>
+
+    <component name="InnerTarget2">
+        <implementation.java class="org.sca4j.tests.function.autopromote.InnerTargetServiceImpl"/>
+        <property name="id">2</property>
     </component>
 
 </composite>

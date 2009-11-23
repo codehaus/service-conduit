@@ -60,7 +60,7 @@ import org.osoa.sca.annotations.Reference;
 public class ClientImpl implements Client {
     private Source source;
 
-    public ClientImpl(@Reference Source source) {
+    public ClientImpl(@Reference(name ="source") Source source) {
         this.source = source;
     }
 
