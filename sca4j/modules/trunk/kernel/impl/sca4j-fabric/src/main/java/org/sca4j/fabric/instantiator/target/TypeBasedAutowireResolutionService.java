@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.osoa.sca.annotations.Reference;
-
+import org.sca4j.fabric.instantiator.AmbiguousAutowireTargets;
 import org.sca4j.fabric.instantiator.LogicalChange;
 import org.sca4j.fabric.instantiator.ReferenceNotFound;
 import org.sca4j.scdl.AbstractComponentType;
@@ -178,14 +178,26 @@ public class TypeBasedAutowireResolutionService implements TargetResolutionServi
                 }
                 if (contract.isAssignableFrom(targetContract)) {
                     candidates.add(service.getUri());
-                    break;
+                    // TODO need a better way of handling runtime domain, also look at why we have multiple targets
+                    if (logicalReference.getUri().toString().startsWith("sca4j://runtime")) {
+                        break;
+                    }
                 }
             }
             if (!candidates.isEmpty() && !multiplicity) {
                 // since the reference is to a single target and a candidate has been found, avoid iterating the remaining components
-                break;
+                // TODO need a better way of handling runtime domain, also look at why we have multiple targets
+                if (logicalReference.getUri().toString().startsWith("sca4j://runtime")) {
+                    break;
+                }
             }
         }
+        
+        if (candidates.size() > 1 && !multiplicity) {
+            change.addError(new AmbiguousAutowireTargets(logicalReference, candidates));
+            return false;
+        }
+        
         if (candidates.isEmpty()) {
             return false;
         }
@@ -195,7 +207,7 @@ public class TypeBasedAutowireResolutionService implements TargetResolutionServi
             LogicalWire wire = new LogicalWire(composite, logicalReference, uri);
 
             // xcv potentially remove if LogicalWires added to LogicalReference
-            LogicalComponent parent = logicalReference.getParent();
+            LogicalComponent<?> parent = logicalReference.getParent();
             LogicalCompositeComponent grandParent = (LogicalCompositeComponent) parent.getParent();
             if (grandParent != null) {
                 grandParent.addWire(logicalReference, wire);
