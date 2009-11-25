@@ -326,12 +326,8 @@ public class CompositeLoader implements TypeLoader<Composite> {
                         // Implicitly promote
                         for (String serviceName : componentDefinition.getImplementation().getServiceNames()) {
                             URI promotedUri = URI.create(key + "#" + serviceName);
-                            if (type.getServices().containsKey(serviceName)) {
-                                DuplicateService failure = new DuplicateService(key, reader);
-                                childContext.addError(failure);
-                            } else {
-                                type.add(new CompositeService(serviceName, null, promotedUri));
-                            }
+                            String syntheticServiceName = componentDefinition.getName() + "." + serviceName;
+                            type.add(new CompositeService(syntheticServiceName, null, promotedUri));
                         }
                     }
                 } else if (WIRE.equals(qname)) {
