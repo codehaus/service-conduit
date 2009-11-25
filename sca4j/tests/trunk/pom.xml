@@ -39,7 +39,7 @@
     </properties>
     
     <modules>
-        <!--module>test-generic-webapp</module-->
+        <module>test-autowire</module>
         <module>test-generic-runtime</module>
         <module>test-performance</module>
         <module>test-rs</module>
