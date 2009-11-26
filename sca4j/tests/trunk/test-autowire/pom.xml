@@ -48,47 +48,26 @@
         </dependency>
         <dependency>
             <groupId>org.sca4j</groupId>
-            <artifactId>sca4j-maven-host</artifactId>
+            <artifactId>sca4j-generic-junit-api</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.sca4j</groupId>
-            <artifactId>sca4j-async</artifactId>
+            <artifactId>sca4j-jetty</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.sca4j</groupId>
-            <artifactId>sca4j-conversation-propagation</artifactId>
-            <version>${sca4j.version}</version>
+            <groupId>geronimo-spec</groupId>
+            <artifactId>geronimo-spec-jta</artifactId>
+            <version>1.0.1B-rc4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <!--build>
-        <defaultGoal>verify</defaultGoal>
-        <plugins>
-            <plugin>
-                <groupId>org.sca4j</groupId>
-                <artifactId>sca4j-itest-plugin</artifactId>
-                <configuration>
-                    <compositeName>FunctionTestHarnessComposite</compositeName>
-                    <systemConfig>
-                        <![CDATA[
-                        <config>
-                            <web.server>
-                                <http port="8900"/>
-                            </web.server>
-                        </config>
-                        ]]>
-                    </systemConfig>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </buildi-->
+    
 </project>

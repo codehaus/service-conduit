@@ -45,17 +45,7 @@
                 <groupId>org.sca4j</groupId>
                 <artifactId>sca4j-contribution-plugin</artifactId>
                 <extensions>true</extensions>
-                <configuration>
-                    <mavenImports>
-                        <mavenImport>
-                            <groupId>org.sca4j</groupId>
-                            <artifactId>sca4j-spi</artifactId>
-                        </mavenImport>
-                        <mavenImport>
-                            <groupId>org.sca4j</groupId>
-                            <artifactId>sca4j-binding-ws-axis2</artifactId>
-                        </mavenImport>
-                    </mavenImports>                     
+                <configuration>                   
                 </configuration>
             </plugin>
         </plugins>

@@ -55,6 +55,5 @@
 -->
 <contribution xmlns="http://www.osoa.org/xmlns/sca/1.0"
               xmlns:sca4j="urn:sca4j.org">
-    <sca4j:import groupId="org.sca4j" artifactId="sca4j-groovy" version="0.1.0-SNAPSHOT"/>
     <deployable composite="sca4j:WebappSmoketestComposite"/>
 </contribution>
