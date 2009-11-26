@@ -1,0 +1,14 @@
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           name="RulesComposite"
+           sca4j:promoteUnresolvedReferences="true">
+
+    <component name="IncrementRule" sca4j:promoted="true">
+        <implementation.java class="org.sca4j.tests.autowire.IncrementRule"/>
+    </component>
+
+    <component name="DecrementRule" sca4j:promoted="true">
+        <implementation.java class="org.sca4j.tests.autowire.DecrementRule"/>
+    </component>
+
+</composite>
