@@ -353,7 +353,7 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
     }
 
     private void synthesizeBootContribution() throws InitializationException {
-        try {
+        /*try {
             assert !bootExports.isEmpty();
             XmlManifestProcessor processor = getSystemComponent(XmlManifestProcessor.class, ComponentNames.XML_MANIFEST_PROCESSOR);
             Contribution contribution = new Contribution(ComponentNames.BOOT_CLASSLOADER_ID);
@@ -378,7 +378,7 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
             throw new InitializationException(e);
         } catch (ContributionException e) {
             throw new InitializationException(e);
-        }
+        }*/
     }
 
     private void includeExtensions(List<ContributionSource> sources) throws InitializationException, DefinitionActivationException {

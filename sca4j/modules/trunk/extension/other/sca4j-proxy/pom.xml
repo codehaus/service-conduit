@@ -63,12 +63,6 @@
                 <artifactId>sca4j-contribution-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
-                    <mavenImports>
-                        <mavenImport>
-                           <groupId>org.sca4j</groupId>
-                           <artifactId>sca4j-pojo</artifactId>
-                       </mavenImport>
-                    </mavenImports>
                     <deployables>
                         <deployable>META-INF/jdkproxy.composite</deployable>
                     </deployables>

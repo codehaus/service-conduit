@@ -77,16 +77,6 @@
                 <artifactId>sca4j-contribution-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
-                    <mavenImports>
-                        <mavenImport>
-                            <groupId>org.sca4j</groupId>
-                            <artifactId>sca4j-spi</artifactId>
-                        </mavenImport>
-                        <mavenImport>
-                            <groupId>org.sca4j</groupId>
-                            <artifactId>sca4j-timer-spi</artifactId>
-                        </mavenImport>
-                    </mavenImports>
                     <deployables>
                         <deployable>META-INF/quartz.composite</deployable>
                     </deployables>

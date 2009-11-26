@@ -87,12 +87,6 @@
                 <artifactId>sca4j-contribution-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
-                    <mavenImports>
-                        <mavenImport>
-                           <groupId>org.sca4j</groupId>
-                           <artifactId>sca4j-spi</artifactId>
-                       </mavenImport>
-                    </mavenImports>
                 </configuration>
             </plugin>
         </plugins>

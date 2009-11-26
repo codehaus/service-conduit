@@ -34,6 +34,7 @@
         <module>extension</module>
         <module>kernel</module>
         <module>runtime</module>
+        <module>../../tests/trunk/test-autowire</module>
     </modules>
 
     <repositories>
