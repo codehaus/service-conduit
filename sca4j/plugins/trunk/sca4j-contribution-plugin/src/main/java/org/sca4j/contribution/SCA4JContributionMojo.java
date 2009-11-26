@@ -53,12 +53,10 @@
 package org.sca4j.contribution;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
-import java.util.Set;
+
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
@@ -69,8 +67,6 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.maven.archiver.MavenArchiveConfiguration;
 import org.apache.maven.archiver.MavenArchiver;
-import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.resolver.filter.ScopeArtifactFilter;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -207,11 +203,6 @@ public class SCA4JContributionMojo extends AbstractMojo {
      * @parameter
      */
     protected String[] deployables;
-
-    /**
-     * @parameter
-     */
-    protected MavenImport[] mavenImports;
 
     /**
      * @parameter
@@ -371,7 +362,7 @@ public class SCA4JContributionMojo extends AbstractMojo {
         File srcContributionFile = new File(project.getBuild().getSourceDirectory(), "META-INF" + File.separator + "sca-contribution.xml");
         File contributionFile = new File(classesDirectory, "META-INF" + File.separator + "sca-contribution.xml");
 
-        if ((deployables != null || mavenImports != null) && srcContributionFile.exists()) {
+        if (deployables != null && srcContributionFile.exists()) {
             throw new MojoExecutionException("SCA contribution xml already exists");
         }
         Document document;
@@ -399,44 +390,6 @@ public class SCA4JContributionMojo extends AbstractMojo {
      */
     private void generateSCAManifestContents(Document document, Element contributionElement) throws MojoExecutionException {
         generateDeployables(document, contributionElement);
-        generateMavenImports(document, contributionElement);
-    }
-
-    /**
-     * Generates imports for an SCA manifest.
-     *
-     * @param document            the manifest Document
-     * @param contributionElement the contribution element
-     */
-    private void generateMavenImports(Document document, Element contributionElement) {
-
-        if (mavenImports == null) {
-            return;
-        }
-
-        @SuppressWarnings("unchecked")
-        Set<Artifact> artifacts = (Set<Artifact>) project.getArtifacts();
-
-        for (MavenImport mavenImport : mavenImports) {
-
-            String groupId = mavenImport.getGroupId();
-            String artifactId = mavenImport.getArtifactId();
-
-            Element mavenImportElement = document.createElement("sca4j:import");
-            mavenImportElement.setAttribute("groupId", groupId);
-            mavenImportElement.setAttribute("artifactId", artifactId);
-
-            for (Artifact artifact : artifacts) {
-                if (groupId.equals(artifact.getGroupId()) && artifactId.equals(artifact.getArtifactId())) {
-                    getLog().info("Found artifact:" + artifact.getArtifactId());
-                    mavenImportElement.setAttribute("version", artifact.getVersion());
-                }
-            }
-
-            contributionElement.appendChild(mavenImportElement);
-
-        }
-
     }
 
     /**
@@ -475,39 +428,6 @@ public class SCA4JContributionMojo extends AbstractMojo {
             deployableElement.setAttribute("composite", "dep:" + name);
             contributionElement.appendChild(deployableElement);
 
-        }
-
-    }
-
-    /**
-     * Copies all transitive dependencies to the output archive that are required for runtime operation, excluding other SCA contributions as they
-     * will be deployed separately.
-     *
-     * @throws IOException if an error occurs copying the dependencies
-     */
-    private void includeDependencies() throws IOException {
-        getLog().debug("Including dependencies in archive");
-        File libDir = new File(classesDirectory, "META-INF" + File.separator + "lib");
-        ScopeArtifactFilter filter = new ScopeArtifactFilter(Artifact.SCOPE_RUNTIME);
-
-        @SuppressWarnings("unchecked")
-        Set<Artifact> artifacts = (Set<Artifact>) project.getArtifacts();
-        for (Artifact artifact : artifacts) {
-            getLog().debug("checking " + artifact.getArtifactId());
-            boolean isSCAContribution = artifact.getType().startsWith("sca-contribution");
-            if (!isSCAContribution && !artifact.isOptional() && filter.include(artifact)) {
-                getLog().debug(String.format("including dependency %s", artifact));
-                File destinationFile = new File(libDir, artifact.getFile().getName());
-                if (!libDir.exists()) {
-                    libDir.mkdirs();
-                }
-                getLog().debug(String.format("copying %s to %s", artifact.getFile(), destinationFile));
-                FileChannel destChannel = new FileOutputStream(destinationFile).getChannel();
-                FileChannel srcChannel = new FileInputStream(artifact.getFile()).getChannel();
-                srcChannel.transferTo(0, srcChannel.size(), destChannel);
-                destChannel.close();
-                srcChannel.close();
-            }
         }
 
     }

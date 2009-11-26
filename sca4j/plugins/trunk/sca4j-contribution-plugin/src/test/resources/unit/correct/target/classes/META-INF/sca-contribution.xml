@@ -17,6 +17,5 @@
 <contribution xmlns="http://www.osoa.org/xmlns/sca/1.0"
               xmlns:sca4j="urn:sca4j.org"
               xmlns:maven="urn:sca4j.org/maven">
-    <sca4j:import groupId="org.sca4j" artifactId="sca4j-spi" version="0.4-SNAPSHOT"/>
     <deployable composite="sca4j:BurlapBindingExtension"/>
 </contribution>
