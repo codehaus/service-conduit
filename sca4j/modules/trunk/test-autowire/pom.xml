@@ -20,10 +20,11 @@
 
     <modelVersion>4.0.0</modelVersion>
 
+    
     <parent>
         <groupId>org.sca4j</groupId>
-        <artifactId>ci</artifactId>
-        <version>0.2.3-SNAPSHOT</version>
+        <artifactId>sca4j-modules-parent-pom</artifactId>
+	    <version>0.2.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>test-autowire</artifactId>
@@ -40,7 +41,7 @@
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-monitor</artifactId>
-            <version>${sca4j.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -49,12 +50,12 @@
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-generic-junit-api</artifactId>
-            <version>${sca4j.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-jetty</artifactId>
-            <version>${sca4j.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>geronimo-spec</groupId>
