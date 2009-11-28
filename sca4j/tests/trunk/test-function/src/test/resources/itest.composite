@@ -74,6 +74,5 @@
     <include name="GenericTestComposite"/>
     <include name="ScopeComposite"/>
     <include name="HeaderComposite"/>
-    <include name="AutoPromoteTestComposite"/>
 
 </composite>
