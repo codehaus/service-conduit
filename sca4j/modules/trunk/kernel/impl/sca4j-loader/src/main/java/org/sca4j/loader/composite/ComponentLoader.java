@@ -84,7 +84,6 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import org.osoa.sca.annotations.Reference;
-import org.sca4j.host.Namespaces;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.InvalidValue;
 import org.sca4j.introspection.xml.Loader;
@@ -125,7 +124,6 @@ public class ComponentLoader implements TypeLoader<ComponentDefinition<?>> {
         ATTRIBUTES.put("key", "key");
         ATTRIBUTES.put("initLevel", "initLevel");
         ATTRIBUTES.put("runtimeId", "runtimeId");
-        ATTRIBUTES.put("promoted", "promoted");
     }
 
     private final Loader loader;
@@ -161,7 +159,6 @@ public class ComponentLoader implements TypeLoader<ComponentDefinition<?>> {
         loadRuntimeId(componentDefinition, reader, context);
         loadInitLevel(componentDefinition, reader, context);
         loadKey(componentDefinition, reader);
-        loadPromoted(componentDefinition, reader);
 
         loaderHelper.loadPolicySetsAndIntents(componentDefinition, reader, context);
 
@@ -339,16 +336,6 @@ public class ComponentLoader implements TypeLoader<ComponentDefinition<?>> {
                 InvalidValue failure = new InvalidValue("Component runtime ID must be a valid URI: " + runtimeAttr, runtimeAttr, reader);
                 context.addError(failure);
             }
-        }
-    }
-
-    /*
-     * Loads the promoted attribute.
-     */
-    private void loadPromoted(ComponentDefinition<Implementation<?>> componentDefinition, XMLStreamReader reader) {
-        String promoted = reader.getAttributeValue(Namespaces.SCA4J_NS, "promoted");
-        if (promoted != null) {
-            componentDefinition.setPromoted(Boolean.valueOf(promoted));
         }
     }
 

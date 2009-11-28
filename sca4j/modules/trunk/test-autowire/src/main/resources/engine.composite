@@ -3,7 +3,7 @@
            name="EngineComposite"
            autowire="true">
 
-    <component name="Processor" sca4j:promoted="true">
+    <component name="Processor">
         <implementation.composite scdlResource="processor.composite"/>
         <reference name="submissionIdGenerator" target="SubmissionIdGenerator" />
         <reference name="instructionIdGenerator" target="InstructionIdGenerator" />

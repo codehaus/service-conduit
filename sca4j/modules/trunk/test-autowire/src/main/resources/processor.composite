@@ -1,10 +1,9 @@
 <composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
            xmlns:sca4j="urn:sca4j.org"
            name="ProcessorComposite"
-           sca4j:promoteUnresolvedReferences="true"
            autowire="true">
 
-    <component name="SubmissionProcessor" sca4j:promoted="true">
+    <component name="SubmissionProcessor">
         <implementation.java class="org.sca4j.tests.autowire.DefaultSubmissionProcessor"/>
     </component>
 

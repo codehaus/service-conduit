@@ -74,7 +74,6 @@ import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
 import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
 import static org.osoa.sca.Constants.SCA_NS;
 
-import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -88,7 +87,6 @@ import org.osoa.sca.annotations.Destroy;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
-import org.sca4j.host.Namespaces;
 import org.sca4j.introspection.DefaultIntrospectionContext;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.Loader;
@@ -135,7 +133,6 @@ public class CompositeLoader implements TypeLoader<Composite> {
         ATTRIBUTES.add("requires");
         ATTRIBUTES.add("policySets");
         ATTRIBUTES.add("constrainingType");
-        ATTRIBUTES.add("promoteUnresolvedReferences");
     }
 
     private final LoaderRegistry registry;
@@ -233,13 +230,11 @@ public class CompositeLoader implements TypeLoader<Composite> {
         NamespaceContext namespace = reader.getNamespaceContext();
         String constrainingTypeAttrbute = reader.getAttributeValue(null, "constrainingType");
         QName constrainingType = LoaderUtil.getQName(constrainingTypeAttrbute, targetNamespace, namespace);
-        boolean promoteUnresolvedReferences = Boolean.valueOf(reader.getAttributeValue(Namespaces.SCA4J_NS, "promoteUnresolvedReferences"));
         
         Composite type = new Composite(compositeName);
         type.setLocal(local);
         type.setAutowire(Autowire.fromString(reader.getAttributeValue(null, "autowire")));
         type.setConstrainingType(constrainingType);
-        type.setPromoteUnresolvedReferences(promoteUnresolvedReferences);
         loaderHelper.loadPolicySetsAndIntents(type, reader, childContext);
         
         while (true) {
@@ -322,14 +317,6 @@ public class CompositeLoader implements TypeLoader<Composite> {
                         componentDefinition.setAutowire(type.getAutowire());
                     }
                     type.add(componentDefinition);
-                    if (componentDefinition.isPromoted()) {
-                        // Implicitly promote
-                        for (String serviceName : componentDefinition.getImplementation().getServiceNames()) {
-                            URI promotedUri = URI.create(key + "#" + serviceName);
-                            String syntheticServiceName = componentDefinition.getName() + "." + serviceName;
-                            type.add(new CompositeService(syntheticServiceName, null, promotedUri));
-                        }
-                    }
                 } else if (WIRE.equals(qname)) {
                     WireDefinition wire = wireLoader.load(reader, childContext);
                     if (wire == null) {

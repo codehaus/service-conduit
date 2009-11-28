@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.osoa.sca.annotations.Reference;
-import org.sca4j.fabric.instantiator.AmbiguousAutowireTargets;
 import org.sca4j.fabric.instantiator.LogicalChange;
 import org.sca4j.fabric.instantiator.ReferenceNotFound;
 import org.sca4j.scdl.AbstractComponentType;
@@ -88,12 +87,8 @@ public class TypeBasedAutowireResolutionService implements TargetResolutionServi
 
         boolean targetted = !logicalReference.getWires().isEmpty();
         if (!targetted && logicalReference.getDefinition().isRequired() && logicalReference.getBindings().isEmpty()) {
-            if (compositeComponent.getDefinition().getImplementation().getComponentType().isPromoteUnresolvedReferences()) {
-                compositeComponent.addReference(logicalReference);
-            } else {
-                String uri = logicalReference.getUri().toString();
-                change.addError(new ReferenceNotFound("Unable to resolve reference " + uri, component, uri));
-            }
+            String uri = logicalReference.getUri().toString();
+            change.addError(new ReferenceNotFound("Unable to resolve reference " + uri, component, uri));
         } else if (targetted) {
             logicalReference.setResolved(true);
         }
@@ -178,26 +173,14 @@ public class TypeBasedAutowireResolutionService implements TargetResolutionServi
                 }
                 if (contract.isAssignableFrom(targetContract)) {
                     candidates.add(service.getUri());
-                    // TODO need a better way of handling runtime domain, also look at why we have multiple targets
-                    if (logicalReference.getUri().toString().startsWith("sca4j://runtime")) {
-                        break;
-                    }
+                    break;
                 }
             }
             if (!candidates.isEmpty() && !multiplicity) {
                 // since the reference is to a single target and a candidate has been found, avoid iterating the remaining components
-                // TODO need a better way of handling runtime domain, also look at why we have multiple targets
-                if (logicalReference.getUri().toString().startsWith("sca4j://runtime")) {
-                    break;
-                }
+                break;
             }
         }
-        
-        if (candidates.size() > 1 && !multiplicity) {
-            change.addError(new AmbiguousAutowireTargets(logicalReference, candidates));
-            return false;
-        }
-        
         if (candidates.isEmpty()) {
             return false;
         }
