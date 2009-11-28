@@ -53,11 +53,6 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.sca4j</groupId>
-            <artifactId>sca4j-jetty</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>geronimo-spec</groupId>
             <artifactId>geronimo-spec-jta</artifactId>
             <version>1.0.1B-rc4</version>
