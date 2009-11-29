@@ -162,22 +162,22 @@ public class ContributionElementLoader implements TypeLoader<ContributionManifes
                     Deployable deployable = new Deployable(qName, Constants.COMPOSITE_TYPE);
                     contribution.addDeployable(deployable);
                 } else {
-                    Object o;
+                    Object o = null;
                     try {
                         o = registry.load(reader, Object.class, context);
                     } catch (UnrecognizedElementException e) {
-                        UnrecognizedElement failure = new UnrecognizedElement(reader);
-                        context.addError(failure);
-                        return null;
+                        //UnrecognizedElement failure = new UnrecognizedElement(reader);
+                        //context.addError(failure);
+                        //return null;
                     }
                     if (o instanceof Export) {
                         contribution.addExport((Export) o);
                     } else if (o instanceof Import) {
                         contribution.addImport((Import) o);
                     } else if (o != null) {
-                        UnrecognizedElement failure = new UnrecognizedElement(reader);
-                        context.addError(failure);
-                        return null;
+                        // UnrecognizedElement failure = new UnrecognizedElement(reader);
+                        // context.addError(failure);
+                        // return null;
                     }
                 }
                 break;

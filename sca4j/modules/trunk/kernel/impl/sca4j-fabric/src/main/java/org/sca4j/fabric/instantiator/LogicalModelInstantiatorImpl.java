@@ -174,17 +174,31 @@ public class LogicalModelInstantiatorImpl implements LogicalModelInstantiator {
             change.addComponent(logicalComponent);
         }
         for (Include include : composite.getIncludes().values()) {
-            // xcv FIXME need to recurse down included hierarchy
-            for (ComponentDefinition<? extends Implementation<?>> definition : include.getIncluded().getComponents().values()) {
-                URI classLaoderId = URI.create(parent.getUri().toString() + "/" + include.getName().getLocalPart());
-                LogicalComponent<?> logicalComponent = instantiate(parent, properties, classLaoderId, definition, change);
-                setAutowire(composite, definition, logicalComponent);
-                newComponents.add(logicalComponent);
-                parent.addComponent(logicalComponent);
-                change.addComponent(logicalComponent);
-            }
+            instantiateIncludes(include, parent, properties, change, composite, newComponents);
         }
         return newComponents;
+    }
+    
+    private void instantiateIncludes(Include include, 
+    		                         LogicalCompositeComponent parent, 
+    		                         Map<String, Document> properties, 
+    		                         LogicalChange change, 
+    		                         Composite composite, 
+    		                         List<LogicalComponent<?>> newComponents) {
+        
+    	for (ComponentDefinition<? extends Implementation<?>> definition : include.getIncluded().getComponents().values()) {
+            URI classLaoderId = URI.create(parent.getUri().toString() + "/" + include.getName().getLocalPart());
+            LogicalComponent<?> logicalComponent = instantiate(parent, properties, classLaoderId, definition, change);
+            setAutowire(composite, definition, logicalComponent);
+            newComponents.add(logicalComponent);
+            parent.addComponent(logicalComponent);
+            change.addComponent(logicalComponent);
+        }
+    	
+    	for (Include childInclude : include.getIncluded().getIncludes().values()) {
+            instantiateIncludes(childInclude, parent, properties, change, composite, newComponents);
+    	}
+    	
     }
 
     private void setAutowire(Composite composite, ComponentDefinition<? extends Implementation<?>> definition, LogicalComponent<?> logicalComponent) {

@@ -245,7 +245,7 @@ public class CompositeLoader implements TypeLoader<Composite> {
                 if (INCLUDE.equals(qname)) {
                     Include include = includeLoader.load(reader, childContext);
                     if (include == null) {
-                        // errror encountered loading the include
+                        // error encountered loading the include
                         continue;
                     }
                     QName includeName = include.getName();
@@ -258,7 +258,7 @@ public class CompositeLoader implements TypeLoader<Composite> {
                     if (childContext.hasErrors()) {
                         continue;
                     }
-                    for (ComponentDefinition definition : include.getIncluded().getComponents().values()) {
+                    for (ComponentDefinition<?> definition : include.getIncluded().getComponents().values()) {
                         String key = definition.getName();
                         if (type.getComponents().containsKey(key)) {
                             DuplicateComponentName failure = new DuplicateComponentName(key, reader);
@@ -272,7 +272,7 @@ public class CompositeLoader implements TypeLoader<Composite> {
                 } else if (PROPERTY.equals(qname)) {
                     Property property = propertyLoader.load(reader, childContext);
                     if (property == null) {
-                        // errror encountered loading the property
+                        // error encountered loading the property
                         continue;
                     }
                     String key = property.getName();
