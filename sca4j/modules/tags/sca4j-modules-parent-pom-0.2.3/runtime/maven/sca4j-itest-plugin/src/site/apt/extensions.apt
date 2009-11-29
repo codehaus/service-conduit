@@ -1,0 +1,93 @@
+~~ See the NOTICE file distributed with this work for information
+~~ regarding copyright ownership.  This file is licensed
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~   http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+
+Using Extensions
+
+  One of the main goals of integration testing is to verify the component is working with external
+  resources such as other systems or databases. Testing these dependencies may require the use
+  of fabric3 extensions such as bindings or runtime resources.
+
+  The itest plugin allows extensions to be activated using the <<<extensions>>> configuration element.
+  This contains a list of Maven artifacts each of which contains the SCA contribution for that extension.
+  For example, to add the <<fabric3-resource>> extension (which provides support for JSR-250 resources),
+  you would add it to the plugin configuration as follows:
+
++---+
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.codehaus.fabric3</groupId>
+            <artifactId>fabric3-itest-plugin</artifactId>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>test</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <extensions>
+                    <dependency>
+                        <groupId>org.codehaus.fabric3</groupId>
+                        <artifactId>fabric3-resource</artifactId>
+                    </dependency>
+                </extensions>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
++---+
+
+* Sharing classes
+
+  Normally, the extension code and any dependencies it may have are kept isolated from the application code.
+  This prevents conflicts if they should happen to use different versions of the same library (for example,
+  they might use conflicting versions of something like log4j).
+
+  For some extensions though, it may be necessary to share some classes between the application and the extension.
+  This often happens if the extension makes the application use annotations or interfaces to work. For example,
+  persistence frameworks like JPA or implementation types like Spring may do this.
+
+  The itest plugin has a <<<shared>>> configuration element to support this. Dependencies listed there will
+  be placed in a classloader that is visible to both the application and extension code.
+
+  For example, to make the JPA annotations visible to both the application and any extensions,
+  you would configure as follows
+
++---+
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.codehaus.fabric3</groupId>
+            <artifactId>fabric3-itest-plugin</artifactId>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>test</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <shared>
+                    <dependency>
+                        <groupId>javax.persistence</groupId>
+                        <artifactId>persistence-api</artifactId>
+                    </dependency>
+                </shared>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
++---+
