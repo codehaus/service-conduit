@@ -38,7 +38,7 @@ public class DefaultSubmissionProcessor implements SubmissionProcessor {
                 rule.execute(payment);
             }
         }
-
+        System.err.println("Done");
     }
 
 }

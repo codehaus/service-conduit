@@ -2,15 +2,11 @@
            xmlns:sca4j="urn:sca4j.org"
            name="EngineComposite"
            autowire="true">
+           
+    <service name="SubmissionProcessor" promote="SubmissionProcessor" />
 
-    <component name="Processor">
-        <implementation.composite scdlResource="processor.composite"/>
-        <reference name="submissionIdGenerator" target="SubmissionIdGenerator" />
-        <reference name="instructionIdGenerator" target="InstructionIdGenerator" />
-    </component>
-
-    <component name="Rules">
-        <implementation.composite scdlResource="rules.composite"/>
+    <component name="SubmissionProcessor">
+        <implementation.composite scdlResource="processor.composite" />
     </component>
 
     <component name="ProcessingDayService">

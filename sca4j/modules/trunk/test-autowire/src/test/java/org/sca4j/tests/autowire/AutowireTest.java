@@ -27,7 +27,8 @@ public class AutowireTest extends AbstractScaTest {
     }
     
     public void testWire() {
-        
+        SubmissionProcessor submissionProcessor = getServiceProxy("SubmissionProcessor");
+        submissionProcessor.process();
     }
 
 }

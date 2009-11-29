@@ -254,14 +254,20 @@ public class CompositeLoader implements TypeLoader<Composite> {
                         childContext.addError(failure);
                         continue;
                     }
+                    if (childContext.hasErrors()) {
+                        continue;
+                    }
                     for (ComponentDefinition definition : include.getIncluded().getComponents().values()) {
                         String key = definition.getName();
                         if (type.getComponents().containsKey(key)) {
                             DuplicateComponentName failure = new DuplicateComponentName(key, reader);
                             childContext.addError(failure);
+                        } else {
+                            type.add(definition);
                         }
                     }
                     type.add(include);
+                    // TODO do the same for services,references, wires and properties
                 } else if (PROPERTY.equals(qname)) {
                     Property property = propertyLoader.load(reader, childContext);
                     if (property == null) {
