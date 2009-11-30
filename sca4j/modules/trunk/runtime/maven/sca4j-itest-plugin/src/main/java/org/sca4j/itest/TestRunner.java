@@ -179,13 +179,16 @@ public class TestRunner {
                 throw new MojoFailureException(msg);
             }
             
-            runtime.shutdown();
             
         } catch (MojoFailureException e) {
             throw e;
         } catch (Exception e) {
             // trap any other exception
             throw new AssertionError(e);
+        } finally {
+            if (runtime != null) {
+                runtime.shutdown();
+            }
         }
         
     }
