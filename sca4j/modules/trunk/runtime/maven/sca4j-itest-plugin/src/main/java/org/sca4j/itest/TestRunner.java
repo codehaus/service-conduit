@@ -71,7 +71,6 @@ import javax.management.MBeanServerFactory;
 import javax.xml.namespace.QName;
 
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.surefire.report.BriefConsoleReporter;
 import org.apache.maven.surefire.report.BriefFileReporter;
 import org.apache.maven.surefire.report.DetailedConsoleReporter;
 import org.apache.maven.surefire.report.Reporter;
