@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>sca4j-kernel-services-parent-pom</artifactId>
-        <version>0.2.4-SNAPSHOT</version>
+        <version>0.2.4</version>
     </parent>
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-xmlfactory</artifactId>
@@ -36,7 +36,7 @@
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-host-api</artifactId>
-            <version>0.2.4-SNAPSHOT</version>
+            <version>0.2.4</version>
         </dependency>
 
         <!-- mark the API as provided as it is included in Java6 -->
