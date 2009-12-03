@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>sca4j-runtime-webapp-parent-pom</artifactId>
-        <version>0.2.6-SNAPSHOT</version>
+        <version>0.2.6</version>
     </parent>
     <groupId>org.sca4j.webapp</groupId>
     <artifactId>sca4j-webapp-api</artifactId>
@@ -31,7 +31,7 @@
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-jmx-agent</artifactId>
-            <version>0.2.6-SNAPSHOT</version>
+            <version>0.2.6</version>
         </dependency>
     
         <dependency>
@@ -44,19 +44,19 @@
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-api</artifactId>
-            <version>0.2.6-SNAPSHOT</version>
+            <version>0.2.6</version>
         </dependency>
         
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-host-api</artifactId>
-            <version>0.2.6-SNAPSHOT</version>
+            <version>0.2.6</version>
         </dependency>
         
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-monitor</artifactId>
-            <version>0.2.6-SNAPSHOT</version>
+            <version>0.2.6</version>
         </dependency>
         
         <dependency>
