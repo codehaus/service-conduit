@@ -78,7 +78,6 @@ import static org.sca4j.fabric.runtime.ComponentNames.METADATA_STORE_URI;
 import static org.sca4j.fabric.runtime.ComponentNames.RUNTIME_DOMAIN_URI;
 import static org.sca4j.fabric.runtime.ComponentNames.RUNTIME_URI;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -480,7 +479,7 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
                         int index = resourceUrl.indexOf("!/META-INF/sca-contribution.xml");
                         resourceUrl = resourceUrl.substring(0, index);
                         if (!resourceUrl.startsWith("file")) {
-                            resourceUrl = new File(resourceUrl).toURI().toURL().toExternalForm();
+                            resourceUrl = "file:" + resourceUrl;
                         }
                         extensions.add(new FileContributionSource(new URL(resourceUrl), 1, null));
                     } else {
