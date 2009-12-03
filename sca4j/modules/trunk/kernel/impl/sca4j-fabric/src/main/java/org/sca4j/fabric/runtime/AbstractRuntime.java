@@ -78,6 +78,7 @@ import static org.sca4j.fabric.runtime.ComponentNames.METADATA_STORE_URI;
 import static org.sca4j.fabric.runtime.ComponentNames.RUNTIME_DOMAIN_URI;
 import static org.sca4j.fabric.runtime.ComponentNames.RUNTIME_URI;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -101,7 +102,6 @@ import org.sca4j.fabric.runtime.bootstrap.ScdlBootstrapperImpl;
 import org.sca4j.fabric.services.componentmanager.ComponentManagerImpl;
 import org.sca4j.fabric.services.contribution.MetaDataStoreImpl;
 import org.sca4j.fabric.services.contribution.ProcessorRegistryImpl;
-import org.sca4j.fabric.services.contribution.manifest.XmlManifestProcessor;
 import org.sca4j.fabric.services.lcm.LogicalComponentManagerImpl;
 import org.sca4j.fabric.services.lcm.NonPersistentLogicalComponentStore;
 import org.sca4j.host.contribution.ContributionException;
@@ -116,14 +116,11 @@ import org.sca4j.host.runtime.HostInfo;
 import org.sca4j.host.runtime.InitializationException;
 import org.sca4j.host.runtime.SCA4JRuntime;
 import org.sca4j.host.runtime.StartException;
-import org.sca4j.introspection.validation.InvalidContributionException;
 import org.sca4j.monitor.MonitorFactory;
 import org.sca4j.pojo.PojoWorkContextTunnel;
 import org.sca4j.scdl.Autowire;
 import org.sca4j.scdl.Composite;
-import org.sca4j.scdl.DefaultValidationContext;
 import org.sca4j.scdl.Include;
-import org.sca4j.scdl.ValidationContext;
 import org.sca4j.spi.component.AtomicComponent;
 import org.sca4j.spi.component.GroupInitializationException;
 import org.sca4j.spi.component.InstanceLifecycleException;
@@ -136,9 +133,7 @@ import org.sca4j.spi.invocation.WorkContext;
 import org.sca4j.spi.runtime.RuntimeServices;
 import org.sca4j.spi.services.componentmanager.ComponentManager;
 import org.sca4j.spi.services.contribution.Contribution;
-import org.sca4j.spi.services.contribution.ContributionManifest;
 import org.sca4j.spi.services.contribution.MetaDataStore;
-import org.sca4j.spi.services.contribution.MetaDataStoreException;
 import org.sca4j.spi.services.contribution.ProcessorRegistry;
 import org.sca4j.spi.services.contribution.QNameSymbol;
 import org.sca4j.spi.services.contribution.Resource;
@@ -163,7 +158,6 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
     private String jmxSubDomain;
     private ClassLoader bootClassLoader;
     private ClassLoader appClassLoader;
-    private List<String> bootExports;
     private ContributionSource intents;
     private List<ContributionSource> extensions;
     private Bootstrapper bootstrapper;
@@ -187,7 +181,6 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
         appClassLoader = configuration.getAppClassLoader();
         hostClassLoader = configuration.getHostClassLoader();
         
-        bootExports = configuration.getBootLibraryExports();
         intents = configuration.getIntents();
         extensions = discoverExtensions();
         
@@ -487,7 +480,7 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
                         int index = resourceUrl.indexOf("!/META-INF/sca-contribution.xml");
                         resourceUrl = resourceUrl.substring(0, index);
                         if (!resourceUrl.startsWith("file")) {
-                            resourceUrl = "file:///" + resourceUrl;
+                            resourceUrl = new File(resourceUrl).toURI().toURL().toExternalForm();
                         }
                         extensions.add(new FileContributionSource(new URL(resourceUrl), 1, null));
                     } else {
