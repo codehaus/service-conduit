@@ -80,6 +80,7 @@ import static org.sca4j.fabric.runtime.ComponentNames.RUNTIME_URI;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.JarURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -151,7 +152,7 @@ import org.sca4j.spi.services.lcm.RecoveryException;
  * @version $Rev: 5265 $ $Date: 2008-08-25 09:30:09 +0100 (Mon, 25 Aug 2008) $
  */
 public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRuntime<HI>, RuntimeServices {
-    
+
     private Class<HI> hostInfoType;
     private MBeanServer mbServer;
     private String jmxSubDomain;
@@ -179,12 +180,12 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
         bootClassLoader = configuration.getBootClassLoader();
         appClassLoader = configuration.getAppClassLoader();
         hostClassLoader = configuration.getHostClassLoader();
-        
+
         intents = configuration.getIntents();
         extensions = discoverExtensions();
-        
+
         bootstrapper = new ScdlBootstrapperImpl(configuration.getSystemScdl(), configuration.getSystemConfig(), configuration.getSystemConfigDocument());
-        
+
         LogicalComponentStore store = new NonPersistentLogicalComponentStore(RUNTIME_URI, Autowire.ON);
         logicalComponentManager = new LogicalComponentManagerImpl(store);
         try {
@@ -192,22 +193,21 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
         } catch (RecoveryException e) {
             throw new InitializationException(e);
         }
-        
+
         componentManager = new ComponentManagerImpl();
         ProcessorRegistry processorRegistry = new ProcessorRegistryImpl();
         metaDataStore = new MetaDataStoreImpl(processorRegistry);
-        
+
         scopeContainer = new CompositeScopeContainer(getMonitorFactory().getMonitor(ScopeContainerMonitor.class));
         scopeContainer.start();
-        
+
         scopeRegistry = new ScopeRegistryImpl();
         scopeRegistry.register(scopeContainer);
         bootstrapper.bootRuntimeDomain(this, bootClassLoader, appClassLoader);
-        
-        startRuntimeDomainContext();
-        
-    }
 
+        startRuntimeDomainContext();
+
+    }
 
     public void bootSystem() throws InitializationException {
 
@@ -242,11 +242,11 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
     }
 
     public <I> I getSystemComponent(Class<I> service, URI uri) {
-        
+
         if (RuntimeServices.class.equals(service)) {
             return service.cast(this);
         }
-        
+
         AtomicComponent<?> component = (AtomicComponent<?>) componentManager.getComponent(uri);
         if (component == null) {
             return null;
@@ -263,7 +263,7 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
         } finally {
             PojoWorkContextTunnel.setThreadWorkContext(oldContext);
         }
-        
+
     }
 
     public ClassLoader getHostClassLoader() {
@@ -309,6 +309,7 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
     public void setJmxSubDomain(String jmxDomain) {
         this.jmxSubDomain = jmxDomain;
     }
+
     public LogicalComponentManager getLogicalComponentManager() {
         return logicalComponentManager;
     }
@@ -345,32 +346,27 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
     }
 
     private void synthesizeBootContribution() throws InitializationException {
-        /*try {
-            assert !bootExports.isEmpty();
-            XmlManifestProcessor processor = getSystemComponent(XmlManifestProcessor.class, ComponentNames.XML_MANIFEST_PROCESSOR);
-            Contribution contribution = new Contribution(ComponentNames.BOOT_CLASSLOADER_ID);
-            ContributionManifest manifest = new ContributionManifest();
-
-            ValidationContext context = new DefaultValidationContext();
-            for (String export : bootExports) {
-                InputStream stream =
-                        bootClassLoader.getResourceAsStream(export);
-                if (stream == null) {
-                    throw new InitializationException("boot jar is missing a pom.xml: " + export);
-                }
-                processor.process(manifest, stream, context);
-            }
-            if (context.hasErrors()) {
-                throw new InvalidContributionException(context.getErrors(), context.getWarnings());
-            }
-            contribution.setManifest(manifest);
-            MetaDataStore store = getSystemComponent(MetaDataStore.class, ComponentNames.METADATA_STORE_URI);
-            store.store(contribution);
-        } catch (MetaDataStoreException e) {
-            throw new InitializationException(e);
-        } catch (ContributionException e) {
-            throw new InitializationException(e);
-        }*/
+        /*
+         * try { assert !bootExports.isEmpty(); XmlManifestProcessor processor =
+         * getSystemComponent(XmlManifestProcessor.class,
+         * ComponentNames.XML_MANIFEST_PROCESSOR); Contribution contribution =
+         * new Contribution(ComponentNames.BOOT_CLASSLOADER_ID);
+         * ContributionManifest manifest = new ContributionManifest();
+         * 
+         * ValidationContext context = new DefaultValidationContext(); for
+         * (String export : bootExports) { InputStream stream =
+         * bootClassLoader.getResourceAsStream(export); if (stream == null) {
+         * throw new InitializationException("boot jar is missing a pom.xml: " +
+         * export); } processor.process(manifest, stream, context); } if
+         * (context.hasErrors()) { throw new
+         * InvalidContributionException(context.getErrors(),
+         * context.getWarnings()); } contribution.setManifest(manifest);
+         * MetaDataStore store = getSystemComponent(MetaDataStore.class,
+         * ComponentNames.METADATA_STORE_URI); store.store(contribution); }
+         * catch (MetaDataStoreException e) { throw new
+         * InitializationException(e); } catch (ContributionException e) { throw
+         * new InitializationException(e); }
+         */
     }
 
     private void includeExtensions(List<ContributionSource> sources) throws InitializationException, DefinitionActivationException {
@@ -394,7 +390,7 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
             throw new ExtensionInitializationException("Error activating extensions", e);
         }
     }
-    
+
     private Composite createExtensionComposite(List<URI> contributionUris) throws InitializationException {
         MetaDataStore metaDataStore = getSystemComponent(MetaDataStore.class, METADATA_STORE_URI);
         if (metaDataStore == null) {
@@ -413,7 +409,7 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
                     if (!(entry.getValue() instanceof Composite)) {
                         continue;
                     }
-                    @SuppressWarnings({"unchecked"})
+                    @SuppressWarnings( { "unchecked" })
                     ResourceElement<QNameSymbol, Composite> element = (ResourceElement<QNameSymbol, Composite>) entry;
                     QName name = element.getSymbol().getKey();
                     Composite childComposite = element.getValue();
@@ -433,7 +429,7 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
     }
 
     private void startRuntimeDomainContext() throws InitializationException {
-        
+
         try {
             WorkContext workContext = new WorkContext();
             CallFrame frame = new CallFrame(ComponentNames.RUNTIME_URI);
@@ -443,11 +439,11 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
         } catch (GroupInitializationException e) {
             throw new InitializationException(e);
         }
-        
+
     }
 
     public void startApplicationDomainContext() throws InitializationException {
-        
+
         try {
             URI groupId = getHostInfo().getDomain();
             WorkContext workContext = new WorkContext();
@@ -458,37 +454,36 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
         } catch (GroupInitializationException e) {
             throw new InitializationException(e);
         }
-        
+
     }
-    
+
     /*
      * Gets the list of extensions.
      */
     private List<ContributionSource> discoverExtensions() {
-        
+
         try {
             List<ContributionSource> extensions = new LinkedList<ContributionSource>();
             Enumeration<URL> resources = getClass().getClassLoader().getResources("META-INF/sca-contribution.xml");
-            
+
             while (resources.hasMoreElements()) {
                 URL resource = resources.nextElement();
                 if (isExtension(resource)) {
-                    String resourceUrl;
-                    if ("jar".equals(resource.getProtocol()) || "zip".equals(resource.getProtocol())) {
-                        resourceUrl = resource.toExternalForm().substring(4);
-                        int index = resourceUrl.indexOf("!/META-INF/sca-contribution.xml");
-                        resourceUrl = resourceUrl.substring(0, index);
-                        if (!resourceUrl.startsWith("file")) {
-                            resourceUrl = "file:" + resourceUrl;
-                        }
-                        extensions.add(new FileContributionSource(new URL(resourceUrl), 1, null));
-                    } else {
-                        resourceUrl = resource.toExternalForm();
-                        int index = resourceUrl.indexOf("/META-INF/sca-contribution.xml");
-                        resourceUrl = resourceUrl.substring(0, index);
-                        extensions.add(new FileContributionSource(resource.toURI(), new URL(resourceUrl), 1, null, "application/vnd.sca4j"));
+                    if ("zip".equals(resource.getProtocol())) {
+                        // stupid weblogic
+                        resource = new URL(resource.toExternalForm().replaceFirst("^zip:", "jar:file:"));
                     }
                     
+                    if ("jar".equals(resource.getProtocol())) {
+                        JarURLConnection jarURLConnection = (JarURLConnection) resource.openConnection();
+                        URL resourceUrl = jarURLConnection.getJarFileURL();
+                        extensions.add(new FileContributionSource(resourceUrl, 1, null));
+                    } else {
+                        String resourceUrlStr = resource.toExternalForm();
+                        int index = resourceUrlStr.indexOf("/META-INF/sca-contribution.xml");
+                        resourceUrlStr = resourceUrlStr.substring(0, index);
+                        extensions.add(new FileContributionSource(resource.toURI(), new URL(resourceUrlStr), 1, null, "application/vnd.sca4j"));
+                    }
                 }
             }
             return extensions;
@@ -499,14 +494,14 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
         } catch (URISyntaxException e) {
             throw new AssertionError(e);
         }
-        
+
     }
-    
+
     /*
      * Checks whether the contribution is an extension.
      */
     private boolean isExtension(URL url) throws IOException, XMLStreamException {
-        
+
         XMLStreamReader reader = null;
         InputStream stream = null;
         try {
@@ -531,5 +526,5 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
             }
         }
     }
-    
+
 }
