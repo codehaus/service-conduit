@@ -27,15 +27,15 @@
     </parent>
         
     <artifactId>ci</artifactId>
-    <version>0.2.6-SNAPSHOT</version>
+    <version>0.2.7-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>SCA4J Continuous Integration Tests</name>
     <description>POM to run the integration tests depending on available resources.</description>
 
     <properties>
-        <runtime.version>0.2.6-SNAPSHOT</runtime.version>
-        <sca4j.version>0.2.6-SNAPSHOT</sca4j.version>
+        <runtime.version>0.2.7-SNAPSHOT</runtime.version>
+        <sca4j.version>0.2.7-SNAPSHOT</sca4j.version>
     </properties>
     
     <modules>
@@ -114,12 +114,12 @@
                 <plugin>
                     <groupId>org.sca4j</groupId>
                     <artifactId>sca4j-contribution-plugin</artifactId>
-                    <version>0.2.6-SNAPSHOT</version>
+                    <version>0.2.7-SNAPSHOT</version>
                 </plugin>
                 <plugin>
                     <groupId>org.sca4j</groupId>
                     <artifactId>sca4j-itest-plugin</artifactId>
-                    <version>0.2.6-SNAPSHOT</version>
+                    <version>0.2.7-SNAPSHOT</version>
                 </plugin>                
                 <!--plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
