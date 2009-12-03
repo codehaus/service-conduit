@@ -1,0 +1,21 @@
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           name="ProcessorComposite"
+           autowire="true">
+           
+    <service name="SubmissionProcessor" promote="SubmissionProcessor" />
+    <reference name="ProcessingDayService" promote="IncrementRule/processingDayService DecrementRule/processingDayService" />
+    <reference name="submissionIdGenerator" promote="SubmissionProcessor/submissionIdGenerator" />
+    <reference name="instructionIdGenerator" promote="SubmissionProcessor/instructionIdGenerator" />
+
+    <component name="SubmissionProcessor">
+        <implementation.java class="org.sca4j.tests.autowire.DefaultSubmissionProcessor"/>
+    </component>
+
+    <component name="Parser">
+        <implementation.java class="org.sca4j.tests.autowire.DefaultParser"/>
+    </component>
+    
+    <include name="rules" scdlResource="rules.composite"/>
+
+</composite>
