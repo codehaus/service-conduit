@@ -86,7 +86,7 @@
                 <plugin>
                     <groupId>org.sca4j</groupId>
                     <artifactId>sca4j-contribution-plugin</artifactId>
-                    <version>0.2.7</version>
+                    <version>0.2.8-SNAPSHOT</version>
                 </plugin>                
             </plugins>
         </pluginManagement>
