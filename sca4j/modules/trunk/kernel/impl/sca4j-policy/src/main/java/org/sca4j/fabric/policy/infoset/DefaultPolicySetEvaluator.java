@@ -86,6 +86,10 @@ public class DefaultPolicySetEvaluator implements PolicySetEvaluator {
             
             Boolean ret = (Boolean) xpath.evaluate(appliesToXPath, target, XPathConstants.BOOLEAN);
             
+            if (false == ret.booleanValue() && System.getProperty("sca4j.debug") != null) {
+                System.err.println("Policy with expression " + appliesToXPath + " doesn't apply to " + target.getNodeName());
+            }
+            
             return ret.booleanValue();
             
         } catch (XPathExpressionException ex) {
