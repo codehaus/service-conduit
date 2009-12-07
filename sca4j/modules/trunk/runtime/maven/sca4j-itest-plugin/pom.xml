@@ -18,7 +18,7 @@
     <parent>
         <artifactId>sca4j-runtime-maven-parent-pom</artifactId>
         <groupId>org.sca4j</groupId>
-        <version>0.2.8-SNAPSHOT</version>
+        <version>0.2.8</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.sca4j</groupId>
@@ -80,12 +80,12 @@
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-monitor-api</artifactId>
-            <version>0.2.8-SNAPSHOT</version>
+            <version>0.2.8</version>
         </dependency>
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-maven-api</artifactId>
-            <version>0.2.8-SNAPSHOT</version>
+            <version>0.2.8</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.woodstox</groupId>

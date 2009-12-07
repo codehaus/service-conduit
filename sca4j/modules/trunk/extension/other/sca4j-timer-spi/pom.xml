@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>sca4j-extension-other-parent-pom</artifactId>
-        <version>0.2.8-SNAPSHOT</version>
+        <version>0.2.8</version>
     </parent>
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-timer-spi</artifactId>
@@ -31,7 +31,7 @@
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-spi</artifactId>
-            <version>0.2.8-SNAPSHOT</version>
+            <version>0.2.8</version>
             <scope>provided</scope>
         </dependency>
 
