@@ -119,20 +119,26 @@ public class InteractionPolicyHelperImpl extends AbstractPolicyHelper implements
         }
 
         List<Intent> requiredIntents = getRequestedIntents(logicalBinding, operation);
-        List<Intent> requiredIntentsCopy = new LinkedList<Intent>(requiredIntents);
         List<QName> requestedPolicies = getRequestedPolicies(logicalBinding, operation);
         
         // Remove intents that are provided
-        for(Intent intent : requiredIntentsCopy) {
+        List<Intent> requiredIntentsCopy = new LinkedList<Intent>();
+        for(Intent intent : requiredIntents) {
             QName intentName = intent.getName();
-            if(alwaysProvidedIntents.contains(intentName) || mayProvidedIntents.contains(intentName)) {
-                requiredIntents.remove(intent);
+            if (!alwaysProvidedIntents.contains(intentName) && !mayProvidedIntents.contains(intentName) && !requiredIntentsCopy.contains(intent)) {
+                requiredIntentsCopy.add(intent);
             }
         }
         
-        List<PolicySet> policies = resolvePolicies(requiredIntents, requestedPolicies, target, operation.getName());        
-        if(requiredIntents.size() > 0) {
-            throw new PolicyResolutionException("Unable to resolve all intents", requiredIntents);
+        if (System.getProperty("sca4j.debug") != null) {
+            System.err.println("Required intents on " + logicalBinding.getParent().getUri() + " for operation " + operation.getName() + " " + requiredIntentsCopy);
+        }
+        List<PolicySet> policies = resolvePolicies(requiredIntentsCopy, requestedPolicies, target, operation.getName());        
+        if(requiredIntentsCopy.size() > 0) {
+            if (System.getProperty("sca4j.debug") != null) {
+                System.err.println("Unresolved intents on " + logicalBinding.getParent().getUri() + " for operation " + operation.getName() + " "  + requiredIntentsCopy);
+            }
+            throw new PolicyResolutionException("Unable to resolve all intents", requiredIntentsCopy);
         }
         
         return policies;
