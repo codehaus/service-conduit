@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>sca4j-extension-other-parent-pom</artifactId>
-        <version>0.2.9-SNAPSHOT</version>
+        <version>0.2.9</version>
     </parent>
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-ftp-spi</artifactId>
@@ -31,7 +31,7 @@
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-ftp-api</artifactId>
-            <version>0.2.9-SNAPSHOT</version>
+            <version>0.2.9</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
