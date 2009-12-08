@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.ss.tgbp</groupId>
+        <groupId>com.travelex.tgbp</groupId>
         <artifactId>tgbp-parent</artifactId>
         <version>0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.ss.tgbp</groupId>
+    <groupId>com.travelex.tgbp</groupId>
     <artifactId>payment-gateway-store</artifactId>
     <version>0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
