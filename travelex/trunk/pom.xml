@@ -10,9 +10,91 @@
 	<description>TGBP parent pom</description>
 	<packaging>pom</packaging>
 
+        <properties>
+            <!-- Compiler properties -->
+            <target.jvm.version>1.6</target.jvm.version>
+
+            <junit.version>4.4</junit.version>
+
+            <!-- SCA properties -->
+            <sca.spec.version>0.2.1</sca.spec.version>
+            <sca4j.version>0.1.5</sca4j.version>
+
+            <compiler.plugin.version>2.0.2</compiler.plugin.version>
+        </properties>
+
 	<modules>
 		<module>payment-gateway-store</module>
 		<module>payment-gateway-submission-processor</module>
+		<module>payment-gateway-transformation-service-api</module>
+		<module>payment-gateway-transformation-service-xslt</module>
 	</modules>
+
+	<dependencyManagement>
+	    <dependencies>
+
+                <dependency>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                    <version>${junit.version}</version>
+                </dependency>
+
+        	<dependency>
+            	    <groupId>commons-io</groupId>
+            	    <artifactId>commons-io</artifactId>
+           	    <version>1.1</version>
+        	</dependency>
+
+	        <dependency>
+        	    <groupId>joda-time</groupId>
+            	    <artifactId>joda-time</artifactId>
+	            <version>1.6</version>
+        	</dependency>
+
+                <dependency>
+                    <groupId>org.sca4j</groupId>
+                    <artifactId>sca4j-api</artifactId>
+                    <version>${sca4j.version}</version>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.sca4j.spec</groupId>
+                    <artifactId>sca-api-r1.0</artifactId>
+                    <version>${sca.spec.version}</version>
+                </dependency>
+
+	    </dependencies>
+
+	</dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                   <groupId>org.apache.maven.plugins</groupId>
+                   <artifactId>maven-compiler-plugin</artifactId>
+                   <version>${compiler.plugin.version}</version>
+                   <configuration>
+                       <source>${target.jvm.version}</source>
+                       <target>${target.jvm.version}</target>
+                   </configuration>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <excludes>
+                            <exclude>**/*ITest.java</exclude>
+                        </excludes>
+                        <reportFormat>brief</reportFormat>
+                        <useFile>false</useFile>
+                        <forkMode>once</forkMode>
+                        <argLine>-ea</argLine>
+                    </configuration>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>
