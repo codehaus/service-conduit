@@ -17,8 +17,8 @@ public interface InstructionStoreService {
     /**
      * Updates instruction with associated output instruction id.
      *
-     * @param instruction
+     * @param instructionId - id of instruction to update.
      */
-    void updateOutputInstructionId(Instruction instruction);
+    void updateOutputInstructionId(Long instructionId);
 
 }
