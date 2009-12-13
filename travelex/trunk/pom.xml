@@ -18,7 +18,7 @@
 
             <!-- SCA properties -->
             <sca.spec.version>0.2.1</sca.spec.version>
-            <sca4j.version>0.1.5</sca4j.version>
+            <sca4j.version>0.1.8</sca4j.version>
 
             <compiler.plugin.version>2.0.2</compiler.plugin.version>
         </properties>
@@ -28,6 +28,7 @@
 		<module>payment-gateway-submission-processor</module>
 		<module>payment-gateway-transformation-service-api</module>
 		<module>payment-gateway-transformation-service-xslt</module>
+		<module>payment-gateway-output-service</module>		
 	</modules>
 
 	<dependencyManagement>

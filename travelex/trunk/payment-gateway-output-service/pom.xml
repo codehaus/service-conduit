@@ -10,17 +10,29 @@
     </parent>
 
     <groupId>com.travelex.tgbp</groupId>
-    <artifactId>payment-gateway-store</artifactId>
+    <artifactId>payment-gateway-output-service</artifactId>
     <version>0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>TGBP payment store</name>
-    <description>TGBP payment store</description>
+    <name>TGBP payment output service</name>
+    <description>TGBP payment output service</description>
     
     <dependencies>
         <dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
+            <groupId>com.travelex.tgbp</groupId>
+            <artifactId>payment-gateway-store</artifactId>
+            <version>${project.version}</version>        
         </dependency>
+        
+        <dependency>
+			<groupId>org.sca4j.spec</groupId>
+			<artifactId>sca-api-r1.0</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.sca4j</groupId>
+			<artifactId>sca4j-api</artifactId>
+		</dependency>
+        
     </dependencies>
 
 </project>

@@ -1,4 +1,4 @@
-package com.travelex.tgbp.domain;
+package com.travelex.tgbp.store.domain;
 
 /**
  * Represents file submission entity.
