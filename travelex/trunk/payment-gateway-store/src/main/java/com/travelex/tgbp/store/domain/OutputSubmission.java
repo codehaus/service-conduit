@@ -1,7 +1,6 @@
 package com.travelex.tgbp.store.domain;
 
 import com.travelex.tgbp.store.type.ClearingMechanism;
-import com.travelex.tgbp.store.type.Currency;
 
 /**
  * Represents group of instructions which are sent out in a same output file.
@@ -9,27 +8,31 @@ import com.travelex.tgbp.store.type.Currency;
 public class OutputSubmission {
 
     private Long id;
-    private Currency currency;
     private ClearingMechanism clearingMechanism;
 
     /**
+     * Initialises with attributes.
      *
-     * @param currency
-     * @param clearingMechanism
+     * @param clearingMechanism - target clearing mechanism.
      */
-    public OutputSubmission(Currency currency, ClearingMechanism clearingMechanism) {
-        this.currency = currency;
+    public OutputSubmission(ClearingMechanism clearingMechanism) {
         this.clearingMechanism = clearingMechanism;
     }
 
+    /**
+     * Returns submission identifier.
+     *
+     * @return submission id.
+     */
     public Long getId() {
         return id;
     }
 
-    public Currency getCurrency() {
-        return currency;
-    }
-
+    /**
+     * Returns target clearing mechanism.
+     *
+     * @return clearing mechanism.
+     */
     public ClearingMechanism getClearingMechanism() {
         return clearingMechanism;
     }

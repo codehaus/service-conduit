@@ -32,6 +32,12 @@
 			<groupId>org.sca4j</groupId>
 			<artifactId>sca4j-api</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>1.0</version>
+		</dependency>
         
     </dependencies>
 
