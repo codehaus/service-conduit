@@ -1,0 +1,21 @@
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org" 
+           xmlns:sca="http://www.osoa.org/xmlns/sca/1.0" 
+           name="webapp" targetNamespace="urn:composite:com.travelex.tgbp" 
+           autowire="true">
+
+	<component name="webapp">
+		<implementation.web />
+	</component>
+	
+	<!-- Using this as the module integration assembly. There won't be that many modules so this is just to avoid
+		 the extra layer of an integration project. Can always add later  -->
+	
+	<component name="SchemaServices">
+		<implementation.composite scdlResource="payment-gateway-schema-model.composite" />
+		<service name="schemaModelBuilder">
+            <sca4j:binding.http />
+        </service>
+	</component>
+	
+</composite>

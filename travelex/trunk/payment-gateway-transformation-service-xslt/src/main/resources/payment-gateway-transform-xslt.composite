@@ -1,6 +1,6 @@
 <composite xmlns="http://www.osoa.org/xmlns/sca/1.0" 
            name="xsltTransformationService"
-           targetNamespace="urn:composite:com.travelex.tgbp.transform" 
+           targetNamespace="urn:composite:com.travelex.tgbp" 
            autowire="false">
        
     <service name="xsltTransformationService" promote="XsltTransformationService/TransformationService" />

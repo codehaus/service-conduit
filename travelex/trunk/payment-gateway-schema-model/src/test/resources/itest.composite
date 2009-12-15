@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           xmlns:sca="http://www.osoa.org/xmlns/sca/1.0"
+           name="SchemaModelBuilderITest"
+           autowire="false">
+
+    <component name="SchemaModelBuilderITest">
+    	<sca4j:junit class="com.travelex.tgbp.schema.model.SchemaModelBuilderITest" />
+        <reference name="schemaModelBuilder" target="SchemaModelBuilder" />
+    </component>
+
+    <component name="SchemaModelBuilder">
+        <implementation.composite scdlResource="payment-gateway-schema-model.composite"/>
+    </component>       
+
+</composite>
+
+
+       

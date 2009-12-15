@@ -18,7 +18,7 @@
 
             <!-- SCA properties -->
             <sca.spec.version>0.2.1</sca.spec.version>
-            <sca4j.version>0.2.9</sca4j.version>
+            <sca4j.version>0.1.8</sca4j.version>
 
             <compiler.plugin.version>2.0.2</compiler.plugin.version>
         </properties>
@@ -26,13 +26,34 @@
 	<modules>
 		<module>payment-gateway-store</module>
 		<module>payment-gateway-submission-processor</module>
+		<module>payment-gateway-schema-model</module>
 		<module>payment-gateway-transformation-service-api</module>
 		<module>payment-gateway-transformation-service-xslt</module>
 		<module>payment-gateway-output-service</module>		
+		<module>payment-gateway-war</module>		
+		<module>payment-gateway-ear</module>		
 	</modules>
 
 	<dependencyManagement>
 	    <dependencies>
+
+	        <dependency>
+        	    <groupId>javax.ws.rs</groupId>
+         	    <artifactId>jsr311-api</artifactId>			
+	            <version>1.0</version>
+	        </dependency>
+
+		<dependency>
+	            <groupId>net.sf.saxon</groupId>
+        	    <artifactId>saxon</artifactId>
+	            <version>8.5.1</version>
+        	</dependency>
+        
+		<dependency>
+        	    <groupId>dom4j</groupId>
+	            <artifactId>dom4j</artifactId>
+        	    <version>1.6.1</version>
+	        </dependency>
 
                 <dependency>
                     <groupId>junit</groupId>
@@ -63,7 +84,49 @@
                     <artifactId>sca-api-r1.0</artifactId>
                     <version>${sca.spec.version}</version>
                 </dependency>
+                
+                <dependency>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-entitymanager</artifactId>
+                    <version>3.3.1.ga</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>javax.transaction</groupId>
+                            <artifactId>jta</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
 
+
+                <dependency>
+                    <groupId>geronimo-spec</groupId>
+                    <artifactId>geronimo-spec-jta</artifactId>
+                    <version>1.0.1B-rc4</version>
+                </dependency>
+
+                <dependency>
+                    <groupId>concurrent</groupId>
+                    <artifactId>concurrent</artifactId>
+                    <version>1.3.4</version>
+                </dependency>
+
+                <dependency>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>servlet-api</artifactId>
+                    <version>2.3</version>
+                </dependency>
+
+                <dependency>
+                    <groupId>commons-codec</groupId>
+                    <artifactId>commons-codec</artifactId>
+                    <version>1.3</version>
+                </dependency>
+
+                 <dependency>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
+                    <version>1.2.12</version>
+                </dependency>
 	    </dependencies>
 
 	</dependencyManagement>
