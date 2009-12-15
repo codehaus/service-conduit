@@ -18,7 +18,7 @@
 
             <!-- SCA properties -->
             <sca.spec.version>0.2.1</sca.spec.version>
-            <sca4j.version>0.1.8</sca4j.version>
+            <sca4j.version>0.2.9</sca4j.version>
 
             <compiler.plugin.version>2.0.2</compiler.plugin.version>
         </properties>
