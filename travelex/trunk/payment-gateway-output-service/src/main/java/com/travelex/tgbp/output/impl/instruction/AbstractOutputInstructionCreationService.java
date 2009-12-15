@@ -1,4 +1,4 @@
-package com.travelex.tgbp.output.impl;
+package com.travelex.tgbp.output.impl.instruction;
 
 import java.util.List;
 import java.util.Map;
@@ -6,10 +6,10 @@ import java.util.Map;
 import org.osoa.sca.annotations.Callback;
 import org.osoa.sca.annotations.Reference;
 
-import com.travelex.tgbp.output.service.OutputInitiator;
-import com.travelex.tgbp.output.service.OutputInitiatorListener;
-import com.travelex.tgbp.output.service.OutputInstructionCollector;
-import com.travelex.tgbp.output.service.OutputInstructionCollectorListener;
+import com.travelex.tgbp.output.service.instruction.OutputInstructionCollector;
+import com.travelex.tgbp.output.service.instruction.OutputInstructionCollectorListener;
+import com.travelex.tgbp.output.service.instruction.OutputInstructionCreationService;
+import com.travelex.tgbp.output.service.instruction.OutputInstructionCreationServiceListener;
 import com.travelex.tgbp.routing.service.ClearingMechanismResolver;
 import com.travelex.tgbp.store.domain.Instruction;
 import com.travelex.tgbp.store.service.InstructionReaderService;
@@ -17,35 +17,35 @@ import com.travelex.tgbp.store.type.ClearingMechanism;
 import com.travelex.tgbp.store.type.Currency;
 
 /**
- * Abstract implementation for {@link OutputInitiator}.
+ * Abstract implementation for {@link OutputInstructionCreationService}.
  */
-public abstract class AbstractOutputInitiator implements OutputInitiator, OutputInstructionCollectorListener {
+public abstract class AbstractOutputInstructionCreationService implements OutputInstructionCreationService, OutputInstructionCollectorListener {
 
     @Reference protected InstructionReaderService instructionReaderService;
     @Reference protected ClearingMechanismResolver clearingMechanismResolver;
     @Reference protected Map<ClearingMechanism, OutputInstructionCollector> instructionCollectors;
 
-    @Callback protected OutputInitiatorListener outputInitiatorListener;
+    @Callback protected OutputInstructionCreationServiceListener serviceListener;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void initiate() {
+    public void createInstructions() {
         final List<Instruction> inputInstructions = instructionReaderService.findInstructionByCurrency(getCurrencyType());
         for (Instruction instruction : inputInstructions) {
             instructionCollectors.get(clearingMechanismResolver.resolve(instruction)).addInstruction(instruction);
         }
-        generateOutput();
-        outputInitiatorListener.onCompletion();
+        notifyCollectors();
+        serviceListener.onCompletion(getCurrencyType());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void onOutputCompletion(ClearingMechanism clearingMechanism) {
-        outputInitiatorListener.onCompletion(clearingMechanism.getCurrency());
+    public void onCompletion(ClearingMechanism clearingMechanism) {
+
     }
 
     /**
@@ -66,11 +66,11 @@ public abstract class AbstractOutputInitiator implements OutputInitiator, Output
     abstract Currency getCurrencyType();
 
     /*
-     * Generates clearing mechanism specific output
+     * Notify end of instruction collection to individual collectors
      */
-    private void generateOutput() {
+    private void notifyCollectors() {
         for (OutputInstructionCollector collector : instructionCollectors.values()) {
-            collector.generateOutput();
+            collector.endCollection();
         }
     }
 

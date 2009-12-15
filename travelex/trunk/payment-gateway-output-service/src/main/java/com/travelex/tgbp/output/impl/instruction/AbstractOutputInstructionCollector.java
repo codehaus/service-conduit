@@ -1,4 +1,4 @@
-package com.travelex.tgbp.output.impl;
+package com.travelex.tgbp.output.impl.instruction;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -6,11 +6,10 @@ import java.util.Set;
 import org.osoa.sca.annotations.Callback;
 import org.osoa.sca.annotations.Reference;
 
-import com.travelex.tgbp.output.service.OutputInstructionCollector;
-import com.travelex.tgbp.output.service.OutputInstructionCollectorListener;
+import com.travelex.tgbp.output.service.instruction.OutputInstructionCollector;
+import com.travelex.tgbp.output.service.instruction.OutputInstructionCollectorListener;
 import com.travelex.tgbp.store.domain.Instruction;
 import com.travelex.tgbp.store.domain.OutputInstruction;
-import com.travelex.tgbp.store.domain.OutputSubmission;
 import com.travelex.tgbp.store.service.InstructionStoreService;
 import com.travelex.tgbp.store.service.SubmissionStoreService;
 import com.travelex.tgbp.store.type.ClearingMechanism;
@@ -23,7 +22,7 @@ public abstract class AbstractOutputInstructionCollector implements OutputInstru
     @Reference protected SubmissionStoreService submissionStoreService;
     @Reference protected InstructionStoreService instructionStoreService;
 
-    @Callback protected OutputInstructionCollectorListener listener;
+    @Callback protected OutputInstructionCollectorListener serviceListener;
 
     private Set<Instruction> instructions = new HashSet<Instruction>();
 
@@ -39,11 +38,10 @@ public abstract class AbstractOutputInstructionCollector implements OutputInstru
      * {@inheritDoc}
      */
     @Override
-    public void generateOutput() {
+    public void endCollection() {
         if (!instructions.isEmpty()) {
-            createOutputItems();
-            // TODO - Invoke output file generation service.
-            listener.onOutputCompletion(getClearingMechanism());
+            createOutputInstructions();
+            serviceListener.onCompletion(getClearingMechanism());
         }
     }
 
@@ -52,7 +50,7 @@ public abstract class AbstractOutputInstructionCollector implements OutputInstru
      */
     @Override
     public void close() {
-
+         instructions = null;
     }
 
     /**
@@ -63,14 +61,11 @@ public abstract class AbstractOutputInstructionCollector implements OutputInstru
     abstract ClearingMechanism getClearingMechanism();
 
     /*
-     * Prepares and stores output domain objects for accumulated instructions.
+     * Prepares and stores output instructions for accumulated input instructions.
      */
-    private void createOutputItems() {
-        final OutputSubmission outputSubmission = new OutputSubmission(getClearingMechanism());
-        submissionStoreService.store(outputSubmission);
-
+    private void createOutputInstructions() {
         for (Instruction instruction : instructions) {
-            final OutputInstruction outputInstruction = new OutputInstruction(outputSubmission.getId(), null, null, instruction.getAmount());
+            final OutputInstruction outputInstruction = new OutputInstruction(getClearingMechanism(), null, null, instruction.getAmount());
             instructionStoreService.store(outputInstruction);
             instructionStoreService.updateOutputInstructionId(instruction.getId(), outputInstruction.getId());
         }

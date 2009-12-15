@@ -2,6 +2,8 @@ package com.travelex.tgbp.store.domain;
 
 import java.math.BigDecimal;
 
+import com.travelex.tgbp.store.type.ClearingMechanism;
+
 /**
  * Represents instruction which has been sent out.
  */
@@ -9,6 +11,7 @@ public class OutputInstruction {
 
     private Long id;
     private Long outputSubmissionId;
+    private ClearingMechanism clearingMechanism;
     private String sourceIdentifier;
     private String targetIdentifier;
     private BigDecimal amount;
@@ -21,8 +24,8 @@ public class OutputInstruction {
      * @param targetIdentifier - target identifier.
      * @param amount - payment amount.
      */
-    public OutputInstruction(Long outputSubmissionId, String sourceIdentifier, String targetIdentifier, BigDecimal amount) {
-        this.outputSubmissionId = outputSubmissionId;
+    public OutputInstruction(ClearingMechanism clearingMechanism, String sourceIdentifier, String targetIdentifier, BigDecimal amount) {
+        this.clearingMechanism = clearingMechanism;
         this.sourceIdentifier = sourceIdentifier;
         this.targetIdentifier = targetIdentifier;
         this.amount = amount;
@@ -62,6 +65,24 @@ public class OutputInstruction {
      */
     public String getTargetIdentifier() {
         return targetIdentifier;
+    }
+
+    /**
+     * Returns the target clearing mechanism
+     *
+     * @return the clearingMechanism
+     */
+    public ClearingMechanism getClearingMechanism() {
+        return clearingMechanism;
+    }
+
+    /**
+     * Returns the instruction amount
+     *
+     * @return the amount
+     */
+    public BigDecimal getAmount() {
+        return amount;
     }
 
 }

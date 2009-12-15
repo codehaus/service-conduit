@@ -1,14 +1,21 @@
 package com.travelex.tgbp.output.service;
 
 /**
- * Represents listener service to trigger output.
+ * Represents serviceListener service to trigger output processes.
  */
 public interface OutputService {
 
     /**
-     * Initiates payment output.
+     * Triggers output instruction creation process.
      *
      * @param message - notification message.
      */
-    void start(Object message);
+    void outputInstructions(Object message);
+
+    /**
+     * Triggers output submission and file creation process.
+     *
+     * @param message - notification message.
+     */
+    void outputFiles(Object message);
 }

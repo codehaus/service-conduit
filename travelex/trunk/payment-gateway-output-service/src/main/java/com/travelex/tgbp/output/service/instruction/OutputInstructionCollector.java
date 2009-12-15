@@ -1,4 +1,4 @@
-package com.travelex.tgbp.output.service;
+package com.travelex.tgbp.output.service.instruction;
 
 import org.osoa.sca.annotations.Callback;
 import org.osoa.sca.annotations.Conversational;
@@ -7,7 +7,7 @@ import org.osoa.sca.annotations.EndsConversation;
 import com.travelex.tgbp.store.domain.Instruction;
 
 /**
- * Accumulates payment instructions which will sent out using same clearing mechanism.
+ * Accumulates payment instructions which will be sent out using same clearing mechanism.
  */
 @Conversational
 @Callback(OutputInstructionCollectorListener.class)
@@ -21,9 +21,9 @@ public interface OutputInstructionCollector {
     void addInstruction(Instruction instruction);
 
     /**
-     * Outputs accumulated instructions.
+     * Create and store output instructions for  accumulated input instructions.
      */
-    void generateOutput();
+    void endCollection();
 
     /**
      * Closes current client conversation.

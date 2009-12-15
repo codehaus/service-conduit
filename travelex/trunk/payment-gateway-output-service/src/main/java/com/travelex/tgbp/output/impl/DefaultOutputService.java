@@ -5,27 +5,27 @@ import java.util.Map;
 import org.osoa.sca.annotations.Reference;
 import org.osoa.sca.annotations.Service;
 
-import com.travelex.tgbp.output.service.OutputInitiator;
-import com.travelex.tgbp.output.service.OutputInitiatorListener;
 import com.travelex.tgbp.output.service.OutputService;
+import com.travelex.tgbp.output.service.instruction.OutputInstructionCreationService;
+import com.travelex.tgbp.output.service.instruction.OutputInstructionCreationServiceListener;
 import com.travelex.tgbp.store.type.Currency;
 
 /**
  * Default implementation of {@link OutputService}.
  */
-@Service (interfaces = {OutputService.class, OutputInitiatorListener.class})
-public class DefaultOutputService implements OutputService, OutputInitiatorListener {
+@Service (interfaces = {OutputService.class, OutputInstructionCreationServiceListener.class})
+public class DefaultOutputService implements OutputService, OutputInstructionCreationServiceListener {
 
-    @Reference protected Map<Currency, OutputInitiator> initiators;
+    @Reference protected Map<Currency, OutputInstructionCreationService> outputInstructionCreators;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void start(Object message) {
+    public void outputInstructions(Object message) {
         try {
-            for (OutputInitiator initiator : initiators.values()) {
-                initiator.initiate();
+            for (OutputInstructionCreationService creator : outputInstructionCreators.values()) {
+                creator.createInstructions();
             }
         } finally {
             closeConversations();
@@ -36,7 +36,8 @@ public class DefaultOutputService implements OutputService, OutputInitiatorListe
      * {@inheritDoc}
      */
     @Override
-    public void onCompletion(Currency currency) {
+    public void outputFiles(Object message) {
+        // TODO Auto-generated method stub
 
     }
 
@@ -44,7 +45,7 @@ public class DefaultOutputService implements OutputService, OutputInitiatorListe
      * {@inheritDoc}
      */
     @Override
-    public void onCompletion() {
+    public void onCompletion(Currency currency) {
 
     }
 
@@ -52,8 +53,8 @@ public class DefaultOutputService implements OutputService, OutputInitiatorListe
      * Closes service conversations.
      */
     private void closeConversations() {
-        for (OutputInitiator initiator : initiators.values()) {
-            initiator.close();
+        for (OutputInstructionCreationService creator : outputInstructionCreators.values()) {
+            creator.close();
         }
     }
 

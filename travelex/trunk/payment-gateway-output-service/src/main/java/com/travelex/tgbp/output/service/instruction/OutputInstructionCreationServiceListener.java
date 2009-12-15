@@ -1,14 +1,14 @@
-package com.travelex.tgbp.output.service;
+package com.travelex.tgbp.output.service.instruction;
 
 import org.osoa.sca.annotations.Conversational;
 
 import com.travelex.tgbp.store.type.Currency;
 
 /**
- * Call back listener for {@link OutputInitiator}.
+ * Call back serviceListener for {@link OutputInstructionCreationService}.
  */
 @Conversational
-public interface OutputInitiatorListener {
+public interface OutputInstructionCreationServiceListener {
 
     /**
      * Notifies end of output processing related to specific currency.
@@ -16,9 +16,4 @@ public interface OutputInitiatorListener {
      * @param currency - currency whose instruction output processing is completed.
      */
     void onCompletion(Currency currency);
-
-    /**
-     * Notifies end of output processing.
-     */
-    void onCompletion();
 }
