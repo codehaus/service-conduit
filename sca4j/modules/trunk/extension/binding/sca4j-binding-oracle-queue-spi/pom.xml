@@ -19,8 +19,9 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>sca4j-extension-binding-parent-pom</artifactId>
-        <version>0.1.5-SNAPSHOT</version>
+        <version>0.2.10-SNAPSHOT</version>
     </parent>
+
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-binding-oracle-queue-spi</artifactId>
     <name>SCA4J Oracle AQ SPI</name>
