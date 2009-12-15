@@ -17,6 +17,7 @@ public class Instruction {
     private LocalDate valueDate;
     private BigDecimal amount;
     private Long outputInstructionId;
+    private String data;
 
     /**
      * Initialises with attributes.
@@ -28,6 +29,14 @@ public class Instruction {
         this.currency = currency;
         this.valueDate = valueDate;
         this.amount = amount;
+    }
+    
+    /**
+     * Sets the snippet of data related to the instruction
+     * @param data
+     */
+    public void setData(String data){
+    	this.data = data;
     }
 
     /**
@@ -82,6 +91,14 @@ public class Instruction {
      */
     public Long getOutputInstructionId() {
         return outputInstructionId;
+    }
+    
+    /**
+     * Gets the data related to the instruction
+     * @return
+     */
+    public String getData(){
+    	return data;
     }
 
 }
