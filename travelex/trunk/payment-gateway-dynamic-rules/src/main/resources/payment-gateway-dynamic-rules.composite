@@ -1,0 +1,13 @@
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0" 
+           targetNamespace="urn:composite:com.travelex.tgbp" 
+           name="DynamicRuleSubmissionProcessor"
+           autowire="false">
+       
+    <service name="dynamicRuleSubmissionProcessor" promote="DynamicRuleSubmissionProcessor" />
+    
+    <component name="DynamicRuleSubmissionProcessor">
+    	<implementation.java class="com.travelex.tgbp.rules.dynamic.capture.DefaultDynamicRuleSubmissionProcessor" />
+    </component>
+    
+        
+</composite>
