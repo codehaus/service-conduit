@@ -13,7 +13,7 @@ public interface SubmissionStoreService {
      *
      * @param submission
      */
-    void store(Submission submission);
+    Long store(Submission submission);
 
     /**
      * Stores given output submission.

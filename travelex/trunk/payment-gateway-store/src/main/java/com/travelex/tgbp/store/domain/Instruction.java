@@ -17,7 +17,8 @@ public class Instruction {
     private LocalDate valueDate;
     private BigDecimal amount;
     private Long outputInstructionId;
-    private String data;
+    private String paymentData;
+    private String paymentGroupData;
 
     /**
      * Initialises with attributes.
@@ -30,13 +31,30 @@ public class Instruction {
         this.valueDate = valueDate;
         this.amount = amount;
     }
-    
+
+    /**
+     * Sets the snippet of data for the group containing the instruction.
+     * Note: This wouldn't scale beyond the PoC.
+     * @param paymentGroupData
+     */
+    public void setPaymentGroupData(String paymentGroupData) {
+        this.paymentGroupData = paymentGroupData;
+    }
+
     /**
      * Sets the snippet of data related to the instruction
      * @param data
      */
-    public void setData(String data){
-    	this.data = data;
+    public void setPaymentData(String data){
+        this.paymentData = data;
+    }
+
+    /**
+     * Gets the snippet of data for the group containing the instruction.
+     * @return the paymentGroupData
+     */
+    public String getPaymentGroupData() {
+        return paymentGroupData;
     }
 
     /**
@@ -92,13 +110,22 @@ public class Instruction {
     public Long getOutputInstructionId() {
         return outputInstructionId;
     }
-    
+
     /**
      * Gets the data related to the instruction
      * @return
      */
-    public String getData(){
-    	return data;
+    public String getPaymentData(){
+        return paymentData;
     }
+
+    /**
+     * JPA Constructor
+     */
+    Instruction() {
+
+    }
+
+
 
 }
