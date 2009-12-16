@@ -27,6 +27,7 @@
 		<module>payment-gateway-store</module>
 		<module>payment-gateway-submission-processor</module>
 		<module>payment-gateway-submission-parser</module>
+		<module>payment-gateway-dynamic-rules</module>
 		<module>payment-gateway-schema-model</module>
 		<module>payment-gateway-transformation-service-api</module>
 		<module>payment-gateway-transformation-service-xslt</module>
@@ -91,6 +92,12 @@
                     <artifactId>sca-api-r1.0</artifactId>
                     <version>${sca.spec.version}</version>
                 </dependency>
+
+				<dependency>
+					<groupId>org.sca4j</groupId>
+					<artifactId>sca4j-tx-jotm</artifactId>
+					<version>0.1.5</version>
+				</dependency>
                 
                 <dependency>
                     <groupId>org.hibernate</groupId>
@@ -104,12 +111,17 @@
                     </exclusions>
                 </dependency>
 
-
                 <dependency>
                     <groupId>geronimo-spec</groupId>
                     <artifactId>geronimo-spec-jta</artifactId>
                     <version>1.0.1B-rc4</version>
                 </dependency>
+                
+		        <dependency>
+		            <groupId>geronimo-spec</groupId>
+		            <artifactId>geronimo-spec-j2ee-connector</artifactId>
+		            <version>1.5-rc4</version>
+		        </dependency>                
 
                 <dependency>
                     <groupId>concurrent</groupId>
@@ -134,6 +146,7 @@
                     <groupId>log4j</groupId>
                     <version>1.2.12</version>
                 </dependency>
+                
 	    </dependencies>
 
 	</dependencyManagement>

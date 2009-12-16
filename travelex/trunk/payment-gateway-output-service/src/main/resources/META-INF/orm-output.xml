@@ -7,7 +7,7 @@
 	
     <named-query name="FIND_CONFIG_ON_AMOUNT">
 	   <query>
-	        SELECT config 
+	        SELECT config
             FROM RoutingConfigOnAmount config 
             WHERE config.currency = ?1 AND config.amount = ?2 
 	   </query>
@@ -15,11 +15,13 @@
     
     <named-query name="FIND_CONFIG_ON_VALUE_DATE">
 	   <query>
+	   <![CDATA[	   
 	        SELECT config 
             FROM RoutingConfigOnValueDate config 
             WHERE config.currency = ?1 AND config.clearingPeriod <= ?2 
             order by config.charge
-	   </query>
+       ]]>
+	   </query>	   
     </named-query>
     
     <named-query name="FIND_OI_BATCHING_CONFIG">

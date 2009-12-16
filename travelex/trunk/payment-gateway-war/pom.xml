@@ -14,16 +14,34 @@
     <name>TGBP WAR module</name>
 
     <dependencies>
-
+    
         <dependency>
             <groupId>com.travelex.tgbp</groupId>
             <artifactId>payment-gateway-schema-model</artifactId>
             <version>${project.version}</version>
         </dependency>
+        
+        <dependency>
+            <groupId>com.travelex.tgbp</groupId>
+    		<artifactId>payment-gateway-dynamic-rules</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+        </dependency>                        
+        
         <dependency>
             <groupId>geronimo-spec</groupId>
             <artifactId>geronimo-spec-jta</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>geronimo-spec</groupId>
+            <artifactId>geronimo-spec-j2ee-connector</artifactId>
+        </dependency>
+        
         <dependency>
             <groupId>concurrent</groupId>
             <artifactId>concurrent</artifactId>
@@ -75,6 +93,10 @@
                 <configuration>
                     <runTimeVersion>${sca4j.version}</runTimeVersion>
                     <extensions>
+						<dependency>
+							<groupId>org.sca4j</groupId>
+							<artifactId>sca4j-tx-jotm</artifactId>
+						</dependency>                    
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-resource</artifactId>
@@ -107,9 +129,25 @@
                         </dependency>
                         <dependency>
                             <groupId>org.sca4j</groupId>
+                            <artifactId>sca4j-conversation-propagation</artifactId>
+                            <version>${sca4j.version}</version>
+                        </dependency>                        
+                        <dependency>
+                            <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-policy</artifactId>
                             <version>${sca4j.version}</version>
                         </dependency>
+                        <dependency>
+                            <groupId>org.sca4j</groupId>
+                            <artifactId>sca4j-jpa</artifactId>
+                            <version>${sca4j.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.sca4j</groupId>
+                            <artifactId>sca4j-tx</artifactId>
+                            <version>${sca4j.version}</version>
+                        </dependency>
+                        
                     </extensions>
                 </configuration>
             </plugin>
