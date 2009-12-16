@@ -13,7 +13,7 @@ import com.travelex.tgbp.store.type.Currency;
 public interface InstructionReaderService {
 
     /**
-     * Gives back all input instructions on given currency.
+     * Gives back input instructions on given currency for which no output instruction has been created.
      *
      * @param currency - instruction currency.
      * @return list of instructions.

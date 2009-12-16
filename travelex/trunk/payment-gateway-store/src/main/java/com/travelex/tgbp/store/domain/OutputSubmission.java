@@ -1,5 +1,10 @@
 package com.travelex.tgbp.store.domain;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 import com.travelex.tgbp.store.type.ClearingMechanism;
 
 /**
@@ -9,6 +14,8 @@ public class OutputSubmission {
 
     private Long id;
     private ClearingMechanism clearingMechanism;
+
+    private transient Set<OutputInstruction> outputInstructions = new HashSet<OutputInstruction>();
 
     /**
      * Initialises with attributes.
@@ -35,6 +42,24 @@ public class OutputSubmission {
      */
     public ClearingMechanism getClearingMechanism() {
         return clearingMechanism;
+    }
+
+    /**
+     * Adds output instruction to this output submission
+     *
+     * @param instruction - output instruction
+     */
+    public void addOutputInstruction(OutputInstruction instruction) {
+        outputInstructions.add(instruction);
+    }
+
+    /**
+     * Returns output instructions contained in this submission.
+     *
+     * @return collection of output instructions.
+     */
+    public Collection<OutputInstruction> getOutputInstructions() {
+        return Collections.unmodifiableCollection(outputInstructions);
     }
 
 }
