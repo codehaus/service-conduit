@@ -10,7 +10,6 @@
 	        SELECT config 
             FROM RoutingConfigOnAmount config 
             WHERE config.currency = ?1 AND config.amount = ?2 
-            order by to_number(SUBSTRING(ins.rowNumbers, 1, LOCATE(':', ins.rowNumbers) - 1))
 	   </query>
     </named-query>
     
@@ -22,6 +21,15 @@
             order by config.charge
 	   </query>
     </named-query>
+    
+    <named-query name="FIND_OI_BATCHING_CONFIG">
+	   <query>
+	        SELECT config 
+            FROM OutputInstructionBatchingConfig config 
+            WHERE config.clearingMechanism = ?1 
+	   </query>
+    </named-query>
+    
     
 	<entity class="com.travelex.tgbp.routing.types.RoutingConfigOnAmount" access="FIELD">
 		<table name="ROUTING_CONFIG_ON_AMOUNT" />
@@ -77,6 +85,23 @@
 			
 			<basic name="charge">
 				<column name="CHARGE" nullable="false" />
+			</basic>
+		</attributes>
+	</entity>
+	
+	<entity class="com.travelex.tgbp.output.types.OutputInstructionBatchingConfig" access="FIELD">
+		<table name="OUTPUT_INSTRUCTION_BATCHING_CONFIG" />
+		<attributes>
+			<id name="clearingMechanism">
+				<column name="CLEARING_MECHANISM" nullable="false" />
+			</id>
+
+			<basic name="thresholdCount">
+				<column name="THRESHOLD_COUNT" nullable="false"/>
+			</basic>
+
+			<basic name="thresholdAmount">
+				<column name="THRESHOLD_AMOUNT" nullable="false"/>
 			</basic>
 		</attributes>
 	</entity>

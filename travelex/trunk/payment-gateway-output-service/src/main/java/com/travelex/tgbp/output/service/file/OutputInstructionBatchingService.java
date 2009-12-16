@@ -1,10 +1,16 @@
 package com.travelex.tgbp.output.service.file;
 
+import org.osoa.sca.annotations.Callback;
+import org.osoa.sca.annotations.Conversational;
+import org.osoa.sca.annotations.EndsConversation;
+
 import com.travelex.tgbp.store.domain.OutputSubmission;
 
 /**
- * Groups output instructions on configured output rules.
+ * Groups output instructions on configured batching rules for a particular clearing mechanism.
  */
+@Conversational
+@Callback(OutputInstructionBatchingServiceListener.class)
 public interface OutputInstructionBatchingService {
 
     /**
@@ -17,9 +23,13 @@ public interface OutputInstructionBatchingService {
      * </ul>
      *
      * One {@link OutputSubmission} object is created for one batch.
-     *
-     * @param message - command message
      */
-    void doBatching(Object message);
+    void doBatching();
+
+    /**
+     * Closes current client conversation.
+     */
+    @EndsConversation
+    void close();
 
 }
