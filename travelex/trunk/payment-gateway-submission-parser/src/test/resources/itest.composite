@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           xmlns:sca="http://www.osoa.org/xmlns/sca/1.0"
+           name="Pain001SubmissionParserITest"
+           autowire="false">
+
+    <component name="Pain001SubmissionParserITest">
+        <sca4j:junit class="com.travelex.tgbp.submission.parser.Pain001SubmissionParserITest"/>
+		<reference name="submissionParser" target="SubmissionParser"/>
+		<reference name="store" target="Store"/>
+    </component>
+
+    <component name="SubmissionParser">
+        <implementation.composite scdlResource="payment-gateway-submission-parser.composite"/>
+        <reference name="submissionStoreService" target="DummySubmissionStore"/>
+    	<reference name="instructionStoreService" target="DummyInstructionStore"/>
+    </component>   
+
+    <component name="DummySubmissionStore">
+        <implementation.java class="com.travelex.tgbp.submission.parser.DummySubmissionStore"/>
+        <reference name="store" target="Store"/>
+    </component>
+    
+	<component name="DummyInstructionStore">
+        <implementation.java class="com.travelex.tgbp.submission.parser.DummyInstructionStore"/>
+        <reference name="store" target="Store"/>
+    </component>   
+
+    <component name="Store">
+        <implementation.java class="com.travelex.tgbp.submission.parser.DefaultStore"/>
+    </component> 
+
+</composite>
