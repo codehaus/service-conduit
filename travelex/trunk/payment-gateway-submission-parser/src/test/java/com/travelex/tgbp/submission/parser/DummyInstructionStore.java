@@ -1,5 +1,7 @@
 package com.travelex.tgbp.submission.parser;
 
+import java.util.Collection;
+
 import org.osoa.sca.annotations.Reference;
 
 import com.travelex.tgbp.store.domain.Instruction;
@@ -20,4 +22,9 @@ public class DummyInstructionStore implements InstructionStoreService {
 
     @Override
     public void updateOutputInstructionId(Long arg0, Long arg1) {}
+
+    @Override
+    public void updateOutputSubmissionId(Long arg0, Collection<OutputInstruction> arg1) {
+
+    }
 }
