@@ -2,18 +2,18 @@ package com.travelex.tgbp.output.service.instruction;
 
 import org.osoa.sca.annotations.Conversational;
 
-import com.travelex.tgbp.store.type.Currency;
+import com.travelex.tgbp.store.type.ClearingMechanism;
 
 /**
- * Call back serviceListener for {@link OutputInstructionCreationService}.
+ * Call back interface for {@link OutputInstructionCreationService}.
  */
 @Conversational
 public interface OutputInstructionCreationServiceListener {
 
     /**
-     * Notifies end of output processing related to specific currency.
+     * Notifies end of output instruction creation related to specific clearing mechanism.
      *
-     * @param currency - currency whose instruction output processing is completed.
+     * @param clearingMechanism - payment type whose output instruction creation is complete.
      */
-    void onCompletion(Currency currency);
+    void onCompletion(ClearingMechanism clearingMechanism);
 }

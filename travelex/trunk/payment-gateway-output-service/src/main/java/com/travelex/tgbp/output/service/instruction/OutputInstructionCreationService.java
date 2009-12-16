@@ -2,25 +2,32 @@ package com.travelex.tgbp.output.service.instruction;
 
 import org.osoa.sca.annotations.Callback;
 import org.osoa.sca.annotations.Conversational;
+import org.osoa.sca.annotations.EndsConversation;
+
+import com.travelex.tgbp.store.domain.Instruction;
 
 /**
- * Creates output instructions on a particular currency.
+ * Accumulates and creates output instructions which will be sent out using same clearing mechanism.
  */
 @Conversational
 @Callback(OutputInstructionCreationServiceListener.class)
 public interface OutputInstructionCreationService {
 
     /**
-     * Performs below activities,
+     * Adds payment instruction.
      *
-     *  1. Searches all instruction on a currency which have not been sent for output yet.
-     *  2. Resolves destination clearing mechanism for every instruction.
-     *  3. Invokes related output instruction collector.
+     * @param instruction
      */
-    void createInstructions();
+    void addInstruction(Instruction instruction);
+
+    /**
+     * Marks end of instruction accumulation, creates and stores output instructions for accumulated input instructions.
+     */
+    void onCollectionEnd();
 
     /**
      * Closes current client conversation.
      */
+    @EndsConversation
     void close();
 }
