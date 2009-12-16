@@ -26,6 +26,7 @@
 	<modules>
 		<module>payment-gateway-store</module>
 		<module>payment-gateway-submission-processor</module>
+		<module>payment-gateway-submission-parser</module>
 		<module>payment-gateway-schema-model</module>
 		<module>payment-gateway-transformation-service-api</module>
 		<module>payment-gateway-transformation-service-xslt</module>
@@ -66,6 +67,12 @@
             	    <artifactId>commons-io</artifactId>
            	    <version>1.1</version>
         	</dependency>
+
+                <dependency>
+                    <groupId>org.jdom</groupId>
+                    <artifactId>jdom</artifactId>
+                    <version>1.1</version>
+                </dependency>
 
 	        <dependency>
         	    <groupId>joda-time</groupId>
