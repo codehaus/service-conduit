@@ -1,0 +1,1265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" 
+	title="Routing Rules"
+	visible="false">
+	
+	<mx:Script source="as/routingRules.as"/>
+
+	<mx:HBox height="5%" paddingTop="10" paddingLeft="10" >
+        <mx:ComboBox editable="false">
+            <mx:dataProvider>
+                <mx:String>pain.001.001.03</mx:String>
+                <mx:String>pacs.008.001.02</mx:String>
+            </mx:dataProvider>
+        </mx:ComboBox>
+        
+       	<!-- <mx:Button label="Go" click="schemaDescriptorService.send()"/> -->	        
+       	<mx:Button label="Go" click="schemaTree.dataProvider=treeData"/>
+	</mx:HBox>
+
+	<mx:Tree  id="schemaTree" 
+		height="60%" width="100%" 
+		borderStyle="none"
+		dragEnabled="true" 
+		labelField="@label" 
+		showRoot="true"
+		dragComplete="onTreeDragComplete(event)"
+		dataProvider="{schemaDescription}"/>
+		
+    <mx:DataGrid id="ruleList" 
+    	height="30%" width="100%"
+        dragEnabled="true"
+        dataProvider="{dataGridProvider}"
+        dragEnter="onDragEnter(event)"
+        dragOver="onDragOver(event)"
+        dragDrop="onGridDragDrop(event)"
+        dragExit="onDragExit(event)"
+        showDataTips="true"
+		dataTipField="fullPath"
+		editable="true">
+
+        <mx:columns>	        	        
+            <mx:DataGridColumn headerText="File data" dataField="fileData" editable="false"/>
+            <mx:DataGridColumn headerText="Operator" dataField="operator" editable="true">
+            	<mx:itemEditor>
+	                <mx:Component>
+	                    <mx:ComboBox editable="false">
+	                        <mx:dataProvider>
+	                            <mx:String>Equals</mx:String>
+	                            <mx:String>Not equal to</mx:String>
+	                            <mx:String>Less than</mx:String>
+	                            <mx:String>Greater than</mx:String>
+	                        </mx:dataProvider>
+	                    </mx:ComboBox>
+	                </mx:Component>
+	            </mx:itemEditor>
+            </mx:DataGridColumn>
+            <mx:DataGridColumn headerText="Expected data" dataField="expectedData" editable="true"/>
+        </mx:columns>
+    </mx:DataGrid>			
+    
+	<mx:HBox height="5%" horizontalAlign="center">
+		<mx:Text fontSize="12" text="Rule name"/> 	
+		<mx:TextInput fontSize="12" 
+			width="70%"/>
+		<mx:Button label="Create rule"/>	
+	</mx:HBox>
+	
+	
+	<mx:HTTPService id="schemaDescriptorService"
+					url="data/001.xml"
+					result="onSchemaDescriptorService(event)"
+					resultFormat="xml"/>
+	
+		<!-- Temp - allows the tree view to be populated without having the app server running -->
+	<mx:XML id="treeData" xmlns="">
+<node label="Document" >
+ <node label="CstmrCdtTrfInitn" >
+  <node label="GrpHdr" >
+   <node label="MsgId"  javaType="java.lang.String" />
+   <node label="CreDtTm"  javaType="org.joda.time.DateTime" />
+   <node label="Authstn" >
+    <node label="Cd"  javaType="java.lang.String" />
+    <node label="Prtry"  javaType="java.lang.String" />
+   </node>
+   <node label="NbOfTxs"  javaType="java.lang.String" />
+   <node label="CtrlSum"  javaType="java.math.BigDecimal" />
+   <node label="InitgPty" >
+    <node label="Nm"  javaType="java.lang.String" />
+    <node label="PstlAdr" >
+     <node label="AdrTp"  javaType="java.lang.String" />
+     <node label="Dept"  javaType="java.lang.String" />
+     <node label="SubDept"  javaType="java.lang.String" />
+     <node label="StrtNm"  javaType="java.lang.String" />
+     <node label="BldgNb"  javaType="java.lang.String" />
+     <node label="PstCd"  javaType="java.lang.String" />
+     <node label="TwnNm"  javaType="java.lang.String" />
+     <node label="CtrySubDvsn"  javaType="java.lang.String" />
+     <node label="Ctry"  javaType="java.lang.String" />
+     <node label="AdrLine"  javaType="java.lang.String" />
+    </node>
+    <node label="Id" >
+     <node label="OrgId" >
+      <node label="BICOrBEI"  javaType="java.lang.String" />
+      <node label="Othr" >
+       <node label="Id"  javaType="java.lang.String" />
+       <node label="SchmeNm" >
+        <node label="Cd"  javaType="java.lang.String" />
+        <node label="Prtry"  javaType="java.lang.String" />
+       </node>
+       <node label="Issr"  javaType="java.lang.String" />
+      </node>
+     </node>
+     <node label="PrvtId" >
+      <node label="DtAndPlcOfBirth" >
+       <node label="BirthDt"  javaType="org.joda.time.DateTime" />
+       <node label="PrvcOfBirth"  javaType="java.lang.String" />
+       <node label="CityOfBirth"  javaType="java.lang.String" />
+       <node label="CtryOfBirth"  javaType="java.lang.String" />
+      </node>
+      <node label="Othr">
+       <node label="Id"  javaType="java.lang.String" />
+       <node label="SchmeNm">
+        <node label="Cd"  javaType="java.lang.String" />
+        <node label="Prtry"  javaType="java.lang.String" />
+       </node>
+       <node label="Issr"  javaType="java.lang.String" />
+      </node>
+     </node>
+    </node>
+    <node label="CtryOfRes"  javaType="java.lang.String" />
+    <node label="CtctDtls">
+     <node label="NmPrfx"  javaType="java.lang.String" />
+     <node label="Nm"  javaType="java.lang.String" />
+     <node label="PhneNb"  javaType="java.lang.String" />
+     <node label="MobNb"  javaType="java.lang.String" />
+     <node label="FaxNb"  javaType="java.lang.String" />
+     <node label="EmailAdr"  javaType="java.lang.String" />
+     <node label="Othr"  javaType="java.lang.String" />
+    </node>
+   </node>
+   <node label="FwdgAgt">
+    <node label="FinInstnId">
+     <node label="BIC"  javaType="java.lang.String" />
+     <node label="ClrSysMmbId">
+      <node label="ClrSysId">
+       <node label="Cd"  javaType="java.lang.String" />
+       <node label="Prtry"  javaType="java.lang.String" />
+      </node>
+      <node label="MmbId"  javaType="java.lang.String" />
+     </node>
+     <node label="Nm"  javaType="java.lang.String" />
+     <node label="PstlAdr">
+      <node label="AdrTp"  javaType="java.lang.String" />
+      <node label="Dept"  javaType="java.lang.String" />
+      <node label="SubDept"  javaType="java.lang.String" />
+      <node label="StrtNm"  javaType="java.lang.String" />
+      <node label="BldgNb"  javaType="java.lang.String" />
+      <node label="PstCd"  javaType="java.lang.String" />
+      <node label="TwnNm"  javaType="java.lang.String" />
+      <node label="CtrySubDvsn"  javaType="java.lang.String" />
+      <node label="Ctry"  javaType="java.lang.String" />
+      <node label="AdrLine"  javaType="java.lang.String" />
+     </node>
+     <node label="Othr">
+      <node label="Id"  javaType="java.lang.String" />
+      <node label="SchmeNm">
+       <node label="Cd"  javaType="java.lang.String" />
+       <node label="Prtry"  javaType="java.lang.String" />
+      </node>
+      <node label="Issr"  javaType="java.lang.String" />
+     </node>
+    </node>
+    <node label="BrnchId">
+     <node label="Id"  javaType="java.lang.String" />
+     <node label="Nm"  javaType="java.lang.String" />
+     <node label="PstlAdr">
+      <node label="AdrTp"  javaType="java.lang.String" />
+      <node label="Dept"  javaType="java.lang.String" />
+      <node label="SubDept"  javaType="java.lang.String" />
+      <node label="StrtNm"  javaType="java.lang.String" />
+      <node label="BldgNb"  javaType="java.lang.String" />
+      <node label="PstCd"  javaType="java.lang.String" />
+      <node label="TwnNm"  javaType="java.lang.String" />
+      <node label="CtrySubDvsn"  javaType="java.lang.String" />
+      <node label="Ctry"  javaType="java.lang.String" />
+      <node label="AdrLine"  javaType="java.lang.String" />
+     </node>
+    </node>
+   </node>
+  </node>
+  <node label="PmtInf">
+   <node label="PmtInfId"  javaType="java.lang.String" />
+   <node label="PmtMtd"  javaType="java.lang.String" />
+   <node label="BtchBookg"  javaType="java.lang.Boolean" />
+   <node label="NbOfTxs"  javaType="java.lang.String" />
+   <node label="CtrlSum"  javaType="java.math.BigDecimal" />
+   <node label="PmtTpInf">
+    <node label="InstrPrty"  javaType="java.lang.String" />
+    <node label="SvcLvl">
+     <node label="Cd"  javaType="java.lang.String" />
+     <node label="Prtry"  javaType="java.lang.String" />
+    </node>
+    <node label="LclInstrm">
+     <node label="Cd"  javaType="java.lang.String" />
+     <node label="Prtry"  javaType="java.lang.String" />
+    </node>
+    <node label="CtgyPurp">
+     <node label="Cd"  javaType="java.lang.String" />
+     <node label="Prtry"  javaType="java.lang.String" />
+    </node>
+   </node>
+   <node label="ReqdExctnDt"  javaType="org.joda.time.DateTime" />
+   <node label="PoolgAdjstmntDt"  javaType="org.joda.time.DateTime" />
+   <node label="Dbtr">
+    <node label="Nm"  javaType="java.lang.String" />
+    <node label="PstlAdr">
+     <node label="AdrTp"  javaType="java.lang.String" />
+     <node label="Dept"  javaType="java.lang.String" />
+     <node label="SubDept"  javaType="java.lang.String" />
+     <node label="StrtNm"  javaType="java.lang.String" />
+     <node label="BldgNb"  javaType="java.lang.String" />
+     <node label="PstCd"  javaType="java.lang.String" />
+     <node label="TwnNm"  javaType="java.lang.String" />
+     <node label="CtrySubDvsn"  javaType="java.lang.String" />
+     <node label="Ctry"  javaType="java.lang.String" />
+     <node label="AdrLine"  javaType="java.lang.String" />
+    </node>
+    <node label="Id">
+     <node label="OrgId">
+      <node label="BICOrBEI"  javaType="java.lang.String" />
+      <node label="Othr">
+       <node label="Id"  javaType="java.lang.String" />
+       <node label="SchmeNm">
+        <node label="Cd"  javaType="java.lang.String" />
+        <node label="Prtry"  javaType="java.lang.String" />
+       </node>
+       <node label="Issr"  javaType="java.lang.String" />
+      </node>
+     </node>
+     <node label="PrvtId">
+      <node label="DtAndPlcOfBirth">
+       <node label="BirthDt"  javaType="org.joda.time.DateTime" />
+       <node label="PrvcOfBirth"  javaType="java.lang.String" />
+       <node label="CityOfBirth"  javaType="java.lang.String" />
+       <node label="CtryOfBirth"  javaType="java.lang.String" />
+      </node>
+      <node label="Othr">
+       <node label="Id"  javaType="java.lang.String" />
+       <node label="SchmeNm">
+        <node label="Cd"  javaType="java.lang.String" />
+        <node label="Prtry"  javaType="java.lang.String" />
+       </node>
+       <node label="Issr"  javaType="java.lang.String" />
+      </node>
+     </node>
+    </node>
+    <node label="CtryOfRes"  javaType="java.lang.String" />
+    <node label="CtctDtls">
+     <node label="NmPrfx"  javaType="java.lang.String" />
+     <node label="Nm"  javaType="java.lang.String" />
+     <node label="PhneNb"  javaType="java.lang.String" />
+     <node label="MobNb"  javaType="java.lang.String" />
+     <node label="FaxNb"  javaType="java.lang.String" />
+     <node label="EmailAdr"  javaType="java.lang.String" />
+     <node label="Othr"  javaType="java.lang.String" />
+    </node>
+   </node>
+   <node label="DbtrAcct">
+    <node label="Id">
+     <node label="IBAN"  javaType="java.lang.String" />
+     <node label="Othr">
+      <node label="Id"  javaType="java.lang.String" />
+      <node label="SchmeNm">
+       <node label="Cd"  javaType="java.lang.String" />
+       <node label="Prtry"  javaType="java.lang.String" />
+      </node>
+      <node label="Issr"  javaType="java.lang.String" />
+     </node>
+    </node>
+    <node label="Tp">
+     <node label="Cd"  javaType="java.lang.String" />
+     <node label="Prtry"  javaType="java.lang.String" />
+    </node>
+    <node label="Ccy"  javaType="java.lang.String" />
+    <node label="Nm"  javaType="java.lang.String" />
+   </node>
+   <node label="DbtrAgt">
+    <node label="FinInstnId">
+     <node label="BIC"  javaType="java.lang.String" />
+     <node label="ClrSysMmbId">
+      <node label="ClrSysId">
+       <node label="Cd"  javaType="java.lang.String" />
+       <node label="Prtry"  javaType="java.lang.String" />
+      </node>
+      <node label="MmbId"  javaType="java.lang.String" />
+     </node>
+     <node label="Nm"  javaType="java.lang.String" />
+     <node label="PstlAdr">
+      <node label="AdrTp"  javaType="java.lang.String" />
+      <node label="Dept"  javaType="java.lang.String" />
+      <node label="SubDept"  javaType="java.lang.String" />
+      <node label="StrtNm"  javaType="java.lang.String" />
+      <node label="BldgNb"  javaType="java.lang.String" />
+      <node label="PstCd"  javaType="java.lang.String" />
+      <node label="TwnNm"  javaType="java.lang.String" />
+      <node label="CtrySubDvsn"  javaType="java.lang.String" />
+      <node label="Ctry"  javaType="java.lang.String" />
+      <node label="AdrLine"  javaType="java.lang.String" />
+     </node>
+     <node label="Othr">
+      <node label="Id"  javaType="java.lang.String" />
+      <node label="SchmeNm">
+       <node label="Cd"  javaType="java.lang.String" />
+       <node label="Prtry"  javaType="java.lang.String" />
+      </node>
+      <node label="Issr"  javaType="java.lang.String" />
+     </node>
+    </node>
+    <node label="BrnchId">
+     <node label="Id"  javaType="java.lang.String" />
+     <node label="Nm"  javaType="java.lang.String" />
+     <node label="PstlAdr">
+      <node label="AdrTp"  javaType="java.lang.String" />
+      <node label="Dept"  javaType="java.lang.String" />
+      <node label="SubDept"  javaType="java.lang.String" />
+      <node label="StrtNm"  javaType="java.lang.String" />
+      <node label="BldgNb"  javaType="java.lang.String" />
+      <node label="PstCd"  javaType="java.lang.String" />
+      <node label="TwnNm"  javaType="java.lang.String" />
+      <node label="CtrySubDvsn"  javaType="java.lang.String" />
+      <node label="Ctry"  javaType="java.lang.String" />
+      <node label="AdrLine"  javaType="java.lang.String" />
+     </node>
+    </node>
+   </node>
+   <node label="DbtrAgtAcct">
+    <node label="Id">
+     <node label="IBAN"  javaType="java.lang.String" />
+     <node label="Othr">
+      <node label="Id"  javaType="java.lang.String" />
+      <node label="SchmeNm">
+       <node label="Cd"  javaType="java.lang.String" />
+       <node label="Prtry"  javaType="java.lang.String" />
+      </node>
+      <node label="Issr"  javaType="java.lang.String" />
+     </node>
+    </node>
+    <node label="Tp">
+     <node label="Cd"  javaType="java.lang.String" />
+     <node label="Prtry"  javaType="java.lang.String" />
+    </node>
+    <node label="Ccy"  javaType="java.lang.String" />
+    <node label="Nm"  javaType="java.lang.String" />
+   </node>
+   <node label="UltmtDbtr">
+    <node label="Nm"  javaType="java.lang.String" />
+    <node label="PstlAdr">
+     <node label="AdrTp"  javaType="java.lang.String" />
+     <node label="Dept"  javaType="java.lang.String" />
+     <node label="SubDept"  javaType="java.lang.String" />
+     <node label="StrtNm"  javaType="java.lang.String" />
+     <node label="BldgNb"  javaType="java.lang.String" />
+     <node label="PstCd"  javaType="java.lang.String" />
+     <node label="TwnNm"  javaType="java.lang.String" />
+     <node label="CtrySubDvsn"  javaType="java.lang.String" />
+     <node label="Ctry"  javaType="java.lang.String" />
+     <node label="AdrLine"  javaType="java.lang.String" />
+    </node>
+    <node label="Id">
+     <node label="OrgId">
+      <node label="BICOrBEI"  javaType="java.lang.String" />
+      <node label="Othr">
+       <node label="Id"  javaType="java.lang.String" />
+       <node label="SchmeNm">
+        <node label="Cd"  javaType="java.lang.String" />
+        <node label="Prtry"  javaType="java.lang.String" />
+       </node>
+       <node label="Issr"  javaType="java.lang.String" />
+      </node>
+     </node>
+     <node label="PrvtId">
+      <node label="DtAndPlcOfBirth">
+       <node label="BirthDt"  javaType="org.joda.time.DateTime" />
+       <node label="PrvcOfBirth"  javaType="java.lang.String" />
+       <node label="CityOfBirth"  javaType="java.lang.String" />
+       <node label="CtryOfBirth"  javaType="java.lang.String" />
+      </node>
+      <node label="Othr">
+       <node label="Id"  javaType="java.lang.String" />
+       <node label="SchmeNm">
+        <node label="Cd"  javaType="java.lang.String" />
+        <node label="Prtry"  javaType="java.lang.String" />
+       </node>
+       <node label="Issr"  javaType="java.lang.String" />
+      </node>
+     </node>
+    </node>
+    <node label="CtryOfRes"  javaType="java.lang.String" />
+    <node label="CtctDtls">
+     <node label="NmPrfx"  javaType="java.lang.String" />
+     <node label="Nm"  javaType="java.lang.String" />
+     <node label="PhneNb"  javaType="java.lang.String" />
+     <node label="MobNb"  javaType="java.lang.String" />
+     <node label="FaxNb"  javaType="java.lang.String" />
+     <node label="EmailAdr"  javaType="java.lang.String" />
+     <node label="Othr"  javaType="java.lang.String" />
+    </node>
+   </node>
+   <node label="ChrgBr"  javaType="java.lang.String" />
+   <node label="ChrgsAcct">
+    <node label="Id">
+     <node label="IBAN"  javaType="java.lang.String" />
+     <node label="Othr">
+      <node label="Id"  javaType="java.lang.String" />
+      <node label="SchmeNm">
+       <node label="Cd"  javaType="java.lang.String" />
+       <node label="Prtry"  javaType="java.lang.String" />
+      </node>
+      <node label="Issr"  javaType="java.lang.String" />
+     </node>
+    </node>
+    <node label="Tp">
+     <node label="Cd"  javaType="java.lang.String" />
+     <node label="Prtry"  javaType="java.lang.String" />
+    </node>
+    <node label="Ccy"  javaType="java.lang.String" />
+    <node label="Nm"  javaType="java.lang.String" />
+   </node>
+   <node label="ChrgsAcctAgt">
+    <node label="FinInstnId">
+     <node label="BIC"  javaType="java.lang.String" />
+     <node label="ClrSysMmbId">
+      <node label="ClrSysId">
+       <node label="Cd"  javaType="java.lang.String" />
+       <node label="Prtry"  javaType="java.lang.String" />
+      </node>
+      <node label="MmbId"  javaType="java.lang.String" />
+     </node>
+     <node label="Nm"  javaType="java.lang.String" />
+     <node label="PstlAdr">
+      <node label="AdrTp"  javaType="java.lang.String" />
+      <node label="Dept"  javaType="java.lang.String" />
+      <node label="SubDept"  javaType="java.lang.String" />
+      <node label="StrtNm"  javaType="java.lang.String" />
+      <node label="BldgNb"  javaType="java.lang.String" />
+      <node label="PstCd"  javaType="java.lang.String" />
+      <node label="TwnNm"  javaType="java.lang.String" />
+      <node label="CtrySubDvsn"  javaType="java.lang.String" />
+      <node label="Ctry"  javaType="java.lang.String" />
+      <node label="AdrLine"  javaType="java.lang.String" />
+     </node>
+     <node label="Othr">
+      <node label="Id"  javaType="java.lang.String" />
+      <node label="SchmeNm">
+       <node label="Cd"  javaType="java.lang.String" />
+       <node label="Prtry"  javaType="java.lang.String" />
+      </node>
+      <node label="Issr"  javaType="java.lang.String" />
+     </node>
+    </node>
+    <node label="BrnchId">
+     <node label="Id"  javaType="java.lang.String" />
+     <node label="Nm"  javaType="java.lang.String" />
+     <node label="PstlAdr">
+      <node label="AdrTp"  javaType="java.lang.String" />
+      <node label="Dept"  javaType="java.lang.String" />
+      <node label="SubDept"  javaType="java.lang.String" />
+      <node label="StrtNm"  javaType="java.lang.String" />
+      <node label="BldgNb"  javaType="java.lang.String" />
+      <node label="PstCd"  javaType="java.lang.String" />
+      <node label="TwnNm"  javaType="java.lang.String" />
+      <node label="CtrySubDvsn"  javaType="java.lang.String" />
+      <node label="Ctry"  javaType="java.lang.String" />
+      <node label="AdrLine"  javaType="java.lang.String" />
+     </node>
+    </node>
+   </node>
+   <node label="CdtTrfTxInf" >
+    <node label="PmtId" >
+     <node label="InstrId"  javaType="java.lang.String" />
+     <node label="EndToEndId"  javaType="java.lang.String" />
+    </node>
+    <node label="PmtTpInf" >
+     <node label="InstrPrty"  javaType="java.lang.String" />
+     <node label="SvcLvl">
+      <node label="Cd"  javaType="java.lang.String" />
+      <node label="Prtry"  javaType="java.lang.String" />
+     </node>
+     <node label="LclInstrm">
+      <node label="Cd"  javaType="java.lang.String" />
+      <node label="Prtry"  javaType="java.lang.String" />
+     </node>
+     <node label="CtgyPurp">
+      <node label="Cd"  javaType="java.lang.String" />
+      <node label="Prtry"  javaType="java.lang.String" />
+     </node>
+    </node>
+    <node label="Amt">
+     <node label="InstdAmt" />
+     <node label="EqvtAmt">
+      <node label="Amt" />
+      <node label="CcyOfTrf"  javaType="java.lang.String" />
+     </node>
+    </node>
+    <node label="XchgRateInf">
+     <node label="XchgRate"  javaType="java.math.BigDecimal" />
+     <node label="RateTp"  javaType="java.lang.String" />
+     <node label="CtrctId"  javaType="java.lang.String" />
+    </node>
+    <node label="ChrgBr"  javaType="java.lang.String" />
+    <node label="ChqInstr">
+     <node label="ChqTp"  javaType="java.lang.String" />
+     <node label="ChqNb"  javaType="java.lang.String" />
+     <node label="ChqFr">
+      <node label="Nm"  javaType="java.lang.String" />
+      <node label="Adr">
+       <node label="AdrTp"  javaType="java.lang.String" />
+       <node label="Dept"  javaType="java.lang.String" />
+       <node label="SubDept"  javaType="java.lang.String" />
+       <node label="StrtNm"  javaType="java.lang.String" />
+       <node label="BldgNb"  javaType="java.lang.String" />
+       <node label="PstCd"  javaType="java.lang.String" />
+       <node label="TwnNm"  javaType="java.lang.String" />
+       <node label="CtrySubDvsn"  javaType="java.lang.String" />
+       <node label="Ctry"  javaType="java.lang.String" />
+       <node label="AdrLine"  javaType="java.lang.String" />
+      </node>
+     </node>
+     <node label="DlvryMtd">
+      <node label="Cd"  javaType="java.lang.String" />
+      <node label="Prtry"  javaType="java.lang.String" />
+     </node>
+     <node label="DlvrTo">
+      <node label="Nm"  javaType="java.lang.String" />
+      <node label="Adr">
+       <node label="AdrTp"  javaType="java.lang.String" />
+       <node label="Dept"  javaType="java.lang.String" />
+       <node label="SubDept"  javaType="java.lang.String" />
+       <node label="StrtNm"  javaType="java.lang.String" />
+       <node label="BldgNb"  javaType="java.lang.String" />
+       <node label="PstCd"  javaType="java.lang.String" />
+       <node label="TwnNm"  javaType="java.lang.String" />
+       <node label="CtrySubDvsn"  javaType="java.lang.String" />
+       <node label="Ctry"  javaType="java.lang.String" />
+       <node label="AdrLine"  javaType="java.lang.String" />
+      </node>
+     </node>
+     <node label="InstrPrty"  javaType="java.lang.String" />
+     <node label="ChqMtrtyDt"  javaType="org.joda.time.DateTime" />
+     <node label="FrmsCd"  javaType="java.lang.String" />
+     <node label="MemoFld"  javaType="java.lang.String" />
+     <node label="RgnlClrZone"  javaType="java.lang.String" />
+     <node label="PrtLctn"  javaType="java.lang.String" />
+    </node>
+    <node label="UltmtDbtr">
+     <node label="Nm"  javaType="java.lang.String" />
+     <node label="PstlAdr">
+      <node label="AdrTp"  javaType="java.lang.String" />
+      <node label="Dept"  javaType="java.lang.String" />
+      <node label="SubDept"  javaType="java.lang.String" />
+      <node label="StrtNm"  javaType="java.lang.String" />
+      <node label="BldgNb"  javaType="java.lang.String" />
+      <node label="PstCd"  javaType="java.lang.String" />
+      <node label="TwnNm"  javaType="java.lang.String" />
+      <node label="CtrySubDvsn"  javaType="java.lang.String" />
+      <node label="Ctry"  javaType="java.lang.String" />
+      <node label="AdrLine"  javaType="java.lang.String" />
+     </node>
+     <node label="Id">
+      <node label="OrgId">
+       <node label="BICOrBEI"  javaType="java.lang.String" />
+       <node label="Othr">
+        <node label="Id"  javaType="java.lang.String" />
+        <node label="SchmeNm">
+         <node label="Cd"  javaType="java.lang.String" />
+         <node label="Prtry"  javaType="java.lang.String" />
+        </node>
+        <node label="Issr"  javaType="java.lang.String" />
+       </node>
+      </node>
+      <node label="PrvtId">
+       <node label="DtAndPlcOfBirth">
+        <node label="BirthDt"  javaType="org.joda.time.DateTime" />
+        <node label="PrvcOfBirth"  javaType="java.lang.String" />
+        <node label="CityOfBirth"  javaType="java.lang.String" />
+        <node label="CtryOfBirth"  javaType="java.lang.String" />
+       </node>
+       <node label="Othr">
+        <node label="Id"  javaType="java.lang.String" />
+        <node label="SchmeNm">
+         <node label="Cd"  javaType="java.lang.String" />
+         <node label="Prtry"  javaType="java.lang.String" />
+        </node>
+        <node label="Issr"  javaType="java.lang.String" />
+       </node>
+      </node>
+     </node>
+     <node label="CtryOfRes"  javaType="java.lang.String" />
+     <node label="CtctDtls">
+      <node label="NmPrfx"  javaType="java.lang.String" />
+      <node label="Nm"  javaType="java.lang.String" />
+      <node label="PhneNb"  javaType="java.lang.String" />
+      <node label="MobNb"  javaType="java.lang.String" />
+      <node label="FaxNb"  javaType="java.lang.String" />
+      <node label="EmailAdr"  javaType="java.lang.String" />
+      <node label="Othr"  javaType="java.lang.String" />
+     </node>
+    </node>
+    <node label="IntrmyAgt1">
+     <node label="FinInstnId">
+      <node label="BIC"  javaType="java.lang.String" />
+      <node label="ClrSysMmbId">
+       <node label="ClrSysId">
+        <node label="Cd"  javaType="java.lang.String" />
+        <node label="Prtry"  javaType="java.lang.String" />
+       </node>
+       <node label="MmbId"  javaType="java.lang.String" />
+      </node>
+      <node label="Nm"  javaType="java.lang.String" />
+      <node label="PstlAdr">
+       <node label="AdrTp"  javaType="java.lang.String" />
+       <node label="Dept"  javaType="java.lang.String" />
+       <node label="SubDept"  javaType="java.lang.String" />
+       <node label="StrtNm"  javaType="java.lang.String" />
+       <node label="BldgNb"  javaType="java.lang.String" />
+       <node label="PstCd"  javaType="java.lang.String" />
+       <node label="TwnNm"  javaType="java.lang.String" />
+       <node label="CtrySubDvsn"  javaType="java.lang.String" />
+       <node label="Ctry"  javaType="java.lang.String" />
+       <node label="AdrLine"  javaType="java.lang.String" />
+      </node>
+      <node label="Othr">
+       <node label="Id"  javaType="java.lang.String" />
+       <node label="SchmeNm">
+        <node label="Cd"  javaType="java.lang.String" />
+        <node label="Prtry"  javaType="java.lang.String" />
+       </node>
+       <node label="Issr"  javaType="java.lang.String" />
+      </node>
+     </node>
+     <node label="BrnchId">
+      <node label="Id"  javaType="java.lang.String" />
+      <node label="Nm"  javaType="java.lang.String" />
+      <node label="PstlAdr">
+       <node label="AdrTp"  javaType="java.lang.String" />
+       <node label="Dept"  javaType="java.lang.String" />
+       <node label="SubDept"  javaType="java.lang.String" />
+       <node label="StrtNm"  javaType="java.lang.String" />
+       <node label="BldgNb"  javaType="java.lang.String" />
+       <node label="PstCd"  javaType="java.lang.String" />
+       <node label="TwnNm"  javaType="java.lang.String" />
+       <node label="CtrySubDvsn"  javaType="java.lang.String" />
+       <node label="Ctry"  javaType="java.lang.String" />
+       <node label="AdrLine"  javaType="java.lang.String" />
+      </node>
+     </node>
+    </node>
+    <node label="IntrmyAgt1Acct">
+     <node label="Id">
+      <node label="IBAN"  javaType="java.lang.String" />
+      <node label="Othr">
+       <node label="Id"  javaType="java.lang.String" />
+       <node label="SchmeNm">
+        <node label="Cd"  javaType="java.lang.String" />
+        <node label="Prtry"  javaType="java.lang.String" />
+       </node>
+       <node label="Issr"  javaType="java.lang.String" />
+      </node>
+     </node>
+     <node label="Tp">
+      <node label="Cd"  javaType="java.lang.String" />
+      <node label="Prtry"  javaType="java.lang.String" />
+     </node>
+     <node label="Ccy"  javaType="java.lang.String" />
+     <node label="Nm"  javaType="java.lang.String" />
+    </node>
+    <node label="IntrmyAgt2">
+     <node label="FinInstnId">
+      <node label="BIC"  javaType="java.lang.String" />
+      <node label="ClrSysMmbId">
+       <node label="ClrSysId">
+        <node label="Cd"  javaType="java.lang.String" />
+        <node label="Prtry"  javaType="java.lang.String" />
+       </node>
+       <node label="MmbId"  javaType="java.lang.String" />
+      </node>
+      <node label="Nm"  javaType="java.lang.String" />
+      <node label="PstlAdr">
+       <node label="AdrTp"  javaType="java.lang.String" />
+       <node label="Dept"  javaType="java.lang.String" />
+       <node label="SubDept"  javaType="java.lang.String" />
+       <node label="StrtNm"  javaType="java.lang.String" />
+       <node label="BldgNb"  javaType="java.lang.String" />
+       <node label="PstCd"  javaType="java.lang.String" />
+       <node label="TwnNm"  javaType="java.lang.String" />
+       <node label="CtrySubDvsn"  javaType="java.lang.String" />
+       <node label="Ctry"  javaType="java.lang.String" />
+       <node label="AdrLine"  javaType="java.lang.String" />
+      </node>
+      <node label="Othr">
+       <node label="Id"  javaType="java.lang.String" />
+       <node label="SchmeNm">
+        <node label="Cd"  javaType="java.lang.String" />
+        <node label="Prtry"  javaType="java.lang.String" />
+       </node>
+       <node label="Issr"  javaType="java.lang.String" />
+      </node>
+     </node>
+     <node label="BrnchId">
+      <node label="Id"  javaType="java.lang.String" />
+      <node label="Nm"  javaType="java.lang.String" />
+      <node label="PstlAdr">
+       <node label="AdrTp"  javaType="java.lang.String" />
+       <node label="Dept"  javaType="java.lang.String" />
+       <node label="SubDept"  javaType="java.lang.String" />
+       <node label="StrtNm"  javaType="java.lang.String" />
+       <node label="BldgNb"  javaType="java.lang.String" />
+       <node label="PstCd"  javaType="java.lang.String" />
+       <node label="TwnNm"  javaType="java.lang.String" />
+       <node label="CtrySubDvsn"  javaType="java.lang.String" />
+       <node label="Ctry"  javaType="java.lang.String" />
+       <node label="AdrLine"  javaType="java.lang.String" />
+      </node>
+     </node>
+    </node>
+    <node label="IntrmyAgt2Acct">
+     <node label="Id">
+      <node label="IBAN"  javaType="java.lang.String" />
+      <node label="Othr">
+       <node label="Id"  javaType="java.lang.String" />
+       <node label="SchmeNm">
+        <node label="Cd"  javaType="java.lang.String" />
+        <node label="Prtry"  javaType="java.lang.String" />
+       </node>
+       <node label="Issr"  javaType="java.lang.String" />
+      </node>
+     </node>
+     <node label="Tp">
+      <node label="Cd"  javaType="java.lang.String" />
+      <node label="Prtry"  javaType="java.lang.String" />
+     </node>
+     <node label="Ccy"  javaType="java.lang.String" />
+     <node label="Nm"  javaType="java.lang.String" />
+    </node>
+    <node label="IntrmyAgt3">
+     <node label="FinInstnId">
+      <node label="BIC"  javaType="java.lang.String" />
+      <node label="ClrSysMmbId">
+       <node label="ClrSysId">
+        <node label="Cd"  javaType="java.lang.String" />
+        <node label="Prtry"  javaType="java.lang.String" />
+       </node>
+       <node label="MmbId"  javaType="java.lang.String" />
+      </node>
+      <node label="Nm"  javaType="java.lang.String" />
+      <node label="PstlAdr">
+       <node label="AdrTp"  javaType="java.lang.String" />
+       <node label="Dept"  javaType="java.lang.String" />
+       <node label="SubDept"  javaType="java.lang.String" />
+       <node label="StrtNm"  javaType="java.lang.String" />
+       <node label="BldgNb"  javaType="java.lang.String" />
+       <node label="PstCd"  javaType="java.lang.String" />
+       <node label="TwnNm"  javaType="java.lang.String" />
+       <node label="CtrySubDvsn"  javaType="java.lang.String" />
+       <node label="Ctry"  javaType="java.lang.String" />
+       <node label="AdrLine"  javaType="java.lang.String" />
+      </node>
+      <node label="Othr">
+       <node label="Id"  javaType="java.lang.String" />
+       <node label="SchmeNm">
+        <node label="Cd"  javaType="java.lang.String" />
+        <node label="Prtry"  javaType="java.lang.String" />
+       </node>
+       <node label="Issr"  javaType="java.lang.String" />
+      </node>
+     </node>
+     <node label="BrnchId">
+      <node label="Id"  javaType="java.lang.String" />
+      <node label="Nm"  javaType="java.lang.String" />
+      <node label="PstlAdr">
+       <node label="AdrTp"  javaType="java.lang.String" />
+       <node label="Dept"  javaType="java.lang.String" />
+       <node label="SubDept"  javaType="java.lang.String" />
+       <node label="StrtNm"  javaType="java.lang.String" />
+       <node label="BldgNb"  javaType="java.lang.String" />
+       <node label="PstCd"  javaType="java.lang.String" />
+       <node label="TwnNm"  javaType="java.lang.String" />
+       <node label="CtrySubDvsn"  javaType="java.lang.String" />
+       <node label="Ctry"  javaType="java.lang.String" />
+       <node label="AdrLine"  javaType="java.lang.String" />
+      </node>
+     </node>
+    </node>
+    <node label="IntrmyAgt3Acct">
+     <node label="Id">
+      <node label="IBAN"  javaType="java.lang.String" />
+      <node label="Othr">
+       <node label="Id"  javaType="java.lang.String" />
+       <node label="SchmeNm">
+        <node label="Cd"  javaType="java.lang.String" />
+        <node label="Prtry"  javaType="java.lang.String" />
+       </node>
+       <node label="Issr"  javaType="java.lang.String" />
+      </node>
+     </node>
+     <node label="Tp">
+      <node label="Cd"  javaType="java.lang.String" />
+      <node label="Prtry"  javaType="java.lang.String" />
+     </node>
+     <node label="Ccy"  javaType="java.lang.String" />
+     <node label="Nm"  javaType="java.lang.String" />
+    </node>
+    <node label="CdtrAgt">
+     <node label="FinInstnId">
+      <node label="BIC"  javaType="java.lang.String" />
+      <node label="ClrSysMmbId">
+       <node label="ClrSysId">
+        <node label="Cd"  javaType="java.lang.String" />
+        <node label="Prtry"  javaType="java.lang.String" />
+       </node>
+       <node label="MmbId"  javaType="java.lang.String" />
+      </node>
+      <node label="Nm"  javaType="java.lang.String" />
+      <node label="PstlAdr">
+       <node label="AdrTp"  javaType="java.lang.String" />
+       <node label="Dept"  javaType="java.lang.String" />
+       <node label="SubDept"  javaType="java.lang.String" />
+       <node label="StrtNm"  javaType="java.lang.String" />
+       <node label="BldgNb"  javaType="java.lang.String" />
+       <node label="PstCd"  javaType="java.lang.String" />
+       <node label="TwnNm"  javaType="java.lang.String" />
+       <node label="CtrySubDvsn"  javaType="java.lang.String" />
+       <node label="Ctry"  javaType="java.lang.String" />
+       <node label="AdrLine"  javaType="java.lang.String" />
+      </node>
+      <node label="Othr">
+       <node label="Id"  javaType="java.lang.String" />
+       <node label="SchmeNm">
+        <node label="Cd"  javaType="java.lang.String" />
+        <node label="Prtry"  javaType="java.lang.String" />
+       </node>
+       <node label="Issr"  javaType="java.lang.String" />
+      </node>
+     </node>
+     <node label="BrnchId">
+      <node label="Id"  javaType="java.lang.String" />
+      <node label="Nm"  javaType="java.lang.String" />
+      <node label="PstlAdr">
+       <node label="AdrTp"  javaType="java.lang.String" />
+       <node label="Dept"  javaType="java.lang.String" />
+       <node label="SubDept"  javaType="java.lang.String" />
+       <node label="StrtNm"  javaType="java.lang.String" />
+       <node label="BldgNb"  javaType="java.lang.String" />
+       <node label="PstCd"  javaType="java.lang.String" />
+       <node label="TwnNm"  javaType="java.lang.String" />
+       <node label="CtrySubDvsn"  javaType="java.lang.String" />
+       <node label="Ctry"  javaType="java.lang.String" />
+       <node label="AdrLine"  javaType="java.lang.String" />
+      </node>
+     </node>
+    </node>
+    <node label="CdtrAgtAcct">
+     <node label="Id">
+      <node label="IBAN"  javaType="java.lang.String" />
+      <node label="Othr">
+       <node label="Id"  javaType="java.lang.String" />
+       <node label="SchmeNm">
+        <node label="Cd"  javaType="java.lang.String" />
+        <node label="Prtry"  javaType="java.lang.String" />
+       </node>
+       <node label="Issr"  javaType="java.lang.String" />
+      </node>
+     </node>
+     <node label="Tp">
+      <node label="Cd"  javaType="java.lang.String" />
+      <node label="Prtry"  javaType="java.lang.String" />
+     </node>
+     <node label="Ccy"  javaType="java.lang.String" />
+     <node label="Nm"  javaType="java.lang.String" />
+    </node>
+    <node label="Cdtr">
+     <node label="Nm"  javaType="java.lang.String" />
+     <node label="PstlAdr">
+      <node label="AdrTp"  javaType="java.lang.String" />
+      <node label="Dept"  javaType="java.lang.String" />
+      <node label="SubDept"  javaType="java.lang.String" />
+      <node label="StrtNm"  javaType="java.lang.String" />
+      <node label="BldgNb"  javaType="java.lang.String" />
+      <node label="PstCd"  javaType="java.lang.String" />
+      <node label="TwnNm"  javaType="java.lang.String" />
+      <node label="CtrySubDvsn"  javaType="java.lang.String" />
+      <node label="Ctry"  javaType="java.lang.String" />
+      <node label="AdrLine"  javaType="java.lang.String" />
+     </node>
+     <node label="Id">
+      <node label="OrgId">
+       <node label="BICOrBEI"  javaType="java.lang.String" />
+       <node label="Othr">
+        <node label="Id"  javaType="java.lang.String" />
+        <node label="SchmeNm">
+         <node label="Cd"  javaType="java.lang.String" />
+         <node label="Prtry"  javaType="java.lang.String" />
+        </node>
+        <node label="Issr"  javaType="java.lang.String" />
+       </node>
+      </node>
+      <node label="PrvtId">
+       <node label="DtAndPlcOfBirth">
+        <node label="BirthDt"  javaType="org.joda.time.DateTime" />
+        <node label="PrvcOfBirth"  javaType="java.lang.String" />
+        <node label="CityOfBirth"  javaType="java.lang.String" />
+        <node label="CtryOfBirth"  javaType="java.lang.String" />
+       </node>
+       <node label="Othr">
+        <node label="Id"  javaType="java.lang.String" />
+        <node label="SchmeNm">
+         <node label="Cd"  javaType="java.lang.String" />
+         <node label="Prtry"  javaType="java.lang.String" />
+        </node>
+        <node label="Issr"  javaType="java.lang.String" />
+       </node>
+      </node>
+     </node>
+     <node label="CtryOfRes"  javaType="java.lang.String" />
+     <node label="CtctDtls">
+      <node label="NmPrfx"  javaType="java.lang.String" />
+      <node label="Nm"  javaType="java.lang.String" />
+      <node label="PhneNb"  javaType="java.lang.String" />
+      <node label="MobNb"  javaType="java.lang.String" />
+      <node label="FaxNb"  javaType="java.lang.String" />
+      <node label="EmailAdr"  javaType="java.lang.String" />
+      <node label="Othr"  javaType="java.lang.String" />
+     </node>
+    </node>
+    <node label="CdtrAcct">
+     <node label="Id">
+      <node label="IBAN"  javaType="java.lang.String" />
+      <node label="Othr">
+       <node label="Id"  javaType="java.lang.String" />
+       <node label="SchmeNm">
+        <node label="Cd"  javaType="java.lang.String" />
+        <node label="Prtry"  javaType="java.lang.String" />
+       </node>
+       <node label="Issr"  javaType="java.lang.String" />
+      </node>
+     </node>
+     <node label="Tp">
+      <node label="Cd"  javaType="java.lang.String" />
+      <node label="Prtry"  javaType="java.lang.String" />
+     </node>
+     <node label="Ccy"  javaType="java.lang.String" />
+     <node label="Nm"  javaType="java.lang.String" />
+    </node>
+    <node label="UltmtCdtr">
+     <node label="Nm"  javaType="java.lang.String" />
+     <node label="PstlAdr">
+      <node label="AdrTp"  javaType="java.lang.String" />
+      <node label="Dept"  javaType="java.lang.String" />
+      <node label="SubDept"  javaType="java.lang.String" />
+      <node label="StrtNm"  javaType="java.lang.String" />
+      <node label="BldgNb"  javaType="java.lang.String" />
+      <node label="PstCd"  javaType="java.lang.String" />
+      <node label="TwnNm"  javaType="java.lang.String" />
+      <node label="CtrySubDvsn"  javaType="java.lang.String" />
+      <node label="Ctry"  javaType="java.lang.String" />
+      <node label="AdrLine"  javaType="java.lang.String" />
+     </node>
+     <node label="Id">
+      <node label="OrgId">
+       <node label="BICOrBEI"  javaType="java.lang.String" />
+       <node label="Othr">
+        <node label="Id"  javaType="java.lang.String" />
+        <node label="SchmeNm">
+         <node label="Cd"  javaType="java.lang.String" />
+         <node label="Prtry"  javaType="java.lang.String" />
+        </node>
+        <node label="Issr"  javaType="java.lang.String" />
+       </node>
+      </node>
+      <node label="PrvtId">
+       <node label="DtAndPlcOfBirth">
+        <node label="BirthDt"  javaType="org.joda.time.DateTime" />
+        <node label="PrvcOfBirth"  javaType="java.lang.String" />
+        <node label="CityOfBirth"  javaType="java.lang.String" />
+        <node label="CtryOfBirth"  javaType="java.lang.String" />
+       </node>
+       <node label="Othr">
+        <node label="Id"  javaType="java.lang.String" />
+        <node label="SchmeNm">
+         <node label="Cd"  javaType="java.lang.String" />
+         <node label="Prtry"  javaType="java.lang.String" />
+        </node>
+        <node label="Issr"  javaType="java.lang.String" />
+       </node>
+      </node>
+     </node>
+     <node label="CtryOfRes"  javaType="java.lang.String" />
+     <node label="CtctDtls">
+      <node label="NmPrfx"  javaType="java.lang.String" />
+      <node label="Nm"  javaType="java.lang.String" />
+      <node label="PhneNb"  javaType="java.lang.String" />
+      <node label="MobNb"  javaType="java.lang.String" />
+      <node label="FaxNb"  javaType="java.lang.String" />
+      <node label="EmailAdr"  javaType="java.lang.String" />
+      <node label="Othr"  javaType="java.lang.String" />
+     </node>
+    </node>
+    <node label="InstrForCdtrAgt">
+     <node label="Cd"  javaType="java.lang.String" />
+     <node label="InstrInf"  javaType="java.lang.String" />
+    </node>
+    <node label="InstrForDbtrAgt"  javaType="java.lang.String" />
+    <node label="Purp">
+     <node label="Cd"  javaType="java.lang.String" />
+     <node label="Prtry"  javaType="java.lang.String" />
+    </node>
+    <node label="RgltryRptg">
+     <node label="DbtCdtRptgInd"  javaType="java.lang.String" />
+     <node label="Authrty">
+      <node label="Nm"  javaType="java.lang.String" />
+      <node label="Ctry"  javaType="java.lang.String" />
+     </node>
+     <node label="Dtls">
+      <node label="Tp"  javaType="java.lang.String" />
+      <node label="Dt"  javaType="org.joda.time.DateTime" />
+      <node label="Ctry"  javaType="java.lang.String" />
+      <node label="Cd"  javaType="java.lang.String" />
+      <node label="Amt" />
+      <node label="Inf"  javaType="java.lang.String" />
+     </node>
+    </node>
+    <node label="Tax">
+     <node label="Cdtr">
+      <node label="TaxId"  javaType="java.lang.String" />
+      <node label="RegnId"  javaType="java.lang.String" />
+      <node label="TaxTp"  javaType="java.lang.String" />
+     </node>
+     <node label="Dbtr">
+      <node label="TaxId"  javaType="java.lang.String" />
+      <node label="RegnId"  javaType="java.lang.String" />
+      <node label="TaxTp"  javaType="java.lang.String" />
+      <node label="Authstn">
+       <node label="Titl"  javaType="java.lang.String" />
+       <node label="Nm"  javaType="java.lang.String" />
+      </node>
+     </node>
+     <node label="AdmstnZn"  javaType="java.lang.String" />
+     <node label="RefNb"  javaType="java.lang.String" />
+     <node label="Mtd"  javaType="java.lang.String" />
+     <node label="TtlTaxblBaseAmt" />
+     <node label="TtlTaxAmt" />
+     <node label="Dt"  javaType="org.joda.time.DateTime" />
+     <node label="SeqNb"  javaType="java.math.BigDecimal" />
+     <node label="Rcrd">
+      <node label="Tp"  javaType="java.lang.String" />
+      <node label="Ctgy"  javaType="java.lang.String" />
+      <node label="CtgyDtls"  javaType="java.lang.String" />
+      <node label="DbtrSts"  javaType="java.lang.String" />
+      <node label="CertId"  javaType="java.lang.String" />
+      <node label="FrmsCd"  javaType="java.lang.String" />
+      <node label="Prd">
+       <node label="Yr"  javaType="org.joda.time.DateTime" />
+       <node label="Tp"  javaType="java.lang.String" />
+       <node label="FrToDt">
+        <node label="FrDt"  javaType="org.joda.time.DateTime" />
+        <node label="ToDt"  javaType="org.joda.time.DateTime" />
+       </node>
+      </node>
+      <node label="TaxAmt">
+       <node label="Rate"  javaType="java.math.BigDecimal" />
+       <node label="TaxblBaseAmt" />
+       <node label="TtlAmt" />
+       <node label="Dtls">
+        <node label="Prd">
+         <node label="Yr"  javaType="org.joda.time.DateTime" />
+         <node label="Tp"  javaType="java.lang.String" />
+         <node label="FrToDt">
+          <node label="FrDt"  javaType="org.joda.time.DateTime" />
+          <node label="ToDt"  javaType="org.joda.time.DateTime" />
+         </node>
+        </node>
+        <node label="Amt" />
+       </node>
+      </node>
+      <node label="AddtlInf"  javaType="java.lang.String" />
+     </node>
+    </node>
+    <node label="RltdRmtInf">
+     <node label="RmtId"  javaType="java.lang.String" />
+     <node label="RmtLctnMtd"  javaType="java.lang.String" />
+     <node label="RmtLctnElctrncAdr"  javaType="java.lang.String" />
+     <node label="RmtLctnPstlAdr">
+      <node label="Nm"  javaType="java.lang.String" />
+      <node label="Adr">
+       <node label="AdrTp"  javaType="java.lang.String" />
+       <node label="Dept"  javaType="java.lang.String" />
+       <node label="SubDept"  javaType="java.lang.String" />
+       <node label="StrtNm"  javaType="java.lang.String" />
+       <node label="BldgNb"  javaType="java.lang.String" />
+       <node label="PstCd"  javaType="java.lang.String" />
+       <node label="TwnNm"  javaType="java.lang.String" />
+       <node label="CtrySubDvsn"  javaType="java.lang.String" />
+       <node label="Ctry"  javaType="java.lang.String" />
+       <node label="AdrLine"  javaType="java.lang.String" />
+      </node>
+     </node>
+    </node>
+    <node label="RmtInf">
+     <node label="Ustrd"  javaType="java.lang.String" />
+     <node label="Strd">
+      <node label="RfrdDocInf">
+       <node label="Tp">
+        <node label="CdOrPrtry">
+         <node label="Cd"  javaType="java.lang.String" />
+         <node label="Prtry"  javaType="java.lang.String" />
+        </node>
+        <node label="Issr"  javaType="java.lang.String" />
+       </node>
+       <node label="Nb"  javaType="java.lang.String" />
+       <node label="RltdDt"  javaType="org.joda.time.DateTime" />
+      </node>
+      <node label="RfrdDocAmt">
+       <node label="DuePyblAmt" />
+       <node label="DscntApldAmt" />
+       <node label="CdtNoteAmt" />
+       <node label="TaxAmt" />
+       <node label="AdjstmntAmtAndRsn">
+        <node label="Amt" />
+        <node label="CdtDbtInd"  javaType="java.lang.String" />
+        <node label="Rsn"  javaType="java.lang.String" />
+        <node label="AddtlInf"  javaType="java.lang.String" />
+       </node>
+       <node label="RmtdAmt" />
+      </node>
+      <node label="CdtrRefInf">
+       <node label="Tp">
+        <node label="CdOrPrtry">
+         <node label="Cd"  javaType="java.lang.String" />
+         <node label="Prtry"  javaType="java.lang.String" />
+        </node>
+        <node label="Issr"  javaType="java.lang.String" />
+       </node>
+       <node label="Ref"  javaType="java.lang.String" />
+      </node>
+      <node label="Invcr">
+       <node label="Nm"  javaType="java.lang.String" />
+       <node label="PstlAdr">
+        <node label="AdrTp"  javaType="java.lang.String" />
+        <node label="Dept"  javaType="java.lang.String" />
+        <node label="SubDept"  javaType="java.lang.String" />
+        <node label="StrtNm"  javaType="java.lang.String" />
+        <node label="BldgNb"  javaType="java.lang.String" />
+        <node label="PstCd"  javaType="java.lang.String" />
+        <node label="TwnNm"  javaType="java.lang.String" />
+        <node label="CtrySubDvsn"  javaType="java.lang.String" />
+        <node label="Ctry"  javaType="java.lang.String" />
+        <node label="AdrLine"  javaType="java.lang.String" />
+       </node>
+       <node label="Id">
+        <node label="OrgId">
+         <node label="BICOrBEI"  javaType="java.lang.String" />
+         <node label="Othr">
+          <node label="Id"  javaType="java.lang.String" />
+          <node label="SchmeNm">
+           <node label="Cd"  javaType="java.lang.String" />
+           <node label="Prtry"  javaType="java.lang.String" />
+          </node>
+          <node label="Issr"  javaType="java.lang.String" />
+         </node>
+        </node>
+        <node label="PrvtId">
+         <node label="DtAndPlcOfBirth">
+          <node label="BirthDt"  javaType="org.joda.time.DateTime" />
+          <node label="PrvcOfBirth"  javaType="java.lang.String" />
+          <node label="CityOfBirth"  javaType="java.lang.String" />
+          <node label="CtryOfBirth"  javaType="java.lang.String" />
+         </node>
+         <node label="Othr">
+          <node label="Id"  javaType="java.lang.String" />
+          <node label="SchmeNm">
+           <node label="Cd"  javaType="java.lang.String" />
+           <node label="Prtry"  javaType="java.lang.String" />
+          </node>
+          <node label="Issr"  javaType="java.lang.String" />
+         </node>
+        </node>
+       </node>
+       <node label="CtryOfRes"  javaType="java.lang.String" />
+       <node label="CtctDtls">
+        <node label="NmPrfx"  javaType="java.lang.String" />
+        <node label="Nm"  javaType="java.lang.String" />
+        <node label="PhneNb"  javaType="java.lang.String" />
+        <node label="MobNb"  javaType="java.lang.String" />
+        <node label="FaxNb"  javaType="java.lang.String" />
+        <node label="EmailAdr"  javaType="java.lang.String" />
+        <node label="Othr"  javaType="java.lang.String" />
+       </node>
+      </node>
+      <node label="Invcee">
+       <node label="Nm"  javaType="java.lang.String" />
+       <node label="PstlAdr">
+        <node label="AdrTp"  javaType="java.lang.String" />
+        <node label="Dept"  javaType="java.lang.String" />
+        <node label="SubDept"  javaType="java.lang.String" />
+        <node label="StrtNm"  javaType="java.lang.String" />
+        <node label="BldgNb"  javaType="java.lang.String" />
+        <node label="PstCd"  javaType="java.lang.String" />
+        <node label="TwnNm"  javaType="java.lang.String" />
+        <node label="CtrySubDvsn"  javaType="java.lang.String" />
+        <node label="Ctry"  javaType="java.lang.String" />
+        <node label="AdrLine"  javaType="java.lang.String" />
+       </node>
+       <node label="Id">
+        <node label="OrgId">
+         <node label="BICOrBEI"  javaType="java.lang.String" />
+         <node label="Othr">
+          <node label="Id"  javaType="java.lang.String" />
+          <node label="SchmeNm">
+           <node label="Cd"  javaType="java.lang.String" />
+           <node label="Prtry"  javaType="java.lang.String" />
+          </node>
+          <node label="Issr"  javaType="java.lang.String" />
+         </node>
+        </node>
+        <node label="PrvtId">
+         <node label="DtAndPlcOfBirth">
+          <node label="BirthDt"  javaType="org.joda.time.DateTime" />
+          <node label="PrvcOfBirth"  javaType="java.lang.String" />
+          <node label="CityOfBirth"  javaType="java.lang.String" />
+          <node label="CtryOfBirth"  javaType="java.lang.String" />
+         </node>
+         <node label="Othr">
+          <node label="Id"  javaType="java.lang.String" />
+          <node label="SchmeNm">
+           <node label="Cd"  javaType="java.lang.String" />
+           <node label="Prtry"  javaType="java.lang.String" />
+          </node>
+          <node label="Issr"  javaType="java.lang.String" />
+         </node>
+        </node>
+       </node>
+       <node label="CtryOfRes"  javaType="java.lang.String" />
+       <node label="CtctDtls">
+        <node label="NmPrfx"  javaType="java.lang.String" />
+        <node label="Nm"  javaType="java.lang.String" />
+        <node label="PhneNb"  javaType="java.lang.String" />
+        <node label="MobNb"  javaType="java.lang.String" />
+        <node label="FaxNb"  javaType="java.lang.String" />
+        <node label="EmailAdr"  javaType="java.lang.String" />
+        <node label="Othr"  javaType="java.lang.String" />
+       </node>
+      </node>
+      <node label="AddtlRmtInf"  javaType="java.lang.String" />
+     </node>
+    </node>
+   </node>
+  </node>
+ </node>
+</node>
+
+	</mx:XML>
+
+	
+	
+</mx:Panel>

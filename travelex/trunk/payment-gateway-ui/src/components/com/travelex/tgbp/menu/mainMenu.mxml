@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" 
+		  xmlns:flexlib="http://code.google.com/p/flexlib/"
+		  xmlns="components.com.travelex.tgbp.menu.*"
+		  title="Payment Gateway">
+	
+		<mx:Script source="as/mainMenu.as"/>
+	
+		<flexlib:VAccordion id="accordion" 
+			headerLocation="below" width="200" 
+			resizeToContent="true" headerRenderer="components.com.travelex.tgbp.menu.header"
+			click="handleMainMenuClick(event)">
+			
+			<accordionItem id="systemstatus" 
+				title="System Status" 
+				image="@Embed('/../assets/system-status.png')"
+				description="System health and activity overview" />
+			
+			<accordionItem id="submissions" 
+				title="Submissions"
+				image="@Embed('/../assets/dice-currency-symbols.jpg')"
+				description="Status of in-process submissions" />
+			
+			<accordionItem id="rules" 
+				title="Routing Rules"
+				image="@Embed('/../assets/Compass.png')"
+				description="Routing rule configuration"/>
+			
+			<accordionItem id="xyz" 
+				title="Something Else"
+				image="@Embed('/../assets/EuroDollarYenPound.jpg')"
+				description="View the status of something else" />
+			
+			<accordionItem id="abc" 
+				title="Another View"
+				image="@Embed('/../assets/system-status-tick.png')"
+				description="More exciting information" />
+				
+		</flexlib:VAccordion>
+		
+	</mx:Panel>

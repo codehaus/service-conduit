@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns="*" 
+	xmlns:p="components.com.travelex.tgbp.panel.*"
+	xmlns:m="components.com.travelex.tgbp.menu.*"
+	layout="absolute" viewSourceURL="srcview/index.html">
+	
+	<mx:Style source="css/application.css"/>
+
+	<m:mainMenu x="10" y="10" 
+				panelZero="{systemStatusPanel}" 
+				panelOne="{submissionsPanel}"
+				panelTwo="{routingRulesPanel}" />
+	
+	<p:systemStatus id="systemStatusPanel"
+					x="220" y="10"
+					height="95%" width="800"/>
+					
+	<p:routingRules id="routingRulesPanel"
+					x="220" y="10"
+					height="95%" width="800"/>
+					
+	<p:submissions id="submissionsPanel"
+					x="220" y="10"
+					height="95%" width="800"/>					
+	
+</mx:Application>
