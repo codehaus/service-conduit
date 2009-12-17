@@ -1,4 +1,4 @@
-package com.travelex.tgbp.store.service;
+package com.travelex.tgbp.store.service.api;
 
 import java.util.List;
 

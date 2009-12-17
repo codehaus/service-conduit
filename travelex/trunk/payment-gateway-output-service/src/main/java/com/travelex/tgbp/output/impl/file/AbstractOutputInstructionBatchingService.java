@@ -12,8 +12,8 @@ import com.travelex.tgbp.output.service.file.OutputInstructionBatchingServiceLis
 import com.travelex.tgbp.store.domain.OutputInstruction;
 import com.travelex.tgbp.store.domain.OutputSubmission;
 import com.travelex.tgbp.store.domain.output.OutputInstructionBatchingConfig;
-import com.travelex.tgbp.store.service.InstructionReaderService;
-import com.travelex.tgbp.store.service.InstructionStoreService;
+import com.travelex.tgbp.store.service.api.InstructionReaderService;
+import com.travelex.tgbp.store.service.api.InstructionStoreService;
 import com.travelex.tgbp.store.type.ClearingMechanism;
 
 /**

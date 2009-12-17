@@ -15,8 +15,8 @@ import com.travelex.tgbp.output.service.instruction.OutputInstructionCreationSer
 import com.travelex.tgbp.output.service.instruction.OutputInstructionCreationServiceListener;
 import com.travelex.tgbp.store.domain.Instruction;
 import com.travelex.tgbp.store.domain.OutputInstruction;
-import com.travelex.tgbp.store.service.InstructionStoreService;
-import com.travelex.tgbp.store.service.SubmissionStoreService;
+import com.travelex.tgbp.store.service.api.InstructionStoreService;
+import com.travelex.tgbp.store.service.api.SubmissionStoreService;
 import com.travelex.tgbp.store.type.ClearingMechanism;
 import com.travelex.tgbp.transform.api.TransformationService;
 
@@ -38,7 +38,7 @@ public abstract class AbstractOutputInstructionCreationService implements Output
      */
     @Override
     public void addInstruction(Instruction instruction) {
-         instructions.add(instruction);
+        instructions.add(instruction);
     }
 
     /**
@@ -57,7 +57,7 @@ public abstract class AbstractOutputInstructionCreationService implements Output
      */
     @Override
     public void close() {
-         instructions = null;
+        instructions = null;
     }
 
     /**

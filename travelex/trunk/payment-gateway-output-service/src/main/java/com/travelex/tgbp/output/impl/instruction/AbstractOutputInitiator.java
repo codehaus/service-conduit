@@ -12,7 +12,7 @@ import com.travelex.tgbp.output.service.instruction.OutputInstructionCreationSer
 import com.travelex.tgbp.output.service.instruction.OutputInstructionCreationServiceListener;
 import com.travelex.tgbp.routing.service.ClearingMechanismResolver;
 import com.travelex.tgbp.store.domain.Instruction;
-import com.travelex.tgbp.store.service.InstructionReaderService;
+import com.travelex.tgbp.store.service.api.InstructionReaderService;
 import com.travelex.tgbp.store.type.ClearingMechanism;
 import com.travelex.tgbp.store.type.Currency;
 
@@ -53,9 +53,9 @@ public abstract class AbstractOutputInitiator implements OutputInitiator, Output
      */
     @Override
     public void close() {
-       for (OutputInstructionCreationService collector : instructionCollectors.values()) {
-           collector.close();
-       }
+        for (OutputInstructionCreationService collector : instructionCollectors.values()) {
+            collector.close();
+        }
     }
 
     /**

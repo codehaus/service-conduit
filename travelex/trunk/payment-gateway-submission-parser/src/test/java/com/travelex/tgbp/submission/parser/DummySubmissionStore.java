@@ -4,7 +4,7 @@ import org.osoa.sca.annotations.Reference;
 
 import com.travelex.tgbp.store.domain.OutputSubmission;
 import com.travelex.tgbp.store.domain.Submission;
-import com.travelex.tgbp.store.service.SubmissionStoreService;
+import com.travelex.tgbp.store.service.api.SubmissionStoreService;
 
 public class DummySubmissionStore implements SubmissionStoreService {
 

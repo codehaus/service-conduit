@@ -6,7 +6,7 @@ import org.osoa.sca.annotations.Reference;
 
 import com.travelex.tgbp.store.domain.Instruction;
 import com.travelex.tgbp.store.domain.OutputInstruction;
-import com.travelex.tgbp.store.service.InstructionStoreService;
+import com.travelex.tgbp.store.service.api.InstructionStoreService;
 
 public class DummyInstructionStore implements InstructionStoreService {
 

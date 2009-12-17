@@ -20,8 +20,8 @@ import org.osoa.sca.annotations.Reference;
 
 import com.travelex.tgbp.store.domain.Instruction;
 import com.travelex.tgbp.store.domain.Submission;
-import com.travelex.tgbp.store.service.InstructionStoreService;
-import com.travelex.tgbp.store.service.SubmissionStoreService;
+import com.travelex.tgbp.store.service.api.InstructionStoreService;
+import com.travelex.tgbp.store.service.api.SubmissionStoreService;
 import com.travelex.tgbp.store.type.Currency;
 import com.travelex.tgbp.submission.parser.api.SubmissionParser;
 import com.travelex.tgbp.submission.parser.api.SubmissionParsingException;
