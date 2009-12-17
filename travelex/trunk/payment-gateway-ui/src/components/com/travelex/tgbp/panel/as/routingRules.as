@@ -157,6 +157,7 @@ private function getRuleUrlParams():URLVariables {
 		ruleData += "<operator>" + ruleEntry.operator + "</operator>";
 		ruleData += "<type>" + ruleEntry.javaType + "</type>";
 		ruleData += "<data>" + ruleEntry.expectedData + "</data>";
+		ruleData += "</rule>";
 	} 
 	ruleData += "</ruleData>";
 	
