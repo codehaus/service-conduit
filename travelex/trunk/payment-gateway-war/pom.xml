@@ -14,7 +14,7 @@
     <name>TGBP WAR module</name>
 
     <dependencies>
-    
+
         <dependency>
             <groupId>com.travelex.tgbp</groupId>
             <artifactId>payment-gateway-schema-model</artifactId>
@@ -46,18 +46,22 @@
             <groupId>concurrent</groupId>
             <artifactId>concurrent</artifactId>
         </dependency>
+        
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
         </dependency>
+        
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
         </dependency>
+        
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
         </dependency>
+        
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
@@ -93,10 +97,11 @@
                 <configuration>
                     <runTimeVersion>${sca4j.version}</runTimeVersion>
                     <extensions>
-						<dependency>
-							<groupId>org.sca4j</groupId>
-							<artifactId>sca4j-tx-jotm</artifactId>
-						</dependency>                    
+				        <dependency>
+				            <groupId>com.travelex.tgbp</groupId>
+				            <artifactId>payment-gateway-in-container-ds</artifactId>
+				            <version>${project.version}</version>
+				        </dependency>				                            
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-resource</artifactId>
@@ -124,11 +129,6 @@
                         </dependency>
                         <dependency>
                             <groupId>org.sca4j</groupId>
-                            <artifactId>sca4j-spi</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-conversation-propagation</artifactId>
                             <version>${sca4j.version}</version>
                         </dependency>                        
@@ -146,8 +146,7 @@
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-tx</artifactId>
                             <version>${sca4j.version}</version>
-                        </dependency>
-                        
+                        </dependency>                        
                     </extensions>
                 </configuration>
             </plugin>

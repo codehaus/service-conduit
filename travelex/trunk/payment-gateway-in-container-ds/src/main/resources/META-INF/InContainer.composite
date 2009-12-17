@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0" 
+           targetNamespace="urn:composite:com.travelex.esb.common"
+           xmlns:sca4j="urn:sca4j.org"
+           name="InContainerExtension"
+           autowire="true">
+
+    <component name="EsbDS">
+        <sca4j:implementation.system class="org.sca4j.resource.jndi.proxy.jdbc.DataSourceProxy" />
+        <property name="jndiName">TgbpDS</property>
+        <property name="dataSourceKeys">TgbpDS</property>
+    </component>
+
+    <component name="TransactionManager">
+        <sca4j:implementation.system class="org.sca4j.resource.jndi.proxy.jta.TransactionManagerProxy" />
+        <property name="jndiName">javax/transaction/TransactionManager</property>
+    </component>
+        
+</composite>
