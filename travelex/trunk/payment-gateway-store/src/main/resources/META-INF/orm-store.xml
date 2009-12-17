@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
+	version="1.0">
+	<description>Output routing related objects</description>
+	
+    <named-query name="FIND_CONFIG_ON_AMOUNT">
+	   <query>
+	        SELECT config
+            FROM RoutingConfigOnAmount config 
+            WHERE config.currency = ?1 AND config.amount = ?2 
+	   </query>
+    </named-query>
+    
+    <named-query name="FIND_CONFIG_ON_VALUE_DATE">
+	   <query>
+	   <![CDATA[	   
+	        SELECT config 
+            FROM RoutingConfigOnValueDate config 
+            WHERE config.currency = ?1 AND config.clearingPeriod <= ?2 
+            order by config.charge
+       ]]>
+	   </query>	   
+    </named-query>
+    
+    <named-query name="FIND_OI_BATCHING_CONFIG">
+	   <query>
+	        SELECT config 
+            FROM OutputInstructionBatchingConfig config 
+            WHERE config.clearingMechanism = ?1 
+	   </query>
+    </named-query>
+    
+    <named-query name="FIND_REMITTANCE_ACCOUNT">
+       <query>
+            SELECT config 
+            FROM RemittanceAccountConfig config 
+            WHERE config.clearingMechanism = ?1 
+       </query>
+    </named-query>
+    
+	<entity class="com.travelex.tgbp.store.domain.rule.DynamicRule" access="FIELD">
+		<table name="DYNAMIC_RULE" />
+		<attributes>
+			<id name="id">
+				<column name="RULE_ID" nullable="false" />
+				<generated-value strategy="SEQUENCE" generator="SEQ_GEN" />
+				<sequence-generator name="SEQ_GEN" sequence-name="SEQ_SUB" />				
+			</id>
+
+			<basic name="routeTo">
+				<column name="CLEARING_MECHANISM" nullable="false"/>
+			</basic>
+
+			<basic name="ruleName">
+				<column name="RULE_NAME" nullable="false"/>
+			</basic>
+			
+			<basic name="ruleText">
+				<column name="RULE_TEXT" nullable="false" />
+			</basic>
+
+			<basic name="appliesTo">
+				<column name="SCHEMA" nullable="false" />
+			</basic>
+			
+			<basic name="priority">
+				<column name="PRIOIRTY" nullable="false" />
+			</basic>			
+		</attributes>
+	</entity>    
+    
+	<entity class="com.travelex.tgbp.store.domain.routing.RoutingConfigOnAmount" access="FIELD">
+		<table name="ROUTING_CONFIG_ON_AMOUNT" />
+		<attributes>
+			<id name="id">
+				<column name="CONFIG_ID" nullable="false" />
+				<generated-value strategy="SEQUENCE" generator="SEQ_GEN" />
+				<sequence-generator name="SEQ_GEN" sequence-name="SEQ_SUB" />				
+			</id>
+
+			<basic name="currency">
+				<column name="CURRENCY" nullable="false"/>
+				<enumerated>STRING</enumerated>
+			</basic>
+
+			<basic name="clearingMechanism">
+				<column name="CLEARING_MECHANISM" nullable="false"/>
+				<enumerated>STRING</enumerated>
+			</basic>
+			
+			<basic name="clearingPeriod">
+				<column name="CLIENT_ID" nullable="false" />
+			</basic>
+
+			<basic name="amount">
+				<column name="AMOUNT" nullable="false" />
+			</basic>
+		</attributes>
+	</entity>
+	
+	<entity class="com.travelex.tgbp.store.domain.routing.RoutingConfigOnValueDate" access="FIELD">
+		<table name="ROUTING_CONFIG_ON_VALUE_DATE" />
+		<attributes>
+			<id name="id">
+				<column name="CONFIG_ID" nullable="false" />
+				<generated-value strategy="SEQUENCE" generator="SEQ_GEN" />
+				<sequence-generator name="SEQ_GEN" sequence-name="SEQ_SUB" />				
+			</id>
+
+			<basic name="currency">
+				<column name="CURRENCY" nullable="false"/>
+				<enumerated>STRING</enumerated>
+			</basic>
+
+			<basic name="clearingMechanism">
+				<column name="CLEARING_MECHANISM" nullable="false"/>
+				<enumerated>STRING</enumerated>
+			</basic>
+			
+			<basic name="clearingPeriod">
+				<column name="CLIENT_ID" nullable="false" />
+			</basic>
+
+			<basic name="thresholdAmount">
+				<column name="THRESHOLD_AMOUNT" nullable="false" />
+			</basic>
+			
+			<basic name="charge">
+				<column name="CHARGE" nullable="false" />
+			</basic>
+		</attributes>
+	</entity>
+	
+	<entity class="com.travelex.tgbp.store.domain.output.OutputInstructionBatchingConfig" access="FIELD">
+		<table name="OUTPUT_INSTRUCTION_BATCHING_CONFIG" />
+		<attributes>
+			<id name="clearingMechanism">
+				<column name="CLEARING_MECHANISM" nullable="false" />
+			</id>
+
+			<basic name="thresholdCount">
+				<column name="THRESHOLD_COUNT" nullable="false"/>
+			</basic>
+
+			<basic name="thresholdAmount">
+				<column name="THRESHOLD_AMOUNT" nullable="false"/>
+			</basic>
+		</attributes>
+	</entity>
+	
+	<entity class="com.travelex.tgbp.store.domain.output.RemittanceAccountConfig" access="FIELD">
+        <table name="REMITTANCE_ACCOUNT_CONFIG" />
+        <attributes>
+            <id name="clearingMechanism">
+                <column name="CLEARING_MECHANISM" nullable="false" />
+            </id>
+
+            <basic name="bankId">
+                <column name="BANK_ID" nullable="false"/>
+            </basic>
+
+            <basic name="bankName">
+                <column name="BANK_NAME" nullable="false"/>
+            </basic>
+
+            <basic name="accountNumber">
+                <column name="ACCOUNT_NUMBER" nullable="false"/>
+            </basic>
+
+            <basic name="accountHolderName">
+                <column name="ACCOUNT_HOLDER_NAME" nullable="false"/>
+            </basic>
+
+            <basic name="accountHolderAddressLine1">
+                <column name="ACCOUNT_HOLDER_ADDRESS_LINE1" nullable="false"/>
+            </basic>
+
+            <basic name="accountHolderCity">
+                <column name="ACCOUNT_HOLDER_CITY" nullable="false"/>
+            </basic>
+
+            <basic name="accountHolderState">
+                <column name="ACCOUNT_HOLDER_STATE" nullable="false"/>
+            </basic>
+
+            <basic name="accountHolderZip">
+                <column name="ACCOUNT_HOLDER_ZIP" nullable="false"/>
+            </basic>
+        </attributes>
+    </entity>
+
+</entity-mappings>
