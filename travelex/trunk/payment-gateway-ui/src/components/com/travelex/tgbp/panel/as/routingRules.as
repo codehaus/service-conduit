@@ -15,6 +15,9 @@ private var dataGridProvider:ArrayCollection = new ArrayCollection();
 [Bindable]
 private var schemaDescription:String;
 
+[Bindable]
+private var serverUrl:String;
+
 private function onDragEnter( event:DragEvent ) : void
 {            
     if( event.dragInitiator is Tree ) {
@@ -91,7 +94,7 @@ private function onTreeDragComplete(event:DragEvent):void {
     event.preventDefault();
 }        
 
-private function onSchemaDescriptorService(event:ResultEvent):void {
+private function onSchemaDescriptorService(event:ResultEvent):void {	
 	var doc:XMLDocument = event.result.parentNode;				
 	schemaDescription = doc.toString();
 }
