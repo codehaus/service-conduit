@@ -59,6 +59,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 
@@ -84,7 +85,7 @@ public class DefaultServiceIntrospector implements ServiceIntrospector {
             DataBinding outBinding = DataBinding.JAXRS;
             
             HttpMethod subResourceMethod = HttpMethod.GET;
-            if (method.getAnnotation(PUT.class) != null) {
+            if (method.getAnnotation(POST.class) != null) {
                 subResourceMethod = HttpMethod.POST;
             }
             
