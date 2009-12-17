@@ -8,3 +8,7 @@ public function set config(conf:XML): void {
 	configData = conf;
 }
 
+protected function getConfigParam(p:String): String {
+	return configData[p];
+}
+

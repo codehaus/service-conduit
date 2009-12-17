@@ -14,12 +14,11 @@
                 <mx:String>pacs.008.001.02</mx:String>
             </mx:dataProvider>
         </mx:ComboBox>        
-       	<mx:Button label="Go" click="schemaDescriptorService.send({'schema':schemaSelection.selectedLabel})"/>       
-       	<!-- <mx:Button label="Go" click="schemaTree.dataProvider=treeData"/> -->
+       	<mx:Button label="Go" click="populateTree()"/>
 	</mx:HBox>
 
 	<mx:Tree  id="schemaTree" 
-		height="60%" width="100%" 
+		height="58%" width="100%" 
 		borderStyle="none"
 		dragEnabled="true" 
 		labelField="@label" 
@@ -59,17 +58,44 @@
         </mx:columns>
     </mx:DataGrid>			
     
-	<mx:HBox height="5%" horizontalAlign="center">
-		<mx:Text fontSize="12" text="Rule name"/> 	
-		<mx:TextInput fontSize="12" 
-			width="70%"/>
-		<mx:Button label="Create rule"/>	
+	<mx:HBox height="7%" 
+			 horizontalAlign="center">
+			 
+		<mx:Text fontSize="12" 
+				 text="Rule name"/> 
+				 	
+		<mx:TextInput   id="ruleName"
+						fontSize="12" 
+						width="70%"/>
+						
+		<mx:Text fontSize="12" 
+				 text="Route to"/> 	
+				 
+		<mx:TextInput   id="routeTo"
+						fontSize="12" 
+						width="70%"/>						
+												
+		<mx:Button 	label="Create rule" 
+					click="createRoutingRule()"/>
+					
+		<mx:Button 	label="Clear" 
+					click="clearRuleData()"/>	
+					
+		<mx:ProgressBar id="progress"
+						indeterminate="true"
+						width="150"
+						barColor="#b7babc"
+						visible="false"/>						
+						
 	</mx:HBox>
 	
+	<!-- Non-visual components -->
 	<mx:HTTPService id="schemaDescriptorService"
 					url="{configData['serverUrl']}/schemaModel/show.htm"					
 					result="onSchemaDescriptorService(event)"
+					fault="stopProgressBar(null)"
 					resultFormat="xml"
-					useProxy="false"/>
+					useProxy="false"
+					/>
 	
 </p:basePanel>
