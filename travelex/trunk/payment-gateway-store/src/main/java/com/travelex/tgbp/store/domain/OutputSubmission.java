@@ -1,5 +1,6 @@
 package com.travelex.tgbp.store.domain;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -14,7 +15,10 @@ public class OutputSubmission {
 
     private Long id;
     private ClearingMechanism clearingMechanism;
+    private String outputFile;
 
+    private transient long totalItemCount;
+    private transient BigDecimal totalAmount;
     private transient Set<OutputInstruction> outputInstructions = new HashSet<OutputInstruction>();
 
     /**
@@ -60,6 +64,60 @@ public class OutputSubmission {
      */
     public Collection<OutputInstruction> getOutputInstructions() {
         return Collections.unmodifiableCollection(outputInstructions);
+    }
+
+    /**
+     * Returns sum of payment item amount contained in this submission
+     *
+     * @return the totalAmount
+     */
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
+    }
+
+    /**
+     * Sets sum of payment item amount contained in this submission
+     *
+     * @param totalAmount the totalAmount to set
+     */
+    public void setTotalAmount(BigDecimal totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    /**
+     * Returns payment items count contained in this submission
+     *
+     * @return the totalItemCount
+     */
+    public long getTotalItemCount() {
+        return totalItemCount;
+    }
+
+    /**
+     * Sets payment items count contained in this submission
+     *
+     * @param totalItemCount the totalItemCount to set
+     */
+    public void setTotalItemCount(long totalItemCount) {
+        this.totalItemCount = totalItemCount;
+    }
+
+    /**
+     * Returns output submission file
+     *
+     * @return the outputFile
+     */
+    public String getOutputFile() {
+        return outputFile;
+    }
+
+    /**
+     * Sets output submission file
+     *
+     * @param outputFile the outputFile to set
+     */
+    public void setOutputFile(String outputFile) {
+        this.outputFile = outputFile;
     }
 
 }

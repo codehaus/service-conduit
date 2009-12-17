@@ -32,6 +32,13 @@
 	   </query>
     </named-query>
     
+    <named-query name="FIND_REMITTANCE_ACCOUNT">
+       <query>
+            SELECT config 
+            FROM RemittanceAccountConfig config 
+            WHERE config.clearingMechanism = ?1 
+       </query>
+    </named-query>
     
 	<entity class="com.travelex.tgbp.routing.types.RoutingConfigOnAmount" access="FIELD">
 		<table name="ROUTING_CONFIG_ON_AMOUNT" />
@@ -107,5 +114,46 @@
 			</basic>
 		</attributes>
 	</entity>
+	
+	<entity class="com.travelex.tgbp.output.types.RemittanceAccountConfig" access="FIELD">
+        <table name="REMITTANCE_ACCOUNT_CONFIG" />
+        <attributes>
+            <id name="clearingMechanism">
+                <column name="CLEARING_MECHANISM" nullable="false" />
+            </id>
+
+            <basic name="bankId">
+                <column name="BANK_ID" nullable="false"/>
+            </basic>
+
+            <basic name="bankName">
+                <column name="BANK_NAME" nullable="false"/>
+            </basic>
+
+            <basic name="accountNumber">
+                <column name="ACCOUNT_NUMBER" nullable="false"/>
+            </basic>
+
+            <basic name="accountHolderName">
+                <column name="ACCOUNT_HOLDER_NAME" nullable="false"/>
+            </basic>
+
+            <basic name="accountHolderAddressLine1">
+                <column name="ACCOUNT_HOLDER_ADDRESS_LINE1" nullable="false"/>
+            </basic>
+
+            <basic name="accountHolderCity">
+                <column name="ACCOUNT_HOLDER_CITY" nullable="false"/>
+            </basic>
+
+            <basic name="accountHolderState">
+                <column name="ACCOUNT_HOLDER_STATE" nullable="false"/>
+            </basic>
+
+            <basic name="accountHolderZip">
+                <column name="ACCOUNT_HOLDER_ZIP" nullable="false"/>
+            </basic>
+        </attributes>
+    </entity>
 
 </entity-mappings>

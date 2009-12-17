@@ -14,6 +14,7 @@ public class OutputInstruction {
     private ClearingMechanism clearingMechanism;
     private String sourceIdentifier;
     private String targetIdentifier;
+    private String outputPaymentData;
     private BigDecimal amount;
 
     /**
@@ -83,6 +84,24 @@ public class OutputInstruction {
      */
     public BigDecimal getAmount() {
         return amount;
+    }
+
+    /**
+     * Returns output payment data transformed from input payment data
+     *
+     * @return the outputPaymentData
+     */
+    public String getOutputPaymentData() {
+        return outputPaymentData;
+    }
+
+    /**
+     * Sets output payment data
+     *
+     * @param outputPaymentData data to set
+     */
+    public void setOutputPaymentData(String outputPaymentData) {
+        this.outputPaymentData = outputPaymentData;
     }
 
 }

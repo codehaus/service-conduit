@@ -6,7 +6,7 @@ import java.util.List;
 import org.osoa.sca.annotations.Callback;
 import org.osoa.sca.annotations.Reference;
 
-import com.travelex.tgbp.output.service.file.BatchingConfigReaderService;
+import com.travelex.tgbp.output.service.file.OutputConfigReader;
 import com.travelex.tgbp.output.service.file.OutputInstructionBatchingService;
 import com.travelex.tgbp.output.service.file.OutputInstructionBatchingServiceListener;
 import com.travelex.tgbp.output.types.OutputInstructionBatchingConfig;
@@ -21,7 +21,7 @@ import com.travelex.tgbp.store.type.ClearingMechanism;
  */
 public abstract class AbstractOutputInstructionBatchingService implements OutputInstructionBatchingService {
 
-    @Reference protected BatchingConfigReaderService batchingConfigReaderService;
+    @Reference protected OutputConfigReader outputConfigReader;
     @Reference protected InstructionReaderService instructionReaderService;
     @Reference protected InstructionStoreService instructionStoreService;
 
@@ -66,7 +66,7 @@ public abstract class AbstractOutputInstructionBatchingService implements Output
      * Evaluates batch threshold limits (max total item count and max total item amount)
      */
     private void setBatchThresholdLimits() {
-        final OutputInstructionBatchingConfig config = batchingConfigReaderService.findByClearingMechanism(getClearingMechanism());
+        final OutputInstructionBatchingConfig config = outputConfigReader.findBatchingConfigByClearingMechanism(getClearingMechanism());
         this.thresholdCount = config.getThresholdCount();
         this.thresholdAmount = config.getThresholdAmount();
     }
@@ -115,6 +115,8 @@ public abstract class AbstractOutputInstructionBatchingService implements Output
      * Hands off current batch
      */
     private void flushCurrentBatch() {
+       currentOutputSubmission.setTotalItemCount(currentBatchCount);
+       currentOutputSubmission.setTotalAmount(currentBatchAmount);
        serviceListener.onOutputSubmission(currentOutputSubmission);
        resetCurrentBatch();
     }

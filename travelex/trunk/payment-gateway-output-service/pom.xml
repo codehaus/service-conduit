@@ -24,6 +24,12 @@
         </dependency>
         
         <dependency>
+            <groupId>com.travelex.tgbp</groupId>
+            <artifactId>payment-gateway-transformation-xslt</artifactId>
+            <version>${project.version}</version>
+        </dependency> 
+        
+        <dependency>
 			<groupId>org.sca4j.spec</groupId>
 			<artifactId>sca-api-r1.0</artifactId>
 		</dependency>
@@ -38,6 +44,18 @@
 			<artifactId>persistence-api</artifactId>
 			<version>1.0</version>
 		</dependency>
+		
+		<dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.1</version>
+        </dependency>
+		
+		<dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>        
         
     </dependencies>
 

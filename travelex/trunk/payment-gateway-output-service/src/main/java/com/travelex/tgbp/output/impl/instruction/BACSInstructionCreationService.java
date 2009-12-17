@@ -1,5 +1,8 @@
 package com.travelex.tgbp.output.impl.instruction;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.osoa.sca.annotations.Service;
 import org.sca4j.api.annotation.scope.Conversation;
 
@@ -19,6 +22,14 @@ public class BACSInstructionCreationService extends AbstractOutputInstructionCre
     @Override
     ClearingMechanism getClearingMechanism() {
         return ClearingMechanism.BACS;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    Map<String, Object> getTransformationContext() {
+        return new HashMap<String, Object>();
     }
 
 }
