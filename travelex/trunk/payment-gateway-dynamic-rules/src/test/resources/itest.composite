@@ -12,7 +12,13 @@
 
     <component name="DynamicRuleSubmissionProcessor">
         <implementation.composite scdlResource="payment-gateway-dynamic-rules.composite"/>
-    </component>       
+        <reference name="dataStore" target="DummyDataStore"/>
+    </component>
+
+    <component name="DummyDataStore">
+        <implementation.java  class="com.travelex.tgbp.rules.dynamic.capture.DummyDataStore"/>        
+    </component>
+           
 
 </composite>
 

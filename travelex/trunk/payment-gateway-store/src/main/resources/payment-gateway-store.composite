@@ -1,0 +1,13 @@
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0" 
+           targetNamespace="urn:composite:com.travelex.tgbp" 
+           name="Store"
+           autowire="false">
+       
+    <service name="dataStore" promote="JPADataStore" />
+    
+    <component name="JPADataStore">
+    	<implementation.java class="com.travelex.tgbp.store.service.JPADataStore" />
+    </component>
+    
+        
+</composite>

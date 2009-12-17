@@ -26,5 +26,8 @@
 	</component>	
 	
 	
+	<component name="DataStore">
+    	<implementation.composite scdlResource="payment-gateway-store.composite" />
+    </component>
 	
 </composite>
