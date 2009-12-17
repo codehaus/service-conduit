@@ -58,6 +58,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.UUID;
@@ -102,18 +103,17 @@ public class Fork {
         
     }
 
-    private StringBuilder buildCommand(String jvmargs, File file) {
+    private StringBuilder buildCommand(String jvmargs, File file) throws MalformedURLException {
         
         StringBuilder command = new StringBuilder("java -cp ");
-        
-        URL[] urls = ((URLClassLoader) getClass().getClassLoader()).getURLs();
-        for (int i = 0; i < urls.length; i++) {
-            command.append(urls[i]);
-            if (i != urls.length - 1) {
+
+        URL[] extraCp = ((URLClassLoader) getClass().getClassLoader()).getURLs();
+        for (int i = 0; i < extraCp.length; i++) {
+            command.append(extraCp[i]);
+            if (i != extraCp.length - 1) {
                 command.append(File.pathSeparator);
             }
         }
-        command.append(command.toString());
         
         if (jvmargs != null) {
             command.append(" " + jvmargs);

@@ -74,6 +74,7 @@ import org.sca4j.host.perf.PerformanceMonitor;
  * @version $Rev: 5478 $ $Date: 2008-09-26 00:54:18 +0100 (Fri, 26 Sep 2008) $
  * @goal test
  * @phase test
+ * 
  */
 public class SCA4JITestMojo extends AbstractMojo {
 
@@ -89,7 +90,7 @@ public class SCA4JITestMojo extends AbstractMojo {
     /**
      * Whether to fork the plugin or not.
      *
-     * @parameter
+     * @parameter expression="${sca4j.fork}"
      */
     public boolean fork;
 
@@ -309,6 +310,8 @@ public class SCA4JITestMojo extends AbstractMojo {
             throw new AssertionError(e);
         } catch (InterruptedException e) {
             throw new AssertionError(e);
+        } catch (TestFailureException e) {
+            throw new MojoFailureException(e.getMessage());
         } finally {
         	PerformanceMonitor.end();
         }

@@ -70,7 +70,6 @@ import java.util.Set;
 import javax.management.MBeanServerFactory;
 import javax.xml.namespace.QName;
 
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.surefire.report.BriefFileReporter;
 import org.apache.maven.surefire.report.DetailedConsoleReporter;
 import org.apache.maven.surefire.report.Reporter;
@@ -96,6 +95,7 @@ import org.sca4j.spi.wire.Wire;
 import org.xml.sax.InputSource;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 
 /**
  * Executes integration tests.
@@ -110,17 +110,18 @@ public class TestRunner {
     private TestMetadata testMetadata;
     private MonitorFactory monitorFactory;
     
-    public static void main(String[] args) throws IOException, MojoFailureException {
+    public static void main(String[] args) throws IOException, TestFailureException {
         
         FileInputStream fileInputStream = null;
         try {
             fileInputStream = new FileInputStream(args[0]);
-            XStream xstream = new XStream();
+            XStream xstream = new XStream(new DomDriver());
             TestMetadata testMetadata = (TestMetadata) xstream.fromXML(fileInputStream);
             new TestRunner(testMetadata, null).executeTests();
         } finally {
             fileInputStream.close();
         }
+        System.exit(0);
         
     }
     
@@ -129,7 +130,7 @@ public class TestRunner {
         this.monitorFactory = monitorFactory;
     }
 
-    public void executeTests() throws MojoFailureException {
+    public void executeTests() throws TestFailureException {
         
         SurefireTestSuite testSuite;
         MavenEmbeddedRuntime runtime = null;
@@ -175,11 +176,11 @@ public class TestRunner {
             
             if (!success) {
                 String msg = "There were test failures";
-                throw new MojoFailureException(msg);
+                throw new TestFailureException(msg);
             }
             
             
-        } catch (MojoFailureException e) {
+        } catch (TestFailureException e) {
             throw e;
         } catch (Exception e) {
             // trap any other exception

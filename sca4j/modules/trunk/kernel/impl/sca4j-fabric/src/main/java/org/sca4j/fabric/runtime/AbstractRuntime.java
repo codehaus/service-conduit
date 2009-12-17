@@ -117,6 +117,7 @@ import org.sca4j.host.runtime.InitializationException;
 import org.sca4j.host.runtime.SCA4JRuntime;
 import org.sca4j.host.runtime.StartException;
 import org.sca4j.monitor.MonitorFactory;
+import org.sca4j.monitor.impl.JavaLoggingMonitorFactory;
 import org.sca4j.pojo.PojoWorkContextTunnel;
 import org.sca4j.scdl.Autowire;
 import org.sca4j.scdl.Composite;
@@ -292,6 +293,9 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
 
     public void setMonitorFactory(MonitorFactory monitorFactory) {
         this.monitorFactory = monitorFactory;
+        if (monitorFactory == null) {
+            this.monitorFactory = new JavaLoggingMonitorFactory();
+        }
     }
 
     public MBeanServer getMBeanServer() {
