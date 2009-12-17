@@ -1,0 +1,1 @@
+The project requires flash player 10 in browsers which run it. Otherwise (very difficult to track down!) intermittemt http errors occur.
