@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>sca4j-kernel-impl-parent-pom</artifactId>
-        <version>0.2.10-SNAPSHOT</version>
+        <version>0.2.10</version>
     </parent>
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-util</artifactId>
