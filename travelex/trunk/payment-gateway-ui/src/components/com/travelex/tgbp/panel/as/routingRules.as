@@ -1,7 +1,6 @@
 // ActionScript file
 import mx.collections.ArrayCollection;
 import mx.controls.DataGrid;
-import mx.controls.List;
 import mx.controls.Tree;
 import mx.controls.listClasses.ListBase;
 import mx.core.DragSource;

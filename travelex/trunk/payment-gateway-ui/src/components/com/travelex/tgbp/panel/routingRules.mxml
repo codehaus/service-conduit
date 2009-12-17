@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" 
-	title="Routing Rules"
-	visible="false">
-	
+<p:basePanel 	xmlns:p="components.com.travelex.tgbp.panel.*"
+				xmlns:mx="http://www.adobe.com/2006/mxml" 
+				title="Routing Rules">
+		
 	<mx:Script source="as/routingRules.as"/>
 
 	<mx:HBox height="5%" paddingTop="10" paddingLeft="10" >
@@ -65,11 +65,12 @@
 		<mx:Button label="Create rule"/>	
 	</mx:HBox>
 	
-	
 	<mx:HTTPService id="schemaDescriptorService"
 					url="data/001.xml"
 					result="onSchemaDescriptorService(event)"
 					resultFormat="xml"/>
+					
+	<mx:Button click="getConfigParam('serverUrl')" label="PARAM"/>						
 	
 		<!-- Temp - allows the tree view to be populated without having the app server running -->
 	<mx:XML id="treeData" xmlns="">
@@ -1262,4 +1263,4 @@
 
 	
 	
-</mx:Panel>
+</p:basePanel>

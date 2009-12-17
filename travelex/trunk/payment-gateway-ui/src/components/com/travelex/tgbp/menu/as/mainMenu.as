@@ -5,25 +5,25 @@ import mx.containers.Panel;
 [Bindable]
 private var dataGridProvider:ArrayCollection = new ArrayCollection();
 
-private var _panelZero:Panel;
-private var _panelTwo:Panel;
-private var _panelOne:Panel;
+private var p0:Panel;
+private var p2:Panel;
+private var p1:Panel;
 
 public function set panelZero(panel:Panel): void {
-	_panelZero = panel;
+	p0 = panel;
 }
 
 public function set panelOne(panel:Panel): void {
-	_panelOne = panel;
+	p1 = panel;
 }
 
 public function set panelTwo(panel:Panel): void {
-	_panelTwo = panel;
+	p2 = panel;
 }
 
 private function handleMainMenuClick(event:MouseEvent):void {
 	dispatchEvent(event);
-	_panelZero.visible = (event.currentTarget.selectedIndex == 0);
-	_panelOne.visible = (event.currentTarget.selectedIndex == 1);
-	_panelTwo.visible = (event.currentTarget.selectedIndex == 2);					
+	p0.visible = (event.currentTarget.selectedIndex == 0);
+	p1.visible = (event.currentTarget.selectedIndex == 1);
+	p2.visible = (event.currentTarget.selectedIndex == 2);					
 }
