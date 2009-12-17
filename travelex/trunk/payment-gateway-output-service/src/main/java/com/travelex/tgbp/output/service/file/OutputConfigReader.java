@@ -1,7 +1,7 @@
 package com.travelex.tgbp.output.service.file;
 
-import com.travelex.tgbp.output.types.OutputInstructionBatchingConfig;
-import com.travelex.tgbp.output.types.RemittanceAccountConfig;
+import com.travelex.tgbp.store.domain.output.OutputInstructionBatchingConfig;
+import com.travelex.tgbp.store.domain.output.RemittanceAccountConfig;
 import com.travelex.tgbp.store.type.ClearingMechanism;
 
 /**

@@ -1,4 +1,4 @@
-package com.travelex.tgbp.routing.types;
+package com.travelex.tgbp.store.domain.routing;
 
 import com.travelex.tgbp.store.type.ClearingMechanism;
 import com.travelex.tgbp.store.type.Currency;

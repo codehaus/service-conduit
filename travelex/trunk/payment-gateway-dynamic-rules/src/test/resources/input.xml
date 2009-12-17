@@ -1,0 +1,14 @@
+<ruleData>
+	<rule>
+		<path>/Document/CstmrCdtTrfInitn/GrpHdr/MsgId</path>
+		<operator>Equals</operator>
+		<type>java.lang.String</type>
+		<data>asdfsf</data>
+	</rule>
+	<rule>
+		<path>/Document/CstmrCdtTrfInitn/GrpHdr/MsgId</path>
+		<operator>Equals</operator>
+		<type>java.lang.String</type>
+		<data>asdfasdf</data>
+	</rule>
+</ruleData>

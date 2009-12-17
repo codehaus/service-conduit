@@ -4,8 +4,8 @@ import org.osoa.sca.annotations.Reference;
 import org.sca4j.api.annotation.scope.Composite;
 
 import com.travelex.tgbp.routing.service.RoutingConfigReader;
-import com.travelex.tgbp.routing.types.RoutingConfigOnAmount;
 import com.travelex.tgbp.store.domain.Instruction;
+import com.travelex.tgbp.store.domain.routing.RoutingConfigOnAmount;
 import com.travelex.tgbp.store.type.ClearingMechanism;
 
 /**

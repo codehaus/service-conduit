@@ -3,8 +3,8 @@ package com.travelex.tgbp.routing.service;
 import java.math.BigDecimal;
 import java.util.Collection;
 
-import com.travelex.tgbp.routing.types.RoutingConfigOnAmount;
-import com.travelex.tgbp.routing.types.RoutingConfigOnValueDate;
+import com.travelex.tgbp.store.domain.routing.RoutingConfigOnAmount;
+import com.travelex.tgbp.store.domain.routing.RoutingConfigOnValueDate;
 import com.travelex.tgbp.store.type.Currency;
 
 /**

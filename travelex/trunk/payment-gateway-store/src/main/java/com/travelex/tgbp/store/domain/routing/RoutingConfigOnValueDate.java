@@ -1,4 +1,4 @@
-package com.travelex.tgbp.routing.types;
+package com.travelex.tgbp.store.domain.routing;
 
 import java.math.BigDecimal;
 

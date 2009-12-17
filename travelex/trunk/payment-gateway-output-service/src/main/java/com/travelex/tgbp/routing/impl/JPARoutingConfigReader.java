@@ -8,8 +8,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.travelex.tgbp.routing.service.RoutingConfigReader;
-import com.travelex.tgbp.routing.types.RoutingConfigOnAmount;
-import com.travelex.tgbp.routing.types.RoutingConfigOnValueDate;
+import com.travelex.tgbp.store.domain.routing.RoutingConfigOnAmount;
+import com.travelex.tgbp.store.domain.routing.RoutingConfigOnValueDate;
 import com.travelex.tgbp.store.type.Currency;
 
 /**

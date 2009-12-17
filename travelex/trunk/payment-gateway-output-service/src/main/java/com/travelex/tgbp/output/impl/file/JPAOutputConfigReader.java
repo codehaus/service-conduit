@@ -5,8 +5,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.travelex.tgbp.output.service.file.OutputConfigReader;
-import com.travelex.tgbp.output.types.OutputInstructionBatchingConfig;
-import com.travelex.tgbp.output.types.RemittanceAccountConfig;
+import com.travelex.tgbp.store.domain.output.OutputInstructionBatchingConfig;
+import com.travelex.tgbp.store.domain.output.RemittanceAccountConfig;
 import com.travelex.tgbp.store.type.ClearingMechanism;
 
 /**

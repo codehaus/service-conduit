@@ -40,11 +40,44 @@
        </query>
     </named-query>
     
-	<entity class="com.travelex.tgbp.routing.types.RoutingConfigOnAmount" access="FIELD">
+	<entity class="com.travelex.tgbp.store.domain.rule.DynamicRule" access="FIELD">
+		<table name="DYNAMIC_RULE" />
+		<attributes>
+			<id name="id">
+				<column name="RULE_ID" nullable="false" />
+				<generated-value strategy="SEQUENCE" generator="SEQ_GEN" />
+				<sequence-generator name="SEQ_GEN" sequence-name="SEQ_SUB" />				
+			</id>
+
+			<basic name="routeTo">
+				<column name="CLEARING_MECHANISM" nullable="false"/>
+			</basic>
+
+			<basic name="ruleName">
+				<column name="RULE_NAME" nullable="false"/>
+			</basic>
+			
+			<basic name="ruleText">
+				<column name="RULE_TEXT" nullable="false" />
+			</basic>
+
+			<basic name="appliesTo">
+				<column name="SCHEMA" nullable="false" />
+			</basic>
+			
+			<basic name="priority">
+				<column name="PRIOIRTY" nullable="false" />
+			</basic>			
+		</attributes>
+	</entity>    
+    
+	<entity class="com.travelex.tgbp.store.domain.routing.RoutingConfigOnAmount" access="FIELD">
 		<table name="ROUTING_CONFIG_ON_AMOUNT" />
 		<attributes>
 			<id name="id">
 				<column name="CONFIG_ID" nullable="false" />
+				<generated-value strategy="SEQUENCE" generator="SEQ_GEN" />
+				<sequence-generator name="SEQ_GEN" sequence-name="SEQ_SUB" />				
 			</id>
 
 			<basic name="currency">
@@ -67,11 +100,13 @@
 		</attributes>
 	</entity>
 	
-	<entity class="com.travelex.tgbp.routing.types.RoutingConfigOnValueDate" access="FIELD">
+	<entity class="com.travelex.tgbp.store.domain.routing.RoutingConfigOnValueDate" access="FIELD">
 		<table name="ROUTING_CONFIG_ON_VALUE_DATE" />
 		<attributes>
 			<id name="id">
 				<column name="CONFIG_ID" nullable="false" />
+				<generated-value strategy="SEQUENCE" generator="SEQ_GEN" />
+				<sequence-generator name="SEQ_GEN" sequence-name="SEQ_SUB" />				
 			</id>
 
 			<basic name="currency">
@@ -98,7 +133,7 @@
 		</attributes>
 	</entity>
 	
-	<entity class="com.travelex.tgbp.output.types.OutputInstructionBatchingConfig" access="FIELD">
+	<entity class="com.travelex.tgbp.store.domain.output.OutputInstructionBatchingConfig" access="FIELD">
 		<table name="OUTPUT_INSTRUCTION_BATCHING_CONFIG" />
 		<attributes>
 			<id name="clearingMechanism">
@@ -115,7 +150,7 @@
 		</attributes>
 	</entity>
 	
-	<entity class="com.travelex.tgbp.output.types.RemittanceAccountConfig" access="FIELD">
+	<entity class="com.travelex.tgbp.store.domain.output.RemittanceAccountConfig" access="FIELD">
         <table name="REMITTANCE_ACCOUNT_CONFIG" />
         <attributes>
             <id name="clearingMechanism">

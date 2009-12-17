@@ -1,4 +1,4 @@
-package com.travelex.tgbp.output.types;
+package com.travelex.tgbp.store.domain.output;
 
 import java.math.BigDecimal;
 
