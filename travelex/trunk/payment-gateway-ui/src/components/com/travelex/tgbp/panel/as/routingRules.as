@@ -164,7 +164,8 @@ private function getRuleUrlParams():URLVariables {
 	var params:URLVariables = new URLVariables();
 	params.rulename = ruleName.text;
 	params.clearingmechanism = routeTo.text;
-	params.ruledata = ruleData;
+	params.appliesto = schemaSelection.selectedItem;
+	params.ruledata = ruleData;	
 	
 	return params;		
 }	
