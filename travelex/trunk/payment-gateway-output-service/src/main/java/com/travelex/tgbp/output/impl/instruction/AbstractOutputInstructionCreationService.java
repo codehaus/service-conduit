@@ -11,6 +11,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.osoa.sca.annotations.Callback;
 import org.osoa.sca.annotations.Reference;
 
+import com.travelex.tgbp.output.service.file.OutputConfigReader;
 import com.travelex.tgbp.output.service.instruction.OutputInstructionCreationService;
 import com.travelex.tgbp.output.service.instruction.OutputInstructionCreationServiceListener;
 import com.travelex.tgbp.store.domain.Instruction;
@@ -28,10 +29,14 @@ public abstract class AbstractOutputInstructionCreationService implements Output
     @Reference protected SubmissionStoreService submissionStoreService;
     @Reference protected InstructionStoreService instructionStoreService;
     @Reference protected TransformationService<Source, String, Map<String, Object>> paymentDataTransformer;
+    @Reference protected OutputConfigReader outputConfigReader;
 
     @Callback protected OutputInstructionCreationServiceListener serviceListener;
 
     private Set<Instruction> instructions = new HashSet<Instruction>();
+
+    private static final String FILE_DATE_FORMAT = "YYMMdd";
+    protected static final String PAYMENT_DATA_ROOT_ELEMENT = "CdtTrfTxInf";
 
     /**
      * {@inheritDoc}
@@ -78,8 +83,9 @@ public abstract class AbstractOutputInstructionCreationService implements Output
      * Prepares and stores output instructions for accumulated input instructions.
      */
     private void createOutputInstructions() {
-        Map<String, Object> transformationContext = getTransformationContext();
+        final Map<String, Object> transformationContext = getTransformationContext();
         for (Instruction instruction : instructions) {
+            transformationContext.put("payment.value.date", instruction.getValueDate().toString(FILE_DATE_FORMAT));
             OutputInstruction outputInstruction = new OutputInstruction(getClearingMechanism(), null, null, instruction.getAmount());
             outputInstruction.setOutputPaymentData(paymentDataTransformer.transform(transformationContext, new StreamSource(new ByteArrayInputStream(instruction.getPaymentData().getBytes()))));
             instructionStoreService.store(outputInstruction);

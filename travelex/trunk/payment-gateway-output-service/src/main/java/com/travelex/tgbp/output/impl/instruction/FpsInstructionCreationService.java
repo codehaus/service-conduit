@@ -7,18 +7,18 @@ import com.travelex.tgbp.output.service.instruction.OutputInstructionCreationSer
 import com.travelex.tgbp.store.type.ClearingMechanism;
 
 /**
- * {@link OutputInstructionCreationService} implementation for {@link ClearingMechanism#BACS}.
+ * {@link OutputInstructionCreationService} implementation for {@link ClearingMechanism#FPS}.
  */
 @Conversation
 @Service (interfaces = {OutputInstructionCreationService.class})
-public class BACSInstructionCreationService extends AbstractMT103InstructionCreationService {
+public class FpsInstructionCreationService extends AbstractMT103InstructionCreationService {
 
     /**
      * {@inheritDoc}
      */
     @Override
     ClearingMechanism getClearingMechanism() {
-        return ClearingMechanism.BACS;
+        return ClearingMechanism.FPS;
     }
 
 }
