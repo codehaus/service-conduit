@@ -66,8 +66,8 @@
                     <artifactId>jacc</artifactId>
                 </exclusion>
             </exclusions>
-            <scope>provided</scope>
         </dependency>
+        
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-maven-host</artifactId>

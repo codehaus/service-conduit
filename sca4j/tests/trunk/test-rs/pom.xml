@@ -73,26 +73,31 @@
         <dependency>
             <groupId>org.easymock</groupId>
             <artifactId>easymock</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-maven-host</artifactId>
             <version>${sca4j.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-rs</artifactId>
             <version>${sca4j.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-jetty</artifactId>
             <version>${sca4j.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-mock</artifactId>
             <version>${sca4j.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
