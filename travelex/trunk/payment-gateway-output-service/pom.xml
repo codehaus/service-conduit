@@ -19,14 +19,14 @@
     <dependencies>
 
         <dependency>
+    		<groupId>com.travelex.tgbp</groupId>
+    		<artifactId>payment-gateway-dynamic-rules</artifactId>
+    		<version>${project.version}</version>
+        </dependency>
+
+        <dependency>
         	<groupId>com.travelex.tgbp</groupId>
 		    <artifactId>payment-gateway-store</artifactId>
-            <version>${project.version}</version>        
-        </dependency>
-    
-        <dependency>
-            <groupId>com.travelex.tgbp</groupId>
-            <artifactId>payment-gateway-store</artifactId>
             <version>${project.version}</version>        
         </dependency>
         

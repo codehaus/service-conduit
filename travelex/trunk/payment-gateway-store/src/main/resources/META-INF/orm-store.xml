@@ -39,6 +39,15 @@
             WHERE config.clearingMechanism = ?1 
        </query>
     </named-query>
+
+    <named-query name="GET_D_RULES_BY_SCHEMA">
+       <query>
+            select dRule 
+            from DynamicRule dRule 
+            where dRule.schema = ?1
+            order by dRule.priority
+       </query>
+    </named-query>  
     
 	<entity class="com.travelex.tgbp.store.domain.rule.DynamicRule" access="FIELD">
 		<table name="DYNAMIC_RULE" />
