@@ -11,9 +11,13 @@ public class DefaultDynamicRuleSubmissionProcessor implements DynamicRuleSubmiss
     @Reference protected DataStore dataStore;
 
     public String createRule(String ruleName, String clearingMechanism, String ruleData, String appliesTo) {
+
+        System.out.println("\n\nCREATING RULE\n\n");
         //Just store the xpath as raw xml
         DynamicRule rule = new DynamicRule(clearingMechanism, ruleName, ruleData, appliesTo);
         dataStore.store(rule);
+
+
         return "OK";
     }
 

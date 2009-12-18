@@ -1,14 +1,14 @@
 package com.travelex.tgbp.store.service;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceUnit;
+import javax.persistence.PersistenceContext;
 
 import com.travelex.tgbp.store.domain.PersistentEntity;
 import com.travelex.tgbp.store.service.api.DataStore;
 
 public class JPADataStore implements DataStore {
 
-    @PersistenceUnit(unitName="tgbp-store")
+    @PersistenceContext(unitName="tgbp-store")
     protected EntityManager entityManager;
 
     @Override

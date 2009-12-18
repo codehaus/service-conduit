@@ -36,7 +36,11 @@ public class DefaultSchemaModelBuilder implements SchemaModelBuilder {
 
             Map<String, Object> context = populateContext(schemaDescriptor);
             String output = transformer.transform(context, schemaSource, schemaTypeToBaseSchemaTypeMappings, baseSchemaTypeToJavaTypeMappings);
-            return output.trim();
+            String ret = output.trim();
+
+            System.out.println("\nRETURNING SCHEMA MODEL: " + ret.length() + "\n");
+
+            return ret;
         } catch (SAXException e) {
             throw new SchemaModelBuildException("Failed to build the model for " + schemaName, e);
         }

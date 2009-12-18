@@ -1,5 +1,5 @@
 <composite xmlns="http://www.osoa.org/xmlns/sca/1.0" 
-           targetNamespace="urn:composite:com.travelex.tgbp" 
+           targetNamespace="urn:composite:com.travelex.tgbp"        
            name="Store"
            autowire="false">
        

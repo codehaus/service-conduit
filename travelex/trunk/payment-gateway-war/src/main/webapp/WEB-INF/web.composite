@@ -17,15 +17,14 @@
             <sca4j:binding.http />
         </service>
 	</component>
-	
-	<component name="DynamicRules">
+		
+	<component name="DynamicRules" requires="sca:managedTransaction">
 		<implementation.composite scdlResource="payment-gateway-dynamic-rules.composite" />
 		<service name="dynamicRuleSubmissionProcessor">
             <sca4j:binding.http />
         </service>
 	</component>	
-	
-	
+		
 	<component name="DataStore">
     	<implementation.composite scdlResource="payment-gateway-store.composite" />
     </component>

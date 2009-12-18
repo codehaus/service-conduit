@@ -49,7 +49,7 @@
 				<sequence-generator name="SEQ_GEN" sequence-name="SEQ_SUB" />				
 			</id>
 
-			<basic name="routeTo">
+			<basic name="clearingMechanism">
 				<column name="CLEARING_MECHANISM" nullable="false"/>
 			</basic>
 
@@ -61,7 +61,7 @@
 				<column name="RULE_TEXT" nullable="false" />
 			</basic>
 
-			<basic name="appliesTo">
+			<basic name="schema">
 				<column name="SCHEMA" nullable="false" />
 			</basic>
 			
