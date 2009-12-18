@@ -181,7 +181,7 @@ private function clearRuleData(): void {
 }
 
 private function populateTree():void {
-	startProgressBar('Loading schema');
-	schemaDescriptorService.send({'schema':schemaSelection.selectedLabel})
-	schemaDescription = null;
+	//schemaDescription = "";
+	startProgressBar('Loading schema');	
+	schemaDescriptorService.send({'schema':schemaSelection.selectedLabel})	
 }
