@@ -1,13 +1,18 @@
 package com.travelex.tgbp.output.impl.file;
 
 import org.joda.time.LocalDate;
+import org.osoa.sca.annotations.Service;
+import org.sca4j.api.annotation.scope.Conversation;
 
+import com.travelex.tgbp.output.service.file.OutputFileGenerationService;
 import com.travelex.tgbp.store.domain.OutputSubmission;
 import com.travelex.tgbp.store.type.ClearingMechanism;
 
 /**
  * File generation service capable of creating {@link ClearingMechanism#NACHA} acceptable file.
  */
+@Conversation
+@Service(interfaces = {OutputFileGenerationService.class})
 public class NachaFileGenerationService extends AbstractOutputFileGenerationService {
 
     // %1$s - 6 - File creation date - YYMMDD
@@ -32,7 +37,7 @@ public class NachaFileGenerationService extends AbstractOutputFileGenerationServ
      * {@inheritDoc}
      */
     @Override
-    public void generate(OutputSubmission outputSubmission) {
+    public String generateFileContent(OutputSubmission outputSubmission) {
         final String fileCreationDate = new LocalDate().toString(FILE_DATE_FORMAT);
         final String originatingDfi = leftPadWithSpaceChar(outputConfigReader.findRemittanceConfigByClearingMechanism(ClearingMechanism.NACHA).getBankId(), 8);
         final String totalItemCount = leftPadWithSpaceChar(String.valueOf(outputSubmission.getTotalItemCount()), 6);
@@ -48,7 +53,7 @@ public class NachaFileGenerationService extends AbstractOutputFileGenerationServ
         buffer.append(LINE_SEPARATOR);
         buffer.append(String.format(FILE_TRAILER, totalItemCount, totalCreditEntry));
 
-        outputSubmission.setOutputFile(buffer.toString());
+        return buffer.toString();
     }
 
 }

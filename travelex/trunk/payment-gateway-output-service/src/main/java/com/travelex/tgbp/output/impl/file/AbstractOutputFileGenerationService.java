@@ -3,11 +3,16 @@ package com.travelex.tgbp.output.impl.file;
 import java.util.Collection;
 
 import org.apache.commons.lang.StringUtils;
+import org.osoa.sca.annotations.Callback;
 import org.osoa.sca.annotations.Reference;
 
 import com.travelex.tgbp.output.service.file.OutputConfigReader;
 import com.travelex.tgbp.output.service.file.OutputFileGenerationService;
+import com.travelex.tgbp.output.service.file.OutputFileGenerationServiceListener;
 import com.travelex.tgbp.store.domain.OutputInstruction;
+import com.travelex.tgbp.store.domain.OutputSubmission;
+import com.travelex.tgbp.store.service.api.InstructionStoreService;
+import com.travelex.tgbp.store.service.api.SubmissionStoreService;
 
 /**
  * Abstract implementation for {@link OutputFileGenerationService}.
@@ -15,9 +20,32 @@ import com.travelex.tgbp.store.domain.OutputInstruction;
 public abstract class AbstractOutputFileGenerationService implements OutputFileGenerationService {
 
     @Reference protected OutputConfigReader outputConfigReader;
+    @Reference protected InstructionStoreService instructionStoreService;
+    @Reference protected SubmissionStoreService submissionStoreService;
+
+    @Callback protected OutputFileGenerationServiceListener serviceListener;
 
     private static final char SPACE_CHAR = ' ';
     protected static final String LINE_SEPARATOR = System.getProperty("line.separator");
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void generate(OutputSubmission outputSubmission) {
+        outputSubmission.setOutputFile(generateFileContent(outputSubmission));
+        submissionStoreService.store(outputSubmission);
+        instructionStoreService.updateOutputSubmissionId(outputSubmission.getId(), outputSubmission.getOutputInstructions());
+        serviceListener.onFileGenerationCompletion(outputSubmission.getId());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void close() {
+
+    }
 
     /**
      * Appends output instruction payment data to file buffer.
@@ -42,5 +70,13 @@ public abstract class AbstractOutputFileGenerationService implements OutputFileG
     protected String leftPadWithSpaceChar(String value, int desiredLength) {
         return StringUtils.leftPad(value, desiredLength, SPACE_CHAR);
     }
+
+    /**
+     * Creates output file content
+     *
+     * @param outputSubmission - output submission whose file content needs to be generated
+     * @return file content as a string value
+     */
+    abstract String generateFileContent(OutputSubmission outputSubmission);
 
 }

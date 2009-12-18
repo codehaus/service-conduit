@@ -58,14 +58,6 @@ public abstract class AbstractOutputInstructionCreationService implements Output
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void close() {
-        instructions = null;
-    }
-
-    /**
      * Returns supported clearing mechanism.
      *
      * @return clearing mechanism.

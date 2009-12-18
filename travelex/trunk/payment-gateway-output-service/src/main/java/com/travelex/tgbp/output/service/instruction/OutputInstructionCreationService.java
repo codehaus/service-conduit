@@ -23,11 +23,7 @@ public interface OutputInstructionCreationService {
     /**
      * Marks end of instruction accumulation, creates and stores output instructions for accumulated input instructions.
      */
+    @EndsConversation
     void onCollectionEnd();
 
-    /**
-     * Closes current client conversation.
-     */
-    @EndsConversation
-    void close();
 }

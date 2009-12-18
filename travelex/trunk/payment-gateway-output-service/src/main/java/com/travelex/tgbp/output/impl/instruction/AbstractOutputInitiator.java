@@ -53,9 +53,7 @@ public abstract class AbstractOutputInitiator implements OutputInitiator, Output
      */
     @Override
     public void close() {
-        for (OutputInstructionCreationService collector : instructionCollectors.values()) {
-            collector.close();
-        }
+
     }
 
     /**
