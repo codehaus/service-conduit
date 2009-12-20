@@ -5,9 +5,6 @@
        
     <service name="submissionParser" promote="Pain001SubmissionParser" />
     
-    <reference name="submissionStoreService" promote="Pain001SubmissionParser/submissionStoreService"/>
-    <reference name="instructionStoreService" promote="Pain001SubmissionParser/instructionStoreService"/>
-    
     <component name="Pain001SubmissionParser">
     	<implementation.java class="com.travelex.tgbp.submission.parser.Pain001SubmissionParser" />
     </component>

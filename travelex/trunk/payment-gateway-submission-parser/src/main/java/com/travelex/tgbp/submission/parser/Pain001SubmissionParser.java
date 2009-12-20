@@ -16,21 +16,19 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.jdom.xpath.XPath;
 import org.joda.time.LocalDate;
-import org.osoa.sca.annotations.Reference;
+import org.osoa.sca.annotations.Callback;
+import org.sca4j.api.annotation.scope.Conversation;
 
 import com.travelex.tgbp.store.domain.Instruction;
-import com.travelex.tgbp.store.domain.Submission;
-import com.travelex.tgbp.store.service.api.InstructionStoreService;
-import com.travelex.tgbp.store.service.api.SubmissionStoreService;
 import com.travelex.tgbp.store.type.Currency;
 import com.travelex.tgbp.submission.parser.api.SubmissionParser;
+import com.travelex.tgbp.submission.parser.api.SubmissionParserListener;
 import com.travelex.tgbp.submission.parser.api.SubmissionParsingException;
 
-
+@Conversation
 public class Pain001SubmissionParser implements SubmissionParser {
 
-    @Reference protected SubmissionStoreService submissionStoreService;
-    @Reference protected InstructionStoreService instructionStoreService;
+    @Callback protected SubmissionParserListener parserListener;
 
     private final Namespace NS = Namespace.getNamespace("urn:iso:std:iso:20022:tech:xsd:pain.001.001.03");
 
@@ -39,11 +37,8 @@ public class Pain001SubmissionParser implements SubmissionParser {
         try {
             Document submission = new SAXBuilder().build(submissionData);
             Element transferInitiation = getChild(submission.getRootElement(), "CstmrCdtTrfInitn");
-
-            Long submissionId = createSubmission(transferInitiation);
-
-            createInstructions(submissionId, transferInitiation);
-
+            parseSubmissionHeader(transferInitiation);
+            createInstructions(transferInitiation);
         } catch (JDOMException e) {
             throw new SubmissionParsingException("Failed to process the submission document", e);
         } catch (IOException e) {
@@ -52,7 +47,12 @@ public class Pain001SubmissionParser implements SubmissionParser {
 
     }
 
-    private void createInstructions(Long submissionId, Element transferInitiation) throws JDOMException, IOException {
+    @Override
+    public void close() {
+
+    }
+
+    private void createInstructions(Element transferInitiation) throws JDOMException, IOException {
         List<Element> paymentInfoBlocks = getChildren(transferInitiation, "PmtInf");
         for (Element paymentInfo : paymentInfoBlocks) {
             LocalDate valueDate = new LocalDate(getChildText(paymentInfo, "ReqdExctnDt"));
@@ -60,7 +60,7 @@ public class Pain001SubmissionParser implements SubmissionParser {
             List<Instruction> createdInstructions = new ArrayList<Instruction>();
             for (Element i : instructions) {
                 Amount amount = getAmount(i);
-                Instruction instruction = new Instruction(submissionId, amount.currency, valueDate, amount.value);
+                Instruction instruction = new Instruction(amount.currency, valueDate, amount.value);
                 instruction.setPaymentData(asText(i));
                 createdInstructions.add(instruction);
             }
@@ -72,7 +72,7 @@ public class Pain001SubmissionParser implements SubmissionParser {
             String groupText = asText(paymentInfo);
             for (Instruction instruction : createdInstructions) {
                 instruction.setPaymentGroupData(groupText);
-                instructionStoreService.store(instruction);
+                parserListener.onInstruction(instruction);
             }
         }
 
@@ -113,12 +113,11 @@ public class Pain001SubmissionParser implements SubmissionParser {
         return xPath;
     }
 
-    private Long createSubmission(Element transferInitiation) {
+    private void parseSubmissionHeader(Element transferInitiation) {
         Element groupHeader = getChild(transferInitiation, "GrpHdr");
         String messageId = getChildText(groupHeader, "MsgId");
-        return submissionStoreService.store(new Submission(messageId));
+        parserListener.onSubmissionHeader(messageId);
     }
-
 
     private Element getChild(Element e, String localName) {
         return e.getChild(localName, NS);
@@ -137,6 +136,5 @@ public class Pain001SubmissionParser implements SubmissionParser {
         e.removeChildren(localName, NS);
 
     }
-
 
 }

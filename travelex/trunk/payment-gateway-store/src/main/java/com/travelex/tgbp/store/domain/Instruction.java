@@ -21,15 +21,28 @@ public class Instruction {
     private String paymentGroupData;
 
     /**
+     * JPA Constructor
+     */
+    Instruction() { }
+
+    /**
      * Initialises with attributes.
      *
      * @param submissionId - submission identifier.
      */
-    public Instruction(Long submissionId, Currency currency, LocalDate valueDate, BigDecimal amount) {
-        this.submissionId = submissionId;
+    public Instruction(Currency currency, LocalDate valueDate, BigDecimal amount) {
         this.currency = currency;
         this.valueDate = valueDate;
         this.amount = amount;
+    }
+
+    /**
+     * Sets parent submission id.
+     *
+     * @param submissionId - parent submission id.
+     */
+    public void setSubmissionId(Long submissionId) {
+        this.submissionId = submissionId;
     }
 
     /**
@@ -118,14 +131,5 @@ public class Instruction {
     public String getPaymentData(){
         return paymentData;
     }
-
-    /**
-     * JPA Constructor
-     */
-    Instruction() {
-
-    }
-
-
 
 }

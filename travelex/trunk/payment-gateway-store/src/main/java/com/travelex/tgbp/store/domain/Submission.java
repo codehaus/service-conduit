@@ -1,5 +1,8 @@
 package com.travelex.tgbp.store.domain;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
 import org.joda.time.LocalDate;
 
 /**
@@ -11,10 +14,18 @@ public class Submission {
     private String messageId;
     @SuppressWarnings("unused")
     private LocalDate submissionDate;
+    private byte[] inputData;
 
     public Submission(String messageId) {
         this.messageId = messageId;
         this.submissionDate = new LocalDate();
+    }
+
+    /**
+     * JPA Constructor
+     */
+    Submission() {
+
     }
 
     /**
@@ -26,15 +37,29 @@ public class Submission {
         return id;
     }
 
+    /**
+     * Returns input submission message id.
+     *
+     * @return message id.
+     */
     public String getMessageId() {
         return messageId;
     }
 
     /**
-     * JPA Constructor
+     * Returns the submission data.
+     * @return data - as a stream
      */
-    Submission() {
+    public InputStream getDataAsStream() {
+        return new ByteArrayInputStream(inputData);
+    }
 
+    /**
+     * Sets message id
+     * @param messageId the messageId to set
+     */
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
     }
 
 }
