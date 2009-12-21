@@ -21,7 +21,7 @@
     </component>
 
     <component name="DummyDataStore">
-        <implementation.java  class="com.travelex.tgbp.rules.dynamic.capture.DummyDataStore"/>        
+        <implementation.java  class="com.travelex.tgbp.rules.dynamic.DummyDataStore"/>        
     </component>
            
 

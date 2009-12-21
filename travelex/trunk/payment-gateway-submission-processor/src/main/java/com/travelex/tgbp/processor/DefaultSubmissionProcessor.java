@@ -40,7 +40,7 @@ public class DefaultSubmissionProcessor implements SubmissionProcessor, Submissi
      */
     @Override
     public void onInstruction(Instruction instruction) {
-        instruction.setSubmissionId(submission.getId());
+        instruction.setSubmissionId(submission.getKey());
         instructionStoreService.store(instruction);
     }
 
@@ -48,8 +48,9 @@ public class DefaultSubmissionProcessor implements SubmissionProcessor, Submissi
      * {@inheritDoc}
      */
     @Override
-    public void onSubmissionHeader(String messageId) {
+    public void onSubmissionHeader(String messageId, String submissionHeader) {
         submission.setMessageId(messageId);
+        submission.setSubmissionHeader(submissionHeader);
     }
 
 }

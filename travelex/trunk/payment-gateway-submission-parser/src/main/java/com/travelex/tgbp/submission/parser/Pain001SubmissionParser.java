@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jdom.Content;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -54,6 +55,7 @@ public class Pain001SubmissionParser implements SubmissionParser {
 
     private void createInstructions(Element transferInitiation) throws JDOMException, IOException {
         List<Element> paymentInfoBlocks = getChildren(transferInitiation, "PmtInf");
+        System.out.println(paymentInfoBlocks.size());
         for (Element paymentInfo : paymentInfoBlocks) {
             LocalDate valueDate = new LocalDate(getChildText(paymentInfo, "ReqdExctnDt"));
             List<Element> instructions = getChildren(paymentInfo, "CdtTrfTxInf");
@@ -113,10 +115,23 @@ public class Pain001SubmissionParser implements SubmissionParser {
         return xPath;
     }
 
-    private void parseSubmissionHeader(Element transferInitiation) {
+    private void parseSubmissionHeader(Element transferInitiation) throws IOException {
+        //Remove payment info blocks to get the header data (without children) as text.
+        List<Element> paymentInfoBlocks = getChildren(transferInitiation, "PmtInf");
+        List<Content> detachedPaymentInfoBlocks = new ArrayList<Content>();
+        for(int x = 0; x < paymentInfoBlocks.size(); x++) {
+            detachedPaymentInfoBlocks.add(paymentInfoBlocks.get(x).detach());
+        }
+        String submissionHeader = asText(transferInitiation);
+
+        //Re-attach so that subsequent processing is unaffected
+        for(int x = 0; x < detachedPaymentInfoBlocks.size(); x++) {
+            transferInitiation.addContent(detachedPaymentInfoBlocks.get(x));
+        }
+
         Element groupHeader = getChild(transferInitiation, "GrpHdr");
         String messageId = getChildText(groupHeader, "MsgId");
-        parserListener.onSubmissionHeader(messageId);
+        parserListener.onSubmissionHeader(messageId, submissionHeader);
     }
 
     private Element getChild(Element e, String localName) {

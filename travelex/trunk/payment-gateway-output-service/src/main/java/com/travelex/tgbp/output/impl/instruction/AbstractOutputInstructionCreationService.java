@@ -33,7 +33,7 @@ public abstract class AbstractOutputInstructionCreationService implements Output
 
     @Callback protected OutputInstructionCreationServiceListener serviceListener;
 
-    private Set<Instruction> instructions = new HashSet<Instruction>();
+    private final Set<Instruction> instructions = new HashSet<Instruction>();
 
     private static final String FILE_DATE_FORMAT = "YYMMdd";
     protected static final String PAYMENT_DATA_ROOT_ELEMENT = "CdtTrfTxInf";
@@ -81,7 +81,7 @@ public abstract class AbstractOutputInstructionCreationService implements Output
             OutputInstruction outputInstruction = new OutputInstruction(getClearingMechanism(), null, null, instruction.getAmount());
             outputInstruction.setOutputPaymentData(paymentDataTransformer.transform(transformationContext, new StreamSource(new ByteArrayInputStream(instruction.getPaymentData().getBytes()))));
             instructionStoreService.store(outputInstruction);
-            instructionStoreService.updateOutputInstructionId(instruction.getId(), outputInstruction.getId());
+            instructionStoreService.updateOutputInstructionId(instruction.getKey(), outputInstruction.getId());
         }
     }
 }

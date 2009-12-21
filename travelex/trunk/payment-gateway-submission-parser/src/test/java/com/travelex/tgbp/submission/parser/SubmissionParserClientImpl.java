@@ -37,13 +37,14 @@ public class SubmissionParserClientImpl implements SubmissionParserClient, Submi
 
     @Override
     public void onInstruction(Instruction instruction) {
-        instruction.setSubmissionId(submission.getId());
+        instruction.setSubmissionId(submission.getKey());
         instructionStoreService.store(instruction);
     }
 
     @Override
-    public void onSubmissionHeader(String messageId) {
+    public void onSubmissionHeader(String messageId, String submissionHeader) {
         this.submission = new Submission(messageId);
+        this.submission.setSubmissionHeader(submissionHeader);
         submissionStoreService.store(submission);
     }
 

@@ -3,12 +3,19 @@
 		<path>/Document/CstmrCdtTrfInitn/GrpHdr/MsgId</path>
 		<operator>Equals</operator>
 		<type>java.lang.String</type>
-		<data>asdfsf</data>
+		<data>ABC/090928/CCT001</data>
 	</rule>
 	<rule>
-		<path>/Document/CstmrCdtTrfInitn/GrpHdr/MsgId</path>
+		<path>/Document/CstmrCdtTrfInitn/PmtInf/CdtTrfTxInf/PmtId/InstrId</path>
 		<operator>Equals</operator>
 		<type>java.lang.String</type>
-		<data>asdfasdf</data>
+		<data>ABC/090928/CCT001/01</data>
 	</rule>
+	<rule>
+		<path>/Document/CstmrCdtTrfInitn/PmtInf/BtchBookg</path>
+		<operator>Equals</operator>
+		<type>java.lang.Boolean</type>
+		<data>false</data>
+	</rule>			
+	
 </ruleData>

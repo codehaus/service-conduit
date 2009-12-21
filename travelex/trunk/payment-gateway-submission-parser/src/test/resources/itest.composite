@@ -20,7 +20,7 @@
 
     <component name="SubmissionParser">
         <implementation.composite scdlResource="payment-gateway-submission-parser.composite"/>
-    </component>   
+    </component>
 
     <component name="DummySubmissionStore">
         <implementation.java class="com.travelex.tgbp.submission.parser.DummySubmissionStore"/>

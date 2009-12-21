@@ -14,8 +14,9 @@ public interface SubmissionParserListener {
      * Notifies parsing of submission header.
      *
      * @param messageId - input submission message id.
+     * @param submissionHeader the header element of the submission without children.
      */
-    void onSubmissionHeader(String messageId);
+    void onSubmissionHeader(String messageId, String submissionHeader);
 
     /**
      * Notifies parsing and realization of instruction object.

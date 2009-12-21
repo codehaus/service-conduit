@@ -34,4 +34,9 @@ public class JPADataStore implements DataStore {
         return q.getResultList();
     }
 
+    @Override
+    public <T extends PersistentEntity<?>> T lookup(Class<? extends PersistentEntity<?>> entityClass, Object pk) {
+        return (T) entityManager.find(entityClass, pk);
+    }
+
 }

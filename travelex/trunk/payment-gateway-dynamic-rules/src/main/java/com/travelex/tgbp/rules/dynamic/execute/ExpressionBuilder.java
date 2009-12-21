@@ -8,7 +8,6 @@ import java.util.List;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
-import org.jdom.Namespace;
 import org.jdom.input.SAXBuilder;
 
 public class ExpressionBuilder {
@@ -22,7 +21,7 @@ public class ExpressionBuilder {
         for (Element rule : rules) {
             result.add(new Expression(rule.getChildText("path"),
                     rule.getChildText("operator"),
-                    rule.getChildText("javaType"),
+                    rule.getChildText("type"),
                     rule.getChildText("data")));
         }
         return result;

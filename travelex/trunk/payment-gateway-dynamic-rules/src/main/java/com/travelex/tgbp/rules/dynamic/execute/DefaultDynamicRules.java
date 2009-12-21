@@ -16,6 +16,7 @@ import com.travelex.tgbp.rules.dynamic.execute.api.DynamicRuleException;
 import com.travelex.tgbp.rules.dynamic.execute.api.DynamicRules;
 import com.travelex.tgbp.rules.dynamic.execute.api.RoutingDecision;
 import com.travelex.tgbp.store.domain.Instruction;
+import com.travelex.tgbp.store.domain.Submission;
 import com.travelex.tgbp.store.domain.rule.DynamicRule;
 import com.travelex.tgbp.store.service.api.DataStore;
 import com.travelex.tgbp.store.service.api.Query;
@@ -38,7 +39,7 @@ public class DefaultDynamicRules implements DynamicRules {
                 boolean passed = expressions.size() > 0; //Should always be true but stops rules with no expressions passing.
                 for (Expression expr : expressions) {
                     if(!passed) {
-                        break;
+                        break; //Implicit ANDing of rules.
                     }
                     String actualData = getActualData(expr.getXPath(), instructionData.getRootElement());
                     passed = actualData != null &&
@@ -76,17 +77,24 @@ public class DefaultDynamicRules implements DynamicRules {
         Document iGrpData = buildDocument(instruction.getPaymentGroupData());
         Element iGrpRoot = iGrpData.detachRootElement();
 
+        Submission s = dataStore.lookup(Submission.class, instruction.getSubmissionId());
+        Document sGrpData = buildDocument(s.getSubmissionHeader());
+        Element sGrpRoot = sGrpData.detachRootElement();
+
         Document result = new Document();
         Element root = new Element("Document", NS);
         result.setRootElement(root);
-        root.addContent(iGrpRoot);
-        root.addContent(iDataRoot);
+
+        root.addContent(sGrpRoot);
+        sGrpRoot.addContent(iGrpRoot);
+        iGrpRoot.addContent(iDataRoot);
 
         return result;
     }
 
     private static XPath createXPath(String baseExpression) throws JDOMException {
-        XPath xPath = XPath.newInstance("ns:" + baseExpression.replaceAll("/", "/ns:"));
+        String expression = "/" + baseExpression.replaceAll("/", "/ns:");
+        XPath xPath = XPath.newInstance(expression);
         xPath.addNamespace("ns", NS.getURI());
         return xPath;
     }

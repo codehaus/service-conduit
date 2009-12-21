@@ -21,8 +21,8 @@ public class RuleExecutorTest extends TestCase {
         v2 = "34675";
         javaType = "java.lang.Integer";
 
-        if(!RuleExecutor.passes(v1, v2, EQUALS, javaType)) {String operator = "Less Than";
-        fail();
+        if(!RuleExecutor.passes(v1, v2, EQUALS, javaType)) {
+            fail();
         }
 
         v1 = "34675.30";

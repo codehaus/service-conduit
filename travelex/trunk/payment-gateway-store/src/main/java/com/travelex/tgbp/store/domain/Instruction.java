@@ -9,7 +9,7 @@ import com.travelex.tgbp.store.type.Currency;
 /**
  * Represents payment record entity.
  */
-public class Instruction {
+public class Instruction extends PersistentEntity<Long> {
 
     private Long id;
     private Long submissionId;
@@ -71,15 +71,6 @@ public class Instruction {
     }
 
     /**
-     * Returns entity identifier.
-     *
-     * @return the entity id
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
      * Returns parent submission identifier.
      *
      * @return the submission id
@@ -130,6 +121,11 @@ public class Instruction {
      */
     public String getPaymentData(){
         return paymentData;
+    }
+
+    @Override
+    public Long getKey() {
+        return id;
     }
 
 }

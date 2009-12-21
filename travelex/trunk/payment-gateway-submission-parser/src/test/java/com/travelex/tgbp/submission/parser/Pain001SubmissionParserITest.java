@@ -21,6 +21,7 @@ public class Pain001SubmissionParserITest extends TestCase {
 
         List<Submission> submissions = store.getSubmissions();
         assertEquals("Unexpected submission count", 1, submissions.size());
+        assertTrue("Incorrect header", submissions.get(0).getSubmissionHeader().trim().startsWith("<CstmrCdtTrfInitn"));
 
         List<Instruction> instructions = store.getInstructions();
         assertEquals("Unexpected instruction count", 3, instructions.size());
