@@ -7,10 +7,15 @@
 
     <component name="DynamicRuleSubmissionProcessorITest">
     	<sca4j:junit class="com.travelex.tgbp.rules.dynamic.capture.DynamicRuleSubmissionProcessorITest" />
-        <reference name="dynamicRuleSubmissionProcessor" target="DynamicRuleSubmissionProcessor" />
+        <reference name="dynamicRuleSubmissionProcessor" target="DynamicRules/dynamicRuleSubmissionProcessor" />
+    </component>
+    
+    <component name="DynamicRuleResolverITest">
+    	<sca4j:junit class="com.travelex.tgbp.rules.dynamic.execute.DynamicRuleExecutionITest" />
+        <reference name="dynamicRules" target="DynamicRules/dynamicRules" />
     </component>
 
-    <component name="DynamicRuleSubmissionProcessor">
+    <component name="DynamicRules">
         <implementation.composite scdlResource="payment-gateway-dynamic-rules.composite"/>
         <reference name="dataStore" target="DummyDataStore"/>
     </component>

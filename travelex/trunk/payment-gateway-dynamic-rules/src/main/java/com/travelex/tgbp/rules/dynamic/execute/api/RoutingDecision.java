@@ -2,19 +2,30 @@ package com.travelex.tgbp.rules.dynamic.execute.api;
 
 public class RoutingDecision {
 
+    private final boolean routeSpecified;
+    private String clearingMechanism;
+    private String ruleName;
+
+    public RoutingDecision(boolean routeSpecified) {
+        this.routeSpecified = routeSpecified;
+    }
+
+    public RoutingDecision(boolean routeSpecified, String clearingMechanism, String ruleName) {
+        this(routeSpecified);
+        this.clearingMechanism = clearingMechanism;
+        this.ruleName = ruleName;
+    }
+
     public boolean routeSpecified() {
-        // TODO Auto-generated method stub
-        return false;
+        return routeSpecified;
     }
 
     public String getClearingMechanism() {
-        // TODO Auto-generated method stub
-        return null;
+        return clearingMechanism;
     }
 
     public Object getRuleName() {
-        // TODO Auto-generated method stub
-        return null;
+        return ruleName;
     }
 
 }

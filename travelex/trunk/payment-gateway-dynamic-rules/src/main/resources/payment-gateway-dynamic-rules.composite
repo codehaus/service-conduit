@@ -4,10 +4,16 @@
            autowire="false">
        
     <service name="dynamicRuleSubmissionProcessor" promote="DynamicRuleSubmissionProcessor" />
-	<reference name="dataStore" promote="DynamicRuleSubmissionProcessor/dataStore"/>
+    <service name="dynamicRules" promote="DefaultDynamicRules" />
+    
+	<reference name="dataStore" promote="DynamicRuleSubmissionProcessor/dataStore DefaultDynamicRules/dataStore"/>
 	    
     <component name="DynamicRuleSubmissionProcessor">
     	<implementation.java class="com.travelex.tgbp.rules.dynamic.capture.DefaultDynamicRuleSubmissionProcessor" />
     </component>    
-        
+
+    <component name="DefaultDynamicRules">
+    	<implementation.java class="com.travelex.tgbp.rules.dynamic.execute.DefaultDynamicRules" />
+    </component>            
+
 </composite>

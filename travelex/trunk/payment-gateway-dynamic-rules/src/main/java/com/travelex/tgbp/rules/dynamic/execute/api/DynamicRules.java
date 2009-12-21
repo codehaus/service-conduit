@@ -6,4 +6,5 @@ public interface DynamicRules {
 
     RoutingDecision getRouting(String schemaName, Instruction instruction);
 
+
 }
