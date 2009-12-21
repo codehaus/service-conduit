@@ -22,7 +22,7 @@ import com.travelex.tgbp.store.type.ClearingMechanism;
 public class DefaultFileOutputService implements FileOutputService, OutputInstructionBatchingServiceListener, OutputFileGenerationServiceListener {
 
     @Reference protected Map<ClearingMechanism, OutputInstructionBatchingService> instructionBatchers;
-    @Reference protected Map<ClearingMechanism, OutputFileGenerationService> fileGenerators;
+    @Reference protected Map<String, OutputFileGenerationService> fileGenerators;
 
     /**
      * {@inheritDoc}
@@ -43,7 +43,7 @@ public class DefaultFileOutputService implements FileOutputService, OutputInstru
      */
     @Override
     public void onOutputSubmission(OutputSubmission outputSubmission) {
-        fileGenerators.get(outputSubmission.getClearingMechanism()).generate(outputSubmission);
+        fileGenerators.get(outputSubmission.getClearingMechanism().getFileFormat()).generate(outputSubmission);
     }
 
     /**

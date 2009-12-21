@@ -1,0 +1,176 @@
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0" 
+           targetNamespace="urn:composite:com.travelex.tgbp" 
+           name="OutputService"
+           autowire="false">
+       
+    <service name="instructionOutputService" promote="InstructionOutputService" />
+    <service name="fileOutputService" promote="FileOutputService" />
+    
+    <reference name="instructionReaderService" promote="SterlingOutputInitiator/instructionReaderService
+                                                        USDOutputInitiator/instructionReaderService
+                                                        BACSInstructionBatchingService/instructionReaderService
+                                                        ChapsInstructionBatchingService/instructionReaderService
+                                                        FpsInstructionBatchingService/instructionReaderService
+                                                        NachaInstructionBatchingService/instructionReaderService
+                                                        FedwireInstructionBatchingService/instructionReaderService" />
+    <reference name="instructionStoreService"  promote="BACSInstructionCreationService/instructionStoreService
+                                                        ChapsInstructionCreationService/instructionStoreService
+                                                        FpsInstructionCreationService/instructionStoreService
+                                                        NachaInstructionCreationService/instructionStoreService
+                                                        FedwireInstructionCreationService/instructionStoreService
+                                                        BACSInstructionBatchingService/instructionStoreService
+                                                        ChapsInstructionBatchingService/instructionStoreService
+                                                        FpsInstructionBatchingService/instructionStoreService
+                                                        NachaInstructionBatchingService/instructionStoreService
+                                                        FedwireInstructionBatchingService/instructionStoreService
+                                                        MT103FileGenerationService/instructionStoreService
+                                                        FedwireFileGenerationService/instructionStoreService
+                                                        NachaFileGenerationService/instructionStoreService" />
+    <reference name="submissionStoreService"   promote="BACSInstructionCreationService/submissionStoreService
+                                                        ChapsInstructionCreationService/submissionStoreService
+                                                        FpsInstructionCreationService/submissionStoreService
+                                                        NachaInstructionCreationService/submissionStoreService
+                                                        FedwireInstructionCreationService/submissionStoreService
+                                                        MT103FileGenerationService/submissionStoreService
+                                                        FedwireFileGenerationService/submissionStoreService
+                                                        NachaFileGenerationService/submissionStoreService" />
+    
+    <component name="InstructionOutputService">
+    	<implementation.java class="com.travelex.tgbp.output.impl.DefaultInstructionOutputService" />
+    	<reference name="initiators" target="SterlingOutputInitiator USDOutputInitiator" />
+    </component>
+    
+    <component name="FileOutputService">
+    	<implementation.java class="com.travelex.tgbp.output.impl.DefaultFileOutputService" />
+    	<reference name="instructionBatchers" target="BACSInstructionBatchingService ChapsInstructionBatchingService FpsInstructionBatchingService NachaInstructionBatchingService FedwireInstructionBatchingService" />
+    	<reference name="fileGenerators" target="MT103FileGenerationService FedwireFileGenerationService NachaFileGenerationService" />
+    </component>
+
+    <component name="SterlingOutputInitiator" sca4j:key="GBP">
+    	<implementation.java class="com.travelex.tgbp.output.impl.instruction.SterlingOutputInitiator" />
+    	<reference name="clearingMechanismResolver" target="CompositeResolver" />
+    	<reference name="instructionCollectors" target="BACSInstructionCreationService ChapsInstructionCreationService FpsInstructionCreationService" />
+    </component>
+
+    <component name="USDOutputInitiator" sca4j:key="USD">
+    	<implementation.java class="com.travelex.tgbp.output.impl.instruction.USDOutputInitiator" />
+    	<reference name="clearingMechanismResolver" target="CompositeResolver" />
+    	<reference name="instructionCollectors" target="NachaInstructionCreationService FedwireInstructionCreationService" />
+    </component>
+    
+    <component name="BACSInstructionCreationService" sca4j:key="BACS">
+    	<implementation.java class="com.travelex.tgbp.output.impl.instruction.BACSInstructionCreationService" />
+    	<reference name="paymentDataTransformer" target="MT103Transformer" />
+    	<reference name="outputConfigReader" target="OutputConfigReader" />
+    </component>
+    
+    <component name="ChapsInstructionCreationService" sca4j:key="CHAPS">
+    	<implementation.java class="com.travelex.tgbp.output.impl.instruction.ChapsInstructionCreationService" />
+    	<reference name="paymentDataTransformer" target="MT103Transformer" />
+    	<reference name="outputConfigReader" target="OutputConfigReader" />
+    </component>
+    
+    <component name="FpsInstructionCreationService" sca4j:key="FPS">
+    	<implementation.java class="com.travelex.tgbp.output.impl.instruction.FpsInstructionCreationService" />
+    	<reference name="paymentDataTransformer" target="MT103Transformer" />
+    	<reference name="outputConfigReader" target="OutputConfigReader" />
+    </component>
+
+    <component name="NachaInstructionCreationService" sca4j:key="NACHA">
+    	<implementation.java class="com.travelex.tgbp.output.impl.instruction.NachaInstructionCreationService" />
+    	<reference name="paymentDataTransformer" target="NachaTransformer" />
+    	<reference name="outputConfigReader" target="OutputConfigReader" />
+    </component>
+
+    <component name="FedwireInstructionCreationService" sca4j:key="FEDWIRE">
+    	<implementation.java class="com.travelex.tgbp.output.impl.instruction.FedwireInstructionCreationService" />
+    	<reference name="paymentDataTransformer" target="FedwireTransformer" />
+    	<reference name="outputConfigReader" target="OutputConfigReader" />
+    </component>
+    
+    <component name="MT103Transformer">
+        <implementation.composite scdlResource="payment-gateway-transform-xslt.composite"/>
+        <property name="transformerFactory">net.sf.saxon.TransformerFactoryImpl</property>
+        <property name="xsl">/transformation-xsl/pain001-mt103.xsl</property>
+        <property name="encoding">UTF-8</property>        
+    </component>  
+    
+    <component name="FedwireTransformer">
+        <implementation.composite scdlResource="payment-gateway-transform-xslt.composite"/>
+        <property name="transformerFactory">net.sf.saxon.TransformerFactoryImpl</property>
+        <property name="xsl">/transformation-xsl/pain001-fedwire.xsl</property>
+        <property name="encoding">UTF-8</property>        
+    </component>  
+
+    <component name="NachaTransformer">
+        <implementation.composite scdlResource="payment-gateway-transform-xslt.composite"/>
+        <property name="transformerFactory">net.sf.saxon.TransformerFactoryImpl</property>
+        <property name="xsl">/transformation-xsl/pain001-nacha.xsl</property>
+        <property name="encoding">UTF-8</property>        
+    </component>
+    
+    <component name="BACSInstructionBatchingService" sca4j:key="BACS">
+    	<implementation.java class="com.travelex.tgbp.output.impl.file.BACSInstructionBatchingService" />
+    	<reference name="outputConfigReader" target="OutputConfigReader" />
+    </component>
+    
+    <component name="ChapsInstructionBatchingService" sca4j:key="CHAPS">
+    	<implementation.java class="com.travelex.tgbp.output.impl.file.ChapsInstructionBatchingService" />
+    	<reference name="outputConfigReader" target="OutputConfigReader" />
+    </component>
+    
+    <component name="FpsInstructionBatchingService" sca4j:key="FPS">
+    	<implementation.java class="com.travelex.tgbp.output.impl.file.FpsInstructionBatchingService" />
+    	<reference name="outputConfigReader" target="OutputConfigReader" />
+    </component>
+    
+    <component name="NachaInstructionBatchingService" sca4j:key="NACHA">
+    	<implementation.java class="com.travelex.tgbp.output.impl.file.NachaInstructionBatchingService" />
+    	<reference name="outputConfigReader" target="OutputConfigReader" />
+    </component>
+
+    <component name="FedwireInstructionBatchingService" sca4j:key="FEDWIRE">
+    	<implementation.java class="com.travelex.tgbp.output.impl.file.FedwireInstructionBatchingService" />
+    	<reference name="outputConfigReader" target="OutputConfigReader" />
+    </component>
+    
+    <component name="MT103FileGenerationService" sca4j:key="MT103">
+    	<implementation.java class="com.travelex.tgbp.output.impl.file.MT103FileGenerationService" />
+    	<reference name="outputConfigReader" target="OutputConfigReader" />
+    </component>
+
+    <component name="NachaFileGenerationService" sca4j:key="NACHA">
+    	<implementation.java class="com.travelex.tgbp.output.impl.file.NachaFileGenerationService" />
+    	<reference name="outputConfigReader" target="OutputConfigReader" />
+    </component>
+    
+    <component name="FedwireFileGenerationService" sca4j:key="FEDWIRE">
+    	<implementation.java class="com.travelex.tgbp.output.impl.file.FedwireFileGenerationService" />
+    	<reference name="outputConfigReader" target="OutputConfigReader" />
+    </component>
+    
+    <component name="OutputConfigReader">
+    	<implementation.java class="com.travelex.tgbp.output.impl.file.JPAOutputConfigReader" />
+    </component>
+
+    <component name="CompositeResolver">
+    	<implementation.java class="com.travelex.tgbp.routing.impl.CompositeResolver" />
+    	<reference name="exactAmountMatchResolver" target="AmountBasedResolver" />
+    	<reference name="valueDateAmountResolver" target="ValueDateBasedResolver" />
+    </component>
+
+    <component name="AmountBasedResolver">
+    	<implementation.java class="com.travelex.tgbp.routing.impl.AmountBasedResolver" />
+    	<reference name="configReader" target="RoutingConfigReader" />
+    </component>
+
+    <component name="ValueDateBasedResolver">
+    	<implementation.java class="com.travelex.tgbp.routing.impl.ValueDateBasedResolver" />
+    	<reference name="configReader" target="RoutingConfigReader" />
+    </component>
+    
+    <component name="RoutingConfigReader">
+    	<implementation.java class="com.travelex.tgbp.routing.impl.JPARoutingConfigReader" />
+    </component>
+            
+</composite>

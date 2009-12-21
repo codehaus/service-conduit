@@ -1,0 +1,14 @@
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0" 
+           targetNamespace="urn:composite:com.travelex.tgbp" 
+           name="SchemaModelBuilder"
+           autowire="false">
+       
+    <service name="submissionProcessor" promote="SubmissionProcessor" />
+    <refernce name="submissionParser" promote="SubmissionProcessor/submissionParser" />
+    <refernce name="instructionStoreService" promote="SubmissionProcessor/instructionStoreService" />
+    
+    <component name="SubmissionProcessor">
+    	<implementation.java class="com.travelex.tgbp.processor.DefaultSubmissionProcessor" />
+    </component>
+            
+</composite>

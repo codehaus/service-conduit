@@ -1,0 +1,20 @@
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0" 
+           targetNamespace="urn:composite:com.travelex.tgbp" 
+           name="OutputServiceScheduler"
+           autowire="false">
+       
+    <service name="outputSchedulerService" promote="OutputSchedulerService" />
+
+    <refernce name="instructionOutputService" promote="OutputSchedulerService/instructionOutputService" />
+    <refernce name="fileOutputService" promote="OutputSchedulerService/fileOutputService" />
+
+    <property name="instructionOutputDelayInSeconds" />
+    <property name="fileOutputDelayInSeconds" />
+    
+    <component name="OutputSchedulerService">
+    	<implementation.java class="com.travelex.tgbp.output.timing.DefaultOutputSchedulerService" />
+    	<property name="instructionOutputDelayInSeconds" source="$instructionOutputDelayInSeconds" />
+    	<property name="fileOutputDelayInSeconds" source="$fileOutputDelayInSeconds" />
+    </component>
+            
+</composite>

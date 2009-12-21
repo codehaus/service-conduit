@@ -5,25 +5,28 @@ package com.travelex.tgbp.store.type;
  */
 public enum ClearingMechanism {
 
-    BACS (Currency.GBP),
+    BACS (Currency.GBP, "MT103"),
 
-    CHAPS (Currency.GBP),
+    CHAPS (Currency.GBP, "MT103"),
 
-    FPS (Currency.GBP),
+    FPS (Currency.GBP, "MT103"),
 
-    NACHA (Currency.USD),
+    NACHA (Currency.USD, "NACHA"),
 
-    FEDWIRE (Currency.USD);
+    FEDWIRE (Currency.USD, "FEDWIRE");
 
     private Currency currency;
 
+    private String fileFormat;
+
     /**
-     * Intialises with currency.
+     * Intialises with attributes.
      *
      * @param currency - supported currency type.
      */
-    private ClearingMechanism(Currency currency) {
+    private ClearingMechanism(Currency currency, String fileFormat) {
         this.currency = currency;
+        this.fileFormat = fileFormat;
     }
 
     /**
@@ -31,6 +34,13 @@ public enum ClearingMechanism {
      */
     public Currency getCurrency() {
         return currency;
+    }
+
+    /**
+     * @return the fileFormat
+     */
+    public String getFileFormat() {
+        return fileFormat;
     }
 
 }
