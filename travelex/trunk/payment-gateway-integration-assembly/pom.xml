@@ -1,0 +1,210 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.travelex.tgbp</groupId>
+        <artifactId>tgbp-parent</artifactId>
+        <version>0.1-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.travelex.tgbp</groupId>
+    <artifactId>payment-gateway-integration-assembly</artifactId>    
+	<version>0.1-SNAPSHOT</version>
+    <name>TGBP Integration Assembly</name>
+    <description>TGBP integration assembly</description>
+
+    <dependencies>
+        
+        <dependency>
+            <groupId>com.travelex.tgbp</groupId>
+            <artifactId>payment-gateway-schema-model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.travelex.tgbp</groupId>
+            <artifactId>payment-gateway-dynamic-rules</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.travelex.tgbp</groupId>
+            <artifactId>payment-gateway-store</artifactId>
+            <version>${project.version}</version>        
+        </dependency>        
+       
+        <dependency>
+            <groupId>org.sca4j.spec</groupId>
+            <artifactId>sca-api-r1.0</artifactId>
+        </dependency>
+    
+        <dependency>
+           <groupId>junit</groupId>
+           <artifactId>junit</artifactId>
+           <scope>test</scope>
+        </dependency>
+        
+    </dependencies>
+    
+    <build>
+        <defaultGoal>verify</defaultGoal>
+        <plugins>
+              <plugin>
+                    <groupId>org.sca4j</groupId>
+                    <artifactId>sca4j-itest-plugin</artifactId>
+                    <version>${sca4j.version}</version>
+                    <executions>
+                         <execution>
+                            <goals>
+                                <goal>test</goal>
+                            </goals>
+                         </execution>
+                    </executions>
+                    <configuration>                            
+                         <runtimeVersion>${sca4j.version}</runtimeVersion>
+                         <extensions>
+                                <dependency>
+                                    <groupId>org.sca4j</groupId>
+                                    <artifactId>sca4j-jetty</artifactId>
+                                    <version>${sca4j.version}</version>
+                                </dependency>                            
+                                <dependency>
+                                    <groupId>org.sca4j</groupId>
+                                    <artifactId>sca4j-resource</artifactId>
+                                    <version>${sca4j.version}</version>
+                                </dependency>
+                                <dependency>
+                                    <groupId>org.sca4j</groupId>
+                                    <artifactId>sca4j-rs</artifactId>
+                                    <version>${sca4j.version}</version>
+                                </dependency>
+		                        <dependency>
+		                            <groupId>org.sca4j</groupId>
+		                            <artifactId>sca4j-binding-http</artifactId>
+		                            <version>${sca4j.version}</version>
+		                        </dependency>                                                                       
+		                        <dependency>
+		                            <groupId>org.sca4j</groupId>
+		                            <artifactId>sca4j-marshal-xstream</artifactId>
+		                            <version>${sca4j.version}</version>
+		                        </dependency>
+		                        <dependency>
+		                            <groupId>org.sca4j</groupId>
+		                            <artifactId>sca4j-policy</artifactId>
+		                            <version>${sca4j.version}</version>
+		                        </dependency>
+                                <!-- Declarative Transaction Policies -->
+                                <dependency>
+                                    <groupId>org.sca4j</groupId>
+                                    <artifactId>sca4j-tx</artifactId>
+                                    <version>${sca4j.version}</version>
+                                </dependency>
+                                <dependency>
+                                    <groupId>org.sca4j</groupId>
+                                    <artifactId>sca4j-tx-jotm</artifactId>
+                                    <version>${sca4j.version}</version>
+                                </dependency>
+                                <!-- JPA Hibernate Extensions -->
+                                <dependency>
+                                    <groupId>org.sca4j</groupId>
+                                    <artifactId>sca4j-jpa</artifactId>
+                                    <version>${sca4j.version}</version>
+                                </dependency>
+								<dependency>
+                                    <groupId>com.travelex.tgbp</groupId>
+                                	<artifactId>payment-gateway-oracle-db-extension</artifactId>
+                                    <version>${project.version}</version>
+                                </dependency>
+                            </extensions>
+                            <shared>
+                                 <dependency>
+                                     <groupId>javax.ws.rs</groupId>
+                                     <artifactId>jsr311-api</artifactId>
+                                     <version>1.0</version>
+                                 </dependency>
+                            
+                                <dependency>
+						            <groupId>org.sca4j</groupId>
+						            <artifactId>sca4j-util</artifactId>
+						            <version>${sca4j.version}</version>
+						        </dependency>
+                            
+                                <dependency>
+                                    <groupId>javax.persistence</groupId>
+                                    <artifactId>persistence-api</artifactId>
+                                </dependency>
+                                <dependency>
+                                    <groupId>log4j</groupId>
+                                    <artifactId>log4j</artifactId>
+                                    <exclusions>
+                                        <exclusion>
+                                            <groupId>javax.jms</groupId>
+                                            <artifactId>jms</artifactId>
+                                        </exclusion>
+                                        <exclusion>
+                                            <groupId>com.sun.jdmk</groupId>
+                                            <artifactId>jmxtools</artifactId>
+                                        </exclusion>
+                                        <exclusion>
+                                            <groupId>com.sun.jmx</groupId>
+                                            <artifactId>jmxri</artifactId>
+                                        </exclusion>
+                                    </exclusions>
+                                </dependency>
+                                <dependency>
+                                    <groupId>org.hibernate</groupId>
+                                    <artifactId>hibernate-entitymanager</artifactId>
+                                </dependency>
+                                <dependency>
+                                    <groupId>concurrent</groupId>
+                                    <artifactId>concurrent</artifactId>
+                                </dependency>
+                                <dependency>
+                                    <groupId>jotm</groupId>
+                                    <artifactId>jotm</artifactId>
+                                    <version>2.0.10</version>
+                                    <exclusions>
+                                        <exclusion>
+                                            <artifactId>jta</artifactId>
+                                            <groupId>javax.transaction</groupId>
+                                        </exclusion>
+                                        <exclusion>
+                                            <artifactId>connector</artifactId>
+                                            <groupId>javax.resource</groupId>
+                                        </exclusion>
+                                        <exclusion>
+                                            <artifactId>jts</artifactId>
+                                            <groupId>javax.jts</groupId>
+                                        </exclusion>
+                                    </exclusions>
+                                </dependency>
+                                <dependency>
+                                    <groupId>geronimo-spec</groupId>
+                                    <artifactId>geronimo-spec-j2ee-connector</artifactId>
+                                </dependency>
+                                <dependency>
+                                    <groupId>commons-lang</groupId>
+                                    <artifactId>commons-lang</artifactId>
+                                    <scope>provided</scope>
+                                </dependency>
+                                <dependency>
+                                    <groupId>commons-codec</groupId>
+                                    <artifactId>commons-codec</artifactId>
+                                </dependency>
+                            </shared>
+                            <!-- The Jetty Listen Port for the ws binding components -->
+                            <systemConfig>
+                                <![CDATA[
+                                    <config>
+                                        <web.server>
+                                            <http port="9900" />
+                                        </web.server>                                     
+                                    </config>
+                                ]]>
+                            </systemConfig>                            
+                    </configuration>
+               </plugin>
+        </plugins>
+    </build>
+    
+</project>

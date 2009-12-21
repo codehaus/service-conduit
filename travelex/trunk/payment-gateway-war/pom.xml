@@ -17,13 +17,7 @@
 
         <dependency>
             <groupId>com.travelex.tgbp</groupId>
-            <artifactId>payment-gateway-schema-model</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>com.travelex.tgbp</groupId>
-    		<artifactId>payment-gateway-dynamic-rules</artifactId>
+            <artifactId>payment-gateway-integration-assembly</artifactId>    
             <version>${project.version}</version>
         </dependency>
         
@@ -127,11 +121,6 @@
                             <artifactId>sca4j-marshal-xstream</artifactId>
                             <version>${sca4j.version}</version>
                         </dependency>
-                        <dependency>
-                            <groupId>org.sca4j</groupId>
-                            <artifactId>sca4j-conversation-propagation</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>                        
                         <dependency>
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-policy</artifactId>

@@ -8,25 +8,14 @@
 		<implementation.web />
 	</component>
 	
-	<!-- Using this as the module integration assembly. There won't be that many modules so this is just to avoid
-		 the extra layer of an integration project. Can always add later  -->
-	
-	<component name="SchemaServices">
-		<implementation.composite scdlResource="payment-gateway-schema-model.composite" />
+	<component name="PaymentGatewayIntegrationAssembly">
+		<implementation.composite scdlResource="pg-integration-assembly.composite" />
 		<service name="schemaModelBuilder">
             <sca4j:binding.http />
         </service>
-	</component>
-		
-	<component name="DynamicRules" requires="sca:managedTransaction">
-		<implementation.composite scdlResource="payment-gateway-dynamic-rules.composite" />
-		<service name="dynamicRuleSubmissionProcessor">
+        <service name="dynamicRuleSubmissionProcessor">
             <sca4j:binding.http />
         </service>
-	</component>	
-		
-	<component name="DataStore">
-    	<implementation.composite scdlResource="payment-gateway-store.composite" />
-    </component>
+	</component>
 	
 </composite>

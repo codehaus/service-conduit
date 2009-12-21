@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<contribution xmlns="http://www.osoa.org/xmlns/sca/1.0" xmlns:sca4j="urn:sca4j.org">
+    <sca4j:import groupId="org.sca4j" artifactId="sca4j-jpa" version="0.1.8"/>
+</contribution>
+
+
+

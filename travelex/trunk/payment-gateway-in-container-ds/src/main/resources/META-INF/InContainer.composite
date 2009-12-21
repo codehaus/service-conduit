@@ -5,7 +5,7 @@
            name="InContainerExtension"
            autowire="true">
 
-    <component name="EsbDS">
+    <component name="TgbpDS">
         <sca4j:implementation.system class="org.sca4j.resource.jndi.proxy.jdbc.DataSourceProxy" />
         <property name="jndiName">TgbpDS</property>
         <property name="dataSourceKeys">TgbpDS</property>

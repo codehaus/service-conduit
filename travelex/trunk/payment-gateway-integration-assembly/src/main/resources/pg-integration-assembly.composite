@@ -1,0 +1,26 @@
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0" 
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:sca="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           name="PaymentGatewayIntegrationAssembly"
+           targetNamespace="urn:composite:com.travelex.tgbp.integration"            
+           autowire="false">
+
+    <!-- Promoted services -->       
+    <service name="schemaModelBuilder" promote="SchemaServices" />
+    <service name="dynamicRuleSubmissionProcessor" promote="DynamicRules" />
+	
+	<component name="SchemaServices">
+		<implementation.composite scdlResource="payment-gateway-schema-model.composite" />
+	</component>
+		
+	<component name="DynamicRules" requires="sca:managedTransaction">
+		<implementation.composite scdlResource="payment-gateway-dynamic-rules.composite" />
+		<reference name="dataStore" target="DataStore" />
+	</component>	
+		
+	<component name="DataStore">
+    	<implementation.composite scdlResource="payment-gateway-store.composite" />
+    </component>
+	
+</composite>

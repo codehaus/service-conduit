@@ -32,7 +32,9 @@
 		<module>payment-gateway-schema-model</module>
 		<module>payment-gateway-transformation-service-api</module>
 		<module>payment-gateway-transformation-service-xslt</module>
-		<module>payment-gateway-output-service</module>		
+		<module>payment-gateway-output-service</module>
+		<module>payment-gateway-oracle-db-extension</module>
+		<module>payment-gateway-integration-assembly</module>
 		<module>payment-gateway-war</module>		
 		<module>payment-gateway-ear</module>		
 	</modules>
@@ -76,11 +78,11 @@
 				</exclusions>
 			</dependency>	        
 
-               <dependency>
+            <dependency>
                    <groupId>junit</groupId>
                    <artifactId>junit</artifactId>
                    <version>${junit.version}</version>
-               </dependency>
+            </dependency>
 
         	<dependency>
             	    <groupId>commons-io</groupId>
@@ -197,6 +199,12 @@
                     <artifactId>log4j</artifactId>
                     <groupId>log4j</groupId>
                     <version>1.2.12</version>
+                </dependency>
+
+				<dependency>
+                    <groupId>commons-lang</groupId>
+                    <artifactId>commons-lang</artifactId>
+                    <version>2.1</version>
                 </dependency>
                 
 	    </dependencies>

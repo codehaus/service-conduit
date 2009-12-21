@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org"
+           xmlns:sca="http://www.osoa.org/xmlns/sca/1.0"
+           name="IntegrationAssemblyITest"
+           autowire="false">
+
+    <component name="IntegrationAssemblyITest">
+    	<sca4j:junit class="com.travelex.tgbp.integration.IntegrationITest" />
+        <reference name="schemaModelBuilder" target="IntegrationAssembly/schemaModelBuilder" />
+    </component>
+
+    <component name="IntegrationAssembly">
+        <implementation.composite scdlResource="pg-integration-assembly.composite"/>
+    </component>
+        
+</composite>
+
+
+       
