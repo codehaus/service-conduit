@@ -8,11 +8,13 @@
     <refernce name="instructionOutputService" promote="OutputSchedulerService/instructionOutputService" />
     <refernce name="fileOutputService" promote="OutputSchedulerService/fileOutputService" />
 
+    <property name="initialStartupDelayInSeconds" />
     <property name="instructionOutputDelayInSeconds" />
     <property name="fileOutputDelayInSeconds" />
     
     <component name="OutputSchedulerService">
     	<implementation.java class="com.travelex.tgbp.output.timing.DefaultOutputSchedulerService" />
+    	<property name="initialStartupDelayInSeconds" source="$initialStartupDelayInSeconds" />
     	<property name="instructionOutputDelayInSeconds" source="$instructionOutputDelayInSeconds" />
     	<property name="fileOutputDelayInSeconds" source="$fileOutputDelayInSeconds" />
     </component>

@@ -25,10 +25,9 @@ public class DefaultOutputSchedulerService implements OutputSchedulerService {
 
     @Resource(mappedName = "TransactionalTimerService") protected TimerService trxTimerService;
 
+    @Property(required = true) protected long initialStartupDelayInSeconds;
     @Property(required = true) protected long instructionOutputDelayInSeconds;
     @Property(required = true) protected long fileOutputDelayInSeconds;
-
-    private long initialDelayInSeconds = 2L;
 
     /**
      * Prepares instruction and file output process jobs and schedules these jobs using quartz timer API.
@@ -37,10 +36,10 @@ public class DefaultOutputSchedulerService implements OutputSchedulerService {
     public void init(){
 
        trxTimerService.scheduleWithFixedDelay(getIntructionOutputJob()
-               , TimeUnit.MILLISECONDS.convert(initialDelayInSeconds, TimeUnit.SECONDS), TimeUnit.MILLISECONDS.convert(instructionOutputDelayInSeconds, TimeUnit.SECONDS), TimeUnit.MILLISECONDS);
+               , TimeUnit.MILLISECONDS.convert(initialStartupDelayInSeconds, TimeUnit.SECONDS), TimeUnit.MILLISECONDS.convert(instructionOutputDelayInSeconds, TimeUnit.SECONDS), TimeUnit.MILLISECONDS);
 
        trxTimerService.scheduleWithFixedDelay(getFileOutputJob()
-               , TimeUnit.MILLISECONDS.convert(initialDelayInSeconds + instructionOutputDelayInSeconds, TimeUnit.SECONDS), TimeUnit.MILLISECONDS.convert(fileOutputDelayInSeconds, TimeUnit.SECONDS), TimeUnit.MILLISECONDS);
+               , TimeUnit.MILLISECONDS.convert(initialStartupDelayInSeconds + instructionOutputDelayInSeconds, TimeUnit.SECONDS), TimeUnit.MILLISECONDS.convert(fileOutputDelayInSeconds, TimeUnit.SECONDS), TimeUnit.MILLISECONDS);
     }
 
     /*
