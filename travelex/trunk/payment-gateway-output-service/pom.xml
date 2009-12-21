@@ -57,6 +57,12 @@
             <artifactId>commons-lang</artifactId>
             <version>2.1</version>
         </dependency>
+        
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-timer-spi</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
 		
 		<dependency>
             <groupId>junit</groupId>
