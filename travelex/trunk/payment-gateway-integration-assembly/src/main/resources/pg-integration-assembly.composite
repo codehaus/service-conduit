@@ -8,7 +8,7 @@
 
     <!-- Promoted services -->       
     <service name="schemaModelBuilder" promote="SchemaServices" />
-    <service name="dynamicRuleSubmissionProcessor" promote="DynamicRules" />
+    <service name="dynamicRuleSubmissionProcessor" promote="DynamicRules/dynamicRuleSubmissionProcessor" />
 	
 	<component name="SchemaServices">
 		<implementation.composite scdlResource="payment-gateway-schema-model.composite" />

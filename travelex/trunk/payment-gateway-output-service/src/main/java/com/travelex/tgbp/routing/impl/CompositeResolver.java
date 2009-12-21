@@ -13,7 +13,7 @@ import com.travelex.tgbp.store.type.ClearingMechanism;
 @Composite
 public class CompositeResolver implements ClearingMechanismResolver {
 
-    @Reference protected ClearingMechanismResolver exactAmountMatchResolver;
+    @Reference protected ClearingMechanismResolver dynamicRuleResolver;
     @Reference protected ClearingMechanismResolver valueDateAmountResolver;
 
     /**
@@ -21,7 +21,7 @@ public class CompositeResolver implements ClearingMechanismResolver {
      */
     @Override
     public ClearingMechanism resolve(Instruction instruction) {
-        final ClearingMechanism clearing = exactAmountMatchResolver.resolve(instruction);
+        final ClearingMechanism clearing = dynamicRuleResolver.resolve(instruction);
         if (clearing != null) {
             return clearing;
         } else {

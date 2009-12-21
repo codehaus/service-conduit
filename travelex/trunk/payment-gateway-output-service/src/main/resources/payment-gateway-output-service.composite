@@ -34,6 +34,7 @@
                                                         MT103FileGenerationService/submissionStoreService
                                                         FedwireFileGenerationService/submissionStoreService
                                                         NachaFileGenerationService/submissionStoreService" />
+    <reference name="dataStore"                promote="DynamicRules/dataStore" />
     
     <component name="InstructionOutputService">
     	<implementation.java class="com.travelex.tgbp.output.impl.DefaultInstructionOutputService" />
@@ -155,13 +156,17 @@
 
     <component name="CompositeResolver">
     	<implementation.java class="com.travelex.tgbp.routing.impl.CompositeResolver" />
-    	<reference name="exactAmountMatchResolver" target="AmountBasedResolver" />
+    	<reference name="dynamicRuleResolver" target="DynamicRuleResolver" />
     	<reference name="valueDateAmountResolver" target="ValueDateBasedResolver" />
     </component>
 
-    <component name="AmountBasedResolver">
-    	<implementation.java class="com.travelex.tgbp.routing.impl.AmountBasedResolver" />
-    	<reference name="configReader" target="RoutingConfigReader" />
+    <component name="DynamicRuleResolver">
+    	<implementation.java class="com.travelex.tgbp.routing.impl.DynamicRuleResolver" />
+    	<reference name="dynamicRules" target="DynamicRules/dynamicRules" />
+    </component>
+    
+    <component name="DynamicRules">
+        <implementation.composite scdlResource="payment-gateway-dynamic-rules.composite"/>
     </component>
 
     <component name="ValueDateBasedResolver">
