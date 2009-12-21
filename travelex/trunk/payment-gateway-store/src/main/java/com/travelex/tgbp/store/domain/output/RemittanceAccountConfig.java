@@ -18,6 +18,11 @@ public class RemittanceAccountConfig {
     private String accountHolderZip;
 
     /**
+     * JPA constructor
+     */
+    RemittanceAccountConfig() { }
+
+    /**
      * @return the clearingMechanism
      */
     public ClearingMechanism getClearingMechanism() {

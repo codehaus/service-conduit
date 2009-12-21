@@ -5,14 +5,6 @@
 	version="1.0">
 	<description>Output routing related objects</description>
 	
-    <named-query name="FIND_CONFIG_ON_AMOUNT">
-	   <query>
-	        SELECT config
-            FROM RoutingConfigOnAmount config 
-            WHERE config.currency = ?1 AND config.amount = ?2 
-	   </query>
-    </named-query>
-    
     <named-query name="FIND_CONFIG_ON_VALUE_DATE">
 	   <query>
 	   <![CDATA[	   
@@ -80,33 +72,6 @@
 		</attributes>
 	</entity>    
     
-	<entity class="com.travelex.tgbp.store.domain.routing.RoutingConfigOnAmount" access="FIELD">
-		<table name="ROUTING_CONFIG_ON_AMOUNT" />
-		<attributes>
-            <id name="id">
-                <column name="CONFIG_ID" nullable="false" />
-            </id>
-
-			<basic name="currency">
-				<column name="CURRENCY" nullable="false"/>
-				<enumerated>STRING</enumerated>
-			</basic>
-
-			<basic name="clearingMechanism">
-				<column name="CLEARING_MECHANISM" nullable="false"/>
-				<enumerated>STRING</enumerated>
-			</basic>
-			
-			<basic name="clearingPeriod">
-				<column name="CLIENT_ID" nullable="false" />
-			</basic>
-
-			<basic name="amount">
-				<column name="AMOUNT" nullable="false" />
-			</basic>
-		</attributes>
-	</entity>
-	
 	<entity class="com.travelex.tgbp.store.domain.routing.RoutingConfigOnValueDate" access="FIELD">
 		<table name="ROUTING_CONFIG_ON_VALUE_DATE" />
 		<attributes>

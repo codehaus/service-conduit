@@ -14,6 +14,11 @@ public class OutputInstructionBatchingConfig {
     private BigDecimal thresholdAmount;
 
     /**
+     * JPA constructor
+     */
+    OutputInstructionBatchingConfig() { }
+
+    /**
      * @return the clearingMechanism
      */
     public ClearingMechanism getClearingMechanism() {
