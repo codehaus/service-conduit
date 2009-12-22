@@ -41,8 +41,9 @@ public class SubmissionParserClientImpl implements SubmissionParserClient, Submi
 
     @Override
     public void onSubmissionHeader(String messageId, String submissionHeader) {
-        this.submission = new Submission(messageId);
-        this.submission.setSubmissionHeader(submissionHeader);
+        submission = new Submission(null, null);
+        submission.setMessageId(messageId);
+        submission.setSubmissionHeader(submissionHeader);
         dataStore.store(submission);
     }
 

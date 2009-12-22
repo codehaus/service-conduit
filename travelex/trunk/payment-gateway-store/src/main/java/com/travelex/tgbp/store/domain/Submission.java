@@ -10,13 +10,13 @@ import org.joda.time.LocalDate;
  * Represents file submission entity.
  */
 public class Submission extends PersistentEntity {
-	
+
     private String messageId;
 
-    @SuppressWarnings("unused")
     @Type(type = "org.joda.time.contrib.hibernate.PersistentLocalDate")
     private LocalDate submissionDate;
     private byte[] inputData;
+    private String fileName;
 
     //The submission header is the root of the document and the header without any child elements.
     //This partially duplicates the content of inputData so we'd have to think about a better strategy
@@ -24,8 +24,9 @@ public class Submission extends PersistentEntity {
     //xml on each instruction.
     private String submissionHeader;
 
-    public Submission(String messageId) {
-        this.messageId = messageId;
+    public Submission(String fileName, byte[] inputData) {
+        this.fileName = fileName;
+        this.inputData = inputData;
         this.submissionDate = new LocalDate();
     }
 
@@ -46,11 +47,37 @@ public class Submission extends PersistentEntity {
     }
 
     /**
+     * Returns submission date
+     *
+     * @return the submissionDate
+     */
+    public LocalDate getSubmissionDate() {
+        return submissionDate;
+    }
+
+    /**
      * Returns the submission data.
      * @return data - as a stream
      */
     public InputStream getDataAsStream() {
         return new ByteArrayInputStream(inputData);
+    }
+
+    /**
+     * Returns file name
+     *
+     * @return the fileName
+     */
+    public String getFileName() {
+        return fileName;
+    }
+
+    /**
+     * Gets the submission header which is the root of the document and the header without any child elements.
+     * @returns submissionHeader
+     */
+    public String getSubmissionHeader() {
+        return submissionHeader;
     }
 
     /**
@@ -69,11 +96,4 @@ public class Submission extends PersistentEntity {
         this.submissionHeader = submissionHeader;
     }
 
-    /**
-     * Gets the submission header which is the root of the document and the header without any child elements.
-     * @returns submissionHeader
-     */
-    public String getSubmissionHeader() {
-        return submissionHeader;
-    }
 }

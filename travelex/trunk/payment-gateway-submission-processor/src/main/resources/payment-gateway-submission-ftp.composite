@@ -5,6 +5,8 @@
        
     <service name="submissionFtpListener" promote="SubmissionFtpListener" />
     
+    <reference name="submissionProcessor" promote="SubmissionFtpListener/submissionProcessor" />
+    
     <property name="baseDir" />
    
     <component name="SubmissionFtpListener">

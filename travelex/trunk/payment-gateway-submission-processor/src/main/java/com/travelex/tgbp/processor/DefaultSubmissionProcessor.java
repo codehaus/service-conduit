@@ -30,6 +30,7 @@ public class DefaultSubmissionProcessor implements SubmissionProcessor, Submissi
         try {
             this.submission = submission;
             submissionParser.parse(submission.getDataAsStream());
+            dataStore.store(submission);
         } finally {
             submissionParser.close();
         }

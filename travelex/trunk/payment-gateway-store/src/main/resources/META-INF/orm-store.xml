@@ -44,7 +44,7 @@
 	<named-query name="FIND_INS_BY_CURR">
 		<query>	   
 	       select ins
-	       from instruction ins
+	       from Instruction ins
 	       where ins.currency = ?1
 	   </query>
 	</named-query>
@@ -59,7 +59,7 @@
 	
 	<named-query name="UPDATE_INS">
 		<query>
-		        UPDATE Instruction ins SET ins.ouputInstructionId =?1 WHERE ins.id = ?2
+		        UPDATE Instruction ins SET ins.outputInstructionId =?1 WHERE ins.id = ?2
 		</query>
 	</named-query>
 
@@ -85,6 +85,10 @@
 			<basic name="messageId">
 				<column name="MESSAGE_ID" nullable="false" />
 			</basic>
+			
+			<basic name="fileName">
+                <column name="FILE_NAME" nullable="false" />
+            </basic>
 
 			<basic name="submissionDate">
 				<column name="SUBMISSION_DATE" nullable="false" />
