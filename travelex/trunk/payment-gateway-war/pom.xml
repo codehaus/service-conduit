@@ -22,6 +22,12 @@
         </dependency>
         
         <dependency>
+            <groupId>com.travelex.tgbp</groupId>
+    		<artifactId>payment-gateway-event-notifier</artifactId>
+            <version>${project.version}</version>
+        </dependency>    		
+        
+        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
         </dependency>                        
@@ -74,7 +80,9 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        	        		
      </dependencies>
+     
      <build>
         <plugins>
             <plugin>

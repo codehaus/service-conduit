@@ -1,0 +1,12 @@
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0" 
+           targetNamespace="urn:composite:com.travelex.tgbp" 
+           name="BlazeDSEventNotifier"
+           autowire="false">
+       
+    <service name="blazeDSEventNotifier" promote="BlazeDSEventNotifier" />
+    
+    <component name="BlazeDSEventNotifier">
+    	<implementation.java class="com.travelex.tgb.event.notifier.BlazeDSEventNotifier" />
+    </component>    
+        
+</composite>
