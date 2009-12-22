@@ -69,6 +69,111 @@
 			<basic name="submissionHeader">
 				<column name="SUBMISSION_HEADER" nullable="false" />
 			</basic>
+			
+			<basic name="inputData">
+				<column name="INPUT_DATA"/>
+				<lob />
+			</basic>
+
+		</attributes>
+	</entity>  
+	
+	<entity class="com.travelex.tgbp.store.domain.Instruction" access="FIELD">
+		<table name="INSTRUCTION" />
+		<attributes>
+			<id name="id">
+				<column name="INS_ID" nullable="false" />
+				<generated-value strategy="SEQUENCE" generator="SEQ_GEN" />
+				<sequence-generator name="SEQ_GEN" sequence-name="SEQ_INS" />				
+			</id>						    
+
+			<basic name="submissionId">
+				<column name="SUB_ID" nullable="false"/>
+			</basic>
+			
+			<basic name="ouputInstructionId">
+				<column name="OUT_INS_ID" nullable="false"/>
+			</basic>
+			
+			<basic name="amount">
+				<column name="AMOUNT" nullable="false"/>
+			</basic>
+			
+			<basic name="currency">
+				<column name="CURRENCY" nullable="false"/>
+				<enumerated>STRING</enumerated>
+			</basic>
+
+			<basic name="valueDate">
+				<column name="VALUE_DATE" nullable="false"/>
+			</basic>
+			
+			<basic name="paymentData">
+				<column name="DATA" nullable="false" />
+			</basic>
+			
+			<basic name="paymentGroupData">
+				<column name="GROUP_DATA" nullable="false" />
+			</basic>
+
+		</attributes>
+	</entity>  
+	
+	<entity class="com.travelex.tgbp.store.domain.OutputSubmission" access="FIELD">
+		<table name="OUPUT_SUBMISSION" />
+		<attributes>
+			<id name="id">
+				<column name="OUT_SUB_ID" nullable="false" />
+				<generated-value strategy="SEQUENCE" generator="SEQ_GEN" />
+				<sequence-generator name="SEQ_GEN" sequence-name="SEQ_OUT_SUB" />				
+			</id>			    
+
+			<basic name="clearingMechanism">
+				<column name="CLEARING_MECHANISM" nullable="false"/>
+				<enumerated>STRING</enumerated>
+			</basic>
+			
+			<basic name="ouputFile">
+				<column name="OUTPUT_FILE"/>
+				<lob />
+			</basic>
+			
+		</attributes>
+	</entity>  
+	
+	<entity class="com.travelex.tgbp.store.domain.OutputInstruction" access="FIELD">
+		<table name="OUTPUT_INSTRUCTION" />
+		<attributes>
+			<id name="id">
+				<column name="INS_ID" nullable="false" />
+				<generated-value strategy="SEQUENCE" generator="SEQ_GEN" />
+				<sequence-generator name="SEQ_GEN" sequence-name="SEQ_OUT_INS" />				
+			</id>    
+
+			<basic name="outputSubmissionId">
+				<column name="OUT_SUB_ID" nullable="false"/>
+			</basic>
+			
+			<basic name="clearingMechanism">
+				<column name="CLEARING_MECHANISM" nullable="false"/>
+				<enumerated>STRING</enumerated>
+			</basic>
+			
+			<basic name="sourceIdentifier">
+				<column name="SOURCE_IDEN" nullable="false"/>
+			</basic>
+									
+			<basic name="targetIdentifier">
+				<column name="TARGET_IDEN" nullable="false" />
+			</basic>
+			
+			<basic name="outputPaymentData">
+				<column name="OUT_PAY_DATA" nullable="false" />
+			</basic>
+			
+			<basic name="amount">
+				<column name="AMOUNT" nullable="false"/>
+			</basic>
 
 		</attributes>
 	</entity>  
@@ -79,7 +184,7 @@
 			<id name="id">
 				<column name="RULE_ID" nullable="false" />
 				<generated-value strategy="SEQUENCE" generator="SEQ_GEN" />
-				<sequence-generator name="SEQ_GEN" sequence-name="SEQ_SUB" />				
+				<sequence-generator name="SEQ_GEN" sequence-name="SEQ_RULE" />				
 			</id>
 
 			<basic name="clearingMechanism">

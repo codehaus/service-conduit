@@ -2,6 +2,7 @@ package com.travelex.tgbp.store.domain;
 
 import java.math.BigDecimal;
 
+import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
 import com.travelex.tgbp.store.type.Currency;
@@ -13,6 +14,7 @@ public class Instruction extends PersistentEntity {
 
     private Long submissionId;
     private Currency currency;
+    @Type(type = "org.joda.time.contrib.hibernate.PersistentLocalDate")
     private LocalDate valueDate;
     private BigDecimal amount;
     private Long outputInstructionId;

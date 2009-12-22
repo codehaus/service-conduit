@@ -31,10 +31,10 @@ public abstract class AbstractOutputFileGenerationService implements OutputFileG
      */
     @Override
     public void generate(OutputSubmission outputSubmission) {
-        outputSubmission.setOutputFile(generateFileContent(outputSubmission));
+        outputSubmission.setOutputFile(generateFileContent(outputSubmission).getBytes());
         dataStore.store(outputSubmission);
-        dataStore.updateOutputSubmissionId(outputSubmission.getId(), outputSubmission.getOutputInstructions());
-        serviceListener.onFileGenerationCompletion(outputSubmission.getId());
+        dataStore.updateOutputSubmissionId(outputSubmission.getKey(), outputSubmission.getOutputInstructions());
+        serviceListener.onFileGenerationCompletion(outputSubmission.getKey());
     }
 
     /**

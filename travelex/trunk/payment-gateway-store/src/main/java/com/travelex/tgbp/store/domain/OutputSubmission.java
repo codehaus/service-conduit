@@ -12,10 +12,9 @@ import com.travelex.tgbp.store.type.ClearingMechanism;
  * Represents group of instructions which are sent out in a same output file.
  */
 public class OutputSubmission extends PersistentEntity{
-
-    private Long id;
+	
     private ClearingMechanism clearingMechanism;
-    private String outputFile;
+    private byte[] outputFile;
 
     private transient long totalItemCount;
     private transient BigDecimal totalAmount;
@@ -28,15 +27,6 @@ public class OutputSubmission extends PersistentEntity{
      */
     public OutputSubmission(ClearingMechanism clearingMechanism) {
         this.clearingMechanism = clearingMechanism;
-    }
-
-    /**
-     * Returns submission identifier.
-     *
-     * @return submission id.
-     */
-    public Long getId() {
-        return id;
     }
 
     /**
@@ -107,7 +97,7 @@ public class OutputSubmission extends PersistentEntity{
      *
      * @return the outputFile
      */
-    public String getOutputFile() {
+    public byte[] getOutputFile() {
         return outputFile;
     }
 
@@ -116,7 +106,7 @@ public class OutputSubmission extends PersistentEntity{
      *
      * @param outputFile the outputFile to set
      */
-    public void setOutputFile(String outputFile) {
+    public void setOutputFile(byte[] outputFile) {
         this.outputFile = outputFile;
     }
 

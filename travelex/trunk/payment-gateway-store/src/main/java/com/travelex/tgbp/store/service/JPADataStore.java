@@ -48,30 +48,31 @@ public class JPADataStore implements DataStore {
         return (T) entityManager.find(entityClass, pk);
     }
 
-	@Override
-	public List<Instruction> findInstructionByCurrency(Currency currency) {
-		// TODO Auto-generated method stub
+    /**
+     * {@inheritDoc}
+     */
+	public List<Instruction> findInstructionByCurrency(Currency currency) {		
 		return null;
 	}
 
-	@Override
-	public List<OutputInstruction> findOutputInstructionByClearingMechanism(
-			ClearingMechanism clearingMechanism) {
-		// TODO Auto-generated method stub
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<OutputInstruction> findOutputInstructionByClearingMechanism(ClearingMechanism clearingMechanism) {		
 		return null;
 	}
 
-	@Override
-	public void updateOutputInstructionId(Long inputInstructionId,
-			Long outputInstructionId) {
-		// TODO Auto-generated method stub
+	/**
+	 * {@inheritDoc}
+	 */
+	public void updateOutputInstructionId(Long inputInstructionId, Long outputInstructionId) {
 		
 	}
 
-	@Override
-	public void updateOutputSubmissionId(Long outputSubmissionId,
-			Collection<OutputInstruction> outputInstructions) {
-		// TODO Auto-generated method stub
+	/**
+	 * {@inheritDoc}
+	 */
+	public void updateOutputSubmissionId(Long outputSubmissionId, Collection<OutputInstruction> outputInstructions) {
 		
 	}
 
