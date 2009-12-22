@@ -1,4 +1,5 @@
 // ActionScript file
+import mx.controls.Alert;
 
 [Bindable]
 private var configData:XML;
@@ -14,6 +15,7 @@ private function loadConfig():void {
 private function loaderCompleteHandler(event:Event):void {
 	configData = new XML(event.currentTarget.data)	
 }
+
 	
 
 

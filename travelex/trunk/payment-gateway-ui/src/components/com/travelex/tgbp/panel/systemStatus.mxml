@@ -1,7 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <p:basePanel 	xmlns:p="components.com.travelex.tgbp.panel.*"
 				xmlns:mx="http://www.adobe.com/2006/mxml" 
-				title="System Status">
+				title="System Status"
+				creationComplete="consumer.subscribe();glowImage()">
 	
+		<mx:Script source="as/systemStatus.as"/>
+		<mx:Consumer id="consumer" destination="systemStatus" message="messageHandler(event.message)"/>		
+
+		<mx:HBox 	height="5%" paddingTop="10" 
+					paddingLeft="10" >
+			<mx:Image	id="submissionReceivedImage" 
+						source="@Embed('/../assets/rightArrow.png')"
+						width="80" height="80"/>
+						
+    <mx:Form top="0" left="220">        
+        
+        <mx:FormItem label="r:">
+            <mx:HSlider id="r" value="1" minimum="0" maximum="2" change="glowImage()" liveDragging="true" />
+        </mx:FormItem>
+        
+        <mx:FormItem label="g:">
+            <mx:HSlider id="g" value="1" minimum="0" maximum="2" change="glowImage()" liveDragging="true" />
+        </mx:FormItem>
+        
+        <mx:FormItem label="b:">
+            <mx:HSlider id="b" value="1" minimum="0" maximum="2" change="glowImage()" liveDragging="true" />
+        </mx:FormItem>
+        
+        <mx:FormItem label="alpha:">
+            <mx:HSlider id="_alpha" value="0" minimum="0" maximum="1" change="glowImage()" liveDragging="true" />
+        </mx:FormItem>
+        
+    </mx:Form>
+
+						
+		</mx:HBox>
 	
 </p:basePanel>
