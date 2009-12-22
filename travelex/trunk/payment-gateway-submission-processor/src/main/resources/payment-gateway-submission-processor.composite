@@ -4,8 +4,8 @@
            autowire="false">
        
     <service name="submissionProcessor" promote="SubmissionProcessor" />
-    <refernce name="submissionParser" promote="SubmissionProcessor/submissionParser" />
-    <refernce name="dataStore" promote="SubmissionProcessor/dataStore" />
+    <reference name="submissionParser" promote="SubmissionProcessor/submissionParser" />
+    <reference name="dataStore" promote="SubmissionProcessor/dataStore" />
     
     <component name="SubmissionProcessor">
     	<implementation.java class="com.travelex.tgbp.processor.DefaultSubmissionProcessor" />

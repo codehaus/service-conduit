@@ -1,0 +1,15 @@
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0" 
+           targetNamespace="urn:composite:com.travelex.tgbp" 
+           name="SchemaModelBuilder"
+           autowire="false">
+       
+    <service name="submissionFtpListener" promote="SubmissionFtpListener" />
+    
+    <property name="baseDir" />
+   
+    <component name="SubmissionFtpListener">
+    	<implementation.java class="com.travelex.tgbp.processor.ftp.DefaultInputSubmissionFtpListener" />
+    	<property name="baseDir" source="$baseDir" />
+    </component>
+            
+</composite>
