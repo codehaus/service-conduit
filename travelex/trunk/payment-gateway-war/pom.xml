@@ -22,6 +22,12 @@
         </dependency>
         
         <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-ftp-api</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
+        
+        <dependency>
             <groupId>com.travelex.tgbp</groupId>
     		<artifactId>payment-gateway-event-notifier</artifactId>
             <version>${project.version}</version>
@@ -80,7 +86,23 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        	        		
+
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jaxen-core</artifactId>
+			<version>1.0-FCS</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jaxen-jdom</artifactId>
+			<version>1.0-FCS</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>saxpath</artifactId>
+			<version>1.0-FCS</version>
+		</dependency>
+        
      </dependencies>
      
      <build>
@@ -143,7 +165,27 @@
                             <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-tx</artifactId>
                             <version>${sca4j.version}</version>
-                        </dependency>                        
+                        </dependency>
+						<dependency>
+							<groupId>org.sca4j</groupId>
+							<artifactId>sca4j-ftp-server</artifactId>
+							<version>${sca4j.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>org.sca4j</groupId>
+							<artifactId>sca4j-binding-ftp</artifactId>
+							<version>${sca4j.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>org.sca4j</groupId>
+							<artifactId>sca4j-ftp-spi</artifactId>
+							<version>${sca4j.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>com.travelex.tgbp</groupId>
+							<artifactId>payment-gateway-ftp-extension</artifactId>
+							<version>${project.version}</version>
+						</dependency>
                     </extensions>
                 </configuration>
             </plugin>

@@ -10,12 +10,20 @@
 	
 	<component name="PaymentGatewayIntegrationAssembly">
 		<implementation.composite scdlResource="pg-integration-assembly.composite" />
+		
 		<service name="schemaModelBuilder">
             <sca4j:binding.http />
         </service>
+        
         <service name="dynamicRuleSubmissionProcessor">
             <sca4j:binding.http />
         </service>
+        
+        <service name="inputSubmissionFtpListener">
+            <sca4j:binding.ftp uri="/inbound-submissions"/>
+        </service>
+        
+        <property name="inputSubmissionBaseDir">c:/tgbp-submissions</property>
 	</component>
 	
 </composite>

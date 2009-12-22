@@ -3,7 +3,7 @@
            name="SchemaModelBuilder"
            autowire="false">
        
-    <service name="submissionProcessor" promote="SubmissionProcessor" />
+    <service name="submissionProcessor" promote="SubmissionProcessor/SubmissionProcessor" />
     <reference name="submissionParser" promote="SubmissionProcessor/submissionParser" />
     <reference name="dataStore" promote="SubmissionProcessor/dataStore" />
     

@@ -31,6 +31,18 @@
             <groupId>com.travelex.tgbp</groupId>
             <artifactId>payment-gateway-store</artifactId>
             <version>${project.version}</version>        
+        </dependency>
+        
+        <dependency>
+            <groupId>com.travelex.tgbp</groupId>
+            <artifactId>payment-gateway-submission-parser</artifactId>
+            <version>${project.version}</version>        
+        </dependency>
+        
+        <dependency>
+            <groupId>com.travelex.tgbp</groupId>
+            <artifactId>payment-gateway-submission-processor</artifactId>
+            <version>${project.version}</version>        
         </dependency>        
        
         <dependency>

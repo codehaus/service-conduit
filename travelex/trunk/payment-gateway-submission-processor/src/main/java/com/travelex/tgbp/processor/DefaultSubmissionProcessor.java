@@ -29,8 +29,8 @@ public class DefaultSubmissionProcessor implements SubmissionProcessor, Submissi
     public void onSubmission(Submission submission) {
         try {
             this.submission = submission;
-            submissionParser.parse(submission.getDataAsStream());
             dataStore.store(submission);
+            submissionParser.parse(submission.getDataAsStream());
         } finally {
             submissionParser.close();
         }

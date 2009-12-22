@@ -12,6 +12,7 @@
 
     <component name="IntegrationAssembly">
         <implementation.composite scdlResource="pg-integration-assembly.composite"/>
+        <property name="inputSubmissionBaseDir">/</property>
     </component>
         
 </composite>
