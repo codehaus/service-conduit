@@ -26,6 +26,7 @@
 	<modules>
 		<module>payment-gateway-in-container-ds</module>
 		<module>payment-gateway-store</module>
+        <module>payment-gateway-ftp-extension</module>
 		<module>payment-gateway-submission-processor</module>
 		<module>payment-gateway-submission-parser</module>
 		<module>payment-gateway-dynamic-rules</module>

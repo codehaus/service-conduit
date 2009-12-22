@@ -14,8 +14,8 @@
     <groupId>com.travelex.tgbp</groupId>
     <artifactId>payment-gateway-ftp-extension</artifactId>
 	<version>0.1-SNAPSHOT</version>
-    <name>Payment gateway FTP Server Extension</name>
-    <description>Payment gateway FTP Server Extension</description>
+    <name>TGBP FTP Server Extension</name>
+    <description>TGBP FTP Server Extension</description>
     <packaging>sca-contribution-jar</packaging>
 
     <dependencies>
