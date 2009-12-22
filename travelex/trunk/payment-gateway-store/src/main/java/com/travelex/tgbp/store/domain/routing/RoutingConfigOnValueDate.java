@@ -2,15 +2,15 @@ package com.travelex.tgbp.store.domain.routing;
 
 import java.math.BigDecimal;
 
+import com.travelex.tgbp.store.domain.PersistentEntity;
 import com.travelex.tgbp.store.type.ClearingMechanism;
 import com.travelex.tgbp.store.type.Currency;
 
 /**
  * Represents payment output routing configuration which is based on transfer cost/clearing period.
  */
-public class RoutingConfigOnValueDate {
+public class RoutingConfigOnValueDate extends PersistentEntity {
 
-    private Long id;
     private Currency currency;
     private ClearingMechanism clearingMechanism;
     private BigDecimal thresholdAmount;

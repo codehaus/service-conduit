@@ -1,11 +1,12 @@
 package com.travelex.tgbp.store.domain.output;
 
+import com.travelex.tgbp.store.domain.PersistentEntity;
 import com.travelex.tgbp.store.type.ClearingMechanism;
 
 /**
  * Configuration type describing remittance account information for a clearing mechanism.
  */
-public class RemittanceAccountConfig {
+public class RemittanceAccountConfig extends PersistentEntity{
 
     private ClearingMechanism clearingMechanism;
     private String bankId;

@@ -9,9 +9,8 @@ import com.travelex.tgbp.store.type.Currency;
 /**
  * Represents payment record entity.
  */
-public class Instruction extends PersistentEntity<Long> {
+public class Instruction extends PersistentEntity {
 
-    private Long id;
     private Long submissionId;
     private Currency currency;
     private LocalDate valueDate;
@@ -122,10 +121,4 @@ public class Instruction extends PersistentEntity<Long> {
     public String getPaymentData(){
         return paymentData;
     }
-
-    @Override
-    public Long getKey() {
-        return id;
-    }
-
 }

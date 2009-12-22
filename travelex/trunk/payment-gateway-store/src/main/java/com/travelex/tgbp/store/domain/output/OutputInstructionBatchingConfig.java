@@ -2,12 +2,13 @@ package com.travelex.tgbp.store.domain.output;
 
 import java.math.BigDecimal;
 
+import com.travelex.tgbp.store.domain.PersistentEntity;
 import com.travelex.tgbp.store.type.ClearingMechanism;
 
 /**
  * Configuration type describing output instruction batching parameters.
  */
-public class OutputInstructionBatchingConfig {
+public class OutputInstructionBatchingConfig extends PersistentEntity {
 
     private ClearingMechanism clearingMechanism;
     private int thresholdCount;

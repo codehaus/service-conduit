@@ -9,9 +9,8 @@ import org.joda.time.LocalDate;
 /**
  * Represents file submission entity.
  */
-public class Submission extends PersistentEntity<Long> {
-
-    private Long id;
+public class Submission extends PersistentEntity {
+	
     private String messageId;
 
     @SuppressWarnings("unused")
@@ -77,10 +76,4 @@ public class Submission extends PersistentEntity<Long> {
     public String getSubmissionHeader() {
         return submissionHeader;
     }
-
-    @Override
-    public Long getKey() {
-        return id;
-    }
-
 }

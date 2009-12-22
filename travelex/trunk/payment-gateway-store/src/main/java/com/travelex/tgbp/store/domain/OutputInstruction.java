@@ -7,9 +7,8 @@ import com.travelex.tgbp.store.type.ClearingMechanism;
 /**
  * Represents instruction which has been sent out.
  */
-public class OutputInstruction {
+public class OutputInstruction extends PersistentEntity {
 
-    private Long id;
     private Long outputSubmissionId;
     private ClearingMechanism clearingMechanism;
     private String sourceIdentifier;

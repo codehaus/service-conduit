@@ -16,11 +16,11 @@ import com.travelex.tgbp.store.service.api.Query;
 @SuppressWarnings("unchecked")
 public class DummyDataStore implements DataStore {
 
-    public <T> T store(PersistentEntity<T> entity) {
+    public Long store(PersistentEntity entity) {
         return entity.getKey();
     }
 
-    public <T extends PersistentEntity<?>> List<T> execute(Query query, Object... params)
+    public <T extends PersistentEntity> List<T> execute(Query query, Object... params)
     {
         List result = new ArrayList();
         InputStream ruleData = Thread.currentThread().getContextClassLoader().getResourceAsStream("input.xml");
@@ -34,7 +34,7 @@ public class DummyDataStore implements DataStore {
     }
 
     @Override
-    public <T extends PersistentEntity<?>> T lookup(Class<? extends PersistentEntity<?>> arg0, Object arg1) {
+    public <T extends PersistentEntity> T lookup(Class<? extends PersistentEntity> arg0, Object arg1) {
         Submission s = new Submission("MSG123");
         String submissionHeader = "<CstmrCdtTrfInitn xmlns=\"urn:iso:std:iso:20022:tech:xsd:pain.001.001.03\"><GrpHdr><MsgId>ABC/090928/CCT001</MsgId><CreDtTm>2009-09-28T14:07:00</CreDtTm><NbOfTxs>3</NbOfTxs><CtrlSum>11500000</CtrlSum><InitgPty><Nm>ABC Corporation</Nm><PstlAdr><StrtNm>Times Square</StrtNm><BldgNb>7</BldgNb><PstCd>NY 10036</PstCd><TwnNm>New York</TwnNm><Ctry>US</Ctry></PstlAdr></InitgPty></GrpHdr></CstmrCdtTrfInitn>";
         s.setSubmissionHeader(submissionHeader);

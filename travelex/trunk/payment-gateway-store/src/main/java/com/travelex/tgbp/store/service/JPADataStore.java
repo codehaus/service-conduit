@@ -15,14 +15,14 @@ public class JPADataStore implements DataStore {
     protected EntityManager entityManager;
 
     @Override
-    public <T> T store(PersistentEntity<T> entity) {
+    public Long store(PersistentEntity entity) {
         entityManager.persist(entity);
         return entity.getKey();
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T extends PersistentEntity<?>> List<T> execute(Query query, Object... params) {
+    public <T extends PersistentEntity> List<T> execute(Query query, Object... params) {
         javax.persistence.Query q = entityManager.createNamedQuery(query.getJpaName());
         if(params != null) {
             int idx = 1;
@@ -35,7 +35,7 @@ public class JPADataStore implements DataStore {
     }
 
     @Override
-    public <T extends PersistentEntity<?>> T lookup(Class<? extends PersistentEntity<?>> entityClass, Object pk) {
+    public <T extends PersistentEntity> T lookup(Class<? extends PersistentEntity> entityClass, Object pk) {
         return (T) entityManager.find(entityClass, pk);
     }
 

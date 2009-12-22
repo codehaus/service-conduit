@@ -2,9 +2,8 @@ package com.travelex.tgbp.store.domain.rule;
 
 import com.travelex.tgbp.store.domain.PersistentEntity;
 
-public class DynamicRule extends PersistentEntity<Long> {
+public class DynamicRule extends PersistentEntity {
 
-    private Long id;
     private final String clearingMechanism;
     private final String ruleName;
     private final String ruleText;
@@ -38,10 +37,4 @@ public class DynamicRule extends PersistentEntity<Long> {
     public int getPriority() {
         return priority;
     }
-
-    @Override
-    public Long getKey() {
-        return id;
-    }
-
 }

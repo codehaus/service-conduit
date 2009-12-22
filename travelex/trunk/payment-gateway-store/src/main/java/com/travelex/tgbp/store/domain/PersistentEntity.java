@@ -1,7 +1,18 @@
 package com.travelex.tgbp.store.domain;
 
-public abstract class PersistentEntity<T> {
-
-    public abstract T getKey();
+/**
+ * Base Entity
+ */
+public abstract class PersistentEntity {
+	
+	protected Long id;
+		
+	/**
+	 * Return the id key
+	 * @return id
+	 */
+    public Long getKey(){
+    	return id;
+    }
 
 }

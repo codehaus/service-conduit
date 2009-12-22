@@ -6,10 +6,10 @@ import com.travelex.tgbp.store.domain.PersistentEntity;
 
 public interface DataStore {
 
-    <T> T store(PersistentEntity<T> entity);
+    Long store(PersistentEntity entity);
 
-    <T extends PersistentEntity<?>> T lookup(Class<? extends PersistentEntity<?>> entityClass, Object pk);
+    <T extends PersistentEntity> T lookup(Class<? extends PersistentEntity> entityClass, Object pk);
 
-    <T extends PersistentEntity<?>> List<T> execute(Query query, Object... params);
+    <T extends PersistentEntity> List<T> execute(Query query, Object... params);
 
 }

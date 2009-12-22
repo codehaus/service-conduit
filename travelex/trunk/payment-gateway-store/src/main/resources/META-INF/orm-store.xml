@@ -41,6 +41,14 @@
        </query>
     </named-query>  
     
+    	<mapped-superclass class="com.travelex.tgbp.store.domain.PersistentEntity" access="FIELD">
+		<attributes>
+			<id name="id">
+				<column name="ID" />
+			</id>
+		</attributes>
+	</mapped-superclass>
+    
 	<entity class="com.travelex.tgbp.store.domain.Submission" access="FIELD">
 		<table name="SUBMISSION" />
 		<attributes>
@@ -63,7 +71,7 @@
 			</basic>
 
 		</attributes>
-	</entity>        
+	</entity>  
     
 	<entity class="com.travelex.tgbp.store.domain.rule.DynamicRule" access="FIELD">
 		<table name="DYNAMIC_RULE" />
@@ -100,8 +108,12 @@
 		<table name="ROUTING_CONFIG_ON_VALUE_DATE" />
 		<attributes>
 			<id name="id">
-                <column name="CONFIG_ID" nullable="false" />
+                <column name="ID" nullable="false" />
             </id>
+            
+            <basic name="CONFIG_ID">
+                <column name="CONFIG_ID" nullable="false" />
+            </basic>
 
 			<basic name="currency">
 				<column name="CURRENCY" nullable="false"/>
@@ -130,9 +142,13 @@
 	<entity class="com.travelex.tgbp.store.domain.output.OutputInstructionBatchingConfig" access="FIELD">
 		<table name="OUTPUT_INS_BATCHING_CONFIG" />
 		<attributes>
-			<id name="clearingMechanism">
-				<column name="CLEARING_MECHANISM" nullable="false" />
+			<id name="id">
+				<column name="ID" nullable="false" />
 			</id>
+			
+			<basic name="clearingMechanism">
+				<column name="CLEARING_MECHANISM" nullable="false" />
+			</basic>
 
 			<basic name="thresholdCount">
 				<column name="THRESHOLD_COUNT" nullable="false"/>
@@ -147,9 +163,13 @@
 	<entity class="com.travelex.tgbp.store.domain.output.RemittanceAccountConfig" access="FIELD">
         <table name="REMITTANCE_ACCOUNT_CONFIG" />
         <attributes>
-            <id name="clearingMechanism">
-                <column name="CLEARING_MECHANISM" nullable="false" />
-            </id>
+           <id name="id">
+				<column name="ID" nullable="false" />
+			</id>
+			
+			<basic name="clearingMechanism">
+				<column name="CLEARING_MECHANISM" nullable="false" />
+			</basic>
 
             <basic name="bankId">
                 <column name="BANK_ID" nullable="false"/>
