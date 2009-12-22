@@ -11,8 +11,7 @@ import com.travelex.tgbp.output.service.file.OutputFileGenerationService;
 import com.travelex.tgbp.output.service.file.OutputFileGenerationServiceListener;
 import com.travelex.tgbp.store.domain.OutputInstruction;
 import com.travelex.tgbp.store.domain.OutputSubmission;
-import com.travelex.tgbp.store.service.api.InstructionStoreService;
-import com.travelex.tgbp.store.service.api.SubmissionStoreService;
+import com.travelex.tgbp.store.service.api.DataStore;
 
 /**
  * Abstract implementation for {@link OutputFileGenerationService}.
@@ -20,8 +19,7 @@ import com.travelex.tgbp.store.service.api.SubmissionStoreService;
 public abstract class AbstractOutputFileGenerationService implements OutputFileGenerationService {
 
     @Reference protected OutputConfigReader outputConfigReader;
-    @Reference protected InstructionStoreService instructionStoreService;
-    @Reference protected SubmissionStoreService submissionStoreService;
+    @Reference protected DataStore dataStore;
 
     @Callback protected OutputFileGenerationServiceListener serviceListener;
 
@@ -34,8 +32,8 @@ public abstract class AbstractOutputFileGenerationService implements OutputFileG
     @Override
     public void generate(OutputSubmission outputSubmission) {
         outputSubmission.setOutputFile(generateFileContent(outputSubmission));
-        submissionStoreService.store(outputSubmission);
-        instructionStoreService.updateOutputSubmissionId(outputSubmission.getId(), outputSubmission.getOutputInstructions());
+        dataStore.store(outputSubmission);
+        dataStore.updateOutputSubmissionId(outputSubmission.getId(), outputSubmission.getOutputInstructions());
         serviceListener.onFileGenerationCompletion(outputSubmission.getId());
     }
 

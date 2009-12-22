@@ -8,8 +8,7 @@ import org.sca4j.api.annotation.scope.Conversation;
 
 import com.travelex.tgbp.store.domain.Instruction;
 import com.travelex.tgbp.store.domain.Submission;
-import com.travelex.tgbp.store.service.api.InstructionStoreService;
-import com.travelex.tgbp.store.service.api.SubmissionStoreService;
+import com.travelex.tgbp.store.service.api.DataStore;
 import com.travelex.tgbp.submission.parser.api.SubmissionParser;
 import com.travelex.tgbp.submission.parser.api.SubmissionParserListener;
 
@@ -21,8 +20,7 @@ import com.travelex.tgbp.submission.parser.api.SubmissionParserListener;
 public class SubmissionParserClientImpl implements SubmissionParserClient, SubmissionParserListener {
 
     @Reference protected SubmissionParser submissionParser;
-    @Reference protected SubmissionStoreService submissionStoreService;
-    @Reference protected InstructionStoreService instructionStoreService;
+    @Reference protected DataStore dataStore;
 
     private Submission submission;
 
@@ -38,14 +36,14 @@ public class SubmissionParserClientImpl implements SubmissionParserClient, Submi
     @Override
     public void onInstruction(Instruction instruction) {
         instruction.setSubmissionId(submission.getKey());
-        instructionStoreService.store(instruction);
+        dataStore.store(instruction);
     }
 
     @Override
     public void onSubmissionHeader(String messageId, String submissionHeader) {
         this.submission = new Submission(messageId);
         this.submission.setSubmissionHeader(submissionHeader);
-        submissionStoreService.store(submission);
+        dataStore.store(submission);
     }
 
 }

@@ -12,8 +12,7 @@ import com.travelex.tgbp.output.service.file.OutputInstructionBatchingServiceLis
 import com.travelex.tgbp.store.domain.OutputInstruction;
 import com.travelex.tgbp.store.domain.OutputSubmission;
 import com.travelex.tgbp.store.domain.output.OutputInstructionBatchingConfig;
-import com.travelex.tgbp.store.service.api.InstructionReaderService;
-import com.travelex.tgbp.store.service.api.InstructionStoreService;
+import com.travelex.tgbp.store.service.api.DataStore;
 import com.travelex.tgbp.store.type.ClearingMechanism;
 
 /**
@@ -22,8 +21,7 @@ import com.travelex.tgbp.store.type.ClearingMechanism;
 public abstract class AbstractOutputInstructionBatchingService implements OutputInstructionBatchingService {
 
     @Reference protected OutputConfigReader outputConfigReader;
-    @Reference protected InstructionReaderService instructionReaderService;
-    @Reference protected InstructionStoreService instructionStoreService;
+    @Reference protected DataStore dataStore;
 
     @Callback protected OutputInstructionBatchingServiceListener serviceListener;
 
@@ -42,7 +40,7 @@ public abstract class AbstractOutputInstructionBatchingService implements Output
     @Override
     public void doBatching() {
         setBatchThresholdLimits();
-        this.outputInstructions = instructionReaderService.findOutputInstructionByClearingMechanism(getClearingMechanism());
+        this.outputInstructions = dataStore.findOutputInstructionByClearingMechanism(getClearingMechanism());
         batchOutputInstructions();
         serviceListener.onBatchingCompletion(getClearingMechanism());
     }

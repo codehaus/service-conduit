@@ -11,7 +11,7 @@ import com.travelex.tgbp.store.type.ClearingMechanism;
 /**
  * Represents group of instructions which are sent out in a same output file.
  */
-public class OutputSubmission {
+public class OutputSubmission extends PersistentEntity{
 
     private Long id;
     private ClearingMechanism clearingMechanism;

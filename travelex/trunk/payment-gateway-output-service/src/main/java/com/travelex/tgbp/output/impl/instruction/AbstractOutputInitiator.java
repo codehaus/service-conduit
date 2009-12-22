@@ -12,7 +12,7 @@ import com.travelex.tgbp.output.service.instruction.OutputInstructionCreationSer
 import com.travelex.tgbp.output.service.instruction.OutputInstructionCreationServiceListener;
 import com.travelex.tgbp.routing.service.ClearingMechanismResolver;
 import com.travelex.tgbp.store.domain.Instruction;
-import com.travelex.tgbp.store.service.api.InstructionReaderService;
+import com.travelex.tgbp.store.service.api.DataStore;
 import com.travelex.tgbp.store.type.ClearingMechanism;
 import com.travelex.tgbp.store.type.Currency;
 
@@ -21,7 +21,7 @@ import com.travelex.tgbp.store.type.Currency;
  */
 public abstract class AbstractOutputInitiator implements OutputInitiator, OutputInstructionCreationServiceListener {
 
-    @Reference protected InstructionReaderService instructionReaderService;
+    @Reference protected DataStore dataStore;
     @Reference protected ClearingMechanismResolver clearingMechanismResolver;
     @Reference protected Map<ClearingMechanism, OutputInstructionCreationService> instructionCollectors;
 
@@ -32,7 +32,7 @@ public abstract class AbstractOutputInitiator implements OutputInitiator, Output
      */
     @Override
     public void createOutputInstructions() {
-        final List<Instruction> inputInstructions = instructionReaderService.findInstructionByCurrency(getCurrencyType());
+        final List<Instruction> inputInstructions = dataStore.findInstructionByCurrency(getCurrencyType());
         for (Instruction instruction : inputInstructions) {
             instructionCollectors.get(clearingMechanismResolver.resolve(instruction)).addInstruction(instruction);
         }

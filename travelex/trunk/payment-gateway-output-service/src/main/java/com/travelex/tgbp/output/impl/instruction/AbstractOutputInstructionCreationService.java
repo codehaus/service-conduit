@@ -16,8 +16,7 @@ import com.travelex.tgbp.output.service.instruction.OutputInstructionCreationSer
 import com.travelex.tgbp.output.service.instruction.OutputInstructionCreationServiceListener;
 import com.travelex.tgbp.store.domain.Instruction;
 import com.travelex.tgbp.store.domain.OutputInstruction;
-import com.travelex.tgbp.store.service.api.InstructionStoreService;
-import com.travelex.tgbp.store.service.api.SubmissionStoreService;
+import com.travelex.tgbp.store.service.api.DataStore;
 import com.travelex.tgbp.store.type.ClearingMechanism;
 import com.travelex.tgbp.transform.api.TransformationService;
 
@@ -26,8 +25,7 @@ import com.travelex.tgbp.transform.api.TransformationService;
  */
 public abstract class AbstractOutputInstructionCreationService implements OutputInstructionCreationService {
 
-    @Reference protected SubmissionStoreService submissionStoreService;
-    @Reference protected InstructionStoreService instructionStoreService;
+    @Reference protected DataStore dataStore;
     @Reference protected TransformationService<Source, String, Map<String, Object>> paymentDataTransformer;
     @Reference protected OutputConfigReader outputConfigReader;
 
@@ -80,8 +78,8 @@ public abstract class AbstractOutputInstructionCreationService implements Output
             transformationContext.put("payment.value.date", instruction.getValueDate().toString(FILE_DATE_FORMAT));
             OutputInstruction outputInstruction = new OutputInstruction(getClearingMechanism(), null, null, instruction.getAmount());
             outputInstruction.setOutputPaymentData(paymentDataTransformer.transform(transformationContext, new StreamSource(new ByteArrayInputStream(instruction.getPaymentData().getBytes()))));
-            instructionStoreService.store(outputInstruction);
-            instructionStoreService.updateOutputInstructionId(instruction.getKey(), outputInstruction.getId());
+            dataStore.store(outputInstruction);
+            dataStore.updateOutputInstructionId(instruction.getKey(), outputInstruction.getId());
         }
     }
 }

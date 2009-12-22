@@ -5,7 +5,7 @@
        
     <service name="submissionProcessor" promote="SubmissionProcessor" />
     <refernce name="submissionParser" promote="SubmissionProcessor/submissionParser" />
-    <refernce name="instructionStoreService" promote="SubmissionProcessor/instructionStoreService" />
+    <refernce name="dataStore" promote="SubmissionProcessor/dataStore" />
     
     <component name="SubmissionProcessor">
     	<implementation.java class="com.travelex.tgbp.processor.DefaultSubmissionProcessor" />

@@ -14,23 +14,17 @@
     <component name="SubmissionParserClient">
         <implementation.java class="com.travelex.tgbp.submission.parser.SubmissionParserClientImpl"/>
         <reference name="submissionParser" target="SubmissionParser"/>
-        <reference name="submissionStoreService" target="DummySubmissionStore"/>
-    	<reference name="instructionStoreService" target="DummyInstructionStore"/>
+        <reference name="dataStore" target="DummyStore"/>
     </component>   
 
     <component name="SubmissionParser">
         <implementation.composite scdlResource="payment-gateway-submission-parser.composite"/>
     </component>
 
-    <component name="DummySubmissionStore">
-        <implementation.java class="com.travelex.tgbp.submission.parser.DummySubmissionStore"/>
+    <component name="DummyStore">
+        <implementation.java class="com.travelex.tgbp.submission.parser.DummyStore"/>
         <reference name="store" target="Store"/>
     </component>
-    
-	<component name="DummyInstructionStore">
-        <implementation.java class="com.travelex.tgbp.submission.parser.DummyInstructionStore"/>
-        <reference name="store" target="Store"/>
-    </component>   
 
     <component name="Store">
         <implementation.java class="com.travelex.tgbp.submission.parser.DefaultStore"/>
