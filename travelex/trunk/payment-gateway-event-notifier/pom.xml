@@ -1,0 +1,91 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.travelex.tgbp</groupId>
+        <artifactId>tgbp-parent</artifactId>
+        <version>0.1-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.travelex.tgbp</groupId>
+    <artifactId>payment-gateway-event-notifier</artifactId>
+    <name>TGBP Event Notifier</name>
+
+    <dependencies>
+    
+		<dependency>
+			<groupId>backport-util-concurrent</groupId>
+			<artifactId>backport-util-concurrent</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>apache-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+		</dependency>			 
+		
+		<dependency>
+		  <groupId>commons-logging</groupId>
+		  <artifactId>commons-logging</artifactId>		
+		</dependency>
+		
+		<dependency>
+            <groupId>concurrent</groupId>
+            <artifactId>concurrent</artifactId>        
+        </dependency>
+        
+		<dependency>
+            <groupId>com.adobe.blazeds</groupId>
+            <artifactId>flex-messaging-common</artifactId>        
+        </dependency>
+        
+		<dependency>
+            <groupId>com.adobe.blazeds</groupId>
+            <artifactId>flex-messaging-core</artifactId>        
+        </dependency>                        
+        
+		<dependency>
+            <groupId>com.adobe.blazeds</groupId>
+            <artifactId>flex-messaging-opt</artifactId>              
+        </dependency>	
+        
+		<dependency>
+		  <groupId>xalan</groupId>
+		  <artifactId>serializer</artifactId>
+		</dependency>	    
+    
+        <dependency>
+            <groupId>org.sca4j.spec</groupId>
+            <artifactId>sca-api-r1.0</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>        
+        
+    </dependencies>     
+    
+	<build>
+        <defaultGoal>verify</defaultGoal>
+        <plugins>
+            <plugin>
+                <groupId>org.sca4j</groupId>
+                <artifactId>sca4j-itest-plugin</artifactId>
+                <version>${sca4j.version}</version>
+                <configuration>
+                    <runtimeVersion>${sca4j.version}</runtimeVersion>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

@@ -25,6 +25,7 @@
 
 	<modules>
 		<module>payment-gateway-in-container-ds</module>
+		<module>payment-gateway-event-notifier</module>
 		<module>payment-gateway-store</module>
         <module>payment-gateway-ftp-extension</module>
 		<module>payment-gateway-submission-processor</module>
@@ -207,6 +208,49 @@
                     <artifactId>commons-lang</artifactId>
                     <version>2.1</version>
                 </dependency>
+                
+                <!-- BlazeDS dependencies -->
+				<dependency>
+				  <groupId>backport-util-concurrent</groupId>
+				  <artifactId>backport-util-concurrent</artifactId>
+				  <version>3.1</version>
+				</dependency> 
+				
+				<dependency>
+				  <groupId>apache-httpclient</groupId>
+				  <artifactId>commons-httpclient</artifactId>
+				  <version>3.1</version>
+				</dependency>	
+				
+				<dependency>
+				  <groupId>commons-logging</groupId>
+				  <artifactId>commons-logging</artifactId>
+				  <version>1.1.1</version>
+				</dependency>	
+				
+				<dependency>
+				  <groupId>xalan</groupId>
+				  <artifactId>serializer</artifactId>
+				  <version>2.7.1</version>
+				</dependency>	
+				
+				<dependency>
+		            <groupId>com.adobe.blazeds</groupId>
+		            <artifactId>flex-messaging-common</artifactId>
+		            <version>3.2.0</version>        
+		        </dependency>
+		        
+				<dependency>
+		            <groupId>com.adobe.blazeds</groupId>
+		            <artifactId>flex-messaging-core</artifactId>
+		            <version>3.2.0</version>        
+		        </dependency>
+		        
+				<dependency>
+		            <groupId>com.adobe.blazeds</groupId>
+		            <artifactId>flex-messaging-opt</artifactId>
+		            <version>3.2.0</version>        
+		        </dependency>
                 
 	    </dependencies>
 
