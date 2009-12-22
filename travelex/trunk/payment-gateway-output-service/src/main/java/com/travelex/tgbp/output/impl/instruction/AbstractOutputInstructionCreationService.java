@@ -79,7 +79,7 @@ public abstract class AbstractOutputInstructionCreationService implements Output
             OutputInstruction outputInstruction = new OutputInstruction(getClearingMechanism(), null, null, instruction.getAmount());
             outputInstruction.setOutputPaymentData(paymentDataTransformer.transform(transformationContext, new StreamSource(new ByteArrayInputStream(instruction.getPaymentData().getBytes()))));
             dataStore.store(outputInstruction);
-            dataStore.updateOutputInstructionId(instruction.getKey(), outputInstruction.getId());
+            dataStore.updateInstructionForOutput(instruction.getKey(), outputInstruction.getId());
         }
     }
 }

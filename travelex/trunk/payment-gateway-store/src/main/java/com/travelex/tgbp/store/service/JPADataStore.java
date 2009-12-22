@@ -1,6 +1,5 @@
 package com.travelex.tgbp.store.service;
 
-import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -52,28 +51,27 @@ public class JPADataStore implements DataStore {
      * {@inheritDoc}
      */
 	public List<Instruction> findInstructionByCurrency(Currency currency) {		
-		return null;
+		javax.persistence.Query jpaQuery = entityManager.createNamedQuery("FIND_INS_BY_CURR");
+		jpaQuery.setParameter(1, currency);
+		return jpaQuery.getResultList();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<OutputInstruction> findOutputInstructionByClearingMechanism(ClearingMechanism clearingMechanism) {		
-		return null;
+	public List<OutputInstruction> findOutputInstructionByClearingMechanism(ClearingMechanism clearingMechanism) {			
+		javax.persistence.Query jpaQuery = entityManager.createNamedQuery("FIND_OUT_INS_BY_CLM");
+		jpaQuery.setParameter(1, clearingMechanism);
+		return jpaQuery.getResultList();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void updateOutputInstructionId(Long inputInstructionId, Long outputInstructionId) {
-		
+	public void updateInstructionForOutput(Long inputInstructionId, Long outputInstructionId) {
+		javax.persistence.Query jpaQuery = entityManager.createNamedQuery("UPDATE_INS");
+		jpaQuery.setParameter(1, outputInstructionId);
+		jpaQuery.setParameter(2, inputInstructionId);
+		jpaQuery.executeUpdate();
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void updateOutputSubmissionId(Long outputSubmissionId, Collection<OutputInstruction> outputInstructions) {
-		
-	}
-
 }

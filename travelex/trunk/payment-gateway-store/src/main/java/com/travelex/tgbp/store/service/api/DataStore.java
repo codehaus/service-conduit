@@ -1,6 +1,5 @@
 package com.travelex.tgbp.store.service.api;
 
-import java.util.Collection;
 import java.util.List;
 
 import com.travelex.tgbp.store.domain.Instruction;
@@ -61,14 +60,6 @@ public interface DataStore {
      * @param inputInstructionId - id of input instruction to update.
      * @param outputInstructionId - id of corresponding output instruction.
      */
-    void updateOutputInstructionId(Long inputInstructionId, Long outputInstructionId);
-
-    /**
-     * Updates output instructions with output submission id.
-     *
-     * @param outputSubmissionId - id of output submission to which this output instruction belong to.
-     * @param outputInstructions - collection of output instructions to be updated.
-     */
-    void updateOutputSubmissionId(Long outputSubmissionId, Collection<OutputInstruction> outputInstructions);
+    void updateInstructionForOutput(Long inputInstructionId, Long outputInstructionId);
 
 }

@@ -1,6 +1,5 @@
 package com.travelex.tgbp.submission.parser;
 
-import java.util.Collection;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -36,13 +35,11 @@ public class DummyStore implements DataStore {
 		}
 	}
 
-    public <T extends PersistentEntity> List<T> execute(Query query, Object... params) {return null;}
-	public List<Instruction> findInstructionByCurrency(Currency currency) {return null;}
-	public List<OutputInstruction> findOutputInstructionByClearingMechanism(ClearingMechanism clearingMechanism) {return null;}
-	public <T extends PersistentEntity> T lookup(Class<? extends PersistentEntity> entityClass, Long id) {return null;}
-	public void updateOutputInstructionId(Long inputInstructionId, Long outputInstructionId) {}
-	public void updateOutputSubmissionId(Long outputSubmissionId, Collection<OutputInstruction> outputInstructions) {}
-	
+    public <T extends PersistentEntity> List<T> execute(Query query, Object... params) {throw new UnsupportedOperationException("Not Implemented");}
+	public List<Instruction> findInstructionByCurrency(Currency currency) {throw new UnsupportedOperationException("Not Implemented");}
+	public List<OutputInstruction> findOutputInstructionByClearingMechanism(ClearingMechanism clearingMechanism) {throw new UnsupportedOperationException("Not Implemented");}
+	public <T extends PersistentEntity> T lookup(Class<? extends PersistentEntity> entityClass, Long id) {throw new UnsupportedOperationException("Not Implemented");}
+	public void updateInstructionForOutput(Long inputInstructionId, Long outputInstructionId) {throw new UnsupportedOperationException("Not Implemented");}		
 	
 	 private void setPrivateField(Object object, String fieldName, Object value) {
 	        try {
@@ -51,5 +48,4 @@ public class DummyStore implements DataStore {
 	            TestCase.fail(e.getMessage());
 	        }
 	    }
-
 }

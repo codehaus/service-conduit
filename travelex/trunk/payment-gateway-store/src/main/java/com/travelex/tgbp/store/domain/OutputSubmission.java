@@ -44,6 +44,7 @@ public class OutputSubmission extends PersistentEntity{
      * @param instruction - output instruction
      */
     public void addOutputInstruction(OutputInstruction instruction) {
+    	instruction.assignSubmission(this.id);
         outputInstructions.add(instruction);
     }
 

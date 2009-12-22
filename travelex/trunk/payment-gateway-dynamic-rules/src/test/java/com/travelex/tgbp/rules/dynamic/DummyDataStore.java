@@ -3,7 +3,6 @@ package com.travelex.tgbp.rules.dynamic;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
@@ -48,7 +47,6 @@ public class DummyDataStore implements DataStore {
 
 	
 	public List<Instruction> findInstructionByCurrency(Currency currency) {throw new UnsupportedOperationException();}
-	public List<OutputInstruction> findOutputInstructionByClearingMechanism(ClearingMechanism clearingMechanism) {throw new UnsupportedOperationException();}	
-	public void updateOutputInstructionId(Long inputInstructionId,Long outputInstructionId){throw new UnsupportedOperationException();}
-	public void updateOutputSubmissionId(Long outputSubmissionId, Collection<OutputInstruction> outputInstructions){throw new UnsupportedOperationException();}
+	public List<OutputInstruction> findOutputInstructionByClearingMechanism(ClearingMechanism clearingMechanism) {throw new UnsupportedOperationException();}
+	public void updateInstructionForOutput(Long inputInstructionId, Long outputInstructionId) {}	
 }

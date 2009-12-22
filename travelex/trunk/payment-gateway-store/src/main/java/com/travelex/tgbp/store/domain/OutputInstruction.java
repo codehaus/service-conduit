@@ -102,5 +102,13 @@ public class OutputInstruction extends PersistentEntity {
     public void setOutputPaymentData(String outputPaymentData) {
         this.outputPaymentData = outputPaymentData;
     }
+    
+    /**
+     * Assign output Submission
+     * @param outputSubmissionId
+     */
+    public void assignSubmission(Long outputSubmissionId){
+    	this.outputSubmissionId = outputSubmissionId;
+    }
 
 }
