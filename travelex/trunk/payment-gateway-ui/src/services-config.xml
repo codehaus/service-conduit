@@ -25,18 +25,18 @@
     <channels>
 
         <channel-definition id="my-amf" class="mx.messaging.channels.AMFChannel">
-            <endpoint url="http://145.224.219.126:7001/tgbp/messagebroker/amf" class="flex.messaging.endpoints.AMFEndpoint"/>
+            <endpoint url="http://localhost:7001/tgbp/messagebroker/amf" class="flex.messaging.endpoints.AMFEndpoint"/>
         </channel-definition>
 
         <channel-definition id="my-secure-amf" class="mx.messaging.channels.SecureAMFChannel">
-            <endpoint url="https://145.224.219.126:7002/tgbp/messagebroker/amfsecure" class="flex.messaging.endpoints.SecureAMFEndpoint"/>
+            <endpoint url="https://localhost:7002/tgbp/messagebroker/amfsecure" class="flex.messaging.endpoints.SecureAMFEndpoint"/>
             <properties>
                 <add-no-cache-headers>false</add-no-cache-headers>
             </properties>
         </channel-definition>
 
         <channel-definition id="my-polling-amf" class="mx.messaging.channels.AMFChannel">
-            <endpoint url="http://145.224.219.126:7001/tgbp/messagebroker/amfpolling" class="flex.messaging.endpoints.AMFEndpoint"/>
+            <endpoint url="http://localhost:7001/tgbp/messagebroker/amfpolling" class="flex.messaging.endpoints.AMFEndpoint"/>
             <properties>
                 <polling-enabled>true</polling-enabled>
                 <polling-interval-seconds>4</polling-interval-seconds>
@@ -45,11 +45,11 @@
     
     	<!--
         <channel-definition id="my-http" class="mx.messaging.channels.HTTPChannel">
-            <endpoint url="http://145.224.219.126:7001/tgbp/messagebroker/http" class="flex.messaging.endpoints.HTTPEndpoint"/>
+            <endpoint url="http://localhost:7001/tgbp/messagebroker/http" class="flex.messaging.endpoints.HTTPEndpoint"/>
         </channel-definition>
 	
         <channel-definition id="my-secure-http" class="mx.messaging.channels.SecureHTTPChannel">
-            <endpoint url="http://145.224.219.126:7001/tgbp/messagebroker/httpsecure" class="flex.messaging.endpoints.SecureHTTPEndpoint"/>
+            <endpoint url="http://localhost:7001/tgbp/messagebroker/httpsecure" class="flex.messaging.endpoints.SecureHTTPEndpoint"/>
             <properties>
                 <add-no-cache-headers>false</add-no-cache-headers>
             </properties>

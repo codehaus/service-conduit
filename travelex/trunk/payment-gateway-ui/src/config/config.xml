@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-	<serverUrl>http://145.224.219.126:7001/tgbp</serverUrl>
+	<serverUrl>http://localhost:7001/tgbp</serverUrl>
 </config>

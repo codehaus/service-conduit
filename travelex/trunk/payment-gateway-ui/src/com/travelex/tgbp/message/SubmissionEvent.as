@@ -4,9 +4,9 @@ package com.travelex.tgbp.message
     [Bindable]
 	public class SubmissionEvent
 	{
-	    public var submissionCount:Number;
+	    public var submissionCount:Number;	    
+	    public var currencyValues:Array;
 	    public var submissionId:String;
-	    public var submissionCurrency:String;
-	    public var submissionValue:String;
+	    public var instructionCount:Number;	    
 	}
 }

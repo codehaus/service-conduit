@@ -42,9 +42,9 @@
 						</mx:HBox>				
 								
 						<mx:HBox paddingLeft="20">
-							<mx:Text fontSize="15" text="" width="244"/>
-							<mx:Text fontSize="15" paddingLeft="5" text="{submissionEvent.submissionCurrency} {submissionEvent.submissionValue}"/>			
-						</mx:HBox>																		
+							<mx:Text fontSize="15" text="            instruction count: " width="244"/>
+							<mx:Text fontSize="15" paddingLeft="5" text="{submissionEvent.instructionCount}"/>			
+						</mx:HBox>																	
 																								
 					</mx:VBox>								
 				</mx:HBox>							

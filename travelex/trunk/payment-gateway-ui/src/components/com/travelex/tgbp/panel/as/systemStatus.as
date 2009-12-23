@@ -31,8 +31,11 @@ private function submissionEventHandler(message:IMessage):void {
 	glowImage(submissionReceivedImage);
 	submissionEvent = message.body as SubmissionEvent; //Should check that count > current count to deal with out of order event arrival.
 		
-	var matched:Object = getItem(submisionTotals, submissionEvent.submissionCurrency);
-	matched.value += new Number(submissionEvent.submissionValue);
+	for each(var currencyData:String in submissionEvent.currencyValues) {
+		var data:Array = currencyData.split("/"); //e.g. [0] = EUR and [1] = 1000.
+		var matched:Object = getItem(submisionTotals, data[0]);
+		matched.value += new Number(data[1]);		
+	}
 	submisionTotals.refresh();	
 }
 
@@ -79,8 +82,8 @@ private function initialiseInputValues(): void {
 	
 	submissionEvent.submissionCount = 0;
 	submissionEvent.submissionId = "";
-	submissionEvent.submissionCurrency = "";
-	submissionEvent.submissionValue = "";
+	submissionEvent.currencyValues = new Array();
+	submissionEvent.instructionCount = 0;
 }
 
 private function initialiseOutputValues(): void {	
@@ -137,15 +140,22 @@ public function zeroPad(number:int, width:int):String {
 }
 
 /* 
-
+{submissionEvent.submissionCurrency} {submissionEvent.submissionValue}
 Testing only - called by commented out buttons on the system status page
 
+
 private function testSubmissionArrival(): void {
+
+	var currencyData:Array = new Array();
+	currencyData[0] = "EUR/15000"; 
+	currencyData[1] = "JPY/2000.42";
+	currencyData[2] = "USD/0.23";
+		    
 	var sEvent:SubmissionEvent = new SubmissionEvent();
 	sEvent.submissionCount = 50;
 	sEvent.submissionId = "ABC1234";
-	sEvent.submissionCurrency = "EUR";
-	sEvent.submissionValue = "1000.45";
+	sEvent.instructionCount = 214;
+	sEvent.currencyValues = currencyData;
 	
 	var m:AsyncMessage = new AsyncMessage();
 	m.body = sEvent;
@@ -164,5 +174,4 @@ private function testOutput(): void {
 	m.body = outEvent;
 	outputEventHandler(m);
 }
- 
 */
