@@ -112,7 +112,7 @@
 				<column name="SUB_ID" nullable="false" />
 			</basic>
 
-			<basic name="ouputInstructionId">
+			<basic name="outputInstructionId">
 				<column name="OUT_INS_ID" nullable="true" />
 			</basic>
 

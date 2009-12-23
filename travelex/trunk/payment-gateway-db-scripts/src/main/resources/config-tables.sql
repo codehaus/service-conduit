@@ -1,5 +1,11 @@
 PROMPT Creating TGBP configuration tables
 
+DROP SEQUENCE SEQ_ENTITY
+/ 
+
+CREATE SEQUENCE  SEQ_ENTITY  MINVALUE 1 MAXVALUE 9999999999999999 INCREMENT BY 1 START WITH 1 NOCACHE
+/
+
 PROMPT Drop/Create routing_config_on_value_date
 
 DROP TABLE routing_config_on_value_date CASCADE CONSTRAINTS

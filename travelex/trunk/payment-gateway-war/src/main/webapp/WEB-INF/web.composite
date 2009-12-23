@@ -20,7 +20,7 @@
         </service>
         
         <service name="inputSubmissionFtpListener">
-            <sca4j:binding.ftp uri="/inbound-submissions"/>
+            <sca4j:binding.ftp uri="/"/>
         </service>
         
         <property name="inputSubmissionBaseDir">c:/tgbp-submissions</property>
