@@ -20,5 +20,20 @@
 	        </config>
         </property>
     </component>
+
+    <component name="ClmFtpServer">
+        <implementation.composite scdlResource="META-INF/ftpserver.composite"/>
+        <property name="config">
+            <config xmlns="">
+	            <commandPort>3000</commandPort>
+	            <minPassivePort>6000</minPassivePort>
+	            <maxPassivePort>7000</maxPassivePort>
+	            <idleTimeout>60</idleTimeout>
+	            <users>
+	                <clm>password</clm>
+	            </users>
+	        </config>
+        </property>
+    </component>
     
 </composite>
