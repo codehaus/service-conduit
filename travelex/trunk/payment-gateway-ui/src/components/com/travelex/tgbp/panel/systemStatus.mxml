@@ -7,26 +7,29 @@
 		<mx:Script source="as/systemStatus.as"/>
 		<mx:Consumer id="consumer" destination="systemStatus" message="messageHandler(event.message)"/>		
 
-								<mx:Array id="submisionTotals">
-									<mx:String>EUR 250000</mx:String> 
-									<mx:String>USD 235000</mx:String> 
-									<mx:String>JPY 12000</mx:String> 
-								</mx:Array>
-								
-								<mx:Array id="outputTotals">
-									<mx:String>EUR 250000</mx:String> 
-									<mx:String>USD 235000</mx:String> 
-									<mx:String>JPY 12000</mx:String>
-									<mx:String>EUR 250000</mx:String> 
-									<mx:String>USD 235000</mx:String> 
-									<mx:String>JPY 12000</mx:String>									 
-								</mx:Array>								
-								
-								<mx:Array id="routingDecisions">
-									<mx:String>10:47 Routed ABC/234/467 to FEDWIRE: Dynamic rule 1</mx:String> 
-									<mx:String>14:52 Routed KAL/2H5/467 to BACS: Value rule</mx:String>
-									<mx:String>15:02 Routed 4773467 to FPS: Expense rule</mx:String> 
-								</mx:Array>								
+<mx:Array id="submisionTotals">
+	<mx:String>EUR 250000</mx:String> 
+	<mx:String>USD 235000</mx:String> 
+	<mx:String>JPY 12000</mx:String> 
+</mx:Array>
+
+<mx:Array id="outputTotals">
+	<mx:String>EUR 250000</mx:String> 
+	<mx:String>USD 235000</mx:String> 
+	<mx:String>JPY 12000</mx:String>
+	<mx:String>EUR 250000</mx:String> 
+	<mx:String>USD 235000</mx:String> 
+	<mx:String>JPY 12000</mx:String>									 
+</mx:Array>								
+
+<mx:Array id="routingDecisions">
+	<mx:String>10:47 Routed ABC/234/467 to FEDWIRE: Dynamic rule 1</mx:String> 
+	<mx:String>14:52 Routed KAL/2H5/467 to BACS: Value rule</mx:String>
+	<mx:String>15:02 Routed 4773467 to FPS: Expense rule</mx:String>
+	<mx:String>10:47 Routed ABC/234/467 to FEDWIRE: Dynamic rule 1</mx:String> 
+	<mx:String>14:52 Routed KAL/2H5/467 to BACS: Value rule</mx:String>
+	<mx:String>15:02 Routed 4773467 to FPS: Expense rule</mx:String> 	 
+</mx:Array>								
 
 		<!-- Should be using css for layout -->
 		<mx:VBox paddingTop="10" paddingLeft="10" width="100%">
@@ -49,13 +52,11 @@
 																	
 						<mx:HBox paddingTop="20" paddingLeft="20">
 							<mx:Text id="values"  fontSize="15" text="Total Submission Values Today: " width="244"/>
-							<mx:List fontSize="15" borderStyle="none" paddingLeft="5" rowCount="5"
-								dataProvider="{submisionTotals}"
-								/>
+							<mx:List fontSize="15" borderStyle="none" width="244" paddingLeft="5" rowCount="5"
+								dataProvider="{outputTotals}"/>								
 						</mx:HBox>											
 					</mx:VBox>								
-				</mx:HBox>			
-				<mx:Button label="Test" click="glowImage(submissionReceivedImage)"/>
+				</mx:HBox>							
 			</mx:VBox>
 			
 			<mx:VBox height="80%" >
@@ -65,7 +66,7 @@
 								source="@Embed('/../assets/left_green_arrow.jpg')"
 								width="128" height="128"/>
 								
-					<mx:VBox>
+					<mx:VBox width="100%">
 						<mx:HBox paddingTop="20" paddingLeft="20">
 							<mx:Text  fontSize="15" text="Total Outputs Today: " width="244"/>
 							<mx:Text id="outputToday" fontSize="15" paddingLeft="5" text="539"/>
@@ -78,16 +79,18 @@
 						</mx:HBox>
 						
 						<mx:VBox paddingTop="10" paddingLeft="20">						
-							<mx:Text fontSize="15" text="Routing Decisions:"/>
-							<mx:List fontSize="15" borderStyle="none" width="100%" rowCount="5"
+							<mx:Text fontSize="15" text="Routing Decisions (last 20):"/>
+							<mx:List fontSize="15" borderStyle="none" width="495" rowCount="5"
 								dataProvider="{routingDecisions}"/>
 						</mx:VBox>
 					</mx:VBox>								
 								
-				</mx:HBox>			
-				<mx:Button label="Test" click="glowImage(outputSentImage)"/>				
+				</mx:HBox>
 			</mx:VBox>
 			
 		</mx:VBox>		
+
+				<mx:Button label="IN" click="glowImage(submissionReceivedImage)"/>			
+				<mx:Button label="OUT" click="glowImage(outputSentImage)"/>				
 	
 </p:basePanel>
