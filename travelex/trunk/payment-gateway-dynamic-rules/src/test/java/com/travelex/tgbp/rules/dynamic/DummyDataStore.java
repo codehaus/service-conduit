@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+import org.joda.time.LocalDate;
 
 import com.travelex.tgbp.store.domain.Instruction;
 import com.travelex.tgbp.store.domain.OutputInstruction;
@@ -46,7 +47,9 @@ public class DummyDataStore implements DataStore {
         return (T)s;
     }
 
-	public List<Instruction> findInstructionByCurrency(Currency currency) {throw new UnsupportedOperationException();}
-	public List<OutputInstruction> findOutputInstructionByClearingMechanism(ClearingMechanism clearingMechanism) {throw new UnsupportedOperationException();}
-	public void updateInstructionForOutput(Long inputInstructionId, Long outputInstructionId) {}
+    public List<Instruction> findInstructionByCurrency(Currency currency) {throw new UnsupportedOperationException();}
+    public List<OutputInstruction> findOutputInstructionByClearingMechanism(ClearingMechanism clearingMechanism) {throw new UnsupportedOperationException();}
+    public void updateInstructionForOutput(Long inputInstructionId, Long outputInstructionId) {}
+    public int getCount(Query query, Object... params) {throw new UnsupportedOperationException("Not Implemented");}
+    public List<String> getInstructionTotals(LocalDate date) {throw new UnsupportedOperationException("Not Implemented");}
 }

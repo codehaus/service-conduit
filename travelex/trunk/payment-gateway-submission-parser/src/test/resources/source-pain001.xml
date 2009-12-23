@@ -2,7 +2,7 @@
 <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.03">
 	<CstmrCdtTrfInitn>
 		<GrpHdr>
-			<MsgId>ABC/090928/CCT001</MsgId>
+			<MsgId>HELLO</MsgId>
 			<CreDtTm>2009-09-28T14:07:00</CreDtTm>
 			<NbOfTxs>3</NbOfTxs>
 			<CtrlSum>11500000</CtrlSum>
@@ -50,7 +50,7 @@
 					<EndToEndId>ABC/4562/2009-09-08</EndToEndId>
 				</PmtId>
 				<Amt>
-					<InstdAmt Ccy="JPY">10000000</InstdAmt>
+					<InstdAmt Ccy="JPY">0.45</InstdAmt>
 				</Amt>
 				<ChrgBr>SHAR</ChrgBr>
 				<CdtrAgt>
@@ -92,7 +92,7 @@
 					<EndToEndId>ABC/ABC-13679/2009-09-15</EndToEndId>
 				</PmtId>
 				<Amt>
-					<InstdAmt Ccy="EUR">500000</InstdAmt>
+					<InstdAmt Ccy="EUR">12</InstdAmt>
 				</Amt>
 				<ChrgBr>CRED</ChrgBr>
 				<CdtrAgt>
@@ -141,7 +141,7 @@
 					<EndToEndId>ABC/987-AC/2009-09-27</EndToEndId>
 				</PmtId>
 				<Amt>
-					<InstdAmt Ccy="USD">1000000</InstdAmt>
+					<InstdAmt Ccy="USD">9</InstdAmt>
 				</Amt>
 				<ChrgBr>SHAR</ChrgBr>
 				<CdtrAgt>

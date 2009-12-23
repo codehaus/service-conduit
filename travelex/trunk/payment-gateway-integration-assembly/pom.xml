@@ -14,6 +14,12 @@
     <description>TGBP integration assembly</description>
 
     <dependencies>
+   
+      	<dependency>
+    	    <groupId>com.travelex.tgbp</groupId>
+    		<artifactId>payment-gateway-event-notifier</artifactId>
+    		<version>${project.version}</version>
+		</dependency>
         
         <dependency>
             <groupId>com.travelex.tgbp</groupId>

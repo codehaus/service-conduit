@@ -4,6 +4,7 @@ import org.osoa.sca.annotations.Reference;
 import org.osoa.sca.annotations.Service;
 import org.sca4j.api.annotation.scope.Conversation;
 
+import com.travelex.tgbp.processor.event.SubmissionEventNotifier;
 import com.travelex.tgbp.store.domain.Instruction;
 import com.travelex.tgbp.store.domain.Submission;
 import com.travelex.tgbp.store.service.api.DataStore;
@@ -19,6 +20,7 @@ public class DefaultSubmissionProcessor implements SubmissionProcessor, Submissi
 
     @Reference protected SubmissionParser submissionParser;
     @Reference protected DataStore dataStore;
+    @Reference protected SubmissionEventNotifier submissionEventNotifier;
 
     private Submission submission;
 
@@ -31,6 +33,7 @@ public class DefaultSubmissionProcessor implements SubmissionProcessor, Submissi
             this.submission = submission;
             dataStore.store(submission);
             submissionParser.parse(submission.getDataAsStream());
+            submissionEventNotifier.onSubmissionCaptured(submission);
         } finally {
             submissionParser.close();
         }

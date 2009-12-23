@@ -21,6 +21,13 @@
             <groupId>org.sca4j.spec</groupId>
             <artifactId>sca-api-r1.0</artifactId>
         </dependency>
+        
+        <dependency>
+            <groupId>com.travelex.tgbp</groupId>
+    		<artifactId>payment-gateway-event-notifier</artifactId>
+    		<version>${project.version}</version>
+		</dependency>    	        
+        
         <dependency>
 			<groupId>org.sca4j</groupId>
 			<artifactId>sca4j-api</artifactId>

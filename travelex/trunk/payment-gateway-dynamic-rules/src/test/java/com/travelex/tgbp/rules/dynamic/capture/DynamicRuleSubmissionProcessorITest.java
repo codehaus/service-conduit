@@ -2,12 +2,12 @@ package com.travelex.tgbp.rules.dynamic.capture;
 
 import java.io.InputStream;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.io.IOUtils;
 import org.osoa.sca.annotations.Reference;
 
 import com.travelex.tgbp.rules.dynamic.capture.api.DynamicRuleSubmissionProcessor;
-
-import junit.framework.TestCase;
 
 public class DynamicRuleSubmissionProcessorITest extends TestCase {
 

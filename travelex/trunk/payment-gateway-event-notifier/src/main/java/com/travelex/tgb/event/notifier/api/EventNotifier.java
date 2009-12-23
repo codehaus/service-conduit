@@ -1,6 +1,8 @@
 package com.travelex.tgb.event.notifier.api;
 
-public interface EventNotifier {
+import java.io.Serializable;
+
+public interface EventNotifier extends Serializable {
 
     void onEvent(EventType eventType, EventDescriptor eventDescriptor);
 

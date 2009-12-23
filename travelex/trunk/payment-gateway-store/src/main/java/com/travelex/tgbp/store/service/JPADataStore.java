@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.joda.time.LocalDate;
+
 import com.travelex.tgbp.store.domain.Instruction;
 import com.travelex.tgbp.store.domain.OutputInstruction;
 import com.travelex.tgbp.store.domain.PersistentEntity;
@@ -16,7 +18,7 @@ import com.travelex.tgbp.store.type.Currency;
 public class JPADataStore implements DataStore {
 
     @PersistenceContext(unitName="tgbp-store") protected EntityManager entityManager;
-    
+
     /**
      * {@inheritDoc}
      */
@@ -24,22 +26,24 @@ public class JPADataStore implements DataStore {
         entityManager.persist(entity);
         return entity.getKey();
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public <T extends PersistentEntity> List<T> execute(Query query, Object... params) {
-        javax.persistence.Query q = entityManager.createNamedQuery(query.getJpaName());
-        if(params != null) {
-            int idx = 1;
-            for (Object param : params) {
-                q.setParameter(idx, param);
-            }
-        }
-
+        javax.persistence.Query q = populateQuery(query, params);
         return q.getResultList();
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
+    public int getCount(Query query, Object... params) {
+        javax.persistence.Query q = populateQuery(query, params);
+        Long res = (Long) q.getSingleResult();
+        return res.intValue();
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -50,28 +54,46 @@ public class JPADataStore implements DataStore {
     /**
      * {@inheritDoc}
      */
-	public List<Instruction> findInstructionByCurrency(Currency currency) {		
-		javax.persistence.Query jpaQuery = entityManager.createNamedQuery("FIND_INS_BY_CURR");
-		jpaQuery.setParameter(1, currency);
-		return jpaQuery.getResultList();
-	}
+    public List<Instruction> findInstructionByCurrency(Currency currency) {
+        javax.persistence.Query jpaQuery = entityManager.createNamedQuery("FIND_INS_BY_CURR");
+        jpaQuery.setParameter(1, currency);
+        return jpaQuery.getResultList();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public List<OutputInstruction> findOutputInstructionByClearingMechanism(ClearingMechanism clearingMechanism) {			
-		javax.persistence.Query jpaQuery = entityManager.createNamedQuery("FIND_OUT_INS_BY_CLM");
-		jpaQuery.setParameter(1, clearingMechanism);
-		return jpaQuery.getResultList();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public List<OutputInstruction> findOutputInstructionByClearingMechanism(ClearingMechanism clearingMechanism) {
+        javax.persistence.Query jpaQuery = entityManager.createNamedQuery("FIND_OUT_INS_BY_CLM");
+        jpaQuery.setParameter(1, clearingMechanism);
+        return jpaQuery.getResultList();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void updateInstructionForOutput(Long inputInstructionId, Long outputInstructionId) {
-		javax.persistence.Query jpaQuery = entityManager.createNamedQuery("UPDATE_INS");
-		jpaQuery.setParameter(1, outputInstructionId);
-		jpaQuery.setParameter(2, inputInstructionId);
-		jpaQuery.executeUpdate();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void updateInstructionForOutput(Long inputInstructionId, Long outputInstructionId) {
+        javax.persistence.Query jpaQuery = entityManager.createNamedQuery("UPDATE_INS");
+        jpaQuery.setParameter(1, outputInstructionId);
+        jpaQuery.setParameter(2, inputInstructionId);
+        jpaQuery.executeUpdate();
+    }
+
+    @Override
+    public List<String> getInstructionTotals(LocalDate date) {
+        javax.persistence.Query query = populateQuery(Query.INSTRUCTION_TOTALS_BY_DATE, date);
+        return query.getResultList();
+    }
+
+    private javax.persistence.Query populateQuery(Query query, Object... params) {
+        javax.persistence.Query q = entityManager.createNamedQuery(query.getJpaName());
+        if(params != null) {
+            int idx = 1;
+            for (Object param : params) {
+                q.setParameter(idx, param);
+            }
+        }
+        return q;
+    }
+
 }

@@ -3,7 +3,7 @@
            name="BlazeDSEventNotifier"
            autowire="false">
        
-    <service name="blazeDSEventNotifier" promote="BlazeDSEventNotifier" />
+    <service name="eventNotifier" promote="BlazeDSEventNotifier" />
     
     <component name="BlazeDSEventNotifier">
     	<implementation.java class="com.travelex.tgb.event.notifier.BlazeDSEventNotifier" />

@@ -57,6 +57,32 @@
 	   </query>
 	</named-query>
 	
+	<named-query name="GET_SUBMISSION_INSTRUCTION_COUNT">
+		<query>	   
+	       select count(ins)
+	       from Instruction ins
+	       where ins.submissionId = ?1
+	   </query>
+	</named-query>
+	
+	<named-query name="GET_SUBMISSION_COUNT_BY_ARRIVAL_DATE">
+		<query>	   
+	       select count(sub)
+	       from Submission sub
+	       where sub.submissionDate = ?1
+	   </query>
+	</named-query>
+	
+	<named-query name="GET_VALUES_BY_ARRIVAL_DATE">
+		<query>	   
+	       select concat(concat(ins.currency, '/'), sum(ins.amount))
+	       from Instruction ins, Submission sub
+	       where ins.submissionId = sub.id
+	       and sub.submissionDate = ?1
+		group by ins.currency
+	   </query>
+	</named-query>				
+	
 	<named-query name="UPDATE_INS">
 		<query>
 		        UPDATE Instruction ins SET ins.outputInstructionId =?1 WHERE ins.id = ?2

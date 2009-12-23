@@ -42,10 +42,14 @@ public class BlazeDSEventNotifier implements EventNotifier {
         return message;
     }
 
+    //This returns the name of the destination defined in the blazeds messaging config file.
     private String lookupDestinationName(EventType eventType) {
         //Could make this configurable in the composite.
         if(eventType == EventType.SYSTEM) {
-            return "systemStatus"; //This is the name of the destination defined in the blazeds messaging config file.
+            return "systemStatus";
+        }
+        else if(eventType == EventType.SUBMISSION) {
+            return "submissionEvent";
         }
 
         throw new EventNotifierException("Unsupported event type");
