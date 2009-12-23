@@ -33,6 +33,7 @@ public abstract class AbstractOutputFileGenerationService implements OutputFileG
     public void generate(OutputSubmission outputSubmission) {
         outputSubmission.setOutputFile(generateFileContent(outputSubmission).getBytes());
         dataStore.store(outputSubmission);
+        outputSubmission.assignOnInstructions();
         serviceListener.onFileGenerationCompletion(outputSubmission.getKey());
     }
 

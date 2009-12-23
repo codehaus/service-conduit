@@ -14,7 +14,7 @@ import com.travelex.tgbp.store.type.ClearingMechanism;
  */
 public class JPAOutputConfigReader implements OutputConfigReader {
 
-    @PersistenceContext(unitName = "tgbp-output") protected EntityManager entityManager;
+    @PersistenceContext(unitName = "tgbp-store") protected EntityManager entityManager;
 
     private static final String FIND_OI_BATCHING_CONFIG = "FIND_OI_BATCHING_CONFIG";
     private static final String FIND_REMITTANCE_ACCOUNT = "FIND_REMITTANCE_ACCOUNT";

@@ -5,8 +5,8 @@
        
     <service name="outputSchedulerService" promote="OutputSchedulerService" />
 
-    <refernce name="instructionOutputService" promote="OutputSchedulerService/instructionOutputService" />
-    <refernce name="fileOutputService" promote="OutputSchedulerService/fileOutputService" />
+    <reference name="instructionOutputService" promote="OutputServiceWrapper/instructionOutputService" />
+    <reference name="fileOutputService" promote="OutputServiceWrapper/fileOutputService" />
 
     <property name="initialStartupDelayInSeconds" />
     <property name="instructionOutputDelayInSeconds" />
@@ -14,9 +14,14 @@
     
     <component name="OutputSchedulerService">
     	<implementation.java class="com.travelex.tgbp.output.timing.DefaultOutputSchedulerService" />
+    	<reference name="outputServiceWrapper" target="OutputServiceWrapper" />
     	<property name="initialStartupDelayInSeconds" source="$initialStartupDelayInSeconds" />
     	<property name="instructionOutputDelayInSeconds" source="$instructionOutputDelayInSeconds" />
     	<property name="fileOutputDelayInSeconds" source="$fileOutputDelayInSeconds" />
     </component>
-            
+    
+    <component name="OutputServiceWrapper">
+        <implementation.java class="com.travelex.tgbp.output.timing.DefaultOutputServiceWrapper" />
+    </component>
+    
 </composite>

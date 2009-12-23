@@ -13,6 +13,9 @@
     <component name="IntegrationAssembly">
         <implementation.composite scdlResource="pg-integration-assembly.composite"/>
         <property name="inputSubmissionBaseDir">/</property>
+        <property name="initialStartupDelayInSeconds">3</property>
+        <property name="instructionOutputDelayInSeconds">5</property>
+        <property name="fileOutputDelayInSeconds">5</property>
     </component>
         
 </composite>

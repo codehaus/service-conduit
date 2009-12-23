@@ -23,7 +23,14 @@
             <sca4j:binding.ftp uri="/"/>
         </service>
         
+        <service name="outputSchedulerService">
+            <sca4j:binding.http />
+        </service>
+        
         <property name="inputSubmissionBaseDir">c:/tgbp-submissions</property>
-	</component>
+        <property name="initialStartupDelayInSeconds">5</property>
+        <property name="instructionOutputDelayInSeconds">15</property>
+        <property name="fileOutputDelayInSeconds">15</property>
+	</component>	
 	
 </composite>

@@ -49,12 +49,24 @@
             <groupId>com.travelex.tgbp</groupId>
             <artifactId>payment-gateway-submission-processor</artifactId>
             <version>${project.version}</version>        
-        </dependency>        
+        </dependency>
+
+        <dependency>
+            <groupId>com.travelex.tgbp</groupId>
+            <artifactId>payment-gateway-output-service</artifactId>
+            <version>${project.version}</version>        
+        </dependency>
        
         <dependency>
             <groupId>org.sca4j.spec</groupId>
             <artifactId>sca-api-r1.0</artifactId>
         </dependency>
+        
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-timer-spi</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>        
     
         <dependency>
            <groupId>junit</groupId>
@@ -132,6 +144,16 @@
                                     <groupId>com.travelex.tgbp</groupId>
                                 	<artifactId>payment-gateway-oracle-db-extension</artifactId>
                                     <version>${project.version}</version>
+                                </dependency>
+                                <dependency>
+		                            <groupId>org.sca4j</groupId>
+		                            <artifactId>sca4j-timer-spi</artifactId>
+		                            <version>${sca4j.version}</version>
+                                </dependency>
+                                <dependency>
+		                            <groupId>org.sca4j</groupId>
+		                            <artifactId>sca4j-timer-quartz</artifactId>
+		                            <version>${sca4j.version}</version>
                                 </dependency>
                             </extensions>
                             <shared>

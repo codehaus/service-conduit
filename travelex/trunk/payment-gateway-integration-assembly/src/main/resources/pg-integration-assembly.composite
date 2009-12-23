@@ -7,11 +7,15 @@
            autowire="false">
 
     <!-- Promoted services -->       
-    <service name="schemaModelBuilder" promote="SchemaServices" />
+    <service name="schemaModelBuilder" promote="SchemaServices/schemaModelBuilder" />
     <service name="dynamicRuleSubmissionProcessor" promote="DynamicRules/dynamicRuleSubmissionProcessor" />
     <service name="inputSubmissionFtpListener" promote="InputSubmissionFtpListener/submissionFtpListener" />
+    <service name="outputSchedulerService" promote="OutputScheduler/outputSchedulerService" />
     
     <property name="inputSubmissionBaseDir" />
+    <property name="initialStartupDelayInSeconds" />
+    <property name="instructionOutputDelayInSeconds" />
+    <property name="fileOutputDelayInSeconds" />
 	
 	<component name="SchemaServices">
 		<implementation.composite scdlResource="payment-gateway-schema-model.composite" />
@@ -45,6 +49,22 @@
 
     <component name="SubmissionParser">
         <implementation.composite scdlResource="payment-gateway-submission-parser.composite" />
+    </component>
+    
+    <!-- Output components -->
+
+    <component name="OutputScheduler">
+        <implementation.composite scdlResource="payment-gateway-output-scheduler.composite" />
+        <reference name="instructionOutputService" target="OutputService/instructionOutputService" />
+        <reference name="fileOutputService" target="OutputService/fileOutputService" />
+        <property name="initialStartupDelayInSeconds" source="$initialStartupDelayInSeconds" />
+        <property name="instructionOutputDelayInSeconds" source="$instructionOutputDelayInSeconds" />
+        <property name="fileOutputDelayInSeconds" source="$fileOutputDelayInSeconds" />
+    </component>
+
+    <component name="OutputService" requires="sca:managedTransaction">
+        <implementation.composite scdlResource="payment-gateway-output-service.composite" />
+        <reference name="dataStore" target="DataStore" />
     </component>
     	
 </composite>

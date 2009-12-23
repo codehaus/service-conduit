@@ -40,6 +40,7 @@ public abstract class AbstractOutputInitiator implements OutputInitiator, Output
         serviceListener.onCompletion(getCurrencyType());
     }
 
+
     /**
      * {@inheritDoc}
      */

@@ -17,6 +17,11 @@ public class OutputInstruction extends PersistentEntity {
     private BigDecimal amount;
 
     /**
+     * JPA Constructor
+     */
+    OutputInstruction() { }
+
+    /**
      * Initialises with attributes.
      *
      * @param outputSubmissionId - output submission id.
@@ -102,7 +107,7 @@ public class OutputInstruction extends PersistentEntity {
     public void setOutputPaymentData(String outputPaymentData) {
         this.outputPaymentData = outputPaymentData;
     }
-    
+
     /**
      * Assign output Submission
      * @param outputSubmissionId

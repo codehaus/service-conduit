@@ -12,13 +12,18 @@ import com.travelex.tgbp.store.type.ClearingMechanism;
  * Represents group of instructions which are sent out in a same output file.
  */
 public class OutputSubmission extends PersistentEntity{
-	
+
     private ClearingMechanism clearingMechanism;
     private byte[] outputFile;
 
     private transient long totalItemCount;
     private transient BigDecimal totalAmount;
     private transient Set<OutputInstruction> outputInstructions = new HashSet<OutputInstruction>();
+
+    /**
+     * JPA Constructor
+     */
+    OutputSubmission() { }
 
     /**
      * Initialises with attributes.
@@ -44,8 +49,13 @@ public class OutputSubmission extends PersistentEntity{
      * @param instruction - output instruction
      */
     public void addOutputInstruction(OutputInstruction instruction) {
-    	instruction.assignSubmission(this.id);
         outputInstructions.add(instruction);
+    }
+
+    public void assignOnInstructions(){
+        for(OutputInstruction oi : outputInstructions){
+            oi.assignSubmission(id);
+        }
     }
 
     /**

@@ -1,44 +1,32 @@
-<composite xmlns="http://www.osoa.org/xmlns/sca/1.0" 
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:sca4j="urn:sca4j.org" 
            targetNamespace="urn:composite:com.travelex.tgbp" 
            name="OutputService"
            autowire="false">
        
-    <service name="instructionOutputService" promote="InstructionOutputService" />
-    <service name="fileOutputService" promote="FileOutputService" />
+    <service name="instructionOutputService" promote="InstructionOutputService/InstructionOutputService" />
+    <service name="fileOutputService" promote="FileOutputService/FileOutputService" />
     
-    <reference name="instructionReaderService" promote="SterlingOutputInitiator/instructionReaderService
-                                                        USDOutputInitiator/instructionReaderService
-                                                        BACSInstructionBatchingService/instructionReaderService
-                                                        ChapsInstructionBatchingService/instructionReaderService
-                                                        FpsInstructionBatchingService/instructionReaderService
-                                                        NachaInstructionBatchingService/instructionReaderService
-                                                        FedwireInstructionBatchingService/instructionReaderService" />
-    <reference name="instructionStoreService"  promote="BACSInstructionCreationService/instructionStoreService
-                                                        ChapsInstructionCreationService/instructionStoreService
-                                                        FpsInstructionCreationService/instructionStoreService
-                                                        NachaInstructionCreationService/instructionStoreService
-                                                        FedwireInstructionCreationService/instructionStoreService
-                                                        BACSInstructionBatchingService/instructionStoreService
-                                                        ChapsInstructionBatchingService/instructionStoreService
-                                                        FpsInstructionBatchingService/instructionStoreService
-                                                        NachaInstructionBatchingService/instructionStoreService
-                                                        FedwireInstructionBatchingService/instructionStoreService
-                                                        MT103FileGenerationService/instructionStoreService
-                                                        FedwireFileGenerationService/instructionStoreService
-                                                        NachaFileGenerationService/instructionStoreService" />
-    <reference name="submissionStoreService"   promote="BACSInstructionCreationService/submissionStoreService
-                                                        ChapsInstructionCreationService/submissionStoreService
-                                                        FpsInstructionCreationService/submissionStoreService
-                                                        NachaInstructionCreationService/submissionStoreService
-                                                        FedwireInstructionCreationService/submissionStoreService
-                                                        MT103FileGenerationService/submissionStoreService
-                                                        FedwireFileGenerationService/submissionStoreService
-                                                        NachaFileGenerationService/submissionStoreService" />
-    <reference name="dataStore"                promote="DynamicRules/dataStore" />
+    <reference name="dataStore" promote="SterlingOutputInitiator/dataStore
+                                         USDOutputInitiator/dataStore
+                                         BACSInstructionCreationService/dataStore
+                                         ChapsInstructionCreationService/dataStore
+                                         FpsInstructionCreationService/dataStore
+                                         NachaInstructionCreationService/dataStore
+                                         FedwireInstructionCreationService/dataStore
+                                         BACSInstructionBatchingService/dataStore
+                                         ChapsInstructionBatchingService/dataStore
+                                         FpsInstructionBatchingService/dataStore
+                                         NachaInstructionBatchingService/dataStore
+                                         FedwireInstructionBatchingService/dataStore
+                                         MT103FileGenerationService/dataStore
+                                         FedwireFileGenerationService/dataStore
+                                         NachaFileGenerationService/dataStore
+                                         DynamicRules/dataStore" />
     
     <component name="InstructionOutputService">
     	<implementation.java class="com.travelex.tgbp.output.impl.DefaultInstructionOutputService" />
-    	<reference name="initiators" target="SterlingOutputInitiator USDOutputInitiator" />
+    	<reference name="initiators" target="SterlingOutputInitiator/OutputInitiator USDOutputInitiator/OutputInitiator" />
     </component>
     
     <component name="FileOutputService">

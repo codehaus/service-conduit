@@ -15,7 +15,7 @@ import com.travelex.tgbp.store.type.Currency;
  */
 public class JPARoutingConfigReader implements RoutingConfigReader {
 
-    @PersistenceContext(unitName = "tgbp-output") protected EntityManager entityManager;
+    @PersistenceContext(unitName = "tgbp-store") protected EntityManager entityManager;
 
     private static final String FIND_CONFIG_ON_VALUE_DATE = "FIND_CONFIG_ON_VALUE_DATE";
 

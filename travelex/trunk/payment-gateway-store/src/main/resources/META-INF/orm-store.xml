@@ -45,7 +45,7 @@
 		<query>	   
 	       select ins
 	       from Instruction ins
-	       where ins.currency = ?1
+	       where ins.currency = ?1 and ins.outputInstructionId is null
 	   </query>
 	</named-query>
 	
@@ -53,7 +53,7 @@
 		<query>	   
 	       select outIns
 	       from OutputInstruction outIns
-	       where outIns.clearingMechanism = ?1
+	       where outIns.clearingMechanism = ?1 and outIns.outputSubmissionId is null
 	   </query>
 	</named-query>
 	
@@ -176,7 +176,7 @@
 				<enumerated>STRING</enumerated>
 			</basic>
 
-			<basic name="ouputFile">
+			<basic name="outputFile">
 				<column name="OUTPUT_FILE" />
 				<lob />
 			</basic>
@@ -190,7 +190,7 @@
 		<attributes>			
 
 			<basic name="outputSubmissionId">
-				<column name="OUT_SUB_ID" nullable="false" />
+				<column name="OUT_SUB_ID" nullable="true" />
 			</basic>
 
 			<basic name="clearingMechanism">
@@ -199,11 +199,11 @@
 			</basic>
 
 			<basic name="sourceIdentifier">
-				<column name="SOURCE_IDEN" nullable="false" />
+				<column name="SOURCE_IDEN" nullable="true" />
 			</basic>
 
 			<basic name="targetIdentifier">
-				<column name="TARGET_IDEN" nullable="false" />
+				<column name="TARGET_IDEN" nullable="true" />
 			</basic>
 
 			<basic name="outputPaymentData">
@@ -282,6 +282,7 @@
 					
 			<basic name="clearingMechanism">
 				<column name="CLEARING_MECHANISM" nullable="false" />
+				<enumerated>STRING</enumerated>
 			</basic>
 
 			<basic name="thresholdCount">
@@ -301,6 +302,7 @@
 
 			<basic name="clearingMechanism">
 				<column name="CLEARING_MECHANISM" nullable="false" />
+				<enumerated>STRING</enumerated>
 			</basic>
 
 			<basic name="bankId">
