@@ -2,12 +2,11 @@ PROMPT Creating TGBP configuration tables
 
 PROMPT Drop/Create routing_config_on_value_date
 
-DROP TABLE routing_config_on_value_date
+DROP TABLE routing_config_on_value_date CASCADE CONSTRAINTS
 /
 
 CREATE TABLE routing_config_on_value_date 
-( ID                   NUMBER(16)   NOT NULL,
-  config_id            NUMBER(16)   NOT NULL, 
+( id                   NUMBER(16)   NOT NULL,
   currency             VARCHAR2(3)  NOT NULL, 
   clearing_mechanism   VARCHAR2(10) NOT NULL, 
   clearing_period      NUMBER(3)    NOT NULL, 
@@ -18,11 +17,11 @@ CREATE TABLE routing_config_on_value_date
 
 PROMPT Drop/Create output_ins_batching_config
 
-DROP TABLE output_ins_batching_config
+DROP TABLE output_ins_batching_config CASCADE CONSTRAINTS
 /
 
 CREATE TABLE output_ins_batching_config 
-( ID                   NUMBER(16)   NOT NULL,
+( id                   NUMBER(16)   NOT NULL,
   clearing_mechanism   VARCHAR2(10) NOT NULL, 
   threshold_count      NUMBER(10)   NOT NULL, 
   threshold_amount     NUMBER(10,2) NOT NULL 
@@ -31,11 +30,11 @@ CREATE TABLE output_ins_batching_config
 
 PROMPT Drop/Create remittance_account_config
 
-DROP TABLE remittance_account_config
+DROP TABLE remittance_account_config CASCADE CONSTRAINTS
 /
 
 CREATE TABLE remittance_account_config 
-( ID                              NUMBER(16)   NOT NULL,
+( id                              NUMBER(16)   NOT NULL,
   clearing_mechanism              VARCHAR2(10)  NOT NULL, 
   bank_id                         VARCHAR2(10)  NOT NULL,
   bank_name                       VARCHAR2(100) NOT NULL,
@@ -47,5 +46,23 @@ CREATE TABLE remittance_account_config
   account_holder_zip              VARCHAR2(15)  NOT NULL
 )
 /
+
+
+PROMPT Drop/Create dynamic_rule
+
+DROP TABLE dynamic_rule CASCADE CONSTRAINTS
+/
+
+CREATE TABLE dynamic_rule 
+( id                              NUMBER(16)   NOT NULL,
+  clearing_mechanism              VARCHAR2(10)  NOT NULL, 
+  rule_name                       VARCHAR2(50)  NOT NULL,
+  rule_text                       VARCHAR2(1000) NOT NULL,
+  schema_name                     VARCHAR2(50)  NOT NULL,
+  prioirty                        NUMBER(3)   NOT NULL
+)
+/
+
+
 
 

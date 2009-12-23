@@ -142,7 +142,7 @@
 
 	<entity class="com.travelex.tgbp.store.domain.OutputSubmission"
 		access="FIELD">
-		<table name="OUPUT_SUBMISSION" />
+		<table name="OUTPUT_SUBMISSION" />
 		<attributes>			
 
 			<basic name="clearingMechanism">
@@ -209,7 +209,7 @@
 			</basic>
 
 			<basic name="schema">
-				<column name="SCHEMA" nullable="false" />
+				<column name="SCHEMA_NAME" nullable="false" />
 			</basic>
 
 			<basic name="priority">
@@ -223,10 +223,6 @@
 		access="FIELD">
 		<table name="ROUTING_CONFIG_ON_VALUE_DATE" />
 		<attributes>			
-
-			<basic name="CONFIG_ID">
-				<column name="CONFIG_ID" nullable="false" />
-			</basic>
 
 			<basic name="currency">
 				<column name="CURRENCY" nullable="false" />
