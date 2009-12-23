@@ -175,6 +175,10 @@
 				<column name="CLEARING_MECHANISM" nullable="false" />
 				<enumerated>STRING</enumerated>
 			</basic>
+			
+			<basic name="fileName">
+                <column name="FILE_NAME" nullable="true" />
+            </basic>
 
 			<basic name="outputFile">
 				<column name="OUTPUT_FILE" />

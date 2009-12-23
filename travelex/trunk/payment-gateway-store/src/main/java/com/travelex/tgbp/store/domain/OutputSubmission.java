@@ -14,6 +14,7 @@ import com.travelex.tgbp.store.type.ClearingMechanism;
 public class OutputSubmission extends PersistentEntity{
 
     private ClearingMechanism clearingMechanism;
+    private String fileName;
     private byte[] outputFile;
 
     private transient long totalItemCount;
@@ -119,6 +120,13 @@ public class OutputSubmission extends PersistentEntity{
      */
     public void setOutputFile(byte[] outputFile) {
         this.outputFile = outputFile;
+    }
+
+    /**
+     * @return the fileName
+     */
+    public String getFileName() {
+        return fileName;
     }
 
 }

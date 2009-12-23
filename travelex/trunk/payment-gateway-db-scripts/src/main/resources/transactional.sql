@@ -56,6 +56,7 @@ DROP TABLE output_submission CASCADE CONSTRAINTS
 CREATE TABLE output_submission 
 ( id                   NUMBER(16) NOT NULL,
   clearing_mechanism   VARCHAR2(10) NOT NULL,
+  file_name            VARCHAR2(100),
   output_file          BLOB
 )
 /
