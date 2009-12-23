@@ -44,10 +44,10 @@ package com.travelex.tgbp.message
 		{
 			var filter : ColorMatrixFilter = new ColorMatrixFilter();
 		    var matrix:Array = new Array();
-		    matrix = matrix.concat([1, 0, 0, 0, 0]); // red
-		    matrix = matrix.concat([0, 1, 0, 0, 0]); // green
-		    matrix = matrix.concat([0, 0, 1, 0, 0]); // blue 
-		    matrix = matrix.concat([0, 0, 0, alpha, 0]); //alpha 
+		    matrix = matrix.concat([1, 0, 0, 0, 0]); 		//Red.
+		    matrix = matrix.concat([0, 1, 0, 0, 0]); 		//Green.
+		    matrix = matrix.concat([0, 0, 1, 0, 0]); 		//Blue.
+		    matrix = matrix.concat([0, 0, 0, alpha, 0]);	//Alpha. 
 		    filter.matrix = matrix;
 		    glowImage.filters = [ filter ];
 		}		

@@ -7,25 +7,10 @@
 		<mx:Script source="as/systemStatus.as"/>		
 		<mx:Consumer id="submissionEventConsumer" destination="submissionEvent" message="submissionEventHandler(event.message)"/>		
 		<mx:Consumer id="outputEventConsumer" destination="outputEvent" message="outputEventHandler(event.message)"/>
-
-<mx:Array id="outputTotals">
-	<mx:String>EUR 250000</mx:String> 
-	<mx:String>USD 235000</mx:String> 
-	<mx:String>JPY 12000</mx:String>
-	<mx:String>EUR 250000</mx:String> 
-	<mx:String>USD 235000</mx:String> 
-	<mx:String>JPY 12000</mx:String>									 
-</mx:Array>								
-
-<mx:Array id="routingDecisions">
-	<mx:String>10:47 Routed ABC/234/467 to FEDWIRE: Dynamic rule 1</mx:String> 
-	<mx:String>14:52 Routed KAL/2H5/467 to BACS: Value rule</mx:String>
-	<mx:String>15:02 Routed 4773467 to FPS: Expense rule</mx:String>
-	<mx:String>10:47 Routed ABC/234/467 to FEDWIRE: Dynamic rule 1</mx:String> 
-	<mx:String>14:52 Routed KAL/2H5/467 to BACS: Value rule</mx:String>
-	<mx:String>15:02 Routed 4773467 to FPS: Expense rule</mx:String> 	 
-</mx:Array>								
-
+<!--
+<mx:Button label="IN" click="testSubmissionArrival()"/>			
+<mx:Button label="OUT" click="testOutput()"/>
+-->	
 		<!-- Should be using css for layout -->
 		<mx:VBox paddingTop="10" paddingLeft="10" width="100%">
 			<mx:HBox paddingTop="20" horizontalAlign="center" width="100%" fontWeight="bold">
@@ -47,8 +32,8 @@
 																	
 						<mx:HBox paddingTop="20" paddingLeft="20">
 							<mx:Text fontSize="15" text="Total Submission Values Today: " width="244"/>
-							<mx:List fontSize="15" borderStyle="none" width="244" paddingLeft="5" rowCount="4"
-								dataProvider="{submisionTotalData}" labelFunction="createvalueLabel"/>								
+							<mx:List fontSize="15" borderStyle="none" width="244" paddingLeft="5" rowCount="3"
+								dataProvider="{submisionTotals}" labelFunction="createValueLabel"/>								
 						</mx:HBox>
 						
 						<mx:HBox paddingTop="20" paddingLeft="20">
@@ -79,9 +64,9 @@
 						</mx:HBox>
 																	
 						<mx:HBox paddingTop="20" paddingLeft="20">
-							<mx:Text id="outputValues"  fontSize="15" text="Total Output Values Today: " width="244"/>
+							<mx:Text fontSize="15" text="Total Output Values Today: " width="244"/>
 							<mx:List fontSize="15" borderStyle="none" width="244" paddingLeft="5" rowCount="4"
-								dataProvider="{outputTotals}"/>
+								dataProvider="{outputTotals}" labelFunction="createValueLabel"/>
 						</mx:HBox>
 						
 						<mx:VBox paddingTop="10" paddingLeft="20">						
@@ -95,8 +80,5 @@
 			</mx:VBox>
 			
 		</mx:VBox>		
-
-				<mx:Button label="IN" click="testSubmissionArrival()"/>			
-				<mx:Button label="OUT" click="glowImage(outputSentImage)"/>				
 	
 </p:basePanel>
