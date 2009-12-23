@@ -26,8 +26,8 @@
         <property name="config">
             <config xmlns="">
 	            <commandPort>3000</commandPort>
-	            <minPassivePort>6000</minPassivePort>
-	            <maxPassivePort>7000</maxPassivePort>
+	            <minPassivePort>4001</minPassivePort>
+	            <maxPassivePort>5001</maxPassivePort>
 	            <idleTimeout>60</idleTimeout>
 	            <users>
 	                <clm>password</clm>
