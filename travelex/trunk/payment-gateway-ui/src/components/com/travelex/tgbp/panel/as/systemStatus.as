@@ -1,8 +1,13 @@
 // ActionScript file
+import com.travelex.tgbp.message.GlowHandler;
 import com.travelex.tgbp.message.SystemEvent;
-import mx.messaging.messages.AsyncMessage;
+
+import mx.controls.Image;
 import mx.messaging.messages.IMessage;
-import flash.filters.ColorMatrixFilter;
+	
+private static var BASE:Number = 0.2;
+private var value:Number = BASE;	
+private var valueAdjust:Number = 0.1;
 	
 [Bindable]
 private var systemEvent:SystemEvent;	
@@ -11,14 +16,14 @@ private function messageHandler(message:IMessage):void{
 	systemEvent = message.body as SystemEvent;	
 }
 
-private function glowImage() : void
+public function init(): void {
+	consumer.subscribe();
+	GlowHandler.filterImage(submissionReceivedImage, value)
+	GlowHandler.filterImage(outputSentImage, 0.2)
+}
+
+private function glowImage(image:Image):void
 {
-    var filter : ColorMatrixFilter = new ColorMatrixFilter();
-    var matrix:Array = new Array();
-     matrix = matrix.concat([1, 0, 0, 0, 0]); // red
-    matrix = matrix.concat([0, 1, 0, 0, 0]); // green
-    matrix = matrix.concat([0, 0, 1, 0, 0]); // blue 
-    matrix = matrix.concat([0, 0, 0, _alpha.value, 0]); //alpha 
-    filter.matrix = matrix;
-    submissionReceivedImage.filters = [ filter ];
+   var glow:GlowHandler = new GlowHandler(image); 
+   glow.glowImage();      
 }
