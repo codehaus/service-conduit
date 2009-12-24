@@ -9,6 +9,7 @@
 <sourceAttachmentPath/>
 </compiler>
 <applications>
+<application path="paymentGatewayTX.mxml"/>
 <application path="paymentGateway.mxml"/>
 </applications>
 <modules/>

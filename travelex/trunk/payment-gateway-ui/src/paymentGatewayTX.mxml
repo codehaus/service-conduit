@@ -7,31 +7,39 @@
 	layout="absolute" viewSourceURL="srcview/index.html"
 	initialize="loadConfig()">
 	
-	<mx:Style source="css/application.css"/>
+	<mx:Style source="css/applicationTX.css"/>
 	<mx:Script source="as/paymentGateway.as"/>
 
 	<mx:Image x="12" y="10" source="@Embed('/../assets/travelex-logo.gif')"/>
 	<mx:Text x="220" y="10" fontSize="35" width="800" textAlign="center" text="Travelex Payments Gateway" color="#283096"/>
 
-	<m:mainMenu x="10" y="70" 
+		<m:mainMenu x="10" y="10" 
 				panelZero="{systemStatusPanel}" 
 				panelOne="{submissionsPanel}"
-				panelTwo="{routingRulesPanel}" />
+				panelTwo="{routingRulesPanel}" 
+				panelThree="{clearingRules}"/>
 	
 	<p:systemStatus id="systemStatusPanel"
-					x="220" y="70"
-					height="90%" width="800"
+					x="220" y="10"
+					height="95%" width="800"
 					visible="true"/>
 					
 	<p:routingRules id="routingRulesPanel"
-					x="220" y="70"
-					height="90%" width="800"
+					x="220" y="10"
+					height="95%" width="800"
 					visible="false"
 					config="{configData}"/>
 					
 	<p:submissions id="submissionsPanel"
-					x="220" y="70"
-					height="90%" width="800"
-					visible="false"/>
+					x="220" y="10"
+					height="95%" width="800"
+					visible="false"
+					config="{configData}"/>	
+					
+	<p:clearingRules id="clearingRules"
+					x="220" y="10"
+					height="95%" width="800"
+					visible="false"
+					config="{configData}"/>	
 	
 </mx:Application>

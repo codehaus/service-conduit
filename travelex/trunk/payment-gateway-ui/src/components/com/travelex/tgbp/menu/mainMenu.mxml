@@ -26,21 +26,11 @@
 				image="@Embed('/../assets/Compass.png')"
 				description="Routing rule configuration"/>
 				
-		   <accordionItem id="clm" 
-				title="Clearing Mechanism"
-				image="@Embed('/../assets/Compass.png')"
-				description="Configure Charge On Clearing Mechanism" /> 		
-			<!--
-			<accordionItem id="xyz" 
-				title="Something Else"
+		   <accordionItem id="clearingRules" 
+				title="Clearing Rules"
 				image="@Embed('/../assets/EuroDollarYenPound.jpg')"
-				description="View the status of something else" />
-			
-			<accordionItem id="abc" 
-				title="Another View"
-				image="@Embed('/../assets/system-status-tick.png')"
-				description="More exciting information" />
-			-->
+				description="Configure Clearing Rules" /> 		
+		
 		</flexlib:VAccordion>
 		
 	</mx:Panel>

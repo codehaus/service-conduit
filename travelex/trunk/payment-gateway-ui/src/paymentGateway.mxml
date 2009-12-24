@@ -31,5 +31,11 @@
 					height="95%" width="800"
 					visible="false"
 					config="{configData}"/>	
+					
+	<p:clearingRules id="clearingRules"
+					x="220" y="10"
+					height="95%" width="800"
+					visible="false"
+					config="{configData}"/>					
 	
 </mx:Application>

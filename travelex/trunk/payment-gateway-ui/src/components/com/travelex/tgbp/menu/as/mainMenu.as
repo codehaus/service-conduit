@@ -6,8 +6,9 @@ import mx.containers.Panel;
 private var dataGridProvider:ArrayCollection = new ArrayCollection();
 
 private var p0:Panel;
-private var p2:Panel;
 private var p1:Panel;
+private var p2:Panel;
+private var p3:Panel;
 
 public function set panelZero(panel:Panel): void {
 	p0 = panel;
@@ -21,9 +22,14 @@ public function set panelTwo(panel:Panel): void {
 	p2 = panel;
 }
 
+public function set panelThree(panel:Panel): void {
+	p3 = panel;
+}
+
 private function handleMainMenuClick(event:MouseEvent):void {
 	dispatchEvent(event);
 	p0.visible = (event.currentTarget.selectedIndex == 0);
 	p1.visible = (event.currentTarget.selectedIndex == 1);
-	p2.visible = (event.currentTarget.selectedIndex == 2);					
+	p2.visible = (event.currentTarget.selectedIndex == 2);	
+	p3.visible = (event.currentTarget.selectedIndex == 3);					
 }
