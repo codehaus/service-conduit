@@ -24,7 +24,7 @@ CREATE TABLE instruction
 ( id                   NUMBER(16) NOT NULL,
   sub_id               NUMBER(16) NOT NULL,
   out_ins_id           NUMBER(16), 
-  amount               NUMBER(10,2) NOT NULL, 
+  amount               NUMBER(16,2) NOT NULL, 
   currency             VARCHAR2(3) NOT NULL, 
   value_date           DATE NOT NULL, 
   data                 VARCHAR2(3000) NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE output_instruction
   source_iden          VARCHAR2(3000),
   target_iden          VARCHAR2(2000),
   out_pay_data         VARCHAR2(3000),
-  amount               NUMBER(10,2)
+  amount               NUMBER(16,2)
 )
 /
 

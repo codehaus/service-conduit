@@ -1,3 +1,5 @@
+purge recyclebin
+/
 @config-tables.sql
 /
 @transactional.sql

@@ -16,8 +16,8 @@ CREATE TABLE routing_config_on_value_date
   currency             VARCHAR2(3)  NOT NULL, 
   clearing_mechanism   VARCHAR2(10) NOT NULL, 
   clearing_period      NUMBER(3)    NOT NULL, 
-  threshold_amount     NUMBER(10,2) NOT NULL, 
-  charge               NUMBER(10,2) NOT NULL 
+  threshold_amount     NUMBER(16,2) NOT NULL, 
+  charge               NUMBER(16,2) NOT NULL 
 )
 /
 
@@ -30,7 +30,7 @@ CREATE TABLE output_ins_batching_config
 ( id                   NUMBER(16)   NOT NULL,
   clearing_mechanism   VARCHAR2(10) NOT NULL, 
   threshold_count      NUMBER(10)   NOT NULL, 
-  threshold_amount     NUMBER(10,2) NOT NULL 
+  threshold_amount     NUMBER(16,2) NOT NULL 
 )
 /
 
