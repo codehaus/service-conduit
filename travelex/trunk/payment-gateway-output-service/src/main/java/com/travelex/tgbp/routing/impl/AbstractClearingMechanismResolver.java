@@ -15,7 +15,8 @@ public abstract class AbstractClearingMechanismResolver implements ClearingMecha
     protected int daysFromToday(LocalDate valueDate) {
         final LocalDate today = new LocalDate();
         final int yearDifference = valueDate.getYear() - today.getYear();
-        return valueDate.getDayOfYear() - today.getDayOfYear() + (yearDifference * 365);
+        final int daysDifference =  valueDate.getDayOfYear() - today.getDayOfYear() + (yearDifference * 365);
+        return daysDifference < 0 ? 0 : daysDifference;
     }
 
 }
