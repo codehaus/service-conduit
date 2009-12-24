@@ -1,7 +1,11 @@
 package com.travelex.tgbp.output.impl.file;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Collection;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.osoa.sca.annotations.Callback;
 import org.osoa.sca.annotations.Reference;
@@ -25,6 +29,7 @@ public abstract class AbstractOutputFileGenerationService implements OutputFileG
 
     private static final char SPACE_CHAR = ' ';
     protected static final String LINE_SEPARATOR = System.getProperty("line.separator");
+    private static final String BASEDIR = "c:/tgbp-outbound-files";
 
     /**
      * {@inheritDoc}
@@ -35,6 +40,7 @@ public abstract class AbstractOutputFileGenerationService implements OutputFileG
         dataStore.store(outputSubmission);
         assignFileName(outputSubmission);
         outputSubmission.assignOnInstructions();
+        saveFile(outputSubmission.getFileName(), outputSubmission.getOutputFile());
         serviceListener.onFileGenerationCompletion(outputSubmission.getKey());
     }
 
@@ -82,5 +88,23 @@ public abstract class AbstractOutputFileGenerationService implements OutputFileG
         String fileName = "tgbp-output-" + outputSubmission.getClearingMechanism().name() + "-" + outputSubmission.getKey();
         outputSubmission.setFileName(fileName);
     }
+
+    /*
+     * Creates physical file containing given data and stores it in to base directory with given name
+     */
+    private void saveFile(String fileName, byte[] rawData) {
+        try {
+            final File dataFile = new File(BASEDIR + "/" + fileName);
+            if (!dataFile.exists()) {
+                dataFile.createNewFile();
+            }
+            final FileWriter fw = new FileWriter(dataFile);
+            IOUtils.write(rawData, fw);
+            IOUtils.closeQuietly(fw);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
