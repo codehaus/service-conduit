@@ -80,6 +80,12 @@ public interface DataStore {
      */
     List<String> getInstructionTotals(LocalDate date);
 
+    /**
+     * List all the instruction data that is relevant by the given message Id
+     * @return
+     */
+    Object[] getInstructionDataByMssgId(String mssagId);
+
 
     List<String> getOutputInstructionTotals();
 

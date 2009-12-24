@@ -11,6 +11,7 @@
     <service name="dynamicRuleSubmissionProcessor" promote="DynamicRules/dynamicRuleSubmissionProcessor" />
     <service name="inputSubmissionFtpListener" promote="InputSubmissionFtpListener/submissionFtpListener" />
     <service name="outputSchedulerService" promote="OutputScheduler/outputSchedulerService" />
+    <service name="submissionQueryProcessor" promote="SubmissionQueryProcessor/SubmissionQueryProcessor" />
     
     <property name="inputSubmissionBaseDir" />
     <property name="initialStartupDelayInSeconds" />
@@ -30,7 +31,7 @@
 		<implementation.composite scdlResource="payment-gateway-event-notifier.composite" />
 	</component>		
 		
-	<component name="DataStore">
+	<component name="DataStore" requires="sca:managedTransaction">
     	<implementation.composite scdlResource="payment-gateway-store.composite" />
     </component>
     
@@ -49,6 +50,11 @@
 
     <component name="SubmissionParser">
         <implementation.composite scdlResource="payment-gateway-submission-parser.composite" />
+    </component>
+    
+    <component name="SubmissionQueryProcessor">
+        <implementation.java class="com.travelex.tgbp.query.DefaultSubmissionQueryProcessor" />
+        <reference name="dataStore" target="DataStore" />
     </component>
     
     <!-- Output components -->

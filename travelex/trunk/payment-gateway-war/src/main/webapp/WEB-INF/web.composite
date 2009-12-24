@@ -27,6 +27,10 @@
             <sca4j:binding.http />
         </service>
         
+        <service name="submissionQueryProcessor">
+            <sca4j:binding.http />
+        </service>
+        
         <property name="inputSubmissionBaseDir">c:/tgbp-submissions</property>
         <property name="initialStartupDelayInSeconds">5</property>
         <property name="instructionOutputDelayInSeconds">15</property>

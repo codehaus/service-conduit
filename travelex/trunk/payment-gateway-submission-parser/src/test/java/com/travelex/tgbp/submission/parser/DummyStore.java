@@ -53,6 +53,12 @@ public class DummyStore implements DataStore {
     }
 
     @Override
+    public Object[] getInstructionDataByMssgId(String mssagId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
     public String getMostRecentRoute() {
         // TODO Auto-generated method stub
         return null;

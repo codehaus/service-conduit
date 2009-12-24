@@ -54,6 +54,12 @@ public class DummyDataStore implements DataStore {
     public List<String> getInstructionTotals(LocalDate date) {throw new UnsupportedOperationException("Not Implemented");}
 
     @Override
+    public Object[] getInstructionDataByMssgId(String mssagId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
     public String getMostRecentRoute() {
         // TODO Auto-generated method stub
         return null;

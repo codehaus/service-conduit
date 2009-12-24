@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.hibernate.Session;
 import org.joda.time.LocalDate;
 
 import com.travelex.tgbp.store.domain.Instruction;
@@ -108,6 +109,20 @@ public class JPADataStore implements DataStore {
             }
         }
         return q;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Object[] getInstructionDataByMssgId(String messageId) {
+        Session session = (Session)entityManager.getDelegate();
+        List data = session.createSQLQuery("select i.currency curr, i.amount amount, i.value_date vdate, " +
+        		               "os.file_name fname from submission s, instruction i, " +
+        		               "output_instruction oi, output_submission os where s.message_id=? " +
+        		               "and i.sub_id=s.id and i.out_ins_id is not null and " +
+        		               "i.out_ins_id = oi.id and oi.out_sub_id = os.id").addScalar("curr").
+        		               addScalar("amount").addScalar("vdate").addScalar("fname").setString(0, messageId).list();
+        return data.toArray();
     }
 
 }
