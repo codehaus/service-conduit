@@ -129,4 +129,8 @@ public class OutputSubmission extends PersistentEntity{
         return fileName;
     }
 
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
 }

@@ -33,6 +33,7 @@ public abstract class AbstractOutputFileGenerationService implements OutputFileG
     public void generate(OutputSubmission outputSubmission) {
         outputSubmission.setOutputFile(generateFileContent(outputSubmission).getBytes());
         dataStore.store(outputSubmission);
+        assignFileName(outputSubmission);
         outputSubmission.assignOnInstructions();
         serviceListener.onFileGenerationCompletion(outputSubmission.getKey());
     }
@@ -76,5 +77,10 @@ public abstract class AbstractOutputFileGenerationService implements OutputFileG
      * @return file content as a string value
      */
     abstract String generateFileContent(OutputSubmission outputSubmission);
+
+    private void assignFileName(OutputSubmission outputSubmission) {
+        String fileName = "tgbp-output-" + outputSubmission.getClearingMechanism().name() + "-" + outputSubmission.getKey();
+        outputSubmission.setFileName(fileName);
+    }
 
 }
