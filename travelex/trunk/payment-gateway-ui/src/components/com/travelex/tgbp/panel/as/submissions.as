@@ -1,8 +1,8 @@
 // ActionScript file
 import flash.events.Event;
 
-import mx.collections.ArrayCollection;
 import mx.collections.XMLListCollection;
+import mx.controls.Alert;
 import mx.rpc.events.ResultEvent;
 
 [Bindable]
@@ -12,15 +12,16 @@ private var serverUrl:String;
 private var xlc:XMLListCollection = new XMLListCollection();
 
 private function retrieveInstructions():void {
-	startProgressBar('Loading instructions');	
-	instructionRetrievalService.send({'msgId':submissionMsgId.text})	
+	startProgressBar('Loading instructions');		
+	instructionRetrievalService.send({'messageId':submissionMsgId.text})	
 }
 
 private function onInstructionRetrievalService(event:ResultEvent):void {
 	stopProgressBar(event);
 	var doc:XMLDocument = event.result.parentNode;
-	var tmp:XML = new XML(doc.toString());		
-	xlc.source = tmp.item;				
+	var tmp:XML = new XML(doc.toString());
+	mx.controls.Alert.show("XML = " + tmp.toString());		
+	xlc.source = tmp.instruction;				
 }
 
 private function startProgressBar(text:String):void

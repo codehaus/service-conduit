@@ -7,7 +7,7 @@
 
 	<mx:HBox 	height="5%" paddingTop="10" 
 				paddingLeft="10" >
-		<mx:Text text="Submission Message Id"/>
+		<mx:Text text="Submission Mission Id"/>
 		<mx:TextInput id="submissionMsgId"/>				
        	<mx:Button label="Go" click="retrieveInstructions()"/>
 	</mx:HBox>
@@ -19,10 +19,10 @@
 		editable="true">
 
         <mx:columns>	        	        
-            <mx:DataGridColumn headerText="Value Date" dataField="valueDate" editable="false"/>            
-			<mx:DataGridColumn headerText="Currency" dataField="currency" editable="false"/>
+            <mx:DataGridColumn headerText="Value Date" dataField="vdate" editable="false"/>            
+			<mx:DataGridColumn headerText="Currency" dataField="curr" editable="false"/>
             <mx:DataGridColumn headerText="Amount" dataField="amount" editable="false"/>
-            <mx:DataGridColumn headerText="Output Submission File" dataField="submissionFile" editable="false"/>
+            <mx:DataGridColumn headerText="Output Submission File" dataField="fname" editable="false"/>
         </mx:columns>
     </mx:DataGrid>		
     
@@ -33,9 +33,9 @@
 					visible="false"/>	    	    
 
 	<!-- Non-visual components -->
-	<!-- url="{configData['serverUrl']}/instructions/show.htm" USE THIS FOR REAL -->
+	<!-- url="{configData['serverUrl']}/querySubmissions.htm" USE THIS FOR REAL -->
 	<mx:HTTPService id="instructionRetrievalService"
-					url="submissionData.xml"							
+					url="{configData['serverUrl']}/querySubmissions.htm"							
 					result="onInstructionRetrievalService(event)"
 					fault="stopProgressBar(null)"
 					resultFormat="xml"

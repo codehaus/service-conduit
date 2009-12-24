@@ -29,6 +29,7 @@
 	<p:submissions id="submissionsPanel"
 					x="220" y="10"
 					height="95%" width="800"
-					visible="false"/>	
+					visible="false"
+					config="{configData}"/>	
 	
 </mx:Application>
