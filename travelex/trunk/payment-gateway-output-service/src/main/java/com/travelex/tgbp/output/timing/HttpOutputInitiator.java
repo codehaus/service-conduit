@@ -18,7 +18,7 @@ public final class HttpOutputInitiator {
     public static void main(String[] args) throws Exception {
         while (true) {
            sendRequest(URL);
-           TimeUnit.MINUTES.sleep(1);
+           TimeUnit.SECONDS.sleep(10);
         }
     }
 
