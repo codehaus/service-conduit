@@ -1,8 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <p:basePanel 	xmlns:p="components.com.travelex.tgbp.panel.*"
 				xmlns:mx="http://www.adobe.com/2006/mxml" 
- 
-	title="Submissions">
-	
+				title="Submissions">
+		
+	<mx:Script source="as/submissions.as"/>
+
+	<mx:HBox 	height="5%" paddingTop="10" 
+				paddingLeft="10" >
+		<mx:Text text="Submission Message Id"/>
+		<mx:TextInput id="submissionMsgId"/>				
+       	<mx:Button label="Go" click="retrieveInstructions()"/>
+	</mx:HBox>
+		
+    <mx:DataGrid id="instructions" 
+    	height="60%" width="100%"
+        dragEnabled="false"
+        dataProvider="{xlc}"
+		editable="true">
+
+        <mx:columns>	        	        
+            <mx:DataGridColumn headerText="Value Date" dataField="valueDate" editable="false"/>            
+			<mx:DataGridColumn headerText="Currency" dataField="currency" editable="false"/>
+            <mx:DataGridColumn headerText="Amount" dataField="amount" editable="false"/>
+            <mx:DataGridColumn headerText="Output Submission File" dataField="submissionFile" editable="false"/>
+        </mx:columns>
+    </mx:DataGrid>		
+    
+	<mx:ProgressBar id="progress"
+					indeterminate="true"
+					width="150"
+					barColor="#b7babc"
+					visible="false"/>	    	    
+
+	<!-- Non-visual components -->
+	<!-- url="{configData['serverUrl']}/instructions/show.htm" USE THIS FOR REAL -->
+	<mx:HTTPService id="instructionRetrievalService"
+					url="submissionData.xml"							
+					result="onInstructionRetrievalService(event)"
+					fault="stopProgressBar(null)"
+					resultFormat="xml"
+					useProxy="false"/>
 	
 </p:basePanel>
