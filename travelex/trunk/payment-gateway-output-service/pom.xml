@@ -76,5 +76,22 @@
         </dependency>        
         
     </dependencies>
+    
+    <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Main-Class>com.travelex.tgbp.output.timing.HttpOutputInitiator</Main-Class>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+    
 
 </project>
