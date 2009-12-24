@@ -6,10 +6,10 @@ package com.travelex.tgbp.message
 	{
 		//Are these required??????
 	    public var outputCount:Number;
-	    public var outputCurrency:String;	
-	    public var outputValue:String;	       
-	    public var sentTo:String;
-	    public var ruleName:String;
+	    public var currencyValues:Array;	      
+	    public var mostRecentRoute:String;
+	    //public var sentTo:String;
+	    //public var ruleName:String;
 	        
 	}
 }

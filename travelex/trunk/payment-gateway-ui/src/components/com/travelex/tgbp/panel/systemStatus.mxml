@@ -10,7 +10,8 @@
 <!--
 <mx:Button label="IN" click="testSubmissionArrival()"/>			
 <mx:Button label="OUT" click="testOutput()"/>
--->	
+-->
+
 		<!-- Should be using css for layout -->
 		<mx:VBox paddingTop="10" paddingLeft="10" width="100%">
 			<mx:HBox paddingTop="20" horizontalAlign="center" width="100%" fontWeight="bold">
@@ -68,12 +69,19 @@
 							<mx:List fontSize="15" borderStyle="none" width="244" paddingLeft="5" rowCount="4"
 								dataProvider="{outputTotals}" labelFunction="createValueLabel"/>
 						</mx:HBox>
+
+						<mx:HBox paddingTop="20" paddingLeft="20">
+							<mx:Text fontSize="15" text="Just Routed File To: " width="244"/>
+							<mx:Text fontSize="15" paddingLeft="5" text="{outputEvent.mostRecentRoute}"/>
+						</mx:HBox>
 						
+						<!--
 						<mx:VBox paddingTop="10" paddingLeft="20">						
 							<mx:Text fontSize="15" text="Routing Decisions (last 20):"/>
 							<mx:List fontSize="15" borderStyle="none" width="495" rowCount="5"
 								dataProvider="{routingDecisions}"/>
 						</mx:VBox>
+						-->
 					</mx:VBox>								
 								
 				</mx:HBox>

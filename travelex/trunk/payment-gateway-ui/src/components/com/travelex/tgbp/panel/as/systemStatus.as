@@ -34,7 +34,7 @@ private function submissionEventHandler(message:IMessage):void {
 	for each(var currencyData:String in submissionEvent.currencyValues) {
 		var data:Array = currencyData.split("/"); //e.g. [0] = EUR and [1] = 1000.
 		var matched:Object = getItem(submisionTotals, data[0]);
-		matched.value += new Number(data[1]);		
+		matched.value = new Number(data[1]);		
 	}
 	submisionTotals.refresh();	
 }
@@ -44,21 +44,24 @@ private function outputEventHandler(message:IMessage):void {
 	glowImage(outputSentImage);	
 	outputEvent = message.body as OutputEvent;	//Should check that count > current count to deal with out of order event arrival.
 	
-	var matched:Object = getItem(outputTotals, outputEvent.outputCurrency);
-	matched.value += new Number(outputEvent.outputValue);
-	outputTotals.refresh();
+	for each(var currencyData:String in outputEvent.currencyValues) {
+		var data:Array = currencyData.split("/"); //e.g. [0] = EUR and [1] = 1000.
+		var matched:Object = getItem(outputTotals, data[0]);
+		matched.value = new Number(data[1]);		
+	}
+	outputTotals.refresh();	
 	
-	addRoutingDecision(outputEvent);	
+	//addRoutingDecision(outputEvent);	
 	
 }
 
-private function addRoutingDecision(out:OutputEvent): void {
+/* private function addRoutingDecision(out:OutputEvent): void {
 	var decision:String = getTime() +  " Routed " + out.outputCurrency + " " + formatCurrency(out.outputValue) + " to " + out.sentTo + ": " + out.ruleName;
 	if(routingDecisions.length == 20) {
 		routingDecisions.removeItemAt(0);
 	}	
 	routingDecisions.addItem(decision);
-}
+} */
 
 private function getTime(): String {
 	var now:Date = new Date();
@@ -92,8 +95,7 @@ private function initialiseOutputValues(): void {
 	routingDecisions = new ArrayCollection();
 	
 	outputEvent.outputCount = 0;
-	outputEvent.outputCurrency = "";
-	outputEvent.outputValue = "";	
+	outputEvent.currencyValues = new Array();
 }
 
 private function glowImage(image:Image):void
@@ -163,15 +165,19 @@ private function testSubmissionArrival(): void {
 }
 
 private function testOutput(): void {
+	var currencyData:Array = new Array();
+	currencyData[0] = "EUR/827.50"; 
+	currencyData[1] = "JPY/1500.75";
+	currencyData[2] = "USD/0.23";
+	
 	var outEvent:OutputEvent = new OutputEvent();
 	outEvent.outputCount = 25;
-	outEvent.outputCurrency = "USD";
-	outEvent.outputValue = "38921.87"
-	outEvent.ruleName = "Dynamic Rule 1";
-	outEvent.sentTo = "BACS";
+	outEvent.currencyValues = currencyData;
+	outEvent.mostRecentRoute = "BACS";
 	
 	var m:AsyncMessage = new AsyncMessage();
 	m.body = outEvent;
 	outputEventHandler(m);
 }
+
 */
