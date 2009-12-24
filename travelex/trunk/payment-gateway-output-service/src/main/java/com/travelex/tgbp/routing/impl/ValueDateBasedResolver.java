@@ -24,7 +24,7 @@ public class ValueDateBasedResolver extends AbstractClearingMechanismResolver {
      */
     @Override
     public ClearingMechanism resolve(Instruction instruction) {
-        final Collection<RoutingConfigOnValueDate> routingConfigs = configReader.onValueDate(instruction.getCurrency(), daysFromToday(instruction.getValueDate()));
+        final Collection<RoutingConfigOnValueDate> routingConfigs = configReader.onValueDate(instruction.getCurrency(), daysFromToday(instruction.getValueDate()) + 1);
         return evaluateClearingMechOnThresholdAmount(instruction.getAmount(), routingConfigs);
     }
 
