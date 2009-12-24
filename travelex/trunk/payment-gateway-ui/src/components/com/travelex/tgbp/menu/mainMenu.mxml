@@ -25,6 +25,11 @@
 				title="Routing Rules"
 				image="@Embed('/../assets/Compass.png')"
 				description="Routing rule configuration"/>
+				
+		   <accordionItem id="clm" 
+				title="Clearing Mechanism"
+				image="@Embed('/../assets/Compass.png')"
+				description="Configure Charge On Clearing Mechanism" /> 		
 			<!--
 			<accordionItem id="xyz" 
 				title="Something Else"
