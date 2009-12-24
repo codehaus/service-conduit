@@ -4,11 +4,11 @@ import com.travelex.tgbp.store.domain.PersistentEntity;
 
 public class DynamicRule extends PersistentEntity {
 
-    private final String clearingMechanism;
-    private final String ruleName;
-    private final String ruleText;
-    private final String schema;
-    private final int priority;
+    private String clearingMechanism;
+    private String ruleName;
+    private String ruleText;
+    private String schema;
+    private int priority;
 
     public DynamicRule(String routeTo, String ruleName, String ruleText, String appliesTo) {
         this.clearingMechanism = routeTo;
@@ -36,5 +36,10 @@ public class DynamicRule extends PersistentEntity {
 
     public int getPriority() {
         return priority;
+    }
+
+    //JPA
+    public DynamicRule() {
+
     }
 }

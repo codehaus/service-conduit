@@ -80,4 +80,9 @@ public interface DataStore {
      */
     List<String> getInstructionTotals(LocalDate date);
 
+
+    List<String> getOutputInstructionTotals();
+
+    String getMostRecentRoute();
+
 }

@@ -51,4 +51,16 @@ public class DummyStore implements DataStore {
             TestCase.fail(e.getMessage());
         }
     }
+
+    @Override
+    public String getMostRecentRoute() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<String> getOutputInstructionTotals() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

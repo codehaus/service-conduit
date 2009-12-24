@@ -85,6 +85,20 @@ public class JPADataStore implements DataStore {
         return query.getResultList();
     }
 
+    @Override
+    public List<String> getOutputInstructionTotals() {
+        javax.persistence.Query query = populateQuery(Query.GET_OUTPUT_VALUES);
+        return query.getResultList();
+    }
+
+    @Override
+    public String getMostRecentRoute() {
+        javax.persistence.Query q = entityManager.createNamedQuery(Query.GET_MOST_RECENT_ROUTE.getJpaName());
+        ClearingMechanism  csm = (ClearingMechanism) q.getResultList().get(0);
+        return csm.name();
+    }
+
+
     private javax.persistence.Query populateQuery(Query query, Object... params) {
         javax.persistence.Query q = entityManager.createNamedQuery(query.getJpaName());
         if(params != null) {

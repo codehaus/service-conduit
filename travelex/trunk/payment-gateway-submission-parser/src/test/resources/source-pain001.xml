@@ -2,7 +2,7 @@
 <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.03">
 	<CstmrCdtTrfInitn>
 		<GrpHdr>
-			<MsgId>HELLO</MsgId>
+			<MsgId>GOTONACHA</MsgId>
 			<CreDtTm>2009-09-28T14:07:00</CreDtTm>
 			<NbOfTxs>3</NbOfTxs>
 			<CtrlSum>11500000</CtrlSum>
@@ -21,7 +21,7 @@
 			<PmtInfId>ABC/086</PmtInfId>
 			<PmtMtd>TRF</PmtMtd>
 			<BtchBookg>false</BtchBookg>
-			<ReqdExctnDt>2009-09-29</ReqdExctnDt>
+			<ReqdExctnDt>2009-12-23</ReqdExctnDt>
 			<Dbtr>
 				<Nm>ABC Corporation</Nm>
 				<PstlAdr>

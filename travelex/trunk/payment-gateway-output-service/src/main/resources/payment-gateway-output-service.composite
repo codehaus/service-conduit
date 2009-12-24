@@ -6,7 +6,8 @@
        
     <service name="instructionOutputService" promote="InstructionOutputService/InstructionOutputService" />
     <service name="fileOutputService" promote="FileOutputService/FileOutputService" />
-    
+        
+    <reference name="eventNotifier" promote="OutputEventNotifier/eventNotifier" />        
     <reference name="dataStore" promote="SterlingOutputInitiator/dataStore
                                          USDOutputInitiator/dataStore
                                          BACSInstructionCreationService/dataStore
@@ -22,7 +23,8 @@
                                          MT103FileGenerationService/dataStore
                                          FedwireFileGenerationService/dataStore
                                          NachaFileGenerationService/dataStore
-                                         DynamicRules/dataStore" />
+                                         DynamicRules/dataStore
+                                         OutputEventNotifier/dataStore" />
     
     <component name="InstructionOutputService">
     	<implementation.java class="com.travelex.tgbp.output.impl.DefaultInstructionOutputService" />
@@ -33,7 +35,12 @@
     	<implementation.java class="com.travelex.tgbp.output.impl.DefaultFileOutputService" />
     	<reference name="instructionBatchers" target="BACSInstructionBatchingService ChapsInstructionBatchingService FpsInstructionBatchingService NachaInstructionBatchingService FedwireInstructionBatchingService" />
     	<reference name="fileGenerators" target="MT103FileGenerationService FedwireFileGenerationService NachaFileGenerationService" />
+    	<reference name="outputEventNotifier" target="OutputEventNotifier" />
     </component>
+    
+    <component name="OutputEventNotifier">
+    	<implementation.java class="com.travelex.tgbp.output.service.event.DefaultOutputEventNotifier" />
+    </component>   
 
     <component name="SterlingOutputInitiator" sca4j:key="GBP">
     	<implementation.java class="com.travelex.tgbp.output.impl.instruction.SterlingOutputInitiator" />

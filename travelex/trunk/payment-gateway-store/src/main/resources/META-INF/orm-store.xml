@@ -79,9 +79,33 @@
 	       from Instruction ins, Submission sub
 	       where ins.submissionId = sub.id
 	       and sub.submissionDate = ?1
-		group by ins.currency
+		   group by ins.currency
 	   </query>
-	</named-query>				
+	</named-query>
+	
+	<named-query name="GET_OUTPUT_VALUES">
+		<query>	   
+	       select concat(concat(ins.currency, '/'), sum(ins.amount))
+	       from Instruction ins
+		   where ins.outputInstructionId != null
+		   group by ins.currency
+	   </query>
+	</named-query>
+	
+	<named-query name="GET_OUTPUT_SUBMISSION_COUNT">
+		<query>	   
+			select count(*)
+			from OutputSubmission os			
+	   </query>
+	</named-query>
+	
+	<named-query name="GET_MOST_RECENT_ROUTE">
+		<query>	   
+			select os.clearingMechanism
+			from OutputSubmission os
+			order by os.id desc						
+	   </query>
+	</named-query>		
 	
 	<named-query name="UPDATE_INS">
 		<query>

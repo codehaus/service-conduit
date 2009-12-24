@@ -7,6 +7,7 @@ import org.osoa.sca.annotations.Service;
 import org.sca4j.api.annotation.scope.Conversation;
 
 import com.travelex.tgbp.output.service.FileOutputService;
+import com.travelex.tgbp.output.service.event.OutputEventNotifier;
 import com.travelex.tgbp.output.service.file.OutputFileGenerationService;
 import com.travelex.tgbp.output.service.file.OutputFileGenerationServiceListener;
 import com.travelex.tgbp.output.service.file.OutputInstructionBatchingService;
@@ -23,6 +24,7 @@ public class DefaultFileOutputService implements FileOutputService, OutputInstru
 
     @Reference protected Map<ClearingMechanism, OutputInstructionBatchingService> instructionBatchers;
     @Reference protected Map<String, OutputFileGenerationService> fileGenerators;
+    @Reference protected OutputEventNotifier outputEventNotifier;
 
     /**
      * {@inheritDoc}
@@ -33,7 +35,9 @@ public class DefaultFileOutputService implements FileOutputService, OutputInstru
             for (OutputInstructionBatchingService instructionBatcher : instructionBatchers.values()) {
                 instructionBatcher.doBatching();
             }
+
         } finally {
+            outputEventNotifier.onOutput();
             closeConversations();
         }
     }

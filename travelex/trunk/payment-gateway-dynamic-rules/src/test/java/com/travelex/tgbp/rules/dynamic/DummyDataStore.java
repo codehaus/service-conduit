@@ -52,4 +52,16 @@ public class DummyDataStore implements DataStore {
     public void updateInstructionForOutput(Long inputInstructionId, Long outputInstructionId) {}
     public int getCount(Query query, Object... params) {throw new UnsupportedOperationException("Not Implemented");}
     public List<String> getInstructionTotals(LocalDate date) {throw new UnsupportedOperationException("Not Implemented");}
+
+    @Override
+    public String getMostRecentRoute() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<String> getOutputInstructionTotals() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

@@ -51,6 +51,9 @@ public class BlazeDSEventNotifier implements EventNotifier {
         else if(eventType == EventType.SUBMISSION) {
             return "submissionEvent";
         }
+        else if(eventType == EventType.OUTPUT) {
+            return "outputEvent";
+        }
 
         throw new EventNotifierException("Unsupported event type");
 
