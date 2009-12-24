@@ -13,7 +13,8 @@
 	<m:mainMenu x="10" y="10" 
 				panelZero="{systemStatusPanel}" 
 				panelOne="{submissionsPanel}"
-				panelTwo="{routingRulesPanel}" />
+				panelTwo="{routingRulesPanel}"
+				panelThree="{clearingRulesPanel}" />
 	
 	<p:systemStatus id="systemStatusPanel"
 					x="220" y="10"
@@ -32,7 +33,7 @@
 					visible="false"
 					config="{configData}"/>	
 					
-	<p:clearingRules id="clearingRules"
+	<p:clearingRules id="clearingRulesPanel"
 					x="220" y="10"
 					height="95%" width="800"
 					visible="false"
