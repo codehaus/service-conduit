@@ -55,6 +55,7 @@ package org.sca4j.itest;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.List;
@@ -312,6 +313,8 @@ public class SCA4JITestMojo extends AbstractMojo {
             throw new AssertionError(e);
         } catch (TestFailureException e) {
             throw new MojoFailureException(e.getMessage());
+        } catch (URISyntaxException e) {
+            throw new AssertionError(e);
         } finally {
         	PerformanceMonitor.end();
         }

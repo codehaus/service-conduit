@@ -59,6 +59,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.UUID;
@@ -72,7 +73,7 @@ import com.thoughtworks.xstream.XStream;
 
 public class Fork {
     
-    public void run(TestMetadata testMetadata, Log log, String jvmargs) throws IOException, MojoExecutionException, InterruptedException {
+    public void run(TestMetadata testMetadata, Log log, String jvmargs) throws IOException, MojoExecutionException, InterruptedException, URISyntaxException {
         
         UUID uuid = UUID.randomUUID();
         File file = new File(uuid.toString());
@@ -103,13 +104,13 @@ public class Fork {
         
     }
 
-    private StringBuilder buildCommand(String jvmargs, File file) throws MalformedURLException {
+    private StringBuilder buildCommand(String jvmargs, File file) throws MalformedURLException, URISyntaxException {
         
         StringBuilder command = new StringBuilder("java -cp ");
 
         URL[] extraCp = ((URLClassLoader) getClass().getClassLoader()).getURLs();
         for (int i = 0; i < extraCp.length; i++) {
-            command.append(extraCp[i]);
+            command.append(new File(extraCp[i].toURI()).getAbsolutePath());
             if (i != extraCp.length - 1) {
                 command.append(File.pathSeparator);
             }
