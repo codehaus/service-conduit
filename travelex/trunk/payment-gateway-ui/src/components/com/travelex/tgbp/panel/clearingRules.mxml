@@ -23,7 +23,7 @@
             <mx:DataGridColumn headerText="Day(s) to clear" dataField="period" editable="false"/>
             <mx:DataGridColumn headerText="Threshold Amount" dataField="amount" editable="true"/>
             <mx:DataGridColumn headerText="Charge" dataField="charge" editable="true" />
-            <mx:DataGridColumn headerText="" id="lbtn" editable="false" >
+            <mx:DataGridColumn headerText="Action" id="lbtn" editable="false" >
                <mx:itemRenderer>
                   <mx:Component>
                      <mx:LinkButton textAlign="left" label="UPDATE" textDecoration="underline" click="outerDocument.onEditRuleClick(data.id, data.amount, data.charge)"/>

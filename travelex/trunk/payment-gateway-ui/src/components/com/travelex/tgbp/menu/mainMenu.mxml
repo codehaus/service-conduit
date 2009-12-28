@@ -22,9 +22,14 @@
 				description="Status of in-process submissions" />
 			
 			<accordionItem id="rules" 
-				title="Routing Rules"
+				title="Create Routing Rules"
 				image="@Embed('/../assets/Compass.png')"
 				description="Routing rule configuration"/>
+				
+			<accordionItem id="manageRules" 
+				title="Manage Routing Rules"
+				image="@Embed('/../assets/Compass.png')"
+				description="Routing rule management"/>
 				
 		   <accordionItem id="clearingRules" 
 				title="Clearing Rules"

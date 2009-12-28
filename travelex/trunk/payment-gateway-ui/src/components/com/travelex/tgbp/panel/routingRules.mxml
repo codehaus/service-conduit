@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <p:basePanel 	xmlns:p="components.com.travelex.tgbp.panel.*"
 				xmlns:mx="http://www.adobe.com/2006/mxml" 
-				title="Routing Rules">
+				title="Create Routing Rules">
 		
 	<mx:Script source="as/routingRules.as"/>
 

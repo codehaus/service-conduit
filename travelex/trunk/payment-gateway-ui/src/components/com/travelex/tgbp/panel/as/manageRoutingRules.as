@@ -9,12 +9,12 @@ private var serverUrl:String;
 [Bindable]
 private var xlc:XMLListCollection = new XMLListCollection();
 
-private function retrieveConfigRules():void {
-	startProgressBar('Loading clearing rules');
-	configRuleRetrievalService.send()	
+private function retrieveDynamicRules():void {
+	startProgressBar('Loading dynamic rules');
+    dynamicRuleRetrievalService.send()	
 }
 
-private function onConfigRuleRetrievalServiceResponse(event:ResultEvent):void {
+private function onDynamicRuleRetrievalServiceResponse(event:ResultEvent):void {
 	stopProgressBar(event);
 	var doc:XMLDocument = event.result.parentNode;
 	var tmp:XML = new XML(doc.toString());
@@ -22,25 +22,25 @@ private function onConfigRuleRetrievalServiceResponse(event:ResultEvent):void {
 	xlc.source = tmp.rule;				
 }
 
-private function onConfigRuleRetrievalFailure():void {
+private function onDynamicRuleRetrievalFailure():void {
 	stopProgressBar(null);
-	mx.controls.Alert.show("Failure in config rule retrieval service");		
+	mx.controls.Alert.show("Failure in dynamic rule retrieval service");		
 }
 
-public function onEditRuleClick(ruleId:Object, amount:Object, charge:Object):void {
-	startProgressBar('Updating clearing rule');
+public function onDeleteRuleClick(ruleId:Object):void {
+	startProgressBar('Deleting dynamic rule');
     //mx.controls.Alert.show(ruleId.toString() + " " + amount.toString() + " " + charge.toString());
-    configRuleUpdateService.send({'id':ruleId, 'charge':charge, 'amount':amount})
+    dynamicRuleDeleteService.send({'id':ruleId})
 }
 
-private function onConfigRuleUpdateServiceResponse(event:ResultEvent):void {
+private function onDynamicRuleDeleteServiceResponse(event:ResultEvent):void {
 	stopProgressBar(event);
-    mx.controls.Alert.show("Update complete, status code " + event.statusCode);
+    mx.controls.Alert.show("Delete complete, status code " + event.statusCode);
 }
 
-private function onConfigRuleUpdateFailure():void {
+private function onDynamicRuleDeleteFailure():void {
 	stopProgressBar(null);
-	mx.controls.Alert.show("Failure in config rule update service");		
+	mx.controls.Alert.show("Failure in dynamic rule delete service");		
 }
 
 private function startProgressBar(text:String):void

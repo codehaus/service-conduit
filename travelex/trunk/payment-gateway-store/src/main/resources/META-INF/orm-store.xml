@@ -135,7 +135,7 @@
 	   </query>
 	</named-query>
 	
-	<named-query name="DELETE_DYNAMIC_RULE">
+	<named-query name="DELETE_DYNAMIC_RULE_BY_ID">
 		<query>
 	        DELETE FROM DynamicRule dynamicRule where dynamicRule.id =?1
 	   </query>

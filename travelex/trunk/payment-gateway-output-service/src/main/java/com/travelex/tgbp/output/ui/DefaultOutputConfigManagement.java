@@ -45,7 +45,7 @@ public class DefaultOutputConfigManagement implements OutputConfigManagement {
      * {@inheritDoc}
      */
     public String deleteDynamicRule(String id) {
-        dataStore.update(Query.DELETE_DYNAMIC_RULE, Long.valueOf(id));
+        dataStore.update(Query.DELETE_DYNAMIC_RULE_BY_ID, Long.valueOf(id));
         return "success";
     }
 
@@ -73,8 +73,8 @@ public class DefaultOutputConfigManagement implements OutputConfigManagement {
              sb.append("<rule>");
              sb.append("<id>");sb.append(rule.getKey());sb.append("</id>");
              sb.append("<scheme>");sb.append(rule.getClearingMechanism());sb.append("</scheme>");
-             sb.append("<name>");sb.append(rule.getRuleName());sb.append("</amount>");
-             sb.append("<schema>");sb.append(rule.getSchema());sb.append("</period>");
+             sb.append("<name>");sb.append(rule.getRuleName());sb.append("</name>");
+             sb.append("<schema>");sb.append(rule.getSchema());sb.append("</schema>");
              sb.append("</rule>");
          }
         sb.append("</Data>");

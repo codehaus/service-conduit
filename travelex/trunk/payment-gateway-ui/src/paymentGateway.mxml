@@ -14,12 +14,19 @@
 				panelZero="{systemStatusPanel}" 
 				panelOne="{submissionsPanel}"
 				panelTwo="{routingRulesPanel}"
-				panelThree="{clearingRulesPanel}" />
+				panelThree="{manageRoutingRulesPanel}"
+				panelFour="{clearingRulesPanel}" />
 	
 	<p:systemStatus id="systemStatusPanel"
 					x="220" y="10"
 					height="95%" width="800"
 					visible="true"/>
+					
+	<p:submissions id="submissionsPanel"
+					x="220" y="10"
+					height="95%" width="800"
+					visible="false"
+					config="{configData}"/>	
 					
 	<p:routingRules id="routingRulesPanel"
 					x="220" y="10"
@@ -27,11 +34,11 @@
 					visible="false"
 					config="{configData}"/>
 					
-	<p:submissions id="submissionsPanel"
+	<p:manageRoutingRules id="manageRoutingRulesPanel"
 					x="220" y="10"
 					height="95%" width="800"
 					visible="false"
-					config="{configData}"/>	
+					config="{configData}"/>
 					
 	<p:clearingRules id="clearingRulesPanel"
 					x="220" y="10"
