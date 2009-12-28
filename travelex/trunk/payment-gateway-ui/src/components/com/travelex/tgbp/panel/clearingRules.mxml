@@ -43,7 +43,7 @@
 	<!-- Non-visual components -->
 	<!-- url="{configData['serverUrl']}/getConfigOnCharge.do" USE THIS FOR REAL -->
 	<mx:HTTPService id="configRuleRetrievalService"
-					url="http://localhost:9900/getConfigOnCharge.do"							
+					url="{configData['serverUrl']}/getConfigOnCharge.do"							
 					result="onConfigRuleRetrievalServiceResponse(event)"
 					fault="onConfigRuleRetrievalFailure()"
 					resultFormat="xml"
@@ -51,7 +51,7 @@
 					
 	<!-- url="{configData['serverUrl']}/updateConfigOnCharge.do" USE THIS FOR REAL -->
 	<mx:HTTPService id="configRuleUpdateService"
-					url="http://localhost:9900/updateConfigOnCharge.do"							
+					url="{configData['serverUrl']}/updateConfigOnCharge.do"							
 					result="onConfigRuleUpdateServiceResponse(event)"
 					fault="onConfigRuleUpdateFailure()"
 					resultFormat="xml"
