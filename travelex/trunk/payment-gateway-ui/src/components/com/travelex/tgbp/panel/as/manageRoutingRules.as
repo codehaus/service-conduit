@@ -36,6 +36,8 @@ public function onDeleteRuleClick(ruleId:Object):void {
 private function onDynamicRuleDeleteServiceResponse(event:ResultEvent):void {
 	stopProgressBar(event);
     mx.controls.Alert.show("Delete complete, status code " + event.statusCode);
+    // Updates UI components with latest server state
+    dynamicRuleRetrievalService.send();
 }
 
 private function onDynamicRuleDeleteFailure():void {
