@@ -7,7 +7,7 @@
 
 	<mx:HBox 	height="5%" paddingTop="10" 
 				paddingLeft="10" >
-		<mx:Text text="Submission Mission Id"/>
+		<mx:Text text="Submission Message Id"/>
 		<mx:TextInput id="submissionMsgId"/>				
        	<mx:Button label="Go" click="retrieveInstructions()"/>
 	</mx:HBox>

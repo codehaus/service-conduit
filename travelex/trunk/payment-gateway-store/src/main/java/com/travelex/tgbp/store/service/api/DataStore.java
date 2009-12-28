@@ -49,6 +49,14 @@ public interface DataStore {
     int getCount(Query query, Object... params);
 
     /**
+     * Executes given update query
+     * @param query
+     * @param params
+     * @return count of updated rows
+     */
+    int update(Query query, Object... params);
+
+    /**
      * Gives back input instructions on given currency for which no output instruction has been created.
      *
      * @param currency - instruction currency.

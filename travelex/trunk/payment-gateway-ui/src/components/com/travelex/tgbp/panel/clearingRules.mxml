@@ -2,7 +2,59 @@
 <p:basePanel 	xmlns:p="components.com.travelex.tgbp.panel.*"
 				xmlns:mx="http://www.adobe.com/2006/mxml" 
 				title="Clearing Rules">
-		
+				
+	<mx:Script source="as/clearingRules.as"/>
 	
+	<mx:HBox 	height="44" paddingTop="10" 
+				paddingLeft="10"  width="220">
+		<mx:Text text="Retrieve clearing rules"/>
+       	<mx:Button label="Go" click="retrieveConfigRules()"/>
+	</mx:HBox>
+
+    <mx:DataGrid id="clearingRulesGrid" 
+    	height="60%" width="100%"
+        dragEnabled="false"
+        dataProvider="{xlc}"
+		editable="true">
+
+        <mx:columns>	        	        
+            <mx:DataGridColumn headerText="Currency" dataField="curr" editable="false"/>            
+			<mx:DataGridColumn headerText="Clearing Scheme" dataField="scheme" editable="false"/>
+            <mx:DataGridColumn headerText="Day(s) to clear" dataField="period" editable="false"/>
+            <mx:DataGridColumn headerText="Threshold Amount" dataField="amount" editable="true"/>
+            <mx:DataGridColumn headerText="Charge" dataField="charge" editable="true" />
+            <mx:DataGridColumn headerText="" id="lbtn" editable="false" >
+               <mx:itemRenderer>
+                  <mx:Component>
+                     <mx:LinkButton textAlign="left" label="UPDATE" textDecoration="underline" click="outerDocument.onEditRuleClick(data.id, data.amount, data.charge)"/>
+                  </mx:Component>
+               </mx:itemRenderer>
+            </mx:DataGridColumn> 
+        </mx:columns>
+    </mx:DataGrid>		
+    
+    <mx:ProgressBar id="progress"
+					indeterminate="true"
+					width="150"
+					barColor="#b7babc"
+					visible="false"/>	    	    
+
+    
+	<!-- Non-visual components -->
+	<!-- url="{configData['serverUrl']}/getConfigOnCharge.do" USE THIS FOR REAL -->
+	<mx:HTTPService id="configRuleRetrievalService"
+					url="http://localhost:9900/getConfigOnCharge.do"							
+					result="onConfigRuleRetrievalServiceResponse(event)"
+					fault="onConfigRuleRetrievalFailure()"
+					resultFormat="xml"
+					useProxy="false"/>
+					
+	<!-- url="{configData['serverUrl']}/updateConfigOnCharge.do" USE THIS FOR REAL -->
+	<mx:HTTPService id="configRuleUpdateService"
+					url="http://localhost:9900/updateConfigOnCharge.do"							
+					result="onConfigRuleUpdateServiceResponse(event)"
+					fault="onConfigRuleUpdateFailure()"
+					resultFormat="xml"
+					useProxy="false"/>
 	
 </p:basePanel>

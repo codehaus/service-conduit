@@ -55,6 +55,13 @@ public class JPADataStore implements DataStore {
     /**
      * {@inheritDoc}
      */
+    public int update(Query query, Object... params) {
+        return populateQuery(query, params).executeUpdate();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public List<Instruction> findInstructionByCurrency(Currency currency) {
         javax.persistence.Query jpaQuery = entityManager.createNamedQuery("FIND_INS_BY_CURR");
         jpaQuery.setParameter(1, currency);
@@ -105,7 +112,7 @@ public class JPADataStore implements DataStore {
         if(params != null) {
             int idx = 1;
             for (Object param : params) {
-                q.setParameter(idx, param);
+                q.setParameter(idx++, param);
             }
         }
         return q;

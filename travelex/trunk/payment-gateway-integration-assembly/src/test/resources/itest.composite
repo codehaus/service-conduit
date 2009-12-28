@@ -12,6 +12,15 @@
 
     <component name="IntegrationAssembly">
         <implementation.composite scdlResource="pg-integration-assembly.composite"/>
+        
+        <service name="submissionQueryProcessor">
+            <sca4j:binding.http />
+        </service>
+        
+        <service name="outputConfigManagement">
+            <sca4j:binding.http />
+        </service>
+        
         <property name="inputSubmissionBaseDir">/</property>
         <property name="initialStartupDelayInSeconds">3</property>
         <property name="instructionOutputDelayInSeconds">5</property>

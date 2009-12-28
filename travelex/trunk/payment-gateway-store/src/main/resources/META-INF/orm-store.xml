@@ -112,6 +112,34 @@
 		        UPDATE Instruction ins SET ins.outputInstructionId =?1 WHERE ins.id = ?2
 		</query>
 	</named-query>
+	
+	<named-query name="GET_ALL_CONFIG_ON_VALUE_DATE">
+		<query>
+	        SELECT config 
+            FROM RoutingConfigOnValueDate config 
+            order by config.id
+	   </query>
+	</named-query>
+	
+	<named-query name="UPDATE_VALUE_DATE_CONFIG_BY_ID">
+		<query>
+	        UPDATE RoutingConfigOnValueDate config SET config.thresholdAmount =?1, config.charge =?2 WHERE config.id = ?3
+	   </query>
+	</named-query>
+	
+	<named-query name="GET_ALL_DYNAMIC_RULES">
+		<query>
+	        SELECT dynamicRule 
+            FROM DynamicRule dynamicRule 
+            order by dynamicRule.id
+	   </query>
+	</named-query>
+	
+	<named-query name="DELETE_DYNAMIC_RULE">
+		<query>
+	        DELETE FROM DynamicRule dynamicRule where dynamicRule.id =?1
+	   </query>
+	</named-query>
 
 	<mapped-superclass class="com.travelex.tgbp.store.domain.PersistentEntity"
 		access="FIELD">

@@ -69,4 +69,9 @@ public class DummyStore implements DataStore {
         // TODO Auto-generated method stub
         return null;
     }
+
+    public int update(Query query, Object... params) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 }

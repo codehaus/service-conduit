@@ -6,6 +6,7 @@
        
     <service name="instructionOutputService" promote="InstructionOutputService/InstructionOutputService" />
     <service name="fileOutputService" promote="FileOutputService/FileOutputService" />
+    <service name="outputConfigManagement" promote="OutputConfigManagement/OutputConfigManagement" />
         
     <reference name="eventNotifier" promote="OutputEventNotifier/eventNotifier" />        
     <reference name="dataStore" promote="SterlingOutputInitiator/dataStore
@@ -24,7 +25,8 @@
                                          FedwireFileGenerationService/dataStore
                                          NachaFileGenerationService/dataStore
                                          DynamicRules/dataStore
-                                         OutputEventNotifier/dataStore" />
+                                         OutputEventNotifier/dataStore
+                                         OutputConfigManagement/dataStore" />
     
     <component name="InstructionOutputService">
     	<implementation.java class="com.travelex.tgbp.output.impl.DefaultInstructionOutputService" />
@@ -171,6 +173,10 @@
     
     <component name="RoutingConfigReader">
     	<implementation.java class="com.travelex.tgbp.routing.impl.JPARoutingConfigReader" />
+    </component>
+    
+    <component name="OutputConfigManagement">
+    	<implementation.java class="com.travelex.tgbp.output.ui.DefaultOutputConfigManagement" />
     </component>
             
 </composite>

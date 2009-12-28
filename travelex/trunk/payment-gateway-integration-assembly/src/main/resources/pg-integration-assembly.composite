@@ -12,6 +12,7 @@
     <service name="inputSubmissionFtpListener" promote="InputSubmissionFtpListener/submissionFtpListener" />
     <service name="outputSchedulerService" promote="OutputScheduler/outputSchedulerService" />
     <service name="submissionQueryProcessor" promote="SubmissionQueryProcessor/SubmissionQueryProcessor" />
+    <service name="outputConfigManagement" promote="OutputService/outputConfigManagement" />
     
     <property name="inputSubmissionBaseDir" />
     <property name="initialStartupDelayInSeconds" />
