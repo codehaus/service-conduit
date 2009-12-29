@@ -28,7 +28,7 @@
             <mx:DataGridColumn headerText="Output Submission File" editable="false">
                <mx:itemRenderer>
                   <mx:Component>
-                     <mx:LinkButton textAlign="left" label="{data.fname}" textDecoration="underline" click="outerDocument.displayOutputFile()"/>
+                     <mx:LinkButton textAlign="left" label="{data.fname}" click="outerDocument.displayOutputFile()"/>
                   </mx:Component>
                </mx:itemRenderer>
             </mx:DataGridColumn>
