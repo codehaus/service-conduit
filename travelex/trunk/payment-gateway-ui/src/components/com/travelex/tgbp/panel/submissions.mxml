@@ -25,7 +25,13 @@
             <mx:DataGridColumn headerText="Target Account" dataField="targetacc" editable="false"/>
             <mx:DataGridColumn headerText="Status" width="65" dataField="status" editable="false"/>
             <mx:DataGridColumn headerText="Clearing Scheme" dataField="scheme" editable="false"/>            
-            <mx:DataGridColumn headerText="Output Submission File" dataField="fname" editable="false"/>
+            <mx:DataGridColumn headerText="Output Submission File" editable="false">
+               <mx:itemRenderer>
+                  <mx:Component>
+                     <mx:LinkButton textAlign="left" label="{data.fname}" textDecoration="underline" click="outerDocument.displayOutputFile()"/>
+                  </mx:Component>
+               </mx:itemRenderer>
+            </mx:DataGridColumn>
         </mx:columns>
     </mx:DataGrid>		
     

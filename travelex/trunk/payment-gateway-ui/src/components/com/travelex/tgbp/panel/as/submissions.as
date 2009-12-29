@@ -40,3 +40,7 @@ public function timerHandler(event:TimerEvent):void {
 	progress.label="Done";
 	progress.visible=false;
 }
+
+public function displayOutputFile():void {
+	Alert.show("DATA");
+}
