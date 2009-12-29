@@ -24,7 +24,18 @@ public class DefaultSubmissionQueryProcessor implements SubmissionQueryProcessor
              sb.append("<curr>");sb.append(String.valueOf(record[0]));sb.append("</curr>");
              sb.append("<amount>");sb.append(String.valueOf(record[1]));sb.append("</amount>");
              sb.append("<vdate>");sb.append(String.valueOf(record[2]));sb.append("</vdate>");
-             sb.append("<fname>");sb.append(String.valueOf(record[3]));sb.append("</fname>");
+             sb.append("<targetacc>");sb.append(String.valueOf(record[3]));sb.append("</targetacc>");
+             sb.append("<status>");sb.append(String.valueOf(record[4]));sb.append("</status>");
+             String scheme = String.valueOf(record[5]);             
+             if(scheme.equals("null")){
+            	 scheme = "";
+             }
+             sb.append("<scheme>");sb.append(scheme);sb.append("</scheme>");
+             String fileName = String.valueOf(record[6]);           
+             if(fileName.equals("null")){
+            	 fileName = "";
+             }
+             sb.append("<fname>");sb.append(fileName);sb.append("</fname>");
              sb.append("</instruction>");
          }
         sb.append("</Data>");

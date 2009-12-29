@@ -20,8 +20,11 @@
 
         <mx:columns>	        	        
             <mx:DataGridColumn headerText="Value Date" dataField="vdate" editable="false"/>            
-			<mx:DataGridColumn headerText="Currency" dataField="curr" editable="false"/>
-            <mx:DataGridColumn headerText="Amount" dataField="amount" editable="false"/>
+			<mx:DataGridColumn headerText="Currency" width="70" dataField="curr" editable="false"/>
+            <mx:DataGridColumn headerText="Amount" width="90" dataField="amount" editable="false"/>
+            <mx:DataGridColumn headerText="Target Account" dataField="targetacc" editable="false"/>
+            <mx:DataGridColumn headerText="Status" width="65" dataField="status" editable="false"/>
+            <mx:DataGridColumn headerText="Clearing Scheme" dataField="scheme" editable="false"/>            
             <mx:DataGridColumn headerText="Output Submission File" dataField="fname" editable="false"/>
         </mx:columns>
     </mx:DataGrid>		

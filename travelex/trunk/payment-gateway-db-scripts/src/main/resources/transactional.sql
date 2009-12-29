@@ -26,6 +26,8 @@ CREATE TABLE instruction
   out_ins_id           NUMBER(16), 
   amount               NUMBER(16,2) NOT NULL, 
   currency             VARCHAR2(3) NOT NULL, 
+  status               VARCHAR2(15) NOT NULL,     
+  bene_acct           VARCHAR2(50) NOT NULL,   
   value_date           DATE NOT NULL, 
   data                 VARCHAR2(3000) NOT NULL,
   group_data           VARCHAR2(3000) NOT NULL

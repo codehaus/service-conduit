@@ -119,7 +119,7 @@
 	
 	<named-query name="UPDATE_INS">
 		<query>
-		        UPDATE Instruction ins SET ins.outputInstructionId =?1 WHERE ins.id = ?2
+		        UPDATE Instruction ins SET ins.outputInstructionId =?1, ins.status = ?2 WHERE ins.id = ?3
 		</query>
 	</named-query>
 	
@@ -202,6 +202,14 @@
 
 			<basic name="outputInstructionId">
 				<column name="OUT_INS_ID" nullable="true" />
+			</basic>
+			
+			<basic name="status">
+				<column name="STATUS" nullable="false" />
+			</basic>
+			
+			<basic name="beneAcct">
+				<column name="BENE_ACCT" nullable="false" />
 			</basic>
 
 			<basic name="amount">

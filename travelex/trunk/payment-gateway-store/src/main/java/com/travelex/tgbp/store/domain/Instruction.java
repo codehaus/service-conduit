@@ -20,8 +20,10 @@ public class Instruction extends PersistentEntity {
     private Long outputInstructionId;
     private String paymentData;
     private String paymentGroupData;
+    private String status;
+    private String beneAcct;
 
-    /**
+	/**
      * JPA Constructor
      */
     Instruction() { }
@@ -31,10 +33,12 @@ public class Instruction extends PersistentEntity {
      *
      * @param submissionId - submission identifier.
      */
-    public Instruction(Currency currency, LocalDate valueDate, BigDecimal amount) {
+    public Instruction(String acct, Currency currency, LocalDate valueDate, BigDecimal amount) {
         this.currency = currency;
         this.valueDate = valueDate;
-        this.amount = amount;
+        this.amount = amount;        
+		this.beneAcct = acct;
+		this.status = "WAITING";
     }
 
     /**
@@ -62,6 +66,14 @@ public class Instruction extends PersistentEntity {
     public void setPaymentData(String data){
         this.paymentData = data;
     }
+    
+    /**
+     * Set Status
+     * @param status
+     */
+    public void setStatus(String status) {
+		this.status = status;
+	}
 
     /**
      * Gets the snippet of data for the group containing the instruction.
@@ -123,4 +135,20 @@ public class Instruction extends PersistentEntity {
     public String getPaymentData(){
         return paymentData;
     }
+    
+    /**
+     * Get STatus
+     * @return
+     */
+    public String getStatus() {
+		return status;
+	}
+
+    /**
+     * Get BeneAccount
+     * @return
+     */
+	public String getBeneAcct() {
+		return beneAcct;
+	}
 }

@@ -84,7 +84,8 @@ public class JPADataStore implements DataStore {
     public void updateInstructionForOutput(Long inputInstructionId, Long outputInstructionId) {
         javax.persistence.Query jpaQuery = entityManager.createNamedQuery("UPDATE_INS");
         jpaQuery.setParameter(1, outputInstructionId);
-        jpaQuery.setParameter(2, inputInstructionId);
+        jpaQuery.setParameter(2, "SENT");
+        jpaQuery.setParameter(3, inputInstructionId);
         jpaQuery.executeUpdate();
     }
 
@@ -112,12 +113,16 @@ public class JPADataStore implements DataStore {
      */
     public Object[] getInstructionDataByMssgId(String messageId) {
         Session session = (Session)entityManager.getDelegate();
-        List data = session.createSQLQuery("select i.currency curr, i.amount amount, i.value_date vdate, " +
+        List data = session.createSQLQuery("select i.currency curr, i.amount amount, i.value_date vdate, i.bene_acct acct, i.status  status, " +
+        		               "oi.CLEARING_MECHANISM clm, " +
                                "os.file_name fname from submission s, instruction i, " +
-                               "output_instruction oi, output_submission os where s.message_id=? " +
-                               "and i.sub_id=s.id and i.out_ins_id is not null and " +
-                               "i.out_ins_id = oi.id and oi.out_sub_id = os.id").addScalar("curr").
-                               addScalar("amount").addScalar("vdate").addScalar("fname").setString(0, messageId).list();
+                               "output_instruction oi, output_submission os " +
+                               "where s.message_id=? " +
+                               "and i.sub_id = s.id and " +                 
+                               "i.out_ins_id = oi.id(+) and oi.out_sub_id = os.id(+)")
+                               .addScalar("curr").addScalar("amount").addScalar("vdate")
+				               .addScalar("acct").addScalar("status").addScalar("clm")
+				               .addScalar("fname").setString(0, messageId).list();
         return data.toArray();
     }
 

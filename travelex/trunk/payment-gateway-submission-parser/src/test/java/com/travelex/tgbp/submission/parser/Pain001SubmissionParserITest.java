@@ -29,6 +29,8 @@ public class Pain001SubmissionParserITest extends TestCase {
         for (Instruction instruction : instructions) {
             assertTrue("Incorrect payment data", instruction.getPaymentData().trim().startsWith("<CdtTrfTxInf"));
             assertTrue("Incorrect payment group data", instruction.getPaymentGroupData().trim().startsWith("<PmtInf"));
+            assertNotNull(instruction.getBeneAcct());
+            assertNotNull(instruction.getStatus());
 
             assertEquals("Incorrect submission id", instruction.getSubmissionId().longValue(), 25);
         }

@@ -62,7 +62,8 @@ public class Pain001SubmissionParser implements SubmissionParser {
             List<Instruction> createdInstructions = new ArrayList<Instruction>();
             for (Element i : instructions) {
                 Amount amount = getAmount(i);
-                Instruction instruction = new Instruction(amount.currency, valueDate, amount.value);
+                String beneAccount = getTargetAccount(i);
+                Instruction instruction = new Instruction(beneAccount,amount.currency, valueDate, amount.value);
                 instruction.setPaymentData(asText(i));
                 createdInstructions.add(instruction);
             }
@@ -80,12 +81,20 @@ public class Pain001SubmissionParser implements SubmissionParser {
 
     }
 
-    private String asText(Element e) throws IOException {
+
+	private String asText(Element e) throws IOException {
         XMLOutputter outputter = new XMLOutputter(Format.getCompactFormat());
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         outputter.output(e, baos);
         return new String(baos.toByteArray());
     }
+	
+	
+	private String getTargetAccount(Element i) throws JDOMException {
+    	Element amt = (Element) createXPath("CdtrAcct/Id/Othr/Id").selectSingleNode(i);
+    	return amt.getTextTrim();
+        
+	}
 
     private Amount getAmount(Element i) throws JDOMException {
         Element amt = (Element) createXPath("Amt/InstdAmt").selectSingleNode(i);
