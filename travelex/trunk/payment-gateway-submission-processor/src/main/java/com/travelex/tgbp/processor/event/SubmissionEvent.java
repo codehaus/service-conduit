@@ -8,6 +8,8 @@ public class SubmissionEvent implements EventDescriptor {
     private String[] currencyValues; //e.g. [0]=EUR/1000, [2]=USD/23.52
     private int instructionCount; //Total instruction count for the current submission
     private String submissionId;
+    private String fileName;
+    private String fileContent;
 
     @Override
     public String getMessageId() {
@@ -46,7 +48,32 @@ public class SubmissionEvent implements EventDescriptor {
         this.submissionId = submissionId;
     }
 
+    /**
+     * @return the fileName
+     */
+    public String getFileName() {
+        return fileName;
+    }
 
+    /**
+     * @param fileName the fileName to set
+     */
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
+    /**
+     * @return the fileContent
+     */
+    public String getFileContent() {
+        return fileContent;
+    }
+
+    /**
+     * @param fileContent the fileContent to set
+     */
+    public void setFileContent(String fileContent) {
+        this.fileContent = fileContent;
+    }
 
 }

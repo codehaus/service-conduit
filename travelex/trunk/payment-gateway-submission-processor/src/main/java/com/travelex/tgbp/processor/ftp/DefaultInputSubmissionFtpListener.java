@@ -8,6 +8,7 @@ import java.io.InputStream;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Property;
 import org.osoa.sca.annotations.Reference;
 
@@ -22,6 +23,14 @@ public class DefaultInputSubmissionFtpListener implements InputSubmissionFtpList
     @Reference protected SubmissionProcessor submissionProcessor;
 
     @Property(required=true) protected String baseDir;
+
+    @Init
+    public void init() {
+        final File baseDirectory = new File(baseDir);
+        if (!baseDirectory.exists()) {
+            baseDirectory.mkdirs();
+        }
+    }
 
     /**
      * {@inheritDoc}

@@ -10,6 +10,7 @@ import org.joda.time.LocalDate;
 
 import com.travelex.tgbp.store.domain.Instruction;
 import com.travelex.tgbp.store.domain.OutputInstruction;
+import com.travelex.tgbp.store.domain.OutputSubmission;
 import com.travelex.tgbp.store.domain.PersistentEntity;
 import com.travelex.tgbp.store.service.api.DataStore;
 import com.travelex.tgbp.store.service.api.Query;
@@ -106,6 +107,27 @@ public class JPADataStore implements DataStore {
         return csm.name();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public Object[] getInstructionDataByMssgId(String messageId) {
+        Session session = (Session)entityManager.getDelegate();
+        List data = session.createSQLQuery("select i.currency curr, i.amount amount, i.value_date vdate, " +
+                               "os.file_name fname from submission s, instruction i, " +
+                               "output_instruction oi, output_submission os where s.message_id=? " +
+                               "and i.sub_id=s.id and i.out_ins_id is not null and " +
+                               "i.out_ins_id = oi.id and oi.out_sub_id = os.id").addScalar("curr").
+                               addScalar("amount").addScalar("vdate").addScalar("fname").setString(0, messageId).list();
+        return data.toArray();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public OutputSubmission getMostRecentOutputSubmission() {
+        javax.persistence.Query q = entityManager.createNamedQuery(Query.GET_MOST_RECENT_OUTPUT_SUBMISSION.getJpaName());
+        return (OutputSubmission) q.getResultList().get(0);
+    }
 
     private javax.persistence.Query populateQuery(Query query, Object... params) {
         javax.persistence.Query q = entityManager.createNamedQuery(query.getJpaName());
@@ -116,20 +138,6 @@ public class JPADataStore implements DataStore {
             }
         }
         return q;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Object[] getInstructionDataByMssgId(String messageId) {
-        Session session = (Session)entityManager.getDelegate();
-        List data = session.createSQLQuery("select i.currency curr, i.amount amount, i.value_date vdate, " +
-        		               "os.file_name fname from submission s, instruction i, " +
-        		               "output_instruction oi, output_submission os where s.message_id=? " +
-        		               "and i.sub_id=s.id and i.out_ins_id is not null and " +
-        		               "i.out_ins_id = oi.id and oi.out_sub_id = os.id").addScalar("curr").
-        		               addScalar("amount").addScalar("vdate").addScalar("fname").setString(0, messageId).list();
-        return data.toArray();
     }
 
 }

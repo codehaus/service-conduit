@@ -10,6 +10,7 @@ import org.osoa.sca.annotations.Reference;
 
 import com.travelex.tgbp.store.domain.Instruction;
 import com.travelex.tgbp.store.domain.OutputInstruction;
+import com.travelex.tgbp.store.domain.OutputSubmission;
 import com.travelex.tgbp.store.domain.PersistentEntity;
 import com.travelex.tgbp.store.domain.Submission;
 import com.travelex.tgbp.store.service.api.DataStore;
@@ -73,5 +74,10 @@ public class DummyStore implements DataStore {
     public int update(Query query, Object... params) {
         // TODO Auto-generated method stub
         return 0;
+    }
+
+    public OutputSubmission getMostRecentOutputSubmission() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

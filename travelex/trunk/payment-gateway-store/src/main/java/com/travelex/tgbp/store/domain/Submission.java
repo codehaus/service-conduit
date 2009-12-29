@@ -64,6 +64,14 @@ public class Submission extends PersistentEntity {
     }
 
     /**
+     * Returns input data as byte array
+     * @return raw data
+     */
+    public byte[] getRawData() {
+        return inputData;
+    }
+
+    /**
      * Returns file name
      *
      * @return the fileName

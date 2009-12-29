@@ -4,9 +4,11 @@ import com.travelex.tgbp.message.OutputEvent;
 import com.travelex.tgbp.message.SubmissionEvent;
 
 import mx.collections.ArrayCollection;
+import mx.controls.Alert;
 import mx.controls.Image;
+import mx.core.ScrollPolicy;
 import mx.formatters.NumberFormatter;
-import mx.messaging.messages.AsyncMessage;
+import mx.managers.PopUpManager;
 import mx.messaging.messages.IMessage;
 	
 private static var ALPHA_BASE:Number = 0.2;
@@ -25,6 +27,9 @@ private var outputTotals:ArrayCollection;
 
 [Bindable]
 private var routingDecisions:ArrayCollection;
+
+[Bindable]
+private var reconciliationValue:Number;
 	
 private function submissionEventHandler(message:IMessage):void {
 	//The flash player is single threaded so there's no need to worry about synchronisation.
@@ -36,7 +41,8 @@ private function submissionEventHandler(message:IMessage):void {
 		var matched:Object = getItem(submisionTotals, data[0]);
 		matched.value = new Number(data[1]);		
 	}
-	submisionTotals.refresh();	
+	submisionTotals.refresh();
+	performReconciliation();	
 }
 
 private function outputEventHandler(message:IMessage):void {
@@ -50,7 +56,7 @@ private function outputEventHandler(message:IMessage):void {
 		matched.value = new Number(data[1]);		
 	}
 	outputTotals.refresh();	
-	
+	performReconciliation();
 	//addRoutingDecision(outputEvent);	
 	
 }
@@ -77,6 +83,8 @@ private function init(): void {
 	
 	submissionEventConsumer.subscribe();	
 	outputEventConsumer.subscribe();
+	
+	performReconciliation();
 }
 
 private function initialiseInputValues(): void {
@@ -139,6 +147,26 @@ public function zeroPad(number:int, width:int):String {
        ret= "0" + ret;
    }
    return ret;
+}
+
+private function performReconciliation():void {
+   reconciliationValue = getTotalAmount(outputTotals) - getTotalAmount(submisionTotals);
+}
+
+private function getTotalAmount(data:ArrayCollection):Number {
+	var ret:Number = new Number();
+    for each(var entry:Object in data) {
+		ret = ret + entry.value;
+	}	
+    return ret;
+}
+
+private function displayMostRecentInputFile():void {
+	Alert.show(submissionEvent.fileContent, submissionEvent.fileName);
+}
+
+private function displayMostRecentOutputFile():void {
+	Alert.show(outputEvent.mostRecentFileContent, outputEvent.mostRecentFileName);
 }
 
 /* 

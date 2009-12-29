@@ -13,80 +13,99 @@
 -->
 
 		<!-- Should be using css for layout -->
-		<mx:VBox paddingTop="10" paddingLeft="10" width="100%">
-			<mx:HBox paddingTop="20" horizontalAlign="center" width="100%" fontWeight="bold">
+		<mx:VBox paddingTop="10" paddingLeft="45" width="750" height="550" horizontalAlign="left">
+			<mx:HBox paddingTop="20" horizontalAlign="left" height="10%" width="100%" fontWeight="bold">
 				<mx:Text  fontSize="15" text="Current Processing Day:"/>
 				<mx:Text id="processingday" fontSize="15" text="{new Date().toDateString()}"/>
 			</mx:HBox>		
 				
-			<mx:VBox height="15%">
-				<mx:Text text="System input" height="27" fontSize="21"/>		
+		    <!-- Inbound/Outbound Submission statuses -->
+		    <mx:HBox paddingTop="20" horizontalAlign="left" height="80%" width="100%" fontWeight="bold">
+		    
+		      <!-- Inbound submission section -->
+			  <mx:VBox height="100%" width="50%" horizontalAlign="left">
+				<mx:Text text="System Input" height="27" fontSize="21" />		
 				<mx:HBox>
 					<mx:Image	id="submissionReceivedImage" 
 								source="@Embed('/../assets/right_green_arrow.jpg')"
 								width="128" height="128"/>
-					<mx:VBox>
-						<mx:HBox paddingTop="20" paddingLeft="20">
-							<mx:Text fontSize="15" text="Total Submissions Today: " width="244"/>
-							<mx:Text fontSize="15" paddingLeft="5" text="{submissionEvent.submissionCount}"/>
+				</mx:HBox>
+				<mx:VBox paddingTop="5" height="100%" width="100%" horizontalAlign="left">
+						<mx:HBox paddingTop="5" width="100%">
+							<mx:Text fontSize="12" fontWeight="normal" text="Total Submissions Today:" width="50%"/>
+							<mx:Text fontSize="12" fontWeight="normal" text="{submissionEvent.submissionCount}" width="50%"/>
 						</mx:HBox>
-																	
-						<mx:HBox paddingTop="20" paddingLeft="20">
-							<mx:Text fontSize="15" text="Total Submission Values Today: " width="244"/>
-							<mx:List fontSize="15" borderStyle="none" width="244" paddingLeft="5" rowCount="3"
+
+						<mx:HBox paddingTop="5" width="100%">
+							<mx:Text fontSize="12" fontWeight="normal" width="50%" text="Submissions Value:"/>
+							<mx:List fontSize="12" fontWeight="normal" width="50%" borderStyle="none" paddingLeft="5" rowCount="3"
 								dataProvider="{submisionTotals}" labelFunction="createValueLabel"/>								
 						</mx:HBox>
 						
-						<mx:HBox paddingTop="20" paddingLeft="20">
-							<mx:Text fontSize="15" text="Most Recent Submission: " width="244"/>
-							<mx:Text fontSize="15" paddingLeft="5" text="{submissionEvent.submissionId}"/>
+						<mx:HBox paddingTop="5" width="100%">
+							<mx:Text fontSize="12" fontWeight="normal" text="Most Recent Submission:" width="50%"/>
+							<mx:Text fontSize="12" fontWeight="normal" text="{submissionEvent.submissionId}" width="50%"/>
 						</mx:HBox>				
 								
-						<mx:HBox paddingLeft="20">
-							<mx:Text fontSize="15" text="            instruction count: " width="244"/>
-							<mx:Text fontSize="15" paddingLeft="5" text="{submissionEvent.instructionCount}"/>			
-						</mx:HBox>																	
-																								
-					</mx:VBox>								
-				</mx:HBox>							
-			</mx:VBox>
-			
-			<mx:VBox height="80%" >
-				<mx:Text text="System output" height="27" fontSize="21"/>
-				<mx:HBox>
-					<mx:Image	id="outputSentImage" 
-								source="@Embed('/../assets/left_green_arrow.jpg')"
-								width="128" height="128"/>
-								
-					<mx:VBox width="100%">
-						<mx:HBox paddingTop="20" paddingLeft="20">
-							<mx:Text  fontSize="15" text="Total Outputs Today: " width="244"/>
-							<mx:Text id="outputCount" fontSize="15" paddingLeft="5" text="{outputEvent.outputCount}"/>
-						</mx:HBox>
-																	
-						<mx:HBox paddingTop="20" paddingLeft="20">
-							<mx:Text fontSize="15" text="Total Output Values Today: " width="244"/>
-							<mx:List fontSize="15" borderStyle="none" width="244" paddingLeft="5" rowCount="4"
-								dataProvider="{outputTotals}" labelFunction="createValueLabel"/>
-						</mx:HBox>
-
-						<mx:HBox paddingTop="20" paddingLeft="20">
-							<mx:Text fontSize="15" text="Just Routed File To: " width="244"/>
-							<mx:Text fontSize="15" paddingLeft="5" text="{outputEvent.mostRecentRoute}"/>
+						<mx:HBox paddingTop="5" width="100%">
+							<mx:Text fontSize="12" fontWeight="normal" text="Instruction Count:" width="50%"/>
+							<mx:Text fontSize="12" fontWeight="normal" text="{submissionEvent.instructionCount}" width="50%"/>			
 						</mx:HBox>
 						
-						<!--
-						<mx:VBox paddingTop="10" paddingLeft="20">						
-							<mx:Text fontSize="15" text="Routing Decisions (last 20):"/>
-							<mx:List fontSize="15" borderStyle="none" width="495" rowCount="5"
-								dataProvider="{routingDecisions}"/>
-						</mx:VBox>
-						-->
-					</mx:VBox>								
-								
+						<mx:HBox paddingTop="5" width="100%">
+							<mx:Text fontSize="12" fontWeight="normal" text="Input File:" width="50%"/>
+							<!--mx:Text fontSize="12" fontWeight="normal" text="Click Here" width="50%"/ -->
+							<mx:LinkButton fontSize="12" fontWeight="normal" textAlign="left" label="{submissionEvent.fileName}" textDecoration="underline" click="displayMostRecentInputFile()" width="50%" />			
+						</mx:HBox>																	
+				 </mx:VBox>			
+			  </mx:VBox>
+
+              <!-- Outbound submission section -->			
+			  <mx:VBox height="100%" width="50%" horizontalAlign="left">
+				<mx:Text text="System Output" height="27" fontSize="21"/>
+				<mx:HBox>
+					<mx:Image	id="outputSentImage" 
+								source="@Embed('/../assets/right_green_arrow.jpg')"
+								width="128" height="128"/>
 				</mx:HBox>
-			</mx:VBox>
+				<mx:VBox paddingTop="5" height="100%" width="100%" horizontalAlign="left">
+						<mx:HBox paddingTop="5" width="100%">
+							<mx:Text fontSize="12" fontWeight="normal" text="Total Outputs Today:" width="50%"/>
+							<mx:Text fontSize="12" fontWeight="normal" text="{outputEvent.outputCount}" width="50%"/>
+						</mx:HBox>
+
+						<mx:HBox paddingTop="5" width="100%">
+							<mx:Text fontSize="12" fontWeight="normal" text="Outputs Value:" width="50%"/>
+							<mx:List fontSize="12" fontWeight="normal" borderStyle="none" width="50%" paddingLeft="5" rowCount="3"
+								dataProvider="{outputTotals}" labelFunction="createValueLabel"/>								
+						</mx:HBox>
+						
+						<mx:HBox paddingTop="5" width="100%">
+							<mx:Text fontSize="12" fontWeight="normal" text="Most Recent Submission:" width="50%"/>
+							<mx:Text fontSize="12" fontWeight="normal" text="" width="50%"/>
+						</mx:HBox>				
+
+						<mx:HBox paddingTop="5" width="100%">
+							<mx:Text fontSize="12" fontWeight="normal" text="Output Scheme:" width="50%"/>
+							<mx:Text fontSize="12" fontWeight="normal" text="{outputEvent.mostRecentRoute}" width="50%"/>
+						</mx:HBox>				
+								
+						<mx:HBox paddingTop="5" width="100%">
+							<mx:Text fontSize="12" fontWeight="normal" text="Output File:" width="50%" />
+							<!--mx:Text fontSize="12" fontWeight="normal" text="{outputEvent.mostRecentFileName}" textDecoration="underline" click="displayMostRecentOutputFile()" width="50%" /-->
+                            <mx:LinkButton fontSize="12" fontWeight="normal" textAlign="left" label="{outputEvent.mostRecentFileName}" textDecoration="underline" click="displayMostRecentOutputFile()" width="50%" />
+						</mx:HBox>																	
+				 </mx:VBox>			
+			  </mx:VBox>
+			  
+			</mx:HBox>
 			
+			<!-- Reconciliation information box -->
+			<mx:HBox paddingTop="10" horizontalAlign="left" height="10%" width="100%" fontWeight="bold">
+				<mx:Text  fontSize="15" text="Reconciliation(Outbound Inbound Payment(s) Amount Difference): "/>
+				<mx:Text id="reconciliation" fontSize="15" text="{reconciliationValue.toString()}"/>
+			</mx:HBox>		
+
 		</mx:VBox>		
 	
 </p:basePanel>

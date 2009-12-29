@@ -6,6 +6,7 @@ import org.joda.time.LocalDate;
 
 import com.travelex.tgbp.store.domain.Instruction;
 import com.travelex.tgbp.store.domain.OutputInstruction;
+import com.travelex.tgbp.store.domain.OutputSubmission;
 import com.travelex.tgbp.store.domain.PersistentEntity;
 import com.travelex.tgbp.store.type.ClearingMechanism;
 import com.travelex.tgbp.store.type.Currency;
@@ -98,5 +99,7 @@ public interface DataStore {
     List<String> getOutputInstructionTotals();
 
     String getMostRecentRoute();
+
+    OutputSubmission getMostRecentOutputSubmission();
 
 }

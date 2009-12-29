@@ -105,6 +105,14 @@
 			from OutputSubmission os
 			order by os.id desc						
 	   </query>
+	</named-query>
+	
+	<named-query name="GET_MOST_RECENT_OUTPUT_SUBMISSION">
+		<query>	   
+			select os
+			from OutputSubmission os
+			order by os.id desc						
+	   </query>
 	</named-query>		
 	
 	<named-query name="UPDATE_INS">

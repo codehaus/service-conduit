@@ -10,6 +10,7 @@ import org.joda.time.LocalDate;
 
 import com.travelex.tgbp.store.domain.Instruction;
 import com.travelex.tgbp.store.domain.OutputInstruction;
+import com.travelex.tgbp.store.domain.OutputSubmission;
 import com.travelex.tgbp.store.domain.PersistentEntity;
 import com.travelex.tgbp.store.domain.Submission;
 import com.travelex.tgbp.store.domain.rule.DynamicRule;
@@ -74,5 +75,10 @@ public class DummyDataStore implements DataStore {
     public int update(Query query, Object... params) {
         // TODO Auto-generated method stub
         return 0;
+    }
+
+    public OutputSubmission getMostRecentOutputSubmission() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

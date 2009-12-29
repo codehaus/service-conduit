@@ -7,6 +7,8 @@ public class OutputEvent implements EventDescriptor {
     private int outputCount;
     private String[] currencyValues;
     private String mostRecentRoute;
+    private String mostRecentFileName;
+    private String mostRecentFileContent;
 
     @Override
     public String getMessageId() {
@@ -35,6 +37,34 @@ public class OutputEvent implements EventDescriptor {
 
     public void setMostRecentRoute(String mostRecentRoute) {
         this.mostRecentRoute = mostRecentRoute;
+    }
+
+    /**
+     * @return the mostRecentFileName
+     */
+    public String getMostRecentFileName() {
+        return mostRecentFileName;
+    }
+
+    /**
+     * @param mostRecentFileName the mostRecentFileName to set
+     */
+    public void setMostRecentFileName(String mostRecentFileName) {
+        this.mostRecentFileName = mostRecentFileName;
+    }
+
+    /**
+     * @return the mostRecentFileContent
+     */
+    public String getMostRecentFileContent() {
+        return mostRecentFileContent;
+    }
+
+    /**
+     * @param mostRecentFileContent the mostRecentFileContent to set
+     */
+    public void setMostRecentFileContent(String mostRecentFileContent) {
+        this.mostRecentFileContent = mostRecentFileContent;
     }
 
 }

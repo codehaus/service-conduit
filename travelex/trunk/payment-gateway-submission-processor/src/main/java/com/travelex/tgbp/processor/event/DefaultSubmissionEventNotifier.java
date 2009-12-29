@@ -29,6 +29,8 @@ public class DefaultSubmissionEventNotifier implements SubmissionEventNotifier {
         se.setCurrencyValues(currencyValues);
         se.setInstructionCount(iCount);
         se.setSubmissionCount(sCount);
+        se.setFileName(submission.getFileName());
+        se.setFileContent(new String(submission.getRawData()));
 
         eventNotifier.onEvent(EventType.SUBMISSION, se);
 

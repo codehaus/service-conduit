@@ -35,7 +35,6 @@ public class DefaultFileOutputService implements FileOutputService, OutputInstru
             for (OutputInstructionBatchingService instructionBatcher : instructionBatchers.values()) {
                 instructionBatcher.doBatching();
             }
-
         } finally {
             outputEventNotifier.onOutput();
             closeConversations();
