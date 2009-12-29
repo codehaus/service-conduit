@@ -10,7 +10,7 @@ CREATE TABLE submission
   message_id           VARCHAR2(30),
   file_name            VARCHAR2(50) NOT NULL, 
   submission_date      DATE NOT NULL, 
-  submission_header    VARCHAR2(1000), 
+  submission_header    VARCHAR2(3000), 
   input_data           BLOB
 )
 /
@@ -28,7 +28,7 @@ CREATE TABLE instruction
   currency             VARCHAR2(3) NOT NULL, 
   value_date           DATE NOT NULL, 
   data                 VARCHAR2(3000) NOT NULL,
-  group_data           VARCHAR2(2000) NOT NULL
+  group_data           VARCHAR2(3000) NOT NULL
 )
 /
 
