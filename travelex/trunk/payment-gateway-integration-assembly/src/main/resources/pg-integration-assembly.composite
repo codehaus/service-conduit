@@ -15,6 +15,7 @@
     <service name="outputConfigManagement" promote="OutputService/outputConfigManagement" />
     
     <property name="inputSubmissionBaseDir" />
+    <property name="outputSubmissionBaseDir" />
     <property name="initialStartupDelayInSeconds" />
     <property name="instructionOutputDelayInSeconds" />
     <property name="fileOutputDelayInSeconds" />
@@ -72,7 +73,8 @@
     <component name="OutputService" requires="sca:managedTransaction">
         <implementation.composite scdlResource="payment-gateway-output-service.composite" />
         <reference name="dataStore" target="DataStore" />
-        <reference name="eventNotifier" target="EventNotifier/eventNotifier" />        
+        <reference name="eventNotifier" target="EventNotifier/eventNotifier" />
+        <property name="outputBaseDir" source="$outputSubmissionBaseDir" />        
     </component>
     	
 </composite>

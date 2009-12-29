@@ -27,6 +27,8 @@
                                          DynamicRules/dataStore
                                          OutputEventNotifier/dataStore
                                          OutputConfigManagement/dataStore" />
+                                         
+    <property name="outputBaseDir" />
     
     <component name="InstructionOutputService">
     	<implementation.java class="com.travelex.tgbp.output.impl.DefaultInstructionOutputService" />
@@ -135,16 +137,19 @@
     <component name="MT103FileGenerationService" sca4j:key="MT103">
     	<implementation.java class="com.travelex.tgbp.output.impl.file.MT103FileGenerationService" />
     	<reference name="outputConfigReader" target="OutputConfigReader" />
+    	<property name="outputBaseDir" source="$outputBaseDir" />
     </component>
 
     <component name="NachaFileGenerationService" sca4j:key="NACHA">
     	<implementation.java class="com.travelex.tgbp.output.impl.file.NachaFileGenerationService" />
     	<reference name="outputConfigReader" target="OutputConfigReader" />
+    	<property name="outputBaseDir" source="$outputBaseDir" />
     </component>
     
     <component name="FedwireFileGenerationService" sca4j:key="FEDWIRE">
     	<implementation.java class="com.travelex.tgbp.output.impl.file.FedwireFileGenerationService" />
     	<reference name="outputConfigReader" target="OutputConfigReader" />
+    	<property name="outputBaseDir" source="$outputBaseDir" />
     </component>
     
     <component name="OutputConfigReader">

@@ -8,6 +8,7 @@ import java.util.Collection;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.osoa.sca.annotations.Callback;
+import org.osoa.sca.annotations.Property;
 import org.osoa.sca.annotations.Reference;
 
 import com.travelex.tgbp.output.service.file.OutputConfigReader;
@@ -27,9 +28,10 @@ public abstract class AbstractOutputFileGenerationService implements OutputFileG
 
     @Callback protected OutputFileGenerationServiceListener serviceListener;
 
+    @Property(required=true) protected String outputBaseDir;
+
     private static final char SPACE_CHAR = ' ';
     protected static final String LINE_SEPARATOR = System.getProperty("line.separator");
-    private static final String BASEDIR = "c:/tgbp-outbound-files";
 
     /**
      * {@inheritDoc}
@@ -94,7 +96,12 @@ public abstract class AbstractOutputFileGenerationService implements OutputFileG
      */
     private void saveFile(String fileName, byte[] rawData) {
         try {
-            final File dataFile = new File(BASEDIR + "/" + fileName);
+            final File baseDirectory = new File(outputBaseDir);
+            if (!baseDirectory.exists()) {
+                baseDirectory.mkdirs();
+            }
+
+            final File dataFile = new File(outputBaseDir + "/" + fileName);
             if (!dataFile.exists()) {
                 dataFile.createNewFile();
             }

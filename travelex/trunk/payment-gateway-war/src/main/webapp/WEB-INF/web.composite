@@ -36,6 +36,7 @@
         </service>
 
         <property name="inputSubmissionBaseDir">c:/tgbp-submissions</property>
+        <property name="outputSubmissionBaseDir">c:/tgbp-outbound-files</property>
         <property name="initialStartupDelayInSeconds">5</property>
         <property name="instructionOutputDelayInSeconds">15</property>
         <property name="fileOutputDelayInSeconds">15</property>
