@@ -32,9 +32,9 @@
 				description="Routing rule management"/>
 				
 		   <accordionItem id="clearingRules" 
-				title="Clearing Rules"
+				title="Scheme Rules"
 				image="@Embed('/../assets/EuroDollarYenPound.jpg')"
-				description="Configure Clearing Rules" /> 		
+				description="Configure Scheme Rules" /> 		
 		
 		</flexlib:VAccordion>
 		

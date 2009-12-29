@@ -19,8 +19,7 @@ private function retrieveInstructions():void {
 private function onInstructionRetrievalService(event:ResultEvent):void {
 	stopProgressBar(event);
 	var doc:XMLDocument = event.result.parentNode;
-	var tmp:XML = new XML(doc.toString());
-	mx.controls.Alert.show("XML = " + tmp.toString());		
+	var tmp:XML = new XML(doc.toString());	
 	xlc.source = tmp.instruction;				
 }
 

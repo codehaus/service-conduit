@@ -4,7 +4,7 @@
 	xmlns="*" 
 	xmlns:p="components.com.travelex.tgbp.panel.*"
 	xmlns:m="components.com.travelex.tgbp.menu.*"
-	layout="absolute" viewSourceURL="srcview/index.html"
+	layout="absolute"
 	initialize="loadConfig()">
 	
 	<mx:Style source="css/application.css"/>

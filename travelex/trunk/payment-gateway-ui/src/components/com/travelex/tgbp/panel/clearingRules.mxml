@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <p:basePanel 	xmlns:p="components.com.travelex.tgbp.panel.*"
 				xmlns:mx="http://www.adobe.com/2006/mxml" 
-				title="Clearing Rules">
+				title="Scheme Rules">
 				
 	<mx:Script source="as/clearingRules.as"/>
 	
 	<mx:HBox 	height="44" paddingTop="10" 
 				paddingLeft="10"  width="220">
-		<mx:Text text="Retrieve clearing rules"/>
+		<mx:Text text="Retrieve Scheme Rules"/>
        	<mx:Button label="Go" click="retrieveConfigRules()"/>
 	</mx:HBox>
 
