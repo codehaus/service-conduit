@@ -95,7 +95,8 @@
 	<named-query name="GET_OUTPUT_SUBMISSION_COUNT">
 		<query>	   
 			select count(*)
-			from OutputSubmission os			
+			from OutputSubmission os
+			where os.outputDate = ?1			
 	   </query>
 	</named-query>
 	
@@ -111,6 +112,7 @@
 		<query>	   
 			select os
 			from OutputSubmission os
+			where os.outputDate = ?1
 			order by os.id desc						
 	   </query>
 	</named-query>		
@@ -238,6 +240,10 @@
 			
 			<basic name="fileName">
                 <column name="FILE_NAME" nullable="true" />
+            </basic>
+            
+            <basic name="outputDate">
+                <column name="OUTPUT_DATE" nullable="false" />
             </basic>
 
 			<basic name="outputFile">

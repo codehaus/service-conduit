@@ -100,6 +100,6 @@ public interface DataStore {
 
     String getMostRecentRoute();
 
-    OutputSubmission getMostRecentOutputSubmission();
+    OutputSubmission getMostRecentOutputSubmission(LocalDate date);
 
 }

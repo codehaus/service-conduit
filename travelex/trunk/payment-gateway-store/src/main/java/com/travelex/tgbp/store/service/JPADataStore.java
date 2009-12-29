@@ -124,8 +124,8 @@ public class JPADataStore implements DataStore {
     /**
      * {@inheritDoc}
      */
-    public OutputSubmission getMostRecentOutputSubmission() {
-        javax.persistence.Query q = entityManager.createNamedQuery(Query.GET_MOST_RECENT_OUTPUT_SUBMISSION.getJpaName());
+    public OutputSubmission getMostRecentOutputSubmission(LocalDate date) {
+        javax.persistence.Query q = populateQuery(Query.GET_MOST_RECENT_OUTPUT_SUBMISSION, date);
         return (OutputSubmission) q.getResultList().get(0);
     }
 

@@ -76,8 +76,10 @@ public class DummyStore implements DataStore {
         return 0;
     }
 
-    public OutputSubmission getMostRecentOutputSubmission() {
+    @Override
+    public OutputSubmission getMostRecentOutputSubmission(LocalDate date) {
         // TODO Auto-generated method stub
         return null;
     }
+
 }

@@ -2,6 +2,7 @@ package com.travelex.tgbp.output.service.event;
 
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.osoa.sca.annotations.Reference;
 
 import com.travelex.tgb.event.notifier.api.EventNotifier;
@@ -17,11 +18,12 @@ public class DefaultOutputEventNotifier implements OutputEventNotifier {
 
     public void onOutput() {
 
+        LocalDate today = new LocalDate();
         List<String> totals = dataStore.getOutputInstructionTotals();
         String[] currencyValues = totals.toArray(new String[0]);
 
-        int outputCount = dataStore.getCount(Query.GET_OUTPUT_SUBMISSION_COUNT);
-        OutputSubmission mostRecentSubmission = dataStore.getMostRecentOutputSubmission();
+        int outputCount = dataStore.getCount(Query.GET_OUTPUT_SUBMISSION_COUNT, today);
+        OutputSubmission mostRecentSubmission = dataStore.getMostRecentOutputSubmission(today);
 
         OutputEvent oe = new OutputEvent();
         oe.setCurrencyValues(currencyValues);

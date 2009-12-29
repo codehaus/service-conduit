@@ -18,11 +18,12 @@ public class DefaultSubmissionEventNotifier implements SubmissionEventNotifier {
 
     public void onSubmissionCaptured(Submission submission) {
 
-        List<String> totals = dataStore.getInstructionTotals(new LocalDate());
+        LocalDate today = new LocalDate();
+        List<String> totals = dataStore.getInstructionTotals(today);
         String[] currencyValues = totals.toArray(new String[0]);
 
         int iCount = dataStore.getCount(Query.SUBMISSION_INSTRUCTION_COUNT, submission.getKey());
-        int sCount = dataStore.getCount(Query.SUBMISSION_COUNT_BY_DATE, new LocalDate());
+        int sCount = dataStore.getCount(Query.SUBMISSION_COUNT_BY_DATE, today);
 
         SubmissionEvent se = new SubmissionEvent();
         se.setSubmissionId(submission.getMessageId());

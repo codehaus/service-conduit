@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.annotations.Type;
+import org.joda.time.LocalDate;
+
 import com.travelex.tgbp.store.type.ClearingMechanism;
 
 /**
@@ -16,6 +19,8 @@ public class OutputSubmission extends PersistentEntity{
     private ClearingMechanism clearingMechanism;
     private String fileName;
     private byte[] outputFile;
+    @Type(type = "org.joda.time.contrib.hibernate.PersistentLocalDate")
+    private LocalDate outputDate;
 
     private transient long totalItemCount;
     private transient BigDecimal totalAmount;
@@ -33,6 +38,7 @@ public class OutputSubmission extends PersistentEntity{
      */
     public OutputSubmission(ClearingMechanism clearingMechanism) {
         this.clearingMechanism = clearingMechanism;
+        this.outputDate = new LocalDate();
     }
 
     /**
@@ -131,6 +137,13 @@ public class OutputSubmission extends PersistentEntity{
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    /**
+     * @return the outputDate
+     */
+    public LocalDate getOutputDate() {
+        return outputDate;
     }
 
 }
