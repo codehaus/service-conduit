@@ -4,6 +4,7 @@ import flash.events.Event;
 import mx.collections.XMLListCollection;
 import mx.controls.Alert;
 import mx.rpc.events.ResultEvent;
+import mx.utils.StringUtil;
 
 [Bindable]
 private var serverUrl:String;

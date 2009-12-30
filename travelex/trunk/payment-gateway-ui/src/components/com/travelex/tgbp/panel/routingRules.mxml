@@ -10,8 +10,7 @@
         <mx:ComboBox 	id="schemaSelection"
         				editable="false">
             <mx:dataProvider>
-                <mx:String>pain.001.001.03</mx:String>
-                <mx:String>pacs.008.001.02</mx:String>
+                <mx:String>pain.001.001.03</mx:String>                
             </mx:dataProvider>
         </mx:ComboBox>        
        	<mx:Button label="Go" click="populateTree()"/>

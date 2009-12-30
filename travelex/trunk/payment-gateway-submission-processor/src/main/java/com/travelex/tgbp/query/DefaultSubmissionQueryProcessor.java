@@ -26,7 +26,10 @@ public class DefaultSubmissionQueryProcessor implements SubmissionQueryProcessor
              sb.append("<amount>");sb.append(String.valueOf(record[1]));sb.append("</amount>");
              sb.append("<vdate>");sb.append(new LocalDate(String.valueOf(record[2])).toString("dd-MMM-yyyy"));sb.append("</vdate>");
              sb.append("<targetacc>");sb.append(String.valueOf(record[3]));sb.append("</targetacc>");
-             sb.append("<status>");sb.append(String.valueOf(record[4]));sb.append("</status>");
+             String status = String.valueOf(record[4]);
+             String ackMode = status.equals("SENT") ? "ACK" : "NACK";
+             sb.append("<status>");sb.append(status);sb.append("</status>");
+             sb.append("<ackmode>");sb.append(ackMode);sb.append("</ackmode>");
              String scheme = String.valueOf(record[5]);
              if(scheme.equals("null")){
             	 scheme = "";

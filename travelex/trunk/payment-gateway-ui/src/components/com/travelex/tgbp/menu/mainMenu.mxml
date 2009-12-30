@@ -19,7 +19,7 @@
 			<accordionItem id="submissions" 
 				title="Submissions"
 				image="@Embed('/../assets/dice-currency-symbols.jpg')"
-				description="Status of in-process submissions" />
+				description="Status of in-process payments" />
 			
 			<accordionItem id="rules" 
 				title="Create Routing Rules"
