@@ -1,5 +1,7 @@
 package com.travelex.tgbp.query;
 
+import java.io.File;
+
 import org.joda.time.LocalDate;
 import org.osoa.sca.annotations.Reference;
 
@@ -27,9 +29,7 @@ public class DefaultSubmissionQueryProcessor implements SubmissionQueryProcessor
              sb.append("<vdate>");sb.append(new LocalDate(String.valueOf(record[2])).toString("dd-MMM-yyyy"));sb.append("</vdate>");
              sb.append("<targetacc>");sb.append(String.valueOf(record[3]));sb.append("</targetacc>");
              String status = String.valueOf(record[4]);
-             String ackMode = status.equals("SENT") ? "ACK" : "NACK";
              sb.append("<status>");sb.append(status);sb.append("</status>");
-             sb.append("<ackmode>");sb.append(ackMode);sb.append("</ackmode>");
              String scheme = String.valueOf(record[5]);
              if(scheme.equals("null")){
             	 scheme = "";
@@ -39,10 +39,12 @@ public class DefaultSubmissionQueryProcessor implements SubmissionQueryProcessor
              if(fileName.equals("null")){
             	 fileName = "";
              }
-             sb.append("<fname>");sb.append(fileName);sb.append("</fname>");
+             sb.append("<fname>");sb.append(fileName);sb.append("</fname>");                          
+             String ackMode = status.equals("SENT") && new File("C:/tgbp-outbound-files/" + fileName).exists()  ? "ACK" : "NACK";
+             sb.append("<ackmode>");sb.append(ackMode);sb.append("</ackmode>");
 
-             Object data = record[7];
-             sb.append("<data>");sb.append(data != null ? new String((byte[])data) : "");sb.append("</data>");
+             byte[] data = (byte[]) record[7];
+             sb.append("<data>");sb.append(data != null ? new String(data) : "");sb.append("</data>");
              sb.append("</instruction>");
          }
         sb.append("</Data>");
