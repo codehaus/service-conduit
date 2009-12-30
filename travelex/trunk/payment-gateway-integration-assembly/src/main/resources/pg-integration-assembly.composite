@@ -11,14 +11,14 @@
     <service name="dynamicRuleSubmissionProcessor" promote="DynamicRules/dynamicRuleSubmissionProcessor" />
     <service name="inputSubmissionFtpListener" promote="InputSubmissionFtpListener/submissionFtpListener" />
     <service name="outputSchedulerService" promote="OutputScheduler/outputSchedulerService" />
+    <service name="outputTriggerService" promote="OutputScheduler/outputTriggerService" />
     <service name="submissionQueryProcessor" promote="SubmissionQueryProcessor/SubmissionQueryProcessor" />
     <service name="outputConfigManagement" promote="OutputService/outputConfigManagement" />
     
     <property name="inputSubmissionBaseDir" />
     <property name="outputSubmissionBaseDir" />
     <property name="initialStartupDelayInSeconds" />
-    <property name="instructionOutputDelayInSeconds" />
-    <property name="fileOutputDelayInSeconds" />
+    <property name="outputFrequencyInSeconds" />
 	
 	<component name="SchemaServices">
 		<implementation.composite scdlResource="payment-gateway-schema-model.composite" />
@@ -66,8 +66,7 @@
         <reference name="instructionOutputService" target="OutputService/instructionOutputService" />
         <reference name="fileOutputService" target="OutputService/fileOutputService" />
         <property name="initialStartupDelayInSeconds" source="$initialStartupDelayInSeconds" />
-        <property name="instructionOutputDelayInSeconds" source="$instructionOutputDelayInSeconds" />
-        <property name="fileOutputDelayInSeconds" source="$fileOutputDelayInSeconds" />
+        <property name="outputFrequencyInSeconds" source="$outputFrequencyInSeconds" />
     </component>
 
     <component name="OutputService" requires="sca:managedTransaction">

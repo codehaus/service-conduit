@@ -41,6 +41,10 @@ public function timerHandler(event:TimerEvent):void {
 	progress.visible=false;
 }
 
-public function displayOutputFile():void {
-	Alert.show("DATA");
+public function displayOutputFile(data:String, title:String):void {
+	if(data == null || data == ""){
+	  Alert.show("NO DATA TO BE VIEWED");	
+	}else {
+	  Alert.show(data,  title);
+	}
 }

@@ -79,7 +79,12 @@ public abstract class AbstractOutputInstructionBatchingService implements Output
                 addToCurrentBatch(outputInstruction);
                 if (isCurrentBatchFull()) {
                     flushCurrentBatch();
+                    resetCurrentBatch();
                 }
+            }
+
+            if (currentBatchCount > 0) {
+                flushCurrentBatch();
             }
         }
     }
@@ -116,7 +121,6 @@ public abstract class AbstractOutputInstructionBatchingService implements Output
         currentOutputSubmission.setTotalItemCount(currentBatchCount);
         currentOutputSubmission.setTotalAmount(currentBatchAmount);
         serviceListener.onOutputSubmission(currentOutputSubmission);
-        resetCurrentBatch();
     }
 
 }

@@ -5,7 +5,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
+import org.hibernate.type.DateType;
 import org.joda.time.LocalDate;
 
 import com.travelex.tgbp.store.domain.Instruction;
@@ -115,14 +117,14 @@ public class JPADataStore implements DataStore {
         Session session = (Session)entityManager.getDelegate();
         List data = session.createSQLQuery("select i.currency curr, i.amount amount, i.value_date vdate, i.bene_acct acct, i.status  status, " +
         		               "oi.CLEARING_MECHANISM clm, " +
-                               "os.file_name fname from submission s, instruction i, " +
+                               "os.file_name fname, os.output_file data from submission s, instruction i, " +
                                "output_instruction oi, output_submission os " +
                                "where s.message_id=? " +
-                               "and i.sub_id = s.id and " +                 
+                               "and i.sub_id = s.id and " +
                                "i.out_ins_id = oi.id(+) and oi.out_sub_id = os.id(+)")
-                               .addScalar("curr").addScalar("amount").addScalar("vdate")
+                               .addScalar("curr").addScalar("amount").addScalar("vdate", new DateType())
 				               .addScalar("acct").addScalar("status").addScalar("clm")
-				               .addScalar("fname").setString(0, messageId).list();
+				               .addScalar("fname").addScalar("data", Hibernate.custom(BinaryBlobType.class)).setString(0, messageId).list();
         return data.toArray();
     }
 
@@ -144,5 +146,6 @@ public class JPADataStore implements DataStore {
         }
         return q;
     }
+
 
 }

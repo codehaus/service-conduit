@@ -21,10 +21,6 @@
             <sca4j:binding.http />
         </service>
         
-        <service name="outputSchedulerService">
-            <sca4j:binding.http />
-        </service>
-        
         <service name="submissionQueryProcessor">
             <sca4j:binding.http />
         </service>
@@ -32,12 +28,15 @@
         <service name="outputConfigManagement">
             <sca4j:binding.http />
         </service>
-                
+        
+        <service name="outputTriggerService">
+            <sca4j:binding.http />
+        </service>
+        
         <property name="inputSubmissionBaseDir">/</property>
         <property name="outputSubmissionBaseDir">c:/tgbp-outbound-files</property>
-        <property name="initialStartupDelayInSeconds">3</property>
-        <property name="instructionOutputDelayInSeconds">5</property>
-        <property name="fileOutputDelayInSeconds">5</property>
+        <property name="initialStartupDelayInSeconds">6</property>
+        <property name="outputFrequencyInSeconds">10</property>
     </component>
         
 </composite>

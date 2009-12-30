@@ -4,9 +4,11 @@ import com.travelex.tgbp.message.OutputEvent;
 import com.travelex.tgbp.message.SubmissionEvent;
 
 import mx.collections.ArrayCollection;
-import mx.controls.Alert;
+import mx.containers.TitleWindow;
 import mx.controls.Image;
+import mx.controls.TextArea;
 import mx.core.ScrollPolicy;
+import mx.events.CloseEvent;
 import mx.formatters.NumberFormatter;
 import mx.managers.PopUpManager;
 import mx.messaging.messages.IMessage;
@@ -30,7 +32,11 @@ private var routingDecisions:ArrayCollection;
 
 [Bindable]
 private var reconciliationValue:Number;
-	
+
+private var titleWindow:TitleWindow ;
+
+
+
 private function submissionEventHandler(message:IMessage):void {
 	//The flash player is single threaded so there's no need to worry about synchronisation.
 	glowImage(submissionReceivedImage);
@@ -162,11 +168,37 @@ private function getTotalAmount(data:ArrayCollection):Number {
 }
 
 private function displayMostRecentInputFile():void {
-	Alert.show(submissionEvent.fileContent, submissionEvent.fileName);
+	createPopUp(550, 500, submissionEvent.fileName, submissionEvent.fileContent);
 }
 
 private function displayMostRecentOutputFile():void {
-	Alert.show(outputEvent.mostRecentFileContent, outputEvent.mostRecentFileName);
+	createPopUp(350, 300, outputEvent.mostRecentFileName, outputEvent.mostRecentFileContent);
+}
+
+private function closePopUp(evt:CloseEvent):void {
+    PopUpManager.removePopUp(titleWindow);
+}
+
+private function createPopUp(popUpHeight:Number, popUpWidth:Number, popUpTitle:String, popUpContent:String):void {
+   titleWindow = new TitleWindow();		
+   titleWindow.height = popUpHeight;
+   titleWindow.width = popUpWidth;
+   titleWindow.title = popUpTitle;
+   titleWindow.verticalScrollPolicy = ScrollPolicy.OFF;
+   titleWindow.horizontalScrollPolicy = ScrollPolicy.OFF;
+      
+   var textArea:TextArea = new TextArea();
+   textArea.text = popUpContent;   
+   textArea.percentHeight = 99;
+   textArea.percentWidth = 100;
+   textArea.editable = false;
+   
+   titleWindow.addChild(textArea);
+   titleWindow.showCloseButton = true;  
+   titleWindow.addEventListener(CloseEvent.CLOSE, closePopUp);
+
+   PopUpManager.addPopUp(titleWindow, this, true);
+   PopUpManager.centerPopUp(titleWindow);
 }
 
 /* 

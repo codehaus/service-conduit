@@ -231,6 +231,15 @@
                                     <groupId>commons-codec</groupId>
                                     <artifactId>commons-codec</artifactId>
                                 </dependency>
+                                <dependency>
+                                    <groupId>org.sca4j</groupId>
+                                    <artifactId>sca4j-timer-spi</artifactId>
+                                    <version>${sca4j.version}</version>
+                                </dependency>
+                                <dependency>
+                                    <groupId>commons-collections</groupId>
+                                    <artifactId>commons-collections</artifactId>
+                                </dependency>
                             </shared>
                             <!-- The Jetty Listen Port for the ws binding components -->
                             <systemConfig>

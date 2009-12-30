@@ -10,15 +10,16 @@ public class DefaultOutputServiceWrapper implements OutputServiceWrapper {
     @Reference protected InstructionOutputService instructionOutputService;
     @Reference protected FileOutputService fileOutputService;
 
-    @Override
-    public void outputFiles(Object message) {
-        fileOutputService.outputFiles(message);
+    private static final String SUCESS_RESPONSE = "Success";
 
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void outputInstructions(Object message) {
+    public String startOutputService(String message) {
         instructionOutputService.outputInstructions(message);
+        fileOutputService.outputFiles(message);
+        return SUCESS_RESPONSE;
     }
 
 }

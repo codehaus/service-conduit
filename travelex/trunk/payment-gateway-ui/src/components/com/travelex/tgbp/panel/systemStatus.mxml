@@ -55,7 +55,7 @@
 						<mx:HBox paddingTop="5" width="100%">
 							<mx:Text fontSize="12" fontWeight="normal" text="Input File:" width="50%"/>
 							<!--mx:Text fontSize="12" fontWeight="normal" text="{submissionEvent.fileName}" width="50%" /-->
-							<mx:LinkButton fontSize="12" fontWeight="normal" textAlign="left" label="{submissionEvent.fileName}" textDecoration="underline" click="displayMostRecentInputFile()" width="50%" />			
+							<mx:LinkButton fontSize="12" fontWeight="normal" textAlign="left" label="{submissionEvent.fileName}" click="displayMostRecentInputFile()" width="50%" />			
 						</mx:HBox>																	
 				 </mx:VBox>			
 			  </mx:VBox>
@@ -93,7 +93,7 @@
 						<mx:HBox paddingTop="5" width="100%">
 							<mx:Text fontSize="12" fontWeight="normal" text="Output File:" width="50%" />
 							<!--mx:Text fontSize="12" fontWeight="normal" text="{outputEvent.mostRecentFileName}" textDecoration="underline" click="displayMostRecentOutputFile()" width="50%" /-->
-                            <mx:LinkButton fontSize="12" fontWeight="normal" textAlign="left" label="{outputEvent.mostRecentFileName}" textDecoration="underline" click="displayMostRecentOutputFile()" width="50%" />
+                            <mx:LinkButton fontSize="12" fontWeight="normal" textAlign="left" label="{outputEvent.mostRecentFileName}" click="displayMostRecentOutputFile()" width="50%" />
 						</mx:HBox>																	
 				 </mx:VBox>			
 			  </mx:VBox>
