@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.osoa.sca.annotations.Property;
 import org.sca4j.api.annotation.Resource;
@@ -23,6 +24,8 @@ public class DefaultOutputSchedulerService implements OutputSchedulerService {
     @Property(required = true) protected long initialStartupDelayInSeconds;
     @Property(required = true) protected long outputFrequencyInSeconds;
 
+    private AtomicBoolean isRunning = new AtomicBoolean(false);
+
     private static final String OUTPUT_TRIGGER_HTTP_URL = "http://localhost:7001/tgbp/startOutput.do";
 
     /**
@@ -30,12 +33,17 @@ public class DefaultOutputSchedulerService implements OutputSchedulerService {
      */
     @Override
     public String startOutputScheduler() {
-          trxTimerService.scheduleWithFixedDelay(
+        if (!isRunning.get()) {
+            trxTimerService.scheduleWithFixedDelay(
                     getOutputJob()
                     , 0
                     , TimeUnit.MILLISECONDS.convert(outputFrequencyInSeconds, TimeUnit.SECONDS)
                     , TimeUnit.MILLISECONDS);
-          return "Success";
+            isRunning.set(true);
+            return "Success";
+        } else {
+            return "Already scheduled";
+        }
     }
 
     /*
