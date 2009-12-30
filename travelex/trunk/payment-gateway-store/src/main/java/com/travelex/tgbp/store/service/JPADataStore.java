@@ -74,9 +74,10 @@ public class JPADataStore implements DataStore {
     /**
      * {@inheritDoc}
      */
-    public List<OutputInstruction> findOutputInstructionByClearingMechanism(ClearingMechanism clearingMechanism) {
+    public List<OutputInstruction> findOutputInstructionByClearingMechanism(ClearingMechanism clearingMechanism, LocalDate maxValueDate) {
         javax.persistence.Query jpaQuery = entityManager.createNamedQuery("FIND_OUT_INS_BY_CLM");
         jpaQuery.setParameter(1, clearingMechanism);
+        jpaQuery.setParameter(2, maxValueDate);
         return jpaQuery.getResultList();
     }
 
@@ -86,8 +87,17 @@ public class JPADataStore implements DataStore {
     public void updateInstructionForOutput(Long inputInstructionId, Long outputInstructionId) {
         javax.persistence.Query jpaQuery = entityManager.createNamedQuery("UPDATE_INS");
         jpaQuery.setParameter(1, outputInstructionId);
-        jpaQuery.setParameter(2, "SENT");
-        jpaQuery.setParameter(3, inputInstructionId);
+        jpaQuery.setParameter(2, inputInstructionId);
+        jpaQuery.executeUpdate();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void updateInstructionStatusForOutput(Long outputInstructionId) {
+        javax.persistence.Query jpaQuery = entityManager.createNamedQuery("UPDATE_INS_STATUS");
+        jpaQuery.setParameter(1, "SENT");
+        jpaQuery.setParameter(2, outputInstructionId);
         jpaQuery.executeUpdate();
     }
 

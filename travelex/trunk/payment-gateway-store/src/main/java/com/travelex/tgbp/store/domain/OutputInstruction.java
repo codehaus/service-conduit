@@ -2,6 +2,9 @@ package com.travelex.tgbp.store.domain;
 
 import java.math.BigDecimal;
 
+import org.hibernate.annotations.Type;
+import org.joda.time.LocalDate;
+
 import com.travelex.tgbp.store.type.ClearingMechanism;
 
 /**
@@ -15,6 +18,8 @@ public class OutputInstruction extends PersistentEntity {
     private String targetIdentifier;
     private String outputPaymentData;
     private BigDecimal amount;
+    @Type(type = "org.joda.time.contrib.hibernate.PersistentLocalDate")
+    private LocalDate valueDate;
 
     /**
      * JPA Constructor
@@ -29,20 +34,10 @@ public class OutputInstruction extends PersistentEntity {
      * @param targetIdentifier - target identifier.
      * @param amount - payment amount.
      */
-    public OutputInstruction(ClearingMechanism clearingMechanism, String sourceIdentifier, String targetIdentifier, BigDecimal amount) {
+    public OutputInstruction(ClearingMechanism clearingMechanism, LocalDate valueDate, BigDecimal amount) {
         this.clearingMechanism = clearingMechanism;
-        this.sourceIdentifier = sourceIdentifier;
-        this.targetIdentifier = targetIdentifier;
+        this.valueDate = valueDate;
         this.amount = amount;
-    }
-
-    /**
-     * Returns instruction id.
-     *
-     * @return the id
-     */
-    public Long getId() {
-        return id;
     }
 
     /**
@@ -114,6 +109,13 @@ public class OutputInstruction extends PersistentEntity {
      */
     public void assignSubmission(Long outputSubmissionId){
     	this.outputSubmissionId = outputSubmissionId;
+    }
+
+    /**
+     * @return the valueDate
+     */
+    public LocalDate getValueDate() {
+        return valueDate;
     }
 
 }

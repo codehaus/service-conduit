@@ -3,6 +3,7 @@ package com.travelex.tgbp.output.impl.file;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.osoa.sca.annotations.Callback;
 import org.osoa.sca.annotations.Reference;
 
@@ -34,13 +35,15 @@ public abstract class AbstractOutputInstructionBatchingService implements Output
 
     private List<OutputInstruction> outputInstructions;
 
+    private static final int MAX_CLEARING_DAYS = 3 + 1;
+
     /**
      * {@inheritDoc}
      */
     @Override
     public void doBatching() {
         setBatchThresholdLimits();
-        this.outputInstructions = dataStore.findOutputInstructionByClearingMechanism(getClearingMechanism());
+        this.outputInstructions = dataStore.findOutputInstructionByClearingMechanism(getClearingMechanism(), new LocalDate().plusDays(MAX_CLEARING_DAYS));
         batchOutputInstructions();
         serviceListener.onBatchingCompletion(getClearingMechanism());
     }

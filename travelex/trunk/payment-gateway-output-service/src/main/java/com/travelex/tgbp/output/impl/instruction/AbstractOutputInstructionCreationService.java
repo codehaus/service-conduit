@@ -76,10 +76,10 @@ public abstract class AbstractOutputInstructionCreationService implements Output
         final Map<String, Object> transformationContext = getTransformationContext();
         for (Instruction instruction : instructions) {
             transformationContext.put("payment.value.date", instruction.getValueDate().toString(FILE_DATE_FORMAT));
-            OutputInstruction outputInstruction = new OutputInstruction(getClearingMechanism(), null, null, instruction.getAmount());
+            OutputInstruction outputInstruction = new OutputInstruction(getClearingMechanism(), instruction.getValueDate(), instruction.getAmount());
             outputInstruction.setOutputPaymentData(paymentDataTransformer.transform(transformationContext, new StreamSource(new ByteArrayInputStream(instruction.getPaymentData().getBytes()))));
             dataStore.store(outputInstruction);
-            dataStore.updateInstructionForOutput(instruction.getKey(), outputInstruction.getId());
+            dataStore.updateInstructionForOutput(instruction.getKey(), outputInstruction.getKey());
         }
     }
 }

@@ -42,6 +42,7 @@ public abstract class AbstractOutputFileGenerationService implements OutputFileG
         dataStore.store(outputSubmission);
         assignFileName(outputSubmission);
         outputSubmission.assignOnInstructions();
+        updateInstructionStatus(outputSubmission.getOutputInstructions());
         saveFile(outputSubmission.getFileName(), outputSubmission.getOutputFile());
         serviceListener.onFileGenerationCompletion(outputSubmission.getKey());
     }
@@ -113,5 +114,13 @@ public abstract class AbstractOutputFileGenerationService implements OutputFileG
         }
     }
 
+    /*
+     * Updates related input instruction status to "SENT" for given output instructions.
+     */
+    private void updateInstructionStatus(Collection<OutputInstruction> outputInstructions) {
+        for (OutputInstruction oi : outputInstructions) {
+            dataStore.updateInstructionStatusForOutput(oi.getKey());
+        }
+    }
 
 }

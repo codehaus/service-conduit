@@ -43,10 +43,11 @@ CREATE TABLE output_instruction
 ( id                   NUMBER(16) NOT NULL,
   out_sub_id           NUMBER(16),
   clearing_mechanism   VARCHAR2(10) NOT NULL,
-  source_iden          VARCHAR2(3000),
-  target_iden          VARCHAR2(2000),
+  value_date           DATE NOT NULL, 
+  amount               NUMBER(16,2),
   out_pay_data         VARCHAR2(3000),
-  amount               NUMBER(16,2)
+  source_iden          VARCHAR2(3000),
+  target_iden          VARCHAR2(2000)
 )
 /
 

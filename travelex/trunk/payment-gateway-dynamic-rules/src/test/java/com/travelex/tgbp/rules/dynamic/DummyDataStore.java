@@ -49,7 +49,7 @@ public class DummyDataStore implements DataStore {
     }
 
     public List<Instruction> findInstructionByCurrency(Currency currency) {throw new UnsupportedOperationException();}
-    public List<OutputInstruction> findOutputInstructionByClearingMechanism(ClearingMechanism clearingMechanism) {throw new UnsupportedOperationException();}
+    public List<OutputInstruction> findOutputInstructionByClearingMechanism(ClearingMechanism clearingMechanism, LocalDate maxValueDate) {throw new UnsupportedOperationException();}
     public void updateInstructionForOutput(Long inputInstructionId, Long outputInstructionId) {}
     public int getCount(Query query, Object... params) {throw new UnsupportedOperationException("Not Implemented");}
     public List<String> getInstructionTotals(LocalDate date) {throw new UnsupportedOperationException("Not Implemented");}
@@ -81,6 +81,11 @@ public class DummyDataStore implements DataStore {
     public OutputSubmission getMostRecentOutputSubmission(LocalDate date) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public void updateInstructionStatusForOutput(Long outputInstructionId) {
+        // TODO Auto-generated method stub
     }
 
 }

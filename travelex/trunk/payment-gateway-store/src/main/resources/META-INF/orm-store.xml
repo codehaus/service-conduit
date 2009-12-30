@@ -50,10 +50,12 @@
 	</named-query>
 	
 	<named-query name="FIND_OUT_INS_BY_CLM">
-		<query>	   
+		<query>
+		  <![CDATA[	   
 	       select outIns
 	       from OutputInstruction outIns
-	       where outIns.clearingMechanism = ?1 and outIns.outputSubmissionId is null
+	       where outIns.clearingMechanism = ?1 and outIns.valueDate <= ?2 and outIns.outputSubmissionId is null
+	      ]]>
 	   </query>
 	</named-query>
 	
@@ -119,9 +121,15 @@
 	
 	<named-query name="UPDATE_INS">
 		<query>
-		        UPDATE Instruction ins SET ins.outputInstructionId =?1, ins.status = ?2 WHERE ins.id = ?3
+		        UPDATE Instruction ins SET ins.outputInstructionId =?1 WHERE ins.id = ?2
 		</query>
 	</named-query>
+	
+	<named-query name="UPDATE_INS_STATUS">
+        <query>
+                UPDATE Instruction ins SET ins.status = ?1 WHERE ins.outputInstructionId = ?2
+        </query>
+    </named-query>
 	
 	<named-query name="GET_ALL_CONFIG_ON_VALUE_DATE">
 		<query>
@@ -276,20 +284,24 @@
 				<enumerated>STRING</enumerated>
 			</basic>
 
+			<basic name="valueDate">
+                <column name="VALUE_DATE" nullable="false" />
+            </basic>
+
+			<basic name="amount">
+				<column name="AMOUNT" nullable="false" />
+			</basic>
+
+			<basic name="outputPaymentData">
+				<column name="OUT_PAY_DATA" nullable="false" />
+			</basic>
+			
 			<basic name="sourceIdentifier">
 				<column name="SOURCE_IDEN" nullable="true" />
 			</basic>
 
 			<basic name="targetIdentifier">
 				<column name="TARGET_IDEN" nullable="true" />
-			</basic>
-
-			<basic name="outputPaymentData">
-				<column name="OUT_PAY_DATA" nullable="false" />
-			</basic>
-
-			<basic name="amount">
-				<column name="AMOUNT" nullable="false" />
 			</basic>
 
 		</attributes>

@@ -39,7 +39,7 @@ public class DummyStore implements DataStore {
 
     public <T extends PersistentEntity> List<T> execute(Query query, Object... params) {throw new UnsupportedOperationException("Not Implemented");}
     public List<Instruction> findInstructionByCurrency(Currency currency) {throw new UnsupportedOperationException("Not Implemented");}
-    public List<OutputInstruction> findOutputInstructionByClearingMechanism(ClearingMechanism clearingMechanism) {throw new UnsupportedOperationException("Not Implemented");}
+    public List<OutputInstruction> findOutputInstructionByClearingMechanism(ClearingMechanism clearingMechanism, LocalDate maxValueDate) {throw new UnsupportedOperationException("Not Implemented");}
     public <T extends PersistentEntity> T lookup(Class<? extends PersistentEntity> entityClass, Long id) {throw new UnsupportedOperationException("Not Implemented");}
     public void updateInstructionForOutput(Long inputInstructionId, Long outputInstructionId) {throw new UnsupportedOperationException("Not Implemented");}
     public int getCount(Query query, Object... params) {throw new UnsupportedOperationException("Not Implemented");}
@@ -80,6 +80,11 @@ public class DummyStore implements DataStore {
     public OutputSubmission getMostRecentOutputSubmission(LocalDate date) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public void updateInstructionStatusForOutput(Long outputInstructionId) {
+        // TODO Auto-generated method stub
     }
 
 }

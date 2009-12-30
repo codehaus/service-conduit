@@ -69,9 +69,10 @@ public interface DataStore {
      * Gives back output instructions on given clearing mechanism which doesn't belong to any output submission.
      *
      * @param clearingMechanism - search criteria
+     * @param maxValueDate - allowed maximum value date
      * @return list of output instructions.
      */
-    List<OutputInstruction> findOutputInstructionByClearingMechanism(ClearingMechanism clearingMechanism);
+    List<OutputInstruction> findOutputInstructionByClearingMechanism(ClearingMechanism clearingMechanism, LocalDate maxValueDate);
 
     /**
      * Updates input instruction with associated output instruction id.
@@ -80,6 +81,13 @@ public interface DataStore {
      * @param outputInstructionId - id of corresponding output instruction.
      */
     void updateInstructionForOutput(Long inputInstructionId, Long outputInstructionId);
+
+    /**
+     * Updates input instruction with 'SENT 'status.
+     *
+     * @param outputInstructionId - id of corresponding output instruction.
+     */
+    void updateInstructionStatusForOutput(Long outputInstructionId);
 
     /**
      * Get the total instruction value, grouped by currency, for a given day.
