@@ -3,6 +3,7 @@ package com.travelex.tgbp.query;
 import java.io.File;
 
 import org.joda.time.LocalDate;
+import org.osoa.sca.annotations.Property;
 import org.osoa.sca.annotations.Reference;
 
 import com.travelex.tgbp.store.service.api.DataStore;
@@ -13,6 +14,8 @@ import com.travelex.tgbp.store.service.api.DataStore;
 public class DefaultSubmissionQueryProcessor implements SubmissionQueryProcessor {
 
     @Reference protected DataStore dataStore;
+
+    @Property (required=true) protected  String outputFileDir;
 
     public String getInstructionDataByMsgId(String messageId) {
           return prepareResultXml(dataStore.getInstructionDataByMssgId(messageId));
@@ -40,7 +43,7 @@ public class DefaultSubmissionQueryProcessor implements SubmissionQueryProcessor
             	 fileName = "";
              }
              sb.append("<fname>");sb.append(fileName);sb.append("</fname>");
-             String ackMode = status.equals("SENT") && new File("C:/tgbp-outbound-files/" + fileName).exists()  ? "ACK" : "";
+             String ackMode = status.equals("SENT") && new File(outputFileDir + "/" + fileName).exists()  ? "ACK" : "";
              sb.append("<ackmode>");sb.append(ackMode);sb.append("</ackmode>");
 
              byte[] data = (byte[]) record[7];

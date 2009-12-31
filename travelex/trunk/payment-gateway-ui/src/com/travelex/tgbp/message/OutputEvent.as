@@ -10,6 +10,7 @@ package com.travelex.tgbp.message
 	    public var mostRecentRoute:String;
 	    public var mostRecentFileName:String;
 	    public var mostRecentFileContent:String;
+	    public var mostRecentSubId:String;
 	    //public var sentTo:String;
 	    //public var ruleName:String;
 	        

@@ -143,7 +143,8 @@ public class JPADataStore implements DataStore {
      */
     public OutputSubmission getMostRecentOutputSubmission(LocalDate date) {
         javax.persistence.Query q = populateQuery(Query.GET_MOST_RECENT_OUTPUT_SUBMISSION, date);
-        return (OutputSubmission) q.getResultList().get(0);
+        List results = q.getResultList();
+        return results.isEmpty() ? null : (OutputSubmission) results.get(0);
     }
 
     private javax.persistence.Query populateQuery(Query query, Object... params) {

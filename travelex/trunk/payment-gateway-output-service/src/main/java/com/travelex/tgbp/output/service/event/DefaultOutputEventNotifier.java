@@ -25,15 +25,16 @@ public class DefaultOutputEventNotifier implements OutputEventNotifier {
         int outputCount = dataStore.getCount(Query.GET_OUTPUT_SUBMISSION_COUNT, today);
         OutputSubmission mostRecentSubmission = dataStore.getMostRecentOutputSubmission(today);
 
-        OutputEvent oe = new OutputEvent();
-        oe.setCurrencyValues(currencyValues);
-        oe.setOutputCount(outputCount);
-        oe.setMostRecentRoute(mostRecentSubmission.getClearingMechanism().name());
-        oe.setMostRecentFileName(mostRecentSubmission.getFileName());
-        oe.setMostRecentFileContent(new String(mostRecentSubmission.getOutputFile()));
-
-        eventNotifier.onEvent(EventType.OUTPUT, oe);
-
+        if (mostRecentSubmission != null) {
+            OutputEvent oe = new OutputEvent();
+            oe.setCurrencyValues(currencyValues);
+            oe.setOutputCount(outputCount);
+            oe.setMostRecentSubId(String.valueOf(mostRecentSubmission.getKey()));
+            oe.setMostRecentRoute(mostRecentSubmission.getClearingMechanism().name());
+            oe.setMostRecentFileName(mostRecentSubmission.getFileName());
+            oe.setMostRecentFileContent(new String(mostRecentSubmission.getOutputFile()));
+            eventNotifier.onEvent(EventType.OUTPUT, oe);
+        }
     }
 
 }

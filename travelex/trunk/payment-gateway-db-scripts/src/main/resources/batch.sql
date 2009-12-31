@@ -1,10 +1,6 @@
-purge recyclebin
-/
-@config-tables.sql
-/
-@transactional.sql
-/
-@static-config-data.sql
-/
+purge recyclebin;
+@config-tables.sql;
+@transactional.sql;
+@static-config-data.sql;
 quit
 /

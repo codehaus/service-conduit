@@ -82,7 +82,7 @@
 						
 						<mx:HBox paddingTop="5" width="100%">
 							<mx:Text fontSize="12" fontWeight="normal" text="Most Recent Submission:" width="50%"/>
-							<mx:Text fontSize="12" fontWeight="normal" text="" width="50%"/>
+							<mx:Text fontSize="12" fontWeight="normal" text="{outputEvent.mostRecentSubId}" width="50%"/>
 						</mx:HBox>				
 
 						<mx:HBox paddingTop="5" width="100%">

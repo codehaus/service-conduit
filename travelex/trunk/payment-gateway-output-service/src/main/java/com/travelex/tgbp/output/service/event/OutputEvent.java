@@ -6,6 +6,7 @@ public class OutputEvent implements EventDescriptor {
 
     private int outputCount;
     private String[] currencyValues;
+    private String mostRecentSubId;
     private String mostRecentRoute;
     private String mostRecentFileName;
     private String mostRecentFileContent;
@@ -65,6 +66,20 @@ public class OutputEvent implements EventDescriptor {
      */
     public void setMostRecentFileContent(String mostRecentFileContent) {
         this.mostRecentFileContent = mostRecentFileContent;
+    }
+
+    /**
+     * @return the mostRecentSubId
+     */
+    public String getMostRecentSubId() {
+        return mostRecentSubId;
+    }
+
+    /**
+     * @param mostRecentSubId the mostRecentSubId to set
+     */
+    public void setMostRecentSubId(String mostRecentSubId) {
+        this.mostRecentSubId = mostRecentSubId;
     }
 
 }

@@ -57,6 +57,7 @@
     <component name="SubmissionQueryProcessor">
         <implementation.java class="com.travelex.tgbp.query.DefaultSubmissionQueryProcessor" />
         <reference name="dataStore" target="DataStore" />
+        <property name="outputFileDir" source="$outputSubmissionBaseDir" />
     </component>
     
     <!-- Output components -->
