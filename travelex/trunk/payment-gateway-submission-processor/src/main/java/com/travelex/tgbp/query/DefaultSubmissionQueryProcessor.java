@@ -39,8 +39,8 @@ public class DefaultSubmissionQueryProcessor implements SubmissionQueryProcessor
              if(fileName.equals("null")){
             	 fileName = "";
              }
-             sb.append("<fname>");sb.append(fileName);sb.append("</fname>");                          
-             String ackMode = status.equals("SENT") && new File("C:/tgbp-outbound-files/" + fileName).exists()  ? "ACK" : "NACK";
+             sb.append("<fname>");sb.append(fileName);sb.append("</fname>");
+             String ackMode = status.equals("SENT") && new File("C:/tgbp-outbound-files/" + fileName).exists()  ? "ACK" : "";
              sb.append("<ackmode>");sb.append(ackMode);sb.append("</ackmode>");
 
              byte[] data = (byte[]) record[7];

@@ -23,7 +23,7 @@
 		    <mx:HBox paddingTop="20" horizontalAlign="left" height="80%" width="100%" fontWeight="bold">
 		    
 		      <!-- Inbound submission section -->
-			  <mx:VBox height="100%" width="50%" horizontalAlign="left">
+			  <mx:VBox height="100%" width="50%" horizontalAlign="left" borderStyle="inset" borderThickness="3">
 				<mx:Text text="Transaction Manager Input" height="27" fontSize="21" />		
 				<mx:HBox>
 					<mx:Image	id="submissionReceivedImage" 
@@ -61,7 +61,7 @@
 			  </mx:VBox>
 
               <!-- Outbound submission section -->			
-			  <mx:VBox height="100%" width="50%" horizontalAlign="left">
+			  <mx:VBox height="100%" width="50%" horizontalAlign="left" borderStyle="inset" borderThickness="3">
 				<mx:Text text="Payment Gateway Output" height="27" fontSize="21"/>
 				<mx:HBox>
 					<mx:Image	id="outputSentImage" 
