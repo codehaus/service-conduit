@@ -156,7 +156,7 @@ public class ConsumerWorker extends DefaultPausableWork {
      * Report an exception.
      */
     private void reportException(Exception e) {
-        template.monitor.jmsListenerError(e);
+        template.monitor.jmsListenerError(template.requestFactory.getDestinationName(), e);
         exception = true;
     }
 

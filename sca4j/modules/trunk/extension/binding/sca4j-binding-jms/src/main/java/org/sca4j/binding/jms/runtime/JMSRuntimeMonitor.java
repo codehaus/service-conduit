@@ -72,10 +72,11 @@ public interface JMSRuntimeMonitor {
     /**
      * Callback when an error happens when handle message.
      * 
-     * @param address the endpoint address
+     * @param destination Name of the destination
+     * @param exception Underlying exception
      */
     @Info
-    void jmsListenerError(Exception address);
+    void jmsListenerError(String destination, Exception exception);
 
     /**
      * Callback indicating the extension has been stopped.

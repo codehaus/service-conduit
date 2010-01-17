@@ -56,7 +56,9 @@ import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 import javax.jms.JMSException;
+import javax.jms.Queue;
 import javax.jms.Session;
+import javax.jms.Topic;
 
 import org.sca4j.binding.jms.common.TransactionType;
 
@@ -66,18 +68,22 @@ import org.sca4j.binding.jms.common.TransactionType;
  */
 public class JMSObjectFactory {
     
-    /**
-     * JMS Connection Factory
-     */
     private final ConnectionFactory connectionFactory;
-    /**
-     * JMS destination
-     */
     private final Destination destination;
+    private final String destinationName;
 
     public JMSObjectFactory(ConnectionFactory connectionFactory, Destination destination, int cacheLevel) {
-        this.connectionFactory = connectionFactory;
-        this.destination = destination;
+        try {
+            this.connectionFactory = connectionFactory;
+            this.destination = destination;
+            destinationName = (destination instanceof Queue) ? ((Queue)  destination).getQueueName() : ((Topic)  destination).getTopicName();
+        } catch (JMSException e) {
+            throw new AssertionError(e);
+        }
+    }
+    
+    public String getDestinationName() {
+        return destinationName;
     }
 
     public ConnectionFactory getConnectionFactory() {
