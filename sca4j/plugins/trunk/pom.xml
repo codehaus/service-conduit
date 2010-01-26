@@ -27,7 +27,7 @@
     <name>SCA4J Plugins Parent POM</name>
     <description>SCA4J Plugins Parent POM.</description>
     <packaging>pom</packaging>
-    <version>0.3.0</version>
+    <version>0.3.1-SNAPSHOT</version>
 
     <modules>
         <module>sca4j-contribution-plugin</module>
@@ -80,9 +80,9 @@
     </pluginRepositories-->
 
     <scm>
-        <connection>scm:svn:https://www.sca4j.org/svn/sca4j/plugins/tags/sca4j-plugins-parent-pom-0.3.0</connection>
-        <developerConnection>scm:svn:https://www.sca4j.org/svn/sca4j/plugins/tags/sca4j-plugins-parent-pom-0.3.0</developerConnection>
-        <url>http://www.sca4j.org/svn/sca4j/plugins/tags/sca4j-plugins-parent-pom-0.3.0</url>
+        <connection>scm:svn:https://www.sca4j.org/svn/sca4j/plugins/trunk</connection>
+        <developerConnection>scm:svn:https://www.sca4j.org/svn/sca4j/plugins/trunk</developerConnection>
+        <url>http://www.sca4j.org/svn/sca4j/plugins/trunk</url>
     </scm>
 
 </project>
