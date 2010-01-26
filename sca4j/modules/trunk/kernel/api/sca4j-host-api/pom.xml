@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>sca4j-kernel-api-parent-pom</artifactId>
-        <version>0.3.0-SNAPSHOT</version>
+        <version>0.3.0</version>
     </parent>
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-host-api</artifactId>
@@ -35,17 +35,17 @@
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-api</artifactId>
-            <version>0.3.0-SNAPSHOT</version>
+            <version>0.3.0</version>
         </dependency>
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-monitor-api</artifactId>
-            <version>0.3.0-SNAPSHOT</version>
+            <version>0.3.0</version>
         </dependency>
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-management-api</artifactId>
-            <version>0.3.0-SNAPSHOT</version>
+            <version>0.3.0</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
