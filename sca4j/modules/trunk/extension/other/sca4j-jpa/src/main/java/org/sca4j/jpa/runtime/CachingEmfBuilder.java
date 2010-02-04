@@ -91,6 +91,7 @@ import org.sca4j.jpa.spi.delegate.EmfBuilderDelegate;
 public class CachingEmfBuilder implements EmfBuilder, EmfCache {
 
     private Map<String, EntityManagerFactory> cache = new HashMap<String, EntityManagerFactory>();
+    private Map<String, Object> providerSpecificCache = new HashMap<String, Object>();
     private PersistenceUnitScanner scanner;
     private Map<String, EmfBuilderDelegate> delegates = new HashMap<String, EmfBuilderDelegate>();
 
@@ -115,14 +116,10 @@ public class CachingEmfBuilder implements EmfBuilder, EmfCache {
 
     public synchronized EntityManagerFactory build(String unitName, ClassLoader classLoader) {
 
-        if (cache.containsKey(unitName)) {
-            return cache.get(unitName);
+        if (!cache.containsKey(unitName)) {
+            createEntityManagerFactory(unitName, classLoader);
         }
-
-        EntityManagerFactory emf = createEntityManagerFactory(unitName, classLoader);
-        cache.put(unitName, emf);
-
-        return emf;
+        return cache.get(unitName);
 
     }
 
@@ -141,18 +138,26 @@ public class CachingEmfBuilder implements EmfBuilder, EmfCache {
     public EntityManagerFactory getEmf(String unitName) {
         return cache.get(unitName);
     }
+    
+    public Object getDelegate(String unitName) {
+        return providerSpecificCache.get(unitName);
+    }
 
     /*
     * Creates the entity manager factory using the JPA provider API.
     */
-    private EntityManagerFactory createEntityManagerFactory(String unitName, ClassLoader classLoader) {
+    private void createEntityManagerFactory(String unitName, ClassLoader classLoader) {
 
     	PersistenceUnitInfoImpl info = (PersistenceUnitInfoImpl) scanner.getPersistenceUnitInfo(unitName, classLoader);
         String providerClass = info.getPersistenceProviderClassName();
         String dataSourceName = info.getDataSourceName();
 
         EmfBuilderDelegate delegate = delegates.get(providerClass);
-        return delegate.build(info, classLoader, dataSourceName);
+        EntityManagerFactory emf = delegate.build(info, classLoader, dataSourceName);
+        Object emfDelegate = delegate.getDelegate(emf);
+        
+        cache.put(unitName, emf);
+        providerSpecificCache.put(unitName, emfDelegate);
 
     }
     

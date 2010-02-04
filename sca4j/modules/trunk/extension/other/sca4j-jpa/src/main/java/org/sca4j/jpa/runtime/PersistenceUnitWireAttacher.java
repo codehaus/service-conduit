@@ -119,8 +119,9 @@ public class PersistenceUnitWireAttacher implements TargetWireAttacher<Persisten
 
         try {            
             Thread.currentThread().setContextClassLoader(appCl);
-            EntityManagerFactory entityManagerFactory = emfBuilder.build(unitName, appCl);
-            return new SingletonObjectFactory<EntityManagerFactory>(entityManagerFactory);
+            EntityManagerFactory emf = emfBuilder.build(unitName, appCl);
+            Object emfDelegate = emfBuilder.getDelegate(unitName);
+            return target.isProviderSpecific() ? new SingletonObjectFactory<Object>(emfDelegate) : new SingletonObjectFactory<EntityManagerFactory>(emf);
         } finally {
             Thread.currentThread().setContextClassLoader(oldCl);
         }

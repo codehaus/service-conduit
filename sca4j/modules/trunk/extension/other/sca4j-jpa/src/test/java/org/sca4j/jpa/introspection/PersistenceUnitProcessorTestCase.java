@@ -73,7 +73,7 @@ public class PersistenceUnitProcessorTestCase extends TestCase {
 
     public void testCreateDefinition() {
 
-        PersistenceUnitResource definition = processor.createDefinition(annotation);
+        PersistenceUnitResource definition = processor.createDefinition(annotation, false);
         assertEquals("name", definition.getName());
         assertEquals("unitName", definition.getUnitName());
     }

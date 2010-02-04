@@ -74,5 +74,13 @@ public interface EmfBuilderDelegate {
      * @throws EmfBuilderException if an error building the factory occurs
      */
     EntityManagerFactory build(PersistenceUnitInfo info, ClassLoader classLoader, String dataSourceName);
+    
+    /**
+     * Gets the underlying implementation of the entity manager factory.
+     * 
+     * @param entityManagerFactory Entity manager factory.
+     * @return Underlying entity manager factory implementation.
+     */
+    Object getDelegate(EntityManagerFactory entityManagerFactory);
 
 }

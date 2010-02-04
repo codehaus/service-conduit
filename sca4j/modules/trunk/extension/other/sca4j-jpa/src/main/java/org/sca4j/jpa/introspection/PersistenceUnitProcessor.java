@@ -91,19 +91,21 @@ public class PersistenceUnitProcessor<I extends Implementation<? extends Injecti
 
     public void visitField(PersistenceUnit annotation, Field field, I implementation, IntrospectionContext context) {
         FieldInjectionSite site = new FieldInjectionSite(field);
-        PersistenceUnitResource definition = createDefinition(annotation);
+        boolean provideSpecific = !field.getType().equals(EntityManagerFactory.class);
+        PersistenceUnitResource definition = createDefinition(annotation, provideSpecific);
         implementation.getComponentType().add(definition, site);
     }
 
     public void visitMethod(PersistenceUnit annotation, Method method, I implementation, IntrospectionContext context) {
         MethodInjectionSite site = new MethodInjectionSite(method, 0);
-        PersistenceUnitResource definition = createDefinition(annotation);
+        boolean provideSpecific = !method.getParameterTypes()[0].equals(EntityManagerFactory.class);
+        PersistenceUnitResource definition = createDefinition(annotation, provideSpecific);
         implementation.getComponentType().add(definition, site);
     }
 
-    PersistenceUnitResource createDefinition(PersistenceUnit annotation) {
+    PersistenceUnitResource createDefinition(PersistenceUnit annotation, boolean providerSpecific) {
         String name = annotation.name();
         String unitName = annotation.unitName();
-        return new PersistenceUnitResource(name, unitName, factoryServiceContract);
+        return new PersistenceUnitResource(name, unitName, factoryServiceContract, providerSpecific);
     }
 }

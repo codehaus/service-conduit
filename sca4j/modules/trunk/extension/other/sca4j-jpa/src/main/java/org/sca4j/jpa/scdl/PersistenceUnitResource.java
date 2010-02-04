@@ -79,21 +79,33 @@ import org.sca4j.scdl.ServiceContract;
  * @version $Revision$ $Date$
  */
 public final class PersistenceUnitResource extends ResourceDefinition {
+    
     private static final long serialVersionUID = 8935762119919982256L;
     private final String unitName;
-
+    private final boolean providerSpecific;
+    
     /**
      * Initializes the resource name and persistence unit name.
      * 
      * @param name Name of the resource.
      * @param unitName Persistence unit name.
      * @param serviceContract the service contract for the persistence unit
+     * @param providerSpecific True if a provider specific entity manager factory is used
      */
-    public PersistenceUnitResource(String name, String unitName, ServiceContract<?> serviceContract) {
+    public PersistenceUnitResource(String name, String unitName, ServiceContract<?> serviceContract, boolean providerSpecific) {
         super(name, serviceContract, true);
         this.unitName = unitName;
+        this.providerSpecific = providerSpecific;
     }
     
+    /**
+     * Gets the whether a provider specific entity manager factory is used.
+     * @return True if a provider specific entity manager factory is used.
+     */
+    public boolean isProviderSpecific() {
+        return providerSpecific;
+    }
+
     /**
      * Gets the persistence unit name.
      * @return Persistence unit name.

@@ -62,9 +62,8 @@ import javax.persistence.spi.PersistenceUnitInfo;
 import javax.sql.DataSource;
 
 import org.hibernate.ejb.Ejb3Configuration;
+import org.hibernate.ejb.EntityManagerFactoryImpl;
 import org.osoa.sca.annotations.Reference;
-import org.sca4j.host.perf.PerformanceMonitor;
-import org.sca4j.host.runtime.HostInfo;
 import org.sca4j.jpa.spi.delegate.EmfBuilderDelegate;
 import org.sca4j.resource.jndi.proxy.jdbc.DataSourceProxy;
 import org.sca4j.spi.resource.DataSourceRegistry;
@@ -78,12 +77,6 @@ public class HibernateDelegate implements EmfBuilderDelegate {
 
     private DataSourceRegistry dataSourceRegistry;
     private ComponentSynthesizer synthesizer;
-    private HostInfo hostInfo;
-    
-    @Reference
-    public void setHostInfo(HostInfo hostInfo) {
-    	this.hostInfo = hostInfo;
-    }
 
     @Reference
     public void setDataSourceRegistry(DataSourceRegistry dataSourceRegistry) {
@@ -107,18 +100,14 @@ public class HibernateDelegate implements EmfBuilderDelegate {
             cfg.setDataSource(dataSource);
         }
         
-        if (hostInfo.isLive()) {
-        	PerformanceMonitor.start("EJB3 configuration " + info.getPersistenceUnitName());
-        	cfg.configure(info, Collections.emptyMap());
-	        PerformanceMonitor.end();
-	        PerformanceMonitor.start("Building entity manager factory " + info.getPersistenceUnitName());
-	        EntityManagerFactory emf = cfg.buildEntityManagerFactory();
-	        PerformanceMonitor.end();
-	        return emf;
-        } else {
-        	return new EntityManagerFactoryProxy(info, cfg);
-        }
+        cfg.configure(info, Collections.emptyMap());
+        return cfg.buildEntityManagerFactory();
         
+    }
+
+    public Object getDelegate(EntityManagerFactory entityManagerFactory) {
+        // TODO Auto-generated method stub
+        return ((EntityManagerFactoryImpl) entityManagerFactory).getSessionFactory();
     }
     
     private DataSource mapDataSource(String datasource, String persistenceUnit) {

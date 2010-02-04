@@ -117,6 +117,7 @@ public class PersistenceUnitResourceWireGenerator implements ResourceWireGenerat
         pwtd.setOptimizable(true);
         pwtd.setUnitName(logicalResource.getResourceDefinition().getUnitName());
         pwtd.setClassLoaderUri(classLoaderId);
+        pwtd.setProviderSpecific(logicalResource.getResourceDefinition().isProviderSpecific());
             
         return pwtd;
         

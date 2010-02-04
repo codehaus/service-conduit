@@ -83,6 +83,15 @@ public class PersistenceUnitWireTargetDefinition extends PhysicalWireTargetDefin
 
     private String unitName;
     private URI classLoaderUri;
+    private boolean isProviderSpecific;
+
+    public boolean isProviderSpecific() {
+        return isProviderSpecific;
+    }
+
+    public void setProviderSpecific(boolean isProviderSpecific) {
+        this.isProviderSpecific = isProviderSpecific;
+    }
 
     /**
      * @return The persistence unit name.

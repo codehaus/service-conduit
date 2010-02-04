@@ -88,5 +88,13 @@ public interface EmfBuilder {
      * @throws EmfBuilderException if an error occurs building the EMF
      */
     EntityManagerFactory build(String unitName, ClassLoader classLoader);
+    
+    /**
+     * Gets the underlying implementation of the entity manager factory.
+     * 
+     * @param unitName Name of the persistence unit name.
+     * @return Underlying entity manager factory implementation.
+     */
+    Object getDelegate(String unitName);
 
 }
