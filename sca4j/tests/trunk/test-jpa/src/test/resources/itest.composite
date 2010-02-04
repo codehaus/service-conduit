@@ -63,6 +63,7 @@
         <sca4j:junit class="org.sca4j.jpa.service.EmployeeServiceImplTest"/>
         <reference name="employeeService" target="EmployeeService"/>
         <reference name="employeeEMFService" target="EmployeeEMFService"/>
+        <reference name="employeeHibernateService" target="EmployeeHibernateService"/>
         <reference name="employeeMultiThreadedService" target="EmployeeMultiThreadedService"/>
         <reference name="conversationEmployeeService" target="ConversationEmployeeService"/>
     </component>
@@ -80,6 +81,10 @@
 
     <component name="EmployeeEMFService" requires="sca:managedTransaction">
         <implementation.java class="org.sca4j.jpa.service.EmployeeServiceEMFImpl"/>
+    </component>
+
+    <component name="EmployeeHibernateService" requires="sca:managedTransaction">
+        <implementation.java class="org.sca4j.jpa.service.EmployeeServiceHibernate"/>
     </component>
 
     <component name="EmployeeMultiThreadedService" requires="sca:managedTransaction">

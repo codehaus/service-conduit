@@ -64,52 +64,46 @@ import org.sca4j.jpa.model.ExEmployee;
  * @version $Revision$ $Date$
  */
 public class EmployeeServiceImplTest extends TestCase {
-    @Reference
-    protected EmployeeService employeeService;
-
-    @Reference
-    protected EmployeeService employeeMultiThreadedService;
-
-    @Reference
-    protected EmployeeService employeeEMFService;
-
-    @Reference
-    protected ConversationEmployeeService conversationEmployeeService;
+    
+    @Reference protected EmployeeService employeeService;
+    @Reference protected EmployeeService employeeMultiThreadedService;
+    @Reference protected EmployeeService employeeEMFService;
+    @Reference protected ConversationEmployeeService conversationEmployeeService;
+    @Reference protected EmployeeService employeeHibernateService;
 
     public void testCreateEmployee() {
         employeeService.createEmployee(123L, "Barney Rubble");
         Employee employee = employeeService.findEmployee(123L);
-
         assertNotNull(employee);
         assertEquals("Barney Rubble", employee.getName());
-
     }
 
     public void testCreateEMFEmployee() throws Exception {
         employeeEMFService.createEmployee(123L, "Barney Rubble");
         Employee employee = employeeEMFService.findEmployee(123L);
-
         assertNotNull(employee);
         assertEquals("Barney Rubble", employee.getName());
+    }
 
+    public void testCreateHibernateEmployee() throws Exception {
+        employeeHibernateService.createEmployee(123L, "Barney Rubble");
+        Employee employee = employeeHibernateService.findEmployee(123L);
+        assertNotNull(employee);
+        assertEquals("Barney Rubble", employee.getName());
     }
 
     public void testCreateMultiThreadedEmployee() {
         employeeMultiThreadedService.createEmployee(123L, "Barney Rubble");
         Employee employee = employeeMultiThreadedService.findEmployee(123L);
-
         assertNotNull(employee);
         assertEquals("Barney Rubble", employee.getName());
-
     }
 
     public void testSearchWithName() {
         employeeMultiThreadedService.createEmployee(123L, "Barney");
         List<Employee> employees = employeeService.searchWithCriteria("Barney");
-
         assertNotNull(employees);
         assertEquals(1, employees.size());
-
     }
 
     public void testTwoPersistenceContexts() {
@@ -120,7 +114,6 @@ public class EmployeeServiceImplTest extends TestCase {
     public void testExtendedPersistenceContext() {
         conversationEmployeeService.createEmployee(123L, "Barney Rubble");
         Employee employee = conversationEmployeeService.findEmployee(123L);
-
         assertNotNull(employee);
         assertEquals("Barney Rubble", employee.getName());
         // verify the object has not be detached

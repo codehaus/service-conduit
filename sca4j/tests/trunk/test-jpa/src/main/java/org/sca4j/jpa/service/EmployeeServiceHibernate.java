@@ -54,10 +54,9 @@ package org.sca4j.jpa.service;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.sca4j.jpa.model.Employee;
 import org.sca4j.jpa.model.ExEmployee;
@@ -67,33 +66,26 @@ import org.sca4j.jpa.model.ExEmployee;
  *
  * @version $Revision$ $Date$
  */
-public class EmployeeServiceEMFImpl implements EmployeeService {
+public class EmployeeServiceHibernate implements EmployeeService {
     
-    private EntityManagerFactory emf;
-
-    @PersistenceUnit(name = "employeeEmf", unitName = "employee")
-    public void setEntityManagerFactory(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
+    @PersistenceUnit(name = "employeeEmf", unitName = "employee") protected SessionFactory sessionFactory;
 
     public Employee createEmployee(Long id, String name) {
-        
-        EntityManager em = emf.createEntityManager();
+        Session em = sessionFactory.openSession();
         Employee employee = new Employee(id, name);
         em.persist(employee);
         em.flush();
         return employee;
-
     }
 
     public Employee findEmployee(Long id) {
-        return emf.createEntityManager().find(Employee.class, id);
+        return (Employee) sessionFactory.openSession().load(Employee.class, id);
     }
 
     public void removeEmployee(Long id) {
-        EntityManager em = emf.createEntityManager();
-        Employee employee = em.find(Employee.class, id);
-        em.remove(employee);
+        Session em = sessionFactory.openSession();
+        Employee employee = (Employee) em.load(Employee.class, id);
+        em.delete(employee);
         em.flush();
     }
 
