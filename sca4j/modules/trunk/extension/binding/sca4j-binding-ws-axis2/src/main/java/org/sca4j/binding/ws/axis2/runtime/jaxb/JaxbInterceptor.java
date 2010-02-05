@@ -81,20 +81,20 @@ public class JaxbInterceptor implements Interceptor {
     private final boolean service;
     private final Map<Class<?>, Constructor<?>> faultMapping;
     private final Method interceptedMethod;
-    private boolean jaxbBinding;
+    private final boolean jaxbBinding;
     private final JAXBContext jaxbContext;
-    
-    public JaxbInterceptor(JAXBContext jaxbContext, 
-                           boolean service, 
-                           Map<Class<?>, Constructor<?>> faultMapping,
-                           Method interceptedMethod,
-                           boolean jaxbBinding) throws JAXBException {
+
+    public JaxbInterceptor(JAXBContext jaxbContext,
+            boolean service,
+            Map<Class<?>, Constructor<?>> faultMapping,
+            Method interceptedMethod,
+            boolean jaxbBinding) throws JAXBException {
         this.jaxbContext = jaxbContext;
         this.service = service;
         this.faultMapping = faultMapping;
         this.interceptedMethod = interceptedMethod;
         this.jaxbBinding = jaxbBinding;
-        
+
         inTransformer = new OMElement2Jaxb(jaxbContext);
         outTransformer = new Jaxb2OMElement(jaxbContext);
     }
@@ -109,7 +109,7 @@ public class JaxbInterceptor implements Interceptor {
         }
         return service ? interceptService(message) : interceptReference(message);
     }
-    
+
     private Message interceptService(Message message) {
 
         Object[] payload = (Object[]) message.getBody();
@@ -124,40 +124,17 @@ public class JaxbInterceptor implements Interceptor {
         Object result;
         if (response.isFault()) {
             Object webFault = response.getBody();
-            result = getFault(webFault);
+            result = new FaultData(webFault, jaxbContext);
+            response.setBodyWithFault(result);
         } else {
             result = response.getBody();
-        }
-
-        if (result != null) {
-            OMElement omElement = outTransformer.transform(result, null);
-            response.setBody(omElement);
+            if (result != null) {
+                OMElement omElement = outTransformer.transform(result, null);
+                response.setBody(omElement);
+            }
         }
 
         return response;
-
-    }
-
-    private Object getFault(Object webFault) {
-        
-        WebFault annotation = webFault.getClass().getAnnotation(WebFault.class);
-        if (annotation == null) {
-            // this is an undeclared exception
-            if (webFault instanceof RuntimeException) {
-                throw (RuntimeException) webFault;
-            } else if (webFault instanceof Exception) {
-                throw new AssertionError((Exception) webFault);
-            } else if (webFault instanceof Error) {
-                throw (Error) webFault;
-            }
-        }
-        
-        try {
-            Method getFaultInfo = webFault.getClass().getMethod("getFaultInfo");
-            return getFaultInfo.invoke(webFault);
-        } catch (Exception e) {
-            throw new AssertionError(e);
-        }
 
     }
 

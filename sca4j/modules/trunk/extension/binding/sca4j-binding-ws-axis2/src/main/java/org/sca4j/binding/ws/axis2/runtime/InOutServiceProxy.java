@@ -66,6 +66,7 @@ import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.invocation.WorkContext;
 import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.wire.InvocationChain;
+import org.sca4j.binding.ws.axis2.runtime.jaxb.FaultData;
 
 /**
  * Axis2 to SCA4J proxy - implemented as Axis2 Message Receiver & engaged on operation level.
@@ -83,7 +84,7 @@ public class InOutServiceProxy extends AbstractInOutMessageReceiver {
         this.invocationChain = invocationChain;
     }
 
-    /** 
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -110,6 +111,9 @@ public class InOutServiceProxy extends AbstractInOutMessageReceiver {
                 throw (AxisFault) element;
             } else if (element instanceof Throwable) {
                 throw AxisFault.makeFault((Throwable) element);
+            } else if (element instanceof FaultData) {
+                FaultData faultData = (FaultData) element;
+                throw faultData.asAxisFault();
             }
         } else {
             OMElement resObject = (OMElement) ret.getBody();
