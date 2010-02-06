@@ -26,9 +26,9 @@
         <version>1.0</version>
     </parent>
     
-    <artifactId>tutorial-wiring</artifactId>
+    <artifactId>tutorial-getting-started</artifactId>
     <packaging>jar</packaging>
-    <name>Wiring</name>
+    <name>Getting Started</name>
 
     <dependencies>
         <dependency>
