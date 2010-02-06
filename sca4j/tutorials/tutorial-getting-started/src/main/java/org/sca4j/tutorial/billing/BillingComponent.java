@@ -20,7 +20,7 @@ package org.sca4j.tutorial.billing;
 
 public class BillingComponent implements BillingService {
 
-    public boolean bill(String billingAddress, String creditCardNumber, double amount) {
+    public boolean bill(String address, String creditCard, double amount) {
         return true;
     }
 

@@ -19,7 +19,6 @@
 package org.sca4j.tutorial.order;
 
 import org.osoa.sca.annotations.Reference;
-import org.sca4j.tutorial.order.OrderService;
 
 import junit.framework.TestCase;
 
@@ -28,7 +27,7 @@ public class OrderITest extends TestCase {
     @Reference protected OrderService orderService;
 
     public void testPlaceOrder() {
-        assertTrue(orderService.placeOrder("Pizza", "70 Byron Rd", "70 Byron Road", "12345"));
+        assertTrue(orderService.placeOrder("Pizza", "70 Byron Road", "12345"));
     }
 
 }

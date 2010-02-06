@@ -20,7 +20,7 @@ package org.sca4j.tutorial.shipping;
 
 public class ShippingComponent implements ShippingService {
 
-    public void ship(String productName, String shippingAddress) {
+    public void ship(String productName, String address) {
     }
 
 }

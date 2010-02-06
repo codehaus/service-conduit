@@ -20,6 +20,6 @@ package org.sca4j.tutorial.order;
 
 public interface OrderService {
     
-    boolean placeOrder(String productName, String shippingAddress, String billingAddress, String creditCardNumber);
+    boolean placeOrder(String productName, String address, String creditCard);
 
 }

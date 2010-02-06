@@ -27,9 +27,9 @@ public class OrderComponent implements OrderService {
     @Reference protected BillingService billingService;
     @Reference protected ShippingService shippingService;
 
-    public boolean placeOrder(String productName, String shippingAddress, String billingAddress, String creditCardNumber) {
-        if (billingService.bill(billingAddress, creditCardNumber, 2.0)) {
-            shippingService.ship(productName, shippingAddress);
+    public boolean placeOrder(String productName, String address, String creditCard) {
+        if (billingService.bill(address, creditCard, 2.0)) {
+            shippingService.ship(productName, address);
             return true;
         }
         return false;

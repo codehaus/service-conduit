@@ -20,6 +20,6 @@ package org.sca4j.tutorial.billing;
 
 public interface BillingService {
     
-    boolean bill(String billingAddress, String creditCardNumber, double amount);
+    boolean bill(String address, String creditCard, double amount);
 
 }

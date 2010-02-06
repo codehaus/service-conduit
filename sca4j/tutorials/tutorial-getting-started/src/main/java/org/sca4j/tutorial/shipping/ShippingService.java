@@ -20,6 +20,6 @@ package org.sca4j.tutorial.shipping;
 
 public interface ShippingService {
     
-    void ship(String productName, String shippingAddress);
+    void ship(String productName, String adress);
 
 }
