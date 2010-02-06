@@ -20,84 +20,32 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.sca4j.tutorial</groupId>
+    <parent>
+        <groupId>org.sca4j.tutorial</groupId>
+        <artifactId>parent</artifactId>
+        <version>1.0</version>
+    </parent>
+    
     <artifactId>tutorial-hello-world</artifactId>
     <packaging>jar</packaging>
     <name>Hello World</name>
-    <version>1.0</version>
-
-    <repositories>
-        <repository>
-            <id>sca4j</id>
-            <url>http://www.sca4j.org/nexus/content/repositories/releases</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>sca4j.plugin</id>
-            <url>http://www.sca4j.org/nexus/content/repositories/releases</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
 
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
         </dependency>
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-maven-host</artifactId>
-            <version>0.3.1</version>
         </dependency>
     </dependencies>
 
     <build>
-        <defaultGoal>verify</defaultGoal>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>RELEASE</version>
-                    <configuration>
-                        <source>1.5</source>
-                        <target>1.5</target>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>RELEASE</version>
-                    <configuration>
-                        <includes>
-                            <include>**/*TestCase.java</include>
-                        </includes>
-                        <reportFormat>brief</reportFormat>
-                        <useFile>false</useFile>
-                        <forkMode>once</forkMode>
-                        <argLine>-ea</argLine>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.sca4j</groupId>
                 <artifactId>sca4j-itest-plugin</artifactId>
-                <version>0.3.1</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
