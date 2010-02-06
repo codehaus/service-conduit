@@ -48,33 +48,49 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.sca4j.spec</groupId>
-            <artifactId>sca-api-r1.0</artifactId>
-            <version>RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.sca4j</groupId>
-            <artifactId>sca4j-monitor</artifactId>
-            <version>RELEASE</version>
-        </dependency>
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>RELEASE</version>
+            <version>3.8.1</version>
         </dependency>
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-maven-host</artifactId>
-            <version>RELEASE</version>
+            <version>0.3.1</version>
         </dependency>
     </dependencies>
 
-    <!--build>
+    <build>
         <defaultGoal>verify</defaultGoal>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>RELEASE</version>
+                    <configuration>
+                        <source>1.5</source>
+                        <target>1.5</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>RELEASE</version>
+                    <configuration>
+                        <includes>
+                            <include>**/*TestCase.java</include>
+                        </includes>
+                        <reportFormat>brief</reportFormat>
+                        <useFile>false</useFile>
+                        <forkMode>once</forkMode>
+                        <argLine>-ea</argLine>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.sca4j</groupId>
                 <artifactId>sca4j-itest-plugin</artifactId>
+                <version>0.3.1</version>
                 <executions>
                     <execution>
                         <goals>
@@ -84,6 +100,6 @@
                 </executions>
             </plugin>
         </plugins>
-    </build-->
+    </build>
 
 </project>
