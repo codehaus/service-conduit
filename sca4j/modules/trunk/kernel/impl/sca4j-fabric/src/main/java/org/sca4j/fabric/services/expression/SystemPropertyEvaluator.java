@@ -62,6 +62,11 @@ import org.sca4j.host.expression.ExpressionEvaluator;
 public class SystemPropertyEvaluator implements ExpressionEvaluator {
 
     public String evaluate(String expression) {
-        return System.getProperty(expression);
+        String value = System.getProperty(expression);
+        if (value == null && expression.startsWith("system.")) {
+            value = System.getProperty(expression.substring("system.".length()));
+        }
+        return value;
     }
+    
 }

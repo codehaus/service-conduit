@@ -1,0 +1,25 @@
+<sca4jConfig>
+
+    <hostProperties>
+        <ftp.user>${system.FTP_USER}</ftp.user>
+    </hostProperties>
+    
+    <domainConfig>    
+        <testDsConfig>
+            <driver>org.apache.derby.jdbc.EmbeddedDriver</driver>
+            <username>${system.DB_USER}</username>
+        </testDsConfig>
+    </domainConfig>
+    
+    <!-- runtimeExtensions>
+        <embeddedDataSource/>
+        <ftpServer/>
+        <jndiDataSource/>
+        <embeddedTransactionManager/>
+        <jndiTransactionManager/>
+    </runtimeExtensions>
+    
+    <policyExtensions>
+    </policyExtensions-->
+    
+</sca4jConfig>

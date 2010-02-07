@@ -68,6 +68,10 @@ public class HostPropertiesExpressionEvaluator implements ExpressionEvaluator {
     }
 
     public String evaluate(String expression) {
-        return info.getProperty(expression, null);
+        String value = info.getProperty(expression, null);
+        if (value == null && expression.startsWith("host.")) {
+            value = info.getProperty(expression.substring("host.".length()), null);
+        }
+        return value;
     }
 }

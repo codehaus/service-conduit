@@ -117,10 +117,9 @@ public abstract class PojoComponentBuilder<T, PCD extends PojoComponentDefinitio
     }
 
     protected void createPropertyFactories(PCD definition, InstanceFactoryProvider<T> provider) throws BuilderException {
+        
         Map<String, Document> propertyValues = definition.getPropertyValues();
-
-        ClassLoader cl = getClass().getClassLoader();
-        TransformContext context = new TransformContext(null, cl, null, null);
+        TransformContext context = new TransformContext();
         for (Map.Entry<String, Document> entry : propertyValues.entrySet()) {
             String name = entry.getKey();
             Document value = entry.getValue();

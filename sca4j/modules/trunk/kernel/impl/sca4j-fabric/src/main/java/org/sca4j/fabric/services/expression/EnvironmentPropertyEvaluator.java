@@ -62,6 +62,10 @@ import org.sca4j.host.expression.ExpressionEvaluator;
 public class EnvironmentPropertyEvaluator implements ExpressionEvaluator {
 
     public String evaluate(String expression) {
-        return System.getenv(expression);
+        String value = System.getenv(expression);
+        if (value == null && expression.startsWith("env.")) {
+            value = System.getenv(expression.substring("env.".length()));
+        }
+        return value;
     }
 }

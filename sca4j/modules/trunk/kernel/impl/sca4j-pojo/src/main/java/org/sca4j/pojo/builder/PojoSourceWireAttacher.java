@@ -140,15 +140,7 @@ public abstract class PojoSourceWireAttacher {
                 formalType = String.class;
             }
 
-            URI sourceId = sourceDefinition.getClassLoaderId();
-            URI targetId = targetDefinition.getClassLoaderId();
-            ClassLoader sourceClassLoader = getClass().getClassLoader();
-            ClassLoader targetClassLoader = null;
-            if (targetId != null) {
-            	targetClassLoader = getClass().getClassLoader();
-            }
-
-            TransformContext context = new TransformContext(sourceClassLoader, targetClassLoader, null, null);
+            TransformContext context = new TransformContext();
             return createKey(formalType, element, context);
         }
 
