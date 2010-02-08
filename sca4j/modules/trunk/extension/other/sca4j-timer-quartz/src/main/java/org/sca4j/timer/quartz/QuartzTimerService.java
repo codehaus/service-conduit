@@ -162,20 +162,21 @@ public class QuartzTimerService implements TimerService {
     }
 
     public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
-        long time = unit.convert(delay, TimeUnit.MILLISECONDS);
+	long timeInMillis = TimeUnit.MILLISECONDS.convert(delay, unit);
         String id = createId();
-        Trigger trigger = new SimpleTrigger(id, GROUP, new Date(System.currentTimeMillis() + time));
+        Trigger trigger = new SimpleTrigger(id, GROUP, new Date(System.currentTimeMillis() + timeInMillis));
         return schedule(id, command, trigger);
     }
 
     public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command, long initialDelay, long delay, TimeUnit unit) {
-        long time = unit.convert(delay, TimeUnit.MILLISECONDS);
+	long timeInMillis = TimeUnit.MILLISECONDS.convert(delay, unit);
+	long delayInMillis = TimeUnit.MILLISECONDS.convert(initialDelay, unit);
         String id = createId();
         SimpleTrigger trigger = new SimpleTrigger();
         trigger.setName(id);
-        trigger.setRepeatInterval(time);
+        trigger.setRepeatInterval(timeInMillis);
         trigger.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
-        trigger.setStartTime(new Date(System.currentTimeMillis() + initialDelay));
+        trigger.setStartTime(new Date(System.currentTimeMillis() + delayInMillis));
         return schedule(id, command, trigger);
     }
 
