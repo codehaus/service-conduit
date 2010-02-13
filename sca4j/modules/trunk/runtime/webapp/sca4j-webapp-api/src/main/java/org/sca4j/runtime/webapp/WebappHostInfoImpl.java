@@ -70,7 +70,6 @@
  */
 package org.sca4j.runtime.webapp;
 
-import java.io.File;
 import java.net.URI;
 import java.util.Enumeration;
 import java.util.Properties;
@@ -85,43 +84,17 @@ import org.sca4j.host.runtime.AbstractHostInfo;
 public class WebappHostInfoImpl extends AbstractHostInfo implements WebappHostInfo {
     
     private final ServletContext servletContext;
-    private final File baseDir;
-    private final File tempDir;
 
-    public WebappHostInfoImpl(ServletContext servletContext, URI domain, File baseDir, File tempDir) {
+    public WebappHostInfoImpl(ServletContext servletContext, URI domain) {
         super(domain, convert(servletContext));
         this.servletContext = servletContext;
-        this.baseDir = baseDir;
-        this.tempDir = tempDir;
     }
 
     public ServletContext getServletContext() {
         return servletContext;
     }
-
-    public File getBaseDir() {
-        return baseDir;
-    }
-
-    public File getInstallDirectory() {
-        throw new UnsupportedOperationException();
-    }
-
-    public boolean supportsClassLoaderIsolation() {
-        return false;
-    }
-
-    public File getTempDir() {
-        return tempDir;
-    }
     
-    /**
-     * @see org.sca4j.host.runtime.HostInfo#isLive()
-     */
-    public boolean isLive() {
-    	return true;
-    }
-    
+    @SuppressWarnings("unchecked")
     private static Properties convert(ServletContext servletContext) {
         Properties props = new Properties();
         Enumeration<String> initParameters = servletContext.getInitParameterNames();

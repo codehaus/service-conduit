@@ -52,20 +52,11 @@
  */
 package org.sca4j.host.runtime;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Enumeration;
-import java.util.LinkedList;
 import java.util.List;
 
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
-
 import org.sca4j.host.contribution.ContributionSource;
-import org.sca4j.host.contribution.FileContributionSource;
 import org.xml.sax.InputSource;
 
 /**
@@ -83,8 +74,7 @@ public class BootConfiguration {
     private ContributionSource intents;
     private List<ContributionSource> extensions;
     private URL systemScdl;
-    private InputSource systemConfigDocument;
-    private URL systemConfig;
+    private InputStream systemConfig;
 
     public SCA4JRuntime<?> getRuntime() {
         return runtime;
@@ -102,19 +92,11 @@ public class BootConfiguration {
         this.systemScdl = systemScdl;
     }
 
-    public InputSource getSystemConfigDocument() {
-        return systemConfigDocument;
-    }
-
-    public void setSystemConfigDocument(InputSource systemConfigDocument) {
-        this.systemConfigDocument = systemConfigDocument;
-    }
-
-    public URL getSystemConfig() {
+    public InputStream getSystemConfig() {
         return systemConfig;
     }
 
-    public void setSystemConfig(URL systemConfig) {
+    public void setSystemConfig(InputStream systemConfig) {
         this.systemConfig = systemConfig;
     }
 

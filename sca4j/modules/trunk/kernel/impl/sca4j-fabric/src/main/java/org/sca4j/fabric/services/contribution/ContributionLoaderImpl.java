@@ -55,7 +55,6 @@ package org.sca4j.fabric.services.contribution;
 import java.net.URI;
 
 import org.osoa.sca.annotations.Reference;
-import org.sca4j.host.perf.PerformanceMonitor;
 import org.sca4j.host.runtime.HostInfo;
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.ContributionManifest;
@@ -79,7 +78,6 @@ public class ContributionLoaderImpl implements ContributionLoader {
     }
 
     public ClassLoader loadContribution(Contribution contribution) throws ContributionLoadException, MatchingExportNotFoundException {
-        PerformanceMonitor.start("Loaded contribution " + contribution.getLocation());
     	contribution.getUri();
         ClassLoader cl = getClass().getClassLoader();
         verifyImports(contribution);

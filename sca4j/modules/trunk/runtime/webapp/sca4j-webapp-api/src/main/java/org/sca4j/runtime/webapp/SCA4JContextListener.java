@@ -78,6 +78,7 @@ import static org.sca4j.runtime.webapp.Constants.COMPOSITE_PARAM;
 import static org.sca4j.runtime.webapp.Constants.RUNTIME_ATTRIBUTE;
 import static org.sca4j.runtime.webapp.Constants.SYSTEM_CONFIG_PARAM;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -176,7 +177,7 @@ public class SCA4JContextListener implements ServletContextListener {
     /*
      * Creates the boot configuration.
      */
-    private BootConfiguration createBootConfiguration(WebappRuntime runtime, ClassLoader webappClassLoader, WebappUtil utils, ServletContext servletContext) throws InitializationException, MalformedURLException {
+    private BootConfiguration createBootConfiguration(WebappRuntime runtime, ClassLoader webappClassLoader, WebappUtil utils, ServletContext servletContext) throws InitializationException, IOException {
 
         BootConfiguration configuration = new BootConfiguration();
         configuration.setAppClassLoader(webappClassLoader);
@@ -212,11 +213,9 @@ public class SCA4JContextListener implements ServletContextListener {
         
         String systemConfig = utils.getInitParameter(SYSTEM_CONFIG_PARAM, null);
         if (systemConfig != null) {
-            Reader reader = new StringReader(systemConfig);
-            InputSource inputSource = new InputSource(reader);
-            configuration.setSystemConfigDocument(inputSource);
+            configuration.setSystemConfig(new ByteArrayInputStream(systemConfig.getBytes()));
         } else {
-            configuration.setSystemConfig(servletContext.getResource(SYSTEM_CONFIG));
+            configuration.setSystemConfig(servletContext.getResource(SYSTEM_CONFIG).openStream());
         }
 
         return configuration;

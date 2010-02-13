@@ -56,15 +56,14 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.net.URI;
 import java.util.Set;
+
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.api.annotation.Monitor;
-import org.sca4j.host.perf.PerformanceMonitor;
 import org.sca4j.scdl.Scope;
 import org.sca4j.services.xmlfactory.XMLFactory;
 import org.sca4j.services.xmlfactory.XMLFactoryInstantiationException;

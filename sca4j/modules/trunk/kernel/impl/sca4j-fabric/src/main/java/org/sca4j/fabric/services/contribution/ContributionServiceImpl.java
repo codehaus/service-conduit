@@ -92,7 +92,6 @@ import org.sca4j.host.contribution.ContributionService;
 import org.sca4j.host.contribution.ContributionSource;
 import org.sca4j.host.contribution.Deployable;
 import org.sca4j.host.contribution.ValidationFailure;
-import org.sca4j.host.perf.PerformanceMonitor;
 import org.sca4j.introspection.validation.InvalidContributionException;
 import org.sca4j.introspection.validation.ValidationUtils;
 import org.sca4j.scdl.ArtifactValidationFailure;
@@ -191,9 +190,7 @@ public class ContributionServiceImpl implements ContributionService {
     public URI contribute(ContributionSource source) throws ContributionException {
         Contribution contribution = store(source);
         ValidationContext context = new DefaultValidationContext();
-        PerformanceMonitor.start("Processed manifest " + source.getLocation());
         processorRegistry.processManifest(contribution, context);
-        PerformanceMonitor.end();
         if (context.hasErrors()) {
             ArtifactValidationFailure failure = new ArtifactValidationFailure("the contribution manifest (sca-contribution.xml)");
             failure.addFailures(context.getErrors());

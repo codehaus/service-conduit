@@ -52,9 +52,12 @@
  */
 package org.sca4j.itest;
 
+import java.awt.im.InputSubset;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.net.MalformedURLException;
@@ -84,7 +87,6 @@ import org.sca4j.host.contribution.FileContributionSource;
 import org.sca4j.host.contribution.ValidationException;
 import org.sca4j.host.domain.AssemblyException;
 import org.sca4j.host.domain.DeploymentException;
-import org.sca4j.host.perf.PerformanceMonitor;
 import org.sca4j.host.runtime.BootConfiguration;
 import org.sca4j.maven.runtime.ContextStartException;
 import org.sca4j.maven.runtime.MavenEmbeddedRuntime;
@@ -139,40 +141,30 @@ public class TestRunner {
             
             ClassLoader parentClassLoader = getClass().getClassLoader();
             
-            ClassLoader hostClassLoader = createClassLoader(parentClassLoader, testMetadata.getClasspath());
+            ClassLoader hostClassLoader = createClassLoader(parentClassLoader, testMetadata.classpath);
             ClassLoader bootClassLoader = hostClassLoader;
             
             Thread.currentThread().setContextClassLoader(bootClassLoader);
             
-            runtime = createRuntime(bootClassLoader, testMetadata.getClasspath());
+            runtime = createRuntime(bootClassLoader, testMetadata.classpath);
             BootConfiguration configuration = createBootConfiguration(runtime, bootClassLoader, hostClassLoader, hostClassLoader);            
             
-            PerformanceMonitor.start("Boot primodial");
             runtime.bootPrimordial(configuration);
-            PerformanceMonitor.end();
-            PerformanceMonitor.start("Boot system");
             runtime.bootSystem();
-            PerformanceMonitor.end();
             runtime.joinDomain(-1);
-            PerformanceMonitor.start("Runtime started");
             runtime.start();
-            PerformanceMonitor.end();
-            PerformanceMonitor.start("Test suite created");
-            if (testMetadata.getCompositeName() == null) {
-                testSuite = createTestSuite(runtime, testMetadata.getTestScdl().toURI().toURL());
+            if (testMetadata.compositeName == null) {
+                testSuite = createTestSuite(runtime, testMetadata.testScdl.toURI().toURL());
             } else {
                 testSuite = createTestSuite(runtime);
             }
-            PerformanceMonitor.end();
             
             // Just verify the composites and don't run the tests
             if (System.getProperty("sca4j.verify") != null) {
                 return;
             }
             
-            PerformanceMonitor.start("Test executed");
             boolean success = runSurefire(testSuite);
-            PerformanceMonitor.end();
             
             if (!success) {
                 String msg = "There were test failures";
@@ -193,7 +185,7 @@ public class TestRunner {
         
     }
 
-    private BootConfiguration createBootConfiguration(MavenEmbeddedRuntime runtime, ClassLoader bootClassLoader, ClassLoader appClassLoader, ClassLoader hostClassLoader) {
+    private BootConfiguration createBootConfiguration(MavenEmbeddedRuntime runtime, ClassLoader bootClassLoader, ClassLoader appClassLoader, ClassLoader hostClassLoader) throws IOException {
 
         BootConfiguration configuration = new BootConfiguration();
         configuration.setAppClassLoader(appClassLoader);
@@ -209,34 +201,35 @@ public class TestRunner {
         bootExports.add("META-INF/maven/org.sca4j/sca4j-java/pom.xml");
         configuration.setBootLibraryExports(bootExports);
         
-        if (testMetadata.getSystemScdl() == null) {
-            testMetadata.setSystemScdl(bootClassLoader.getResource("META-INF/sca4j/embeddedMaven.composite"));
+        if (testMetadata.systemScdl == null) {
+            testMetadata.systemScdl = bootClassLoader.getResource("META-INF/sca4j/embeddedMaven.composite");
         }
-        configuration.setSystemScdl(testMetadata.getSystemScdl());
-        if (testMetadata.getSystemConfig() != null) {
-            Reader reader = new StringReader(testMetadata.getSystemConfig());
-            InputSource source = new InputSource(reader);
-            configuration.setSystemConfigDocument(source);
+        configuration.setSystemScdl(testMetadata.systemScdl);
+        if (testMetadata.systemConfig != null) {
+            System.err.println(testMetadata.systemConfig.trim());
+            configuration.setSystemConfig(new ByteArrayInputStream(testMetadata.systemConfig.trim().getBytes()));
         } else {
             URL systemConfig = getSystemConfig();
-            configuration.setSystemConfig(systemConfig);
+            if (systemConfig != null) {
+                configuration.setSystemConfig(getSystemConfig().openStream());
+            }
         }
 
         // process the baseline intents
-        if (testMetadata.getIntentsLocation() == null) {
-            testMetadata.setIntentsLocation(bootClassLoader.getResource("META-INF/sca4j/intents.xml"));
+        if (testMetadata.intentsLocation == null) {
+            testMetadata.intentsLocation = bootClassLoader.getResource("META-INF/sca4j/intents.xml");
         }
         URI uri = URI.create("StandardIntents");
-        ContributionSource source = new FileContributionSource(uri, testMetadata.getIntentsLocation(), -1, new byte[0]);
+        ContributionSource source = new FileContributionSource(uri, testMetadata.intentsLocation, -1, new byte[0]);
         configuration.setIntents(source);
         configuration.setRuntime(runtime);
         return configuration;
     }
 
     private URL getSystemConfig() {
-        File systemConfig = new File(testMetadata.getOutputDirectory(), DEFAULT_SYSTEM_CONFIG_DIR + SYSTEM_CONFIG_XML_FILE);
-        if (testMetadata.getSystemConfigDir() != null) {
-            systemConfig = new File(testMetadata.getOutputDirectory(), testMetadata.getSystemConfigDir() + File.separator + SYSTEM_CONFIG_XML_FILE);
+        File systemConfig = new File(testMetadata.outputDirectory, DEFAULT_SYSTEM_CONFIG_DIR + SYSTEM_CONFIG_XML_FILE);
+        if (testMetadata.systemConfigDir != null) {
+            systemConfig = new File(testMetadata.outputDirectory, testMetadata.systemConfigDir + File.separator + SYSTEM_CONFIG_XML_FILE);
             if (!systemConfig.exists()) {
                 throw new AssertionError("Failed to find the system config information in: " + systemConfig.getAbsolutePath());
             }
@@ -267,14 +260,14 @@ public class TestRunner {
     
     private MavenEmbeddedRuntime createRuntime(ClassLoader bootClassLoader, Set<URL> moduleDependencies) {
         
-        MavenEmbeddedRuntime runtime = instantiate(MavenEmbeddedRuntime.class, testMetadata.getRuntimeImpl(), bootClassLoader);
+        MavenEmbeddedRuntime runtime = instantiate(MavenEmbeddedRuntime.class, testMetadata.runtimeImpl, bootClassLoader);
         runtime.setMonitorFactory(monitorFactory);
 
-        Properties hostProperties = testMetadata.getProperties() != null ? testMetadata.getProperties() : System.getProperties();
-        MavenHostInfoImpl hostInfo = new MavenHostInfoImpl(URI.create(testMetadata.getTestDomain()), hostProperties, moduleDependencies);
+        Properties hostProperties = testMetadata.properties != null ? testMetadata.properties: System.getProperties();
+        MavenHostInfoImpl hostInfo = new MavenHostInfoImpl(URI.create(testMetadata.testDomain), hostProperties, moduleDependencies);
         runtime.setHostInfo(hostInfo);
 
-        runtime.setJmxSubDomain(testMetadata.getManagementDomain());
+        runtime.setJmxSubDomain(testMetadata.managementDomain);
 
         // TODO Add better host JMX support from the next release
         runtime.setMBeanServer(MBeanServerFactory.createMBeanServer());
@@ -309,9 +302,9 @@ public class TestRunner {
         int totalTests = suite.getNumTests();
 
         List<Reporter> reports = new ArrayList<Reporter>();
-        reports.add(new XMLReporter(testMetadata.getReportsDirectory(), testMetadata.isTrimStackTrace()));
-        reports.add(new BriefFileReporter(testMetadata.getReportsDirectory(), testMetadata.isTrimStackTrace()));
-        reports.add(new DetailedConsoleReporter(testMetadata.isTrimStackTrace()));
+        reports.add(new XMLReporter(testMetadata.reportsDirectory, testMetadata.trimStackTrace));
+        reports.add(new BriefFileReporter(testMetadata.reportsDirectory, testMetadata.trimStackTrace));
+        reports.add(new DetailedConsoleReporter(testMetadata.trimStackTrace));
         ReporterManager reporterManager = new ReporterManager(reports);
         reporterManager.initResultsFromProperties(status);
 
@@ -330,12 +323,10 @@ public class TestRunner {
 
     private SurefireTestSuite createTestSuite(MavenEmbeddedRuntime runtime, URL testScdlURL)
             throws DeploymentException, ContributionException, ContextStartException {
-        URI domain = URI.create(testMetadata.getTestDomain());
+        URI domain = URI.create(testMetadata.testDomain);
         Composite composite;
         try {
-            PerformanceMonitor.start("Composite activated");
             composite = runtime.activate(getBuildDirectoryUrl(), testScdlURL);
-            PerformanceMonitor.end();
         } catch (ValidationException e) {
             // print out the validaiton errors
             reportContributionErrors(e);
@@ -346,16 +337,14 @@ public class TestRunner {
             String msg = "Deployment errors were found";
             throw new RuntimeException(msg);
         }
-        PerformanceMonitor.start("Context started");
         runtime.startContext(domain);
-        PerformanceMonitor.end();
         return createTestSuite(runtime, composite, domain);
     }
 
     private SurefireTestSuite createTestSuite(MavenEmbeddedRuntime runtime)
             throws ContributionException, DeploymentException, ContextStartException {
-        URI domain = URI.create(testMetadata.getTestDomain());
-        QName qName = new QName(testMetadata.getCompositeNamespace(), testMetadata.getCompositeName());
+        URI domain = URI.create(testMetadata.testDomain);
+        QName qName = new QName(testMetadata.compositeNamespace, testMetadata.compositeName);
         try {
             Composite composite;
             composite = runtime.activate(getBuildDirectoryUrl(), qName);
@@ -405,7 +394,7 @@ public class TestRunner {
 
     private URL getBuildDirectoryUrl() {
         try {
-            return testMetadata.getBuildDirectory().toURI().toURL();
+            return testMetadata.buildDirectory.toURI().toURL();
         } catch (MalformedURLException e) {
             // this should not happen
             throw new AssertionError();

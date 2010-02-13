@@ -54,6 +54,7 @@ package org.sca4j.fabric.runtime.bootstrap;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import java.util.List;
@@ -98,21 +99,20 @@ public class ScdlBootstrapperImpl extends AbstractBootstrapper {
     private final DocumentLoader documentLoader;
 
     private URL scdlLocation;
-    private URL systemConfig;
-    private InputSource systemConfigDocument;
+    private InputStream systemConfig;
 
-    public ScdlBootstrapperImpl(URL scdlLocation, URL systemConfig, InputSource systemConfigDocument) {
+    public ScdlBootstrapperImpl(URL scdlLocation, InputStream systemConfig) {
         this(new XMLFactoryImpl(new ExpressionExpander() {
             public String expand(String value) throws ExpressionExpansionException {
                 return value;
             }
-        }));
+        }), systemConfig);
         this.scdlLocation = scdlLocation;
         this.systemConfig = systemConfig;
-        this.systemConfigDocument = systemConfigDocument;
     }
 
-    private ScdlBootstrapperImpl(XMLFactory xmlFactory) {
+    private ScdlBootstrapperImpl(XMLFactory xmlFactory, InputStream systemConfig) {
+        super(systemConfig);
         this.xmlFactory = xmlFactory;
         this.documentLoader = new DocumentLoaderImpl();
     }
@@ -160,23 +160,9 @@ public class ScdlBootstrapperImpl extends AbstractBootstrapper {
 
 
     protected Document loadSystemConfig() throws InitializationException {
-        if (systemConfigDocument != null) {
-            try {
-                // load from an external URL
-                return documentLoader.load(systemConfigDocument);
-            } catch (IOException e) {
-                throw new InitializationException(e);
-            } catch (SAXException e) {
-                throw new InitializationException(e);
-            }
-        }
-        if (systemConfig == null) {
-            // none specified, create a default one
-            return createDefaultConfigProperty();
-        }
         try {
             // load from an external URL
-            return documentLoader.load(systemConfig);
+            return systemConfig == null ? createDefaultConfigProperty() : documentLoader.load(systemConfig);
         } catch (IOException e) {
             throw new InitializationException(e);
         } catch (SAXException e) {

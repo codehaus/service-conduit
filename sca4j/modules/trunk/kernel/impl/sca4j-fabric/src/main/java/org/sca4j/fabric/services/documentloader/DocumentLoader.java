@@ -54,6 +54,7 @@ package org.sca4j.fabric.services.documentloader;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 
@@ -67,6 +68,9 @@ import org.xml.sax.SAXException;
  * @version $Rev: 2420 $ $Date: 2008-01-01 21:13:35 +0000 (Tue, 01 Jan 2008) $
  */
 public interface DocumentLoader {
+    
+    Document load(InputStream inputStream) throws IOException, SAXException;
+    
     /**
      * Loads a Document from a local file.
      *

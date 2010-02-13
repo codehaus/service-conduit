@@ -54,10 +54,12 @@ package org.sca4j.fabric.runtime.bootstrap;
 
 import static org.sca4j.fabric.runtime.ComponentNames.BOOT_CLASSLOADER_ID;
 
+import java.io.InputStream;
 import java.net.URI;
 
 import javax.management.MBeanServer;
 
+import org.sca4j.fabric.config.ConfigServiceImpl;
 import org.sca4j.fabric.instantiator.component.AtomicComponentInstantiator;
 import org.sca4j.fabric.instantiator.component.ComponentInstantiator;
 import org.sca4j.fabric.runtime.ComponentNames;
@@ -77,6 +79,7 @@ import org.sca4j.monitor.MonitorFactory;
 import org.sca4j.scdl.Composite;
 import org.sca4j.spi.component.ScopeContainer;
 import org.sca4j.spi.component.ScopeRegistry;
+import org.sca4j.spi.config.ConfigService;
 import org.sca4j.spi.domain.Domain;
 import org.sca4j.spi.model.instance.LogicalCompositeComponent;
 import org.sca4j.spi.runtime.RuntimeServices;
@@ -96,7 +99,6 @@ import org.w3c.dom.Document;
  */
 public abstract class AbstractBootstrapper implements Bootstrapper {
 
-    private static final URI HOST_CLASSLOADER_ID = URI.create("sca4j://runtime/HostClassLoader");
     private static final URI RUNTIME_SERVICES = URI.create("sca4j://RuntimeServices");
 
     // bootstrap components - these are disposed of after the core runtime system components are booted
@@ -104,7 +106,8 @@ public abstract class AbstractBootstrapper implements Bootstrapper {
     private final ComponentInstantiator instantiator;
     private final SystemImplementationProcessor systemImplementationProcessor;
     private ComponentSynthesizer synthesizer;
-
+    private InputStream systemConfig;
+    
     // runtime components - these are persistent and supplied by the runtime implementation
     private MonitorFactory monitorFactory;
     private HostInfo hostInfo;
@@ -118,10 +121,9 @@ public abstract class AbstractBootstrapper implements Bootstrapper {
     private Domain runtimeDomain;
 
     private ClassLoader bootClassLoader;
-    private ClassLoader hostClassLoader;
 
-    protected AbstractBootstrapper() {
-        // create components needed for to bootstrap the runtime
+    protected AbstractBootstrapper(InputStream systemConfig) {
+        this.systemConfig = systemConfig;
         IntrospectionHelper helper = new DefaultIntrospectionHelper();
         contractProcessor = new DefaultContractProcessor(helper);
         DocumentLoader documentLoader = new DocumentLoaderImpl();
@@ -132,9 +134,7 @@ public abstract class AbstractBootstrapper implements Bootstrapper {
     public void bootRuntimeDomain(SCA4JRuntime<?> runtime, ClassLoader bootClassLoader, ClassLoader appClassLoader) throws InitializationException {
 
         this.bootClassLoader = bootClassLoader;
-        // classloader shared by extension and application classes
-        this.hostClassLoader = runtime.getHostClassLoader();
-
+        
         monitorFactory = runtime.getMonitorFactory();
         hostInfo = runtime.getHostInfo();
 
@@ -146,12 +146,7 @@ public abstract class AbstractBootstrapper implements Bootstrapper {
         scopeRegistry = runtimeServices.getScopeRegistry();
         scopeContainer = runtimeServices.getScopeContainer();
 
-        synthesizer = new SingletonComponentSynthesizer(systemImplementationProcessor,
-                                                        instantiator,
-                                                        logicalComponetManager,
-                                                        componentManager,
-                                                        contractProcessor,
-                                                        scopeContainer);
+        synthesizer = new SingletonComponentSynthesizer(systemImplementationProcessor, instantiator, logicalComponetManager, componentManager, contractProcessor, scopeContainer);
 
         // register primordial components provided by the runtime itself
         registerRuntimeComponents(runtime);
@@ -178,15 +173,19 @@ public abstract class AbstractBootstrapper implements Bootstrapper {
 
             // load user configuration
             Document userConfig = loadUserConfig();
-            if (userConfig != null) {
-                domain.setPropertyValue("userConfig", userConfig);
-            }
+            if (userConfig != null) domain.setPropertyValue("userConfig", userConfig);
 
             // load system configuration
             Document systemConfig = loadSystemConfig();
-            if (systemConfig != null) {
-                domain.setPropertyValue("systemConfig", systemConfig);
+            if (systemConfig != null) domain.setPropertyValue("systemConfig", systemConfig);
+            
+            ConfigService configService = ConfigServiceImpl.getInstance(this.systemConfig);
+            for (String propertyName: configService.getPropertyNames()) {
+                hostInfo.addProperty(propertyName, configService.getHostProperty(propertyName));
             }
+            Document domainConfig = configService.getDomainConfig();
+            if (domainConfig != null) domain.setPropertyValue("config", domainConfig);
+            
 
             // deploy the composite to the runtime domain
             runtimeDomain.include(composite);
@@ -217,6 +216,7 @@ public abstract class AbstractBootstrapper implements Bootstrapper {
      *
      * @return a Document representing the domain-level user configuration property or null if none is defined
      * @throws InitializationException if an error occurs loading the configuration file
+     * @deprecated Replaced with loadConfig
      */
     protected abstract Document loadUserConfig() throws InitializationException;
 
@@ -226,6 +226,7 @@ public abstract class AbstractBootstrapper implements Bootstrapper {
      *
      * @return a Document representing the domain-level user configuration property or null if none is defined
      * @throws InitializationException if an error occurs loading the configuration file
+     * @deprecated Replaced with loadConfig
      */
     protected abstract Document loadSystemConfig() throws InitializationException;
 

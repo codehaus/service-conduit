@@ -21,9 +21,9 @@ package org.sca4j.fabric.config;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
@@ -58,14 +58,21 @@ public class ConfigServiceImpl implements ConfigService {
     /**
      * Loads the domain-wide configuration.
      * 
-     * @param systemConfigUrl URL to the system config.
+     * @param configStream An input stream to config.
      * @return Singleton system config instance.
      */
-    public synchronized static ConfigService getInstance(URL systemConfigUrl) {
+    public synchronized static ConfigService getInstance(InputStream configStream) {
         if (INSTANCE == null) {
-            INSTANCE = new ConfigServiceImpl(systemConfigUrl);
+            INSTANCE = new ConfigServiceImpl(configStream);
         }
         return INSTANCE;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Set<String> getPropertyNames() {
+        return hostProperties.keySet();
     }
 
     /**
@@ -85,7 +92,7 @@ public class ConfigServiceImpl implements ConfigService {
     /*
      * Parses the user and system config.
      */
-    private ConfigServiceImpl(URL systemConfigUrl) {
+    private ConfigServiceImpl(InputStream configStream) {
         
         Map<Integer, ExpressionEvaluator> expressionEvaluators = new HashMap<Integer, ExpressionEvaluator>();
         expressionEvaluators.put(1, new EnvironmentPropertyEvaluator());
@@ -96,8 +103,8 @@ public class ConfigServiceImpl implements ConfigService {
         
         XMLFactory xmlFactory = new XMLFactoryImpl(expressionExpander);
         
-        parseUserConfig(xmlFactory);
-        parseSystemConfig(xmlFactory, systemConfigUrl);
+        //parseUserConfig(xmlFactory);
+        //parseSystemConfig(xmlFactory, configStream);
         
     }
     
@@ -120,15 +127,14 @@ public class ConfigServiceImpl implements ConfigService {
     /*
      * Parses the system config.
      */
-    private void parseSystemConfig(XMLFactory xmlFactory, URL systemConfigUrl) {
+    private void parseSystemConfig(XMLFactory xmlFactory, InputStream configStream) {
         try {
-            if (systemConfigUrl != null) {
-                InputStream inputStream = systemConfigUrl.openStream();
-                parse(xmlFactory, inputStream);
-                inputStream.close();
+            if (configStream != null) {
+                parse(xmlFactory, configStream);
+                configStream.close();
             }
         } catch (Exception e) {
-            throw new ConfigServiceException(e.getMessage() + " parsing " + systemConfigUrl, e);
+            throw new ConfigServiceException(e.getMessage() + " parsing system config", e);
         }
     }
     

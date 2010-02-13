@@ -88,6 +88,11 @@ public class DocumentLoaderImpl implements DocumentLoader {
         return builder.parse(file);
     }
 
+    public Document load(InputStream inputStream) throws IOException, SAXException {
+        DocumentBuilder builder = getBuilder();
+        return builder.parse(inputStream);
+    }
+
     public Document load(URL url) throws IOException, SAXException {
         InputStream stream = url.openStream();
         try {

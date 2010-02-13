@@ -70,6 +70,10 @@
  */
 package org.sca4j.maven.runtime;
 
+import static org.sca4j.fabric.runtime.ComponentNames.APPLICATION_DOMAIN_URI;
+import static org.sca4j.fabric.runtime.ComponentNames.CONTRIBUTION_SERVICE_URI;
+import static org.sca4j.fabric.runtime.ComponentNames.XML_FACTORY_URI;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
@@ -77,22 +81,18 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import org.apache.maven.surefire.testset.TestSetFailedException;
-
 import org.sca4j.fabric.runtime.AbstractRuntime;
-import static org.sca4j.fabric.runtime.ComponentNames.CONTRIBUTION_SERVICE_URI;
-import static org.sca4j.fabric.runtime.ComponentNames.APPLICATION_DOMAIN_URI;
-import static org.sca4j.fabric.runtime.ComponentNames.XML_FACTORY_URI;
 import org.sca4j.fabric.util.FileHelper;
 import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.host.contribution.ContributionService;
 import org.sca4j.host.contribution.ContributionSource;
 import org.sca4j.host.domain.DeploymentException;
-import org.sca4j.host.perf.PerformanceMonitor;
 import org.sca4j.maven.contribution.ModuleContributionSource;
 import org.sca4j.pojo.PojoWorkContextTunnel;
 import org.sca4j.pojo.component.InvokerInterceptor;
@@ -138,15 +138,9 @@ public class MavenEmbeddedRuntimeImpl extends AbstractRuntime<MavenHostInfo> imp
     public Composite activate(ContributionSource source, QName qName) throws ContributionException, DeploymentException {
         // contribute the Maven project to the application domain
         Domain domain = getSystemComponent(Domain.class, APPLICATION_DOMAIN_URI);
-        ContributionService contributionService =
-                getSystemComponent(ContributionService.class, CONTRIBUTION_SERVICE_URI);
-        PerformanceMonitor.start("Contributed user code");
+        ContributionService contributionService = getSystemComponent(ContributionService.class, CONTRIBUTION_SERVICE_URI);
         contributionService.contribute(source);
-        PerformanceMonitor.end();
-        // activate the deployable composite in the domain
-        PerformanceMonitor.start("Included user code");
         domain.include(qName);
-        PerformanceMonitor.end();
         ResourceElement<?, ?> element = getMetaDataStore().resolve(new QNameSymbol(qName));
         assert element != null;
         return (Composite) element.getValue();

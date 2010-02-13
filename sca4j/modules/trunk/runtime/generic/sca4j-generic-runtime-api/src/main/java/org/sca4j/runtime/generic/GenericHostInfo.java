@@ -52,7 +52,6 @@
  */
 package org.sca4j.runtime.generic;
 
-import java.io.File;
 import java.net.URI;
 import java.util.Properties;
 
@@ -60,8 +59,6 @@ import org.sca4j.host.runtime.AbstractHostInfo;
 import org.sca4j.host.runtime.HostInfo;
 
 public class GenericHostInfo extends AbstractHostInfo implements HostInfo {
-	
-	private boolean live;
 
     /**
      * Initialises the state.
@@ -70,37 +67,8 @@ public class GenericHostInfo extends AbstractHostInfo implements HostInfo {
      * @param baseDir Base directory.
      * @param properties Host properties.
      */
-    public GenericHostInfo(URI domain, Properties properties, boolean live) {
+    public GenericHostInfo(URI domain, Properties properties) {
         super(domain, properties);
-        this.live = live;
-    }
-
-    /**
-     * @see org.sca4j.host.runtime.HostInfo#getBaseDir()
-     */
-    public File getBaseDir() {
-        return null;
-    }
-
-    /**
-     * @see org.sca4j.host.runtime.HostInfo#getTempDir()
-     */
-    public File getTempDir() {
-        return new File(System.getProperty("java.io.tmpdir"));
-    }
-
-    /**
-     * @see org.sca4j.host.runtime.HostInfo#supportsClassLoaderIsolation()
-     */
-    public boolean supportsClassLoaderIsolation() {
-        return false;
-    }
-    
-    /**
-     * @see org.sca4j.host.runtime.HostInfo#isLive()
-     */
-    public boolean isLive() {
-    	return live;
     }
 
 }

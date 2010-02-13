@@ -81,7 +81,7 @@ public class AbstractScaTest extends TestCase {
      * @param applicationScdl Application SCDL.
      */
     public AbstractScaTest(String applicationScdl) {
-        genericRuntime = new GenericRuntimeImpl(URI.create(""), getProperties(), getMonitorFactory(), getMBeanServer(), false);
+        genericRuntime = new GenericRuntimeImpl(URI.create(""), getProperties(), getMonitorFactory(), getMBeanServer());
         genericRuntime.boot();
         genericRuntime.contriute(applicationScdl);
     }

@@ -67,7 +67,6 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
-import org.sca4j.host.perf.PerformanceMonitor;
 
 /**
  * Run integration tests on a SCA composite using an embedded SCA4J runtime.
@@ -259,7 +258,6 @@ public class SCA4JITestMojo extends AbstractMojo {
 
     public void execute() throws MojoExecutionException, MojoFailureException {
 
-    	PerformanceMonitor.start("Test started");
     	
         if (!testScdl.exists()) {
             getLog().info("No itest SCDL found, skipping integration tests");
@@ -272,30 +270,29 @@ public class SCA4JITestMojo extends AbstractMojo {
 
         TestMetadata testMetadata = new TestMetadata();
         
-        PerformanceMonitor.start("Calculate classpath");
         Set<URL> classpath = getClasspathArtifacts();
-        PerformanceMonitor.end();
         
-        testMetadata.setClasspath(classpath);
+        testMetadata.classpath = classpath;
         
-        testMetadata.setRuntimeImpl(runtimeImpl);
-        testMetadata.setManagementDomain(managementDomain);
-        testMetadata.setIntentsLocation(intentsLocation);
-        testMetadata.setSystemScdl(systemScdl);
-        testMetadata.setSystemConfigDir(systemConfigDir);
-        testMetadata.setSystemConfig(systemConfig);
-        testMetadata.setBootstrapperImpl(bootstrapperImpl);
-        testMetadata.setOutputDirectory(outputDirectory);
-        testMetadata.setCoordinatorImpl(coordinatorImpl);
+        testMetadata.runtimeImpl = runtimeImpl;
+        testMetadata.managementDomain = managementDomain;
+        testMetadata.intentsLocation = intentsLocation;
+        testMetadata.systemScdl = systemScdl;
+        testMetadata.systemConfigDir = systemConfigDir;
+        testMetadata.systemConfig = systemConfig;
+        testMetadata.systemConfig = systemConfig;
+        testMetadata.bootstrapperImpl = bootstrapperImpl;
+        testMetadata.outputDirectory = outputDirectory;
+        testMetadata.coordinatorImpl = coordinatorImpl;
         
-        testMetadata.setTestDomain(testDomain);
-        testMetadata.setCompositeNamespace(compositeNamespace);
-        testMetadata.setCompositeName(compositeName);
-        testMetadata.setTestScdl(testScdl);
-        testMetadata.setReportsDirectory(reportsDirectory);
-        testMetadata.setTrimStackTrace(trimStackTrace);
-        testMetadata.setBuildDirectory(buildDirectory);
-        testMetadata.setProperties(properties);
+        testMetadata.testDomain = testDomain;
+        testMetadata.compositeNamespace = compositeNamespace;
+        testMetadata.compositeName = compositeName;
+        testMetadata.testScdl = testScdl;
+        testMetadata.reportsDirectory = reportsDirectory;
+        testMetadata.trimStackTrace = trimStackTrace;
+        testMetadata.buildDirectory = buildDirectory;
+        testMetadata.properties = properties;
         
         try {
             
@@ -315,9 +312,7 @@ public class SCA4JITestMojo extends AbstractMojo {
             throw new MojoFailureException(e.getMessage());
         } catch (URISyntaxException e) {
             throw new AssertionError(e);
-        } finally {
-        	PerformanceMonitor.end();
-        }
+        } 
         
     }
     

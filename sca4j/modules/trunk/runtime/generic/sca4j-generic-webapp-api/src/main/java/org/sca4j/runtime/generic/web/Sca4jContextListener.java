@@ -77,7 +77,7 @@ public class Sca4jContextListener implements ServletContextListener {
      * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
      */
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        GenericRuntimeImpl genericRuntime = new GenericRuntimeImpl(URI.create(""), System.getProperties(), getMonitorFactory(), getMBeanServer(), true);
+        GenericRuntimeImpl genericRuntime = new GenericRuntimeImpl(URI.create(""), System.getProperties(), getMonitorFactory(), getMBeanServer());
         genericRuntime.boot();
         genericRuntime.contriute("META-INF/web.composite");
         ServletContext servletContext = servletContextEvent.getServletContext();

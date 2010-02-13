@@ -61,7 +61,6 @@ import java.util.List;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
 import org.sca4j.fabric.instantiator.LogicalChange;
-import org.sca4j.host.perf.PerformanceMonitor;
 import org.sca4j.spi.command.Command;
 import org.sca4j.spi.generator.AddCommandGenerator;
 import org.sca4j.spi.generator.CommandGenerator;
@@ -103,14 +102,12 @@ public class PhysicalModelGeneratorImpl implements PhysicalModelGenerator {
         CommandMap commandMap = new CommandMap();
         
         for (CommandGenerator generator : addCommandGenerators) {
-        	PerformanceMonitor.start("Command generation for " + generator);
             for (LogicalComponent<?> component : sorted) {
                 Command command = generator.generate(component);
                 if (command != null) {
                     commandMap.addCommand(component.getRuntimeId(), command);
                 }
             }
-            PerformanceMonitor.end();
         }
         for (LogicalComponent<?> component : components) {
             component.setProvisioned(true);

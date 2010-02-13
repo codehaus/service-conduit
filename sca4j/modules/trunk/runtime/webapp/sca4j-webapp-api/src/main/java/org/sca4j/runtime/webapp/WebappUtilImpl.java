@@ -131,7 +131,7 @@ public class WebappUtilImpl implements WebappUtil {
             if (tempDir == null) {
                 tempDir = new File(System.getProperty("java.io.tmpdir"), ".sca4j");
             }
-            WebappHostInfo info = new WebappHostInfoImpl(servletContext, domain, baseDir, tempDir);
+            WebappHostInfo info = new WebappHostInfoImpl(servletContext, domain);
     
             WebappRuntime runtime = (WebappRuntime) webappClassLoader.loadClass("org.sca4j.runtime.webapp.WebappRuntimeImpl").newInstance();
     

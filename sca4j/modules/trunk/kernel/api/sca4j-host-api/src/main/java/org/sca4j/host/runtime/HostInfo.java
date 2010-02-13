@@ -70,7 +70,6 @@
  */
 package org.sca4j.host.runtime;
 
-import java.io.File;
 import java.net.URI;
 
 /**
@@ -92,11 +91,12 @@ public interface HostInfo {
     URI getDomain();
 
     /**
-     * Gets the base directory for the runtime.
+     * Adds a new property.
      *
-     * @return The base directory for the runtime.
+     * @param name the name of the property
+     * @param value the value of the property
      */
-    File getBaseDir();
+    void addProperty(String name, String value);
 
     /**
      * Return the value of the named property.
@@ -106,23 +106,5 @@ public interface HostInfo {
      * @return the value of the named property
      */
     String getProperty(String name, String defaultValue);
-
-    /**
-     * True if the host environment supports classloader isolation.
-     *
-     * @return true if the host environment supports classloader isolation
-     */
-    boolean supportsClassLoaderIsolation();
-
-    /**
-     * Returns the temporary directory.
-     *
-     * @return the temporary directory.
-     */
-    File getTempDir();
     
-    /**
-     * @return True is this is a live environment.
-     */
-    boolean isLive();
 }

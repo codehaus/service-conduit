@@ -52,24 +52,24 @@
  */
 package org.sca4j.host.runtime;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.net.URI;
 import java.util.Properties;
 
 public abstract class AbstractHostInfo implements HostInfo {
     
-    private static final String HOME_DIR = System.getProperty("user.home") + "/.sca4j";
-    private static final String CONFIG_DIR = System.getenv("SCA4J_CONFIG_DIR");
-    
     private final URI domain;
-    private final Properties properties = new Properties();
+    private final Properties properties;
     
     public AbstractHostInfo(URI domain, Properties properties) {
         this.domain = domain;
-        this.properties.putAll(properties);
-        loadProperties(domain);
+        this.properties = properties;
+    }
+
+    /**
+     * @see org.sca4j.host.runtime.HostInfo#addProperty(java.lang.String, java.lang.String)
+     */
+    public void addProperty(String name, String value) {
+        properties.put(name, value);
     }
 
     public URI getDomain() {
@@ -78,40 +78,6 @@ public abstract class AbstractHostInfo implements HostInfo {
 
     public String getProperty(String name, String defaultValue) {
         return properties.getProperty(name, defaultValue);
-    }
-
-    private void loadProperties(URI domain) {
-        if (CONFIG_DIR != null) {
-            load(CONFIG_DIR);
-        } else {
-            load(HOME_DIR);
-        }
-    }
-
-    private void load(String dir) {
-        File configDir = new File(dir);
-        if (configDir.exists()) {
-            File configFile = new File(configDir, "global.properties");
-            loadFile(configFile);
-            configFile = new File(configDir, domain + ".properties");
-            loadFile(configFile);
-        }
-    }
-
-    private void loadFile(File globalConfigFile) {
-        
-        try {
-            if (globalConfigFile.exists()) {
-                FileInputStream stream = new FileInputStream(globalConfigFile);
-                Properties temp = new Properties();
-                temp.load(stream);
-                this.properties.putAll(temp);
-                stream.close();
-            }
-        } catch (IOException e) {
-            throw new AssertionError(e);
-        }
-        
     }
 
 }

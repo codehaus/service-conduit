@@ -78,9 +78,8 @@ import java.util.Map;
 
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Service;
-
 import org.sca4j.host.contribution.ContributionException;
-import org.sca4j.host.perf.PerformanceMonitor;
+import org.sca4j.scdl.ValidationContext;
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.ContributionManifest;
 import org.sca4j.spi.services.contribution.ContributionProcessor;
@@ -88,7 +87,6 @@ import org.sca4j.spi.services.contribution.ManifestProcessor;
 import org.sca4j.spi.services.contribution.ProcessorRegistry;
 import org.sca4j.spi.services.contribution.Resource;
 import org.sca4j.spi.services.contribution.ResourceProcessor;
-import org.sca4j.scdl.ValidationContext;
 
 /**
  * Default implementation of ProcessorRegistry
@@ -177,9 +175,7 @@ public class ProcessorRegistryImpl implements ProcessorRegistry {
             String source = contribution.getUri().toString();
             throw new UnsupportedContentTypeException("Type " + contentType + "in contribution " + source + " not supported", contentType);
         }
-        PerformanceMonitor.start("Processed contribution " + contribution.getLocation());
         processor.process(contribution, context, loader);
-        PerformanceMonitor.end();
     }
 
     public void processResource(URI contributionUri, Resource resource, ValidationContext context, ClassLoader loader) throws ContributionException {

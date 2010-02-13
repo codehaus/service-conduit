@@ -18,6 +18,8 @@
  */
 package org.sca4j.spi.config;
 
+import java.util.Set;
+
 import org.w3c.dom.Document;
 
 /**
@@ -27,6 +29,13 @@ import org.w3c.dom.Document;
  *
  */
 public interface ConfigService {
+    
+    /**
+     * Returns the names of all the properties.
+     * 
+     * @return Names of all the properties.
+     */
+    Set<String> getPropertyNames();
     
     /** 
      * Get a named host property.

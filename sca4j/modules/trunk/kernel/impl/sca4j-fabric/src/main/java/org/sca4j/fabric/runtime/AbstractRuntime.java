@@ -185,7 +185,7 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
         intents = configuration.getIntents();
         extensions = discoverExtensions();
 
-        bootstrapper = new ScdlBootstrapperImpl(configuration.getSystemScdl(), configuration.getSystemConfig(), configuration.getSystemConfigDocument());
+        bootstrapper = new ScdlBootstrapperImpl(configuration.getSystemScdl(), configuration.getSystemConfig());
 
         LogicalComponentStore store = new NonPersistentLogicalComponentStore(RUNTIME_URI, Autowire.ON);
         logicalComponentManager = new LogicalComponentManagerImpl(store);
@@ -239,7 +239,9 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
     }
 
     public void shutdown() {
-        scopeContainer.stopAllContexts(new WorkContext());
+        if (scopeContainer != null) {
+            scopeContainer.stopAllContexts(new WorkContext());
+        }
     }
 
     public <I> I getSystemComponent(Class<I> service, URI uri) {

@@ -113,9 +113,9 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
      * @param monitorFactory Monitor factory to use.
      * @param mBeanServer MBean server to use.
      */
-    public GenericRuntimeImpl(URI domain, Properties hostProperties, MonitorFactory monitorFactory, MBeanServer mBeanServer, boolean live) {
+    public GenericRuntimeImpl(URI domain, Properties hostProperties, MonitorFactory monitorFactory, MBeanServer mBeanServer) {
         super(GenericHostInfo.class);
-        setHostInfo(new GenericHostInfo(domain, hostProperties, live));
+        setHostInfo(new GenericHostInfo(domain, hostProperties));
         setMBeanServer(mBeanServer);
         setMonitorFactory(monitorFactory);
     }
@@ -292,7 +292,7 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
         
         ContributionSource intents = new FileContributionSource(classLoader.getResource("META-INF/intents.xml"), -1, null);
         bootConfiguration.setIntents(intents);
-        bootConfiguration.setSystemConfig(classLoader.getResource("META-INF/systemConfig.xml"));
+        bootConfiguration.setSystemConfig(classLoader.getResourceAsStream("META-INF/systemConfig.xml"));
         bootConfiguration.setSystemScdl(classLoader.getResource("META-INF/system.composite"));
         
         return bootConfiguration;

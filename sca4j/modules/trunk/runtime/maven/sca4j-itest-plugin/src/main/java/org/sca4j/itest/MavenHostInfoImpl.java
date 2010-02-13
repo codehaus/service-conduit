@@ -74,7 +74,6 @@ import java.net.URI;
 import java.net.URL;
 import java.util.Properties;
 import java.util.Set;
-import java.io.File;
 
 import org.sca4j.host.runtime.AbstractHostInfo;
 import org.sca4j.maven.runtime.MavenHostInfo;
@@ -85,38 +84,19 @@ import org.sca4j.maven.runtime.MavenHostInfo;
 public class MavenHostInfoImpl extends AbstractHostInfo implements MavenHostInfo {
     
     private final Set<URL> dependencyUrls;
-    private final File tempDir;
 
+    /**
+     * @param domain
+     * @param hostProperties
+     * @param dependencyUrls
+     * @param configStream
+     */
     public MavenHostInfoImpl(URI domain, Properties hostProperties, Set<URL> dependencyUrls) {
         super(domain, hostProperties);
         this.dependencyUrls = dependencyUrls;
-        this.tempDir = new File(System.getProperty("java.io.tmpdir"), ".sca4j");
-    }
-
-    public File getBaseDir() {
-        return null;
-    }
-
-    public boolean isOnline() {
-        throw new UnsupportedOperationException();
-    }
-
-    public boolean supportsClassLoaderIsolation() {
-        return false;
     }
 
     public Set<URL> getDependencyUrls() {
         return dependencyUrls;
-    }
-
-    public File getTempDir() {
-        return tempDir;
-    }
-    
-    /**
-     * @see org.sca4j.host.runtime.HostInfo#isLive()
-     */
-    public boolean isLive() {
-    	return false;
     }
 }

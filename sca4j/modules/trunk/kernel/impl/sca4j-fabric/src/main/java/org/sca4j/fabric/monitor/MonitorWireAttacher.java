@@ -53,7 +53,6 @@
 package org.sca4j.fabric.monitor;
 
 import org.osoa.sca.annotations.Reference;
-import org.sca4j.host.perf.PerformanceMonitor;
 import org.sca4j.monitor.MonitorFactory;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.SingletonObjectFactory;
@@ -83,10 +82,8 @@ public class MonitorWireAttacher implements TargetWireAttacher<MonitorWireTarget
 
     public ObjectFactory<?> createObjectFactory(MonitorWireTargetDefinition target) throws WiringException {
         try {
-        	PerformanceMonitor.start("Monitor factory creation " + target.getMonitorType());
             Class<?> type = getClass().getClassLoader().loadClass(target.getMonitorType());
             Object monitor = monitorFactory.getMonitor(type, target.getUri());
-            PerformanceMonitor.end();
             return new SingletonObjectFactory<Object>(monitor);
         } catch (ClassNotFoundException e) {
             throw new WireAttachException("Unable to load monitor class: " + target.getMonitorType(), target.getUri(), null, e);
