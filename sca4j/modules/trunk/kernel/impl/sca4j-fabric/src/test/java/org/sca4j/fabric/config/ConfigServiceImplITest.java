@@ -18,30 +18,33 @@
  */
 package org.sca4j.fabric.config;
 
-import java.io.InputStream;
+import java.net.URL;
 
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.sca4j.spi.config.SystemConfig;
-import org.w3c.dom.Document;
-
 import junit.framework.TestCase;
 
-public class SystemConfigImplTest extends TestCase {
+import org.sca4j.spi.config.ConfigService;
+import org.w3c.dom.Document;
+
+public class ConfigServiceImplITest extends TestCase {
     
     public void testConfig() throws XPathExpressionException {
         
         System.setProperty("FTP_USER", "fred.flintstone");
         System.setProperty("DB_USER", "barney.rubble");
         
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("sca4j-config.xml");
-        SystemConfig systemConfig = SystemConfigImpl.getInstance(inputStream);
+        URL systemConfigUrl = getClass().getClassLoader().getResource("sca4j-config.xml");
+        ConfigService systemConfig = ConfigServiceImpl.getInstance(systemConfigUrl);
         
         assertEquals("fred.flintstone", systemConfig.getHostProperty("ftp.user"));
+        assertEquals("password", systemConfig.getHostProperty("ftp.password"));
         
         Document domainConfig = systemConfig.getDomainConfig();
+        
         assertEquals("barney.rubble", XPathFactory.newInstance().newXPath().evaluate("/domainConfig/testDsConfig/username", domainConfig));
+        assertEquals("20", XPathFactory.newInstance().newXPath().evaluate("/domainConfig/thread.pool/@size", domainConfig));
         
     }
 

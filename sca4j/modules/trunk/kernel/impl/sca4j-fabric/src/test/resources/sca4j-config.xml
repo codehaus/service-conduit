@@ -2,24 +2,15 @@
 
     <hostProperties>
         <ftp.user>${system.FTP_USER}</ftp.user>
+        <ftp.password>password</ftp.password>
     </hostProperties>
     
-    <domainConfig>    
+    <domainConfig>
         <testDsConfig>
             <driver>org.apache.derby.jdbc.EmbeddedDriver</driver>
             <username>${system.DB_USER}</username>
         </testDsConfig>
+        <thread.pool size="20" pauseOnStart="true" />
     </domainConfig>
-    
-    <!-- runtimeExtensions>
-        <embeddedDataSource/>
-        <ftpServer/>
-        <jndiDataSource/>
-        <embeddedTransactionManager/>
-        <jndiTransactionManager/>
-    </runtimeExtensions>
-    
-    <policyExtensions>
-    </policyExtensions-->
     
 </sca4jConfig>

@@ -16,29 +16,20 @@
  * This project contains code licensed from the Apache Software Foundation under
  * the Apache License, Version 2.0 and original code from project contributors.
  */
-package org.sca4j.spi.config;
+package org.sca4j.fabric.config;
 
-import org.w3c.dom.Document;
+import org.sca4j.host.SCA4JRuntimeException;
 
-/**
- * Interface for getting the system config.
- * 
- * @author meerajk
- *
- */
-public interface SystemConfig {
-    
-    /** 
-     * Get a named host property.
-     * 
-     * @param name Name of the property.
-     */
-    String getHostProperty(String name);
-    
+public class ConfigServiceException extends SCA4JRuntimeException {
+
     /**
-     * Get the domain property that can be used for system and user composites.
-     * @return Domain property XML as a DOM.
+     * Initialises the exception with message and the root cause.
+     * 
+     * @param message Message for the exception.
+     * @param cause Root cause for the exception.
      */
-    Document getDomainConfig();
+    public ConfigServiceException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
 }
