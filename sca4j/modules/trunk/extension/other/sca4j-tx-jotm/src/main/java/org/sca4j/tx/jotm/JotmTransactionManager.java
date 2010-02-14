@@ -84,6 +84,7 @@ import org.objectweb.jotm.Current;
 import org.objectweb.jotm.Jotm;
 import org.osoa.sca.annotations.Destroy;
 import org.osoa.sca.annotations.Init;
+import org.osoa.sca.annotations.Property;
 import org.osoa.sca.annotations.Service;
 
 /**
@@ -94,6 +95,8 @@ import org.osoa.sca.annotations.Service;
 @Service(javax.transaction.TransactionManager.class)
 public final class JotmTransactionManager implements TransactionManager {
 
+    @Property public int timeout = 300;
+    
     private Current delegate;
     private Jotm jotm;
 
@@ -112,6 +115,7 @@ public final class JotmTransactionManager implements TransactionManager {
         if (this.delegate == null) {
             this.jotm = new Jotm(true, false);
             this.delegate = Current.getCurrent();
+            this.delegate.setDefaultTimeout(timeout);
 
         }
 

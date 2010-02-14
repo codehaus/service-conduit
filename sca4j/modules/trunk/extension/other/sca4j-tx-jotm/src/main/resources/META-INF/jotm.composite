@@ -62,6 +62,7 @@
     <!-- JOTM Transaction Manager -->
     <component name="TransactionManager">
         <sca4j:implementation.system class="org.sca4j.tx.jotm.JotmTransactionManager"/>
+        <property name="timeout" source="$config/transaction.manager/@timeout" />
     </component>
 
 </composite>
