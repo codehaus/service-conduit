@@ -19,14 +19,14 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>sca4j-extension-binding-parent-pom</artifactId>
-        <version>0.3.2</version>
+        <version>0.3.3-SNAPSHOT</version>
     </parent>
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-binding-burlap</artifactId>
     <name>SCA4J Burlap Binding</name>
     <description>SCA4J Burlap Binding Implementation.</description>
     <packaging>sca-contribution-jar</packaging>
-    <version>0.3.2</version>
+    <version>0.3.3-SNAPSHOT</version>
 
     <repositories>
         <repository>
@@ -53,7 +53,7 @@
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-spi</artifactId>
-            <version>0.3.2</version>
+            <version>0.3.3-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
