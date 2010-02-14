@@ -67,7 +67,6 @@ public class EchoTest extends TestCase {
     public void testString() {
     	int i = 0;
     	for (EchoService echoService : service) {
-    		System.err.println("**************** executing " + (++i));
     		assertEquals("Hello", echoService.echoString("Hello"));
     	}
     }

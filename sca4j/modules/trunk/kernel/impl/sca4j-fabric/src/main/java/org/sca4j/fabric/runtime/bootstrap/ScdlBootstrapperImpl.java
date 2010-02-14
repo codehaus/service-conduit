@@ -52,9 +52,6 @@
  */
 package org.sca4j.fabric.runtime.bootstrap;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.util.List;
@@ -63,8 +60,6 @@ import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.sca4j.fabric.services.documentloader.DocumentLoader;
-import org.sca4j.fabric.services.documentloader.DocumentLoaderImpl;
 import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.host.contribution.ValidationFailure;
 import org.sca4j.host.expression.ExpressionExpander;
@@ -83,7 +78,6 @@ import org.sca4j.system.introspection.BootstrapLoaderFactory;
 import org.sca4j.system.introspection.SystemImplementationProcessor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
 
 /**
  * Bootstrapper that initializes a runtime by reading a system SCDL file.
@@ -92,13 +86,9 @@ import org.xml.sax.SAXException;
  */
 public class ScdlBootstrapperImpl extends AbstractBootstrapper {
 
-    private static final String USER_CONFIG = System.getProperty("user.home") + "/.sca4j/config.xml";
-
     private final XMLFactory xmlFactory;
-    private final DocumentLoader documentLoader;
 
     private URL scdlLocation;
-    private String systemConfig;
 
     public ScdlBootstrapperImpl(URL scdlLocation, String systemConfig) {
         this(new XMLFactoryImpl(new ExpressionExpander() {
@@ -107,13 +97,11 @@ public class ScdlBootstrapperImpl extends AbstractBootstrapper {
             }
         }), systemConfig);
         this.scdlLocation = scdlLocation;
-        this.systemConfig = systemConfig;
     }
 
     private ScdlBootstrapperImpl(XMLFactory xmlFactory, String systemConfig) {
         super(systemConfig);
         this.xmlFactory = xmlFactory;
-        this.documentLoader = new DocumentLoaderImpl();
     }
 
     protected Composite loadSystemComposite(URI contributionUri,
@@ -129,41 +117,14 @@ public class ScdlBootstrapperImpl extends AbstractBootstrapper {
             composite.validate(introspectionContext);
             if (introspectionContext.hasErrors()) {
                 QName name = composite.getName();
-                List<ValidationFailure> errors = introspectionContext.getErrors();
-                List<ValidationFailure> warnings = introspectionContext.getWarnings();
+                List<ValidationFailure<?>> errors = introspectionContext.getErrors();
+                List<ValidationFailure<?>> warnings = introspectionContext.getWarnings();
                 throw new InvalidCompositeException(name, errors, warnings);
             }
             return composite;
         } catch (ContributionException e) {
             throw new InitializationException(e);
         } catch (LoaderException e) {
-            throw new InitializationException(e);
-        }
-    }
-
-    protected Document loadUserConfig() throws InitializationException {
-        // Get the user config location
-        File configFile = new File(USER_CONFIG);
-        if (!configFile.exists()) {
-            // none found, create a default one
-            return createDefaultConfigProperty();
-        }
-        try {
-            return documentLoader.load(configFile);
-        } catch (IOException e) {
-            throw new InitializationException(e);
-        } catch (SAXException e) {
-            throw new InitializationException(e);
-        }
-    }
-
-
-    protected Document loadSystemConfig() throws InitializationException {
-        try {
-            return systemConfig == null ? createDefaultConfigProperty() : documentLoader.load(new ByteArrayInputStream(systemConfig.getBytes()));
-        } catch (IOException e) {
-            throw new InitializationException(e);
-        } catch (SAXException e) {
             throw new InitializationException(e);
         }
     }

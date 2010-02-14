@@ -55,7 +55,6 @@ package org.sca4j.xapool;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -68,11 +67,8 @@ import javax.transaction.Transaction;
 import javax.transaction.TransactionManager;
 
 import org.enhydra.jdbc.standard.StandardXADataSource;
-import org.sca4j.spi.resource.DataSourceRegistry;
 import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Init;
-import org.osoa.sca.annotations.Property;
-import org.osoa.sca.annotations.Reference;
+import org.sca4j.spi.resource.DataSourceRegistry;
 
 /**
  * @version $Revision$ $Date$
@@ -80,18 +76,15 @@ import org.osoa.sca.annotations.Reference;
 @EagerInit
 public class XaPoolDataSource implements DataSource {
 
-    private String user;
-    private String password;
-    private String url;
-    private String driver;
-    private List<String> dataSourceKeys;
-    private int minSize = 10;
-    private int maxSize = 10;
+    String user, password, url, driver;
+    String[] dataSourceKeys;
+    int minSize, maxSize;
 
-    private StandardXADataSource delegate;
-    private TransactionManager transactionManager;
-    private DataSourceRegistry dataSourceRegistry;
+    TransactionManager transactionManager;
+    DataSourceRegistry dataSourceRegistry;
+    
     private Map<Transaction, TransactedConnection> connectionCache = new ConcurrentHashMap<Transaction, TransactedConnection>();
+    private StandardXADataSource delegate;
 
     public Connection getConnection() throws SQLException {
 		
@@ -145,57 +138,10 @@ public class XaPoolDataSource implements DataSource {
         delegate.setLogWriter(out);
     }
 
-    @Property(required = true)
-    public void setDataSourceKeys(List<String> dataSourceKeys) {
-        this.dataSourceKeys = dataSourceKeys;
-    }
-
-    @Property
     public void setLoginTimeout(int seconds) throws SQLException {
         delegate.setLoginTimeout(seconds);
     }
 
-    @Property
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    @Property
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @Property
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    @Property
-    public void setDriver(String driver) {
-        this.driver = driver;
-    }
-
-    @Property
-    public void setMinSize(int minSize) {
-        this.minSize = minSize;
-    }
-
-    @Property
-    public void setMaxSize(int maxSize) {
-        this.maxSize = maxSize;
-    }
-
-    @Reference
-    public void setTransactionManager(TransactionManager transactionManager) {
-        this.transactionManager = transactionManager;
-    }
-
-    @Reference
-    public void setDataSourceRegistry(DataSourceRegistry dataSourceRegistry) {
-        this.dataSourceRegistry = dataSourceRegistry;
-    }
-
-    @Init
     public void start() throws SQLException {
 
         delegate = new StandardXADataSource();

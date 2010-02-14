@@ -36,7 +36,7 @@ public class ConfigServiceImplITest extends TestCase {
         System.setProperty("DB_USER", "barney.rubble");
         
         InputStream configStream = getClass().getClassLoader().getResourceAsStream("sca4j-config.xml");
-        ConfigService systemConfig = ConfigServiceImpl.getInstance(configStream);
+        ConfigService systemConfig = new ConfigServiceImpl(configStream);
         
         assertEquals("fred.flintstone", systemConfig.getHostProperty("ftp.user"));
         assertEquals("password", systemConfig.getHostProperty("ftp.password"));

@@ -81,7 +81,7 @@ public final class ValidationUtils {
      * @param failures the collection of failures to write
      * @return the string containing the validation messages
      */
-    public static String outputErrors(List<ValidationFailure> failures) {
+    public static String outputErrors(List<ValidationFailure<?>> failures) {
         return output(failures, TYPE.ERROR);
     }
 
@@ -91,7 +91,7 @@ public final class ValidationUtils {
      * @param failures the collection of failures to write
      * @return the string containing the validation messages
      */
-    public static String outputWarnings(List<ValidationFailure> failures) {
+    public static String outputWarnings(List<ValidationFailure<?>> failures) {
         return output(failures, TYPE.WARNING);
     }
 
@@ -101,7 +101,7 @@ public final class ValidationUtils {
      * @param writer   the writer
      * @param failures the collection of failures to write
      */
-    public static void writeErrors(PrintWriter writer, List<ValidationFailure> failures) {
+    public static void writeErrors(PrintWriter writer, List<ValidationFailure<?>> failures) {
         write(writer, failures, TYPE.ERROR);
     }
 
@@ -111,24 +111,24 @@ public final class ValidationUtils {
      * @param writer   the writer
      * @param failures the collection of failures to write
      */
-    public static void writeWarnings(PrintWriter writer, List<ValidationFailure> failures) {
+    public static void writeWarnings(PrintWriter writer, List<ValidationFailure<?>> failures) {
         write(writer, failures, TYPE.WARNING);
     }
 
-    private static String output(List<ValidationFailure> failures, TYPE type) {
+    private static String output(List<ValidationFailure<?>> failures, TYPE type) {
         ByteArrayOutputStream bas = new ByteArrayOutputStream();
         PrintWriter writer = new PrintWriter(bas);
         write(writer, failures, type);
         return bas.toString();
     }
 
-    private static void write(PrintWriter writer, List<ValidationFailure> failures, TYPE type) {
+    private static void write(PrintWriter writer, List<ValidationFailure<?>> failures, TYPE type) {
         int count = 0;
-        List<ValidationFailure> sorted = new ArrayList<ValidationFailure>(failures);
+        List<ValidationFailure<?>> sorted = new ArrayList<ValidationFailure<?>>(failures);
         // sort the errors so that ArtifactValidationFailures are evaluated last. This is done so that nested failures are printed after all
         // failures in the parent artifact.
         Collections.sort(sorted, COMPARATOR);
-        for (ValidationFailure failure : sorted) {
+        for (ValidationFailure<?> failure : sorted) {
             count = writerError(failure, writer, count, type);
         }
         if (count == 1) {
@@ -149,7 +149,7 @@ public final class ValidationUtils {
         writer.flush();
     }
 
-    private static int writerError(ValidationFailure failure, PrintWriter writer, int count, TYPE type) {
+    private static int writerError(ValidationFailure<?> failure, PrintWriter writer, int count, TYPE type) {
         if (failure instanceof ArtifactValidationFailure) {
             ArtifactValidationFailure artifactFailure = (ArtifactValidationFailure) failure;
             if (!errorsOnlyInContainedArtifacts(artifactFailure)) {
@@ -159,7 +159,7 @@ public final class ValidationUtils {
                     writer.write("Warnings in " + artifactFailure.getArtifactName() + "\n\n");
                 }
             }
-            for (ValidationFailure childFailure : artifactFailure.getFailures()) {
+            for (ValidationFailure<?> childFailure : artifactFailure.getFailures()) {
                 count = writerError(childFailure, writer, count, type);
             }
         } else {
@@ -174,7 +174,7 @@ public final class ValidationUtils {
     }
 
     private static boolean errorsOnlyInContainedArtifacts(ArtifactValidationFailure artifactFailure) {
-        for (ValidationFailure failure : artifactFailure.getFailures()) {
+        for (ValidationFailure<?> failure : artifactFailure.getFailures()) {
             if (!(failure instanceof ArtifactValidationFailure)) {
                 return false;
             }

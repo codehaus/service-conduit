@@ -63,7 +63,7 @@ import org.sca4j.host.contribution.ValidationFailure;
  * @version $Revision$ $Date$
  */
 public class ValidationUtilsTestCase extends TestCase {
-    private List<ValidationFailure> failures;
+    private List<ValidationFailure<?>> failures;
 
     public void testWriteErrors() throws Exception {
         String output = ValidationUtils.outputErrors(failures);
@@ -77,7 +77,7 @@ public class ValidationUtilsTestCase extends TestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        failures = new ArrayList<ValidationFailure>();
+        failures = new ArrayList<ValidationFailure<?>>();
         failures.add(new Failure());
     }
 

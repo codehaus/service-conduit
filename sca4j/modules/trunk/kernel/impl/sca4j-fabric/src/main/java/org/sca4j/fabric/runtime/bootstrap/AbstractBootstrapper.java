@@ -173,21 +173,16 @@ public abstract class AbstractBootstrapper implements Bootstrapper {
 
             // load the system composite
             Composite composite = loadSystemComposite(BOOT_CLASSLOADER_ID, bootClassLoader, systemImplementationProcessor, monitorFactory);
-
-            // load user configuration
-            Document userConfig = loadUserConfig();
-            if (userConfig != null) domain.setPropertyValue("userConfig", userConfig);
-
-            // load system configuration
-            Document systemConfig = loadSystemConfig();
-            if (systemConfig != null) domain.setPropertyValue("systemConfig", systemConfig);
             
-            ConfigService configService = ConfigServiceImpl.getInstance(this.systemConfig);
+            ConfigService configService = new ConfigServiceImpl(this.systemConfig);
             for (String propertyName: configService.getPropertyNames()) {
                 hostInfo.addProperty(propertyName, configService.getHostProperty(propertyName));
             }
             Document domainConfig = configService.getDomainConfig();
-            if (domainConfig != null) domain.setPropertyValue("config", domainConfig);
+            if (domainConfig == null) {
+                Thread.dumpStack();
+            }
+            domain.setPropertyValue("config", domainConfig);
             
 
             // deploy the composite to the runtime domain
@@ -212,26 +207,6 @@ public abstract class AbstractBootstrapper implements Bootstrapper {
                                                      ClassLoader bootClassLoader,
                                                      SystemImplementationProcessor processor,
                                                      MonitorFactory monitorFactory) throws InitializationException;
-
-    /**
-     * Subclasses return a Document representing the domain-level user configuration property or null if none is defined. This property may be
-     * referenced entirely or in part via XPath by end-user components in the application domain to supply configuration values.
-     *
-     * @return a Document representing the domain-level user configuration property or null if none is defined
-     * @throws InitializationException if an error occurs loading the configuration file
-     * @deprecated Replaced with loadConfig
-     */
-    protected abstract Document loadUserConfig() throws InitializationException;
-
-    /**
-     * Subclasses return a Document representing the domain-level runtime configuration property or null if none is defined. This property may be
-     * referenced entirely or in part via XPath by components in the runtime domain to supply configuration values.
-     *
-     * @return a Document representing the domain-level user configuration property or null if none is defined
-     * @throws InitializationException if an error occurs loading the configuration file
-     * @deprecated Replaced with loadConfig
-     */
-    protected abstract Document loadSystemConfig() throws InitializationException;
 
     private <T extends HostInfo> void registerRuntimeComponents(SCA4JRuntime<T> runtime) throws InitializationException {
 

@@ -61,28 +61,28 @@ import org.sca4j.host.contribution.ValidationFailure;
  * @version $Revision$ $Date$
  */
 public class ArtifactValidationFailure extends ValidationFailure<Void> {
-    private List<ValidationFailure> failures;
+    private List<ValidationFailure<?>> failures;
     private String artifactName;
 
     public ArtifactValidationFailure(String artifactName) {
         super(null);
         this.artifactName = artifactName;
-        this.failures = new ArrayList<ValidationFailure>();
+        this.failures = new ArrayList<ValidationFailure<?>>();
     }
 
     public String getArtifactName() {
         return artifactName;
     }
 
-    public List<ValidationFailure> getFailures() {
+    public List<ValidationFailure<?>> getFailures() {
         return failures;
     }
 
-    public void addFailure(ValidationFailure failure) {
+    public void addFailure(ValidationFailure<?> failure) {
         failures.add(failure);
     }
 
-    public void addFailures(List<ValidationFailure> failures) {
+    public void addFailures(List<ValidationFailure<?>> failures) {
         this.failures.addAll(failures);
     }
 

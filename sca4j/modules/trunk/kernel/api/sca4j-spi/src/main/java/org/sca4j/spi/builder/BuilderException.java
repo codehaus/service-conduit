@@ -77,7 +77,7 @@ import org.sca4j.host.SCA4JException;
  *
  * @version $Rev: 5248 $ $Date: 2008-08-21 01:33:22 +0100 (Thu, 21 Aug 2008) $
  */
-public abstract class BuilderException extends SCA4JException {
+public class BuilderException extends SCA4JException {
     private static final long serialVersionUID = 3208972591954615326L;
 
     public BuilderException() {

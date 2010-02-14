@@ -57,6 +57,10 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.sca4j.pojo.instancefactory.InstanceFactoryBuilderRegistry;
 import org.sca4j.pojo.provision.PojoComponentDefinition;
 import org.sca4j.scdl.DataType;
@@ -143,24 +147,36 @@ public abstract class PojoComponentBuilder<T, PCD extends PojoComponentDefinitio
     @SuppressWarnings("unchecked")
     private ObjectFactory<?> createObjectFactory(String name, Type type, Element value, TransformContext context) throws BuilderException {
 
-        DataType<?> targetType = null;
-
-        if (type instanceof Class<?>) {
-            targetType = new JavaClass((Class<?>) type);
-        } else if (type instanceof ParameterizedType) {
-            targetType = new JavaParameterizedType((ParameterizedType) type);
-        }
-
-        PullTransformer<Node, ?> transformer = (PullTransformer<Node, ?>) transformerRegistry.getTransformer(SOURCE_TYPE, targetType);
-        if (transformer == null) {
-            throw new PropertyTransformException("No transformer for property of type: " + type, name, null);
-        }
-
         try {
-            Object instance = transformer.transform(value, context);
-            return new SingletonObjectFactory(instance);
-        } catch (Exception e) {
-            throw new PropertyTransformException("Unable to transform property value: " + name, name, e);
+            DataType<?> targetType = null;
+            
+            if (type instanceof Class<?>) {
+                Class<?> clazz = (Class<?>) type;
+                if (clazz.isAnnotationPresent(XmlRootElement.class)) {
+                    Object instance = JAXBContext.newInstance(clazz).createUnmarshaller().unmarshal(value.getFirstChild());
+                    return new SingletonObjectFactory(instance);
+                }
+            }
+    
+            if (type instanceof Class<?>) {
+                targetType = new JavaClass((Class<?>) type);
+            } else if (type instanceof ParameterizedType) {
+                targetType = new JavaParameterizedType((ParameterizedType) type);
+            }
+    
+            PullTransformer<Node, ?> transformer = (PullTransformer<Node, ?>) transformerRegistry.getTransformer(SOURCE_TYPE, targetType);
+            if (transformer == null) {
+                throw new PropertyTransformException("No transformer for property of type: " + type, name, null);
+            }
+    
+            try {
+                Object instance = transformer.transform(value, context);
+                return new SingletonObjectFactory(instance);
+            } catch (Exception e) {
+                throw new PropertyTransformException("Unable to transform property value: " + name, name, e);
+            }
+        } catch (JAXBException e) {
+            throw new BuilderException(e);
         }
 
     }

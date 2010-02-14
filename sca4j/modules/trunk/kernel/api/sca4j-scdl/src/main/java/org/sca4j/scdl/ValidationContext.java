@@ -80,21 +80,21 @@ public interface ValidationContext {
      *
      * @return the list of fatal errors detected during validation
      */
-    List<ValidationFailure> getErrors();
+    List<ValidationFailure<?>> getErrors();
 
     /**
      * Add a fatal error to the validation results.
      *
      * @param e the fatal error that has been found
      */
-    void addError(ValidationFailure e);
+    void addError(ValidationFailure<?> e);
 
     /**
      * Add a collection of fatal errors to the validation results.
      *
      * @param errors the fatal errors that have been found
      */
-    void addErrors(List<ValidationFailure> errors);
+    void addErrors(List<ValidationFailure<?>> errors);
 
     /**
      * Returns true if the validation has detected any non-fatal warnings.
@@ -108,14 +108,14 @@ public interface ValidationContext {
      *
      * @return the list of non-fatal warnings detected during validation
      */
-    List<ValidationFailure> getWarnings();
+    List<ValidationFailure<?>> getWarnings();
 
     /**
      * Add a non-fatal warning to the validation results.
      *
      * @param e the non-fatal warning that has been found
      */
-    void addWarning(ValidationFailure e);
+    void addWarning(ValidationFailure<?> e);
 
 
     /**
@@ -123,6 +123,6 @@ public interface ValidationContext {
      *
      * @param warnings the non-fatal warnings that have been found
      */
-    void addWarnings(List<ValidationFailure> warnings);
+    void addWarnings(List<ValidationFailure<?>> warnings);
 
 }

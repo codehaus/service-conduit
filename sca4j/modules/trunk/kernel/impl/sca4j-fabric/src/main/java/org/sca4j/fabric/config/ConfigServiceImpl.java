@@ -25,6 +25,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -48,25 +50,10 @@ import org.w3c.dom.NodeList;
 
 public class ConfigServiceImpl implements ConfigService {
     
-    private static ConfigService INSTANCE = null;
-    
     private Document domainConfig;
     private Map<String, String> hostProperties = new HashMap<String, String>();
     private String2MapOfString2String string2Properties = new String2MapOfString2String();
     private Stream2Document stream2Document = new Stream2Document();
-
-    /**
-     * Loads the domain-wide configuration.
-     * 
-     * @param configStream An input stream to config.
-     * @return Singleton system config instance.
-     */
-    public synchronized static ConfigService getInstance(InputStream configStream) {
-        if (INSTANCE == null) {
-            INSTANCE = new ConfigServiceImpl(configStream);
-        }
-        return INSTANCE;
-    }
 
     /**
      * {@inheritDoc}
@@ -92,7 +79,7 @@ public class ConfigServiceImpl implements ConfigService {
     /*
      * Parses the user and system config.
      */
-    private ConfigServiceImpl(InputStream configStream) {
+    public ConfigServiceImpl(InputStream configStream) {
         
         Map<Integer, ExpressionEvaluator> expressionEvaluators = new HashMap<Integer, ExpressionEvaluator>();
         expressionEvaluators.put(1, new EnvironmentPropertyEvaluator());
@@ -105,6 +92,18 @@ public class ConfigServiceImpl implements ConfigService {
         
         parseUserConfig(xmlFactory);
         parseSystemConfig(xmlFactory, configStream);
+        
+        if (domainConfig == null) {
+            try {
+                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                factory.setNamespaceAware(true);
+                domainConfig  = factory.newDocumentBuilder().newDocument();
+                Element root = domainConfig.createElement("domainConfig");
+                domainConfig.appendChild(root);
+            } catch (ParserConfigurationException e) {
+                throw new ConfigServiceException("Unable to create JAXP parser", e);
+            }
+        }
         
     }
     

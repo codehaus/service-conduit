@@ -474,9 +474,6 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
 
             while (resources.hasMoreElements()) {
                 URL resource = resources.nextElement();
-                if (System.getProperty("sca4j.debug") != null) {
-                    System.err.println("Introspecting contribution " + resource);
-                }
                 if (isExtension(resource)) {
                     if ("zip".equals(resource.getProtocol())) {
                         // stupid weblogic
@@ -492,12 +489,6 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
                         resourceUrlStr = resourceUrlStr.substring(0, index);
                         extensions.add(new FileContributionSource(resource.toURI(), new URL(resourceUrlStr), 1, null, "application/vnd.sca4j"));
                     }
-                }
-            }
-            if (System.getProperty("sca4j.debug") != null) {
-                System.err.println("Auto-discovered extensions");
-                for (ContributionSource extension : extensions) {
-                    System.err.println("************** " + extension.getLocation());
                 }
             }
             return extensions;

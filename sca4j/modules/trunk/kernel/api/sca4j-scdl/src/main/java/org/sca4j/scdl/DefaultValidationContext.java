@@ -61,22 +61,22 @@ import org.sca4j.host.contribution.ValidationFailure;
  * @version $Revision$ $Date$
  */
 public class DefaultValidationContext implements ValidationContext {
-    private final List<ValidationFailure> errors = new ArrayList<ValidationFailure>();
-    private final List<ValidationFailure> warnings = new ArrayList<ValidationFailure>();
+    private final List<ValidationFailure<?>> errors = new ArrayList<ValidationFailure<?>>();
+    private final List<ValidationFailure<?>> warnings = new ArrayList<ValidationFailure<?>>();
 
     public boolean hasErrors() {
         return !errors.isEmpty();
     }
 
-    public List<ValidationFailure> getErrors() {
+    public List<ValidationFailure<?>> getErrors() {
         return errors;
     }
 
-    public void addError(ValidationFailure e) {
+    public void addError(ValidationFailure<?> e) {
         errors.add(e);
     }
 
-    public void addErrors(List<ValidationFailure> errors) {
+    public void addErrors(List<ValidationFailure<?>> errors) {
         this.errors.addAll(errors);
     }
 
@@ -84,15 +84,15 @@ public class DefaultValidationContext implements ValidationContext {
         return !warnings.isEmpty();
     }
 
-    public List<ValidationFailure> getWarnings() {
+    public List<ValidationFailure<?>> getWarnings() {
         return warnings;
     }
 
-    public void addWarning(ValidationFailure e) {
+    public void addWarning(ValidationFailure<?> e) {
         warnings.add(e);
     }
 
-    public void addWarnings(List<ValidationFailure> warnings) {
+    public void addWarnings(List<ValidationFailure<?>> warnings) {
         this.warnings.addAll(warnings);
     }
 

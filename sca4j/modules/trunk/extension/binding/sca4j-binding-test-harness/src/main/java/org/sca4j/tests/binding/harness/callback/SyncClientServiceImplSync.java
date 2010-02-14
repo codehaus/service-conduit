@@ -70,7 +70,6 @@
 */
 package org.sca4j.tests.binding.harness.callback;
 
-import org.osoa.sca.annotations.OneWay;
 import org.osoa.sca.annotations.Reference;
 import org.osoa.sca.annotations.Service;
 
@@ -87,7 +86,6 @@ public class SyncClientServiceImplSync implements SyncClientService, SyncCallbac
         forwardService.invoke("test");
     }
 
-    @OneWay
     public void onCallback(String data) {
     }
 }

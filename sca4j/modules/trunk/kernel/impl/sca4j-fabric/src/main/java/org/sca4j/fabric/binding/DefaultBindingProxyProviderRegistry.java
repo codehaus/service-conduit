@@ -41,7 +41,6 @@ public class DefaultBindingProxyProviderRegistry implements BindingProxyProvider
      * @see org.sca4j.spi.binding.BindingProxyProviderRegistry#getBinding(javax.xml.namespace.QName, java.lang.Class, java.net.URI, javax.xml.namespace.QName[])
      */
     public <T> T getBinding(QName bindingType, Class<T> endpointInterface, URI endpoint, QName... intents) {
-        System.err.println("************* " + bindingProxyProviders);
         return bindingProxyProviders.get(bindingType).getBinding(endpointInterface, endpoint, intents);
     }
 

@@ -169,7 +169,6 @@ public class JmsBindingLoader implements TypeLoader<JmsBindingDefinition> {
         String exceptionTimeout = reader.getAttributeValue(Namespaces.SCA4J_NS, "exceptionTimeout");
         if (exceptionTimeout != null) {
             metadata.setExceptionTimeout(Integer.parseInt(exceptionTimeout));
-            System.err.println("Esception timeout set to" + metadata.getExceptionTimeout());
         }
         String consumerCount = reader.getAttributeValue(Namespaces.SCA4J_NS, "consumerCount");
         if (consumerCount != null) {

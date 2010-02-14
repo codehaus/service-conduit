@@ -27,23 +27,19 @@
     <description>SCA4J Support Module for Implementations based on POJOs.</description>
 
     <dependencies>
-    
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-spi</artifactId>
             <version>0.3.2-SNAPSHOT</version>
         </dependency>
-        
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
-        
         <dependency>
             <groupId>org.easymock</groupId>
             <artifactId>easymockclassextension</artifactId>
         </dependency>
-        
     </dependencies>
 
 </project>

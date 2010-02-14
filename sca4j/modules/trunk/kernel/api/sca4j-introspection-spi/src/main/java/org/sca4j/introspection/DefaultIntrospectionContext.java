@@ -83,8 +83,9 @@ import org.sca4j.host.contribution.ValidationFailure;
  * @version $Rev: 4336 $ $Date: 2008-05-25 10:06:15 +0100 (Sun, 25 May 2008) $
  */
 public class DefaultIntrospectionContext implements IntrospectionContext {
-    private final List<ValidationFailure> errors = new ArrayList<ValidationFailure>();
-    private final List<ValidationFailure> warnings = new ArrayList<ValidationFailure>();
+    
+    private final List<ValidationFailure<?>> errors = new ArrayList<ValidationFailure<?>>();
+    private final List<ValidationFailure<?>> warnings = new ArrayList<ValidationFailure<?>>();
     private final ClassLoader targetClassLoader;
     private final URL sourceBase;
     private final String targetNamespace;
@@ -150,15 +151,15 @@ public class DefaultIntrospectionContext implements IntrospectionContext {
         return !errors.isEmpty();
     }
 
-    public List<ValidationFailure> getErrors() {
+    public List<ValidationFailure<?>> getErrors() {
         return errors;
     }
 
-    public void addError(ValidationFailure e) {
+    public void addError(ValidationFailure<?> e) {
         errors.add(e);
     }
 
-    public void addErrors(List<ValidationFailure> errors) {
+    public void addErrors(List<ValidationFailure<?>> errors) {
         this.errors.addAll(errors);
     }
 
@@ -166,15 +167,15 @@ public class DefaultIntrospectionContext implements IntrospectionContext {
         return !warnings.isEmpty();
     }
 
-    public List<ValidationFailure> getWarnings() {
+    public List<ValidationFailure<?>> getWarnings() {
         return warnings;
     }
 
-    public void addWarning(ValidationFailure e) {
+    public void addWarning(ValidationFailure<?> e) {
         warnings.add(e);
     }
 
-    public void addWarnings(List<ValidationFailure> warnings) {
+    public void addWarnings(List<ValidationFailure<?>> warnings) {
         this.warnings.addAll(warnings);
     }
 

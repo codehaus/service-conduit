@@ -63,9 +63,9 @@ import org.sca4j.introspection.xml.XmlValidationFailure;
  */
 public class InvalidServiceContractException extends InitializationException {
     private static final long serialVersionUID = 4367622270403828483L;
-    private List<ValidationFailure> errors;
+    private List<ValidationFailure<?>> errors;
 
-    public InvalidServiceContractException(List<ValidationFailure> errors) {
+    public InvalidServiceContractException(List<ValidationFailure<?>> errors) {
         super("System service contract has errors");
         this.errors = errors;
     }
@@ -80,7 +80,7 @@ public class InvalidServiceContractException extends InitializationException {
         } else {
             b.append(errors.size()).append(" errors were detected: \n");
         }
-        for (ValidationFailure failure : errors) {
+        for (ValidationFailure<?> failure : errors) {
             if (failure instanceof XmlValidationFailure) {
                 b.append("ERROR: ").append(failure.getMessage()).append("\n");
             } else {

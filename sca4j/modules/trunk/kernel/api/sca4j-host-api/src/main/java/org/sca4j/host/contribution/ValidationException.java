@@ -62,8 +62,8 @@ import java.util.List;
 public abstract class ValidationException extends ContributionException {
     private static final long serialVersionUID = -9097590343387033730L;
 
-    private final List<ValidationFailure> errors;
-    private final List<ValidationFailure> warnings;
+    private final List<ValidationFailure<?>> errors;
+    private final List<ValidationFailure<?>> warnings;
 
     /**
      * Constructor that initializes the initial list of errors and warnings.
@@ -71,7 +71,7 @@ public abstract class ValidationException extends ContributionException {
      * @param errors   the list of errors
      * @param warnings the list of warnings
      */
-    protected ValidationException(List<ValidationFailure> errors, List<ValidationFailure> warnings) {
+    protected ValidationException(List<ValidationFailure<?>> errors, List<ValidationFailure<?>> warnings) {
         super("Validation errors were found");
         this.errors = errors;
         this.warnings = warnings;
@@ -82,7 +82,7 @@ public abstract class ValidationException extends ContributionException {
      *
      * @return the collection of underlying errors
      */
-    public List<ValidationFailure> getErrors() {
+    public List<ValidationFailure<?>> getErrors() {
         return errors;
     }
 
@@ -91,7 +91,7 @@ public abstract class ValidationException extends ContributionException {
      *
      * @return the collection of underlying errors
      */
-    public List<ValidationFailure> getWarnings() {
+    public List<ValidationFailure<?>> getWarnings() {
         return warnings;
     }
 

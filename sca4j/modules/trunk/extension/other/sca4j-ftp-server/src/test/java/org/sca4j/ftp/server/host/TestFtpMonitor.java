@@ -79,29 +79,23 @@ import org.sca4j.ftp.server.monitor.FtpMonitor;
 public class TestFtpMonitor implements FtpMonitor {
 
     public void onCommand(Object command, String user) {
-        System.err.println("Command received from user " + user + ": " + command);
     }
 
     public void onException(Throwable throwable, String user) {
-        System.err.println("Exception " + throwable.getMessage() + " by user " + user);
         throwable.printStackTrace();
     }
 
     public void uploadError(String user) {
-        System.err.println("Upload error: " + user);
     }
 
     public void noFtpLetRegistered(String resource) {
-        System.err.println("No registered FTPLet:" + resource);
     }
 
     @Severe
     public void connectionTimedOut(String user) {
-        System.err.println("Connection timeout: " + user);
     }
 
     public void onResponse(Object response, String user) {
-        System.err.println("Response sent to user " + user + ": " + response);
     }
 
 }

@@ -53,26 +53,15 @@
     The Apache Software Foundation (http://www.apache.org/).
 
 -->
-<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
-           xmlns:sca4j="urn:sca4j.org"
-           targetNamespace="urn:sca4j.org"
-           name="XaPoolDataSource"
-           autowire="true">
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0" xmlns:sca4j="urn:sca4j.org" targetNamespace="urn:sca4j.org" name="XaPoolDataSource">
            
-    <property name="dataSourceConfig" type="sca4j:dataSourceConfig"/>
-    <reference name="transactionManager" promote="XaPoolDataSource/transactionManager"/>
-    <reference name="dataSourceRegistry" promote="XaPoolDataSource/dataSourceRegistry"/>
+    <reference name="transactionManager" promote="XaPoolFactory/transactionManager"/>
+    <reference name="dataSourceRegistry" promote="XaPoolFactory/dataSourceRegistry"/>
 
     <!-- XAPool Datasource -->
-    <component name="XaPoolDataSource">
-        <sca4j:implementation.system class="org.sca4j.xapool.XaPoolDataSource"/>
-        <property name="driver" source="$dataSourceConfig//driver"/>
-        <property name="url" source="$dataSourceConfig//url"/>
-        <property name="dataSourceKeys" source="$dataSourceConfig//keys"/>
-        <property name="user" source="$dataSourceConfig//user"/>
-        <property name="password" source="$dataSourceConfig//password"/>
-        <property name="minSize" source="$dataSourceConfig//minSize"/>
-        <property name="maxSize" source="$dataSourceConfig//maxSize"/>
+    <component name="XaPoolFactory">
+        <sca4j:implementation.system class="org.sca4j.xapool.XaPoolFactory"/>
+        <property name="dataSourceConfigCollection" source="$config/dataSources"/>
     </component>
     
 </composite>

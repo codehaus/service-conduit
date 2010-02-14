@@ -72,7 +72,7 @@ public class InvalidContributionException extends ValidationException {
      * @param errors   the errors that were found during validation
      * @param warnings the warnings that were found during validation
      */
-    public InvalidContributionException(List<ValidationFailure> errors, List<ValidationFailure> warnings) {
+    public InvalidContributionException(List<ValidationFailure<?>> errors, List<ValidationFailure<?>> warnings) {
         super(errors, warnings);
     }
 
@@ -81,8 +81,8 @@ public class InvalidContributionException extends ValidationException {
      *
      * @param errors the errors that were found during validation
      */
-    public InvalidContributionException(List<ValidationFailure> errors) {
-        super(errors, new ArrayList<ValidationFailure>());
+    public InvalidContributionException(List<ValidationFailure<?>> errors) {
+        super(errors, new ArrayList<ValidationFailure<?>>());
     }
 
     public String getMessage() {

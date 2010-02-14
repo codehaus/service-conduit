@@ -86,7 +86,7 @@
     <component name="ConfigurableBindingSelectionStrategy">
         <sca4j:implementation.system class="org.sca4j.fabric.binding.ConfigurableBindingSelectionStrategy"/>
         <!-- allows users to configure the SCA binding preference through a systemConfig entry -->
-        <property name="scaBindingOrder" source="$systemConfig//bindings/binding.sca/provider.order"/>
+        <property name="scaBindingOrder" source="$config/bindings/binding.sca/provider.order"/>
     </component>
 
     <component name="GeneratorRegistry">

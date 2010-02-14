@@ -128,9 +128,6 @@ public class SystemTargetWireAttacher implements TargetWireAttacher<SystemWireTa
     public ObjectFactory<?> createObjectFactory(SystemWireTargetDefinition target) throws WiringException {
         URI targetId = UriHelper.getDefragmentedName(target.getUri());
         SystemComponent<?> targetComponent = (SystemComponent<?>) manager.getComponent(targetId);
-        if (targetComponent == null) {
-            System.err.println("++++++++++++++++++++ " + targetId);
-        }
         return targetComponent.createObjectFactory();
     }
 }

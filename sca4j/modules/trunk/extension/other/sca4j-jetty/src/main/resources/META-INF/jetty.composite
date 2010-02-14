@@ -61,14 +61,14 @@
     <!-- Jetty service -->
     <component name="JettyService">
         <sca4j:implementation.system class="org.sca4j.jetty.JettyServiceImpl"/>
-        <property name="httpPort" source="$systemConfig//web.server/http/@port"/>
-        <property name="httpsPort" source="$systemConfig//web.server/https/@port"/>
-        <property name="clientAuth" source="$systemConfig//web.server/https/@clientAuth"/>
-        <property name="keystore" source="$systemConfig/security/keystore"/>
-        <property name="keyPassword" source="$systemConfig/security/keystore.password"/>
-        <property name="truststore" source="$systemConfig/security/truststore"/>
-        <property name="trustPassword" source="$systemConfig/security/truststore.password"/>
-        <property name="certPassword" source="$systemConfig/security/cert.password"/>
+        <property name="httpPort" source="$config/web.server/http/@port"/>
+        <property name="httpsPort" source="$config/web.server/https/@port"/>
+        <property name="clientAuth" source="$config/web.server/https/@clientAuth"/>
+        <property name="keystore" source="$config/security/keystore"/>
+        <property name="keyPassword" source="$config/security/keystore.password"/>
+        <property name="truststore" source="$config/security/truststore"/>
+        <property name="trustPassword" source="$config/security/truststore.password"/>
+        <property name="certPassword" source="$config/security/cert.password"/>
     </component>
 
 </composite>

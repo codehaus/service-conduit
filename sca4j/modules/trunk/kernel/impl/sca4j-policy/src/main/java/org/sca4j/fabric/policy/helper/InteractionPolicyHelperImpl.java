@@ -130,14 +130,8 @@ public class InteractionPolicyHelperImpl extends AbstractPolicyHelper implements
             }
         }
         
-        if (System.getProperty("sca4j.debug") != null) {
-            System.err.println("Required intents on " + logicalBinding.getParent().getUri() + " for operation " + operation.getName() + " " + requiredIntentsCopy);
-        }
         List<PolicySet> policies = resolvePolicies(requiredIntentsCopy, requestedPolicies, target, operation.getName());        
         if(requiredIntentsCopy.size() > 0) {
-            if (System.getProperty("sca4j.debug") != null) {
-                System.err.println("Unresolved intents on " + logicalBinding.getParent().getUri() + " for operation " + operation.getName() + " "  + requiredIntentsCopy);
-            }
             throw new PolicyResolutionException("Unable to resolve all intents", requiredIntentsCopy);
         }
         

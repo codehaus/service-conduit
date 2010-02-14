@@ -75,7 +75,7 @@ public class InvalidCompositeException extends ValidationException {
      * @param errors   the errors that were found during validation
      * @param warnings the warnings that were found during validation
      */
-    public InvalidCompositeException(QName name, List<ValidationFailure> errors, List<ValidationFailure> warnings) {
+    public InvalidCompositeException(QName name, List<ValidationFailure<?>> errors, List<ValidationFailure<?>> warnings) {
         super(errors, warnings);
         this.name = name;
     }

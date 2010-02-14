@@ -161,12 +161,12 @@ public class ContributionServiceImpl implements ContributionService {
             if (context.hasErrors()) {
                 ArtifactValidationFailure error = new ArtifactValidationFailure("the contribution manifest (sca-contribution.xml)");
                 error.addFailures(context.getErrors());
-                List<ValidationFailure> errors = new ArrayList<ValidationFailure>();
+                List<ValidationFailure<?>> errors = new ArrayList<ValidationFailure<?>>();
                 errors.add(error);
 
                 ArtifactValidationFailure warning = new ArtifactValidationFailure("the contribution manifest (sca-contribution.xml)");
                 warning.addFailures(context.getWarnings());
-                List<ValidationFailure> warnings = new ArrayList<ValidationFailure>();
+                List<ValidationFailure<?>> warnings = new ArrayList<ValidationFailure<?>>();
                 warnings.add(warning);
 
                 throw new InvalidContributionException(errors, warnings);
@@ -194,11 +194,11 @@ public class ContributionServiceImpl implements ContributionService {
         if (context.hasErrors()) {
             ArtifactValidationFailure failure = new ArtifactValidationFailure("the contribution manifest (sca-contribution.xml)");
             failure.addFailures(context.getErrors());
-            List<ValidationFailure> failures = new ArrayList<ValidationFailure>();
+            List<ValidationFailure<?>> failures = new ArrayList<ValidationFailure<?>>();
             failures.add(failure);
             ArtifactValidationFailure warning = new ArtifactValidationFailure("the contribution manifest (sca-contribution.xml)");
             warning.addFailures(context.getWarnings());
-            List<ValidationFailure> warnings = new ArrayList<ValidationFailure>();
+            List<ValidationFailure<?>> warnings = new ArrayList<ValidationFailure<?>>();
             warnings.add(warning);
             throw new InvalidContributionException(failures, warnings);
         }

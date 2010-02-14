@@ -118,7 +118,6 @@ public class FileSystemUserManager implements UserManager {
     @Property
     public void setUsers(Map<String, String> users) {
         this.users.putAll(users);
-        System.err.println("Users loaded from embedded property " + users);
     }
     
     /**
@@ -136,7 +135,6 @@ public class FileSystemUserManager implements UserManager {
         } finally {
             inputStream.close();
         }
-        System.err.println("Users loaded from embedded file");
         
     }
 

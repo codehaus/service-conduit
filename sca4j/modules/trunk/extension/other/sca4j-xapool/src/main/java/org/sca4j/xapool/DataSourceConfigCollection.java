@@ -16,28 +16,20 @@
  * This project contains code licensed from the Apache Software Foundation under
  * the Apache License, Version 2.0 and original code from project contributors.
  */
-package org.sca4j.tests.autowire;
+package org.sca4j.xapool;
 
+import java.util.LinkedList;
 import java.util.List;
 
-import org.osoa.sca.annotations.Reference;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
-public class DefaultSubmissionProcessor implements SubmissionProcessor {
+@XmlRootElement(name = "dataSources")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class DataSourceConfigCollection {
     
-    @Reference protected List<Rule<Payment>> rules;
-    @Reference protected IdGenerator submissionIdGenerator;
-    @Reference protected IdGenerator instructionIdGenerator;
-    @Reference protected Parser parser;
-
-    public void process() {
-        submissionIdGenerator.nextId();
-        instructionIdGenerator.nextId();
-        Payment payment = null;
-        while((payment = parser.next()) != null) {
-            for (Rule<Payment> rule  : rules) {
-                rule.execute(payment);
-            }
-        }
-    }
+    @XmlElement(name = "dataSource") public List<DataSourceConfig> dataSources = new LinkedList<DataSourceConfig>();
 
 }
