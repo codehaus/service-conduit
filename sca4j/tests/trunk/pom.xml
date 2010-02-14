@@ -55,7 +55,6 @@
         <module>test-binding-burlap</module>
         <module>test-binding-hessian</module>
         <module>test-binding-jms</module>
-        <module>test-ds-extension</module>
         <module>test-jpa</module>
         <module>test-ftp-security-policy</module>
         <module>test-ftp-server-extension</module>

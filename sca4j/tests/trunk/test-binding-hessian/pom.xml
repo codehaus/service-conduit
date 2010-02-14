@@ -69,11 +69,13 @@
                 <configuration>
                     <systemConfig>
                         <![CDATA[
-                        <config>
-                            <web.server>
-                                <http port="8900"/>
-                            </web.server>
-                        </config>
+                            <sca4jConfig>
+                                <domainConfig>
+                                    <web.server>
+                                        <http port="8900"/>
+                                    </web.server>
+                                </domainConfig>
+                            </sca4jConfig>
                         ]]>
                     </systemConfig>
                 </configuration>

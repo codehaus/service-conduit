@@ -60,12 +60,6 @@
 
         <dependency>
             <groupId>org.sca4j</groupId>
-            <artifactId>test-ds-extension</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.sca4j</groupId>
             <artifactId>sca4j-resource</artifactId>
             <version>${project.version}</version>
         </dependency>

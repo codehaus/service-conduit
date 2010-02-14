@@ -53,12 +53,16 @@
     The Apache Software Foundation (http://www.apache.org/).
 
 -->
-<config>
+<sca4jConfig>
 
-    <testDsConfig>
-        <driver>org.apache.derby.jdbc.EmbeddedDriver</driver>
-        <url>jdbc:derby:testDB;create=true</url>
-        <keys>EmployeeDS</keys>
-    </testDsConfig>
+    <domainConfig>
+        <dataSources>
+            <dataSource>
+                <driver>org.apache.derby.jdbc.EmbeddedDriver</driver>
+                <url>jdbc:derby:testDB;create=true</url>
+                <keys>EmployeeDS</keys>
+            </dataSource>
+        </dataSources>
+    </domainConfig>
 
-</config>
+</sca4jConfig>

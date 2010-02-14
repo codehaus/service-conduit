@@ -52,14 +52,13 @@
  */
 package org.sca4j.binding.jms.test.async;
 
-import org.osoa.sca.annotations.OneWay;
 
 /**
  * @version $Revision$ $Date$
  */
 public interface AsyncService {
 
-    @OneWay
+    
     void invoke(String msg);
 
 }
