@@ -112,9 +112,7 @@
                     <systemConfig>
                         <![CDATA[
                             <config>
-                                <web.server>
-                                    <http port="8900"/>
-                                </web.server>
+                                <web.server><http port="8900"/></web.server>
                             </config>
                         ]]>
                     </systemConfig>
