@@ -54,6 +54,7 @@ package org.sca4j.fabric.runtime.bootstrap;
 
 import static org.sca4j.fabric.runtime.ComponentNames.BOOT_CLASSLOADER_ID;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URI;
 
@@ -122,8 +123,10 @@ public abstract class AbstractBootstrapper implements Bootstrapper {
 
     private ClassLoader bootClassLoader;
 
-    protected AbstractBootstrapper(InputStream systemConfig) {
-        this.systemConfig = systemConfig;
+    protected AbstractBootstrapper(String systemConfig) {
+        if (systemConfig != null) {
+            this.systemConfig = new ByteArrayInputStream(systemConfig.getBytes());
+        }
         IntrospectionHelper helper = new DefaultIntrospectionHelper();
         contractProcessor = new DefaultContractProcessor(helper);
         DocumentLoader documentLoader = new DocumentLoaderImpl();

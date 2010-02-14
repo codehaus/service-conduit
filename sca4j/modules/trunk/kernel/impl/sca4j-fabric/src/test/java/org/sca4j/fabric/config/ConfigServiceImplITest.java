@@ -30,7 +30,7 @@ import org.w3c.dom.Document;
 
 public class ConfigServiceImplITest extends TestCase {
     
-    public void _testConfig() throws XPathExpressionException {
+    public void testConfig() throws XPathExpressionException {
         
         System.setProperty("FTP_USER", "fred.flintstone");
         System.setProperty("DB_USER", "barney.rubble");

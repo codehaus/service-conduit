@@ -103,8 +103,8 @@ public class ConfigServiceImpl implements ConfigService {
         
         XMLFactory xmlFactory = new XMLFactoryImpl(expressionExpander);
         
-        //parseUserConfig(xmlFactory);
-        //parseSystemConfig(xmlFactory, configStream);
+        parseUserConfig(xmlFactory);
+        parseSystemConfig(xmlFactory, configStream);
         
     }
     

@@ -52,14 +52,10 @@
  */
 package org.sca4j.itest;
 
-import java.awt.im.InputSubset;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
@@ -94,7 +90,6 @@ import org.sca4j.maven.runtime.WireHolder;
 import org.sca4j.monitor.MonitorFactory;
 import org.sca4j.scdl.Composite;
 import org.sca4j.spi.wire.Wire;
-import org.xml.sax.InputSource;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -206,7 +201,6 @@ public class TestRunner {
         }
         configuration.setSystemScdl(testMetadata.systemScdl);
         if (testMetadata.systemConfig != null) {
-            System.err.println(testMetadata.systemConfig.trim());
             configuration.setSystemConfig(new ByteArrayInputStream(testMetadata.systemConfig.trim().getBytes()));
         } else {
             URL systemConfig = getSystemConfig();

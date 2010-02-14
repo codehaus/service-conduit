@@ -52,12 +52,14 @@
  */
 package org.sca4j.host.runtime;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
 
 import org.sca4j.host.contribution.ContributionSource;
-import org.xml.sax.InputSource;
 
 /**
  * Encapsulates configuration needed to boostrap a runtime.
@@ -74,7 +76,7 @@ public class BootConfiguration {
     private ContributionSource intents;
     private List<ContributionSource> extensions;
     private URL systemScdl;
-    private InputStream systemConfig;
+    private String systemConfig;
 
     public SCA4JRuntime<?> getRuntime() {
         return runtime;
@@ -92,12 +94,22 @@ public class BootConfiguration {
         this.systemScdl = systemScdl;
     }
 
-    public InputStream getSystemConfig() {
+    public String getSystemConfig() {
         return systemConfig;
     }
 
-    public void setSystemConfig(InputStream systemConfig) {
-        this.systemConfig = systemConfig;
+    public void setSystemConfig(InputStream systemConfig) throws IOException {
+        if (systemConfig != null) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(systemConfig));
+            String line = reader.readLine();
+            StringBuffer sb = new StringBuffer();
+            while (line != null) {
+                sb.append(line);
+                line = reader.readLine();
+            }
+            this.systemConfig = sb.toString();
+            reader.close();
+        }
     }
 
     public ClassLoader getHostClassLoader() {

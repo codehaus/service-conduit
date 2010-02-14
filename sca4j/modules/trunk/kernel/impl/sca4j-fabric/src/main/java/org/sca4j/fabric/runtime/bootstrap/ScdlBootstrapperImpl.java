@@ -52,9 +52,9 @@
  */
 package org.sca4j.fabric.runtime.bootstrap;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import java.util.List;
@@ -83,7 +83,6 @@ import org.sca4j.system.introspection.BootstrapLoaderFactory;
 import org.sca4j.system.introspection.SystemImplementationProcessor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
@@ -99,9 +98,9 @@ public class ScdlBootstrapperImpl extends AbstractBootstrapper {
     private final DocumentLoader documentLoader;
 
     private URL scdlLocation;
-    private InputStream systemConfig;
+    private String systemConfig;
 
-    public ScdlBootstrapperImpl(URL scdlLocation, InputStream systemConfig) {
+    public ScdlBootstrapperImpl(URL scdlLocation, String systemConfig) {
         this(new XMLFactoryImpl(new ExpressionExpander() {
             public String expand(String value) throws ExpressionExpansionException {
                 return value;
@@ -111,7 +110,7 @@ public class ScdlBootstrapperImpl extends AbstractBootstrapper {
         this.systemConfig = systemConfig;
     }
 
-    private ScdlBootstrapperImpl(XMLFactory xmlFactory, InputStream systemConfig) {
+    private ScdlBootstrapperImpl(XMLFactory xmlFactory, String systemConfig) {
         super(systemConfig);
         this.xmlFactory = xmlFactory;
         this.documentLoader = new DocumentLoaderImpl();
@@ -161,8 +160,7 @@ public class ScdlBootstrapperImpl extends AbstractBootstrapper {
 
     protected Document loadSystemConfig() throws InitializationException {
         try {
-            // load from an external URL
-            return systemConfig == null ? createDefaultConfigProperty() : documentLoader.load(systemConfig);
+            return systemConfig == null ? createDefaultConfigProperty() : documentLoader.load(new ByteArrayInputStream(systemConfig.getBytes()));
         } catch (IOException e) {
             throw new InitializationException(e);
         } catch (SAXException e) {
