@@ -25,7 +25,7 @@
 
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-modules-parent-pom</artifactId>
-    <version>0.3.3</version>
+    <version>0.3.3-SNAPSHOT</version>
     <name>SCA4J Modules Parent POM</name>
     <description>SCA4J Modules Parent POM.</description>
     <packaging>pom</packaging>
@@ -86,16 +86,16 @@
                 <plugin>
                     <groupId>org.sca4j</groupId>
                     <artifactId>sca4j-contribution-plugin</artifactId>
-                    <version>0.3.3</version>
+                    <version>0.3.3-SNAPSHOT</version>
                 </plugin>                
             </plugins>
         </pluginManagement>
     </build>
 
     <scm>
-        <connection>scm:svn:https://www.sca4j.org/svn/sca4j/modules/tags/sca4j-modules-parent-pom-0.3.3</connection>
-        <developerConnection>scm:svn:https://www.sca4j.org/svn/sca4j/modules/tags/sca4j-modules-parent-pom-0.3.3</developerConnection>
-        <url>http://www.sca4j.org/svn/sca4j/modules/tags/sca4j-modules-parent-pom-0.3.3</url>
+        <connection>scm:svn:https://www.sca4j.org/svn/sca4j/modules/tags/sca4j-modules-parent-pom-0.3.3-SNAPSHOT</connection>
+        <developerConnection>scm:svn:https://www.sca4j.org/svn/sca4j/modules/tags/sca4j-modules-parent-pom-0.3.3-SNAPSHOT</developerConnection>
+        <url>http://www.sca4j.org/svn/sca4j/modules/tags/sca4j-modules-parent-pom-0.3.3-SNAPSHOT</url>
     </scm>
     
 </project>
