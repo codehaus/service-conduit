@@ -93,9 +93,9 @@
     </build>
 
     <scm>
-        <connection>scm:svn:https://www.sca4j.org/svn/sca4j/modules/tags/sca4j-modules-parent-pom-0.3.3</connection>
-        <developerConnection>scm:svn:https://www.sca4j.org/svn/sca4j/modules/tags/sca4j-modules-parent-pom-0.3.3</developerConnection>
-        <url>http://www.sca4j.org/svn/sca4j/modules/tags/sca4j-modules-parent-pom-0.3.3</url>
+        <connection>scm:svn:https://www.sca4j.org/svn/sca4j/modules/trunk</connection>
+        <developerConnection>scm:svn:https://www.sca4j.org/svn/sca4j/modules/trunk</developerConnection>
+        <url>http://www.sca4j.org/svn/sca4j/modules/trunk</url>
     </scm>
     
 </project>
