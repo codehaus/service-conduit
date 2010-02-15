@@ -54,18 +54,16 @@
 
 -->
 
-<sca4jConfig>
+<config>
 
-    <domainConfig>
-        <dataSources>
-            <dataSource>
-                <driver>org.apache.derby.jdbc.EmbeddedDriver</driver>
-                <url>jdbc:derby:testDB;create=true</url>
-                <keys>BookDS</keys>
-                <minSize>10</minSize>
-                <maxSize>10</maxSize>
-            </dataSource>
-        </dataSources>
-    </domainConfig>
+    <datasources>
+        <datasource>
+            <driver>org.apache.derby.jdbc.EmbeddedDriver</driver>
+            <url>jdbc:derby:testDB;create=true</url>
+            <keys>BookDS</keys>
+            <minSize>10</minSize>
+            <maxSize>10</maxSize>
+        </datasource>
+    </datasources>
 
-</sca4jConfig>
+</config>

@@ -90,21 +90,19 @@
                     <!-- Set the Jetty Listen Port for Integration Tests -->
                     <systemConfig>
                         <![CDATA[
-                            <sca4jConfig>
-                                <domainConfig>
-                                    <web.server>
-                                        <http port="8900"/>
-                                        <https port="8901" clientAuth="true" />
-                                    </web.server>
-                                    <security>
-                                        <keystore>server/server-identity-store</keystore>
-                                        <keystore.password>password</keystore.password>
-                                        <truststore>server/server-trust-store</truststore>
-                                        <truststore.password>password</truststore.password>
-                                        <cert.password>password</cert.password>
-                                    </security>
-                                </domainConfig>
-                            </sca4jConfig>
+                            <config>
+                                <web.server>
+                                    <http port="8900"/>
+                                    <https port="8901" clientAuth="true" />
+                                </web.server>
+                                <security>
+                                    <keystore>server/server-identity-store</keystore>
+                                    <keystore.password>password</keystore.password>
+                                    <truststore>server/server-trust-store</truststore>
+                                    <truststore.password>password</truststore.password>
+                                    <cert.password>password</cert.password>
+                                </security>
+                            </config>
                         ]]>
                     </systemConfig>
                 </configuration>
