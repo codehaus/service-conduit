@@ -61,7 +61,7 @@
     <!-- XAPool Datasource -->
     <component name="XaPoolFactory">
         <sca4j:implementation.system class="org.sca4j.xapool.XaPoolFactory"/>
-        <property name="dataSourceConfigCollection" source="$config/dataSources"/>
+        <property name="dataSourceConfigCollection" source="$config/datasources"/>
     </component>
     
 </composite>

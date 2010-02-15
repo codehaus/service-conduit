@@ -41,7 +41,6 @@ import org.sca4j.services.xmlfactory.impl.XMLFactoryImpl;
 import org.sca4j.spi.config.ConfigService;
 import org.sca4j.transform.TransformContext;
 import org.sca4j.transform.TransformationException;
-import org.sca4j.transform.dom2java.generics.map.String2MapOfString2String;
 import org.sca4j.transform.xml.Stream2Document;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -52,7 +51,6 @@ public class ConfigServiceImpl implements ConfigService {
     
     private Document domainConfig;
     private Map<String, String> hostProperties = new HashMap<String, String>();
-    private String2MapOfString2String string2Properties = new String2MapOfString2String();
     private Stream2Document stream2Document = new Stream2Document();
 
     /**
@@ -81,6 +79,8 @@ public class ConfigServiceImpl implements ConfigService {
      */
     public ConfigServiceImpl(InputStream configStream) {
         
+        initializeConfig();
+        
         Map<Integer, ExpressionEvaluator> expressionEvaluators = new HashMap<Integer, ExpressionEvaluator>();
         expressionEvaluators.put(1, new EnvironmentPropertyEvaluator());
         expressionEvaluators.put(2, new SystemPropertyEvaluator());
@@ -93,18 +93,21 @@ public class ConfigServiceImpl implements ConfigService {
         parseUserConfig(xmlFactory);
         parseSystemConfig(xmlFactory, configStream);
         
-        if (domainConfig == null) {
-            try {
-                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-                factory.setNamespaceAware(true);
-                domainConfig  = factory.newDocumentBuilder().newDocument();
-                Element root = domainConfig.createElement("domainConfig");
-                domainConfig.appendChild(root);
-            } catch (ParserConfigurationException e) {
-                throw new ConfigServiceException("Unable to create JAXP parser", e);
-            }
+    }
+
+    /*
+     * Initialises the config.
+     */
+    private void initializeConfig() {
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setNamespaceAware(true);
+            domainConfig  = factory.newDocumentBuilder().newDocument();
+            Element root = domainConfig.createElement("config");
+            domainConfig.appendChild(root);
+        } catch (ParserConfigurationException e) {
+            throw new ConfigServiceException("Unable to create JAXP parser", e);
         }
-        
     }
     
     /*
@@ -141,46 +144,29 @@ public class ConfigServiceImpl implements ConfigService {
      * Parses the system config.
      */
     private void parse(XMLFactory xmlFactory, InputStream inputStream) throws XMLFactoryInstantiationException, XMLStreamException, TransformationException {
-            
-        XMLStreamReader reader = xmlFactory.newInputFactoryInstance().createXMLStreamReader(inputStream);
         
-        TransformContext context = new TransformContext();
-        int next = reader.next();
-        while (next != XMLStreamConstants.END_DOCUMENT) {
-            switch (next) {
-            case XMLStreamConstants.START_ELEMENT:
-                String localName = reader.getLocalName();
-                if ("hostProperties".equals(localName)) {
-                    parseHostProperties(reader, context);
-                } else if ("domainConfig".equals(localName)) {
-                    parseDomainConfig(reader, context);
-                }
-            }
-            next = reader.next();
+        XMLStreamReader reader = xmlFactory.newInputFactoryInstance().createXMLStreamReader(inputStream);
+        TransformContext context = new TransformContext();        
+        
+        while (reader.next() != XMLStreamConstants.START_ELEMENT) {
         }
         
-    }
-
-    /*
-     * Parses the host properties.
-     */
-    private void parseHostProperties(XMLStreamReader reader, TransformContext context) throws TransformationException {
-        Document document = stream2Document.transform(reader, context);
-        hostProperties.putAll(string2Properties.transform(document.getDocumentElement(), context));
-    }
-
-    /*
-     * Parses the domain config.
-     */
-    private void parseDomainConfig(XMLStreamReader reader, TransformContext context) throws TransformationException {
-        
-        if (domainConfig == null) {
-            domainConfig = stream2Document.transform(reader, context);
-        } else {
-            Element documentElement = domainConfig.getDocumentElement();
-            NodeList nodeList = stream2Document.transform(reader, context).getDocumentElement().getChildNodes();
-            for (int i = 0;i < nodeList.getLength();i++) {
-                Node node = nodeList.item(i);
+        Element documentElement = domainConfig.getDocumentElement();
+        NodeList nodeList = stream2Document.transform(reader, context).getDocumentElement().getChildNodes();
+        for (int i = 0;i < nodeList.getLength();i++) {
+            Node node = nodeList.item(i);
+            if (node.getNodeType() != Node.ELEMENT_NODE) continue;
+            if ("host.properties".equals(node.getNodeName())) {
+                NodeList propertyList = node.getChildNodes();
+                for (int j = 0;j < propertyList.getLength();j++) {
+                    Node propertyNode = propertyList.item(j);
+                    if (propertyNode.getNodeType() == Node.ELEMENT_NODE) {
+                        Element propertyElement = (Element) propertyNode;
+                        hostProperties.put(propertyElement.getTagName(), propertyElement.getTextContent());
+                    }
+                }
+                
+            } else {
                 Node firstNode = documentElement.getFirstChild();
                 Node newNode = domainConfig.importNode(node, true);
                 if (firstNode != null) documentElement.insertBefore(newNode, firstNode);

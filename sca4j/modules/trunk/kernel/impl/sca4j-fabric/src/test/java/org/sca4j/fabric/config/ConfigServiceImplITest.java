@@ -35,7 +35,7 @@ public class ConfigServiceImplITest extends TestCase {
         System.setProperty("FTP_USER", "fred.flintstone");
         System.setProperty("DB_USER", "barney.rubble");
         
-        InputStream configStream = getClass().getClassLoader().getResourceAsStream("sca4j-config.xml");
+        InputStream configStream = getClass().getClassLoader().getResourceAsStream("systemConfig.xml");
         ConfigService systemConfig = new ConfigServiceImpl(configStream);
         
         assertEquals("fred.flintstone", systemConfig.getHostProperty("ftp.user"));
@@ -43,8 +43,8 @@ public class ConfigServiceImplITest extends TestCase {
         
         Document domainConfig = systemConfig.getDomainConfig();
         
-        assertEquals("barney.rubble", XPathFactory.newInstance().newXPath().evaluate("/domainConfig/testDsConfig/username", domainConfig));
-        assertEquals("20", XPathFactory.newInstance().newXPath().evaluate("/domainConfig/thread.pool/@size", domainConfig));
+        assertEquals("barney.rubble", XPathFactory.newInstance().newXPath().evaluate("/config/testDsConfig/username", domainConfig));
+        assertEquals("20", XPathFactory.newInstance().newXPath().evaluate("/config/thread.pool/@size", domainConfig));
         
     }
 

@@ -26,10 +26,10 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "dataSources")
+@XmlRootElement(name = "datasources")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DataSourceConfigCollection {
     
-    @XmlElement(name = "dataSource") public List<DataSourceConfig> dataSources = new LinkedList<DataSourceConfig>();
+    @XmlElement(name = "datasource") public List<DataSourceConfig> dataSources = new LinkedList<DataSourceConfig>();
 
 }
