@@ -20,7 +20,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>sca4j-extension-parent-pom</artifactId>
-		<version>0.3.3-SNAPSHOT</version>
+		<version>0.3.3</version>
     </parent>
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-extension-binding-parent-pom</artifactId>
@@ -36,7 +36,7 @@
 		<module>sca4j-binding-test</module>
 		<module>sca4j-binding-ws</module>
 		<module>sca4j-binding-ws-axis2</module>
-		<module>sca4j-binding-ws-metro</module>
+		<!--module>sca4j-binding-ws-metro</module-->
                 <module>sca4j-binding-ftp</module>
                 <module>sca4j-binding-tcp</module>
                 <module>sca4j-binding-http</module>
