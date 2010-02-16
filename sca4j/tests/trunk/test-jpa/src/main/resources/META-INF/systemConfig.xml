@@ -63,4 +63,5 @@
             <maxSize>10</maxSize>
         </datasource>
     </datasources>
+    <test debug="false" />
 </config>

@@ -58,7 +58,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 
-import org.hibernate.SessionFactory;
 import org.sca4j.jpa.model.Employee;
 import org.sca4j.jpa.model.ExEmployee;
 
