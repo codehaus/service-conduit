@@ -184,6 +184,8 @@ public abstract class AbstractBootstrapper implements Bootstrapper {
             }
             domain.setPropertyValue("config", domainConfig);
             
+            registerComponent("ConfigService", ConfigService.class, configService, true);
+            
 
             // deploy the composite to the runtime domain
             runtimeDomain.include(composite);

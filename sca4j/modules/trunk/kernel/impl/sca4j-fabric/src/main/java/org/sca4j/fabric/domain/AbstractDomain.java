@@ -90,12 +90,12 @@ public abstract class AbstractDomain implements Domain {
     public static final QName COMPOSITE = new QName(SCA_NS, "composite");
 
     private final MetaDataStore metadataStore;
-    private final LogicalComponentManager logicalComponentManager;
+    protected final LogicalComponentManager logicalComponentManager;
     protected LogicalModelInstantiator logicalModelInstantiator;
     protected Allocator allocator;
     protected RoutingService routingService;
     protected PhysicalModelGenerator physicalModelGenerator;
-
+    
     public AbstractDomain(MetaDataStore metadataStore,
                           LogicalComponentManager logicalComponentManager,
                           Allocator allocator,

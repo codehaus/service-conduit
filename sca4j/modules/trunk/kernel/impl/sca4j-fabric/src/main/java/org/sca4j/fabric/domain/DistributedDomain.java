@@ -52,11 +52,14 @@
  */
 package org.sca4j.fabric.domain;
 
+import org.osoa.sca.annotations.EagerInit;
+import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
 import org.sca4j.fabric.allocator.Allocator;
 import org.sca4j.fabric.generator.PhysicalModelGenerator;
 import org.sca4j.fabric.instantiator.LogicalModelInstantiator;
 import org.sca4j.fabric.services.routing.RoutingService;
+import org.sca4j.spi.config.ConfigService;
 import org.sca4j.spi.domain.Domain;
 import org.sca4j.spi.services.contribution.MetaDataStore;
 import org.sca4j.spi.services.lcm.LogicalComponentManager;
@@ -66,15 +69,25 @@ import org.sca4j.spi.services.lcm.LogicalComponentManager;
  *
  * @version $Rev: 5271 $ $Date: 2008-08-25 22:46:23 +0100 (Mon, 25 Aug 2008) $
  */
+@EagerInit
 public class DistributedDomain extends AbstractDomain implements Domain {
+    
+    private ConfigService configService;
 
     public DistributedDomain(@Reference(name = "store")MetaDataStore metaDataStore,
                              @Reference(name = "logicalComponentManager")LogicalComponentManager logicalComponentManager,
                              @Reference Allocator allocator,
                              @Reference PhysicalModelGenerator physicalModelGenerator,
                              @Reference LogicalModelInstantiator logicalModelInstantiator,
-                             @Reference RoutingService routingService) {
+                             @Reference RoutingService routingService,
+                             @Reference ConfigService configService) {
         super(metaDataStore, logicalComponentManager, allocator, physicalModelGenerator, logicalModelInstantiator, routingService);
+        this.configService = configService;
+    }
+    
+    @Init
+    public void init() {
+        logicalComponentManager.getRootComponent().setPropertyValue("config", configService.getDomainConfig());
     }
 
     /**
