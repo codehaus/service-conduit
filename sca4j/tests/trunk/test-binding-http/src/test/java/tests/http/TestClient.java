@@ -93,6 +93,12 @@ public class TestClient extends TestCase {
         URLConnection c = serviceEndpoint.openConnection();
         assertEquals("ABCD uploaded with amount 1234.0", readResponseData(c));
     }
+    
+    public void testIgnoreRequestParamCase() throws IOException {
+        URL serviceEndpoint = new URL("http://localhost:8900/card/upload?CARDNUMBEr=ABCD&AMOUNt=1234");
+        URLConnection c = serviceEndpoint.openConnection();
+        assertEquals("ABCD uploaded with amount 1234.0", readResponseData(c));
+    }
 
 
     private String readResponseData(URLConnection c) throws IOException {
