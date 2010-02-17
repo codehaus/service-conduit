@@ -66,39 +66,8 @@ public class AQWireTargetDefinition extends PhysicalWireTargetDefinition {
         this.correlationId = correlationId;
     }
 
-    /**
-     * returns the Destination.
-     *
-     * @return the destination
-     */
-    public String getDestination() {
-        return destination;
-    }
-
-    /**
-     * returns the data source.
-     *
-     * @return the data source key
-     */
-    public String getDataSourceKey() {
-        return dataSourceKey;
-    }
-
-    /**
-     * returns the URI of the classloader.
-     *
-     * @return the calss loader uri
-     */
-    public URI getCalssLoaderURI() {
-        return calssLoaderURI;
-    }
-
-	/**
-	 * Returns the correlation Id.
-	 * @return the correlationId
-	 */
-	public String getCorrelationId() {
-		return correlationId;
-	}
-
+    public String getDestination() {return destination;}
+    public String getDataSourceKey() {return dataSourceKey;}
+    public URI getCalssLoaderURI() {return calssLoaderURI;}
+	public String getCorrelationId() {return correlationId;}
 }
