@@ -90,8 +90,8 @@ public class JaxRsBinder implements DataBinder {
         outputStream.flush();
     }
 
-    public Message unmarshal(HttpServletRequest request, OperationMetadata operation) throws IOException {
-        
+    public Message unmarshal(HttpServletRequest request, OperationMetadata operation, boolean urlCase) throws IOException {
+
         List<ParameterMetadata> parameters = operation.getParameters();
         Object[] body = new Object[parameters.size()];
         String queryString = request.getQueryString();
@@ -100,7 +100,7 @@ public class JaxRsBinder implements DataBinder {
         StringTokenizer tok = new StringTokenizer(queryString == null ? "" : queryString, "&");
         while (tok.hasMoreElements()) {
             String[] pair = tok.nextToken().split("=");
-            queryParameters.put(pair[0], pair.length < 2 ? "" : URLDecoder.decode(pair[1], "UTF-8"));
+            queryParameters.put(urlCase ? pair[0].toUpperCase() : pair[0], pair.length < 2 ? "" : URLDecoder.decode(pair[1], "UTF-8"));
         }
         
         for (int i = 0; i < body.length;i++) {
@@ -110,9 +110,9 @@ public class JaxRsBinder implements DataBinder {
             Annotation annotation = parameter.getAnnotation();
             
             if (annotation == null) {
-                body[i] = createEntity(request, queryParameters, type);
+                body[i] = createEntity(request, queryParameters, type, urlCase);
             } else if (annotation.annotationType().equals(QueryParam.class)) {
-                body[i] = getFromQueryString(QueryParam.class.cast(annotation), type, queryParameters);
+                body[i] = getFromQueryString(QueryParam.class.cast(annotation), type, queryParameters, urlCase);
             } else if (annotation.annotationType().equals(HeaderParam.class)) {
                 body[i] = getFromHeader(HeaderParam.class.cast(annotation), type, request);
             }
@@ -122,15 +122,15 @@ public class JaxRsBinder implements DataBinder {
         return new MessageImpl(body, false, new WorkContext());
     }
 
-    private Object createEntity(HttpServletRequest request, Map<String, String> queryParameters, Class<?> type) {
-        
+    private Object createEntity(HttpServletRequest request, Map<String, String> queryParameters, Class<?> type, boolean urlCase) {
+
         try {
             Object entity = type.newInstance();
             for (Field field : getFieldList(type)) {
                 QueryParam queryParam = field.getAnnotation(QueryParam.class);
                 if (queryParam != null) {
                     field.setAccessible(true);
-                    Object value = getFromQueryString(queryParam, field.getType(), queryParameters);
+                    Object value = getFromQueryString(queryParam, field.getType(), queryParameters, urlCase);
                     if(value != null) {
                     	//Set the value for the named field if it had a corresponding parameter in the query string. Otherwise, let the default value apply
                     	field.set(entity, value);
@@ -169,9 +169,10 @@ public class JaxRsBinder implements DataBinder {
         String text = request.getHeader(headerParam.value());
         return getValue(text, type);
     }
-    
-    private Object getFromQueryString(QueryParam queryParam, Class<?> type, Map<String, String> queryParameters) {
-        String text = queryParameters.get(queryParam.value());
+
+    private Object getFromQueryString(QueryParam queryParam, Class<?> type, Map<String, String> queryParameters, boolean urlCase) {
+        String param = urlCase ? queryParam.value().toUpperCase() : queryParam.value();
+        String text = queryParameters.get(param);
         return getValue(text, type);
     }
     

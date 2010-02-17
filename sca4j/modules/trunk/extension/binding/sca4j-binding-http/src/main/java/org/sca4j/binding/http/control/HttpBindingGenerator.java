@@ -90,7 +90,7 @@ public class HttpBindingGenerator implements BindingGenerator<HttpSourceWireDefi
         URI classloaderId = binding.getParent().getParent().getParent().getUri();
         URI endpointUri = binding.getBinding().getTargetUri();
         String interfaze = definition.getServiceContract().getQualifiedInterfaceName();
-        HttpSourceWireDefinition source =  new HttpSourceWireDefinition(classloaderId, endpointUri, interfaze);
+        HttpSourceWireDefinition source =  new HttpSourceWireDefinition(classloaderId, binding.getBinding().isUrlIgnoreCase(), endpointUri, interfaze);
         applyTargetPolicies(definition.getServiceContract(), policy, source);
         return source;
     }

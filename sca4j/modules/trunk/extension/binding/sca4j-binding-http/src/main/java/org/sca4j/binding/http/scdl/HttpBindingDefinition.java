@@ -66,7 +66,23 @@ public class HttpBindingDefinition extends BindingDefinition {
     
     private static final long serialVersionUID = 1513550220360531646L;
 
-    public HttpBindingDefinition(URI targetUri, Document key) {
+    private final boolean urlIgnoreCase;
+
+    /**
+     * Default Constructor
+     * @param targetUri
+     * @param urlIgnoreCase
+     * @param key
+     */
+    public HttpBindingDefinition(URI targetUri, boolean urlIgnoreCase, Document key) {
         super(targetUri, HttpBindingLoader.BINDING_QNAME, key);
+        this.urlIgnoreCase = urlIgnoreCase;
+    }
+
+    /**
+     * url case sensitivity
+     */
+    public boolean isUrlIgnoreCase() {
+        return urlIgnoreCase;
     }
 }

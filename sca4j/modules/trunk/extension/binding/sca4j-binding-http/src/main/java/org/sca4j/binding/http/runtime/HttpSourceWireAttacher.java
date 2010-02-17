@@ -88,7 +88,7 @@ public class HttpSourceWireAttacher extends AbstractWireAttacher implements Sour
         for (Map.Entry<PhysicalOperationDefinition, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
         	OperationMetadata operationMetadata = serviceMetadata.getOperation(entry.getKey().getName());
         	String path = serviceMetadata.getRootResourcePath() + operationMetadata.getSubResourcePath();
-        	HttpBindingServlet servlet = new HttpBindingServlet(operationMetadata, entry.getValue(), inboundBinders, outboundBinders);
+        	HttpBindingServlet servlet = new HttpBindingServlet(operationMetadata, entry.getValue(), inboundBinders, outboundBinders, source.isUrlCase());
         	servletHost.registerMapping(path, servlet);
         }
         

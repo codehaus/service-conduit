@@ -81,13 +81,15 @@ import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
 public class HttpSourceWireDefinition extends PhysicalWireSourceDefinition implements PolicyAware {
     
     private String interfaze;
+    private final boolean urlCase;
     private URI classloaderId;
     private AuthenticationPolicy authenticationPolicy;
-    
-    public HttpSourceWireDefinition(URI classloaderId, URI endpointUri, String interfaze) {
+
+    public HttpSourceWireDefinition(URI classloaderId, boolean urlCase, URI endpointUri, String interfaze) {
         setUri(endpointUri);
         this.classloaderId = classloaderId;
         this.interfaze = interfaze;
+        this.urlCase = urlCase;
     }
     
     public String getInterfaze() {
@@ -105,5 +107,9 @@ public class HttpSourceWireDefinition extends PhysicalWireSourceDefinition imple
     public void setAuthenticationPolicy(AuthenticationPolicy authenticationPolicy) {
         this.authenticationPolicy = authenticationPolicy;
     }
-    
+
+    public boolean isUrlCase() {
+        return urlCase;
+    }
+
 }

@@ -61,9 +61,9 @@ import org.sca4j.binding.http.runtime.introspection.OperationMetadata;
 import org.sca4j.spi.invocation.Message;
 
 public interface DataBinder {
-    
-    Message unmarshal(HttpServletRequest request, OperationMetadata operation) throws IOException;
-    
+
+    Message unmarshal(HttpServletRequest request, OperationMetadata operation, boolean urlCase) throws IOException;
+
     void marshal(HttpServletResponse response, Message message) throws IOException;
 
 }

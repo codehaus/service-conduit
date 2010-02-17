@@ -80,12 +80,14 @@ public class HttpBindingServlet extends HttpServlet {
     private InvocationChain invocationChain;
     private Map<DataBinding, DataBinder> inboundBinders;
     private Map<DataBinding, DataBinder> outboundBinders;
-    
-    public HttpBindingServlet(OperationMetadata operationMetadata, InvocationChain invocationChain, Map<DataBinding, DataBinder> inboundBinders, Map<DataBinding, DataBinder> outboundBinders) {
+    private boolean urlCase;
+
+    public HttpBindingServlet(OperationMetadata operationMetadata, InvocationChain invocationChain, Map<DataBinding, DataBinder> inboundBinders, Map<DataBinding, DataBinder> outboundBinders, boolean urlCase) {
         this.operationMetadata = operationMetadata;
         this.invocationChain = invocationChain;
         this.inboundBinders = inboundBinders;
         this.outboundBinders = outboundBinders;
+        this.urlCase = urlCase;
     }
     
     @Override
@@ -103,8 +105,8 @@ public class HttpBindingServlet extends HttpServlet {
     	if (!operationMetadata.getHttpMethod().equals(httpMethod)) {
     		throw new ServletException("Http method " + httpMethod + " not supported");
     	}
-            
-        Message message = inboundBinders.get(operationMetadata.getInBinding()).unmarshal(req, operationMetadata);
+
+        Message message = inboundBinders.get(operationMetadata.getInBinding()).unmarshal(req, operationMetadata, urlCase);
         message = invocationChain.getHeadInterceptor().invoke(message);
         if (operationMetadata.getOutBinding() != null) {
             outboundBinders.get(operationMetadata.getOutBinding()).marshal(resp, message);

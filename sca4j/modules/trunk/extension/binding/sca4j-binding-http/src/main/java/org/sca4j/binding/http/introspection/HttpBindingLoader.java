@@ -93,13 +93,15 @@ public class HttpBindingLoader implements TypeLoader<HttpBindingDefinition> {
 
         HttpBindingDefinition bd = null;
         String uri = null;
+        boolean urlIgnoreCase;
         try {
 
             uri = reader.getAttributeValue(null, "uri");
+            urlIgnoreCase = ignoreUrlCase(reader.getAttributeValue(null, "urlIgnoreCase"));
             if (uri != null) {
-                bd = new HttpBindingDefinition(new URI(uri), loaderHelper.loadKey(reader));
+                bd = new HttpBindingDefinition(new URI(uri), urlIgnoreCase, loaderHelper.loadKey(reader));
             } else {
-                bd = new HttpBindingDefinition(null, loaderHelper.loadKey(reader));
+                bd = new HttpBindingDefinition(null, urlIgnoreCase, loaderHelper.loadKey(reader));
             }
 
             loaderHelper.loadPolicySetsAndIntents(bd, reader, introspectionContext);
@@ -114,10 +116,14 @@ public class HttpBindingLoader implements TypeLoader<HttpBindingDefinition> {
 
     }
 
+    private boolean ignoreUrlCase(String attributeValue) {
+        return Boolean.parseBoolean(attributeValue);
+    }
+
     private void validateAttributes(XMLStreamReader reader, IntrospectionContext context) {
         for (int i = 0; i < reader.getAttributeCount(); i++) {
             String name = reader.getAttributeLocalName(i);
-            if (!"uri".equals(name) && !"requires".equals(name) && !"policySets".equals(name) && !"key".equals(name)) {
+            if (!"uri".equals(name) && !"urlIgnoreCase".equals(name) && !"requires".equals(name) && !"policySets".equals(name) && !"key".equals(name)) {
                 context.addError(new UnrecognizedAttribute(name, reader));
             }
         }
