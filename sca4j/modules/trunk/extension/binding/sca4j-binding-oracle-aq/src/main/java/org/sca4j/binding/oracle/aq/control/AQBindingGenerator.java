@@ -72,7 +72,7 @@ public class AQBindingGenerator implements BindingGenerator<AQWireSourceDefiniti
         final String correlationId = bd.getCorrelationId();
 
         return new AQWireSourceDefinition(bd.getDestinationName(), bd.getInitialState(),
-                                          bd.getDataSourceKey(), bd.getConsumerCount(),
+                                          bd.getDataSourceKey(), bd.getConsumerCount(), bd.getConsumerDelay(),
                                           classLoaderId, bd.getDelay(),correlationId);
 
     }

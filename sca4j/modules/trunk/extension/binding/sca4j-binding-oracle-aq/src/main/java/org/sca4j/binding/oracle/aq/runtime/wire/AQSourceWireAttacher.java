@@ -104,7 +104,7 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
 
 
 		for (int i = 0; i < consumerCount; i++) {
-			ConsumerWorker consumerWorker = new ConsumerWorker(messageListener,
+			ConsumerWorker consumerWorker = new ConsumerWorker(messageListener, sourceDefinition.getConsumerDelay(),
 					                                           classLoader, transactionHandler, 
 					                                           monitor);
 

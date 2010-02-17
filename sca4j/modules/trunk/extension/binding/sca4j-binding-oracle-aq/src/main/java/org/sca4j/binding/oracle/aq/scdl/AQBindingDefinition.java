@@ -54,9 +54,10 @@ public class AQBindingDefinition extends BindingDefinition {
     private final String destinationName;
     private final InitialState initialState;
     private final int consumerCount;
-    private final String dataSourceKey;
+    private final long consumerDelay;
+	private final String dataSourceKey;
     private final int delay;
-    private String correlationId;
+    private final String correlationId;
 
     /**
      * Creates AQBindingDefinition.
@@ -69,7 +70,8 @@ public class AQBindingDefinition extends BindingDefinition {
      * @param correlationId correlation id
      */
     public AQBindingDefinition(String destinationName, InitialState initialState, 
-    		                   String dataSourceKey, int consumerCount, int delay,
+    		                   String dataSourceKey, int consumerCount, 
+    		                   long consumerDelay, int delay,
     		                   String correlationId, 
     		                   Document documentKey) {
     	
@@ -79,60 +81,52 @@ public class AQBindingDefinition extends BindingDefinition {
         this.initialState = initialState;
         this.dataSourceKey = dataSourceKey;
         this.consumerCount = consumerCount;
+        this.consumerDelay = consumerDelay;
         this.delay = delay;
         this.correlationId = correlationId;
     }    
 
 	/**
      * Gets the name of where the message will be enqueued.
-     *
      * @return destination
      */
-    public String getDestinationName() {
-        return destinationName;
-    }
+    public String getDestinationName() {return destinationName;}
 
     /**
      * State the binding should be started in.
-     *
      * @return initialState}
      */
-    public InitialState getInitialState() {
-        return initialState;
-    }
+    public InitialState getInitialState() {return initialState;}
 
     /**
      * Gets the count of the number of consumers.
-     *
      * @return count
      */
-    public int getConsumerCount() {
-        return consumerCount;
-    }
+    public int getConsumerCount() {return consumerCount;}
+    
+    /**
+     * This is the delay related to the consumer,
+     * it is different from the normal delay, as the normal
+     * delay is related to the Physical Queue
+     * @return Consumer Delay
+     */
+    public long getConsumerDelay() {return consumerDelay;}
 
     /**
      * Gets the DataSource Key.
-     *
      * @return dataSource Key
      */
-    public String getDataSourceKey() {
-        return dataSourceKey;
-    }
+    public String getDataSourceKey() {return dataSourceKey;}
 
     /**
      * Gets the timeout on dequeue.
-     *
      * @return Dequeue timeout.
      */
-    public int getDelay() {
-        return delay;
-    }
+    public int getDelay() {return delay;}
 
     /**
      * Returns the correlation Id
      * @return correlation id
      */
-    public String getCorrelationId() {
-    	return this.correlationId;
-    }
+    public String getCorrelationId() {return this.correlationId;}
 }

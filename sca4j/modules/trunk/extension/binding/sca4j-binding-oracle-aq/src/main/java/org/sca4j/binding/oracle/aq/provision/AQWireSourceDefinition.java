@@ -40,8 +40,6 @@ import java.net.URI;
 import org.sca4j.binding.oracle.aq.common.InitialState;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
 
-
-
 /**
  * Target definition that is used by the AQSourceWireAttacher.
  */
@@ -51,6 +49,7 @@ public class AQWireSourceDefinition extends PhysicalWireSourceDefinition {
     private final String destination;
     private final InitialState initialState;
     private final int consumerCount;
+    private final long consumerDelay;
     private final String dataSourceKey;
     private final URI classLoaderId;
     private final int delay;
@@ -64,6 +63,7 @@ public class AQWireSourceDefinition extends PhysicalWireSourceDefinition {
      * @param destination the destination
      * @param initialState the initial state
      * @param consumerCount the consumer count
+     * @param consumerDelay the delay consumer
      * @param dataSourceKey the data source key
      * @param classLoaderId the class loader id
      * @param delay the delay
@@ -73,6 +73,7 @@ public class AQWireSourceDefinition extends PhysicalWireSourceDefinition {
                                   InitialState initialState,
                                   String dataSourceKey,
                                   int consumerCount,
+                                  long consumerDelay,
                                   URI classLoaderId,
                                   int delay,
                                   String correlationId) {
@@ -80,73 +81,19 @@ public class AQWireSourceDefinition extends PhysicalWireSourceDefinition {
         this.initialState = initialState;
         this.dataSourceKey = dataSourceKey;
         this.consumerCount = consumerCount;
+        this.consumerDelay = consumerDelay;
         this.classLoaderId = classLoaderId;
         this.delay = delay;
         this.correlationId = correlationId;
     }
 
-
-    /**
-     * return the Destination.
-     *
-     * @return the destination
-     */
-    public String getDestination() {
-        return destination;
-    }
-
-
-    /**
-     * State the Binding should be started in.
-     *
-     * @return the initial state
-     */
-    public InitialState getInitialState() {
-        return initialState;
-    }
-
-    /**
-     * return data source key.
-     *
-     * @return the data source key
-     */
-    public String getDataSourceKey() {
-        return dataSourceKey;
-    }
-
-    /**
-     * The count of the number of consumers to be used.
-     *
-     * @return the consumer count
-     */
-    public int getConsumerCount() {
-        return consumerCount;
-    }
-
-    /**
-     * return the URI of the classloader.
-     *
-     * @return the class loader id
-     */
-    public URI getClassLoaderId() {
-        return classLoaderId;
-    }
-
-
-    /**
-     * Gets the timeout on dequeue.
-     *
-     * @return Dequeue timeout.
-     */
-    public int getDelay() {
-        return delay;
-    }
-
-    /**
-     * Returns the correlation Id.
-     * @return correlation id
-     */
-    public String getCorrelationId() {
-    	return this.correlationId;
-    }
+    
+    public String getDestination() {return destination;}
+    public InitialState getInitialState() {return initialState;}
+    public String getDataSourceKey() {return dataSourceKey;}
+    public int getConsumerCount() {return consumerCount;}
+    public long getConsumerDelay() {return consumerDelay;}
+    public URI getClassLoaderId() {return classLoaderId;}
+    public int getDelay() {return delay;}
+    public String getCorrelationId() {return this.correlationId;}
 }

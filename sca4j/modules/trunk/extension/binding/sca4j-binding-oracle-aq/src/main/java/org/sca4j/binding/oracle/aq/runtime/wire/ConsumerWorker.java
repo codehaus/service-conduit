@@ -58,6 +58,7 @@ public class ConsumerWorker extends DefaultPausableWork {
 	private final ClassLoader classLoader;
 	private final TransactionHandler transactionHandler;
 	private final AQMonitor monitor;
+	private final long consumptionDelay;
 
 
 	/**
@@ -71,12 +72,13 @@ public class ConsumerWorker extends DefaultPausableWork {
 	 * @param queueManager
 	 * @param monitor
 	 */
-	public ConsumerWorker(MessageListener messageListener, ClassLoader classLoader,
+	public ConsumerWorker(MessageListener messageListener, long consumerDelay, ClassLoader classLoader,
 			              TransactionHandler transactionHandler,
 			              AQMonitor monitor) {
 		super(true);
 
 		this.messageListener = messageListener;
+		consumptionDelay = consumerDelay;
 		this.classLoader = classLoader;
 		this.transactionHandler = transactionHandler;
 		this.monitor = monitor;
@@ -118,6 +120,11 @@ public class ConsumerWorker extends DefaultPausableWork {
             }
         } finally {
             Thread.currentThread().setContextClassLoader(oldClassLoader);
+        }
+        
+        if(consumptionDelay > 0L){
+        	monitor.generalMessage("Consumer Delay is" + consumptionDelay);        	
+        	waitOnDequeue(consumptionDelay);
         }
     }
 

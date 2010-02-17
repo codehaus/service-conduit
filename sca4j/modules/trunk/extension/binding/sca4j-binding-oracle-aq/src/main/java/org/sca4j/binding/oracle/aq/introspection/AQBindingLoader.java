@@ -58,11 +58,10 @@ import org.w3c.dom.Document;
 @EagerInit
 public class AQBindingLoader implements TypeLoader<AQBindingDefinition> {
 
-    /** The Constant DEFAULT_DELAY. */
+    
     private static final int DEFAULT_DELAY = 10;
-
-    /** The Constant DEFAULT_CONSUMERS. */
     private static final int DEFAULT_CONSUMERS = 1;
+    private static final long DEFAULT_CONSUMER_DELAY = 0L;
 
     /** The loader helper. */
     private final LoaderHelper loaderHelper;
@@ -94,11 +93,13 @@ public class AQBindingLoader implements TypeLoader<AQBindingDefinition> {
         String destinationName = reader.getAttributeValue(null, "destinationName");
         String sInitialState = reader.getAttributeValue(null, "initialState");
         String sConsumerCount = reader.getAttributeValue(null, "consumerCount");
+        String sConsumerDelay = reader.getAttributeValue(null, "consumerDelay");
         String dataSourceKey = reader.getAttributeValue(null, "dataSourceKey");
         String correlationId = reader.getAttributeValue(null, "correlationId");
         String sDelay = reader.getAttributeValue(null, "delay");
 
         int consumerCount = sConsumerCount != null ? Integer.parseInt(sConsumerCount) : DEFAULT_CONSUMERS;
+        long consumerDelay = sConsumerDelay != null ? Long.parseLong(sConsumerDelay) : DEFAULT_CONSUMER_DELAY;
         int delay = sDelay != null ? Integer.parseInt(sDelay) : DEFAULT_DELAY;
         InitialState initialState = sInitialState != null ? InitialState.valueOf(sInitialState) : InitialState.STARTED;
         
@@ -107,7 +108,7 @@ public class AQBindingLoader implements TypeLoader<AQBindingDefinition> {
         }
 
         AQBindingDefinition bindingDefinition = new AQBindingDefinition(destinationName, initialState, 
-            		                                                    dataSourceKey, consumerCount, 
+            		                                                    dataSourceKey, consumerCount, consumerDelay, 
             		                                                    delay, correlationId, documentKey);
 
         loaderHelper.loadPolicySetsAndIntents(bindingDefinition, reader, loaderContext);
