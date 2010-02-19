@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>ci</artifactId>
-        <version>0.3.3-SNAPSHOT</version>
+        <version>0.3.4-SNAPSHOT</version>
     </parent>
 
     <artifactId>test-function</artifactId>
@@ -82,6 +82,7 @@
                                 <web.server>
                                     <http port="8900"/>
                                 </web.server>
+                                <test flag="true" />
                             </config>
                         ]]>
                     </systemConfig>

@@ -57,6 +57,15 @@
            xmlns:sca4j="urn:sca4j.org"
            name="PropertiesComposite">
 
+    <component name="DomainConfigPropertyTest">
+        <sca4j:junit class="org.sca4j.tests.function.properties.DomainConfigPropertyTest"/>
+        <reference name="domainConfigProperty" target="DomainPropertyCompositeComponent" />
+    </component>
+    
+    <component name="DomainPropertyCompositeComponent">
+        <implementation.composite name="DomainConfigComposite" />
+    </component>
+
     <component name="PublicFieldPropertyTypesTest">
         <sca4j:junit class="org.sca4j.tests.function.properties.PropertyTypeTest"/>
         <reference name="service" target="PublicFieldPropertyTypesImpl"/>
