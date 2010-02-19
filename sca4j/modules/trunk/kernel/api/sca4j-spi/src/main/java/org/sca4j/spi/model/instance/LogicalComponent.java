@@ -254,6 +254,10 @@ public class LogicalComponent<I extends Implementation<?>> extends LogicalScaArt
      * @return Property value for the specified property.
      */
     public Document getPropertyValue(String name) {
+        // Config is always treated as a domain wide property
+        if ("config".equals(name) && getParent() != null) {
+            return getParent().getPropertyValue(name);
+        }
         return propertyValues.get(name);
     }
 
