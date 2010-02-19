@@ -68,16 +68,16 @@
     5. idelTimeout - the timeout in milliseconds to use for socket connections
     -->
 
-    <property name="config"/>
+    <property name="serverConfig"/>
 
     <service name="ftpContainer" promote="DefaultFtpLetContainer/FtpLetContainer"/>
 	
     <!-- FTP Server -->
     <component name="SCA4JFtpHost">
         <sca4j:implementation.system class="org.sca4j.ftp.server.host.SCA4JFtpHost"/>
-        <property name="commandPort" source="$config//commandPort"/>
-        <property name="listenAddress" source="$config//listenAddress"/>
-        <property name="idleTimeout" source="$config//idleTimeout"/>
+        <property name="commandPort" source="$serverConfig//commandPort"/>
+        <property name="listenAddress" source="$serverConfig//listenAddress"/>
+        <property name="idleTimeout" source="$serverConfig//idleTimeout"/>
     </component>
 
     <!-- promote the reference so it can be autowired -->
@@ -111,14 +111,14 @@
     <!-- PASV Request Handler -->
     <component name="PasvRequestHandler" sca4j:key="PASV">
         <sca4j:implementation.system class="org.sca4j.ftp.server.handler.PasvRequestHandler"/>
-        <property name="listenAddress" source="$config//listenAddress"/>
-        <property name="idleTimeout" source="$config//idleTimeout"/>
+        <property name="listenAddress" source="$serverConfig//listenAddress"/>
+        <property name="idleTimeout" source="$serverConfig//idleTimeout"/>
     </component>
 
     <!-- STOR Request Handler -->
     <component name="StorRequestHandler" sca4j:key="STOR">
         <sca4j:implementation.system class="org.sca4j.ftp.server.handler.StorRequestHandler"/>
-        <property name="idleTimeout" source="$config//idleTimeout"/>
+        <property name="idleTimeout" source="$serverConfig//idleTimeout"/>
     </component>
 
     <!-- QUIT Request Handler -->
@@ -154,21 +154,21 @@
     <!-- RETR Request Handler -->
     <component name="RetrRequestHandler" sca4j:key="RETR">
         <sca4j:implementation.system class="org.sca4j.ftp.server.handler.RetrRequestHandler"/>
-        <property name="idleTimeout" source="$config//idleTimeout"/>
+        <property name="idleTimeout" source="$serverConfig//idleTimeout"/>
     </component>
 
     <!-- User Manager -->
     <component name="FileSystemUserManager">
         <sca4j:implementation.system class="org.sca4j.ftp.server.security.FileSystemUserManager"/>
-        <property name="users" source="$config//users/*"/>
-        <property name="userFile" source="$config//userFile"/>
+        <property name="users" source="$serverConfig//users/*"/>
+        <property name="userFile" source="$serverConfig//userFile"/>
     </component>
 
     <!-- Passive Connection Service -->
     <component name="PassiveConnectionService">
         <sca4j:implementation.system class="org.sca4j.ftp.server.passive.PassiveConnectionServiceImpl"/>
-        <property name="minPort" source="$config//minPassivePort"/>
-        <property name="maxPort" source="$config//maxPassivePort"/>
+        <property name="minPort" source="$serverConfig//minPassivePort"/>
+        <property name="maxPort" source="$serverConfig//maxPassivePort"/>
     </component>
 
     <!-- FtpLet container -->
