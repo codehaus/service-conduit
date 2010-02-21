@@ -25,7 +25,7 @@
 
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-modules-parent-pom</artifactId>
-    <version>0.3.4</version>
+    <version>0.3.5-SNAPSHOT</version>
     <name>SCA4J Modules Parent POM</name>
     <description>SCA4J Modules Parent POM.</description>
     <packaging>pom</packaging>
@@ -93,9 +93,9 @@
     </build>
 
     <scm>
-        <connection>scm:svn:https://www.sca4j.org/svn/sca4j/modules/tags/sca4j-modules-parent-pom-0.3.4</connection>
-        <developerConnection>scm:svn:https://www.sca4j.org/svn/sca4j/modules/tags/sca4j-modules-parent-pom-0.3.4</developerConnection>
-        <url>http://www.sca4j.org/svn/sca4j/modules/tags/sca4j-modules-parent-pom-0.3.4</url>
+        <connection>scm:svn:https://www.sca4j.org/svn/sca4j/modules/trunk</connection>
+        <developerConnection>scm:svn:https://www.sca4j.org/svn/sca4j/modules/trunk</developerConnection>
+        <url>http://www.sca4j.org/svn/sca4j/modules/trunk</url>
     </scm>
     
 </project>
