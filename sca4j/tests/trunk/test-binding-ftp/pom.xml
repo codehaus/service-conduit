@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>ci</artifactId>
-        <version>0.3.4-SNAPSHOT</version>
+        <version>0.3.5-SNAPSHOT</version>
     </parent>
 
     <artifactId>test-binding-ftp</artifactId>
@@ -51,7 +51,6 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-maven-host</artifactId>
@@ -70,11 +69,6 @@
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-ftp-server</artifactId>
-            <version>${sca4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.sca4j</groupId>
-            <artifactId>test-ftp-server-extension</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
         <dependency>
@@ -112,6 +106,15 @@
                                 <web.server>
                                     <http port="8900"/>
                                 </web.server>
+                                <ftp.server>
+                                    <commandPort>2000</commandPort>
+                                    <minPassivePort>6000</minPassivePort>
+                                    <maxPassivePort>7000</maxPassivePort>
+                                    <idleTimeout>1</idleTimeout>
+                                    <users>
+                                        <meeraj>password</meeraj>
+                                    </users>
+                                </ftp.server>
                             </config>
                         ]]>
                     </systemConfig>
