@@ -19,17 +19,17 @@
 package org.sca4j.tutorial.order;
 
 import org.osoa.sca.annotations.Reference;
-import org.sca4j.tutorial.billing.BillingService;
-import org.sca4j.tutorial.shipping.ShippingService;
+import org.sca4j.tutorial.billing.BillingComponent;
+import org.sca4j.tutorial.shipping.ShippingComponent;
 
-public class OrderComponent implements OrderService {
+public class OrderComponent {
     
-    @Reference protected BillingService billingService;
-    @Reference protected ShippingService shippingService;
+    @Reference protected BillingComponent billingComponent;
+    @Reference protected ShippingComponent shippingComponent;
 
     public boolean placeOrder(String productName, String address, String creditCard) {
-        if (billingService.bill(address, creditCard, 2.0)) {
-            shippingService.ship(productName, address);
+        if (billingComponent.bill(address, creditCard, 2.0)) {
+            shippingComponent.ship(productName, address);
             return true;
         }
         return false;

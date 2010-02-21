@@ -24,10 +24,10 @@ import junit.framework.TestCase;
 
 public class OrderITest extends TestCase {
     
-    @Reference protected OrderService orderService;
+    @Reference protected OrderComponent orderComponent;
 
     public void testPlaceOrder() {
-        assertTrue(orderService.placeOrder("Pizza", "70 Byron Road", "12345"));
+        assertTrue(orderComponent.placeOrder("Pizza", "70 Byron Road", "12345"));
     }
 
 }
