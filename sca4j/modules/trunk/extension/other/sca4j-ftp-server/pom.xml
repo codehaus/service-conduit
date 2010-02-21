@@ -87,6 +87,9 @@
                 <artifactId>sca4j-contribution-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
+                    <deployables>
+                        <deployable>META-INF/ftpserver.composite</deployable>
+                    </deployables>
                 </configuration>
             </plugin>
         </plugins>
