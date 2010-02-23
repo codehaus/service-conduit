@@ -18,20 +18,17 @@
  */
 package org.sca4j.tutorial.order;
 
+import java.util.Map;
+
 import org.osoa.sca.annotations.Reference;
-import org.sca4j.tutorial.billing.BillingComponent;
 import org.sca4j.tutorial.shipping.ShippingComponent;
 
 public class OrderComponent {
     
-    @Reference protected BillingComponent billingComponent;
-    @Reference protected ShippingComponent shippingComponent;
+    @Reference protected Map<String, ShippingComponent> shippingComponents;
 
-    public boolean placeOrder(String productName, String address, String creditCard) {
-        if (billingComponent.bill(address, creditCard, 2.0)) {
-            shippingComponent.ship(productName, address);
-            return true;
-        }
+    public boolean placeOrder(String productName, String address, String delivery) {
+        shippingComponents.get(delivery).ship(productName, address);
         return false;
     }
 
