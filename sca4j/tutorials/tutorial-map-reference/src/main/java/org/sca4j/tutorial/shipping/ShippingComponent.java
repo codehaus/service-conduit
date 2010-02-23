@@ -16,23 +16,10 @@
  * This project contains code licensed from the Apache Software Foundation under
  * the Apache License, Version 2.0 and original code from project contributors.
  */
-package org.sca4j.tutorial.order;
+package org.sca4j.tutorial.shipping;
 
-import org.osoa.sca.annotations.Reference;
-import org.sca4j.tutorial.billing.BillingComponent;
-import org.sca4j.tutorial.shipping.ShippingComponent;
+public interface ShippingComponent {
 
-public class OrderComponent {
-    
-    @Reference protected BillingComponent billingComponent;
-    @Reference protected ShippingComponent shippingComponent;
-
-    public boolean placeOrder(String productName, String address, String creditCard) {
-        if (billingComponent.bill(address, creditCard, 2.0)) {
-            shippingComponent.ship(productName, address);
-            return true;
-        }
-        return false;
-    }
+    public void ship(String productName, String address);
 
 }

@@ -19,20 +19,15 @@
 package org.sca4j.tutorial.order;
 
 import org.osoa.sca.annotations.Reference;
-import org.sca4j.tutorial.billing.BillingComponent;
-import org.sca4j.tutorial.shipping.ShippingComponent;
 
-public class OrderComponent {
+import junit.framework.TestCase;
+
+public class OrderITest extends TestCase {
     
-    @Reference protected BillingComponent billingComponent;
-    @Reference protected ShippingComponent shippingComponent;
+    @Reference protected OrderComponent orderComponent;
 
-    public boolean placeOrder(String productName, String address, String creditCard) {
-        if (billingComponent.bill(address, creditCard, 2.0)) {
-            shippingComponent.ship(productName, address);
-            return true;
-        }
-        return false;
+    public void testPlaceOrder() {
+        assertTrue(orderComponent.placeOrder("Pizza", "70 Byron Road", "standard"));
     }
 
 }
