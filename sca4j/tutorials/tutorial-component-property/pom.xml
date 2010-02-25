@@ -41,19 +41,15 @@
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-        </dependency>
     </dependencies>
 
-    <!--build>
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.sca4j</groupId>
                 <artifactId>sca4j-itest-plugin</artifactId>
             </plugin>
         </plugins>
-    </build-->
+    </build>
 
 </project>
