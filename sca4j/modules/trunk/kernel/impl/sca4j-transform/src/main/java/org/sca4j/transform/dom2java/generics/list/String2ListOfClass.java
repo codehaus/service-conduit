@@ -52,61 +52,22 @@
  */
 package org.sca4j.transform.dom2java.generics.list;
 
-import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
-
-import javax.xml.namespace.QName;
-
-import org.sca4j.scdl.DataType;
-import org.sca4j.spi.model.type.JavaParameterizedType;
-import org.sca4j.transform.AbstractPullTransformer;
-import org.sca4j.transform.TransformContext;
 import org.sca4j.transform.TransformationException;
-import org.w3c.dom.Node;
 
-/**
- * Converts a String value to a list of QNames. Expects the property to be defined in the format,
- * <p/>
- * <code> value1, value2, value3 </code>
- * <p/>
- * where values correspond to the format specified by {@link QName#valueOf(String)}.
- *
- * @version $Rev: 1570 $ $Date: 2007-10-20 14:24:19 +0100 (Sat, 20 Oct 2007) $
- */
-public class String2ListOfClass extends AbstractPullTransformer<Node, List<Class<?>>> {
+@SuppressWarnings("unchecked")
+public class String2ListOfClass extends String2List<Class> {
 
-    private static List<Class<?>> FIELD = null;
-    private static JavaParameterizedType TARGET = null;
+    public String2ListOfClass() {
+        super(Class.class);
+    }
 
-    static {
+    @Override
+    protected Class build(String value) throws TransformationException {
         try {
-            ParameterizedType parameterizedType = (ParameterizedType) String2ListOfClass.class.getDeclaredField("FIELD").getGenericType();
-            TARGET = new JavaParameterizedType(parameterizedType);
-        } catch (NoSuchFieldException ignore) {
+            return Class.forName(value);
+        } catch (ClassNotFoundException e) {
+            throw new TransformationException(e);
         }
     }
-
-    public DataType<?> getTargetType() {
-        return TARGET;
-    }
-
-    public List<Class<?>> transform(final Node node, final TransformContext context) throws TransformationException {
-
-        final List<Class<?>> list = new ArrayList<Class<?>>();
-        final StringTokenizer tokenizer = new StringTokenizer(node.getTextContent(), " \t\n\r\f,");
-
-        while (tokenizer.hasMoreElements()) {
-            try {
-                list.add(Class.forName(tokenizer.nextToken()));
-            } catch (ClassNotFoundException e) {
-                throw new TransformationException(e);
-            }
-        }
-
-        return list;
-
-    }
-
+    
 }

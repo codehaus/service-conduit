@@ -52,57 +52,16 @@
  */
 package org.sca4j.transform.dom2java.generics.list;
 
-import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
 
-import javax.xml.namespace.QName;
+public class String2ListOfFloat extends String2List<Float> {
 
-import org.sca4j.scdl.DataType;
-import org.sca4j.spi.model.type.JavaParameterizedType;
-import org.sca4j.transform.AbstractPullTransformer;
-import org.sca4j.transform.TransformContext;
-import org.sca4j.transform.TransformationException;
-import org.w3c.dom.Node;
-
-/**
- * Converts a String value to a list of QNames. Expects the property to be defined in the format,
- * <p/>
- * <code> value1, value2, value3 </code>
- * <p/>
- * where values correspond to the format specified by {@link QName#valueOf(String)}.
- *
- * @version $Rev: 1570 $ $Date: 2007-10-20 14:24:19 +0100 (Sat, 20 Oct 2007) $
- */
-public class String2ListOfFloat extends AbstractPullTransformer<Node, List<Float>> {
-
-    private static List<Float> FIELD = null;
-    private static JavaParameterizedType TARGET = null;
-
-    static {
-        try {
-            ParameterizedType parameterizedType = (ParameterizedType) String2ListOfFloat.class.getDeclaredField("FIELD").getGenericType();
-            TARGET = new JavaParameterizedType(parameterizedType);
-        } catch (NoSuchFieldException ignore) {
-        }
+    public String2ListOfFloat() {
+        super(Float.class);
     }
 
-    public DataType<?> getTargetType() {
-        return TARGET;
+    @Override
+    protected Float build(String value) {
+        return Float.valueOf(value);
     }
-
-    public List<Float> transform(final Node node, final TransformContext context) throws TransformationException {
-
-        final List<Float> list = new ArrayList<Float>();
-        final StringTokenizer tokenizer = new StringTokenizer(node.getTextContent(), " \t\n\r\f,");
-
-        while (tokenizer.hasMoreElements()) {
-            list.add(Float.valueOf(tokenizer.nextToken()));
-        }
-
-        return list;
-
-    }
-
+    
 }

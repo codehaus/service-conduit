@@ -71,6 +71,7 @@
 package org.sca4j.spi.model.type;
 
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 import org.sca4j.scdl.DataType;
 
@@ -79,10 +80,13 @@ import org.sca4j.scdl.DataType;
  * @version $Revision$ $Date$
  */
 public class JavaParameterizedType extends DataType<ParameterizedType> {
-    private static final long serialVersionUID = -8832071773275935399L;
 
     public JavaParameterizedType(ParameterizedType parameterizedType) {
         super(parameterizedType, parameterizedType);
+    }
+
+    public JavaParameterizedType(Type rawType, Type ... formalParameters) {
+        super(new ParameterizedTypeImpl(formalParameters, rawType), new ParameterizedTypeImpl(formalParameters, rawType));
     }
 
 }

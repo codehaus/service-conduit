@@ -84,7 +84,7 @@ import java.lang.reflect.Type;
  * Class)
  */
 public class DataType<L> extends ModelObject {
-    private static final long serialVersionUID = 1848442023940979720L;
+    
     private final Type physical;
     private final L logical;
 
@@ -95,7 +95,6 @@ public class DataType<L> extends ModelObject {
      * @param logical  the logical type identifier
      */
     public DataType(Type physical, L logical) {
-        assert physical != null && logical != null;
         this.physical = physical;
         this.logical = logical;
     }

@@ -52,17 +52,53 @@
  */
 package org.sca4j.transform.dom2java.generics.list;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
 import javax.xml.namespace.QName;
 
-public class String2ListOfQName extends String2List<QName> {
+import org.sca4j.scdl.DataType;
+import org.sca4j.spi.model.type.JavaParameterizedType;
+import org.sca4j.transform.AbstractPullTransformer;
+import org.sca4j.transform.TransformContext;
+import org.sca4j.transform.TransformationException;
+import org.w3c.dom.Node;
 
-    public String2ListOfQName() {
-        super(QName.class);
+/**
+ * Converts a String value to a list of QNames. Expects the property to be defined in the format,
+ * <p/>
+ * <code> value1, value2, value3 </code>
+ * <p/>
+ * where values correspond to the format specified by {@link QName#valueOf(String)}.
+ *
+ * @version $Rev: 1570 $ $Date: 2007-10-20 14:24:19 +0100 (Sat, 20 Oct 2007) $
+ */
+public abstract class String2List<T> extends AbstractPullTransformer<Node, List<T>> {
+
+    private final JavaParameterizedType target;
+    
+    public String2List(final Class<T> typeParameter) {
+        target = new JavaParameterizedType(List.class, typeParameter);
     }
 
-    @Override
-    protected QName build(String value) {
-        return QName.valueOf(value);
+    public DataType<?> getTargetType() {
+        return target;
+    }
+
+    public List<T> transform(final Node node, final TransformContext context) throws TransformationException {
+
+        final List<T> list = new ArrayList<T>();
+        final StringTokenizer tokenizer = new StringTokenizer(node.getTextContent(), " \t\n\r\f,");
+
+        while (tokenizer.hasMoreElements()) {
+            list.add(build(tokenizer.nextToken()));
+        }
+
+        return list;
+
     }
     
+    protected abstract T build(String value) throws TransformationException;
+
 }

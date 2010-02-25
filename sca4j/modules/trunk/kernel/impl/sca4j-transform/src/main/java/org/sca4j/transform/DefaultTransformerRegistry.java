@@ -52,23 +52,25 @@
  */
 package org.sca4j.transform;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.sca4j.scdl.DataType;
-import org.sca4j.transform.Transformer;
-import org.sca4j.transform.TransformerRegistry;
 
 /**
  * @version $Rev: 3524 $ $Date: 2008-03-31 22:43:51 +0100 (Mon, 31 Mar 2008) $
  */
 public class DefaultTransformerRegistry<T extends Transformer> implements TransformerRegistry<T> {
-    private final Map<TransformerPair, T> transformers = new ConcurrentHashMap<TransformerPair, T>();
+    
+    // Using this instead of a map, as Sun's implementation of ParameterizedType doesn't have a proper hashCode
+    private final List<TransformerPair> keys = new LinkedList<TransformerPair>();
+    private final List<T> transformers = new LinkedList<T>();
 
     
     public void register(T transformer) {
         TransformerPair pair = new TransformerPair(transformer.getSourceType(), transformer.getTargetType());
-        transformers.put(pair, transformer);
+        keys.add(pair);
+        transformers.add(transformer);
     }
 
     public void unregister(T transformer) {
@@ -78,7 +80,7 @@ public class DefaultTransformerRegistry<T extends Transformer> implements Transf
 
     public T getTransformer(DataType<?> source, DataType<?> target) {
         TransformerPair pair = new TransformerPair(source, target);
-        return transformers.get(pair);
+        return transformers.get(keys.indexOf(pair));
     }
 
     private static class TransformerPair {
