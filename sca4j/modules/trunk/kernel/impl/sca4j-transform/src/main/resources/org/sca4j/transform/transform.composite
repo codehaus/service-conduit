@@ -141,6 +141,41 @@
         <reference name="registry" target="PullTransformerRegistry"/>
     </component>
 
+    <component name="String2MapOfString2Byte">
+        <sca4j:implementation.system class="org.sca4j.transform.dom2java.generics.map.String2MapOfString2Byte"/>
+        <reference name="registry" target="PullTransformerRegistry"/>
+    </component>
+
+    <component name="String2MapOfString2Short">
+        <sca4j:implementation.system class="org.sca4j.transform.dom2java.generics.map.String2MapOfString2Short"/>
+        <reference name="registry" target="PullTransformerRegistry"/>
+    </component>
+
+    <component name="String2MapOfString2Int">
+        <sca4j:implementation.system class="org.sca4j.transform.dom2java.generics.map.String2MapOfString2Int"/>
+        <reference name="registry" target="PullTransformerRegistry"/>
+    </component>
+
+    <component name="String2MapOfString2Float">
+        <sca4j:implementation.system class="org.sca4j.transform.dom2java.generics.map.String2MapOfString2Float"/>
+        <reference name="registry" target="PullTransformerRegistry"/>
+    </component>
+
+    <component name="String2MapOfString2Double">
+        <sca4j:implementation.system class="org.sca4j.transform.dom2java.generics.map.String2MapOfString2Double"/>
+        <reference name="registry" target="PullTransformerRegistry"/>
+    </component>
+
+    <component name="String2MapOfString2Long">
+        <sca4j:implementation.system class="org.sca4j.transform.dom2java.generics.map.String2MapOfString2Long"/>
+        <reference name="registry" target="PullTransformerRegistry"/>
+    </component>
+
+    <component name="String2MapOfString2Class">
+        <sca4j:implementation.system class="org.sca4j.transform.dom2java.generics.map.String2MapOfString2Class"/>
+        <reference name="registry" target="PullTransformerRegistry"/>
+    </component>
+
     <component name="String2MapOfQname2Class">
         <sca4j:implementation.system class="org.sca4j.transform.dom2java.generics.map.String2MapOfQName2Class"/>
         <reference name="registry" target="PullTransformerRegistry"/>
@@ -156,26 +191,44 @@
         <reference name="registry" target="PullTransformerRegistry"/>
     </component>
 
+    <component name="String2ListOfByte">
+        <sca4j:implementation.system class="org.sca4j.transform.dom2java.generics.list.String2ListOfByte"/>
+        <reference name="registry" target="PullTransformerRegistry"/>
+    </component>
+
+    <component name="String2ListOfShort">
+        <sca4j:implementation.system class="org.sca4j.transform.dom2java.generics.list.String2ListOfShort"/>
+        <reference name="registry" target="PullTransformerRegistry"/>
+    </component>
+
+    <component name="String2ListOfFloat">
+        <sca4j:implementation.system class="org.sca4j.transform.dom2java.generics.list.String2ListOfFloat"/>
+        <reference name="registry" target="PullTransformerRegistry"/>
+    </component>
+
+    <component name="String2ListOfInt">
+        <sca4j:implementation.system class="org.sca4j.transform.dom2java.generics.list.String2ListOfInt"/>
+        <reference name="registry" target="PullTransformerRegistry"/>
+    </component>
+
+    <component name="String2ListOfLong">
+        <sca4j:implementation.system class="org.sca4j.transform.dom2java.generics.list.String2ListOfLong"/>
+        <reference name="registry" target="PullTransformerRegistry"/>
+    </component>
+
+    <component name="String2ListOfDouble">
+        <sca4j:implementation.system class="org.sca4j.transform.dom2java.generics.list.String2ListOfDouble"/>
+        <reference name="registry" target="PullTransformerRegistry"/>
+    </component>
+
+    <component name="String2ListOfClass">
+        <sca4j:implementation.system class="org.sca4j.transform.dom2java.generics.list.String2ListOfClass"/>
+        <reference name="registry" target="PullTransformerRegistry"/>
+    </component>
+
     <component name="String2Properties">
         <sca4j:implementation.system class="org.sca4j.transform.dom2java.String2Properties"/>
         <reference name="registry" target="PullTransformerRegistry"/>
     </component>
-
-<!--
-    <component name="Element2Stream">
-        <sca4j:implementation.system class="org.sca4j.transform.xml.Element2Stream"/>
-        <reference name="registry" target="PullTransformerRegistry"/>
-    </component>
-
-    <component name="Stream2Stream">
-        <sca4j:implementation.system class="org.sca4j.transform.xml.Stream2Stream"/>
-        <reference name="registry" target="pushTransformerRegistry"/>
-    </component>
-
-    <component name="Stream2Element">
-        <sca4j:implementation.system class="org.sca4j.transform.xml.Stream2Element"/>
-        <reference name="registry" target="pushTransformerRegistry"/>
-    </component>
--->
 
 </composite>

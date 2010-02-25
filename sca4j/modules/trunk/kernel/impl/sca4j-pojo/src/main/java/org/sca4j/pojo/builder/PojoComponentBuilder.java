@@ -153,7 +153,11 @@ public abstract class PojoComponentBuilder<T, PCD extends PojoComponentDefinitio
             if (type instanceof Class<?>) {
                 Class<?> clazz = (Class<?>) type;
                 if (clazz.isAnnotationPresent(XmlRootElement.class)) {
-                    Object instance = JAXBContext.newInstance(clazz).createUnmarshaller().unmarshal(value.getFirstChild());
+                    Node jaxbNode = value.getFirstChild();
+                    while (jaxbNode.getNodeType() != Node.ELEMENT_NODE) {
+                        jaxbNode = jaxbNode.getNextSibling();
+                    }
+                    Object instance = JAXBContext.newInstance(clazz).createUnmarshaller().unmarshal(jaxbNode);
                     return new SingletonObjectFactory(instance);
                 }
             }
