@@ -52,65 +52,17 @@
  */
 package org.sca4j.transform.dom2java.generics.map;
 
-import java.lang.reflect.ParameterizedType;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.sca4j.scdl.DataType;
-import org.sca4j.spi.model.type.JavaParameterizedType;
-import org.sca4j.transform.TransformContext;
 import org.sca4j.transform.TransformationException;
-import org.sca4j.transform.AbstractPullTransformer;
 
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+public class String2MapOfString2Double  extends String2MapOfString<Double> {
 
-/**
- * Expects the property to be dfined in the format,
- * <p/>
- * <code> <key1>value1</key1> <key2>value2</key2> </code>
- *
- * @version $Rev: 1570 $ $Date: 2007-10-20 14:24:19 +0100 (Sat, 20 Oct 2007) $
- */
-public class String2MapOfString2Double extends AbstractPullTransformer<Node, Map<String, Double>> {
-    
-    private static Map<String, Double> FIELD = null;
-    private static JavaParameterizedType TARGET = null;
-    
-    static {
-        try {
-            ParameterizedType parameterizedType = (ParameterizedType) String2MapOfString2Double.class.getDeclaredField("FIELD").getGenericType();
-            TARGET = new JavaParameterizedType(parameterizedType);
-        } catch (NoSuchFieldException ignore) {
-        }
+    public String2MapOfString2Double() {
+        super(Double.class);
     }
 
-    /**
-     * @see org.sca4j.transform.Transformer#getTargetType()
-     */
-    public DataType<?> getTargetType() {
-        return TARGET;
+    @Override
+    protected Double buildValue(String textContent) throws TransformationException {
+        return Double.valueOf(textContent);
     }
-
-    /**
-     * @see org.sca4j.transform.PullTransformer#transform(java.lang.Object, org.sca4j.transform.TransformContext)
-     */
-    public Map<String, Double> transform(final Node node, final TransformContext context)
-            throws TransformationException {
-
-        final Map<String, Double> map = new HashMap<String, Double>();
-        final NodeList nodeList = node.getChildNodes();
-
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Node child = nodeList.item(i);
-            if (child instanceof Element) {
-                Element element = (Element) child;
-                map.put(element.getTagName(), Double.valueOf(child.getTextContent()));
-            }
-        }
-        return map;
-    }
-    
     
 }

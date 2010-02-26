@@ -54,15 +54,15 @@ package org.sca4j.transform.dom2java.generics.map;
 
 import org.sca4j.transform.TransformationException;
 
-public class String2MapOfString2Long  extends String2MapOfString<Long> {
+public abstract class String2MapOfString<V> extends String2Map<String, V> {
 
-    public String2MapOfString2Long() {
-        super(Long.class);
+    public String2MapOfString(Class<V> valueClass) {
+        super(String.class, valueClass);
     }
 
     @Override
-    protected Long buildValue(String textContent) throws TransformationException {
-        return Long.valueOf(textContent);
+    protected String buildKey(String tagName, String namespaceUri) throws TransformationException {
+        return tagName;
     }
     
 }

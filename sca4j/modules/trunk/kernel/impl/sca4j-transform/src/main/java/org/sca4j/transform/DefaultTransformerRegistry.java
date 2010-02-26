@@ -52,7 +52,8 @@
  */
 package org.sca4j.transform;
 
-import java.util.LinkedList;
+import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.sca4j.scdl.DataType;
@@ -63,8 +64,8 @@ import org.sca4j.scdl.DataType;
 public class DefaultTransformerRegistry<T extends Transformer> implements TransformerRegistry<T> {
     
     // Using this instead of a map, as Sun's implementation of ParameterizedType doesn't have a proper hashCode
-    private final List<TransformerPair> keys = new LinkedList<TransformerPair>();
-    private final List<T> transformers = new LinkedList<T>();
+    private final List<TransformerPair> keys = new ArrayList<TransformerPair>();
+    private final List<T> transformers = new ArrayList<T>();
 
     
     public void register(T transformer) {
@@ -80,6 +81,18 @@ public class DefaultTransformerRegistry<T extends Transformer> implements Transf
 
     public T getTransformer(DataType<?> source, DataType<?> target) {
         TransformerPair pair = new TransformerPair(source, target);
+        if (keys.indexOf(pair) < 0) {
+            for (TransformerPair pair1 : keys) {
+                if (pair1.target.getLogical() instanceof ParameterizedType) {
+                    ParameterizedType parameterizedType = (ParameterizedType) pair1.target.getLogical();
+                    if (parameterizedType.getActualTypeArguments().length == 2) {
+                        System.err.println(parameterizedType.getActualTypeArguments()[0] + ":" + parameterizedType.getActualTypeArguments()[1]);
+                    }
+                }
+            }
+            boolean foo = true;
+            foo = !foo;
+        }
         return transformers.get(keys.indexOf(pair));
     }
 

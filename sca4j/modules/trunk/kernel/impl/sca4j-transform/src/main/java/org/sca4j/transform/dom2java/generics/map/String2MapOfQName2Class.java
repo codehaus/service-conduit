@@ -53,76 +53,44 @@
 package org.sca4j.transform.dom2java.generics.map;
 
 import java.lang.reflect.ParameterizedType;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
 
 import org.sca4j.scdl.DataType;
 import org.sca4j.spi.model.type.JavaParameterizedType;
-import org.sca4j.transform.AbstractPullTransformer;
-import org.sca4j.transform.TransformContext;
 import org.sca4j.transform.TransformationException;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
-/**
- * Expects the property to be dfined in the format,
- * <p/>
- * <code> <key1>value1</key1> <key2>value2</key2> </code>
- *
- * @version $Rev: 1570 $ $Date: 2007-10-20 14:24:19 +0100 (Sat, 20 Oct 2007) $
- */
-public class String2MapOfQName2Class extends AbstractPullTransformer<Node, Map<QName, Class<?>>> {
+@SuppressWarnings("unchecked")
+public class String2MapOfQName2Class extends String2Map<QName, Class> {
     
-    private static Map<QName, Class<?>> FIELD = null;
-    private static JavaParameterizedType TARGET = null;
-    
-    
-    static {
-        try {
-            ParameterizedType parameterizedType = (ParameterizedType) String2MapOfQName2Class.class.getDeclaredField("FIELD").getGenericType();
-            TARGET = new JavaParameterizedType(parameterizedType);
-        } catch (NoSuchFieldException ignore) {
-            throw new AssertionError();
-        }
+    private static Map<QName, Class<?>> FIELD;
+
+    public String2MapOfQName2Class() {
+        super(QName.class, Class.class);
     }
 
-    /**
-     * @see org.sca4j.transform.Transformer#getTargetType()
-     */
+    @Override
     public DataType<?> getTargetType() {
-        return TARGET;
+        try {
+            return new JavaParameterizedType((ParameterizedType) String2MapOfQName2Class.class.getDeclaredField("FIELD").getGenericType());
+        } catch (NoSuchFieldException e) {
+            throw new AssertionError(e);
+        }
     }
 
-    /**
-     * @see org.sca4j.transform.PullTransformer#transform(java.lang.Object, org.sca4j.transform.TransformContext)
-     */
-    public Map<QName, Class<?>> transform(final Node node, final TransformContext context) throws TransformationException {
+    @Override
+    protected QName buildKey(String tagName, String namespaceUri) throws TransformationException {
+        return new QName(namespaceUri, tagName);
+    }
 
-        final Map<QName, Class<?>> map = new HashMap<QName, Class<?>>();
-        final NodeList nodeList = node.getChildNodes();
-
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Node child = nodeList.item(i);
-            if (child instanceof Element) {
-                Element element = (Element) child;
-                
-                String localPart = element.getTagName();
-                String namespaceUri = element.getNamespaceURI();
-                QName qname = new QName(namespaceUri, localPart);
-                String classText = element.getTextContent();
-
-                try {
-                    Class<?> clazz = getClass().getClassLoader().loadClass(classText);
-                    map.put(qname, clazz);
-                } catch (ClassNotFoundException e) {
-                    throw new TransformationException(e);
-                }
-            }
+    @Override
+    protected Class buildValue(String textContent) throws TransformationException {
+        try {
+            return Class.forName(textContent);
+        } catch (ClassNotFoundException e) {
+            throw new TransformationException(e);
         }
-        return map;
     }
     
     

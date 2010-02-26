@@ -52,17 +52,63 @@
  */
 package org.sca4j.transform.dom2java.generics.map;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.sca4j.scdl.DataType;
+import org.sca4j.spi.model.type.JavaParameterizedType;
+import org.sca4j.transform.AbstractPullTransformer;
+import org.sca4j.transform.TransformContext;
 import org.sca4j.transform.TransformationException;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
-public class String2MapOfString2Long  extends String2MapOfString<Long> {
+/**
+ * Expects the property to be dfined in the format,
+ * <p/>
+ * <code> <key1>value1</key1> <key2>value2</key2> </code>
+ *
+ * @version $Rev: 1570 $ $Date: 2007-10-20 14:24:19 +0100 (Sat, 20 Oct 2007) $
+ */
+public abstract class String2Map<K, V> extends AbstractPullTransformer<Node, Map<K, V>> {
 
-    public String2MapOfString2Long() {
-        super(Long.class);
+    private final JavaParameterizedType target;
+    
+    public String2Map(final Class<K> keyType, Class<V> valueType) {
+        target = new JavaParameterizedType(Map.class, keyType, valueType);
     }
 
-    @Override
-    protected Long buildValue(String textContent) throws TransformationException {
-        return Long.valueOf(textContent);
+    /**
+     * @see org.sca4j.transform.Transformer#getTargetType()
+     */
+    public DataType<?> getTargetType() {
+        return target;
     }
+
+    /**
+     * @see org.sca4j.transform.PullTransformer#transform(java.lang.Object, org.sca4j.transform.TransformContext)
+     */
+    public Map<K, V> transform(final Node node, final TransformContext context) throws TransformationException {
+
+        final Map<K, V> map = new HashMap<K, V>();
+        final NodeList nodeList = node.getChildNodes();
+
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node child = nodeList.item(i);
+            if (child instanceof Element) {
+                Element element = (Element) child;
+                K key = buildKey(element.getTagName(), element.getNamespaceURI());
+                V value = buildValue(element.getTextContent());
+                map.put(key, value);
+            }
+        }
+        return map;
+    }
+
+    protected abstract K buildKey(String tagName, String namespaceUri) throws TransformationException;
+
+    protected abstract V buildValue(String textContent) throws TransformationException;
+    
     
 }
