@@ -85,6 +85,7 @@ public class PhysicalOperationHelperImpl implements PhysicalOperationHelper {
 
     }
 
+    @SuppressWarnings({"unchecked"})
     public String getClassName(Type paramType) {
 
         // TODO this needs to be fixed

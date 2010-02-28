@@ -62,6 +62,7 @@ import java.util.Set;
 import javax.xml.namespace.QName;
 
 import org.osoa.sca.annotations.Reference;
+import org.sca4j.fabric.component.scope.RequestScopeInterceptorDefinition;
 import org.sca4j.scdl.BindingDefinition;
 import org.sca4j.scdl.Implementation;
 import org.sca4j.scdl.Operation;
@@ -259,6 +260,11 @@ public class PhysicalWireGeneratorImpl implements PhysicalWireGenerator {
         PhysicalWireSourceDefinition sourceDefinition = sourceGenerator.generateWireSource(binding, sourcePolicy, service.getDefinition());
 
         Set<PhysicalOperationDefinition> operations = generateOperations(contract, policyResult, binding);
+        if (binding.getBinding().isRemote()) {
+            for (PhysicalOperationDefinition pod : operations) {
+                pod.getInterceptors().add(new RequestScopeInterceptorDefinition());
+            }
+        }
         PhysicalWireDefinition pwd = new PhysicalWireDefinition(sourceDefinition, targetDefinition, operations);
         boolean optimizable = sourceDefinition.isOptimizable() &&
                 targetDefinition.isOptimizable() &&

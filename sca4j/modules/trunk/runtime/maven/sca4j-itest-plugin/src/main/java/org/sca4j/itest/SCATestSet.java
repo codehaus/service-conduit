@@ -119,12 +119,10 @@ public class SCATestSet implements SurefireTestSet {
             } catch (TestSetFailedException e) {
                 StackTraceWriter stw = new PojoStackTraceWriter(name, operationName, e.getCause());
                 reporterManager.testFailed(new ReportEntry(this, operationName, name, stw));
-            } catch (AssertionError e) {
-                StackTraceWriter stw = new PojoStackTraceWriter(name, operationName, e.getCause());
-                reporterManager.testFailed(new ReportEntry(this, operationName, name, stw));
             } catch (Throwable e) {
                 StackTraceWriter stw = new PojoStackTraceWriter(name, operationName, e.getCause());
                 reporterManager.testError(new ReportEntry(this, operationName, name, stw));
+                e.printStackTrace();
             }
         }
     }

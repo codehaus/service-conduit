@@ -65,5 +65,6 @@ public class JMXBinding extends BindingDefinition {
 
     public JMXBinding() {
         super(null, TYPE, null);
+        setRemote(false);
     }
 }

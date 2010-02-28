@@ -104,7 +104,6 @@ public class ReferenceWireCommandGenerator implements AddCommandGenerator {
         return order;
     }
 
-    @SuppressWarnings("unchecked")
     public AttachWireCommand generate(LogicalComponent<?> component) throws GenerationException {
         if (component instanceof LogicalCompositeComponent) {
             return null;

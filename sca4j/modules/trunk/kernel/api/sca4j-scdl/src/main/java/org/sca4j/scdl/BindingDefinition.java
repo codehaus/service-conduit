@@ -87,6 +87,7 @@ public abstract class BindingDefinition extends AbstractPolicyAware {
     private URI targetUri;
     private QName type;
     private Document key;
+    private boolean remote = true;
 
     public BindingDefinition(URI targetUri, QName type, Document key) {
         this.targetUri = targetUri;
@@ -104,6 +105,14 @@ public abstract class BindingDefinition extends AbstractPolicyAware {
     
     public Document getKey() {
     	return key;
+    }
+    
+    public boolean isRemote() {
+        return remote;
+    }
+    
+    public void setRemote(boolean remote) {
+        this.remote = remote;
     }
     
 }

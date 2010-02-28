@@ -65,5 +65,6 @@ public class TestBindingDefinition extends BindingDefinition {
 
     public TestBindingDefinition(URI targetUri, Document key) {
         super(targetUri, TestBindingLoader.BINDING_QNAME, key);
+        setRemote(false);
     }
 }

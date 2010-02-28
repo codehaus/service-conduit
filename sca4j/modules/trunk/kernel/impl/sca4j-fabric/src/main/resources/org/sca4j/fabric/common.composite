@@ -111,6 +111,14 @@
         <reference name="store" target="MemoryStore"/>
     </component>
 
+    <component name="RequestScopeContainer">
+        <sca4j:implementation.system class="org.sca4j.fabric.component.scope.RequestScopeContainer"/>
+    </component>
+    
+    <component name="RequestScopeInterceptorBuilder" sca4j:key="org.sca4j.fabric.component.scope.RequestScopeInterceptorDefinition" >
+        <sca4j:implementation.system class="org.sca4j.fabric.component.scope.RequestScopeInterceptorBuilder"/>
+    </component>
+    
     <component name="MemoryStore">
         <sca4j:implementation.system class="org.sca4j.fabric.component.scope.NonExpiringMemoryStore"/>
     </component>

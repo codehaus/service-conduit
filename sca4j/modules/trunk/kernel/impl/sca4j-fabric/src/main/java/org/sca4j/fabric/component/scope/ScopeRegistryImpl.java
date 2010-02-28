@@ -86,7 +86,7 @@ public class ScopeRegistryImpl implements ScopeRegistry {
     private final Map<String, ScopeContainer<?>> scopes = new ConcurrentHashMap<String, ScopeContainer<?>>();
 
     public synchronized <T> void register(ScopeContainer<T> container) {
-        Scope scope = container.getScope();
+        Scope<T> scope = container.getScope();
         scopes.put(scope.getScope(), container);
     }
 

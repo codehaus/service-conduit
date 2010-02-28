@@ -62,7 +62,7 @@ import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
  */
 public interface PhysicalOperationHelper {
 
-    public abstract PhysicalOperationDefinition mapOperation(Operation o);
+    public abstract PhysicalOperationDefinition mapOperation(Operation<?> o);
 
     public abstract String getClassName(Type paramType);
 
