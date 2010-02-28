@@ -50,34 +50,21 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.tests.function.composite;
+package org.sca4j.tests.function.annotation.scope;
 
-import junit.framework.TestCase;
-import org.osoa.sca.annotations.Reference;
+import org.sca4j.api.annotation.scope.Request;
 
-import org.sca4j.tests.function.common.IdentityService;
-import org.sca4j.tests.function.common.Source;
+@Request
+public class RequestServiceImpl implements RequestService {
 
-/**
- * @version $Rev: 1738 $ $Date: 2007-11-04 19:13:27 +0000 (Sun, 04 Nov 2007) $
- */
-public class InnerCompositeTest extends TestCase {
-    @Reference
-    protected IdentityService inner;
-
-    @Reference
-    protected IdentityService innerSpecified;
-
-    @Reference
-    protected Source boundSource;
-
-    public void testInnerComposite() {
-        try {
-            assertEquals("innerOne", inner.getIdentity());
-            assertEquals("two", innerSpecified.getIdentity());
-            assertEquals("test", boundSource.invoke("test"));
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
+    private int value;
+    
+    public int getValue() {
+        return value;
     }
+
+    public void incrementValue() {
+        value++;        
+    }
+
 }

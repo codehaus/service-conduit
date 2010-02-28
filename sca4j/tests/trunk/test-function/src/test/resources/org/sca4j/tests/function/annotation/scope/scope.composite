@@ -63,6 +63,7 @@
         <reference name="conversationalService" target="ConversationalService"/>
         <reference name="annotatedStatelessService" target="AnnotatedStatelessService"/>
         <reference name="statelessService" target="StatelessService"/>  
+        <reference name="requestService" target="RequestService"/>  
         <reference name="compositeServiceOne" target="SimpleCompositeService"/>                          
         <reference name="compositeServiceTwo" target="SimpleCompositeService"/>
         <reference name="annotatedCompositeServiceOne" target="AnnotatedCompositeService"/>
@@ -75,6 +76,10 @@
     
     <component name="ConversationalService">
         <implementation.java class="org.sca4j.tests.function.annotation.scope.ConversationalServiceImpl"/>
+    </component>   
+    
+    <component name="RequestService">
+        <implementation.java class="org.sca4j.tests.function.annotation.scope.RequestServiceImpl"/>
     </component>
     
     <component name="AnnotatedStatelessService">

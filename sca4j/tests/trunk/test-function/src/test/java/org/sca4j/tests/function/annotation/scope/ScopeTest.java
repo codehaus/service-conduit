@@ -58,17 +58,19 @@ import junit.framework.TestCase;
 
 public class ScopeTest extends TestCase {
     
-    private ConversationalService annotatedConversationalService;
-    private ConversationalService conversationalService;
+    @Reference protected ConversationalService annotatedConversationalService;
+    @Reference protected ConversationalService conversationalService;
     
-    private StatelessService annotatedStatelessService;
-    private StatelessService statelessService;    
+    @Reference protected StatelessService annotatedStatelessService;
+    @Reference protected StatelessService statelessService;    
     
-    private CompositeService compositeServiceOne;
-    private CompositeService compositeServiceTwo;
+    @Reference protected CompositeService compositeServiceOne;
+    @Reference protected CompositeService compositeServiceTwo;
     
-    private CompositeService annotatedCompositeServiceOne;
-    private CompositeService annotatedCompositeServiceTwo;
+    @Reference protected CompositeService annotatedCompositeServiceOne;
+    @Reference protected CompositeService annotatedCompositeServiceTwo;
+    
+    @Reference protected RequestService requestService;
 
     
     public void testAnnotatedCompositeScope() throws Exception {
@@ -135,49 +137,14 @@ public class ScopeTest extends TestCase {
         
         conversationalService.incrementValue();
         assertEquals("Unexpected value", 2, conversationalService.getValue());        
-    }    
-
-    @Reference
-    public void setAnnotatedConversationalService(ConversationalService annotatedConversationalService) {
-        this.annotatedConversationalService = annotatedConversationalService;
-    }
-
-    @Reference
-    public void setConversationalService(ConversationalService conversationalService) {
-        this.conversationalService = conversationalService;
-    }
-
-    @Reference
-    public void setAnnotatedStatelessService(StatelessService annotatedStatelessService) {
-        this.annotatedStatelessService = annotatedStatelessService;
-    }
-
-    @Reference
-    public void setStatelessService(StatelessService statelessService) {
-        this.statelessService = statelessService;
-    }
-
-    @Reference
-    public void setCompositeServiceOne(CompositeService compositeServiceOne) {
-        this.compositeServiceOne = compositeServiceOne;
-    }
-
-    @Reference
-    public void setCompositeServiceTwo(CompositeService compositeServiceTwo) {
-        this.compositeServiceTwo = compositeServiceTwo;
-    }
-
-    @Reference
-    public void setAnnotatedCompositeServiceOne(CompositeService annotatedCompositeServiceOne) {
-        this.annotatedCompositeServiceOne = annotatedCompositeServiceOne;
-    }
-
-    @Reference
-    public void setAnnotatedCompositeServiceTwo(CompositeService annotatedCompositeServiceTwo) {
-        this.annotatedCompositeServiceTwo = annotatedCompositeServiceTwo;
     }
     
-    
-    
+    public void testRequestScope() throws Exception {
+        assertEquals("Unexpected initial value", 0, requestService.getValue());
+        requestService.incrementValue();
+        assertEquals("Unexpected value", 1, requestService.getValue());
+        requestService.incrementValue();
+        assertEquals("Unexpected value", 2, requestService.getValue());        
+    }
     
 }
