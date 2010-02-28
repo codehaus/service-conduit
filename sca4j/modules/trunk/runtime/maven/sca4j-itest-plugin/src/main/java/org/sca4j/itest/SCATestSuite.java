@@ -71,19 +71,20 @@
 package org.sca4j.itest;
 
 import java.util.Map;
-import java.util.HashMap;
+import java.util.TreeMap;
 
-import org.apache.maven.surefire.suite.SurefireTestSuite;
-import org.apache.maven.surefire.report.ReporterManager;
-import org.apache.maven.surefire.report.ReporterException;
 import org.apache.maven.surefire.report.ReportEntry;
+import org.apache.maven.surefire.report.ReporterException;
+import org.apache.maven.surefire.report.ReporterManager;
+import org.apache.maven.surefire.suite.SurefireTestSuite;
 import org.apache.maven.surefire.testset.TestSetFailedException;
 
 /**
  * @version $Rev: 5328 $ $Date: 2008-09-04 12:43:14 +0100 (Thu, 04 Sep 2008) $
  */
 public class SCATestSuite implements SurefireTestSuite {
-    private final Map<String, SCATestSet> testSets = new HashMap<String, SCATestSet>();
+    
+    private final Map<String, SCATestSet> testSets = new TreeMap<String, SCATestSet>();
     private int testSetCount = 0;
     private int testCount = 0;
 

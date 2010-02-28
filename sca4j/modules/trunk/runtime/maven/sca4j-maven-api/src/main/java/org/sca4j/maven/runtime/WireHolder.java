@@ -53,12 +53,14 @@
 package org.sca4j.maven.runtime;
 
 import java.net.URI;
-import java.util.Map;
+import java.util.List;
 
-import org.sca4j.spi.wire.Wire;
-
-public interface WireHolder extends Map<String, Wire> {
+public interface WireHolder {
     
     URI COMPONENT_URI = URI.create("sca4j://runtime/TestWireHolder");
+    
+    void addWire(TestWire testWire);
+    
+    List<TestWire> getWires();
 
 }

@@ -55,6 +55,7 @@ package org.sca4j.junit.runtime;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
 import org.sca4j.junit.provision.JUnitWireSourceDefinition;
+import org.sca4j.maven.runtime.TestWire;
 import org.sca4j.maven.runtime.WireHolder;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;
@@ -75,7 +76,7 @@ public class JunitSourceWireAttacher implements SourceWireAttacher<JUnitWireSour
         final String testName = source.getTestName();
         String test = System.getProperty("itest");
         if (test == null || test.equals(testName)) {
-            holder.put(testName, wire);
+            holder.addWire(new TestWire(testName, wire));
         }
     }
 

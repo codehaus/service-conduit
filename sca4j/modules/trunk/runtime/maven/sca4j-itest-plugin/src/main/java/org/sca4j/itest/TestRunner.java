@@ -62,7 +62,6 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -86,10 +85,10 @@ import org.sca4j.host.domain.DeploymentException;
 import org.sca4j.host.runtime.BootConfiguration;
 import org.sca4j.maven.runtime.ContextStartException;
 import org.sca4j.maven.runtime.MavenEmbeddedRuntime;
+import org.sca4j.maven.runtime.TestWire;
 import org.sca4j.maven.runtime.WireHolder;
 import org.sca4j.monitor.MonitorFactory;
 import org.sca4j.scdl.Composite;
-import org.sca4j.spi.wire.Wire;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -360,8 +359,8 @@ public class TestRunner {
         
         WireHolder wireHolder = runtime.getSystemComponent(WireHolder.class, WireHolder.COMPONENT_URI);
         SCATestSuite suite = new SCATestSuite();
-        for (Map.Entry<String, Wire> entry : wireHolder.entrySet()) {
-            SCATestSet testSet = new SCATestSet(entry.getKey(), entry.getValue());
+        for (TestWire testWire : wireHolder.getWires()) {
+            SCATestSet testSet = new SCATestSet(testWire.getName(), testWire.getWire());
             suite.add(testSet);
         }
         return suite;

@@ -52,63 +52,24 @@
  */
 package org.sca4j.junit.runtime;
 
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+import org.sca4j.maven.runtime.TestWire;
 import org.sca4j.maven.runtime.WireHolder;
-import org.sca4j.spi.wire.Wire;
 
 public class JUnitWireHolder implements WireHolder {
-    Map<String, Wire> wires = new LinkedHashMap<String, Wire>();
+    
+    private List<TestWire> wires = new ArrayList<TestWire>();
 
-    public int size() {
-        return wires.size();
+    public void addWire(TestWire testWire) {
+        wires.add(testWire);
     }
 
-    public boolean isEmpty() {
-        return wires.isEmpty();
-    }
-
-    public boolean containsKey(Object key) {
-        return wires.containsKey(key);
-    }
-
-    public boolean containsValue(Object value) {
-        return wires.containsValue(value);
-    }
-
-    public Wire get(Object key) {
-        return wires.get(key);
-    }
-
-    public Wire put(String key, Wire value) {
-        return wires.put(key, value);
-    }
-
-    public Wire remove(Object key) {
-        return wires.remove(key);
-    }
-
-    public void putAll(Map<? extends String, ? extends Wire> t) {
-        wires.putAll(t);
-    }
-
-    public void clear() {
-        wires.clear();
-    }
-
-    public Set<String> keySet() {
-        return wires.keySet();
-    }
-
-    public Collection<Wire> values() {
-        return wires.values();
-    }
-
-    public Set<Entry<String, Wire>> entrySet() {
-        return wires.entrySet();
+    public List<TestWire> getWires() {
+        Collections.sort(wires);
+        return wires;
     }
 }
 
