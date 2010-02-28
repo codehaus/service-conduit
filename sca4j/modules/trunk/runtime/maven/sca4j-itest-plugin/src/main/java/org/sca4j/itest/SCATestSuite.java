@@ -70,8 +70,9 @@
  */
 package org.sca4j.itest;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.apache.maven.surefire.report.ReportEntry;
 import org.apache.maven.surefire.report.ReporterException;
@@ -84,12 +85,14 @@ import org.apache.maven.surefire.testset.TestSetFailedException;
  */
 public class SCATestSuite implements SurefireTestSuite {
     
-    private final Map<String, SCATestSet> testSets = new TreeMap<String, SCATestSet>();
+    private final List<SCATestSet> testSets = new ArrayList<SCATestSet>();
+    private final List<String> testNames = new ArrayList<String>();
     private int testSetCount = 0;
     private int testCount = 0;
 
     public void add(SCATestSet testSet) {
-        testSets.put(testSet.getName(), testSet);
+        testSets.add(testSet);
+        testNames.add(testSet.getName());
         testSetCount += 1;
         testCount += testSet.getTestCount();
     }
@@ -102,16 +105,15 @@ public class SCATestSuite implements SurefireTestSuite {
         return testSetCount;
     }
 
-    public void execute(ReporterManager reporterManager, ClassLoader classLoader)
-        throws ReporterException, TestSetFailedException {
-        for (SCATestSet testSet : testSets.values()) {
+    public void execute(ReporterManager reporterManager, ClassLoader classLoader) throws ReporterException, TestSetFailedException {
+        for (SCATestSet testSet : testSets) {
             execute(testSet, reporterManager, classLoader);
         }
     }
 
     public void execute(String name, ReporterManager reporterManager, ClassLoader classLoader)
         throws ReporterException, TestSetFailedException {
-        SCATestSet testSet = testSets.get(name);
+        SCATestSet testSet = testSets.get(testNames.indexOf(name));
         if (testSet == null) {
             throw new TestSetFailedException("Suite does not contain TestSet: " + name);
         }

@@ -70,6 +70,10 @@
  */
 package org.sca4j.itest;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.maven.surefire.report.PojoStackTraceWriter;
@@ -99,8 +103,15 @@ public class SCATestSet implements SurefireTestSet {
     }
 
     public void execute(ReporterManager reporterManager, ClassLoader loader) throws TestSetFailedException {
-        for (Map.Entry<PhysicalOperationDefinition, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
-            String operationName = entry.getKey().getName();
+        List<PhysicalOperationDefinition> tests = new LinkedList<PhysicalOperationDefinition>();
+        tests.addAll(wire.getInvocationChains().keySet());
+        Collections.sort(tests, new Comparator<PhysicalOperationDefinition>() {
+            public int compare(PhysicalOperationDefinition o1, PhysicalOperationDefinition o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
+        for (PhysicalOperationDefinition pod : tests) {
+            String operationName = pod.getName();
             reporterManager.testStarting(new ReportEntry(this, operationName, name));
             try {
                 WorkContext workContext = new WorkContext();
@@ -109,7 +120,7 @@ public class SCATestSet implements SurefireTestSet {
 
                 MessageImpl msg = new MessageImpl();
                 msg.setWorkContext(workContext);
-                Message response = entry.getValue().getHeadInterceptor().invoke(msg);
+                Message response = wire.getInvocationChains().get(pod).getHeadInterceptor().invoke(msg);
                 if (response.isFault()) {
                     throw new TestSetFailedException(operationName, (Throwable) response.getBody());
                 }

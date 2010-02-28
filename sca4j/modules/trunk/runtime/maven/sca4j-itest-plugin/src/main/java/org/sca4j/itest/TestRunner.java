@@ -360,6 +360,7 @@ public class TestRunner {
         WireHolder wireHolder = runtime.getSystemComponent(WireHolder.class, WireHolder.COMPONENT_URI);
         SCATestSuite suite = new SCATestSuite();
         for (TestWire testWire : wireHolder.getWires()) {
+            System.err.println("******************** Added test " + testWire.getName());
             SCATestSet testSet = new SCATestSet(testWire.getName(), testWire.getWire());
             suite.add(testSet);
         }
