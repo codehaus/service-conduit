@@ -24,9 +24,9 @@ import org.osoa.sca.annotations.EndsConversation;
 @Conversational
 public interface OrderService {
     
-    void placeOrder(String orderId);
+    void placeOrder(String productName);
     
-    boolean getStatus(String orderId);
+    boolean getStatus();
     
     @EndsConversation void close();
 

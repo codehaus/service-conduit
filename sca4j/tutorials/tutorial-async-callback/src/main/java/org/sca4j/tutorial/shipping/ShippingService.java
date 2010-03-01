@@ -25,6 +25,6 @@ import org.osoa.sca.annotations.OneWay;
 public interface ShippingService {
     
     @OneWay
-    void ship(String orderId);
+    void ship(String productName);
 
 }

@@ -18,11 +18,9 @@
  */
 package org.sca4j.tutorial.order;
 
-import java.util.UUID;
+import junit.framework.TestCase;
 
 import org.osoa.sca.annotations.Reference;
-
-import junit.framework.TestCase;
 
 public class OrderComponentITest extends TestCase {
     
@@ -30,9 +28,8 @@ public class OrderComponentITest extends TestCase {
     
     public void testOrder() throws InterruptedException {
         
-        String orderId = UUID.randomUUID().toString();
-        orderService.placeOrder(orderId);
-        while (!orderService.getStatus(orderId)) {
+        orderService.placeOrder("pizza");
+        while (!orderService.getStatus()) {
             Thread.sleep(1000);
         }
         orderService.close();

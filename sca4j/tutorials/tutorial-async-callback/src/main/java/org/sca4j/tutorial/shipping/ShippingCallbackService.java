@@ -20,6 +20,6 @@ package org.sca4j.tutorial.shipping;
 
 public interface ShippingCallbackService {
     
-    void shipped(String orderId);
+    void shipped();
 
 }

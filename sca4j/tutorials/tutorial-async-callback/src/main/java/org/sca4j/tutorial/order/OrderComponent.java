@@ -18,8 +18,7 @@
  */
 package org.sca4j.tutorial.order;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.osoa.sca.annotations.Reference;
 import org.osoa.sca.annotations.Service;
@@ -33,18 +32,18 @@ public class OrderComponent implements OrderService, ShippingCallbackService {
     
     @Reference protected ShippingService shippingService;
     
-    private List<String> shippedOrders = new LinkedList<String>();
+    private AtomicBoolean shipped = new AtomicBoolean(false);
 
-    public boolean getStatus(String orderId) {
-        return shippedOrders.contains(orderId);
+    public boolean getStatus() {
+        return shipped.get();
     }
 
-    public void placeOrder(String orderId) {
-        shippingService.ship(orderId);
+    public void placeOrder(String productName) {
+        shippingService.ship(productName);
     }
 
-    public void shipped(String orderId) {
-        shippedOrders.add(orderId);
+    public void shipped() {
+        shipped.set(true);
     }
     
     public void close() {

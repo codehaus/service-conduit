@@ -24,10 +24,10 @@ public class ShippingComponent implements ShippingService {
 
     @Callback protected ShippingCallbackService shippingCallbackService;
     
-    public void ship(String orderId) {
+    public void ship(String productName) {
         try {
             Thread.sleep(2000);
-            shippingCallbackService.shipped(orderId);
+            shippingCallbackService.shipped();
         } catch (InterruptedException e) {
         }
     }
