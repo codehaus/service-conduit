@@ -24,9 +24,9 @@
         <version>1.0</version>
     </parent>
     
-    <artifactId>tutorial-component-scope</artifactId>
+    <artifactId>tutorial-async-callback</artifactId>
     <packaging>jar</packaging>
-    <name>Component Scopes</name>
+    <name>Asynchronous Callbacks</name>
 
     <dependencies>
         <dependency>
@@ -39,13 +39,13 @@
         </dependency>
     </dependencies>
 
-    <build>
+    <!--build>
         <plugins>
             <plugin>
                 <groupId>org.sca4j</groupId>
                 <artifactId>sca4j-itest-plugin</artifactId>
             </plugin>
         </plugins>
-    </build>
+    </build-->
 
 </project>
