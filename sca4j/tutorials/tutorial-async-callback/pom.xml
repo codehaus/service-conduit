@@ -37,15 +37,19 @@
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-maven-host</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.sca4j</groupId>
+            <artifactId>sca4j-async</artifactId>
+        </dependency>
     </dependencies>
 
-    <!--build>
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.sca4j</groupId>
                 <artifactId>sca4j-itest-plugin</artifactId>
             </plugin>
         </plugins>
-    </build-->
+    </build>
 
 </project>
