@@ -26,7 +26,7 @@
     
     <artifactId>tutorial-shipping-composite</artifactId>
     <packaging>jar</packaging>
-    <name>Shipping Started</name>
+    <name>Shipping Composite</name>
 
     <dependencies>
         <dependency>

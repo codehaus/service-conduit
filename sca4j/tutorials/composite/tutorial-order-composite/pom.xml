@@ -37,6 +37,16 @@
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-maven-host</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.sca4j.tutorial</groupId>
+            <artifactId>tutorial-billing-composite</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sca4j.tutorial</groupId>
+            <artifactId>tutorial-billing-composite</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>
