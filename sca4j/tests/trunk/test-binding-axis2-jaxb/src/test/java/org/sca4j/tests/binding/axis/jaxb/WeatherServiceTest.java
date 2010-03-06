@@ -77,6 +77,7 @@ public class WeatherServiceTest extends TestCase {
         assertEquals(WeatherCondition.SUNNY, weatherResponse.getCondition());
         assertEquals(25.0, weatherResponse.getTemperatureMinimum());
         assertEquals(40.0, weatherResponse.getTemperatureMaximum());
+        assertEquals(2, weatherResponse.getCount());
         
     }
 

@@ -52,15 +52,24 @@
  */
 package org.sca4j.tests.binding.axis.jaxb;
 
+import org.osoa.sca.annotations.Reference;
+
 public class WeatherServiceImpl implements WeatherService {
 
+    @Reference protected Counter counter;
+    
     public WeatherResponse getWeather(WeatherRequest weatherRequest) {
         
         WeatherResponse weatherResponse = new WeatherResponse();
+        
+        counter.increment();
+        counter.increment();
+        
         weatherResponse.setCondition(WeatherCondition.SUNNY);
         weatherResponse.setTemperatureMinimum(25);
         weatherResponse.setTemperatureMaximum(40);
-
+        weatherResponse.setCount(counter.getCount());
+        
         return weatherResponse;
         
     }

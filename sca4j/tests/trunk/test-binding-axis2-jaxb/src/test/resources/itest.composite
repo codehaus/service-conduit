@@ -73,6 +73,11 @@
         <service name="WeatherService">
             <binding.ws uri="weatherService" sca4j:impl="axis2"/>
         </service>
+        <reference name="counter" target="Counter" />
+    </component>
+
+    <component name="Counter">
+        <implementation.java class="org.sca4j.tests.binding.axis.jaxb.CounterImpl"/>
     </component>
     
 </composite>

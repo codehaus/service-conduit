@@ -60,7 +60,16 @@ public class WeatherResponse {
     private WeatherCondition condition;
     private double temperatureMinimum;
     private double temperatureMaximum;
+    private int count;
     
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
     public WeatherCondition getCondition() {
         return condition;
     }
