@@ -80,9 +80,9 @@
     </pluginRepositories-->
 
     <scm>
-        <connection>scm:svn:https://www.sca4j.org/svn/sca4j/plugins/trunk</connection>
-        <developerConnection>scm:svn:https://www.sca4j.org/svn/sca4j/plugins/trunk</developerConnection>
-        <url>http://www.sca4j.org/svn/sca4j/plugins/trunk</url>
+        <connection>scm:svn:https://www.sca4j.org/svn/sca4j/plugins/branches/0.4.0-release</connection>
+        <developerConnection>scm:svn:https://www.sca4j.org/svn/sca4j/plugins/branches/0.4.0-release</developerConnection>
+        <url>http://www.sca4j.org/svn/sca4j/plugins/branches/0.4.0-release</url>
     </scm>
 
 </project>
