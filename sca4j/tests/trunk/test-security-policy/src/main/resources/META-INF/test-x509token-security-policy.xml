@@ -63,9 +63,9 @@
                provides="sca:authentication.message" 
                appliesTo="@name='Axis2EchoService' and ../@name='EchoService' and $Operation='echoWsX509Token'">
         <sca4j:axisConfig module="rampart" message="In">
-            <wsp:Policy wsu:Id="X509TokenPolicy" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" 
+            <wsp:Policy wsu:Id="X509TokenPolicy" xmlns:wsp="http://schemas.xmlsoap.org/ws/20.9.0-SNAPSHOT9/policy" 
                 xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy" 
-                xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" >
+                xmlns:wsu="http://docs.oasis-open.org/wss/20.9.0-SNAPSHOT1/oasis-200401-wss-wssecurity-utility-1.0.xsd" >
                     <sp:AsymmetricBinding>
                         <wsp:Policy>
                             <sp:InitiatorToken>
@@ -121,9 +121,9 @@
                provides="sca:authentication.message" 
                appliesTo="@name='service' and ../@name='EchoTest' and $Operation='echoWsX509Token'">
         <sca4j:axisConfig module="rampart" message="Out">
-            <wsp:Policy wsu:Id="X509TokenPolicy" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" 
+            <wsp:Policy wsu:Id="X509TokenPolicy" xmlns:wsp="http://schemas.xmlsoap.org/ws/20.9.0-SNAPSHOT9/policy" 
             xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy" 
-            xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" >
+            xmlns:wsu="http://docs.oasis-open.org/wss/20.9.0-SNAPSHOT1/oasis-200401-wss-wssecurity-utility-1.0.xsd" >
             <sp:AsymmetricBinding>
                 <wsp:Policy>
                     <sp:InitiatorToken>

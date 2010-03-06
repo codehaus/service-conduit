@@ -64,8 +64,8 @@
                appliesTo="@name='Axis2EchoService' and ../@name='EchoService' and $Operation='echoWsUsernameToken'">
         <sca4j:axisConfig module="rampart">
             <wsp:Policy wsu:Id="UTOverTransport" 
-                        xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" 
-                        xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
+                        xmlns:wsu="http://docs.oasis-open.org/wss/20.9.0-SNAPSHOT1/oasis-200401-wss-wssecurity-utility-1.0.xsd" 
+                        xmlns:wsp="http://schemas.xmlsoap.org/ws/20.9.0-SNAPSHOT9/policy">
                 <wsp:ExactlyOne>
                     <wsp:All>
                         <sp:SignedSupportingTokens xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
@@ -88,8 +88,8 @@
                appliesTo="@name='service' and ../@name='EchoTest' and $Operation='echoWsUsernameToken'">
         <sca4j:axisConfig module="rampart">
             <wsp:Policy wsu:Id="UTOverTransport" 
-                        xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" 
-                        xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
+                        xmlns:wsu="http://docs.oasis-open.org/wss/20.9.0-SNAPSHOT1/oasis-200401-wss-wssecurity-utility-1.0.xsd" 
+                        xmlns:wsp="http://schemas.xmlsoap.org/ws/20.9.0-SNAPSHOT9/policy">
                 <wsp:ExactlyOne>
                     <wsp:All>
                         <sp:SignedSupportingTokens xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
