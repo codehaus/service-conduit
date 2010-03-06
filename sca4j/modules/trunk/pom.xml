@@ -93,9 +93,9 @@
     </build>
 
     <scm>
-        <connection>scm:svn:https://www.sca4j.org/svn/sca4j/modules/trunk</connection>
-        <developerConnection>scm:svn:https://www.sca4j.org/svn/sca4j/modules/trunk</developerConnection>
-        <url>http://www.sca4j.org/svn/sca4j/modules/trunk</url>
+        <connection>scm:svn:https://www.sca4j.org/svn/sca4j/modules/branches/0.4.0-release</connection>
+        <developerConnection>scm:svn:https://www.sca4j.org/svn/sca4j/modules/branches/0.4.0-release</developerConnection>
+        <url>http://www.sca4j.org/svn/sca4j/modules/branches/0.4.0-release</url>
     </scm>
     
 </project>
