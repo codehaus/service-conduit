@@ -29,7 +29,7 @@
     <artifactId>test-security-policy</artifactId>
     <name>SCA4J Test Security Policy Extension</name>
     <description>SCA4J Security Policy Extension.</description>
-    <packaging>sca-contribution-jar</packaging>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
@@ -56,20 +56,5 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-    
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.sca4j</groupId>
-                <artifactId>sca4j-contribution-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                    <deployables>
-                        <deployable>META-INF/test-security.composite</deployable>
-                    </deployables>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

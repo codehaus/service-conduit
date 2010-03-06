@@ -28,21 +28,6 @@
 
     <artifactId>test-ssl-policy</artifactId>
     <name>SCA4J Test SSL Policy Extension</name>
-    <packaging>sca-contribution-jar</packaging>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.sca4j</groupId>
-                <artifactId>sca4j-contribution-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                    <!--deployables>
-                        <deployable>META-INF/test-security.composite</deployable>
-                    </deployables-->
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    <packaging>jar</packaging>
 
 </project>

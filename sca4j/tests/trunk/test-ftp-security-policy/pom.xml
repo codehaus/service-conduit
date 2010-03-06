@@ -29,16 +29,6 @@
     <artifactId>test-ftp-security-policy</artifactId>
     <name>SCA4J Test FTP Security Policy Extension</name>
     <description>SCA4J FTP Security Policy Extension.</description>
-    <packaging>sca-contribution-jar</packaging>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.sca4j</groupId>
-                <artifactId>sca4j-contribution-plugin</artifactId>
-                <extensions>true</extensions>
-            </plugin>
-        </plugins>
-    </build>
+    <packaging>jar</packaging>
 
 </project>
