@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:ns1="http://org.apache.axis2/xsd" 
+                  xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"                   
+                  xmlns:ns="urn:sca4j.org:tests:axis2" 
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  targetNamespace="urn:sca4j.org:tests:axis2">
+    <wsdl:types>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="urn:sca4j.org:tests:axis2">            
+            <xs:complexType name="WeatherRequest">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="city" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="date" nillable="true" type="xs:dateTime"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="WeatherResponse">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="condition" nillable="true" type="ns:WeatherCondition"/>
+                    <xs:element minOccurs="0" name="temperatureMaximum" type="xs:double"/>
+                    <xs:element minOccurs="0" name="temperatureMinimum" type="xs:double"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="WeatherCondition">
+                <xs:complexContent>
+                    <xs:extension base="xs:Enum">
+                        <xs:sequence/>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="WeatherException">
+                <xs:complexContent>
+                    <xs:extension base="ns:Exception">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="faultInfo" nillable="true" type="ns:BadWeatherFault"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="BadWeatherFault">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="type" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="getWeather">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="param0" nillable="true" type="ns:WeatherRequest"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getWeatherResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ns:WeatherResponse"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:complexType name="Exception">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="Exception" nillable="true" type="xs:anyType"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="WeatherException">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="WeatherException" nillable="true" type="ns:WeatherException"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="getBadWeatherRequest"/>
+    <wsdl:message name="WeatherException">
+        <wsdl:part name="parameters" element="ns:WeatherException"/>
+    </wsdl:message>
+    <wsdl:message name="getWeatherRequest">
+        <wsdl:part name="parameters" element="ns:getWeather"/>
+    </wsdl:message>
+    <wsdl:message name="getWeatherResponse">
+        <wsdl:part name="parameters" element="ns:getWeatherResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="WeatherServicePortType">
+        <wsdl:operation name="getBadWeather">
+            <wsdl:input message="ns:getBadWeatherRequest" wsaw:Action="urn:getBadWeather"/>
+            <wsdl:fault message="ns:WeatherException" name="WeatherException" wsaw:Action="urn:getBadWeatherWeatherException"/>
+        </wsdl:operation>
+        <wsdl:operation name="getWeather">
+            <wsdl:input message="ns:getWeatherRequest" wsaw:Action="urn:getWeather"/>
+            <wsdl:output message="ns:getWeatherResponse" wsaw:Action="urn:getWeatherResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="WeatherServiceSoap11Binding" type="ns:WeatherServicePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="getBadWeather">
+            <soap:operation soapAction="urn:getBadWeather" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:fault name="WeatherException">
+                <soap:fault use="literal" name="WeatherException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getWeather">
+            <soap:operation soapAction="urn:getWeather" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>    
+    <wsdl:service name="WeatherService">
+        <wsdl:port name="WeatherServiceHttpSoap11Endpoint" binding="ns:WeatherServiceSoap11Binding">
+            <soap:address location="http://localhost:8080/axis2/services/WeatherService"/>
+        </wsdl:port>        
+    </wsdl:service>
+</wsdl:definitions>
