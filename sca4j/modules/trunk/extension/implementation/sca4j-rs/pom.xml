@@ -24,7 +24,7 @@
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-rs</artifactId>
     <version>0.9.0-SNAPSHOT</version>
-    <packaging>sca-contribution-jar</packaging>
+    <packaging>jar</packaging>
     <name>SCA4J REST</name>
     <description>SCA4J JSR-311 REST Implementation Type Extension.</description>
     <repositories>
@@ -86,19 +86,5 @@
             <artifactId>junit</artifactId>
         </dependency>
     </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.sca4j</groupId>
-                <artifactId>sca4j-contribution-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                    <deployables>
-                        <deployable>META-INF/rs.composite</deployable>
-                    </deployables>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

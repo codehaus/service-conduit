@@ -25,7 +25,7 @@
     <artifactId>sca4j-timer-runtime</artifactId>
     <name>SCA4J Timer Implementation - Runtime Extension</name>
     <description>SCA4J Timer Implementation - Runtime Extension.</description>
-    <packaging>sca-contribution-jar</packaging>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
@@ -54,20 +54,5 @@
         </dependency>
 
     </dependencies>
-    
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.sca4j</groupId>
-                <artifactId>sca4j-contribution-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                    <deployables>
-                        <deployable>META-INF/timerRuntime.composite</deployable>
-                    </deployables>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

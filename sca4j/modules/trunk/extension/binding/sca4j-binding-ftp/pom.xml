@@ -29,7 +29,7 @@
     <name>SCA4J FTP Binding</name>
     <description>SCA4J FTP Binding.</description>
 
-    <packaging>sca-contribution-jar</packaging>
+    <packaging>jar</packaging>
 
     <dependencies>
          <dependency>
@@ -73,20 +73,5 @@
             <version>3.2.2</version>
         </dependency>
     </dependencies>
-    
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.sca4j</groupId>
-                <artifactId>sca4j-contribution-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                    <deployables>
-                        <deployable>META-INF/ftpbinding.composite</deployable>
-                    </deployables>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

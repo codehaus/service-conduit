@@ -25,7 +25,7 @@
     <artifactId>sca4j-container-web-spi</artifactId>
     <name>SCA4J Web Container Extension</name>
     <description>SCA4J Web Container Extension.</description>
-    <packaging>sca-contribution-jar</packaging>
+    <packaging>jar</packaging>
 
     <dependencies>
 
@@ -56,17 +56,5 @@
         </dependency>
 
     </dependencies>
-    
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.sca4j</groupId>
-                <artifactId>sca4j-contribution-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

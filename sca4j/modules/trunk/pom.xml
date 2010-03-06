@@ -47,49 +47,8 @@
         </repository>
     </repositories>
 
-    <!--pluginRepositories>
-        <pluginRepository>
-            <id>mc-release</id>
-            <url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
-        </pluginRepository>
-    </pluginRepositories-->
-
     <build>
         <defaultGoal>install</defaultGoal>
-        <!--plugins>
-            <plugin>
-                <groupId>com.google.code.maven-license-plugin</groupId>
-                <artifactId>maven-license-plugin</artifactId>
-                <configuration>
-                    <header>../../etc/java-header</header>
-                    <encoding>UTF-8</encoding>
-                    <includes>
-                        <include>**/*.java</include>
-                        <include>**/*.xml</include>
-                        <include>**/*.composite</include>
-                    </includes>
-                    <mapping>
-                        <composite>XML_STYLE</composite>
-                    </mapping>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins-->
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.sca4j</groupId>
-                    <artifactId>sca4j-contribution-plugin</artifactId>
-                    <version>0.9.0-SNAPSHOT</version>
-                </plugin>                
-            </plugins>
-        </pluginManagement>
     </build>
 
     <scm>

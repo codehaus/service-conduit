@@ -25,7 +25,7 @@
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-binding-test</artifactId>
     <name>SCA4J Test Binding Implementation</name>
-    <packaging>sca-contribution-jar</packaging>
+    <packaging>jar</packaging>
     <description>Provides a test binding</description>
 
     <dependencies>
@@ -50,20 +50,5 @@
         </dependency>
 
     </dependencies>
-    
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.sca4j</groupId>
-                <artifactId>sca4j-contribution-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                    <deployables>
-                        <deployable>META-INF/testBinding.composite</deployable>
-                    </deployables>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

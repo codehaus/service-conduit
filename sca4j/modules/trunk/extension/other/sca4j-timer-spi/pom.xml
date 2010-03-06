@@ -25,7 +25,7 @@
     <artifactId>sca4j-timer-spi</artifactId>
     <name>SCA4J Timer Service SPI</name>
     <description>SCA4J Timer Service SPI.</description>
-    <packaging>sca-contribution-jar</packaging>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
@@ -36,17 +36,5 @@
         </dependency>
 
     </dependencies>
-    
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.sca4j</groupId>
-                <artifactId>sca4j-contribution-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

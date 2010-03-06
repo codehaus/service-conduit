@@ -25,7 +25,7 @@
     <artifactId>sca4j-java</artifactId>
     <name>SCA4J Java</name>
     <description>SCA4J Java Component Implementation.</description>
-    <packaging>sca-contribution-jar</packaging>
+    <packaging>jar</packaging>
  
     <dependencies>
 
@@ -68,22 +68,5 @@
         </dependency>
 
     </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.sca4j</groupId>
-                <artifactId>sca4j-contribution-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                    <deployables>
-                        <deployable>META-INF/javaControl.composite</deployable>
-                        <deployable>META-INF/javaRuntime.composite</deployable>
-                        <deployable>META-INF/javaIntrospection.composite</deployable>
-                    </deployables>
-                    <extension>false</extension>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

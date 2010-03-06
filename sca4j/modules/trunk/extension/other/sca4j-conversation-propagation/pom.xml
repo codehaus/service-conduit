@@ -25,7 +25,7 @@
     <artifactId>sca4j-conversation-propagation</artifactId>
     <name>SCA4J Conversation Propagation Extension</name>
     <description>SCA4J Conversation Propagation Support.</description>
-    <packaging>sca-contribution-jar</packaging>
+    <packaging>jar</packaging>
 
     <dependencies>
 
@@ -37,17 +37,5 @@
         </dependency>
 
     </dependencies>
-    
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.sca4j</groupId>
-                <artifactId>sca4j-contribution-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

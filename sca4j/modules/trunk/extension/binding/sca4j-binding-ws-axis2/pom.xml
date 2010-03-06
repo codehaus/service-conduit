@@ -26,7 +26,7 @@
 
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-binding-ws-axis2</artifactId>
-    <packaging>sca-contribution-jar</packaging>
+    <packaging>jar</packaging>
     <name>SCA4J WS Binding (Axis2)</name>
     <description>SCA4J WS Binding Implementation using Axis2.</description>
 
@@ -213,21 +213,5 @@
         </dependency>
 
     </dependencies>
-    
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.sca4j</groupId>
-                <artifactId>sca4j-contribution-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                    <deployables>
-                        <deployable>org/sca4j/binding/ws/axis2/control.composite</deployable>
-                        <deployable>org/sca4j/binding/ws/axis2/runtime.composite</deployable>
-                    </deployables>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

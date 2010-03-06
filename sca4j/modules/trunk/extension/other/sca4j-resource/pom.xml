@@ -28,7 +28,7 @@
     <artifactId>sca4j-resource</artifactId>
     <name>SCA4J Resource</name>
     <description>SCA4J Resource Framework.</description>
-    <packaging>sca-contribution-jar</packaging>
+    <packaging>jar</packaging>
 
     <repositories>
         <repository>
@@ -99,20 +99,5 @@
         </dependency>
 		
     </dependencies>
-    
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.sca4j</groupId>
-                <artifactId>sca4j-contribution-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                    <deployables>
-                        <deployable>META-INF/resource.composite</deployable>
-                    </deployables>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

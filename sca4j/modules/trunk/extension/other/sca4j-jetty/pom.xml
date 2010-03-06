@@ -23,7 +23,7 @@
     </parent>
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-jetty</artifactId>
-    <packaging>sca-contribution-jar</packaging>
+    <packaging>jar</packaging>
 
     <name>SCA4J Jetty Transport</name>
     <description>SCA4J HTTP Transport based on Jetty</description>
@@ -71,20 +71,5 @@
             <artifactId>easymock</artifactId>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.sca4j</groupId>
-                <artifactId>sca4j-contribution-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                    <deployables>
-                        <deployable>META-INF/jetty.composite</deployable>
-                    </deployables>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

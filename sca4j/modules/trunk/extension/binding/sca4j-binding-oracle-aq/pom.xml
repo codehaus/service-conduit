@@ -24,7 +24,7 @@
 	<artifactId>sca4j-binding-oracle-aq</artifactId>
 	<name>SCA4J Oracle AQ Binding</name>
 	<description>SCA4J Oracle AQ Binding Implementation.</description>
-	<packaging>sca-contribution-jar</packaging>
+	<packaging>jar</packaging>
 
 	<dependencies>
 
@@ -75,20 +75,5 @@
 		</dependency>
 
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.sca4j</groupId>
-				<artifactId>sca4j-contribution-plugin</artifactId>
-				<extensions>true</extensions>
-				<configuration>
-				      <deployables>
-						<deployable>META-INF/oracle-aq.composite</deployable>
-					</deployables>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 
 </project>

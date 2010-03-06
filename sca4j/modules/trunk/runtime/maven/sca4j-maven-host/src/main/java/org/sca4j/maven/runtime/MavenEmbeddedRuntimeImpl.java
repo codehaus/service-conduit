@@ -76,7 +76,6 @@ import static org.sca4j.fabric.runtime.ComponentNames.XML_FACTORY_URI;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -86,7 +85,6 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import org.apache.maven.surefire.testset.TestSetFailedException;
 import org.sca4j.fabric.runtime.AbstractRuntime;
 import org.sca4j.fabric.util.FileHelper;
 import org.sca4j.host.contribution.ContributionException;
@@ -94,19 +92,11 @@ import org.sca4j.host.contribution.ContributionService;
 import org.sca4j.host.contribution.ContributionSource;
 import org.sca4j.host.domain.DeploymentException;
 import org.sca4j.maven.contribution.ModuleContributionSource;
-import org.sca4j.pojo.PojoWorkContextTunnel;
-import org.sca4j.pojo.component.InvokerInterceptor;
-import org.sca4j.pojo.component.PojoComponent;
 import org.sca4j.scdl.Composite;
-import org.sca4j.scdl.Operation;
 import org.sca4j.services.xmlfactory.XMLFactory;
-import org.sca4j.spi.ObjectCreationException;
 import org.sca4j.spi.component.GroupInitializationException;
-import org.sca4j.spi.component.ScopeContainer;
 import org.sca4j.spi.domain.Domain;
 import org.sca4j.spi.invocation.CallFrame;
-import org.sca4j.spi.invocation.Message;
-import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.invocation.WorkContext;
 import org.sca4j.spi.services.contribution.QNameSymbol;
 import org.sca4j.spi.services.contribution.ResourceElement;
@@ -166,39 +156,6 @@ public class MavenEmbeddedRuntimeImpl extends AbstractRuntime<MavenHostInfo> imp
             getScopeContainer().startContext(workContext);
         } catch (GroupInitializationException e) {
             throw new ContextStartException(e);
-        }
-    }
-
-    @SuppressWarnings({"unchecked"})
-    public void executeTest(URI contextId, String componentName, Operation<?> operation) throws TestSetFailedException {
-        WorkContext oldContext = PojoWorkContextTunnel.getThreadWorkContext();
-        try {
-            WorkContext workContext = new WorkContext();
-            CallFrame frame = new CallFrame();
-            workContext.addCallFrame(frame);
-            URI componentId = URI.create(contextId.toString() + "/" + componentName);
-
-            // FIXME we should not be creating a InvokerInterceptor here
-            // FIXME this should create a wire to the JUnit component and invoke the head interceptor on the chain
-            PojoComponent component = (PojoComponent) getComponentManager().getComponent(componentId);
-            PojoWorkContextTunnel.setThreadWorkContext(workContext);
-            Object instance = component.createObjectFactory().getInstance();
-            Method m = instance.getClass().getMethod(operation.getName());
-            ScopeContainer scopeContainer = component.getScopeContainer();
-            InvokerInterceptor<?, ?> interceptor = new InvokerInterceptor(m, false, false, component, scopeContainer);
-
-            Message msg = new MessageImpl();
-            msg.setWorkContext(workContext);
-            Message response = interceptor.invoke(msg);
-            if (response.isFault()) {
-                throw new TestSetFailedException(operation.getName(), (Throwable) response.getBody());
-            }
-        } catch (NoSuchMethodException e) {
-            throw new AssertionError(e);
-        } catch (ObjectCreationException e) {
-            throw new AssertionError(e);
-        } finally {
-            PojoWorkContextTunnel.setThreadWorkContext(oldContext);
         }
     }
 

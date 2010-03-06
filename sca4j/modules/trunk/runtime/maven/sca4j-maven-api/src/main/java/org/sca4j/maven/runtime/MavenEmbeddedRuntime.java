@@ -54,16 +54,14 @@ package org.sca4j.maven.runtime;
 
 import java.net.URI;
 import java.net.URL;
-import javax.xml.namespace.QName;
 
-import org.apache.maven.surefire.testset.TestSetFailedException;
+import javax.xml.namespace.QName;
 
 import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.host.contribution.ContributionSource;
 import org.sca4j.host.domain.DeploymentException;
 import org.sca4j.host.runtime.SCA4JRuntime;
 import org.sca4j.scdl.Composite;
-import org.sca4j.scdl.Operation;
 
 /**
  * Contract for the Maven runtime.
@@ -118,12 +116,4 @@ public interface MavenEmbeddedRuntime extends SCA4JRuntime<MavenHostInfo> {
      * @throws ContextStartException if an error starting the context is encountered
      */
     void startContext(URI compositeId) throws ContextStartException;
-
-    /**
-     * @param contextId     the context id assocated with the test
-     * @param componentName the test component name
-     * @param operation     the operation to invoke on the test service contract
-     * @throws TestSetFailedException if a test case fails
-     */
-    void executeTest(URI contextId, String componentName, Operation<?> operation) throws TestSetFailedException;
 }

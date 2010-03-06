@@ -24,7 +24,7 @@
     </parent>
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-binding-jms</artifactId>
-    <packaging>sca-contribution-jar</packaging>
+    <packaging>jar</packaging>
     <name>SCA4J JMS Binding</name>
     <description>SCA4J JMS Binding Implementation.</description>
 
@@ -78,20 +78,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.sca4j</groupId>
-                <artifactId>sca4j-contribution-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                    <deployables>
-                        <deployable>META-INF/jms.composite</deployable>
-                    </deployables>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
