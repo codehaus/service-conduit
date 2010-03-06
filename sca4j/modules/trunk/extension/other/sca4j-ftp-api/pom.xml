@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>sca4j-extension-other-parent-pom</artifactId>
-        <version>0.4.0</version>
+        <version>0.4.1-SNAPSHOT</version>
     </parent>
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-ftp-api</artifactId>
