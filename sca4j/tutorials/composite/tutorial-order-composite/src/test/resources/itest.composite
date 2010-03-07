@@ -33,15 +33,16 @@
     </component>
     
     <component name="OrderComponent">
-        <!-- implementation.composite name="order:OrderComposite"/-->
-        <implementation.composite scdlResource="META-INF/order.composite" />
+        <implementation.composite name="order:OrderComposite"/>
+        <!--implementation.composite scdlResource="META-INF/order.composite" /-->
     </component>
     
     <component name="BillingComponent">
-        <!--implementation.composite name="billing:BillingComposite"/-->
-        <implementation.composite scdlResource="META-INF/billing.composite" />
+        <implementation.composite name="billing:BillingComposite"/>
+        <!--implementation.composite scdlResource="META-INF/billing.composite" /-->
     </component>
     
-    <include name="ShippingComponent" scdlResource="META-INF/shipping.composite" />
+    <!--include scdlResource="META-INF/shipping.composite" /-->
+    <include name="shipping:ShippingComposite" />
     
 </composite>
