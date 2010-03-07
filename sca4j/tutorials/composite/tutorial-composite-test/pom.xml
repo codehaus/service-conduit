@@ -44,13 +44,4 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.sca4j</groupId>
-                <artifactId>sca4j-itest-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>
