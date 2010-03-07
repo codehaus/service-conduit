@@ -27,7 +27,7 @@ public class OrderComponent {
     
     @Reference protected BillingComponent billingComponent;
     @Reference protected ShippingComponent shippingComponent;
-    @Property(required = true) protected int deliveryCharge;
+    @Property protected int deliveryCharge;
     @Property protected int valueAddedTax;
 
     public boolean placeOrder(String productName, String address, String creditCard) {
