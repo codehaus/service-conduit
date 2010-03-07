@@ -39,12 +39,7 @@
         </dependency>
         <dependency>
             <groupId>org.sca4j.tutorial</groupId>
-            <artifactId>tutorial-composite-billing</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.sca4j.tutorial</groupId>
-            <artifactId>tutorial-composite-shipping</artifactId>
+            <artifactId>tutorial-composite-order</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
