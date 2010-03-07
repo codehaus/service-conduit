@@ -28,7 +28,6 @@ public class OrderITest extends TestCase {
 
     public void testPlaceOrder() {
         assertTrue(orderComponent.placeOrder("Pizza", "70 Byron Road", "12345"));
-        System.err.println("********* I was called");
     }
 
 }
