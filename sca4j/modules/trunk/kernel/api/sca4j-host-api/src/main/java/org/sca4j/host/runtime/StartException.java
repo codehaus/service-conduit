@@ -60,4 +60,8 @@ import org.sca4j.host.SCA4JException;
  * @version $Rev: 148 $ $Date: 2007-06-02 05:10:48 +0100 (Sat, 02 Jun 2007) $
  */
 public class StartException extends SCA4JException {
+
+    public StartException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

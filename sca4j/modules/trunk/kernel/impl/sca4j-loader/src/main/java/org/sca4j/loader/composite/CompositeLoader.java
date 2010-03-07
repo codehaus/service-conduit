@@ -373,7 +373,6 @@ public class CompositeLoader implements TypeLoader<Composite> {
                 }
                 break;
             case END_ELEMENT:
-                assert COMPOSITE.equals(reader.getName());
                 if (childContext.hasErrors() || childContext.hasWarnings()) {
                     if (childContext.hasErrors()) {
                         ArtifactValidationFailure artifactFailure = new ArtifactValidationFailure(compositeName.toString());
