@@ -24,7 +24,7 @@
         <version>1.0</version>
     </parent>
     
-    <artifactId>tutorial-order-composite</artifactId>
+    <artifactId>tutorial-composite-order</artifactId>
     <packaging>jar</packaging>
     <name>Order Composite</name>
 
@@ -39,12 +39,12 @@
         </dependency>
         <dependency>
             <groupId>org.sca4j.tutorial</groupId>
-            <artifactId>tutorial-billing-composite</artifactId>
+            <artifactId>tutorial-composite-billing</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.sca4j.tutorial</groupId>
-            <artifactId>tutorial-shipping-composite</artifactId>
+            <artifactId>tutorial-composite-shipping</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

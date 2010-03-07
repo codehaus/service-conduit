@@ -24,7 +24,7 @@
         <version>1.0</version>
     </parent>
     
-    <artifactId>tutorial-billing-composite</artifactId>
+    <artifactId>tutorial-composite-billing</artifactId>
     <packaging>jar</packaging>
     <name>Billing Composite</name>
 
