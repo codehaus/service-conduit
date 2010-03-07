@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<contribution xmlns="http://www.osoa.org/xmlns/sca/1.0">
-    <import namespace="urn:sca4j.org:tutorials:billing" />
-    <import namespace="urn:sca4j.org:tutorials:shipping" />
-    <import namespace="urn:sca4j.org:tutorials:order" />
-</contribution>
