@@ -27,9 +27,12 @@
     <service name="orderService" promote="OrderComponent" />       
     <reference name="billingService" promote="OrderComponent/billingComponent" />
     <reference name="shippingService" promote="OrderComponent/shippingComponent" />
+    <property name="orderConfig" />
     
     <component name="OrderComponent">
         <implementation.java class="org.sca4j.tutorial.order.OrderComponent"/>
+        <property name="deliveryCharge" source="$orderConfig/deliveryCharge" />
+        <property name="valueAddedTax" source="$orderConfig/valueAddedTax" />
     </component>
     
 </composite>

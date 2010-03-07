@@ -18,6 +18,7 @@
  */
 package org.sca4j.tutorial.order;
 
+import org.osoa.sca.annotations.Property;
 import org.osoa.sca.annotations.Reference;
 import org.sca4j.tutorial.billing.BillingComponent;
 import org.sca4j.tutorial.shipping.ShippingComponent;
@@ -26,9 +27,12 @@ public class OrderComponent {
     
     @Reference protected BillingComponent billingComponent;
     @Reference protected ShippingComponent shippingComponent;
+    @Property(required = true) protected int deliveryCharge;
+    @Property protected int valueAddedTax;
 
     public boolean placeOrder(String productName, String address, String creditCard) {
-        if (billingComponent.bill(address, creditCard, 2.0)) {
+        double price = 2.0 + 2.0 * valueAddedTax / 100 + deliveryCharge;
+        if (billingComponent.bill(address, creditCard, price)) {
             shippingComponent.ship(productName, address);
             return true;
         }
