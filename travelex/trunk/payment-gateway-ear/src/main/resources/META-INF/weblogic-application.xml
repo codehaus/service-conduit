@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<weblogic-application>
-   <prefer-application-packages>
-       <package-name>antlr.*</package-name>
-       <package-name>org.joda.*</package-name>
-   </prefer-application-packages>
-</weblogic-application>
