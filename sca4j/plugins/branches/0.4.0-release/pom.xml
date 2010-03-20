@@ -18,11 +18,11 @@
 
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.sca4j</groupId>
+        <groupId>org.codehaus.service-conduit</groupId>
         <artifactId>parent</artifactId>
-        <version>5</version>
+        <version>6</version>
     </parent>
-    <groupId>org.sca4j</groupId>
+    <groupId>org.codehaus.service-conduit</groupId>
     <artifactId>sca4j-plugins-parent-pom</artifactId>
     <name>SCA4J Plugins Parent POM</name>
     <description>SCA4J Plugins Parent POM.</description>
@@ -33,56 +33,10 @@
         <module>sca4j-contribution-plugin</module>
     </modules>
  
-    
-    <!--build>
-        <plugins>
-            <plugin>
-                <groupId>com.google.code.maven-license-plugin</groupId>
-                <artifactId>maven-license-plugin</artifactId>
-                <configuration>
-                    <header>../../etc/java-header</header>
-                    <encoding>UTF-8</encoding>
-                    <includes>
-                        <include>**/*.java</include>
-                        <include>**/*.xml</include>
-                        <include>**/*.composite</include>
-                    </includes>
-                    <mapping>
-                        <composite>XML_STYLE</composite>
-                    </mapping>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </buildi-->
-
-    <repositories>
-        <repository>
-            <id>sca4j</id>
-            <url>http://www.sca4j.org/nexus/content/repositories/releases</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
-    <!--pluginRepositories>
-        <pluginRepository>
-            <id>mc-release</id>
-            <url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
-        </pluginRepository>
-    </pluginRepositories-->
-
     <scm>
-        <connection>scm:svn:https://www.sca4j.org/svn/sca4j/plugins/branches/0.4.0-release</connection>
-        <developerConnection>scm:svn:https://www.sca4j.org/svn/sca4j/plugins/branches/0.4.0-release</developerConnection>
-        <url>http://www.sca4j.org/svn/sca4j/plugins/branches/0.4.0-release</url>
+        <connection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/plugins/branches/0.4.0-release</connection>
+        <developerConnection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/plugins/branches/0.4.0-release</developerConnection>
+        <url>https://svn.codehaus.org/service-conduit/sca4j/plugins/branches/0.4.0-release</url>
     </scm>
 
 </project>
