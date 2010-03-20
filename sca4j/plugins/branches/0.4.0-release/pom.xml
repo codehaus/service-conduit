@@ -27,16 +27,16 @@
     <name>SCA4J Plugins Parent POM</name>
     <description>SCA4J Plugins Parent POM.</description>
     <packaging>pom</packaging>
-    <version>0.4.2</version>
+    <version>0.4.3-SNAPSHOT</version>
 
     <modules>
         <module>sca4j-contribution-plugin</module>
     </modules>
  
     <scm>
-        <connection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/plugins/tags/sca4j-plugins-parent-pom-0.4.2</connection>
-        <developerConnection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/plugins/tags/sca4j-plugins-parent-pom-0.4.2</developerConnection>
-        <url>https://svn.codehaus.org/service-conduit/sca4j/plugins/tags/sca4j-plugins-parent-pom-0.4.2</url>
+        <connection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/plugins/branches/0.4.0-release</connection>
+        <developerConnection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/plugins/branches/0.4.0-release</developerConnection>
+        <url>https://svn.codehaus.org/service-conduit/sca4j/plugins/branches/0.4.0-release</url>
     </scm>
 
 </project>
