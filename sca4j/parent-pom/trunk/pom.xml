@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.codehaus.service-conduit</groupId>
     <artifactId>parent</artifactId>
-    <version>6</version>
+    <version>7-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Service Conduit Project Parent</name>
     <description>Parent POM defining project wide settings.</description>
@@ -146,9 +146,9 @@
     </pluginRepositories>
  
     <scm>
-        <connection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/parent-pom/tags/parent-6</connection>
-        <developerConnection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/parent-pom/tags/parent-6</developerConnection>
-        <url>http://svn.codehaus.org/service-conduit/sca4j/parent-pom/tags/parent-6</url>
+        <connection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/parent-pom/trunk</connection>
+        <developerConnection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/parent-pom/trunk</developerConnection>
+        <url>http://svn.codehaus.org/service-conduit/sca4j/parent-pom/trunk</url>
     </scm>
 
 </project>
