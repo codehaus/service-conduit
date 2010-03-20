@@ -17,56 +17,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.sca4j</groupId>
+        <groupId>org.codehaus.service-conduit</groupId>
         <artifactId>parent</artifactId>
-        <version>5</version>
+        <version>6</version>
     </parent>
-    <groupId>org.sca4j.spec</groupId>
+    <groupId>org.codehaus.service-conduit.spec</groupId>
     <artifactId>sca-api-r1.0</artifactId>
-    <version>0.2.3-SNAPSHOT</version>
+    <version>0.2.2-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>SCA API Version 1.0</name>
     <description>Service Component Architecture V1.0 Java API and Annotations</description>
 
-    <build>
-        <plugins>    
-            <plugin>
-                <groupId>com.google.code.maven-license-plugin</groupId>
-                <artifactId>maven-license-plugin</artifactId>
-                <configuration>
-                    <header>../../etc/java-header</header>
-                    <encoding>UTF-8</encoding>
-                    <includes>
-                        <include>**/*.java</include>
-                        <include>**/*.xml</include>
-                        <include>**/*.composite</include>
-                    </includes>
-                    <mapping>
-                        <composite>XML_STYLE</composite>
-                    </mapping>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>mc-release</id>
-            <url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
-        </pluginRepository>
-    </pluginRepositories>
-
     <scm>
-        <connection>scm:svn:https://www.sca4j.org/svn/sca4j/spec/trunk</connection>
-        <developerConnection>scm:svn:https://www.sca4j.org/svn/sca4j/spec/trunk</developerConnection>
-        <url>http://www.sca4j.org/svn/sca4j/spec/trunk</url>
+        <connection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/spec/trunk</connection>
+        <developerConnection>scm:svn:https://vn.codehaus.org/service-conduit/sca4j/spec/trunk</developerConnection>
+        <url>https://svn.codehaus.org/service-conduit/sca4j/spec/trunk</url>
     </scm>
 
 </project>
