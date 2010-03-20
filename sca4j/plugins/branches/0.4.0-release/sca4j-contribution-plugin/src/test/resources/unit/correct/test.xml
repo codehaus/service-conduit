@@ -61,7 +61,7 @@
   <build>
     <plugins>
 		<plugin>
-        	<groupId>org.sca4j</groupId>
+        	<groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-contribution-plugin</artifactId>
             <extensions>true</extensions>
             <configuration/>

@@ -15,7 +15,7 @@
   permitted and restricted uses of such software.
  -->
 <contribution xmlns="http://www.osoa.org/xmlns/sca/1.0"
-              xmlns:sca4j="org.sca4j"
+              xmlns:sca4j="org.codehaus.service-conduit"
               xmlns:maven="urn:sca4j.org/maven">
     <deployable composite="sca4j:BurlapBindingExtension"/>
 </contribution>
