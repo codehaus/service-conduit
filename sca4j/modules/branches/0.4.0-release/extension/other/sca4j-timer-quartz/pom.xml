@@ -17,11 +17,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.sca4j</groupId>
+        <groupId>org.codehaus.service-conduit</groupId>
         <artifactId>sca4j-extension-other-parent-pom</artifactId>
-        <version>0.4.1-SNAPSHOT</version>
+        <version>0.4.2-SNAPSHOT</version>
     </parent>
-    <groupId>org.sca4j</groupId>
+    <groupId>org.codehaus.service-conduit</groupId>
     <artifactId>sca4j-timer-quartz</artifactId>
     <name>SCA4J Quartz Timer Service</name>
     <description>SCA4J Quartz Timer Service.</description>
@@ -29,15 +29,15 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-spi</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.4.2-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-timer-spi</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.4.2-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -73,7 +73,7 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.sca4j</groupId>
+                <groupId>org.codehaus.service-conduit</groupId>
                 <artifactId>sca4j-contribution-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
