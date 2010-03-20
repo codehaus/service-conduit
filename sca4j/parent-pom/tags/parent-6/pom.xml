@@ -1,0 +1,154 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.codehaus.service-conduit</groupId>
+    <artifactId>parent</artifactId>
+    <version>6</version>
+    <packaging>pom</packaging>
+    <name>Service Conduit Project Parent</name>
+    <description>Parent POM defining project wide settings.</description>
+
+    <organization>
+        <name>Service Symphony</name>
+        <url>http://www.servicesymphony.com</url>
+    </organization>
+
+    <inceptionYear>2008</inceptionYear>
+
+    <licenses>
+        <license>
+            <name>ASL 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>3.8.2</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.easymock</groupId>
+                <artifactId>easymock</artifactId>
+                <version>2.2</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.easymock</groupId>
+                <artifactId>easymockclassextension</artifactId>
+                <version>2.2</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav</artifactId>
+                <version>RELEASE</version>
+            </extension>
+        </extensions>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>RELEASE</version>
+                    <configuration>
+                        <source>1.5</source>
+                        <target>1.5</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>RELEASE</version>
+                    <configuration>
+                        <includes>
+                            <include>**/*TestCase.java</include>
+                        </includes>
+                        <reportFormat>brief</reportFormat>
+                        <useFile>false</useFile>
+                        <forkMode>once</forkMode>
+                        <argLine>-ea</argLine>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+    
+    <distributionManagement>
+        <repository>
+            <id>dav.codehaus.org</id>
+            <name>Service Conduit Release Repository</name>
+            <url>dav:https://dav.codehaus.org/repository/service-conduit/</url>
+        </repository>
+        <snapshotRepository>
+            <id>dav.codehaus.org</id>
+            <name>Service Conduit Snapshot Repository</name>
+            <url>dav:https://dav.codehaus.org/snapshots.repository/service-conduit/</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>repository.codehaus.org</id>
+            <name>Service Conduit Releases</name>
+            <url>http://repository.codehaus.org/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>snapshots.repository.codehaus.org</id>
+            <name>Service Conduit Snapshots</name>
+            <url>http://snapshots.repository.codehaus.org/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>repository.codehaus.org</id>
+            <name>Service Conduit Releases</name>
+            <url>http://repository.codehaus.org/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>snapshots.repository.codehaus.org</id>
+            <name>Service Conduit Snapshots</name>
+            <url>http://snapshots.repository.codehaus.org/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+ 
+    <scm>
+        <connection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/parent-pom/tags/parent-6</connection>
+        <developerConnection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/parent-pom/tags/parent-6</developerConnection>
+        <url>http://svn.codehaus.org/service-conduit/sca4j/parent-pom/tags/parent-6</url>
+    </scm>
+
+</project>
