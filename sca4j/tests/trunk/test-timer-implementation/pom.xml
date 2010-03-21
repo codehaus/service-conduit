@@ -21,7 +21,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.sca4j</groupId>
+        <groupId>org.codehaus.service-conduit</groupId>
         <artifactId>ci</artifactId>
         <version>0.9.0-SNAPSHOT</version>
     </parent>
@@ -33,7 +33,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.sca4j.spec</groupId>
+            <groupId>org.codehaus.service-conduit.spec</groupId>
             <artifactId>sca-api-r1.0</artifactId>
             <version>0.2.2</version>
         </dependency>
@@ -47,44 +47,44 @@
         <defaultGoal>verify</defaultGoal>
         <plugins>
             <plugin>
-                <groupId>org.sca4j</groupId>
+                <groupId>org.codehaus.service-conduit</groupId>
                 <artifactId>sca4j-itest-plugin</artifactId>
                 <version>${sca4j.version}</version>
                 <configuration>
                     <runtimeVersion>${sca4j.version}</runtimeVersion>
                     <extensions>
                         <dependency>
-                            <groupId>org.sca4j</groupId>
+                            <groupId>org.codehaus.service-conduit</groupId>
                             <artifactId>sca4j-resource</artifactId>
                             <version>${sca4j.version}</version>
                         </dependency>
                         <dependency>
-                            <groupId>org.sca4j</groupId>
+                            <groupId>org.codehaus.service-conduit</groupId>
                             <artifactId>sca4j-timer-spi</artifactId>
                             <version>${sca4j.version}</version>
                         </dependency>
                         <dependency>
-                            <groupId>org.sca4j</groupId>
+                            <groupId>org.codehaus.service-conduit</groupId>
                             <artifactId>sca4j-tx-jotm</artifactId>
                             <version>${sca4j.version}</version>
                         </dependency>
                         <dependency>
-                            <groupId>org.sca4j</groupId>
+                            <groupId>org.codehaus.service-conduit</groupId>
                             <artifactId>sca4j-timer-quartz</artifactId>
                             <version>${sca4j.version}</version>
                         </dependency>
                         <dependency>
-                            <groupId>org.sca4j</groupId>
+                            <groupId>org.codehaus.service-conduit</groupId>
                             <artifactId>sca4j-timer-loader</artifactId>
                             <version>${sca4j.version}</version>
                         </dependency>
                         <dependency>
-                            <groupId>org.sca4j</groupId>
+                            <groupId>org.codehaus.service-conduit</groupId>
                             <artifactId>sca4j-timer-provision</artifactId>
                             <version>${sca4j.version}</version>
                         </dependency>
                         <dependency>
-                            <groupId>org.sca4j</groupId>
+                            <groupId>org.codehaus.service-conduit</groupId>
                             <artifactId>sca4j-timer-runtime</artifactId>
                             <version>${sca4j.version}</version>
                         </dependency>

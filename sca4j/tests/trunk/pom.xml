@@ -21,9 +21,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.sca4j</groupId>
+        <groupId>org.codehaus.service-conduit</groupId>
         <artifactId>parent</artifactId>
-        <version>5</version>
+        <version>6</version>
     </parent>
         
     <artifactId>ci</artifactId>
@@ -85,7 +85,7 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.sca4j</groupId>
+                    <groupId>org.codehaus.service-conduit</groupId>
                     <artifactId>sca4j-itest-plugin</artifactId>
                     <version>0.9.0-SNAPSHOT</version>
                 </plugin>                
