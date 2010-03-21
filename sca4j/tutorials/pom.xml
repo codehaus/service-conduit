@@ -27,7 +27,7 @@
     <version>1.0</version>
 
     <properties>
-        <sca4j.version>0.9.0-SNAPSHOT</sca4j.version>
+        <sca4j.version>0.9.1-SNAPSHOT</sca4j.version>
     </properties>
 
     <repositories>
