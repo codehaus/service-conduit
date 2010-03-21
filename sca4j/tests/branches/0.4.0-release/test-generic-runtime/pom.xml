@@ -21,9 +21,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.sca4j</groupId>
+        <groupId>org.codehaus.service-conduit</groupId>
         <artifactId>ci</artifactId>
-        <version>0.4.1-SNAPSHOT</version>
+        <version>0.4.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>test-generic-runtime</artifactId>
@@ -34,7 +34,7 @@
     <dependencies>
 
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-generic-junit-api</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
@@ -53,56 +53,56 @@
          </dependency>
 
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-api</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-resource</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-tx</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-jpa</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-binding-ws</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-binding-ws-axis2</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-jetty</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-tx-jotm</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
-            <groupId>org.sca4j.spec</groupId>
+            <groupId>org.codehaus.service-conduit.spec</groupId>
             <artifactId>sca-api-r1.0</artifactId>
             <version>0.2.2</version>
             <scope>compile</scope>

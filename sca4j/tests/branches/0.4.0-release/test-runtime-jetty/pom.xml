@@ -21,9 +21,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.sca4j</groupId>
+        <groupId>org.codehaus.service-conduit</groupId>
         <artifactId>ci</artifactId>
-        <version>0.4.1-SNAPSHOT</version>
+        <version>0.4.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>test-runtime-jetty</artifactId>
@@ -48,7 +48,7 @@
         
         <!-- use the released version of the API -->
         <dependency>
-            <groupId>org.sca4j.webapp</groupId>
+            <groupId>org.codehaus.service-conduit.webapp</groupId>
             <artifactId>sca4j-webapp-api</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
@@ -65,12 +65,12 @@
             <artifactId>junit</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-groovy</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.sca4j.webapp</groupId>
+            <groupId>org.codehaus.service-conduit.webapp</groupId>
             <artifactId>sca4j-webapp-host</artifactId>
             <version>${sca4j.version}</version>
         </dependency>

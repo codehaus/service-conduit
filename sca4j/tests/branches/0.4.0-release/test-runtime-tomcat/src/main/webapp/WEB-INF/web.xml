@@ -61,13 +61,13 @@
     <display-name>SCA4J Webapp Smoketest</display-name>
 
     <listener>
-        <listener-class>org.sca4j.runtime.webapp.SCA4JContextListener</listener-class>
+        <listener-class>org.codehaus.service-conduit.runtime.webapp.SCA4JContextListener</listener-class>
     </listener>
     <listener>
-        <listener-class>org.sca4j.runtime.webapp.SCA4JRequestListener</listener-class>
+        <listener-class>org.codehaus.service-conduit.runtime.webapp.SCA4JRequestListener</listener-class>
     </listener>
     <listener>
-        <listener-class>org.sca4j.runtime.webapp.SCA4JSessionListener</listener-class>
+        <listener-class>org.codehaus.service-conduit.runtime.webapp.SCA4JSessionListener</listener-class>
     </listener>
 
     <context-param>
@@ -82,13 +82,13 @@
 
     <servlet>
         <servlet-name>SCA4JServlet</servlet-name>
-        <servlet-class>org.sca4j.runtime.webapp.SCA4JServlet</servlet-class>
+        <servlet-class>org.codehaus.service-conduit.runtime.webapp.SCA4JServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet>
         <servlet-name>TestServlet</servlet-name>
-        <servlet-class>org.sca4j.runtime.webapp.smoketest.TestServlet</servlet-class>
+        <servlet-class>org.codehaus.service-conduit.runtime.webapp.smoketest.TestServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>

@@ -7,12 +7,12 @@
     <display-name>SCA4J Generic Webapp Test</display-name>
 
     <listener>
-        <listener-class>org.sca4j.runtime.generic.web.Sca4jContextListener</listener-class>
+        <listener-class>org.codehaus.service-conduit.runtime.generic.web.Sca4jContextListener</listener-class>
     </listener>
 
     <servlet>
         <servlet-name>BookServlet</servlet-name>
-        <servlet-class>org.sca4j.generic.runtime.web.test.BookServlet</servlet-class>
+        <servlet-class>org.codehaus.service-conduit.generic.runtime.web.test.BookServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>

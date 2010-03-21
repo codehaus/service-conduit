@@ -59,10 +59,10 @@
    <persistence-unit name="employee" transaction-type="JTA">
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
       <jta-data-source>BookDS</jta-data-source>
-      <class>org.sca4j.generic.runtime.web.test.Book</class>
+      <class>org.codehaus.service-conduit.generic.runtime.web.test.Book</class>
       <properties>
          <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
-         <property name="hibernate.transaction.manager_lookup_class"  value="org.sca4j.jpa.hibernate.SCA4JHibernateTransactionManagerLookup"/>
+         <property name="hibernate.transaction.manager_lookup_class"  value="org.codehaus.service-conduit.jpa.hibernate.SCA4JHibernateTransactionManagerLookup"/>
          <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
       </properties>
    </persistence-unit>

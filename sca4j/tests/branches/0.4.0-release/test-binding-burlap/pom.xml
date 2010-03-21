@@ -21,9 +21,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.sca4j</groupId>
+        <groupId>org.codehaus.service-conduit</groupId>
         <artifactId>ci</artifactId>
-        <version>0.4.1-SNAPSHOT</version>
+        <version>0.4.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>test-binding-burlap</artifactId>
@@ -37,23 +37,23 @@
             <artifactId>junit</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-binding-test-harness</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-binding-burlap</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-jetty</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-maven-host</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
@@ -63,7 +63,7 @@
         <defaultGoal>verify</defaultGoal>
         <plugins>
             <plugin>
-                <groupId>org.sca4j</groupId>
+                <groupId>org.codehaus.service-conduit</groupId>
                 <artifactId>sca4j-itest-plugin</artifactId>
                 <configuration>
                     <runtimeVersion>${runtime.version}</runtimeVersion>

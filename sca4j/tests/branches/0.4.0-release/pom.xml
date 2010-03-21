@@ -21,22 +21,35 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.sca4j</groupId>
+        <groupId>org.codehaus.service-conduit</groupId>
         <artifactId>parent</artifactId>
-        <version>5</version>
+        <version>6</version>
     </parent>
         
     <artifactId>ci</artifactId>
-    <version>0.4.1-SNAPSHOT</version>
+    <version>0.4.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>SCA4J Continuous Integration Tests</name>
     <description>POM to run the integration tests depending on available resources.</description>
 
     <properties>
-        <runtime.version>0.4.1-SNAPSHOT</runtime.version>
-        <sca4j.version>0.4.1-SNAPSHOT</sca4j.version>
+        <runtime.version>0.4.2-SNAPSHOT</runtime.version>
+        <sca4j.version>0.4.2-SNAPSHOT</sca4j.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>java.net.maven1</id>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <url>https://maven-repository.dev.java.net/nonav/repository/</url>
+        </repository>
+    </repositories>
     
     <modules>
         <module>test-generic-runtime</module>
@@ -63,61 +76,19 @@
         <module>test-binding-http</module>
     </modules>
 
-    <repositories>
-        <repository>
-            <id>sca4j</id>
-            <url>http://www.sca4j.org/nexus/content/repositories/releases</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>mc-release</id>
-            <url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
-        </pluginRepository>
-    </pluginRepositories>
-
     <build>
         <defaultGoal>verify</defaultGoal>
-        <plugins>
-            <!--plugin>
-                <groupId>com.google.code.maven-license-plugin</groupId>
-                <artifactId>maven-license-plugin</artifactId>
-                <configuration>
-                    <header>../../etc/java-header</header>
-                    <encoding>UTF-8</encoding>
-                    <includes>
-                        <include>**/*.java</include>
-                        <include>**/*.xml</include>
-                        <include>**/*.composite</include>
-                    </includes>
-                    <mapping>
-                        <composite>XML_STYLE</composite>
-                    </mapping>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin-->
-        </plugins>
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.sca4j</groupId>
+                    <groupId>org.codehaus.service-conduit</groupId>
                     <artifactId>sca4j-contribution-plugin</artifactId>
-                    <version>0.4.1-SNAPSHOT</version>
+                    <version>0.4.2</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.sca4j</groupId>
+                    <groupId>org.codehaus.service-conduit</groupId>
                     <artifactId>sca4j-itest-plugin</artifactId>
-                    <version>0.4.1-SNAPSHOT</version>
+                    <version>0.4.2-SNAPSHOT</version>
                 </plugin>                
                 <!--plugin>
                     <artifactId>maven-compiler-plugin</artifactId>

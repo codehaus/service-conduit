@@ -21,9 +21,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.sca4j</groupId>
+        <groupId>org.codehaus.service-conduit</groupId>
         <artifactId>ci</artifactId>
-        <version>0.4.1-SNAPSHOT</version>
+        <version>0.4.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>test-binding-ftp</artifactId>
@@ -33,12 +33,12 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.sca4j.spec</groupId>
+            <groupId>org.codehaus.service-conduit.spec</groupId>
             <artifactId>sca-api-r1.0</artifactId>
             <version>0.2.2</version>
         </dependency>
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-api</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
@@ -52,42 +52,42 @@
             <artifactId>junit</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-maven-host</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>test-ftp-security-policy</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-ftp-spi</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-ftp-server</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-binding-ftp</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-jetty</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-binding-ws</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-binding-ws-axis2</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
@@ -97,7 +97,7 @@
         <defaultGoal>verify</defaultGoal>
         <plugins>
             <plugin>
-                <groupId>org.sca4j</groupId>
+                <groupId>org.codehaus.service-conduit</groupId>
                 <artifactId>sca4j-itest-plugin</artifactId>
                 <configuration>
                     <systemConfig>

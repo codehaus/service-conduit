@@ -54,7 +54,7 @@
 
 -->
 <contribution xmlns="http://www.osoa.org/xmlns/sca/1.0"
-              xmlns:f3="org.sca4j"
+              xmlns:f3="org.codehaus.service-conduit"
               xmlns:maven="http://sca4j.org/xmlns/sca/2.0-alpha/maven">
-    <maven:import groupId="org.sca4j" artifactId="sca4j-timer-spi"/>
+    <maven:import groupId="org.codehaus.service-conduit" artifactId="sca4j-timer-spi"/>
 </contribution>

@@ -60,11 +60,11 @@
    <persistence-unit name="employee" transaction-type="JTA">
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
       <jta-data-source>EmployeeDS</jta-data-source>
-      <class>org.sca4j.runtime.webapp.smoketest.model.Employee</class>
+      <class>org.codehaus.service-conduit.runtime.webapp.smoketest.model.Employee</class>
       <properties>
          <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
          <property name="hibernate.transaction.manager_lookup_class" 
-                   value="org.sca4j.jpa.hibernate.F3HibernateTransactionManagerLookup"/>
+                   value="org.codehaus.service-conduit.jpa.hibernate.F3HibernateTransactionManagerLookup"/>
          <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
          <!-- property name="hibernate.cglib.use_reflection_optimizer" value="false"/-->
       </properties>
