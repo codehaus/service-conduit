@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.codehaus.service-conduit</groupId>
         <artifactId>ci</artifactId>
-        <version>0.9.0-SNAPSHOT</version>
+        <version>0.9.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>test-clover</artifactId>
