@@ -44,7 +44,7 @@
                 <plugin>
                     <groupId>org.codehaus.service-conduit</groupId>
                     <artifactId>sca4j-contribution-plugin</artifactId>
-                    <version>0.4.2</version>
+                    <version>0.4.3-SNAPSHOT</version>
                 </plugin>                
             </plugins>
         </pluginManagement>
