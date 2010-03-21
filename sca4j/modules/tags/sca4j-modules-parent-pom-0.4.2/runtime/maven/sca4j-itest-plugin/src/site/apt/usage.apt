@@ -1,0 +1,83 @@
+~~ See the NOTICE file distributed with this work for information
+~~ regarding copyright ownership.  This file is licensed
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~   http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+
+Usage
+
+  The <<fabric3-itest-plugin>> allows you to run integration tests on your SCA contributions
+  as part of a normal Maven build. It is associated with the <<integration-test>> phase of
+  the Maven lifecycle, running after your contribution has been packaged but before it is
+  installed in the local repository or deployed to a remote repository.
+
+  The plugin works by booting a small, embedded fabric3 runtime within the build process
+  and then deploying both your production contribution and your test cases to it.
+  It uses a local <<composite>> file to wire your test cases to services provided by your production
+  component. All you need to do is write the tests themselves.
+
+  The simplest configuration just needs the plugin activated:
+
++---+
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.codehaus.fabric3</groupId>
+            <artifactId>fabric3-itest-plugin</artifactId>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>test</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
++---+
+
+  The plugin will look for a file <<itest.composite>> in the root of your test resources and run
+  any test components it finds in there. Test components are specified using the "junit" implementation type.
+  An example itest composite might look something like:
+
++---+
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+           xmlns:f3="http://fabric3.org/xmlns/sca/2.0-alpha"
+           xmlns:tns="urn:com.example:MyComponent"
+           targetNamespace="urn:com.example:MyComponent" name="MyTestComposite">
+
+    <component name="MyComponent">
+        <implementation.composite name="tns:MyComposite"/>
+    </component>
+
+    <component name="MyTestComponent">
+        <f3:junit class="com.example.tests.MyIntegrationTest"/>
+        <reference name="service" target="MyComponent"/>
+    </component>
+</composite>
++---+
+
+  The test component is just a simple JUnit test case and you write test assertions just as you would
+  when testing regular Java classes. The only difference is that the plugin recognizes SCA annotations
+  like <<@Reference>> and automatically injects references to the components you are testing.
+  A simple test component would look something like:
+
++---+
+public class MyIntegrationTest extends TestCase {
+    @Reference
+    public MyService service;
+
+    public void testCallingComponent() {
+        assertEquals("Hello World", service.sayHello());
+    }
+}
++---+
