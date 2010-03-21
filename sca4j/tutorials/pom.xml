@@ -30,19 +30,19 @@
         <sca4j.version>0.9.0-SNAPSHOT</sca4j.version>
     </properties>
 
-    <!--repositories>
+    <repositories>
         <repository>
-            <id>sca4j</id>
-            <url>http://www.sca4j.org/nexus/content/repositories/releases</url>
+            <id>codehaus</id>
+            <url>http://repository.codehaus.org/</url>
         </repository>
     </repositories>
 
     <pluginRepositories>
         <pluginRepository>
-            <id>sca4j.plugin</id>
-            <url>http://www.sca4j.org/nexus/content/repositories/releases</url>
+            <id>codehaus.plugin</id>
+            <url>http://repository.codehaus.org/</url>
         </pluginRepository>
-    </pluginRepositories-->
+    </pluginRepositories>
 
     <dependencyManagement>
         <dependencies>
