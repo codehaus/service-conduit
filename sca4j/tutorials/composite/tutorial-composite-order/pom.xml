@@ -19,7 +19,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.sca4j.tutorial</groupId>
+        <groupId>org.codehaus.service-conduit.tutorial</groupId>
         <artifactId>parent</artifactId>
         <version>1.0</version>
     </parent>
@@ -34,16 +34,16 @@
             <artifactId>junit</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.sca4j</groupId>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-maven-host</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.sca4j.tutorial</groupId>
+            <groupId>org.codehaus.service-conduit.tutorial</groupId>
             <artifactId>tutorial-composite-billing</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.sca4j.tutorial</groupId>
+            <groupId>org.codehaus.service-conduit.tutorial</groupId>
             <artifactId>tutorial-composite-shipping</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -52,7 +52,7 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.sca4j</groupId>
+                <groupId>org.codehaus.service-conduit</groupId>
                 <artifactId>sca4j-itest-plugin</artifactId>
             </plugin>
         </plugins>
