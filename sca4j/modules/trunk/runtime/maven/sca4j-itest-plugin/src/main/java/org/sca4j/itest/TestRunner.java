@@ -165,17 +165,20 @@ public class TestRunner {
                 throw new TestFailureException(msg);
             }
             
+            hostClassLoader = null;
+            bootClassLoader = null;
+            
+            System.gc();
+            
             
         } catch (TestFailureException e) {
             throw e;
         } catch (Exception e) {
             e.printStackTrace();
-            // trap any other exception
             throw new AssertionError(e);
         } catch (Error e) {
             e.printStackTrace();
-            // trap any other exception
-            throw new AssertionError(e);
+            System.exit(1);
         } finally {
             if (runtime != null) {
                 runtime.shutdown();
@@ -234,7 +237,7 @@ public class TestRunner {
         }
 
         try {
-            return systemConfig.exists() ? systemConfig.toURL() : null;
+            return systemConfig.exists() ? systemConfig.toURI().toURL() : null;
         } catch (MalformedURLException e) {
             throw new AssertionError("Invalid system configuration: " + systemConfig);
         }

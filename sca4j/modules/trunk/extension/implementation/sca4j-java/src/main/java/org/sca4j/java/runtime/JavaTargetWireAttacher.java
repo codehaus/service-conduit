@@ -106,7 +106,6 @@ public class JavaTargetWireAttacher implements TargetWireAttacher<JavaWireTarget
             throws WireAttachException {
         URI targetName = UriHelper.getDefragmentedName(targetDefinition.getUri());
         Component component = manager.getComponent(targetName);
-        assert component instanceof JavaComponent;
 
         JavaComponent<?> target = (JavaComponent<?>) component;
 
