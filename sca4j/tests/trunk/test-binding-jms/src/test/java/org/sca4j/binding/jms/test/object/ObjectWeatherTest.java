@@ -99,6 +99,8 @@ public class ObjectWeatherTest extends TestCase {
         weatherRequest.setCity("London");
         weatherRequest.setDate(new Date());
         
+        System.err.println("Before sending the message");
+        
         WeatherResponse weatherResponse = weatherService.getWeather(weatherRequest);
         
         assertEquals(WeatherCondition.SUNNY, weatherResponse.getCondition());

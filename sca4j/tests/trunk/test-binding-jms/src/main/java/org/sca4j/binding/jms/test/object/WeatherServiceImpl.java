@@ -77,6 +77,7 @@ public class WeatherServiceImpl implements WeatherService {
 
     public WeatherResponse getWeather(WeatherRequest weatherRequest) {
 
+        System.err.println("Message received");
         WeatherResponse weatherResponse = new WeatherResponse();
         weatherResponse.setCondition(WeatherCondition.SUNNY);
         weatherResponse.setTemperatureMinimum(25);

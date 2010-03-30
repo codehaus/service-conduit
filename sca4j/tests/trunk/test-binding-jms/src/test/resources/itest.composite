@@ -111,7 +111,6 @@
                 </response>
             </binding.jms>
         </reference>
-        <!-- verifies the JAXB transformer interceptor is not applied for wires where the source and target are collocated-->
         <reference name="collocatedWeatherService" target="VMJAXBWeatherService"/>
     </component>
 
@@ -203,43 +202,5 @@
         </service>
 		<reference name="parameterHolder" target="ParameterHolder"/>
     </component>
-
-    <!--FABRICTHREE-271-->
-    <!--<component name="AsyncTest">-->
-    <!--<sca4j:junit class="org.sca4j.binding.jms.test.async.AsyncServiceTest"/>-->
-    <!--<reference name="service">-->
-    <!--<binding.jms correlationScheme="RequestMsgIDToCorrelID">-->
-    <!--<destination name="asyncServiceQueue" type="queue" create="always"/>-->
-    <!--<connectionFactory name="org.apache.activemq.ActiveMQConnectionFactory" create="always">-->
-    <!--<property name="brokerURL">vm://broker</property>-->
-    <!--</connectionFactory>-->
-    <!--<response>-->
-    <!--<destination name="primitiveResponseQueue" type="queue" create="always"/>-->
-    <!--<connectionFactory name="org.apache.activemq.ActiveMQConnectionFactory" create="always">-->
-    <!--<property name="brokerURL">vm://broker</property>-->
-    <!--</connectionFactory>-->
-    <!--</response>-->
-    <!--</binding.jms>-->
-    <!--</reference>-->
-    <!--</component>-->
-
-    <!--<component name="AsyncService">-->
-    <!--<implementation.java class="org.sca4j.binding.jms.test.async.AsyncServiceImpl"/>-->
-    <!--<service name="AsyncService">-->
-    <!--<binding.jms correlationScheme="RequestMsgIDToCorrelID" requires="sca:transactedOneWay.global">-->
-    <!--<destination name="asyncServiceQueue" type="queue" create="always"/>-->
-    <!--<connectionFactory name="org.apache.activemq.ActiveMQXAConnectionFactory" create="always">-->
-    <!--<property name="brokerURL">vm://broker</property>-->
-    <!--</connectionFactory>-->
-    <!--<response>-->
-    <!--<destination name="primitiveResponseQueue" type="queue" create="always"/>-->
-    <!--<connectionFactory name="org.apache.activemq.ActiveMQXAConnectionFactory" create="always">-->
-    <!--<property name="brokerURL">vm://broker</property>-->
-    <!--</connectionFactory>-->
-    <!--</response>-->
-    <!--</binding.jms>-->
-    <!--</service>-->
-    <!--<reference name="asyncResponse" target="AsyncTest"/>-->
-    <!--</component>-->
-    <!--end FABRICTHREE-271-->
+    
 </composite>
