@@ -116,21 +116,28 @@ public class SCA4JExecutorService implements ExecutorService {
         throw new UnsupportedOperationException();
     }
 
-    public <T> List<Future<T>> invokeAll(Collection<Callable<T>> tasks) throws InterruptedException {
-        throw new UnsupportedOperationException();
+    @Override
+    public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks) throws InterruptedException {
+        // TODO Auto-generated method stub
+        return null;
     }
 
-    public <T> List<Future<T>> invokeAll(Collection<Callable<T>> tasks, long timeout, TimeUnit unit) throws InterruptedException {
-        throw new UnsupportedOperationException();
+    @Override
+    public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit) throws InterruptedException {
+        // TODO Auto-generated method stub
+        return null;
     }
 
-    public <T> T invokeAny(Collection<Callable<T>> tasks) throws InterruptedException, ExecutionException {
-        throw new UnsupportedOperationException();
+    @Override
+    public <T> T invokeAny(Collection<? extends Callable<T>> tasks) throws InterruptedException, ExecutionException {
+        // TODO Auto-generated method stub
+        return null;
     }
 
-    public <T> T invokeAny(Collection<Callable<T>> tasks, long timeout, TimeUnit unit)
-            throws InterruptedException, ExecutionException, TimeoutException {
-        throw new UnsupportedOperationException();
+    @Override
+    public <T> T invokeAny(Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

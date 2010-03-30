@@ -229,27 +229,6 @@ public class QuartzTimerService implements TimerService {
 
     }
 
-    public <T> List<Future<T>> invokeAll(Collection<Callable<T>> tasks) throws InterruptedException {
-        throw new UnsupportedOperationException("Not implemented");
-
-    }
-
-    public <T> List<Future<T>> invokeAll(Collection<Callable<T>> tasks, long timeout, TimeUnit unit) throws InterruptedException {
-        throw new UnsupportedOperationException("Not implemented");
-
-    }
-
-    public <T> T invokeAny(Collection<Callable<T>> tasks) throws InterruptedException, ExecutionException {
-        throw new UnsupportedOperationException("Not implemented");
-
-    }
-
-    public <T> T invokeAny(Collection<Callable<T>> tasks, long timeout, TimeUnit unit)
-            throws InterruptedException, ExecutionException, TimeoutException {
-        throw new UnsupportedOperationException("Not implemented");
-
-    }
-
     public void execute(final Runnable runnable) {
         workScheduler.scheduleWork(new DefaultPausableWork() {
         	public void execute() {
@@ -328,6 +307,30 @@ public class QuartzTimerService implements TimerService {
         public int getPoolSize() {
             return 5;  // TODO WorkScheduler doesn't provide this functionality
         }
+    }
+
+    @Override
+    public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> arg0) throws InterruptedException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> arg0, long arg1, TimeUnit arg2) throws InterruptedException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public <T> T invokeAny(Collection<? extends Callable<T>> arg0) throws InterruptedException, ExecutionException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public <T> T invokeAny(Collection<? extends Callable<T>> arg0, long arg1, TimeUnit arg2) throws InterruptedException, ExecutionException, TimeoutException {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
