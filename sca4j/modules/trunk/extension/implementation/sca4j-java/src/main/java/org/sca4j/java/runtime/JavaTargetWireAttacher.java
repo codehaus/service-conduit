@@ -127,7 +127,7 @@ public class JavaTargetWireAttacher implements TargetWireAttacher<JavaWireTarget
                     if (PRIMITIVES.containsKey(param)) {
                         paramTypes[i] = PRIMITIVES.get(param);
                     } else {
-                        paramTypes[i] = getClass().getClassLoader().loadClass(param);
+                        paramTypes[i] = Class.forName(param);
                     }
                 } catch (ClassNotFoundException e) {
                     URI sourceUri = sourceDefinition.getUri();

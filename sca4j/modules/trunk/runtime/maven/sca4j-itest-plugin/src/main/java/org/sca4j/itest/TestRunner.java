@@ -169,6 +169,11 @@ public class TestRunner {
         } catch (TestFailureException e) {
             throw e;
         } catch (Exception e) {
+            e.printStackTrace();
+            // trap any other exception
+            throw new AssertionError(e);
+        } catch (Error e) {
+            e.printStackTrace();
             // trap any other exception
             throw new AssertionError(e);
         } finally {

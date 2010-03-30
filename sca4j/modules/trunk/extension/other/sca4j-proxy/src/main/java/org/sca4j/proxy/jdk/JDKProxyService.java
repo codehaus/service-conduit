@@ -241,7 +241,7 @@ public class JDKProxyService implements ProxyService {
             if (PRIMITIVES.containsKey(params.get(i))) {
                 types[i] = PRIMITIVES.get(params.get(i));
             } else {
-                types[i] = getClass().getClassLoader().loadClass(params.get(i));
+                types[i] = Class.forName(params.get(i));
             }
         }
         return clazz.getMethod(name, types);
