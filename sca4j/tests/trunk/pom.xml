@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.codehaus.service-conduit</groupId>
         <artifactId>parent</artifactId>
-        <version>6</version>
+        <version>7</version>
     </parent>
         
     <artifactId>ci</artifactId>
@@ -39,6 +39,13 @@
     </properties>
     
     <modules>
+        <module>test-jpa</module>
+        <module>test-ftp-security-policy</module>
+        <module>test-binding-ftp</module>
+        <module>test-binding-tcp</module>
+        <module>test-ssl-policy</module>
+        <module>test-binding-http</module>
+        <module>test-binding-axis2-jaxb</module>
         <module>test-generic-runtime</module>
         <module>test-performance</module>
         <module>test-rs</module>
@@ -51,16 +58,9 @@
         <module>test-axis2-audit-module</module>
         <module>test-axis2-audit-policy</module>
         <module>test-binding-axis2</module>
-        <module>test-binding-axis2-jaxb</module>
         <module>test-binding-burlap</module>
         <module>test-binding-hessian</module>
         <module>test-binding-jms</module>
-        <module>test-jpa</module>
-        <module>test-ftp-security-policy</module>
-        <module>test-binding-ftp</module>
-        <module>test-binding-tcp</module>
-        <module>test-ssl-policy</module>
-        <module>test-binding-http</module>
     </modules>
 
     <repositories>
