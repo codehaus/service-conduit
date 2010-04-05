@@ -72,6 +72,8 @@ package org.sca4j.introspection.impl.contract;
 
 import java.lang.reflect.Type;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -103,6 +105,7 @@ public class DefaultContractProcessorTestCase extends TestCase {
         assertEquals("Simple", contract.getInterfaceName());
         assertEquals(Simple.class.getName(), contract.getQualifiedInterfaceName());
         List<Operation<Type>> operations = contract.getOperations();
+        sort(operations);
         assertEquals(1, operations.size());
         Operation<Type> baseInt = operations.get(0);
         assertNotNull(baseInt);
@@ -130,6 +133,7 @@ public class DefaultContractProcessorTestCase extends TestCase {
         assertEquals("Generic", contract.getInterfaceName());
 
         List<Operation<Type>> operations = contract.getOperations();
+        sort(operations);
         assertEquals(2, operations.size());
         Operation<Type> operation = operations.get(0);
         assertEquals("echo", operation.getName());
@@ -143,6 +147,7 @@ public class DefaultContractProcessorTestCase extends TestCase {
         ValidationContext context = new DefaultValidationContext();
         ServiceContract<Type> contract = impl.introspect(boundMapping, Generic.class, context);
         List<Operation<Type>> operations = contract.getOperations();
+        sort(operations);
         Operation<Type> operation = operations.get(1);
         assertEquals("echo2", operation.getName());
 
@@ -168,7 +173,9 @@ public class DefaultContractProcessorTestCase extends TestCase {
         assertTrue(contract.isConversational());
         boolean testedContinue = false;
         boolean testedEnd = false;
-        for (Operation<Type> operation : contract.getOperations()) {
+        List<Operation<Type>> operations = contract.getOperations();
+        sort(operations);
+		for (Operation<Type> operation : operations) {
             if (operation.getName().equals("operation")) {
                 assertEquals(Operation.CONVERSATION_CONTINUE, operation.getConversationSequence());
                 testedContinue = true;
@@ -224,6 +231,20 @@ public class DefaultContractProcessorTestCase extends TestCase {
         emptyMapping = new TypeMapping();
         boundMapping = helper.mapTypeParameters(BoundImpl.class);
 
+    }
+    
+    /*
+     * The reflection API call to get the methods on an interface doesn't always return them in the same
+     * order. There's no reason to have the corresponding runtime Operation list sorted by name but some of
+     * the tests depend on ordering so sort the operations here rather than in the runtime implementation.  
+     */
+    private void sort(List<Operation<Type>> operations) {
+        Collections.sort(operations, new Comparator<Operation<Type>>(){
+			@Override
+			public int compare(Operation<Type> o1, Operation<Type> o2) {
+				return o1.getName().compareTo(o2.getName());
+			}        	
+        });  
     }
 
     private static interface Base {
