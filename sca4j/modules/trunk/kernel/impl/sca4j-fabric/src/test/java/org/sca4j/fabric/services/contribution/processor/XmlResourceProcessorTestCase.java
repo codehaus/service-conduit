@@ -100,7 +100,7 @@ public class XmlResourceProcessorTestCase extends TestCase {
 //                                      EasyMock.isA(Class.class),
 //                                      EasyMock.isA(IntrospectionContext.class))).andReturn(null);
 //        EasyMock.replay(registry);
-        processor = new XmlResourceProcessor(null, null, null, factory);
+        processor = new XmlResourceProcessor(factory);
 
 
     }

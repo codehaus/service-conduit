@@ -172,7 +172,7 @@ public class DefinitionsLoaderTestCase extends TestCase {
         loaderRegistry.registerLoader(DefinitionsLoader.INTENT, intentLoader);
 
         // setup indexed resource
-        resource = new Resource(null, "application/xml");
+        resource = new Resource(null);
         // setup up indexed resource elements
         ResourceElement<QNameSymbol, ?> element =
                 new ResourceElement<QNameSymbol, AbstractDefinition>(new QNameSymbol(TRANSACTIONAL_QNAME));

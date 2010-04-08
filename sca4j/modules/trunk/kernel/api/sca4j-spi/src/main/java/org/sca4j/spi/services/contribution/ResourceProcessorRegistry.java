@@ -68,61 +68,41 @@
  * specific language governing permissions and limitations
  * under the License.    
  */
-package org.sca4j.fabric.services.contribution;
+package org.sca4j.spi.services.contribution;
 
 import java.net.URI;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Service;
 import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.scdl.ValidationContext;
-import org.sca4j.spi.services.contribution.Contribution;
-import org.sca4j.spi.services.contribution.ProcessorRegistry;
-import org.sca4j.spi.services.contribution.Resource;
-import org.sca4j.spi.services.contribution.ResourceProcessor;
 
 /**
- * Default implementation of ProcessorRegistry
+ * The system registry of contribution processors
  *
- * @version $Rev: 4358 $ $Date: 2008-05-26 07:31:29 +0100 (Mon, 26 May 2008) $
+ * @version $Rev: 4313 $ $Date: 2008-05-24 00:06:47 +0100 (Sat, 24 May 2008) $
  */
-@EagerInit
-@Service(ProcessorRegistry.class)
-public class ProcessorRegistryImpl implements ProcessorRegistry {
-    
-    private Map<String, ResourceProcessor> resourceProcessorCache = new HashMap<String, ResourceProcessor>();
+public interface ResourceProcessorRegistry {
 
-    public ProcessorRegistryImpl() {
-    }
+    /**
+     * Dispatches to a {@link ResourceProcessor} to index a resource contained in a contribution.
+     *
+     * @param contribution the cntaining contribution
+     * @param contentType  the content type of the resource to process
+     * @param url          a dereferenceable URL for the resource
+     * @param context      the context to which validation errors and warnings are reported
+     * @throws ContributionException if there was a problem indexing the contribution
+     */
+    void indexResource(Contribution contribution, URL url, ValidationContext context) throws ContributionException;
 
-    public void register(ResourceProcessor processor) {
-        resourceProcessorCache.put(processor.getContentType(), processor);
-    }
-
-    public void unregisterResourceProcessor(String contentType) {
-        resourceProcessorCache.remove(contentType);
-    }
-
-    public void indexResource(Contribution contribution, String contentType, URL url, ValidationContext context) throws ContributionException {
-        ResourceProcessor processor = resourceProcessorCache.get(contentType);
-        if (processor == null) {
-            // unknown type, skip
-            return;
-        }
-        processor.index(contribution, url, context);
-    }
-
-    public void processResource(URI contributionUri, Resource resource, ValidationContext context, ClassLoader loader) throws ContributionException {
-        ResourceProcessor processor = resourceProcessorCache.get(resource.getContentType());
-        if (processor == null) {
-            // FIXME for now, return null
-            return;
-            //throw new UnsupportedContentTypeException(contentType);
-        }
-        processor.process(contributionUri, resource, context, loader);
-    }
+    /**
+     * Loads a contained resource in a contribution.
+     *
+     * @param contributionUri the URI of the active contribution
+     * @param resource        the resource to process
+     * @param context         the context to which validation errors and warnings are reported
+     * @param loader          the classloader contribution the resource must be loaded in
+     * @throws ContributionException if there was a problem loading the resoure
+     */
+    void processResource(URI contributionUri, Resource resource, ValidationContext context, ClassLoader loader) throws ContributionException;
 
 }

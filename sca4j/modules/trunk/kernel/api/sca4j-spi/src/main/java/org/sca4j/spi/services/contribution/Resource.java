@@ -64,24 +64,13 @@ import java.io.Serializable;
  * @version $Rev: 5299 $ $Date: 2008-08-29 23:02:05 +0100 (Fri, 29 Aug 2008) $
  */
 public class Resource implements Serializable {
-    private static final long serialVersionUID = 4291622973495594302L;
+    
     private List<ResourceElement<?, ?>> elements = new ArrayList<ResourceElement<?, ?>>();
     private URL url;
-    private String contentType;
     private boolean processed;
 
-    public Resource(URL url, String contentType) {
+    public Resource(URL url) {
         this.url = url;
-        this.contentType = contentType;
-    }
-
-    /**
-     * Returns the resource content type
-     *
-     * @return the resource content type
-     */
-    public String getContentType() {
-        return contentType;
     }
 
     /**

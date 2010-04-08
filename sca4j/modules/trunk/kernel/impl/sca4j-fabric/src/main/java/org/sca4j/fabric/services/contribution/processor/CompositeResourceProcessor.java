@@ -56,6 +56,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -63,7 +64,6 @@ import javax.xml.stream.XMLStreamReader;
 
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.host.contribution.Constants;
 import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.introspection.DefaultIntrospectionContext;
@@ -75,7 +75,6 @@ import org.sca4j.scdl.Composite;
 import org.sca4j.scdl.ValidationContext;
 import org.sca4j.services.xmlfactory.XMLFactory;
 import org.sca4j.spi.services.contribution.Contribution;
-import org.sca4j.spi.services.contribution.ProcessorRegistry;
 import org.sca4j.spi.services.contribution.QNameSymbol;
 import org.sca4j.spi.services.contribution.Resource;
 import org.sca4j.spi.services.contribution.ResourceElement;
@@ -90,14 +89,11 @@ import org.sca4j.spi.services.contribution.ResourceProcessor;
  */
 @EagerInit
 public class CompositeResourceProcessor implements ResourceProcessor {
-    private Loader loader;
+    
+    @Reference public Loader loader;
     private final XMLInputFactory xmlFactory;
 
-    public CompositeResourceProcessor(@Reference ProcessorRegistry processorRegistry,
-                                      @Reference Loader loader,
-                                      @Reference XMLFactory xmlFactory) {
-        processorRegistry.register(this);
-        this.loader = loader;
+    public CompositeResourceProcessor(@Reference XMLFactory xmlFactory) {
         this.xmlFactory = xmlFactory.newInputFactoryInstance();
     }
 
@@ -117,7 +113,7 @@ public class CompositeResourceProcessor implements ResourceProcessor {
                 context.addError(new MissingAttribute("Composite name not specified", "name", reader));
                 return;
             }
-            Resource resource = new Resource(url, Constants.COMPOSITE_CONTENT_TYPE);
+            Resource resource = new Resource(url);
             String targetNamespace = reader.getAttributeValue(null, "targetNamespace");
             QName compositeName = new QName(targetNamespace, name);
             QNameSymbol symbol = new QNameSymbol(compositeName);

@@ -79,7 +79,6 @@ import static org.sca4j.fabric.runtime.ComponentNames.RUNTIME_DOMAIN_URI;
 import static org.sca4j.fabric.runtime.ComponentNames.RUNTIME_URI;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.management.MBeanServer;
@@ -92,7 +91,6 @@ import org.sca4j.fabric.runtime.bootstrap.ScdlBootstrapperImpl;
 import org.sca4j.fabric.services.componentmanager.ComponentManagerImpl;
 import org.sca4j.fabric.services.contribution.ContributionScanner;
 import org.sca4j.fabric.services.contribution.MetaDataStoreImpl;
-import org.sca4j.fabric.services.contribution.ProcessorRegistryImpl;
 import org.sca4j.fabric.services.lcm.LogicalComponentManagerImpl;
 import org.sca4j.fabric.services.lcm.NonPersistentLogicalComponentStore;
 import org.sca4j.host.contribution.ContributionException;
@@ -125,7 +123,6 @@ import org.sca4j.spi.runtime.RuntimeServices;
 import org.sca4j.spi.services.componentmanager.ComponentManager;
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.MetaDataStore;
-import org.sca4j.spi.services.contribution.ProcessorRegistry;
 import org.sca4j.spi.services.contribution.QNameSymbol;
 import org.sca4j.spi.services.contribution.Resource;
 import org.sca4j.spi.services.contribution.ResourceElement;
@@ -182,8 +179,7 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
         }
 
         componentManager = new ComponentManagerImpl();
-        ProcessorRegistry processorRegistry = new ProcessorRegistryImpl();
-        metaDataStore = new MetaDataStoreImpl(processorRegistry);
+        metaDataStore = new MetaDataStoreImpl();
 
         scopeContainer = new CompositeScopeContainer(getMonitorFactory().getMonitor(ScopeContainerMonitor.class));
         scopeContainer.start();

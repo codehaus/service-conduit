@@ -105,7 +105,7 @@ public class MetaDataStoreImplTestCase extends TestCase {
         QName qname = new QName("foo", "bar");
         QNameSymbol symbol = new QNameSymbol(qname);
         ResourceElement<QNameSymbol, Serializable> element = new ResourceElement<QNameSymbol, Serializable>(symbol);
-        Resource resource = new Resource(new URL("file://foo"), "resource");
+        Resource resource = new Resource(new URL("file://foo"));
         resource.addResourceElement(element);
         contribution.addResource(resource);
         store.store(contribution);
@@ -114,7 +114,7 @@ public class MetaDataStoreImplTestCase extends TestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        store = new MetaDataStoreImpl(null);
+        store = new MetaDataStoreImpl();
         Contribution contribution = new Contribution(RESOURCE_URI);
         ContributionManifest manifest = new ContributionManifest();
         QNameExport export = new QNameExport(IMPORT_EXPORT_QNAME);

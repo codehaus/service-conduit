@@ -93,7 +93,7 @@ public class DefinitionsIndexerTestCase extends TestCase {
     private XMLStreamReader reader;
 
     public void testIndex() throws Exception {
-        Resource resource = new Resource(null, "foo");
+        Resource resource = new Resource(null);
         ValidationContext context = new DefaultValidationContext();
         loader.index(resource, reader, context);
 

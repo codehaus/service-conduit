@@ -56,24 +56,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
+
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.host.contribution.ContributionException;
+import org.sca4j.scdl.ValidationContext;
+import org.sca4j.services.xmlfactory.XMLFactory;
 import org.sca4j.spi.services.contribution.Contribution;
-import org.sca4j.spi.services.contribution.ProcessorRegistry;
 import org.sca4j.spi.services.contribution.Resource;
 import org.sca4j.spi.services.contribution.ResourceProcessor;
 import org.sca4j.spi.services.contribution.XmlIndexerRegistry;
 import org.sca4j.spi.services.contribution.XmlResourceElementLoaderRegistry;
-import org.sca4j.services.xmlfactory.XMLFactory;
-import org.sca4j.scdl.ValidationContext;
 
 /**
  * Processes an XML-based resource in a contribution, delegating to a an XMLIndexer to index the resource and a Loader to load it based on the root
@@ -83,24 +81,13 @@ import org.sca4j.scdl.ValidationContext;
  */
 @EagerInit
 public class XmlResourceProcessor implements ResourceProcessor {
-    private ProcessorRegistry processorRegistry;
-    private XmlResourceElementLoaderRegistry elementLoaderRegistry;
-    private XmlIndexerRegistry indexerRegistry;
+    
+    @Reference public XmlResourceElementLoaderRegistry elementLoaderRegistry;
+    @Reference public XmlIndexerRegistry indexerRegistry;
     private XMLInputFactory xmlFactory;
 
-    public XmlResourceProcessor(@Reference ProcessorRegistry processorRegistry,
-                                @Reference XmlIndexerRegistry indexerRegistry,
-                                @Reference XmlResourceElementLoaderRegistry elementLoaderRegistry,
-                                @Reference XMLFactory xmlFactory) {
-        this.processorRegistry = processorRegistry;
-        this.elementLoaderRegistry = elementLoaderRegistry;
-        this.indexerRegistry = indexerRegistry;
+    public XmlResourceProcessor(@Reference XMLFactory xmlFactory) {
         this.xmlFactory = xmlFactory.newInputFactoryInstance();
-    }
-
-    @Init
-    public void init() {
-        processorRegistry.register(this);
     }
 
     public String getContentType() {
@@ -116,7 +103,7 @@ public class XmlResourceProcessor implements ResourceProcessor {
             if (skipToFirstTag(reader)) {
                 return;
             }
-            Resource resource = new Resource(url, "application/xml");
+            Resource resource = new Resource(url);
             indexerRegistry.index(resource, reader, context);
             contribution.addResource(resource);
         } catch (XMLStreamException e) {

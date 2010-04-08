@@ -70,7 +70,7 @@ import org.sca4j.spi.services.contribution.Export;
 import org.sca4j.spi.services.contribution.Import;
 import org.sca4j.spi.services.contribution.MetaDataStore;
 import org.sca4j.spi.services.contribution.MetaDataStoreException;
-import org.sca4j.spi.services.contribution.ProcessorRegistry;
+import org.sca4j.spi.services.contribution.ResourceProcessorRegistry;
 import org.sca4j.spi.services.contribution.Resource;
 import org.sca4j.spi.services.contribution.ResourceElement;
 import org.sca4j.spi.services.contribution.Symbol;
@@ -81,15 +81,14 @@ import org.sca4j.spi.services.contribution.Symbol;
  * @version $Rev: 5299 $ $Date: 2008-08-29 23:02:05 +0100 (Fri, 29 Aug 2008) $
  */
 public class MetaDataStoreImpl implements MetaDataStore {
+    
     public static final QName COMPOSITE = new QName(Constants.SCA_NS, "composite");
+    
     private Map<URI, Contribution> cache = new ConcurrentHashMap<URI, Contribution>();
-    private Map<QName, Map<Export, Contribution>> exportsToContributionCache =
-            new ConcurrentHashMap<QName, Map<Export, Contribution>>();
-    private ProcessorRegistry processorRegistry;
-
-    public MetaDataStoreImpl(ProcessorRegistry processorRegistry) {
-        this.processorRegistry = processorRegistry;
-    }
+    private Map<QName, Map<Export, Contribution>> exportsToContributionCache = new ConcurrentHashMap<QName, Map<Export, Contribution>>();
+    
+    @Reference public ResourceProcessorRegistry resourceProcessorRegistry;
+    
 
     public void store(Contribution contribution) throws MetaDataStoreException {
         cache.put(contribution.getUri(), contribution);
@@ -102,8 +101,8 @@ public class MetaDataStoreImpl implements MetaDataStore {
      * @param processorRegistry the configured processor registry
      */
     @Reference
-    public void setProcessorRegistry(ProcessorRegistry processorRegistry) {
-        this.processorRegistry = processorRegistry;
+    public void setProcessorRegistry(ResourceProcessorRegistry processorRegistry) {
+        this.resourceProcessorRegistry = processorRegistry;
     }
 
     public Contribution find(URI contributionUri) {
@@ -242,7 +241,7 @@ public class MetaDataStoreImpl implements MetaDataStore {
                 if (element.getSymbol().equals(symbol)) {
                     if (!resource.isProcessed()) {
                         try {
-                            processorRegistry.processResource(contributionUri, resource, context, loader);
+                            resourceProcessorRegistry.processResource(contributionUri, resource, context, loader);
                         } catch (ContributionException e) {
                             String identifier = resource.getUrl().toString();
                             throw new MetaDataStoreException("Error resolving resource: " + identifier, identifier, e);

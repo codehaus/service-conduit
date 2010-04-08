@@ -75,6 +75,7 @@ import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.util.Map;
 
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
@@ -88,8 +89,8 @@ import org.sca4j.spi.services.contribution.Action;
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.ContributionManifest;
 import org.sca4j.spi.services.contribution.ContributionProcessor;
-import org.sca4j.spi.services.contribution.ProcessorRegistry;
 import org.sca4j.spi.services.contribution.Resource;
+import org.sca4j.spi.services.contribution.ResourceProcessor;
 
 /**
  * The base class for ContributionProcessor implementations
@@ -99,7 +100,7 @@ import org.sca4j.spi.services.contribution.Resource;
 @EagerInit
 public abstract class AbstractContributionProcessor implements ContributionProcessor {
     
-    @Reference public ProcessorRegistry registry;
+    @Reference public Map<String, ResourceProcessor> resourceProcessors;
     @Reference public Loader loader;
 
     /**
@@ -113,7 +114,10 @@ public abstract class AbstractContributionProcessor implements ContributionProce
             Thread.currentThread().setContextClassLoader(loader);
             for (Resource resource : contribution.getResources()) {
                 if (!resource.isProcessed()) {
-                    registry.processResource(contributionUri, resource, context, loader);
+                    ResourceProcessor resourceProcessor = getResourceProcessor(resource.getUrl());
+                    if (resourceProcessor != null) {
+                        resourceProcessor.process(contributionUri, resource, context, loader);
+                    }
                 }
             }
         } finally {
@@ -128,7 +132,10 @@ public abstract class AbstractContributionProcessor implements ContributionProce
     public final void index(Contribution contribution, final ValidationContext context) throws ContributionException {
         iterateArtifacts(contribution, new Action() {
             public void process(Contribution contribution, String contentType, URL url) throws ContributionException {
-                registry.indexResource(contribution, contentType, url, context);
+                ResourceProcessor resourceProcessor = getResourceProcessor(url);
+                if (resourceProcessor != null) {
+                    resourceProcessor.index(contribution, url, context);
+                }
             }
         });
     }
@@ -182,5 +189,14 @@ public abstract class AbstractContributionProcessor implements ContributionProce
      * @throws MalformedURLException If unable to construct the manifest URL.
      */
     protected abstract URL getManifestUrl(Contribution contribution) throws MalformedURLException;
+    
+    /*
+     * Gets the resource processor for the extension.
+     */
+    private ResourceProcessor getResourceProcessor(URL resourceUrl) {
+        String externalForm = resourceUrl.toExternalForm();
+        String type = externalForm.substring(externalForm.lastIndexOf('.') + 1);
+        return resourceProcessors.get(type);
+    }
 
 }

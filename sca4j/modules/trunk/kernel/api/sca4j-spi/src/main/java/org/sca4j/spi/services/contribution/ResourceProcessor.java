@@ -66,13 +66,6 @@ import org.sca4j.scdl.ValidationContext;
 public interface ResourceProcessor {
 
     /**
-     * Returns the content type the processor handles
-     *
-     * @return the content type the processor handles
-     */
-    String getContentType();
-
-    /**
      * Indexes the resource
      *
      * @param contribution the containing contribution
