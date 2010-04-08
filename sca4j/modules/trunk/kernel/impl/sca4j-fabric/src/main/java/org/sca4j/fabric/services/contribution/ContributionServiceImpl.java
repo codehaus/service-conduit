@@ -70,12 +70,9 @@
  */
 package org.sca4j.fabric.services.contribution;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -84,10 +81,8 @@ import javax.xml.namespace.QName;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Property;
 import org.osoa.sca.annotations.Reference;
-import org.osoa.sca.annotations.Service;
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.host.contribution.ContributionException;
-import org.sca4j.host.contribution.ContributionNotFoundException;
 import org.sca4j.host.contribution.ContributionService;
 import org.sca4j.host.contribution.ContributionSource;
 import org.sca4j.host.contribution.Deployable;
@@ -116,46 +111,46 @@ import org.sca4j.spi.services.contribution.ResourceElement;
  *
  * @version $Rev: 4912 $ $Date: 2008-06-26 23:28:37 +0100 (Thu, 26 Jun 2008) $
  */
-@Service(ContributionService.class)
 @EagerInit
 public class ContributionServiceImpl implements ContributionService {
-    private ProcessorRegistry processorRegistry;
-    private MetaDataStore metaDataStore;
-    private ContributionLoader contributionLoader;
-    private ContentTypeResolver contentTypeResolver;
-    private DependencyService dependencyService;
-    private String uriPrefix = "contribution://";
-    private ContributionServiceMonitor monitor;
+    
+    @Reference public ProcessorRegistry processorRegistry;
+    @Reference public MetaDataStore metaDataStore;
+    @Reference public ContributionLoader contributionLoader;
+    @Reference public ContentTypeResolver contentTypeResolver;
+    @Reference public DependencyService dependencyService;
+    @Property public String uriPrefix = "contribution://";
+    @Monitor public ContributionServiceMonitor monitor;
 
-
-    public ContributionServiceImpl(@Reference ProcessorRegistry processorRegistry,
-                                   @Reference MetaDataStore metaDataStore,
-                                   @Reference ContributionLoader contributionLoader,
-                                   @Reference ContentTypeResolver contentTypeResolver,
-                                   @Reference DependencyService dependencyService,
-                                   @Monitor ContributionServiceMonitor monitor)
-            throws IOException, ClassNotFoundException {
-        this.processorRegistry = processorRegistry;
-        this.metaDataStore = metaDataStore;
-        this.contributionLoader = contributionLoader;
-        this.contentTypeResolver = contentTypeResolver;
-        this.dependencyService = dependencyService;
-        this.monitor = monitor;
-    }
-
-    @Property(required = false)
-    public void setUriPrefix(String uriPrefix) {
-        this.uriPrefix = uriPrefix;
-    }
-
-    public List<URI> contribute(List<ContributionSource> sources) throws ContributionException {
-        List<Contribution> contributions = new ArrayList<Contribution>(sources.size());
-        for (ContributionSource source : sources) {
-            // store the contributions
-            contributions.add(store(source));
-        }
+    /**
+     * {@inheritDoc}
+     * @see org.sca4j.host.contribution.ContributionService#contribute(org.sca4j.host.contribution.ContributionSource[])
+     */
+    public List<URI> contribute(ContributionSource ... sources) throws ContributionException {
+        
+        List<Contribution> contributions = store(sources);
+        processManifests(contributions);
+        contributions = dependencyService.order(contributions);
         for (Contribution contribution : contributions) {
-            // process any SCA manifest information, including imports and exports
+            ClassLoader loader = contributionLoader.loadContribution(contribution);
+            processContents(contribution, loader);
+        }
+        
+        List<URI> uris = new ArrayList<URI>(contributions.size());
+        for (Contribution contribution : contributions) {
+            uris.add(contribution.getUri());
+        }
+        
+        return uris;
+        
+    }
+
+    /*
+     * Process the manifest.
+     */
+    private void processManifests(List<Contribution> contributions) throws ContributionException, InvalidContributionException {
+        
+        for (Contribution contribution : contributions) {
             ValidationContext context = new DefaultValidationContext();
             processorRegistry.processManifest(contribution, context);
             if (context.hasErrors()) {
@@ -163,191 +158,80 @@ public class ContributionServiceImpl implements ContributionService {
                 error.addFailures(context.getErrors());
                 List<ValidationFailure<?>> errors = new ArrayList<ValidationFailure<?>>();
                 errors.add(error);
-
                 ArtifactValidationFailure warning = new ArtifactValidationFailure("the contribution manifest (sca-contribution.xml)");
                 warning.addFailures(context.getWarnings());
                 List<ValidationFailure<?>> warnings = new ArrayList<ValidationFailure<?>>();
                 warnings.add(warning);
-
                 throw new InvalidContributionException(errors, warnings);
             }
-
         }
-        // order the contributions based on their dependencies
-        contributions = dependencyService.order(contributions);
-        for (Contribution contribution : contributions) {
-            ClassLoader loader = contributionLoader.loadContribution(contribution);
-            // continue processing the contributions. As they are ordered, dependencies will resolve correctly
-            processContents(contribution, loader);
-        }
-        List<URI> uris = new ArrayList<URI>(contributions.size());
-        for (Contribution contribution : contributions) {
-            uris.add(contribution.getUri());
-        }
-        return uris;
+        
     }
 
-    public URI contribute(ContributionSource source) throws ContributionException {
-        Contribution contribution = store(source);
-        ValidationContext context = new DefaultValidationContext();
-        processorRegistry.processManifest(contribution, context);
-        if (context.hasErrors()) {
-            ArtifactValidationFailure failure = new ArtifactValidationFailure("the contribution manifest (sca-contribution.xml)");
-            failure.addFailures(context.getErrors());
-            List<ValidationFailure<?>> failures = new ArrayList<ValidationFailure<?>>();
-            failures.add(failure);
-            ArtifactValidationFailure warning = new ArtifactValidationFailure("the contribution manifest (sca-contribution.xml)");
-            warning.addFailures(context.getWarnings());
-            List<ValidationFailure<?>> warnings = new ArrayList<ValidationFailure<?>>();
-            warnings.add(warning);
-            throw new InvalidContributionException(failures, warnings);
-        }
-        ClassLoader loader = contributionLoader.loadContribution(contribution);
-        processContents(contribution, loader);
-        return contribution.getUri();
-    }
-
-    public boolean exists(URI uri) {
-        return metaDataStore.find(uri) != null;
-    }
-
-    public void update(ContributionSource source) throws ContributionException {
-        URI uri = source.getUri();
-        byte[] checksum = source.getChecksum();
-        long timestamp = source.getTimestamp();
-        InputStream is = null;
-        try {
-            is = source.getSource();
-            update(uri, checksum, timestamp);
-        } catch (IOException e) {
-            throw new ContributionException("Contribution error", e);
-        } finally {
-            try {
-                if (is != null) {
-                    is.close();
-                }
-            } catch (IOException e) {
-                monitor.error("Error closing stream", e);
-            }
-        }
-    }
-
-    public long getContributionTimestamp(URI uri) {
-        Contribution contribution = metaDataStore.find(uri);
-        if (contribution == null) {
-            return -1;
-        }
-        return contribution.getTimestamp();
-    }
-
-    public List<Deployable> getDeployables(URI contributionUri) throws ContributionException {
-        Contribution contribution = find(contributionUri);
-        List<Deployable> list = new ArrayList<Deployable>();
-        if (contribution.getManifest() != null) {
-            for (Deployable deployable : contribution.getManifest().getDeployables()) {
-                list.add(deployable);
-            }
-        }
-        return list;
-    }
-
-    public void remove(URI contributionUri) throws ContributionException {
-        //Work in progress
-        metaDataStore.remove(contributionUri);
-    }
-
-    public <T> T resolve(URI contributionUri, Class<T> definitionType, QName name) {
-        throw new UnsupportedOperationException();
-    }
-
-    public URL resolve(URI contribution, String namespace, URI uri, URI baseURI) {
-        throw new UnsupportedOperationException();
-    }
-
-    private Contribution find(URI contributionUri) throws ContributionNotFoundException {
-        Contribution contribution = metaDataStore.find(contributionUri);
-        if (contribution == null) {
-            String uri = contributionUri.toString();
-            throw new ContributionNotFoundException("No contribution found for: " + uri, uri);
-        }
-        return contribution;
-    }
-
-    private void update(URI uri, byte[] checksum, long timestamp) throws ContributionException, IOException {
-        Contribution contribution = metaDataStore.find(uri);
-        if (contribution == null) {
-            String identifier = uri.toString();
-            throw new ContributionNotFoundException("Contribution not found for: " + identifier, identifier);
-        }
-        long archivedTimestamp = contribution.getTimestamp();
-        if (timestamp > archivedTimestamp) {
-            // TODO update
-        } else if (timestamp == archivedTimestamp && Arrays.equals(checksum, contribution.getChecksum())) {
-            // TODO update
-        }
-    }
-
-    /**
-     * Stores the contents of a contribution in the archive store if it is not local
-     *
-     * @param source the contribution source
-     * @return the contribution
-     * @throws ContributionException if an error occurs during the store operation
+    /*
+     * Store the contribution.
      */
-    private Contribution store(ContributionSource source) throws ContributionException {
-        URI contributionUri = source.getUri();
-        if (contributionUri == null) {
-            contributionUri = URI.create(uriPrefix + "/" + UUID.randomUUID());
-        }
-        try {
-            URL locationUrl = source.getLocation();
-            String type = source.getContentType();
-            if (type == null) {
-                type = contentTypeResolver.getContentType(source.getLocation());
+    private List<Contribution> store(ContributionSource ... sources) throws ContributionException {
+
+        List<Contribution> contributions = new ArrayList<Contribution>(sources.length);
+
+        for (ContributionSource source : sources) {
+            
+            URI contributionUri = source.getUri();
+            if (contributionUri == null) {
+                contributionUri = URI.create(uriPrefix + "/" + UUID.randomUUID());
             }
-            byte[] checksum = source.getChecksum();
-            long timestamp = source.getTimestamp();
-            return new Contribution(contributionUri, locationUrl, checksum, timestamp, type);
-        } catch (ContentTypeResolutionException e) {
-            throw new ContributionException(e);
+            
+            try {
+                URL locationUrl = source.getLocation();
+                String type = source.getContentType();
+                if (type == null) {
+                    type = contentTypeResolver.getContentType(source.getLocation());
+                }
+                contributions.add(new Contribution(contributionUri, locationUrl, source.getChecksum(), source.getTimestamp(), type));
+            } catch (ContentTypeResolutionException e) {
+                throw new ContributionException(e);
+            }
+            
         }
+        
+        return contributions;
+        
     }
 
-    /**
-     * Processes contribution contents. This assumes all dependencies are installed and can be resolved.
-     *
-     * @param contribution the contribution to process
-     * @param loader       the classloader to load resources in
-     * @throws ContributionException if an error occurs during processing
+    /*
+     * Process the contributions.
      */
     private void processContents(Contribution contribution, ClassLoader loader) throws ContributionException {
+        
         try {
+            
             ValidationContext context = new DefaultValidationContext();
             processorRegistry.indexContribution(contribution, context);
             if (context.hasErrors()) {
                 throw new InvalidContributionException(context.getErrors(), context.getWarnings());
             }
             metaDataStore.store(contribution);
+            
             context = new DefaultValidationContext();
             processorRegistry.processContribution(contribution, context, loader);
             validateContrbitution(contribution, context);
             if (context.hasErrors()) {
                 throw new InvalidContributionException(context.getErrors(), context.getWarnings());
             } else if (context.hasWarnings()) {
-                // there were just warnings, report them
                 monitor.contributionWarnings(ValidationUtils.outputWarnings(context.getWarnings()));
             }
+            
             addContributionUri(contribution);
+            
         } catch (MetaDataStoreException e) {
             throw new ContributionException(e);
         }
+        
     }
 
-    /**
-     * Performs final validation on a contribution.
-     *
-     * @param contribution the contribution to validate
-     * @param context      the validation context
+    /*
+     * Validates the contribution.
      */
     private void validateContrbitution(Contribution contribution, ValidationContext context) {
         for (Deployable deployable : contribution.getManifest().getDeployables()) {
@@ -370,11 +254,8 @@ public class ContributionServiceImpl implements ContributionService {
         }
     }
 
-    /**
+    /*
      * Recursively adds the contribution URI to all components.
-     *
-     * @param contribution the contribution the component is defined in
-     * @throws ContributionNotFoundException if a required imported contribution is not found
      */
     private void addContributionUri(Contribution contribution) throws ContributionException {
         for (Resource resource : contribution.getResources()) {

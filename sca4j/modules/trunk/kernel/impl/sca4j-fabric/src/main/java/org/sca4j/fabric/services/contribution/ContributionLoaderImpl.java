@@ -55,7 +55,6 @@ package org.sca4j.fabric.services.contribution;
 import java.net.URI;
 
 import org.osoa.sca.annotations.Reference;
-import org.sca4j.host.runtime.HostInfo;
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.ContributionManifest;
 import org.sca4j.spi.services.contribution.Import;
@@ -70,22 +69,14 @@ import org.sca4j.spi.services.contribution.MetaDataStore;
  */
 public class ContributionLoaderImpl implements ContributionLoader {
     
-    private final MetaDataStore store;
-
-    public ContributionLoaderImpl(@Reference MetaDataStore store,
-                                  @Reference HostInfo info) {
-        this.store = store;
-    }
+    @Reference public MetaDataStore store;
 
     public ClassLoader loadContribution(Contribution contribution) throws ContributionLoadException, MatchingExportNotFoundException {
-    	contribution.getUri();
-        ClassLoader cl = getClass().getClassLoader();
         verifyImports(contribution);
-        return cl;
+        return getClass().getClassLoader();
     }
 
-    private void verifyImports(Contribution contribution)
-            throws MatchingExportNotFoundException, ContributionLoadException {
+    private void verifyImports(Contribution contribution) throws MatchingExportNotFoundException, ContributionLoadException {
         ContributionManifest manifest = contribution.getManifest();
         for (Import imprt : manifest.getImports()) {
             Contribution imported = store.resolve(imprt);
@@ -93,7 +84,6 @@ public class ContributionLoaderImpl implements ContributionLoader {
                 String id = imprt.toString();
                 throw new MatchingExportNotFoundException("No matching export found for: " + id, id);
             }
-            // add the resolved URI to the contribution
             URI importedUri = imported.getUri();
             contribution.addResolvedImportUri(importedUri);
         }

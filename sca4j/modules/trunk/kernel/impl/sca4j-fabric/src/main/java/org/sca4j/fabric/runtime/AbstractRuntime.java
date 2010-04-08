@@ -321,7 +321,7 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
     private void activateIntents(ContributionSource source) throws InitializationException {
         try {
             ContributionService contributionService = getSystemComponent(ContributionService.class, CONTRIBUTION_SERVICE_URI);
-            URI uri = contributionService.contribute(source);
+            URI uri = contributionService.contribute(source).get(0);
             DefinitionsRegistry definitionsRegistry = getSystemComponent(DefinitionsRegistry.class, DEFINITIONS_REGISTRY);
             List<URI> intents = new ArrayList<URI>();
             intents.add(uri);
@@ -335,7 +335,7 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
 
     private void scanUserContributions() throws StartException {
         try {
-            List<ContributionSource> userContributions = contributionScanner.scanUserContributions();
+            ContributionSource[] userContributions = contributionScanner.scanUserContributions();
             ContributionService contributionService = getSystemComponent(ContributionService.class, CONTRIBUTION_SERVICE_URI);
             List<URI> contributionUris = contributionService.contribute(userContributions);
             DefinitionsRegistry definitionsRegistry = getSystemComponent(DefinitionsRegistry.class, DEFINITIONS_REGISTRY);
@@ -349,7 +349,7 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
 
     private void includeExtensions() throws InitializationException, DefinitionActivationException {
         try {
-            List<ContributionSource> extensions = contributionScanner.scanExtensionContributions();
+            ContributionSource[] extensions = contributionScanner.scanExtensionContributions();
             ContributionService contributionService = getSystemComponent(ContributionService.class, CONTRIBUTION_SERVICE_URI);
             List<URI> contributionUris = contributionService.contribute(extensions);
             Domain domain = getSystemComponent(Domain.class, RUNTIME_DOMAIN_URI);

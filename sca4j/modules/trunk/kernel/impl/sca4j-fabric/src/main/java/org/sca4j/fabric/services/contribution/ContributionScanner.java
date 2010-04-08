@@ -38,21 +38,21 @@ public class ContributionScanner {
     /*
      * Gets the list of extension contributions.
      */
-    public List<ContributionSource> scanExtensionContributions() {
+    public ContributionSource[] scanExtensionContributions() {
         return scanContributions(true);
     }
 
     /*
      * Gets the list of user contributions.
      */
-    public List<ContributionSource> scanUserContributions() {
+    public ContributionSource[] scanUserContributions() {
         return scanContributions(false);
     }
 
     /*
      * Gets the list of contributions.
      */
-    private List<ContributionSource> scanContributions(boolean extension) {
+    private ContributionSource[] scanContributions(boolean extension) {
 
         try {
             List<ContributionSource> extensions = new LinkedList<ContributionSource>();
@@ -72,7 +72,7 @@ public class ContributionScanner {
                     }
                 }
             }
-            return extensions;
+            return extensions.toArray(new ContributionSource[extensions.size()]);
         } catch (IOException e) {
             throw new AssertionError(e);
         } catch (XMLStreamException e) {
