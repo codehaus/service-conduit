@@ -191,9 +191,4 @@ public class WarContributionProcessor extends AbstractContributionProcessor {
         }
     }
 
-    @Override
-    public String getType() {
-        return WarContributionSource.TYPE;
-    }
-
 }

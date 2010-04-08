@@ -54,19 +54,16 @@ package org.sca4j.fabric.services.contribution.processor;
 
 import java.net.URI;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.fabric.services.contribution.UnsupportedContentTypeException;
 import org.sca4j.host.contribution.ContributionException;
-import org.sca4j.host.contribution.JarContributionSource;
+import org.sca4j.scdl.ValidationContext;
 import org.sca4j.spi.services.contribution.Action;
 import org.sca4j.spi.services.contribution.ArchiveContributionHandler;
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.Resource;
-import org.sca4j.scdl.ValidationContext;
 
 /**
  * Handles common processing for contribution archives
@@ -75,27 +72,7 @@ import org.sca4j.scdl.ValidationContext;
  */
 public class ArchiveContributionProcessor extends AbstractContributionProcessor {
 
-    private static final List<String> CONTENT_TYPES = initializeContentTypes();
-    private List<ArchiveContributionHandler> handlers;
-    private static final String TYPE = "";
-    
-    @Override
-    public String getType() {
-        return JarContributionSource.TYPE;
-    }
-
-    @Reference
-    public void setHandlers(List<ArchiveContributionHandler> handlers) {
-        this.handlers = handlers;
-        int size = handlers.size();
-        for (int i = 0; i < size; i++) {
-            CONTENT_TYPES.add(handlers.get(i).getContentType());
-        }
-    }
-
-    public List<String> getContentTypes() {
-        return CONTENT_TYPES;
-    }
+    @Reference public List<ArchiveContributionHandler> handlers;
 
     public void processManifest(Contribution contribution, ValidationContext context) throws ContributionException {
         ArchiveContributionHandler handler = getHandler(contribution);
@@ -105,8 +82,7 @@ public class ArchiveContributionProcessor extends AbstractContributionProcessor 
     public void index(Contribution contribution, final ValidationContext context) throws ContributionException {
         ArchiveContributionHandler handler = getHandler(contribution);
         handler.iterateArtifacts(contribution, new Action() {
-            public void process(Contribution contribution, String contentType, URL url)
-                    throws ContributionException {
+            public void process(Contribution contribution, String contentType, URL url) throws ContributionException {
                 registry.indexResource(contribution, contentType, url, context);
             }
         });
@@ -137,11 +113,5 @@ public class ArchiveContributionProcessor extends AbstractContributionProcessor 
         String source = contribution.getUri().toString();
         throw new UnsupportedContentTypeException("Contribution type not supported: " + source, source);
     }
-
-
-    private static List<String> initializeContentTypes() {
-        List<String> list = new ArrayList<String>();
-        list.add("application/octet-stream");
-        return list;
-    }
+    
 }

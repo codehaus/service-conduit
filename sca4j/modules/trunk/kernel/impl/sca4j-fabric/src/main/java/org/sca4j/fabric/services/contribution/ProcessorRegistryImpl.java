@@ -82,7 +82,6 @@ import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.scdl.ValidationContext;
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.ContributionManifest;
-import org.sca4j.spi.services.contribution.ContributionProcessor;
 import org.sca4j.spi.services.contribution.ManifestProcessor;
 import org.sca4j.spi.services.contribution.ProcessorRegistry;
 import org.sca4j.spi.services.contribution.Resource;
@@ -96,20 +95,11 @@ import org.sca4j.spi.services.contribution.ResourceProcessor;
 @EagerInit
 @Service(ProcessorRegistry.class)
 public class ProcessorRegistryImpl implements ProcessorRegistry {
-    private Map<String, ContributionProcessor> contributionProcessorCache =
-            new HashMap<String, ContributionProcessor>();
+    
     private Map<String, ResourceProcessor> resourceProcessorCache = new HashMap<String, ResourceProcessor>();
     private Map<String, ManifestProcessor> manifestProcessorCache = new HashMap<String, ManifestProcessor>();
 
     public ProcessorRegistryImpl() {
-    }
-
-    public void register(ContributionProcessor processor) {
-        contributionProcessorCache.put(processor.getType(), processor);
-    }
-
-    public void unregisterContributionProcessor(String contentType) {
-        contributionProcessorCache.remove(contentType);
     }
 
     public void register(ResourceProcessor processor) {
@@ -128,33 +118,12 @@ public class ProcessorRegistryImpl implements ProcessorRegistry {
         manifestProcessorCache.remove(contentType);
     }
 
-    public void processManifest(Contribution contribution, ValidationContext context) throws ContributionException {
-        String contentType = contribution.getType();
-        ContributionProcessor processor = contributionProcessorCache.get(contentType);
-        if (processor == null) {
-            String source = contribution.getUri().toString();
-            throw new UnsupportedContentTypeException("Type " + contentType + " in contribution " + source + " not supported", contentType);
-        }
-        processor.processManifest(contribution, context);
-
-    }
-
     public void processManifestArtifact(ContributionManifest manifest, String contentType, InputStream inputStream, ValidationContext context)
             throws ContributionException {
         ManifestProcessor processor = manifestProcessorCache.get(contentType);
         if (processor != null) {
             processor.process(manifest, inputStream, context);
         }
-    }
-
-    public void indexContribution(Contribution contribution, ValidationContext context) throws ContributionException {
-        String contentType = contribution.getType();
-        ContributionProcessor processor = contributionProcessorCache.get(contentType);
-        if (processor == null) {
-            String source = contribution.getUri().toString();
-            throw new UnsupportedContentTypeException("Type " + contentType + "in contribution " + source + " not supported", contentType);
-        }
-        processor.index(contribution, context);
     }
 
     public void indexResource(Contribution contribution, String contentType, URL url, ValidationContext context) throws ContributionException {
@@ -164,16 +133,6 @@ public class ProcessorRegistryImpl implements ProcessorRegistry {
             return;
         }
         processor.index(contribution, url, context);
-    }
-
-    public void processContribution(Contribution contribution, ValidationContext context, ClassLoader loader) throws ContributionException {
-        String contentType = contribution.getType();
-        ContributionProcessor processor = contributionProcessorCache.get(contentType);
-        if (processor == null) {
-            String source = contribution.getUri().toString();
-            throw new UnsupportedContentTypeException("Type " + contentType + "in contribution " + source + " not supported", contentType);
-        }
-        processor.process(contribution, context, loader);
     }
 
     public void processResource(URI contributionUri, Resource resource, ValidationContext context, ClassLoader loader) throws ContributionException {

@@ -83,19 +83,6 @@ import org.sca4j.scdl.ValidationContext;
  * @version $Rev: 4313 $ $Date: 2008-05-24 00:06:47 +0100 (Sat, 24 May 2008) $
  */
 public interface ProcessorRegistry {
-    /**
-     * Register a ContributionProcessor using the content type as the key
-     *
-     * @param processor the processor to registrer
-     */
-    void register(ContributionProcessor processor);
-
-    /**
-     * Unregister a ContributionProcessor for a content type
-     *
-     * @param contentType the content
-     */
-    void unregisterContributionProcessor(String contentType);
 
     /**
      * Register a ManifestProcessor using the content type as the key
@@ -126,15 +113,6 @@ public interface ProcessorRegistry {
     void unregisterResourceProcessor(String contentType);
 
     /**
-     * Dispatches to a {@link ContributionProcessor} to process manifest information in a contribution.
-     *
-     * @param contribution the contribution
-     * @param context      the context to which validation errors and warnings are reported
-     * @throws ContributionException if there was a problem processing the manifest
-     */
-    void processManifest(Contribution contribution, ValidationContext context) throws ContributionException;
-
-    /**
      * Dispatches to a {@link ManifestProcessor} to process a manifest artifact contaned in a contribution.
      *
      * @param manifest    the manifest to update
@@ -147,15 +125,6 @@ public interface ProcessorRegistry {
             throws ContributionException;
 
     /**
-     * Dispatches to a {@link ContributionProcessor} to index a contribution.
-     *
-     * @param contribution the contribution to index
-     * @param context      the context to which validation errors and warnings are reported
-     * @throws ContributionException if there was a problem indexing the contribution
-     */
-    void indexContribution(Contribution contribution, ValidationContext context) throws ContributionException;
-
-    /**
      * Dispatches to a {@link ResourceProcessor} to index a resource contained in a contribution.
      *
      * @param contribution the cntaining contribution
@@ -165,16 +134,6 @@ public interface ProcessorRegistry {
      * @throws ContributionException if there was a problem indexing the contribution
      */
     void indexResource(Contribution contribution, String contentType, URL url, ValidationContext context) throws ContributionException;
-
-    /**
-     * Loads all indexed resources in a contribution.
-     *
-     * @param contribution The contribution
-     * @param context      the context to which validation errors and warnings are reported
-     * @param loader       the classloader conribution resources must be laoded in
-     * @throws ContributionException if there was a problem loading resources in the contribution
-     */
-    void processContribution(Contribution contribution, ValidationContext context, ClassLoader loader) throws ContributionException;
 
     /**
      * Loads a contained resource in a contribution.

@@ -59,8 +59,6 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
-import java.util.Collections;
-import java.util.List;
 
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
@@ -88,13 +86,6 @@ public class ClasspathContributionProcessor extends AbstractContributionProcesso
 
     @Reference protected ContentTypeResolver contentTypeResolver;
     @Reference protected Loader loader;
-
-    /**
-     * @see org.sca4j.spi.services.contribution.ContributionProcessor#getContentTypes()
-     */
-    public List<String> getContentTypes() {
-        return Collections.singletonList("application/vnd.sca4j");
-    }
 
     /**
      * @see org.sca4j.spi.services.contribution.ContributionProcessor#index(org.sca4j.spi.services.contribution.Contribution, org.sca4j.scdl.ValidationContext)
@@ -194,12 +185,6 @@ public class ClasspathContributionProcessor extends AbstractContributionProcesso
             }
         }
 
-    }
-
-    @Override
-    public String getType() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
 }

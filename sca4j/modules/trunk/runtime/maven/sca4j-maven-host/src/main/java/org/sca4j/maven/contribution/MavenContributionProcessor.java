@@ -186,9 +186,4 @@ public class MavenContributionProcessor extends AbstractContributionProcessor {
 
     }
 
-    @Override
-    public String getType() {
-        return MavenContributionSource.TYPE;
-    }
-
 }

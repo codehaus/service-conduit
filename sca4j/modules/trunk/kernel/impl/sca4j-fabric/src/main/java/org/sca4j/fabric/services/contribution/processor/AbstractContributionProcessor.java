@@ -72,7 +72,6 @@
 package org.sca4j.fabric.services.contribution.processor;
 
 import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
 import org.osoa.sca.annotations.Service;
 import org.sca4j.spi.services.contribution.ContributionProcessor;
@@ -88,13 +87,5 @@ import org.sca4j.spi.services.contribution.ProcessorRegistry;
 public abstract class AbstractContributionProcessor implements ContributionProcessor {
     
     @Reference public ProcessorRegistry registry;
-
-    /**
-     * Initialize the processor and registers with the contribution processor registry.
-     */
-    @Init
-    public void start() {
-        registry.register(this);
-    }
 
 }

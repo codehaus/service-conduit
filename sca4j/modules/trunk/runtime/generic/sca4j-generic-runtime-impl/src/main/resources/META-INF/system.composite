@@ -138,7 +138,7 @@
         <sca4j:implementation.system class="org.sca4j.fabric.services.discovery.SingleVMDiscoveryService"/>
     </component>
            
-    <component name="ClasspathContributionProcessor">
+    <component name="ClasspathContributionProcessor" sca4j:key="CLASSPATH_CONTRIBUTION">
         <sca4j:implementation.system class="org.sca4.runtime.generic.impl.contribution.ClasspathContributionProcessor" />
     </component>
 

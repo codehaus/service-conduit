@@ -71,15 +71,13 @@
 package org.sca4j.fabric.services.contribution;
 
 import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
 import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Property;
 import org.osoa.sca.annotations.Reference;
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.host.contribution.ContributionException;
@@ -92,9 +90,9 @@ import org.sca4j.introspection.validation.ValidationUtils;
 import org.sca4j.scdl.ArtifactValidationFailure;
 import org.sca4j.scdl.DefaultValidationContext;
 import org.sca4j.scdl.ValidationContext;
-import org.sca4j.spi.services.contenttype.ContentTypeResolutionException;
 import org.sca4j.spi.services.contenttype.ContentTypeResolver;
 import org.sca4j.spi.services.contribution.Contribution;
+import org.sca4j.spi.services.contribution.ContributionProcessor;
 import org.sca4j.spi.services.contribution.MetaDataStore;
 import org.sca4j.spi.services.contribution.MetaDataStoreException;
 import org.sca4j.spi.services.contribution.ProcessorRegistry;
@@ -110,7 +108,7 @@ import org.sca4j.spi.services.contribution.ResourceElement;
 @EagerInit
 public class ContributionServiceImpl implements ContributionService {
     
-    @Reference public ProcessorRegistry processorRegistry;
+    @Reference public Map<String, ContributionProcessor> contributionProcessors;
     @Reference public MetaDataStore metaDataStore;
     @Reference public ContributionLoader contributionLoader;
     @Reference public ContentTypeResolver contentTypeResolver;
@@ -150,7 +148,7 @@ public class ContributionServiceImpl implements ContributionService {
         
         for (Contribution contribution : contributions) {
             ValidationContext context = new DefaultValidationContext();
-            processorRegistry.processManifest(contribution, context);
+            getContributionProcessor(contribution.getType()).processManifest(contribution, context);
             if (context.hasErrors()) {
                 ArtifactValidationFailure error = new ArtifactValidationFailure("the contribution manifest (sca-contribution.xml)");
                 error.addFailures(context.getErrors());
@@ -185,14 +183,14 @@ public class ContributionServiceImpl implements ContributionService {
         try {
             
             ValidationContext context = new DefaultValidationContext();
-            processorRegistry.indexContribution(contribution, context);
+            getContributionProcessor(contribution.getType()).index(contribution, context);
             if (context.hasErrors()) {
                 throw new InvalidContributionException(context.getErrors(), context.getWarnings());
             }
             metaDataStore.store(contribution);
             
             context = new DefaultValidationContext();
-            processorRegistry.processContribution(contribution, context, loader);
+            getContributionProcessor(contribution.getType()).process(contribution, context, loader);
             validateContrbitution(contribution, context);
             if (context.hasErrors()) {
                 throw new InvalidContributionException(context.getErrors(), context.getWarnings());
@@ -228,6 +226,13 @@ public class ContributionServiceImpl implements ContributionService {
             }
 
         }
+    }
+    
+    private ContributionProcessor getContributionProcessor(String type) throws ContributionException {
+        if (contributionProcessors.containsKey(type)) {
+            return contributionProcessors.get(type);
+        }
+        throw new ContributionException("Invalid contribution type " + type);
     }
 
 }
