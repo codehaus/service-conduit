@@ -52,17 +52,19 @@
  */
 package org.sca4j.web.control;
 
+import static org.sca4j.container.web.spi.WebApplicationActivator.CONTEXT_ATTRIBUTE;
+import static org.sca4j.web.provision.WebConstants.SERVLET_CONTEXT_SITE;
+import static org.sca4j.web.provision.WebConstants.SESSION_CONTEXT_SITE;
+import static org.sca4j.web.provision.WebContextInjectionSite.ContextType.SERVLET_CONTEXT;
+import static org.sca4j.web.provision.WebContextInjectionSite.ContextType.SESSION_CONTEXT;
+
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.osoa.sca.ComponentContext;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
-import org.w3c.dom.Document;
-
-import static org.sca4j.container.web.spi.WebApplicationActivator.CONTEXT_ATTRIBUTE;
 import org.sca4j.host.runtime.HostInfo;
 import org.sca4j.scdl.ComponentDefinition;
 import org.sca4j.scdl.InjectableAttribute;
@@ -82,16 +84,12 @@ import org.sca4j.spi.model.physical.PhysicalComponentDefinition;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
 import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
 import org.sca4j.spi.policy.Policy;
-import org.sca4j.spi.services.contribution.ContributionUriEncoder;
 import org.sca4j.web.introspection.WebComponentType;
 import org.sca4j.web.introspection.WebImplementation;
 import org.sca4j.web.provision.WebComponentDefinition;
 import org.sca4j.web.provision.WebComponentWireSourceDefinition;
-import static org.sca4j.web.provision.WebConstants.SERVLET_CONTEXT_SITE;
-import static org.sca4j.web.provision.WebConstants.SESSION_CONTEXT_SITE;
 import org.sca4j.web.provision.WebContextInjectionSite;
-import static org.sca4j.web.provision.WebContextInjectionSite.ContextType.SERVLET_CONTEXT;
-import static org.sca4j.web.provision.WebContextInjectionSite.ContextType.SESSION_CONTEXT;
+import org.w3c.dom.Document;
 
 /**
  * Generates commands to provision a web component.
@@ -101,11 +99,9 @@ import static org.sca4j.web.provision.WebContextInjectionSite.ContextType.SESSIO
 @EagerInit
 public class WebComponentGenerator implements ComponentGenerator<LogicalComponent<WebImplementation>> {
     private HostInfo info;
-    private ContributionUriEncoder encoder;
 
-    public WebComponentGenerator(@Reference GeneratorRegistry registry, @Reference HostInfo info, @Reference ContributionUriEncoder encoder) {
+    public WebComponentGenerator(@Reference GeneratorRegistry registry, @Reference HostInfo info) {
         this.info = info;
-        this.encoder = encoder;
         registry.register(WebImplementation.class, this);
     }
 
@@ -124,17 +120,6 @@ public class WebComponentGenerator implements ComponentGenerator<LogicalComponen
         processPropertyValues(component, physical);
         URI classLoaderId = component.getClassLoaderId();
         physical.setClassLoaderId(classLoaderId);
-        if (component.getRuntimeId() == null) {
-            physical.setContributionUri(definition.getContributionUri());
-        } else {
-            URI encoded;
-            try {
-                encoded = encoder.encode(definition.getContributionUri());
-            } catch (URISyntaxException e) {
-                throw new GenerationException(e);
-            }
-            physical.setContributionUri(encoded);
-        }
         return physical;
     }
 

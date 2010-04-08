@@ -90,11 +90,7 @@ import org.sca4j.host.contribution.ValidationFailure;
 import org.sca4j.introspection.validation.InvalidContributionException;
 import org.sca4j.introspection.validation.ValidationUtils;
 import org.sca4j.scdl.ArtifactValidationFailure;
-import org.sca4j.scdl.ComponentDefinition;
-import org.sca4j.scdl.Composite;
-import org.sca4j.scdl.CompositeImplementation;
 import org.sca4j.scdl.DefaultValidationContext;
-import org.sca4j.scdl.Implementation;
 import org.sca4j.scdl.ValidationContext;
 import org.sca4j.spi.services.contenttype.ContentTypeResolutionException;
 import org.sca4j.spi.services.contenttype.ContentTypeResolver;
@@ -129,8 +125,11 @@ public class ContributionServiceImpl implements ContributionService {
     public List<URI> contribute(ContributionSource ... sources) throws ContributionException {
         
         List<Contribution> contributions = store(sources);
+        
         processManifests(contributions);
+        
         contributions = dependencyService.order(contributions);
+        
         for (Contribution contribution : contributions) {
             ClassLoader loader = contributionLoader.loadContribution(contribution);
             processContents(contribution, loader);
@@ -222,8 +221,6 @@ public class ContributionServiceImpl implements ContributionService {
                 monitor.contributionWarnings(ValidationUtils.outputWarnings(context.getWarnings()));
             }
             
-            addContributionUri(contribution);
-            
         } catch (MetaDataStoreException e) {
             throw new ContributionException(e);
         }
@@ -253,39 +250,5 @@ public class ContributionServiceImpl implements ContributionService {
 
         }
     }
-
-    /*
-     * Recursively adds the contribution URI to all components.
-     */
-    private void addContributionUri(Contribution contribution) throws ContributionException {
-        for (Resource resource : contribution.getResources()) {
-            for (ResourceElement<?, ?> element : resource.getResourceElements()) {
-                Object value = element.getValue();
-                if (value instanceof Composite) {
-                    addContributionUri(contribution, (Composite) value);
-                }
-            }
-        }
-    }
-
-    /**
-     * Adds the contibution URI to a component and its children if it is a composite.
-     *
-     * @param contribution the contribution
-     * @param composite    the composite
-     */
-    private void addContributionUri(Contribution contribution, Composite composite) {
-        for (ComponentDefinition<?> definition : composite.getComponents().values()) {
-            Implementation<?> implementation = definition.getImplementation();
-            if (CompositeImplementation.class.isInstance(implementation)) {
-                CompositeImplementation compositeImplementation = CompositeImplementation.class.cast(implementation);
-                Composite componentType = compositeImplementation.getComponentType();
-                addContributionUri(contribution, componentType);
-            } else {
-                definition.setContributionUri(contribution.getUri());
-            }
-        }
-    }
-
 
 }
