@@ -52,11 +52,7 @@
  */
 package org.sca4j.runtime.webapp.contribution;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.util.Set;
 
@@ -66,18 +62,11 @@ import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
 import org.sca4j.fabric.services.contribution.processor.AbstractContributionProcessor;
 import org.sca4j.host.contribution.ContributionException;
-import org.sca4j.introspection.DefaultIntrospectionContext;
-import org.sca4j.introspection.IntrospectionContext;
-import org.sca4j.introspection.xml.Loader;
-import org.sca4j.introspection.xml.LoaderException;
 import org.sca4j.runtime.webapp.WebappHostInfo;
-import org.sca4j.scdl.ValidationContext;
 import org.sca4j.spi.services.contenttype.ContentTypeResolutionException;
 import org.sca4j.spi.services.contenttype.ContentTypeResolver;
 import org.sca4j.spi.services.contribution.Action;
 import org.sca4j.spi.services.contribution.Contribution;
-import org.sca4j.spi.services.contribution.ContributionManifest;
-import org.sca4j.spi.services.contribution.Resource;
 
 /**
  * Processes a WAR contribution in an embedded runtime.
@@ -88,85 +77,14 @@ import org.sca4j.spi.services.contribution.Resource;
 public class WarContributionProcessor extends AbstractContributionProcessor {
 
     @Reference public WebappHostInfo info;
-    @Reference public Loader loader;
     @Reference public ContentTypeResolver contentTypeResolver;
 
-    public void process(Contribution contribution, ValidationContext context, ClassLoader loader) throws ContributionException {
-        URI contributionUri = contribution.getUri();
-        for (Resource resource : contribution.getResources()) {
-            if (!resource.isProcessed()) {
-                registry.processResource(contributionUri, resource, context, loader);
-            }
-        }
-    }
-
-    public void processManifest(Contribution contribution, final ValidationContext context) throws ContributionException {
-        URL manifestURL;
-        try {
-            manifestURL = info.getServletContext().getResource("/WEB-INF/sca-contribution.xml");
-            if (manifestURL == null) {
-                contribution.setManifest(new ContributionManifest());
-                return;
-            }
-        } catch (MalformedURLException e) {
-            contribution.setManifest(new ContributionManifest());
-            return;
-        }
-
-        try {
-
-            ClassLoader cl = getClass().getClassLoader();
-            URI uri = contribution.getUri();
-            IntrospectionContext childContext = new DefaultIntrospectionContext(cl, uri, null);
-            ContributionManifest manifest = loader.load(manifestURL, ContributionManifest.class, childContext);
-            if (childContext.hasErrors()) {
-                context.addErrors(childContext.getErrors());
-            }
-            if (childContext.hasWarnings()) {
-                context.addWarnings(childContext.getWarnings());
-            }
-            contribution.setManifest(manifest);
-        } catch (LoaderException e) {
-            throw new ContributionException(e);
-        }
-
-        iterateArtifacts(contribution, new Action() {
-            public void process(Contribution contribution, String contentType, URL url)
-                    throws ContributionException {
-                InputStream stream = null;
-                try {
-                    stream = url.openStream();
-                    registry.processManifestArtifact(contribution.getManifest(), contentType, stream, context);
-                } catch (FileNotFoundException e) {
-                    // Tomcat hack: swallow the exception as directories under META-INF are reported as resources from the servlet context but
-                    // Tomcat's underlying URLConnection returns a file not found exception when URL.openStream() is called. This is safe as
-                    // interateArtifacts only iterates entries found in a contribution archive and FileNotFoundException should generally not happen.
-                } catch (IOException e) {
-                    throw new ContributionException(e);
-                } finally {
-                    try {
-                        if (stream != null) {
-                            stream.close();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-    }
-
-    public void index(Contribution contribution, final ValidationContext context) throws ContributionException {
-        iterateArtifacts(contribution, new Action() {
-            public void process(Contribution contribution, String contentType, URL url)
-                    throws ContributionException {
-                registry.indexResource(contribution, contentType, url, context);
-            }
-        });
+    protected URL getManifestUrl(Contribution contribution) throws MalformedURLException {
+        return info.getServletContext().getResource("/WEB-INF/sca-contribution.xml");
     }
 
     @SuppressWarnings({"unchecked"})
-    private void iterateArtifacts(Contribution contribution, Action action) throws ContributionException {
+    protected void iterateArtifacts(Contribution contribution, Action action) throws ContributionException {
         ServletContext context = info.getServletContext();
         Set<String> metaInfpaths = context.getResourcePaths("/META-INF/");
         Set<String> webInfpaths = context.getResourcePaths("/WEB-INF/");
@@ -180,9 +98,7 @@ public class WarContributionProcessor extends AbstractContributionProcessor {
         }
     }
 
-    private void processResources(Set<String> paths, Action action, Contribution contribution,
-                                  ServletContext context) throws MalformedURLException,
-            ContributionException, ContentTypeResolutionException {
+    private void processResources(Set<String> paths, Action action, Contribution contribution, ServletContext context) throws MalformedURLException, ContributionException, ContentTypeResolutionException {
         if (paths == null || paths.isEmpty()) return;
         for (String path : paths) {
             URL entryUrl = context.getResource(path);

@@ -53,11 +53,7 @@
 package org.sca4j.maven.contribution;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 
 import org.osoa.sca.annotations.EagerInit;
@@ -65,17 +61,10 @@ import org.osoa.sca.annotations.Reference;
 import org.sca4j.fabric.services.contribution.processor.AbstractContributionProcessor;
 import org.sca4j.fabric.util.FileHelper;
 import org.sca4j.host.contribution.ContributionException;
-import org.sca4j.introspection.DefaultIntrospectionContext;
-import org.sca4j.introspection.IntrospectionContext;
-import org.sca4j.introspection.xml.Loader;
-import org.sca4j.introspection.xml.LoaderException;
-import org.sca4j.scdl.ValidationContext;
 import org.sca4j.spi.services.contenttype.ContentTypeResolutionException;
 import org.sca4j.spi.services.contenttype.ContentTypeResolver;
 import org.sca4j.spi.services.contribution.Action;
 import org.sca4j.spi.services.contribution.Contribution;
-import org.sca4j.spi.services.contribution.ContributionManifest;
-import org.sca4j.spi.services.contribution.Resource;
 
 /**
  * Processes a Maven module directory.
@@ -85,101 +74,32 @@ import org.sca4j.spi.services.contribution.Resource;
 @EagerInit
 public class MavenContributionProcessor extends AbstractContributionProcessor {
     
-    @Reference public Loader loader;
     @Reference public ContentTypeResolver contentTypeResolver;
 
-    public void process(Contribution contribution, ValidationContext context, ClassLoader loader) throws ContributionException {
-        ClassLoader oldClassloader = Thread.currentThread().getContextClassLoader();
-        URI contributionUri = contribution.getUri();
-        try {
-            Thread.currentThread().setContextClassLoader(loader);
-            for (Resource resource : contribution.getResources()) {
-                if (!resource.isProcessed()) {
-                    registry.processResource(contributionUri, resource, context, loader);
-                }
-            }
-        } finally {
-            Thread.currentThread().setContextClassLoader(oldClassloader);
-        }
+    protected URL getManifestUrl(Contribution contribution) throws MalformedURLException {
+        return new URL(contribution.getLocation().toExternalForm() + "/classes/META-INF/sca-contribution.xml");
     }
 
-    public void processManifest(Contribution contribution, final ValidationContext context) throws ContributionException {
-        ContributionManifest manifest;
-        try {
-            URL sourceUrl = contribution.getLocation();
-            URL manifestURL = new URL(sourceUrl.toExternalForm() + "/classes/META-INF/sca-contribution.xml");
-            ClassLoader cl = getClass().getClassLoader();
-            URI uri = contribution.getUri();
-            IntrospectionContext childContext = new DefaultIntrospectionContext(cl, uri, null);
-            manifest = loader.load(manifestURL, ContributionManifest.class, childContext);
-            if (childContext.hasErrors()) {
-                context.addErrors(childContext.getErrors());
-            }
-            if (childContext.hasWarnings()) {
-                context.addWarnings(childContext.getWarnings());
-            }
-        } catch (LoaderException e) {
-            if (e.getCause() instanceof FileNotFoundException) {
-                manifest = new ContributionManifest();
-            } else {
-                throw new ContributionException(e);
-            }
-        } catch (MalformedURLException e) {
-            manifest = new ContributionManifest();
-        }
-        contribution.setManifest(manifest);
-
-        iterateArtifacts(contribution, context, new Action() {
-            public void process(Contribution contribution, String contentType, URL url)
-                    throws ContributionException {
-                InputStream stream = null;
-                try {
-                    stream = url.openStream();
-                    registry.processManifestArtifact(contribution.getManifest(), contentType, stream, context);
-                } catch (IOException e) {
-                    throw new ContributionException(e);
-                } finally {
-                    try {
-                        if (stream != null) {
-                            stream.close();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-    }
-
-    public void index(Contribution contribution, final ValidationContext context) throws ContributionException {
-        iterateArtifacts(contribution, context, new Action() {
-            public void process(Contribution contribution, String contentType, URL url)
-                    throws ContributionException {
-                registry.indexResource(contribution, contentType, url, context);
-            }
-        });
-    }
-
-    private void iterateArtifacts(Contribution contribution, final ValidationContext context, Action action) throws ContributionException {
+    protected void iterateArtifacts(Contribution contribution, Action action) throws ContributionException {
         File root = FileHelper.toFile(contribution.getLocation());
         assert root.isDirectory();
-        iterateArtifactsResursive(contribution, context, action, root);
+        iterateArtifactsResursive(contribution, action, root);
     }
 
-    private void iterateArtifactsResursive(Contribution contribution, final ValidationContext context, Action action, File dir) throws ContributionException {
+    private void iterateArtifactsResursive(Contribution contribution, Action action, File dir) throws ContributionException {
         File[] files = dir.listFiles();
         for (File file : files) {
             if (file.isDirectory()) {
-                iterateArtifactsResursive(contribution, context, action, file);
+                iterateArtifactsResursive(contribution, action, file);
             } else {
                 try {
                     URL entryUrl = file.toURI().toURL();
                     String contentType = contentTypeResolver.getContentType(entryUrl);
                     action.process(contribution, contentType, entryUrl);
                 } catch (MalformedURLException e) {
-                    context.addWarning(new ContributionIndexingFailure(file, e));
+                    throw new ContributionException(e);
                 } catch (ContentTypeResolutionException e) {
-                    context.addWarning(new ContributionIndexingFailure(file, e));
+                    throw new ContributionException(e);
                 }
             }
         }

@@ -52,28 +52,18 @@
  */
 package org.sca4j.fabric.services.contribution.processor;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.osoa.sca.annotations.Reference;
 import org.sca4j.host.contribution.ContributionException;
-import org.sca4j.introspection.DefaultIntrospectionContext;
-import org.sca4j.introspection.IntrospectionContext;
-import org.sca4j.introspection.xml.Loader;
-import org.sca4j.introspection.xml.LoaderException;
-import org.sca4j.scdl.ValidationContext;
 import org.sca4j.spi.services.contenttype.ContentTypeResolutionException;
 import org.sca4j.spi.services.contenttype.ContentTypeResolver;
 import org.sca4j.spi.services.contribution.Action;
 import org.sca4j.spi.services.contribution.Contribution;
-import org.sca4j.spi.services.contribution.ContributionManifest;
-import org.sca4j.spi.services.contribution.Resource;
 
 /**
  * Handles common processing for contribution archives
@@ -82,99 +72,13 @@ import org.sca4j.spi.services.contribution.Resource;
  */
 public class ArchiveContributionProcessor extends AbstractContributionProcessor {
     
-    @Reference public Loader loader;
     @Reference public ContentTypeResolver contentTypeResolver;
 
-    public void processManifest(Contribution contribution, final ValidationContext context) throws ContributionException {
-        ContributionManifest manifest;
-        try {
-            URL sourceUrl = contribution.getLocation();
-            URL manifestURL = new URL("jar:" + sourceUrl.toExternalForm() + "!/META-INF/sca-contribution.xml");
-            ClassLoader cl = getClass().getClassLoader();
-            URI uri = contribution.getUri();
-            IntrospectionContext childContext = new DefaultIntrospectionContext(cl, uri, null);
-            manifest = loader.load(manifestURL, ContributionManifest.class, childContext);
-            
-            boolean existOnErrorWarnings = onErrorAndWarnings(context, childContext);
-            if (existOnErrorWarnings) {
-                /* Return out on error and warning existing */
-                return;
-            }
-            
-        } catch (LoaderException e) {
-            if (e.getCause() instanceof FileNotFoundException) {
-                manifest = new ContributionManifest();
-            } else {
-                throw new ContributionException(e);
-            }
-        } catch (MalformedURLException e) {
-            manifest = new ContributionManifest();
-        }
-        contribution.setManifest(manifest);
-
-        iterateArtifacts(contribution, new Action() {
-            public void process(Contribution contribution, String contentType, URL url)
-                    throws ContributionException {
-                InputStream stream = null;
-                try {
-                    stream = url.openStream();
-                    registry.processManifestArtifact(contribution.getManifest(), contentType, stream, context);
-                } catch (IOException e) {
-                    throw new ContributionException(e);
-                } finally {
-                    try {
-                        if (stream != null) {
-                            stream.close();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
+    protected URL getManifestUrl(Contribution contribution) throws MalformedURLException {
+        return new URL("jar:" + contribution.getLocation().toExternalForm() + "!/META-INF/sca-contribution.xml");
     }
 
-    public void index(Contribution contribution, final ValidationContext context) throws ContributionException {
-        iterateArtifacts(contribution, new Action() {
-            public void process(Contribution contribution, String contentType, URL url) throws ContributionException {
-                registry.indexResource(contribution, contentType, url, context);
-            }
-        });
-    }
-
-    public void process(Contribution contribution, ValidationContext context, ClassLoader loader) throws ContributionException {
-        ClassLoader oldClassloader = Thread.currentThread().getContextClassLoader();
-        URI contributionUri = contribution.getUri();
-        try {
-            Thread.currentThread().setContextClassLoader(loader);
-            for (Resource resource : contribution.getResources()) {
-                if (!resource.isProcessed()) {
-                    registry.processResource(contributionUri, resource, context, loader);
-                }
-            }
-        } finally {
-            Thread.currentThread().setContextClassLoader(oldClassloader);
-        }
-    }
-    
-    /*
-     * Adds to the validation context the error and warnings, and returns boolean outcome accordingly
-     */
-    private boolean onErrorAndWarnings(ValidationContext validationContext , IntrospectionContext childContext) {
-        boolean exist = false;
-        
-        if (childContext.hasErrors()) {
-            validationContext.addErrors(childContext.getErrors());
-            exist = true;
-        }
-        if (childContext.hasWarnings()) {
-            validationContext.addWarnings(childContext.getWarnings());
-            exist = true;
-        }
-        return exist;
-    }
-
-    private void iterateArtifacts(Contribution contribution, Action action) throws ContributionException {
+    protected void iterateArtifacts(Contribution contribution, Action action) throws ContributionException {
         URL location = contribution.getLocation();
         ZipInputStream zipStream = null;
         try {

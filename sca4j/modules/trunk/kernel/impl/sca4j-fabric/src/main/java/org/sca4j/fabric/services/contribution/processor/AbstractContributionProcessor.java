@@ -71,11 +71,27 @@
 
 package org.sca4j.fabric.services.contribution.processor;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
-import org.osoa.sca.annotations.Service;
+import org.sca4j.host.contribution.ContributionException;
+import org.sca4j.introspection.DefaultIntrospectionContext;
+import org.sca4j.introspection.IntrospectionContext;
+import org.sca4j.introspection.xml.Loader;
+import org.sca4j.introspection.xml.LoaderException;
+import org.sca4j.scdl.ValidationContext;
+import org.sca4j.spi.services.contribution.Action;
+import org.sca4j.spi.services.contribution.Contribution;
+import org.sca4j.spi.services.contribution.ContributionManifest;
 import org.sca4j.spi.services.contribution.ContributionProcessor;
 import org.sca4j.spi.services.contribution.ProcessorRegistry;
+import org.sca4j.spi.services.contribution.Resource;
 
 /**
  * The base class for ContributionProcessor implementations
@@ -83,9 +99,109 @@ import org.sca4j.spi.services.contribution.ProcessorRegistry;
  * @version $Rev: 3672 $ $Date: 2008-04-19 03:49:29 +0100 (Sat, 19 Apr 2008) $
  */
 @EagerInit
-@Service(ContributionProcessor.class)
 public abstract class AbstractContributionProcessor implements ContributionProcessor {
     
     @Reference public ProcessorRegistry registry;
+    @Reference public Loader loader;
+
+    /**
+     * {@inheritDoc}
+     * @see org.sca4j.spi.services.contribution.ContributionProcessor#process(org.sca4j.spi.services.contribution.Contribution, org.sca4j.scdl.ValidationContext, java.lang.ClassLoader)
+     */
+    public final void process(Contribution contribution, ValidationContext context, ClassLoader loader) throws ContributionException {
+        ClassLoader oldClassloader = Thread.currentThread().getContextClassLoader();
+        URI contributionUri = contribution.getUri();
+        try {
+            Thread.currentThread().setContextClassLoader(loader);
+            for (Resource resource : contribution.getResources()) {
+                if (!resource.isProcessed()) {
+                    registry.processResource(contributionUri, resource, context, loader);
+                }
+            }
+        } finally {
+            Thread.currentThread().setContextClassLoader(oldClassloader);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.sca4j.spi.services.contribution.ContributionProcessor#index(org.sca4j.spi.services.contribution.Contribution, org.sca4j.scdl.ValidationContext)
+     */
+    public final void index(Contribution contribution, final ValidationContext context) throws ContributionException {
+        iterateArtifacts(contribution, new Action() {
+            public void process(Contribution contribution, String contentType, URL url) throws ContributionException {
+                registry.indexResource(contribution, contentType, url, context);
+            }
+        });
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.sca4j.spi.services.contribution.ContributionProcessor#processManifest(org.sca4j.spi.services.contribution.Contribution, org.sca4j.scdl.ValidationContext)
+     */
+    public final void processManifest(Contribution contribution, final ValidationContext context) throws ContributionException {
+        ContributionManifest manifest;
+        try {
+            URL manifestURL = getManifestUrl(contribution);
+            ClassLoader cl = getClass().getClassLoader();
+            URI uri = contribution.getUri();
+            IntrospectionContext childContext = new DefaultIntrospectionContext(cl, uri, null);
+            manifest = loader.load(manifestURL, ContributionManifest.class, childContext);
+            if (childContext.hasErrors()) {
+                context.addErrors(childContext.getErrors());
+            }
+            if (childContext.hasWarnings()) {
+                context.addWarnings(childContext.getWarnings());
+            }
+        } catch (LoaderException e) {
+            if (e.getCause() instanceof FileNotFoundException) {
+                manifest = new ContributionManifest();
+            } else {
+                throw new ContributionException(e);
+            }
+        } catch (MalformedURLException e) {
+            manifest = new ContributionManifest();
+        }
+        contribution.setManifest(manifest);
+
+        iterateArtifacts(contribution, new Action() {
+            public void process(Contribution contribution, String contentType, URL url)
+                    throws ContributionException {
+                InputStream stream = null;
+                try {
+                    stream = url.openStream();
+                    registry.processManifestArtifact(contribution.getManifest(), contentType, stream, context);
+                } catch (IOException e) {
+                    throw new ContributionException(e);
+                } finally {
+                    try {
+                        if (stream != null) {
+                            stream.close();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * Iterates through a list of artifacts within the contribution.
+     * 
+     * @param contribution Contribution.
+     * @param action Action to be performed on each artifact.
+     * @throws ContributionException If there is an unexpected exception.
+     */
+    protected abstract void iterateArtifacts(Contribution contribution, Action action) throws ContributionException;
+    
+    /**
+     * Gets the manifest URLfor the contribution.
+     * 
+     * @param contribution Contribution.
+     * @return Manifest URL for the contribution.
+     * @throws MalformedURLException If unable to construct the manifest URL.
+     */
+    protected abstract URL getManifestUrl(Contribution contribution) throws MalformedURLException;
 
 }
