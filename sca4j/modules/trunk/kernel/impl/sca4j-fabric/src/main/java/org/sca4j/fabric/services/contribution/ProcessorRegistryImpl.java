@@ -70,7 +70,6 @@
  */
 package org.sca4j.fabric.services.contribution;
 
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
@@ -81,8 +80,6 @@ import org.osoa.sca.annotations.Service;
 import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.scdl.ValidationContext;
 import org.sca4j.spi.services.contribution.Contribution;
-import org.sca4j.spi.services.contribution.ContributionManifest;
-import org.sca4j.spi.services.contribution.ManifestProcessor;
 import org.sca4j.spi.services.contribution.ProcessorRegistry;
 import org.sca4j.spi.services.contribution.Resource;
 import org.sca4j.spi.services.contribution.ResourceProcessor;
@@ -97,7 +94,6 @@ import org.sca4j.spi.services.contribution.ResourceProcessor;
 public class ProcessorRegistryImpl implements ProcessorRegistry {
     
     private Map<String, ResourceProcessor> resourceProcessorCache = new HashMap<String, ResourceProcessor>();
-    private Map<String, ManifestProcessor> manifestProcessorCache = new HashMap<String, ManifestProcessor>();
 
     public ProcessorRegistryImpl() {
     }
@@ -108,22 +104,6 @@ public class ProcessorRegistryImpl implements ProcessorRegistry {
 
     public void unregisterResourceProcessor(String contentType) {
         resourceProcessorCache.remove(contentType);
-    }
-
-    public void register(ManifestProcessor processor) {
-        manifestProcessorCache.put(processor.getContentType(), processor);
-    }
-
-    public void unregisterManifestProcessor(String contentType) {
-        manifestProcessorCache.remove(contentType);
-    }
-
-    public void processManifestArtifact(ContributionManifest manifest, String contentType, InputStream inputStream, ValidationContext context)
-            throws ContributionException {
-        ManifestProcessor processor = manifestProcessorCache.get(contentType);
-        if (processor != null) {
-            processor.process(manifest, inputStream, context);
-        }
     }
 
     public void indexResource(Contribution contribution, String contentType, URL url, ValidationContext context) throws ContributionException {

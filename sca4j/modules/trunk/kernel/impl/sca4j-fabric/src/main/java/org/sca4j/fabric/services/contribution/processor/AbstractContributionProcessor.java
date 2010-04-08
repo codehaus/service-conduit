@@ -72,8 +72,6 @@
 package org.sca4j.fabric.services.contribution.processor;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
@@ -140,6 +138,7 @@ public abstract class AbstractContributionProcessor implements ContributionProce
      * @see org.sca4j.spi.services.contribution.ContributionProcessor#processManifest(org.sca4j.spi.services.contribution.Contribution, org.sca4j.scdl.ValidationContext)
      */
     public final void processManifest(Contribution contribution, final ValidationContext context) throws ContributionException {
+        
         ContributionManifest manifest;
         try {
             URL manifestURL = getManifestUrl(contribution);
@@ -163,27 +162,7 @@ public abstract class AbstractContributionProcessor implements ContributionProce
             manifest = new ContributionManifest();
         }
         contribution.setManifest(manifest);
-
-        iterateArtifacts(contribution, new Action() {
-            public void process(Contribution contribution, String contentType, URL url)
-                    throws ContributionException {
-                InputStream stream = null;
-                try {
-                    stream = url.openStream();
-                    registry.processManifestArtifact(contribution.getManifest(), contentType, stream, context);
-                } catch (IOException e) {
-                    throw new ContributionException(e);
-                } finally {
-                    try {
-                        if (stream != null) {
-                            stream.close();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
+        
     }
 
     /**

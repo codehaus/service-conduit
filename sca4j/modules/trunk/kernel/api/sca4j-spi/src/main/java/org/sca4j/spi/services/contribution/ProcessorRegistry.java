@@ -70,7 +70,6 @@
  */
 package org.sca4j.spi.services.contribution;
 
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 
@@ -85,20 +84,6 @@ import org.sca4j.scdl.ValidationContext;
 public interface ProcessorRegistry {
 
     /**
-     * Register a ManifestProcessor using the content type as the key
-     *
-     * @param processor the processor to registrer
-     */
-    void register(ManifestProcessor processor);
-
-    /**
-     * Unregister a ManifestProcessor for a content type
-     *
-     * @param contentType the content
-     */
-    void unregisterManifestProcessor(String contentType);
-
-    /**
      * Register a ResourceProcessor using the content type as the key
      *
      * @param processor the processor to registrer
@@ -111,18 +96,6 @@ public interface ProcessorRegistry {
      * @param contentType the content
      */
     void unregisterResourceProcessor(String contentType);
-
-    /**
-     * Dispatches to a {@link ManifestProcessor} to process a manifest artifact contaned in a contribution.
-     *
-     * @param manifest    the manifest to update
-     * @param contentType the artifact MIME type
-     * @param inputStream the input stream for the artifact
-     * @param context     the context to which validation errors and warnings are reported
-     * @throws ContributionException if there was a problem processing the artifact
-     */
-    void processManifestArtifact(ContributionManifest manifest, String contentType, InputStream inputStream, ValidationContext context)
-            throws ContributionException;
 
     /**
      * Dispatches to a {@link ResourceProcessor} to index a resource contained in a contribution.
