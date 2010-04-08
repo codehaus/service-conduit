@@ -61,6 +61,7 @@ import org.osoa.sca.annotations.Reference;
 
 import org.sca4j.fabric.services.contribution.UnsupportedContentTypeException;
 import org.sca4j.host.contribution.ContributionException;
+import org.sca4j.host.contribution.JarContributionSource;
 import org.sca4j.spi.services.contribution.Action;
 import org.sca4j.spi.services.contribution.ArchiveContributionHandler;
 import org.sca4j.spi.services.contribution.Contribution;
@@ -76,6 +77,12 @@ public class ArchiveContributionProcessor extends AbstractContributionProcessor 
 
     private static final List<String> CONTENT_TYPES = initializeContentTypes();
     private List<ArchiveContributionHandler> handlers;
+    private static final String TYPE = "";
+    
+    @Override
+    public String getType() {
+        return JarContributionSource.TYPE;
+    }
 
     @Reference
     public void setHandlers(List<ArchiveContributionHandler> handlers) {

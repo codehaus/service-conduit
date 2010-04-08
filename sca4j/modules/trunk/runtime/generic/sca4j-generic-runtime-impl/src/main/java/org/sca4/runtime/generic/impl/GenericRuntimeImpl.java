@@ -60,7 +60,6 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -72,10 +71,6 @@ import javax.xml.stream.XMLStreamReader;
 
 import org.sca4.runtime.generic.impl.policy.PolicyDecorator;
 import org.sca4j.fabric.runtime.AbstractRuntime;
-import org.sca4j.fabric.runtime.ComponentNames;
-import org.sca4j.host.contribution.ContributionService;
-import org.sca4j.host.contribution.ContributionSource;
-import org.sca4j.host.contribution.FileContributionSource;
 import org.sca4j.host.runtime.BootConfiguration;
 import org.sca4j.introspection.impl.contract.JavaServiceContract;
 import org.sca4j.java.runtime.JavaComponent;
@@ -127,18 +122,17 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
         
         try {
             
-            ContributionService contributionService = getSystemComponent(ContributionService.class, ComponentNames.CONTRIBUTION_SERVICE_URI);
+            // ContributionService contributionService = getSystemComponent(ContributionService.class, ComponentNames.CONTRIBUTION_SERVICE_URI);
             
             URL applicationScdlUrl = getClass().getClassLoader().getResource(scdlPath);
             
             applicationScdlUrl = applicationScdlUrl.toURI().toURL();
             QName compositeQName = parseCompositeQName(applicationScdlUrl);
             
-            URL baseUrl = new URL(applicationScdlUrl.toString().substring(0, applicationScdlUrl.toString().indexOf(scdlPath)));
-            URI contributionUri = baseUrl.toURI();
+            //URL baseUrl = new URL(applicationScdlUrl.toString().substring(0, applicationScdlUrl.toString().indexOf(scdlPath)));
             
-            ContributionSource contributionSource = new FileContributionSource(contributionUri, baseUrl, -1, null, "application/vnd.sca4j");
-            contributionService.contribute(contributionSource);
+            // ContributionSource contributionSource = new FileContributionSource(baseUrl, -1, "application/vnd.sca4j");
+            // contributionService.contribute(contributionSource);
             Domain domain = getSystemComponent(Domain.class, APPLICATION_DOMAIN_URI);
             domain.include(compositeQName);
 
@@ -284,14 +278,6 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
         
         bootConfiguration.setRuntime(this);
         
-        List<String> bootExports = new ArrayList<String>();
-        bootExports.add("META-INF/maven/org.sca4j/sca4j-spi/pom.xml");
-        bootExports.add("META-INF/maven/org.sca4j/sca4j-pojo/pom.xml");
-        bootExports.add("META-INF/maven/org.sca4j/sca4j-java/pom.xml");
-        bootConfiguration.setBootLibraryExports(bootExports);
-        
-        ContributionSource intents = new FileContributionSource(classLoader.getResource("META-INF/intents.xml"), -1, null);
-        bootConfiguration.setIntents(intents);
         bootConfiguration.setSystemConfig(classLoader.getResourceAsStream("META-INF/systemConfig.xml"));
         bootConfiguration.setSystemScdl(classLoader.getResource("META-INF/system.composite"));
         

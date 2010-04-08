@@ -88,12 +88,13 @@ import org.sca4j.scdl.ValidationContext;
  * @version $Rev: 4313 $ $Date: 2008-05-24 00:06:47 +0100 (Sat, 24 May 2008) $
  */
 public interface ContributionProcessor {
+    
     /**
-     * Returns the content type this implementation handles.
-     *
-     * @return the content type this implementation handles
+     * Returns the type of the contribution processor.
+     * 
+     * @return Contribution processor type.
      */
-    public abstract List<String> getContentTypes();
+    String getType();
 
     /**
      * Processses manifest information for the contribution, including imports and exports.

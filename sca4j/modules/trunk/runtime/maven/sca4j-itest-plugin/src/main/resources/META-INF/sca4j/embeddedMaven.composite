@@ -138,8 +138,8 @@
         <sca4j:implementation.system class="org.sca4j.fabric.services.discovery.SingleVMDiscoveryService"/>
     </component>
 
-    <component name="ModuleContributionProcessor">
-        <sca4j:implementation.system class="org.sca4j.maven.contribution.ModuleContributionProcessor"/>
+    <component name="MavenContributionProcessor">
+        <sca4j:implementation.system class="org.sca4j.maven.contribution.MavenContributionProcessor"/>
     </component>
 
 </composite>

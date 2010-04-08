@@ -80,17 +80,8 @@ import static org.sca4j.runtime.webapp.Constants.SYSTEM_CONFIG_PARAM;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.io.StringReader;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -98,13 +89,10 @@ import javax.servlet.ServletContextListener;
 import javax.xml.namespace.QName;
 
 import org.sca4j.host.SCA4JRuntimeException;
-import org.sca4j.host.contribution.ContributionSource;
-import org.sca4j.host.contribution.FileContributionSource;
 import org.sca4j.host.contribution.ValidationException;
 import org.sca4j.host.domain.AssemblyException;
 import org.sca4j.host.runtime.BootConfiguration;
 import org.sca4j.host.runtime.InitializationException;
-import org.xml.sax.InputSource;
 
 /**
  * Launches a SCA4J runtime in a web application, loading information from servlet context parameters. This listener manages one runtime per servlet
@@ -187,28 +175,6 @@ public class SCA4JContextListener implements ServletContextListener {
         // create the runtime bootrapper
         URL systemScdl = utils.getSystemScdl(webappClassLoader);
         configuration.setSystemScdl(systemScdl);
-        
-        // add the boot libraries to export as contributions. This is necessary so extension contributions can import them
-        List<String> bootExports = new ArrayList<String>();
-        bootExports.add("META-INF/maven/org.sca4j/sca4j-spi/pom.xml");
-        bootExports.add("META-INF/maven/org.sca4j/sca4j-pojo/pom.xml");
-        bootExports.add("META-INF/maven/org.sca4j/sca4j-java/pom.xml");
-        bootExports.add("META-INF/maven/org.sca4j/sca4j-container-web-spi/pom.xml");
-        configuration.setBootLibraryExports(bootExports);
-
-        // process extensions
-        ServletContext context = runtime.getHostInfo().getServletContext();
-        List<ContributionSource> extensions = getExtensionContributions("/WEB-INF/lib/f3Extensions.properties", context);
-        configuration.setExtensions(extensions);
-
-        // process the baseline intents
-        URL intentsLocation = utils.getIntentsLocation(webappClassLoader);
-        if (intentsLocation == null) {
-            intentsLocation = webappClassLoader.getResource("META-INF/sca4j/intents.xml");
-        }
-        URI uri = URI.create("StandardIntents");
-        ContributionSource source = new FileContributionSource(uri, intentsLocation, -1, new byte[0]);
-        configuration.setIntents(source);
         configuration.setRuntime(runtime);
         
         String systemConfig = utils.getInitParameter(SYSTEM_CONFIG_PARAM, null);
@@ -222,50 +188,6 @@ public class SCA4JContextListener implements ServletContextListener {
 
     }
 
-    /*
-     * Gets the extension contributions.
-     */
-    private List<ContributionSource> getExtensionContributions(String extensionDefinitions, ServletContext context) throws InitializationException {
-
-        InputStream stream = context.getResourceAsStream(extensionDefinitions);
-        if (stream == null) {
-            return Collections.emptyList();
-        }
-
-        Properties props = new Properties();
-        try {
-            props.load(stream);
-        } catch (IOException e) {
-            throw new InitializationException(e);
-        }
-
-        List<URL> files = new ArrayList<URL>();
-        for (Object key : props.keySet()) {
-            try {
-                URL url = context.getResource("/WEB-INF/lib/" + key).toURI().toURL();
-                files.add(url);
-            } catch (MalformedURLException e) {
-                throw new AssertionError(e);
-            } catch (URISyntaxException e) {
-                throw new AssertionError(e);
-            }
-        }
-
-        if (!files.isEmpty()) {
-            // contribute and activate extensions if they exist in the runtime domain
-            List<ContributionSource> sources = new ArrayList<ContributionSource>();
-            for (URL location : files) {
-                URI uri = URI.create(location.getPath());
-                ContributionSource source = new FileContributionSource(uri, location, -1, new byte[0]);
-                sources.add(source);
-
-            }
-            return sources;
-        }
-
-        return Collections.emptyList();
-
-    }
 
     /**
      * Can be overridden for tighter host integration.

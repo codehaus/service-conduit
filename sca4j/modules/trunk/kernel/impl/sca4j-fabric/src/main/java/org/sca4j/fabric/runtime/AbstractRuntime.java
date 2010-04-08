@@ -149,7 +149,6 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
     private String jmxSubDomain;
     private ClassLoader bootClassLoader;
     private ClassLoader appClassLoader;
-    private ContributionSource intents;
     private Bootstrapper bootstrapper;
 
     private HI hostInfo;
@@ -171,8 +170,6 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
         bootClassLoader = configuration.getBootClassLoader();
         appClassLoader = configuration.getAppClassLoader();
         hostClassLoader = configuration.getHostClassLoader();
-
-        intents = configuration.getIntents();
 
         bootstrapper = new ScdlBootstrapperImpl(configuration.getSystemScdl(), configuration.getSystemConfig());
 
@@ -202,7 +199,6 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
     public void bootSystem() throws InitializationException {
         bootstrapper.bootSystem();
         try {
-            activateIntents(intents);
             includeExtensions();
         } catch (DefinitionActivationException e) {
             throw new InitializationException(e);
@@ -316,21 +312,6 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
 
     public ScopeRegistry getScopeRegistry() {
         return scopeRegistry;
-    }
-
-    private void activateIntents(ContributionSource source) throws InitializationException {
-        try {
-            ContributionService contributionService = getSystemComponent(ContributionService.class, CONTRIBUTION_SERVICE_URI);
-            URI uri = contributionService.contribute(source).get(0);
-            DefinitionsRegistry definitionsRegistry = getSystemComponent(DefinitionsRegistry.class, DEFINITIONS_REGISTRY);
-            List<URI> intents = new ArrayList<URI>();
-            intents.add(uri);
-            definitionsRegistry.activateDefinitions(intents);
-        } catch (ContributionException e) {
-            throw new InitializationException(e);
-        } catch (DefinitionActivationException e) {
-            throw new InitializationException(e);
-        }
     }
 
     private void scanUserContributions() throws StartException {

@@ -105,9 +105,7 @@ public class ProcessorRegistryImpl implements ProcessorRegistry {
     }
 
     public void register(ContributionProcessor processor) {
-        for (String contentType : processor.getContentTypes()) {
-            contributionProcessorCache.put(contentType, processor);
-        }
+        contributionProcessorCache.put(processor.getType(), processor);
     }
 
     public void unregisterContributionProcessor(String contentType) {
@@ -131,7 +129,7 @@ public class ProcessorRegistryImpl implements ProcessorRegistry {
     }
 
     public void processManifest(Contribution contribution, ValidationContext context) throws ContributionException {
-        String contentType = contribution.getContentType();
+        String contentType = contribution.getType();
         ContributionProcessor processor = contributionProcessorCache.get(contentType);
         if (processor == null) {
             String source = contribution.getUri().toString();
@@ -150,7 +148,7 @@ public class ProcessorRegistryImpl implements ProcessorRegistry {
     }
 
     public void indexContribution(Contribution contribution, ValidationContext context) throws ContributionException {
-        String contentType = contribution.getContentType();
+        String contentType = contribution.getType();
         ContributionProcessor processor = contributionProcessorCache.get(contentType);
         if (processor == null) {
             String source = contribution.getUri().toString();
@@ -169,7 +167,7 @@ public class ProcessorRegistryImpl implements ProcessorRegistry {
     }
 
     public void processContribution(Contribution contribution, ValidationContext context, ClassLoader loader) throws ContributionException {
-        String contentType = contribution.getContentType();
+        String contentType = contribution.getType();
         ContributionProcessor processor = contributionProcessorCache.get(contentType);
         if (processor == null) {
             String source = contribution.getUri().toString();

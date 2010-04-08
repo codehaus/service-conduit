@@ -50,96 +50,22 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.host.runtime;
+package org.sca4j.host.contribution;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.List;
-
-import org.sca4j.host.contribution.ContributionSource;
 
 /**
- * Encapsulates configuration needed to boostrap a runtime.
+ * A contribution in the form of a JAR file.
  *
- * @version $Revision$ $Date$
+ * @version $Rev: 4238 $ $Date: 2008-05-17 06:02:45 +0100 (Sat, 17 May 2008) $
  */
-public class BootConfiguration {
+public class JarContributionSource extends DefaultContributionSource implements ContributionSource {
     
-    private SCA4JRuntime<?> runtime;
-    private ClassLoader bootClassLoader;
-    private ClassLoader appClassLoader;
-    private ClassLoader hostClassLoader;
-    private List<ContributionSource> extensions;
-    private URL systemScdl;
-    private String systemConfig;
+    public static final String TYPE = "JAR_CONTRIBUTION";
 
-    public SCA4JRuntime<?> getRuntime() {
-        return runtime;
+    public JarContributionSource(URL location, long timestamp) {
+        super(location, timestamp, TYPE);
     }
-
-    public void setRuntime(SCA4JRuntime<?> runtime) {
-        this.runtime = runtime;
-    }
-
-    public URL getSystemScdl() {
-        return systemScdl;
-    }
-
-    public void setSystemScdl(URL systemScdl) {
-        this.systemScdl = systemScdl;
-    }
-
-    public String getSystemConfig() {
-        return systemConfig;
-    }
-
-    public void setSystemConfig(InputStream systemConfig) throws IOException {
-        if (systemConfig != null) {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(systemConfig));
-            String line = reader.readLine();
-            StringBuffer sb = new StringBuffer();
-            while (line != null) {
-                sb.append(line);
-                line = reader.readLine();
-            }
-            this.systemConfig = sb.toString();
-            reader.close();
-        }
-    }
-
-    public ClassLoader getHostClassLoader() {
-        return hostClassLoader;
-    }
-
-    public void setHostClassLoader(ClassLoader hostClassLoader) {
-        this.hostClassLoader = hostClassLoader;
-    }
-
-    public ClassLoader getBootClassLoader() {
-        return bootClassLoader;
-    }
-
-    public void setBootClassLoader(ClassLoader bootClassLoader) {
-        this.bootClassLoader = bootClassLoader;
-    }
-
-    public ClassLoader getAppClassLoader() {
-        return appClassLoader;
-    }
-
-    public void setAppClassLoader(ClassLoader appClassLoader) {
-        this.appClassLoader = appClassLoader;
-    }
-
-    public List<ContributionSource> getExtensions() {
-        return extensions;
-    }
-
-    public void setExtensions(List<ContributionSource> extensions) {
-        this.extensions = extensions;
-    }
-
 }
+
+

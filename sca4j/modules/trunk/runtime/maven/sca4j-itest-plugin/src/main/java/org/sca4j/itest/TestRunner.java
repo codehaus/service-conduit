@@ -77,8 +77,6 @@ import org.apache.maven.surefire.report.XMLReporter;
 import org.apache.maven.surefire.suite.SurefireTestSuite;
 import org.apache.maven.surefire.testset.TestSetFailedException;
 import org.sca4j.host.contribution.ContributionException;
-import org.sca4j.host.contribution.ContributionSource;
-import org.sca4j.host.contribution.FileContributionSource;
 import org.sca4j.host.contribution.ValidationException;
 import org.sca4j.host.domain.AssemblyException;
 import org.sca4j.host.domain.DeploymentException;
@@ -194,15 +192,6 @@ public class TestRunner {
         configuration.setBootClassLoader(bootClassLoader);
         configuration.setHostClassLoader(hostClassLoader);
         
-        // create the runtime bootrapper
-
-        // add the boot libraries to export as contributions. This is necessary so extension contributions can import them
-        List<String> bootExports = new ArrayList<String>();
-        bootExports.add("META-INF/maven/org.sca4j/sca4j-spi/pom.xml");
-        bootExports.add("META-INF/maven/org.sca4j/sca4j-pojo/pom.xml");
-        bootExports.add("META-INF/maven/org.sca4j/sca4j-java/pom.xml");
-        configuration.setBootLibraryExports(bootExports);
-        
         if (testMetadata.systemScdl == null) {
             testMetadata.systemScdl = bootClassLoader.getResource("META-INF/sca4j/embeddedMaven.composite");
         }
@@ -215,14 +204,7 @@ public class TestRunner {
                 configuration.setSystemConfig(getSystemConfig().openStream());
             }
         }
-
-        // process the baseline intents
-        if (testMetadata.intentsLocation == null) {
-            testMetadata.intentsLocation = bootClassLoader.getResource("META-INF/sca4j/intents.xml");
-        }
-        URI uri = URI.create("StandardIntents");
-        ContributionSource source = new FileContributionSource(uri, testMetadata.intentsLocation, -1, new byte[0]);
-        configuration.setIntents(source);
+        
         configuration.setRuntime(runtime);
         return configuration;
     }

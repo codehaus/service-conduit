@@ -54,7 +54,6 @@ package org.sca4j.host.contribution;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.net.URL;
 
 /**
@@ -65,46 +64,27 @@ import java.net.URL;
 public interface ContributionSource {
 
     /**
-     * Returns the identifier for this contribution or null if one has not been assigned (i.e. it is a new contribution
-     * and not an update).
-     *
-     * @return the identifier for this contribution
-     */
-    URI getUri();
-
-    /**
      * Returns a input stream for the source.
-     *
-     * @return a input stream for the source
-     * @throws IOException if an error occurs returning the stream
+     * @return Input stream to the contribution source.
+     * @throws IOException If a stream cannot be open.
      */
     InputStream getSource() throws IOException;
 
     /**
      * If the source is local, returns the source URL
-     *
-     * @return the source URL
+     * @return The contribution URL.
      */
     URL getLocation();
 
     /**
      * Returns the source timestamp.
-     *
-     * @return the source timestamp
+     * @return Timestamp of the contribution.
      */
     long getTimestamp();
-
+    
     /**
-     * Returns the source checksum.
-     *
-     * @return the source checksum
+     * Returns the type of the contribution.
+     * @return Type of the contribution.
      */
-    byte[] getChecksum();
-
-
-  /**
-   * Returns the content type of the source 
-   * @return
-   */
-    String getContentType();
+    String getType();
 }

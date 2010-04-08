@@ -52,55 +52,22 @@
  */
 package org.sca4j.runtime.webapp.contribution;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URL;
 
 import org.sca4j.host.contribution.ContributionSource;
+import org.sca4j.host.contribution.DefaultContributionSource;
 
 /**
  * @version $Rev: 5132 $ $Date: 2008-08-02 05:32:50 +0100 (Sat, 02 Aug 2008) $
  */
-public class WarContributionSource implements ContributionSource {
-
-    private static final String CONTENT_TYPE = "application/vnd.sca4j.war";
-
-    private URI contributionUri;
-    private URL url;
-    private byte[] checksum;
-    private long timestamp;
+public class WarContributionSource extends DefaultContributionSource implements ContributionSource {
+    
+    public static final String TYPE = "WAR_CONTRIBUTION";
 
     public WarContributionSource(URI contributionUri) throws MalformedURLException {
-        this.contributionUri = contributionUri;
-        this.url = new File("/").toURI().toURL();
-        checksum = new byte[0];
-        timestamp = System.currentTimeMillis();
+        super(new File("/").toURI().toURL(), -1L, TYPE);
     }
-
-    public URI getUri() {
-        return contributionUri;
-    }
-
-    public InputStream getSource() throws IOException {
-        return null;
-    }
-
-    public URL getLocation() {
-        return url;
-    }
-
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public byte[] getChecksum() {
-        return checksum;
-    }
-
-    public String getContentType() {
-        return CONTENT_TYPE;
-    }
+    
 }

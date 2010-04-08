@@ -276,7 +276,6 @@ public class SCA4JITestMojo extends AbstractMojo {
         
         testMetadata.runtimeImpl = runtimeImpl;
         testMetadata.managementDomain = managementDomain;
-        testMetadata.intentsLocation = intentsLocation;
         testMetadata.systemScdl = systemScdl;
         testMetadata.systemConfigDir = systemConfigDir;
         testMetadata.systemConfig = systemConfig;

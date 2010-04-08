@@ -52,55 +52,23 @@
  */
 package org.sca4j.maven.contribution;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 
 import org.sca4j.host.contribution.ContributionSource;
+import org.sca4j.host.contribution.DefaultContributionSource;
 
 /**
  * A representation of a Maven module contribution.
  *
  * @version $Rev: 5133 $ $Date: 2008-08-02 06:00:17 +0100 (Sat, 02 Aug 2008) $
  */
-public class ModuleContributionSource implements ContributionSource {
+public class MavenContributionSource extends DefaultContributionSource implements ContributionSource {
+    
+    public static final String TYPE = "MAVEN_CONTRIBUTION";
 
-    public static final String CONTENT_TYPE = "application/vnd.sca4j.maven-project";
-    private URI uri;
-    private URL url;
-    private long timestamp;
-    private byte[] checksum;
-
-    public ModuleContributionSource(URI uri, String base) throws MalformedURLException {
-        this.uri = uri;
-        url = new URL("file", "", -1, base);
-        checksum = new byte[0];
-        timestamp = System.currentTimeMillis();
+    public MavenContributionSource(String base) throws MalformedURLException {
+        super(new URL("file", "", -1, base), -1, TYPE);
     }
-
-    public URI getUri() {
-        return uri;
-    }
-
-    public InputStream getSource() throws IOException {
-        return url.openStream();
-    }
-
-    public URL getLocation() {
-        return url;
-    }
-
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public byte[] getChecksum() {
-        return checksum;
-    }
-
-    public String getContentType() {
-        return CONTENT_TYPE;
-    }
+    
 }

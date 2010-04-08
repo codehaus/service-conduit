@@ -71,12 +71,10 @@
 
 package org.sca4j.fabric.services.contribution.processor;
 
-import org.osoa.sca.annotations.Destroy;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
 import org.osoa.sca.annotations.Service;
-
 import org.sca4j.spi.services.contribution.ContributionProcessor;
 import org.sca4j.spi.services.contribution.ProcessorRegistry;
 
@@ -88,17 +86,8 @@ import org.sca4j.spi.services.contribution.ProcessorRegistry;
 @EagerInit
 @Service(ContributionProcessor.class)
 public abstract class AbstractContributionProcessor implements ContributionProcessor {
-    protected ProcessorRegistry registry;
-
-    /**
-     * Sets the ContributionProcessorRegistry that this processor should register with/
-     *
-     * @param registry the ContributionProcessorRegistry that this processor should register with
-     */
-    @Reference
-    public void setContributionProcessorRegistry(ProcessorRegistry registry) {
-        this.registry = registry;
-    }
+    
+    @Reference public ProcessorRegistry registry;
 
     /**
      * Initialize the processor and registers with the contribution processor registry.
@@ -106,16 +95,6 @@ public abstract class AbstractContributionProcessor implements ContributionProce
     @Init
     public void start() {
         registry.register(this);
-    }
-
-    /**
-     * Shuts the processor down and unregisters from the contribution processor registry.
-     */
-    @Destroy
-    public void stop() {
-        for (String contentType : getContentTypes()) {
-            registry.unregisterContributionProcessor(contentType);
-        }
     }
 
 }

@@ -31,7 +31,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import org.sca4j.host.contribution.ContributionSource;
-import org.sca4j.host.contribution.FileContributionSource;
+import org.sca4j.host.contribution.JarContributionSource;
 
 public class ContributionScanner {
 
@@ -68,7 +68,7 @@ public class ContributionScanner {
                     if ("jar".equals(resource.getProtocol())) {
                         JarURLConnection jarURLConnection = (JarURLConnection) resource.openConnection();
                         URL resourceUrl = jarURLConnection.getJarFileURL();
-                        extensions.add(new FileContributionSource(resourceUrl, 1, null));
+                        extensions.add(new JarContributionSource(resourceUrl, -1));
                     }
                 }
             }

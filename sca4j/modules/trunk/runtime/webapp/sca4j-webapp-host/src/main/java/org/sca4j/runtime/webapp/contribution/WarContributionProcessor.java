@@ -58,15 +58,13 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
+
 import javax.servlet.ServletContext;
 
 import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
-
+import org.sca4j.fabric.services.contribution.processor.AbstractContributionProcessor;
 import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.introspection.DefaultIntrospectionContext;
 import org.sca4j.introspection.IntrospectionContext;
@@ -79,8 +77,6 @@ import org.sca4j.spi.services.contenttype.ContentTypeResolver;
 import org.sca4j.spi.services.contribution.Action;
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.ContributionManifest;
-import org.sca4j.spi.services.contribution.ContributionProcessor;
-import org.sca4j.spi.services.contribution.ProcessorRegistry;
 import org.sca4j.spi.services.contribution.Resource;
 
 /**
@@ -89,33 +85,11 @@ import org.sca4j.spi.services.contribution.Resource;
  * @version $Rev: 5132 $ $Date: 2008-08-02 05:32:50 +0100 (Sat, 02 Aug 2008) $
  */
 @EagerInit
-public class WarContributionProcessor implements ContributionProcessor {
+public class WarContributionProcessor extends AbstractContributionProcessor {
 
-    public static final List<String> CONTENT_TYPES = initializeContentTypes();
-
-    private WebappHostInfo info;
-    private ProcessorRegistry registry;
-    private ContentTypeResolver contentTypeResolver;
-    private Loader loader;
-
-    public WarContributionProcessor(@Reference WebappHostInfo info,
-                                    @Reference ProcessorRegistry registry,
-                                    @Reference ContentTypeResolver contentTypeResolver,
-                                    @Reference Loader loader) {
-        this.info = info;
-        this.registry = registry;
-        this.contentTypeResolver = contentTypeResolver;
-        this.loader = loader;
-    }
-
-    public List<String> getContentTypes() {
-        return CONTENT_TYPES;
-    }
-
-    @Init
-    public void init() {
-        registry.register(this);
-    }
+    @Reference public WebappHostInfo info;
+    @Reference public Loader loader;
+    @Reference public ContentTypeResolver contentTypeResolver;
 
     public void process(Contribution contribution, ValidationContext context, ClassLoader loader) throws ContributionException {
         URI contributionUri = contribution.getUri();
@@ -217,10 +191,9 @@ public class WarContributionProcessor implements ContributionProcessor {
         }
     }
 
-    private static List<String> initializeContentTypes() {
-        List<String> list = new ArrayList<String>(1);
-        list.add("application/vnd.sca4j.war");
-        return list;
+    @Override
+    public String getType() {
+        return WarContributionSource.TYPE;
     }
 
 }

@@ -115,7 +115,6 @@ public class ContributionServiceImpl implements ContributionService {
     @Reference public ContributionLoader contributionLoader;
     @Reference public ContentTypeResolver contentTypeResolver;
     @Reference public DependencyService dependencyService;
-    @Property public String uriPrefix = "contribution://";
     @Monitor public ContributionServiceMonitor monitor;
 
     /**
@@ -171,31 +170,11 @@ public class ContributionServiceImpl implements ContributionService {
      * Store the contribution.
      */
     private List<Contribution> store(ContributionSource ... sources) throws ContributionException {
-
         List<Contribution> contributions = new ArrayList<Contribution>(sources.length);
-
         for (ContributionSource source : sources) {
-            
-            URI contributionUri = source.getUri();
-            if (contributionUri == null) {
-                contributionUri = URI.create(uriPrefix + "/" + UUID.randomUUID());
-            }
-            
-            try {
-                URL locationUrl = source.getLocation();
-                String type = source.getContentType();
-                if (type == null) {
-                    type = contentTypeResolver.getContentType(source.getLocation());
-                }
-                contributions.add(new Contribution(contributionUri, locationUrl, source.getChecksum(), source.getTimestamp(), type));
-            } catch (ContentTypeResolutionException e) {
-                throw new ContributionException(e);
-            }
-            
+            contributions.add(new Contribution(source.getLocation(), source.getTimestamp(), source.getType()));
         }
-        
         return contributions;
-        
     }
 
     /*

@@ -63,8 +63,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
+import org.sca4j.fabric.services.contribution.processor.AbstractContributionProcessor;
 import org.sca4j.fabric.util.FileHelper;
 import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.introspection.DefaultIntrospectionContext;
@@ -77,8 +77,6 @@ import org.sca4j.spi.services.contenttype.ContentTypeResolver;
 import org.sca4j.spi.services.contribution.Action;
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.ContributionManifest;
-import org.sca4j.spi.services.contribution.ContributionProcessor;
-import org.sca4j.spi.services.contribution.ProcessorRegistry;
 import org.sca4j.spi.services.contribution.Resource;
 
 /**
@@ -86,19 +84,10 @@ import org.sca4j.spi.services.contribution.Resource;
  *
  */
 @EagerInit
-public class ClasspathContributionProcessor implements ContributionProcessor {
+public class ClasspathContributionProcessor extends AbstractContributionProcessor {
 
-    @Reference protected ProcessorRegistry registry;
     @Reference protected ContentTypeResolver contentTypeResolver;
     @Reference protected Loader loader;
-
-    /**
-     * Registers the processor.
-     */
-    @Init
-    public void init() {
-        registry.register(this);
-    }
 
     /**
      * @see org.sca4j.spi.services.contribution.ContributionProcessor#getContentTypes()
@@ -205,6 +194,12 @@ public class ClasspathContributionProcessor implements ContributionProcessor {
             }
         }
 
+    }
+
+    @Override
+    public String getType() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

@@ -100,10 +100,6 @@
         <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.processor.CompositeResourceProcessor"/>
     </component>
 
-    <component name="XmlContributionProcessor">
-        <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.processor.XmlContributionProcessor"/>
-    </component>
-
     <component name="XmlManifestProcessorRegistry">
         <sca4j:implementation.system class="org.sca4j.fabric.services.contribution.manifest.XmlManifestProcessorRegistryImpl"/>
     </component>

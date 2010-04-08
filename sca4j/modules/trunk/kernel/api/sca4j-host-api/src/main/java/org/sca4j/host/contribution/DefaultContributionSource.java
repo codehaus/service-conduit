@@ -54,7 +54,6 @@ package org.sca4j.host.contribution;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.net.URL;
 
 /**
@@ -62,52 +61,55 @@ import java.net.URL;
  *
  * @version $Rev: 4238 $ $Date: 2008-05-17 06:02:45 +0100 (Sat, 17 May 2008) $
  */
-public class FileContributionSource implements ContributionSource {
-    private URI uri;
+public class DefaultContributionSource implements ContributionSource {
+    
     private URL location;
     private long timestamp;
-    private byte[] checksum;
-    private String contentType;
+    private String type;
 
-
-    public FileContributionSource(URL location, long timestamp, byte[] checksum) {
-        this(null, location, timestamp, checksum);
-    }
-
-    public FileContributionSource(URI uri, URL location, long timestamp, byte[] checksum) {
-        this(uri, location, timestamp, checksum, null);
-    }
-
-    public FileContributionSource(URI uri, URL location, long timestamp, byte[] checksum, String contentType) {
-        this.uri = uri;
+    /**
+     * Initialises the contribution source state.
+     * 
+     * @param location The location of the contribution.
+     * @param timestamp Contribution timestamp.
+     * @param type Contribution type.
+     */
+    public DefaultContributionSource(URL location, long timestamp, String type) {
         this.location = location;
         this.timestamp = timestamp;
-        this.checksum = checksum;
-        this.contentType = contentType;
+        this.type = type;
     }
 
-    public URI getUri() {
-        return uri;
-    }
-
+    /**
+     * {@inheritDoc}
+     * @see org.sca4j.host.contribution.ContributionSource#getSource()
+     */
     public InputStream getSource() throws IOException {
         return location.openStream();
     }
 
+    /**
+     * {@inheritDoc}
+     * @see org.sca4j.host.contribution.ContributionSource#getLocation()
+     */
     public URL getLocation() {
         return location;
     }
 
+    /**
+     * {@inheritDoc}
+     * @see org.sca4j.host.contribution.ContributionSource#getTimestamp()
+     */
     public long getTimestamp() {
         return timestamp;
     }
 
-    public byte[] getChecksum() {
-        return checksum;
-    }
-
-    public String getContentType() {
-        return contentType;
+    /**
+     * {@inheritDoc}
+     * @see org.sca4j.host.contribution.ContributionSource#getType()
+     */
+    public String getType() {
+        return type;
     }
 }
 

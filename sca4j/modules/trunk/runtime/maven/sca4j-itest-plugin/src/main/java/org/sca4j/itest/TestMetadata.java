@@ -74,7 +74,6 @@ public class TestMetadata {
     public String bootstrapperImpl;
     public Properties properties;
     public String managementDomain;
-    public URL intentsLocation;
     public URL systemScdl;
     public String systemConfigDir;
     public String systemConfig;

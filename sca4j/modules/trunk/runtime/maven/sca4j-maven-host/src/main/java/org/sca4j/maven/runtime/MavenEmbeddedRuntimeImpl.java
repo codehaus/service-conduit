@@ -91,7 +91,7 @@ import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.host.contribution.ContributionService;
 import org.sca4j.host.contribution.ContributionSource;
 import org.sca4j.host.domain.DeploymentException;
-import org.sca4j.maven.contribution.ModuleContributionSource;
+import org.sca4j.maven.contribution.MavenContributionSource;
 import org.sca4j.scdl.Composite;
 import org.sca4j.services.xmlfactory.XMLFactory;
 import org.sca4j.spi.component.GroupInitializationException;
@@ -113,15 +113,11 @@ public class MavenEmbeddedRuntimeImpl extends AbstractRuntime<MavenHostInfo> imp
 
     public Composite activate(URL url, QName qName) throws ContributionException, DeploymentException {
         try {
-            URI contributionUri = url.toURI();
-            ModuleContributionSource source =
-                    new ModuleContributionSource(contributionUri, FileHelper.toFile(url).toString());
+            MavenContributionSource source = new MavenContributionSource(FileHelper.toFile(url).toString());
             return activate(source, qName);
         } catch (MalformedURLException e) {
             String identifier = url.toString();
             throw new DeploymentException("Invalid project directory: " + identifier, identifier, e);
-        } catch (URISyntaxException e) {
-            throw new DeploymentException("Error activating test contribution", e);
         }
     }
 

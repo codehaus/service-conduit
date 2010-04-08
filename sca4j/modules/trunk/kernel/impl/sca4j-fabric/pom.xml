@@ -45,6 +45,12 @@
 
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-standard-intents</artifactId>
+            <version>0.9.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-spi</artifactId>
             <version>0.9.1-SNAPSHOT</version>
         </dependency>
