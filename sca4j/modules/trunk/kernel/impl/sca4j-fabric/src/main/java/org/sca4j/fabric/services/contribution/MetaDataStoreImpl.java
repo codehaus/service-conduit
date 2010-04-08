@@ -126,7 +126,7 @@ public class MetaDataStoreImpl implements MetaDataStore {
     }
 
     @SuppressWarnings({"unchecked"})
-    public <S extends Symbol> ResourceElement<S, ?> resolve(S symbol) throws MetaDataStoreException {
+    public <S extends Symbol<?>> ResourceElement<S, ?> resolve(S symbol) throws MetaDataStoreException {
         for (Contribution contribution : cache.values()) {
             for (Resource resource : contribution.getResources()) {
                 for (ResourceElement<?, ?> element : resource.getResourceElements()) {
@@ -143,7 +143,7 @@ public class MetaDataStoreImpl implements MetaDataStore {
         return null;
     }
 
-    public Resource resolveContainingResource(URI contributionUri, Symbol symbol) {
+    public Resource resolveContainingResource(URI contributionUri, Symbol<?> symbol) {
         Contribution contribution = cache.get(contributionUri);
         if (contribution != null) {
             for (Resource resource : contribution.getResources()) {
@@ -157,7 +157,7 @@ public class MetaDataStoreImpl implements MetaDataStore {
         return null;
     }
 
-    public <S extends Symbol, V extends Serializable> ResourceElement<S, V> resolve(URI contributionUri,
+    public <S extends Symbol<?>, V extends Serializable> ResourceElement<S, V> resolve(URI contributionUri,
                                                                                     Class<V> type,
                                                                                     S symbol,
                                                                                     ValidationContext context)
