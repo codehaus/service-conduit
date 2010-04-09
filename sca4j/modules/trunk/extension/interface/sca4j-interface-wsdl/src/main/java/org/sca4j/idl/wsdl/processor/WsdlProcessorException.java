@@ -81,11 +81,6 @@ import org.sca4j.host.SCA4JRuntimeException;
 public class WsdlProcessorException extends SCA4JRuntimeException {
 
     /**
-     * Serial version UID.
-     */
-    private static final long serialVersionUID = 7401444222777756374L;
-
-    /**
      * @param message Exception message.
      * @param cause Exception cause.
      */

@@ -70,20 +70,22 @@
  */
 package org.sca4j.loader.xmlcontribution;
 
+import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
+import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
+import static org.osoa.sca.Constants.SCA_NS;
+import static org.sca4j.host.Namespaces.SCA4J_NS;
+
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.namespace.QName;
-import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
-import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import static org.osoa.sca.Constants.SCA_NS;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.host.contribution.Constants;
 import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.host.contribution.Deployable;
@@ -94,16 +96,11 @@ import org.sca4j.introspection.xml.UnrecognizedAttribute;
 import org.sca4j.introspection.xml.UnrecognizedElementException;
 import org.sca4j.scdl.Composite;
 import org.sca4j.scdl.ValidationContext;
-
-import static org.sca4j.host.Namespaces.SCA4J_NS;
-
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.ContributionManifest;
-import org.sca4j.spi.services.contribution.QNameSymbol;
 import org.sca4j.spi.services.contribution.Resource;
 import org.sca4j.spi.services.contribution.ResourceElement;
 import org.sca4j.spi.services.contribution.ResourceElementNotFoundException;
-import org.sca4j.spi.services.contribution.Symbol;
 import org.sca4j.spi.services.contribution.XmlProcessor;
 import org.sca4j.spi.services.contribution.XmlProcessorRegistry;
 
@@ -163,10 +160,9 @@ public class XmlContributionTypeLoader implements XmlProcessor {
                     if (XML_CONTRIBUTION.equals(name)) {
                         for (Composite composite : composites) {
                             boolean found = false;
-                            Symbol candidateSymbol = new QNameSymbol(composite.getName());
                             for (Resource resource : contribution.getResources()) {
                                 for (ResourceElement element : resource.getResourceElements()) {
-                                    if (element.getSymbol().equals(candidateSymbol)) {
+                                    if (element.getSymbol().equals(composite.getName())) {
                                         element.setValue(composite);
                                         found = true;
                                         break;

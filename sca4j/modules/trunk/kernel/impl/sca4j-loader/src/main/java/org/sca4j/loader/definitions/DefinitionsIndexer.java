@@ -70,24 +70,23 @@
  */
 package org.sca4j.loader.definitions;
 
+import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
+import static org.osoa.sca.Constants.SCA_NS;
+
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamConstants;
-import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import static org.osoa.sca.Constants.SCA_NS;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.host.contribution.ContributionException;
-import org.sca4j.scdl.definitions.AbstractDefinition;
-import org.sca4j.scdl.ValidationContext;
 import org.sca4j.introspection.xml.LoaderUtil;
 import org.sca4j.introspection.xml.MissingAttribute;
-import org.sca4j.spi.services.contribution.QNameSymbol;
+import org.sca4j.scdl.ValidationContext;
+import org.sca4j.scdl.definitions.AbstractDefinition;
 import org.sca4j.spi.services.contribution.Resource;
 import org.sca4j.spi.services.contribution.ResourceElement;
 import org.sca4j.spi.services.contribution.XmlIndexer;
@@ -142,9 +141,7 @@ public class DefinitionsIndexer implements XmlIndexer {
                     }
                     NamespaceContext namespaceContext = reader.getNamespaceContext();
                     QName name = LoaderUtil.getQName(nameAttr, targetNamespace, namespaceContext);
-                    QNameSymbol symbol = new QNameSymbol(name);
-                    ResourceElement<QNameSymbol, AbstractDefinition> element =
-                            new ResourceElement<QNameSymbol, AbstractDefinition>(symbol);
+                    ResourceElement<QName, AbstractDefinition> element = new ResourceElement<QName, AbstractDefinition>(name);
                     resource.addResourceElement(element);
                     break;
                 case XMLStreamConstants.END_DOCUMENT:

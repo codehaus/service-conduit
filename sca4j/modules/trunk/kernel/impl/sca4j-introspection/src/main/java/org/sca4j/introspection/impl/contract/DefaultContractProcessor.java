@@ -127,7 +127,7 @@ public class DefaultContractProcessor implements ContractProcessor {
     }
 
     public ServiceContract<Type> introspect(TypeMapping typeMapping, Type type, ValidationContext context) {
-        if (type instanceof Class) {
+        if (type instanceof Class<?>) {
             return introspect(typeMapping, (Class<?>) type, context);
         } else {
             throw new UnsupportedOperationException("Interface introspection is only supported for classes");

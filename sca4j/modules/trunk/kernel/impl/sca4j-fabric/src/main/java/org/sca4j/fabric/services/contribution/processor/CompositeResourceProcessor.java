@@ -75,7 +75,6 @@ import org.sca4j.scdl.Composite;
 import org.sca4j.scdl.ValidationContext;
 import org.sca4j.services.xmlfactory.XMLFactory;
 import org.sca4j.spi.services.contribution.Contribution;
-import org.sca4j.spi.services.contribution.QNameSymbol;
 import org.sca4j.spi.services.contribution.Resource;
 import org.sca4j.spi.services.contribution.ResourceElement;
 import org.sca4j.spi.services.contribution.ResourceElementNotFoundException;
@@ -116,8 +115,7 @@ public class CompositeResourceProcessor implements ResourceProcessor {
             Resource resource = new Resource(url);
             String targetNamespace = reader.getAttributeValue(null, "targetNamespace");
             QName compositeName = new QName(targetNamespace, name);
-            QNameSymbol symbol = new QNameSymbol(compositeName);
-            ResourceElement<QNameSymbol, Composite> element = new ResourceElement<QNameSymbol, Composite>(symbol);
+            ResourceElement<QName, Composite> element = new ResourceElement<QName, Composite>(compositeName);
             resource.addResourceElement(element);
             contribution.addResource(resource);
         } catch (XMLStreamException e) {
@@ -156,7 +154,7 @@ public class CompositeResourceProcessor implements ResourceProcessor {
         composite.validate(childContext);
         boolean found = false;
         for (ResourceElement element : resource.getResourceElements()) {
-            if (element.getSymbol().getKey().equals(composite.getName())) {
+            if (element.getSymbol().equals(composite.getName())) {
                 element.setValue(composite);
                 found = true;
                 break;

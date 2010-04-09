@@ -73,6 +73,7 @@ package org.sca4j.idl.wsdl;
 
 import javax.xml.namespace.QName;
 
+import org.apache.ws.commons.schema.XmlSchemaType;
 import org.sca4j.scdl.ServiceContract;
 
 /**
@@ -80,52 +81,20 @@ import org.sca4j.scdl.ServiceContract;
  * 
  * @version $Revsion$ $Date: 2008-07-21 17:52:37 +0100 (Mon, 21 Jul 2008) $
  */
-public class WsdlContract extends ServiceContract {
-    private static final long serialVersionUID = 8084985972954894699L;
+public class WsdlContract extends ServiceContract<XmlSchemaType> {
 
-    /**
-     * QName for the port type/interface.
-     */
     private QName qname;
     
-    /**
-     * Callback qname.
-     */
-    private QName callbackQname;
-
-    /**
-     * @return QName for the port type/interface.
-     */
-    public QName getQname() {
-        return qname;
-    }
-
-    /**
-     * @param qname QName for the port type/interface.
-     */
-    public void setQname(QName qname) {
+    public WsdlContract(QName qname) {
         this.qname = qname;
     }
 
-    /**
-     * @return Callback qname.
-     */
-    public QName getCallbackQname() {
-        return callbackQname;
-    }
-
-    /**
-     * @param callbackQname Callback qname.
-     */
-    public void setCallbackQname(QName callbackQname) {
-        this.callbackQname = callbackQname;
-    }
-
-    public boolean isAssignableFrom(ServiceContract serviceContract) {
-        throw new UnsupportedOperationException();
+    public boolean isAssignableFrom(ServiceContract<?> serviceContract) {
+        return true;
     }
 
     public String getQualifiedInterfaceName() {
         return qname.toString();
     }
+    
 }

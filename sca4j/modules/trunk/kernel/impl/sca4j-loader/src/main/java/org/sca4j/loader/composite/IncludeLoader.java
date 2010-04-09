@@ -75,12 +75,12 @@ import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.introspection.DefaultIntrospectionContext;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.ElementLoadFailure;
@@ -95,7 +95,6 @@ import org.sca4j.scdl.Composite;
 import org.sca4j.scdl.Include;
 import org.sca4j.spi.services.contribution.MetaDataStore;
 import org.sca4j.spi.services.contribution.MetaDataStoreException;
-import org.sca4j.spi.services.contribution.QNameSymbol;
 import org.sca4j.spi.services.contribution.ResourceElement;
 
 /**
@@ -162,8 +161,7 @@ public class IncludeLoader implements TypeLoader<Include> {
             }
 
             try {
-                QNameSymbol symbol = new QNameSymbol(name);
-                ResourceElement<QNameSymbol, Composite> element = store.resolve(contributionUri, Composite.class, symbol, context);
+                ResourceElement<QName, Composite> element = store.resolve(contributionUri, Composite.class, name, context);
                 if (element == null) {
                     String id = name.toString();
                     MissingComposite failure = new MissingComposite("Composite file not found: " + id, id, reader);

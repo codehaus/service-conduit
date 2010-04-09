@@ -70,16 +70,7 @@
  */
 package org.sca4j.loader.composite;
 
-import java.net.URI;
-import java.net.URL;
-import javax.xml.namespace.NamespaceContext;
-import javax.xml.namespace.QName;
 import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
-
-import junit.framework.TestCase;
-import org.easymock.EasyMock;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
@@ -87,6 +78,17 @@ import static org.easymock.EasyMock.isA;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
+import java.net.URI;
+import java.net.URL;
+
+import javax.xml.namespace.NamespaceContext;
+import javax.xml.namespace.QName;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+
+import junit.framework.TestCase;
+
+import org.easymock.EasyMock;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.LoaderException;
 import org.sca4j.introspection.xml.LoaderRegistry;
@@ -94,7 +96,6 @@ import org.sca4j.scdl.Composite;
 import org.sca4j.scdl.Include;
 import org.sca4j.scdl.ValidationContext;
 import org.sca4j.spi.services.contribution.MetaDataStore;
-import org.sca4j.spi.services.contribution.QNameSymbol;
 import org.sca4j.spi.services.contribution.ResourceElement;
 
 /**
@@ -126,12 +127,11 @@ public class IncludeLoaderTestCase extends TestCase {
         expect(context.getTargetNamespace()).andReturn(namespace);
         expect(context.getTargetClassLoader()).andReturn(cl);
         expect(context.getContributionUri()).andReturn(null);
-        QNameSymbol symbol = new QNameSymbol(name);
         Composite include = new Composite(name);
-        ResourceElement<QNameSymbol, Composite> element = new ResourceElement<QNameSymbol, Composite>(symbol);
+        ResourceElement<QName, Composite> element = new ResourceElement<QName, Composite>(name);
         element.setValue(include);
         // FIXME null check
-        expect(store.resolve((URI) EasyMock.isNull(), eq(Composite.class), isA(QNameSymbol.class), isA(ValidationContext.class))).andReturn(element);
+        expect(store.resolve((URI) EasyMock.isNull(), eq(Composite.class), isA(QName.class), isA(ValidationContext.class))).andReturn(element);
         replay(registry, reader, namespaceContext, context, store);
 
         loader.load(reader, context);

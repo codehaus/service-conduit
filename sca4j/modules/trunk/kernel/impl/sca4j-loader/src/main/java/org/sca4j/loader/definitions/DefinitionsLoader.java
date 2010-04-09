@@ -70,22 +70,22 @@
  */
 package org.sca4j.loader.definitions;
 
+import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
+import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
+import static org.osoa.sca.Constants.SCA_NS;
+
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.namespace.QName;
-import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
-import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import static org.osoa.sca.Constants.SCA_NS;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.host.contribution.ContributionException;
-import org.sca4j.host.contribution.ContributionSource;
 import org.sca4j.introspection.DefaultIntrospectionContext;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.Loader;
@@ -97,11 +97,9 @@ import org.sca4j.scdl.definitions.BindingType;
 import org.sca4j.scdl.definitions.ImplementationType;
 import org.sca4j.scdl.definitions.Intent;
 import org.sca4j.scdl.definitions.PolicySet;
-import org.sca4j.spi.services.contribution.QNameSymbol;
 import org.sca4j.spi.services.contribution.Resource;
 import org.sca4j.spi.services.contribution.ResourceElement;
 import org.sca4j.spi.services.contribution.ResourceElementNotFoundException;
-import org.sca4j.spi.services.contribution.Symbol;
 import org.sca4j.spi.services.contribution.XmlResourceElementLoader;
 import org.sca4j.spi.services.contribution.XmlResourceElementLoaderRegistry;
 
@@ -194,7 +192,7 @@ public class DefinitionsLoader implements XmlResourceElementLoader {
                 for (AbstractDefinition candidate : definitions) {
                     boolean found = false;
                     for (ResourceElement element : resource.getResourceElements()) {
-                        Symbol candidateSymbol = new QNameSymbol(candidate.getName());
+                        QName candidateSymbol = candidate.getName();
                         if (element.getSymbol().equals(candidateSymbol)) {
                             element.setValue(candidate);
                             found = true;

@@ -99,7 +99,7 @@ public class JavaServiceContract extends ServiceContract<Type> {
     private List<MethodSignature> methodSignatures;
     
     //http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6176992
-    private static final Map<Class, Class> PRIMITIVE_TYPES = new HashMap<Class, Class>();
+    private static final Map<Class<?>, Class<?>> PRIMITIVE_TYPES = new HashMap<Class<?>, Class<?>>();
 
     static {
         PRIMITIVE_TYPES.put(byte.class, Byte.class);

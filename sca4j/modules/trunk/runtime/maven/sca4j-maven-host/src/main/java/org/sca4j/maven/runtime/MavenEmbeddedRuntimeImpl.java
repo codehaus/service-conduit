@@ -78,7 +78,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
@@ -98,7 +97,6 @@ import org.sca4j.spi.component.GroupInitializationException;
 import org.sca4j.spi.domain.Domain;
 import org.sca4j.spi.invocation.CallFrame;
 import org.sca4j.spi.invocation.WorkContext;
-import org.sca4j.spi.services.contribution.QNameSymbol;
 import org.sca4j.spi.services.contribution.ResourceElement;
 
 /**
@@ -127,7 +125,7 @@ public class MavenEmbeddedRuntimeImpl extends AbstractRuntime<MavenHostInfo> imp
         ContributionService contributionService = getSystemComponent(ContributionService.class, CONTRIBUTION_SERVICE_URI);
         contributionService.contribute(source);
         domain.include(qName);
-        ResourceElement<?, ?> element = getMetaDataStore().resolve(new QNameSymbol(qName));
+        ResourceElement<?, ?> element = getMetaDataStore().resolve(qName);
         assert element != null;
         return (Composite) element.getValue();
     }

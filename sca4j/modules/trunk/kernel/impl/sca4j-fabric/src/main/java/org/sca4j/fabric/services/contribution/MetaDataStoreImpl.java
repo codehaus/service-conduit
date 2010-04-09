@@ -52,7 +52,6 @@
  */
 package org.sca4j.fabric.services.contribution;
 
-import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,10 +69,9 @@ import org.sca4j.spi.services.contribution.Export;
 import org.sca4j.spi.services.contribution.Import;
 import org.sca4j.spi.services.contribution.MetaDataStore;
 import org.sca4j.spi.services.contribution.MetaDataStoreException;
-import org.sca4j.spi.services.contribution.ResourceProcessorRegistry;
 import org.sca4j.spi.services.contribution.Resource;
 import org.sca4j.spi.services.contribution.ResourceElement;
-import org.sca4j.spi.services.contribution.Symbol;
+import org.sca4j.spi.services.contribution.ResourceProcessorRegistry;
 
 /**
  * Default IndexStore implementation
@@ -116,7 +114,7 @@ public class MetaDataStoreImpl implements MetaDataStore {
     }
 
     @SuppressWarnings({"unchecked"})
-    public <S extends Symbol<?>> ResourceElement<S, ?> resolve(S symbol) throws MetaDataStoreException {
+    public <S> ResourceElement<S, ?> resolve(S symbol) throws MetaDataStoreException {
         for (Contribution contribution : cache.values()) {
             for (Resource resource : contribution.getResources()) {
                 for (ResourceElement<?, ?> element : resource.getResourceElements()) {
@@ -133,7 +131,7 @@ public class MetaDataStoreImpl implements MetaDataStore {
         return null;
     }
 
-    public Resource resolveContainingResource(URI contributionUri, Symbol<?> symbol) {
+    public <S> Resource resolveContainingResource(URI contributionUri, S symbol) {
         Contribution contribution = cache.get(contributionUri);
         if (contribution != null) {
             for (Resource resource : contribution.getResources()) {
@@ -147,11 +145,7 @@ public class MetaDataStoreImpl implements MetaDataStore {
         return null;
     }
 
-    public <S extends Symbol<?>, V extends Serializable> ResourceElement<S, V> resolve(URI contributionUri,
-                                                                                    Class<V> type,
-                                                                                    S symbol,
-                                                                                    ValidationContext context)
-            throws MetaDataStoreException {
+    public <S, V> ResourceElement<S, V> resolve(URI contributionUri, Class<V> type, S symbol, ValidationContext context) throws MetaDataStoreException {
         Contribution contribution = find(contributionUri);
         if (contribution == null) {
             String identifier = contributionUri.toString();
@@ -217,15 +211,9 @@ public class MetaDataStoreImpl implements MetaDataStore {
     }
 
     @SuppressWarnings({"unchecked"})
-    private <S extends Symbol, V extends Serializable> ResourceElement<S, V> resolveInternal(Contribution contribution,
-                                                                                             Class<V> type,
-                                                                                             S symbol,
-                                                                                             ValidationContext context)
-            throws MetaDataStoreException {
+    private <S, V> ResourceElement<S, V> resolveInternal(Contribution contribution, Class<V> type, S symbol, ValidationContext context) throws MetaDataStoreException {
         URI contributionUri = contribution.getUri();
-        //ClassLoader loader = classLoaderRegistry.getClassLoader(contributionUri);
         ClassLoader loader = getClass().getClassLoader();
-        assert loader != null;
         for (Resource resource : contribution.getResources()) {
             for (ResourceElement<?, ?> element : resource.getResourceElements()) {
                 if (element.getSymbol().equals(symbol)) {

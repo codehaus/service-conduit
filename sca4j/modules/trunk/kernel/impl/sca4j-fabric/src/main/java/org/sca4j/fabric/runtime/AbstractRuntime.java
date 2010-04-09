@@ -123,7 +123,6 @@ import org.sca4j.spi.runtime.RuntimeServices;
 import org.sca4j.spi.services.componentmanager.ComponentManager;
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.MetaDataStore;
-import org.sca4j.spi.services.contribution.QNameSymbol;
 import org.sca4j.spi.services.contribution.Resource;
 import org.sca4j.spi.services.contribution.ResourceElement;
 import org.sca4j.spi.services.definitions.DefinitionActivationException;
@@ -357,8 +356,8 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
                         continue;
                     }
                     @SuppressWarnings( { "unchecked" })
-                    ResourceElement<QNameSymbol, Composite> element = (ResourceElement<QNameSymbol, Composite>) entry;
-                    QName name = element.getSymbol().getKey();
+                    ResourceElement<QName, Composite> element = (ResourceElement<QName, Composite>) entry;
+                    QName name = element.getSymbol();
                     Composite childComposite = element.getValue();
                     for (Deployable deployable : contribution.getManifest().getDeployables()) {
                         if (deployable.getName().equals(name)) {

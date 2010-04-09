@@ -76,7 +76,6 @@ import org.sca4j.spi.model.instance.LogicalComponent;
 import org.sca4j.spi.model.instance.LogicalCompositeComponent;
 import org.sca4j.spi.services.contribution.MetaDataStore;
 import org.sca4j.spi.services.contribution.MetaDataStoreException;
-import org.sca4j.spi.services.contribution.QNameSymbol;
 import org.sca4j.spi.services.contribution.ResourceElement;
 import org.sca4j.spi.services.lcm.LogicalComponentManager;
 import org.sca4j.spi.services.lcm.StoreException;
@@ -115,9 +114,9 @@ public abstract class AbstractDomain implements Domain {
 
     public void include(QName deployable) throws DeploymentException {
 
-        ResourceElement<QNameSymbol, ?> element;
+        ResourceElement<QName, ?> element;
         try {
-            element = metadataStore.resolve(new QNameSymbol(deployable));
+            element = metadataStore.resolve(deployable);
         } catch (MetaDataStoreException e) {
             throw new DeploymentException("Error deploying: " + deployable, e);
         }
@@ -178,9 +177,9 @@ public abstract class AbstractDomain implements Domain {
 
     public void remove(QName deployable) throws DeploymentException {
 
-        ResourceElement<QNameSymbol, ?> element;
+        ResourceElement<QName, ?> element;
         try {
-            element = metadataStore.resolve(new QNameSymbol(deployable));
+            element = metadataStore.resolve(deployable);
         } catch (MetaDataStoreException e) {
             throw new DeploymentException(e);
         }

@@ -95,7 +95,6 @@ import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.ContributionProcessor;
 import org.sca4j.spi.services.contribution.MetaDataStore;
 import org.sca4j.spi.services.contribution.MetaDataStoreException;
-import org.sca4j.spi.services.contribution.QNameSymbol;
 import org.sca4j.spi.services.contribution.Resource;
 import org.sca4j.spi.services.contribution.ResourceElement;
 
@@ -209,11 +208,10 @@ public class ContributionServiceImpl implements ContributionService {
     private void validateContrbitution(Contribution contribution, ValidationContext context) {
         for (Deployable deployable : contribution.getManifest().getDeployables()) {
             QName name = deployable.getName();
-            QNameSymbol symbol = new QNameSymbol(name);
             boolean found = false;
             for (Resource resource : contribution.getResources()) {
                 for (ResourceElement<?, ?> element : resource.getResourceElements()) {
-                    if (element.getSymbol().equals(symbol)) {
+                    if (element.getSymbol().equals(name)) {
                         found = true;
                     }
                 }

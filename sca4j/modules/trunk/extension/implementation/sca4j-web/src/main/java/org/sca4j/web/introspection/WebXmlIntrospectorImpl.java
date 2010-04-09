@@ -52,25 +52,25 @@
  */
 package org.sca4j.web.introspection;
 
+import static javax.xml.stream.XMLStreamConstants.END_DOCUMENT;
+import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
+import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLInputFactory;
-import static javax.xml.stream.XMLStreamConstants.END_DOCUMENT;
-import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
-import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.scdl.validation.MissingResource;
 import org.sca4j.services.xmlfactory.XMLFactory;
 import org.sca4j.spi.services.contribution.MetaDataStore;
-import org.sca4j.spi.services.contribution.QNameSymbol;
 import org.sca4j.spi.services.contribution.Resource;
 
 /**
@@ -79,8 +79,8 @@ import org.sca4j.spi.services.contribution.Resource;
  * @version $Revision$ $Date$
  */
 public class WebXmlIntrospectorImpl implements WebXmlIntrospector {
-    private static final QNameSymbol WEB_APP_NO_NAMESPACE = new QNameSymbol(new QName(null, "web-app"));
-    private static final QNameSymbol WEB_APP_NAMESPACE = new QNameSymbol(new QName("http://java.sun.com/xml/ns/j2ee", "web-app"));
+    private static final QName WEB_APP_NO_NAMESPACE = new QName(null, "web-app");
+    private static final QName WEB_APP_NAMESPACE = new QName("http://java.sun.com/xml/ns/j2ee", "web-app");
 
     private MetaDataStore store;
     private XMLInputFactory xmlFactory;

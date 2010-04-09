@@ -59,7 +59,7 @@ import java.io.Serializable;
  *
  * @version $Rev: 5299 $ $Date: 2008-08-29 23:02:05 +0100 (Fri, 29 Aug 2008) $
  */
-public class ResourceElement<SYMBOL extends Symbol, VALUE extends Serializable> implements Serializable {
+public class ResourceElement<SYMBOL, VALUE> implements Serializable {
     private static final long serialVersionUID = 7148942706569626009L;
     private SYMBOL symbol;
     private VALUE value;

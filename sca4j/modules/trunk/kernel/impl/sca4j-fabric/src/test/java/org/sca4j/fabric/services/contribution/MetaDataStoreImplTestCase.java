@@ -67,7 +67,6 @@ import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.ContributionManifest;
 import org.sca4j.spi.services.contribution.QNameExport;
 import org.sca4j.spi.services.contribution.QNameImport;
-import org.sca4j.spi.services.contribution.QNameSymbol;
 import org.sca4j.spi.services.contribution.Resource;
 import org.sca4j.spi.services.contribution.ResourceElement;
 
@@ -103,13 +102,12 @@ public class MetaDataStoreImplTestCase extends TestCase {
         ContributionManifest manifest = new ContributionManifest();
         contribution.setManifest(manifest);
         QName qname = new QName("foo", "bar");
-        QNameSymbol symbol = new QNameSymbol(qname);
-        ResourceElement<QNameSymbol, Serializable> element = new ResourceElement<QNameSymbol, Serializable>(symbol);
+        ResourceElement<QName, Serializable> element = new ResourceElement<QName, Serializable>(qname);
         Resource resource = new Resource(new URL("file://foo"));
         resource.addResourceElement(element);
         contribution.addResource(resource);
         store.store(contribution);
-        assertEquals(resource, store.resolveContainingResource(uri, symbol));
+        assertEquals(resource, store.resolveContainingResource(uri, qname));
     }
 
     protected void setUp() throws Exception {

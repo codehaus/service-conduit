@@ -52,15 +52,16 @@
  */
 package org.sca4j.fabric.services.contribution;
 
+import javax.xml.namespace.QName;
+
 import org.sca4j.scdl.definitions.Intent;
-import org.sca4j.spi.services.contribution.QNameSymbol;
 import org.sca4j.spi.services.contribution.ResourceElement;
 
 /**
  * @version $Rev: 654 $ $Date: 2007-08-03 17:51:06 +0100 (Fri, 03 Aug 2007) $
  */
-public class IntentResourceElement extends ResourceElement<QNameSymbol, Intent> {
-    public IntentResourceElement(QNameSymbol qNameSymbol, Intent intent) {
+public class IntentResourceElement extends ResourceElement<QName, Intent> {
+    public IntentResourceElement(QName qNameSymbol, Intent intent) {
         super(qNameSymbol, intent);
     }
 }

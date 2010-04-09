@@ -164,7 +164,7 @@ public class ComponentReferenceLoader implements TypeLoader<ComponentReference> 
                     context.addError(failure);
                     continue;
                 }
-                if (type instanceof ServiceContract) {
+                if (type instanceof ServiceContract<?>) {
                     reference.setServiceContract((ServiceContract<?>) type);
                 } else if (type instanceof BindingDefinition) {
                     if (callback) {

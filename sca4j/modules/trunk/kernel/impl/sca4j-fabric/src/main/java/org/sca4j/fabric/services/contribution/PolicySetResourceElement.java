@@ -52,15 +52,16 @@
  */
 package org.sca4j.fabric.services.contribution;
 
+import javax.xml.namespace.QName;
+
 import org.sca4j.scdl.definitions.PolicySet;
-import org.sca4j.spi.services.contribution.QNameSymbol;
 import org.sca4j.spi.services.contribution.ResourceElement;
 
 /**
  * @version $Rev: 654 $ $Date: 2007-08-03 17:51:06 +0100 (Fri, 03 Aug 2007) $
  */
-public class PolicySetResourceElement extends ResourceElement<QNameSymbol, PolicySet> {
-    public PolicySetResourceElement(QNameSymbol qNameSymbol, PolicySet policySet) {
+public class PolicySetResourceElement extends ResourceElement<QName, PolicySet> {
+    public PolicySetResourceElement(QName qNameSymbol, PolicySet policySet) {
         super(qNameSymbol, policySet);
     }
 }

@@ -70,29 +70,26 @@
  */
 package org.sca4j.loader.xmlcontribution;
 
+import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
+import static org.osoa.sca.Constants.SCA_NS;
+import static org.sca4j.host.Namespaces.SCA4J_NS;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamConstants;
-import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import static org.osoa.sca.Constants.SCA_NS;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.host.contribution.ContributionException;
+import org.sca4j.introspection.xml.MissingAttribute;
 import org.sca4j.scdl.Composite;
 import org.sca4j.scdl.ValidationContext;
-
-import static org.sca4j.host.Namespaces.SCA4J_NS;
-
-import org.sca4j.spi.services.contribution.QNameSymbol;
 import org.sca4j.spi.services.contribution.Resource;
 import org.sca4j.spi.services.contribution.ResourceElement;
 import org.sca4j.spi.services.contribution.XmlIndexer;
 import org.sca4j.spi.services.contribution.XmlIndexerRegistry;
-import org.sca4j.introspection.xml.MissingAttribute;
 
 /**
  * Indexer for the <xmlContribution> type.
@@ -134,8 +131,7 @@ public class XmlContributionTypeIndexer implements XmlIndexer {
                         }
                         String targetNamespace = reader.getAttributeValue(null, "targetNamespace");
                         QName compositeName = new QName(targetNamespace, name);
-                        QNameSymbol symbol = new QNameSymbol(compositeName);
-                        ResourceElement<QNameSymbol, Composite> element = new ResourceElement<QNameSymbol, Composite>(symbol);
+                        ResourceElement<QName, Composite> element = new ResourceElement<QName, Composite>(compositeName);
                         resource.addResourceElement(element);
                         break;
                     } else {
