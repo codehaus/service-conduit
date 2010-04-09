@@ -95,16 +95,6 @@ public class MetaDataStoreImpl implements MetaDataStore {
         addToExports(contribution);
     }
 
-    /**
-     * Used to reinject the processor registry after runtime bootstrap
-     *
-     * @param processorRegistry the configured processor registry
-     */
-    @Reference
-    public void setProcessorRegistry(ResourceProcessorRegistry processorRegistry) {
-        this.resourceProcessorRegistry = processorRegistry;
-    }
-
     public Contribution find(URI contributionUri) {
         return cache.get(contributionUri);
     }
