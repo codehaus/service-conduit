@@ -95,6 +95,7 @@ import org.sca4j.introspection.xml.LoaderRegistry;
 import org.sca4j.scdl.Composite;
 import org.sca4j.scdl.Include;
 import org.sca4j.scdl.ValidationContext;
+import org.sca4j.spi.services.contribution.CompositeResourceElement;
 import org.sca4j.spi.services.contribution.MetaDataStore;
 import org.sca4j.spi.services.contribution.ResourceElement;
 
@@ -128,7 +129,7 @@ public class IncludeLoaderTestCase extends TestCase {
         expect(context.getTargetClassLoader()).andReturn(cl);
         expect(context.getContributionUri()).andReturn(null);
         Composite include = new Composite(name);
-        ResourceElement<QName, Composite> element = new ResourceElement<QName, Composite>(name);
+        CompositeResourceElement element = new CompositeResourceElement(name);
         element.setValue(include);
         // FIXME null check
         expect(store.resolve((URI) EasyMock.isNull(), eq(Composite.class), isA(QName.class), isA(ValidationContext.class))).andReturn(element);

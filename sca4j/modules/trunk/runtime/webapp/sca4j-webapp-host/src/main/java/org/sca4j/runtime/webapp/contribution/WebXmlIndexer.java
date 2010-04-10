@@ -106,7 +106,7 @@ public class WebXmlIndexer implements XmlIndexer {
         } else {
             symbol = WEB_APP_NO_NAMESPACE;
         }
-        ResourceElement<QName, Serializable> element = new ResourceElement<QName, Serializable>(symbol);
+        WebXmlResourceElement element = new WebXmlResourceElement(symbol);
         resource.addResourceElement(element);
     }
 }

@@ -128,10 +128,7 @@ public class DefinitionsIndexer implements XmlIndexer {
                 switch (reader.next()) {
                 case START_ELEMENT:
                     QName qname = reader.getName();
-                    if (!INTENT.equals(qname)
-                            && !POLICY_SET.equals(qname)
-                            && !BINDING_TYPE.equals(qname)
-                            && !IMPLEMENTATION_TYPE.equals(qname)) {
+                    if (!INTENT.equals(qname) && !POLICY_SET.equals(qname) && !BINDING_TYPE.equals(qname) && !IMPLEMENTATION_TYPE.equals(qname)) {
                         continue;
                     }
                     String nameAttr = reader.getAttributeValue(null, "name");
@@ -141,7 +138,7 @@ public class DefinitionsIndexer implements XmlIndexer {
                     }
                     NamespaceContext namespaceContext = reader.getNamespaceContext();
                     QName name = LoaderUtil.getQName(nameAttr, targetNamespace, namespaceContext);
-                    ResourceElement<QName, AbstractDefinition> element = new ResourceElement<QName, AbstractDefinition>(name);
+                    DefinitionResourceElement element = new DefinitionResourceElement(name);
                     resource.addResourceElement(element);
                     break;
                 case XMLStreamConstants.END_DOCUMENT:

@@ -61,5 +61,4 @@
     <include name="commonLoaderComposite" scdlLocation="loaderCommon.composite"/>
     <include name="compositeLoaderComposite" scdlLocation="compositeLoader.composite"/>
     <include name="definitionsLoaderComposite" scdlLocation="definitionsLoader.composite"/>
-    <include name="xmlContributionLoaderComposite" scdlLocation="xmlContributionLoader.composite"/>
 </composite>

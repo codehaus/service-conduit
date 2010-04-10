@@ -31,6 +31,7 @@ import javax.wsdl.Input;
 import javax.wsdl.Message;
 import javax.wsdl.Output;
 import javax.wsdl.Part;
+import javax.wsdl.PortType;
 import javax.wsdl.Types;
 import javax.wsdl.WSDLException;
 import javax.wsdl.extensions.schema.Schema;
@@ -47,11 +48,8 @@ import org.sca4j.scdl.Operation;
 import org.sca4j.scdl.ValidationContext;
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.Resource;
-import org.sca4j.spi.services.contribution.ResourceElement;
 import org.sca4j.spi.services.contribution.ResourceProcessor;
 import org.w3c.dom.Element;
-
-import com.sun.tools.internal.ws.wsdl.document.PortType;
 
 public class WsdlResourceProcessor implements ResourceProcessor {
 
@@ -75,7 +73,7 @@ public class WsdlResourceProcessor implements ResourceProcessor {
             for (Object object : definition.getPortTypes().keySet()) {
                 QName portTypeName = (QName) object;
                 PortType portType = (PortType) definition.getPortType(portTypeName);
-                ResourceElement<QName, PortType> resorceElement = new ResourceElement<QName, PortType>(portTypeName, portType);
+                PortTypeResourceElement resorceElement = new PortTypeResourceElement(portTypeName, portType);
                 resource.addResourceElement(resorceElement);
             }
             

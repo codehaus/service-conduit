@@ -63,6 +63,8 @@ import javax.xml.namespace.QName;
 import junit.framework.TestCase;
 
 import org.sca4j.fabric.util.FileHelper;
+import org.sca4j.scdl.Composite;
+import org.sca4j.spi.services.contribution.CompositeResourceElement;
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.ContributionManifest;
 import org.sca4j.spi.services.contribution.QNameExport;
@@ -102,7 +104,7 @@ public class MetaDataStoreImplTestCase extends TestCase {
         ContributionManifest manifest = new ContributionManifest();
         contribution.setManifest(manifest);
         QName qname = new QName("foo", "bar");
-        ResourceElement<QName, Serializable> element = new ResourceElement<QName, Serializable>(qname);
+        CompositeResourceElement element = new CompositeResourceElement(qname);
         Resource resource = new Resource(new URL("file://foo"));
         resource.addResourceElement(element);
         contribution.addResource(resource);

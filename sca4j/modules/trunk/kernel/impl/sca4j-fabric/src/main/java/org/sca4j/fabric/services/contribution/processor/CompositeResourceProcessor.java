@@ -74,6 +74,7 @@ import org.sca4j.introspection.xml.MissingAttribute;
 import org.sca4j.scdl.Composite;
 import org.sca4j.scdl.ValidationContext;
 import org.sca4j.services.xmlfactory.XMLFactory;
+import org.sca4j.spi.services.contribution.CompositeResourceElement;
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.Resource;
 import org.sca4j.spi.services.contribution.ResourceElement;
@@ -115,7 +116,7 @@ public class CompositeResourceProcessor implements ResourceProcessor {
             Resource resource = new Resource(url);
             String targetNamespace = reader.getAttributeValue(null, "targetNamespace");
             QName compositeName = new QName(targetNamespace, name);
-            ResourceElement<QName, Composite> element = new ResourceElement<QName, Composite>(compositeName);
+            CompositeResourceElement element = new CompositeResourceElement(compositeName);
             resource.addResourceElement(element);
             contribution.addResource(resource);
         } catch (XMLStreamException e) {
