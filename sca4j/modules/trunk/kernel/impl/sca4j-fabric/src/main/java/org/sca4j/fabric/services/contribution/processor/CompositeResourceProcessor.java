@@ -154,7 +154,7 @@ public class CompositeResourceProcessor implements ResourceProcessor {
         }
         composite.validate(childContext);
         boolean found = false;
-        for (ResourceElement element : resource.getResourceElements()) {
+        for (CompositeResourceElement element : resource.getResourceElements(CompositeResourceElement.class)) {
             if (element.getSymbol().equals(composite.getName())) {
                 element.setValue(composite);
                 found = true;

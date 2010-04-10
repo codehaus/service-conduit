@@ -114,16 +114,16 @@ public class MetaDataStoreImpl implements MetaDataStore {
     }
 
     @SuppressWarnings({"unchecked"})
-    public <S> ResourceElement<S, ?> resolve(S symbol) throws MetaDataStoreException {
+    public <S, RE extends ResourceElement<S, ?>> RE resolve(S symbol, Class<RE> resourceElementType) throws MetaDataStoreException {
         for (Contribution contribution : cache.values()) {
             for (Resource resource : contribution.getResources()) {
-                for (ResourceElement<?, ?> element : resource.getResourceElements()) {
+                for (ResourceElement<?, ?> element : resource.getResourceElements(resourceElementType)) {
                     if (element.getSymbol().equals(symbol)) {
                         if (!resource.isProcessed()) {
                             // this is a programming error as resolve(Symbol) should only be called after contribution resources have been processed
                             throw new MetaDataStoreException("Attempt to resolve a resource before it is processed");
                         }
-                        return (ResourceElement<S, ?>) element;
+                        return resourceElementType.cast(element);
                     }
                 }
             }
@@ -131,11 +131,11 @@ public class MetaDataStoreImpl implements MetaDataStore {
         return null;
     }
 
-    public <S> Resource resolveContainingResource(URI contributionUri, S symbol) {
+    public <S, RE extends ResourceElement<S, ?>> Resource resolveContainingResource(URI contributionUri, S symbol, Class<RE> resourceElementType) {
         Contribution contribution = cache.get(contributionUri);
         if (contribution != null) {
             for (Resource resource : contribution.getResources()) {
-                for (ResourceElement<?, ?> element : resource.getResourceElements()) {
+                for (ResourceElement<?, ?> element : resource.getResourceElements(resourceElementType)) {
                     if (element.getSymbol().equals(symbol)) {
                         return resource;
                     }
@@ -145,13 +145,13 @@ public class MetaDataStoreImpl implements MetaDataStore {
         return null;
     }
 
-    public <S, V> ResourceElement<S, V> resolve(URI contributionUri, Class<V> type, S symbol, ValidationContext context) throws MetaDataStoreException {
+    public <S, RE extends ResourceElement<S, ?>> RE resolve(URI contributionUri, Class<RE> type, S symbol, ValidationContext context) throws MetaDataStoreException {
         Contribution contribution = find(contributionUri);
         if (contribution == null) {
             String identifier = contributionUri.toString();
             throw new ContributionResolutionException("Contribution not found: " + identifier, identifier);
         }
-        ResourceElement<S, V> element = resolveInternal(contribution, type, symbol, context);
+        RE element = resolveInternal(contribution, type, symbol, context);
         if (element != null) {
             return element;
         }
@@ -211,11 +211,11 @@ public class MetaDataStoreImpl implements MetaDataStore {
     }
 
     @SuppressWarnings({"unchecked"})
-    private <S, V> ResourceElement<S, V> resolveInternal(Contribution contribution, Class<V> type, S symbol, ValidationContext context) throws MetaDataStoreException {
+    private <S, RE extends ResourceElement<?, ?>> RE resolveInternal(Contribution contribution, Class<RE> type, S symbol, ValidationContext context) throws MetaDataStoreException {
         URI contributionUri = contribution.getUri();
         ClassLoader loader = getClass().getClassLoader();
         for (Resource resource : contribution.getResources()) {
-            for (ResourceElement<?, ?> element : resource.getResourceElements()) {
+            for (ResourceElement<?, ?> element : resource.getResourceElements(type)) {
                 if (element.getSymbol().equals(symbol)) {
                     if (!resource.isProcessed()) {
                         try {
@@ -225,10 +225,10 @@ public class MetaDataStoreImpl implements MetaDataStore {
                             throw new MetaDataStoreException("Error resolving resource: " + identifier, identifier, e);
                         }
                     }
-                    if (!type.isInstance(element.getValue())) {
+                    if (!type.isInstance(element)) {
                         throw new IllegalArgumentException("Invalid type for symbol: " + type);
                     }
-                    return (ResourceElement<S, V>) element;
+                    return type.cast(element);
                 }
             }
         }

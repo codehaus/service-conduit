@@ -86,9 +86,7 @@ import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.introspection.xml.LoaderUtil;
 import org.sca4j.introspection.xml.MissingAttribute;
 import org.sca4j.scdl.ValidationContext;
-import org.sca4j.scdl.definitions.AbstractDefinition;
 import org.sca4j.spi.services.contribution.Resource;
-import org.sca4j.spi.services.contribution.ResourceElement;
 import org.sca4j.spi.services.contribution.XmlIndexer;
 import org.sca4j.spi.services.contribution.XmlIndexerRegistry;
 

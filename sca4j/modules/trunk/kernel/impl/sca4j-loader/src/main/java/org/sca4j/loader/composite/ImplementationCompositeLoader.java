@@ -96,6 +96,7 @@ import org.sca4j.introspection.xml.TypeLoader;
 import org.sca4j.introspection.xml.UnrecognizedAttribute;
 import org.sca4j.scdl.Composite;
 import org.sca4j.scdl.CompositeImplementation;
+import org.sca4j.spi.services.contribution.CompositeResourceElement;
 import org.sca4j.spi.services.contribution.MetaDataStore;
 import org.sca4j.spi.services.contribution.MetaDataStoreException;
 import org.sca4j.spi.services.contribution.ResourceElement;
@@ -223,7 +224,7 @@ public class ImplementationCompositeLoader implements TypeLoader<CompositeImplem
             QName name = LoaderUtil.getQName(nameAttr, introspectionContext.getTargetNamespace(), reader.getNamespaceContext());
 
             try {
-                ResourceElement<QName, Composite> element = store.resolve(contributionUri, Composite.class, name, introspectionContext);
+                CompositeResourceElement element = store.resolve(contributionUri, CompositeResourceElement.class, name, introspectionContext);
                 if (element == null) {
                     String id = name.toString();
                     MissingComposite failure = new MissingComposite("Composite with qualified name not found: " + id, id, reader);

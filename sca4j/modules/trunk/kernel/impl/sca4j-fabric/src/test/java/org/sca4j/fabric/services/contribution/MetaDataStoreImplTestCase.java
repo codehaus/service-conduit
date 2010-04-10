@@ -109,7 +109,7 @@ public class MetaDataStoreImplTestCase extends TestCase {
         resource.addResourceElement(element);
         contribution.addResource(resource);
         store.store(contribution);
-        assertEquals(resource, store.resolveContainingResource(uri, qname));
+        assertEquals(resource, store.resolveContainingResource(uri, qname, CompositeResourceElement.class));
     }
 
     protected void setUp() throws Exception {

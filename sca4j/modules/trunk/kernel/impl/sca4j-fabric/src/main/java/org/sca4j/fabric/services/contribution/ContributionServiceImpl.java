@@ -91,6 +91,7 @@ import org.sca4j.scdl.ArtifactValidationFailure;
 import org.sca4j.scdl.DefaultValidationContext;
 import org.sca4j.scdl.ValidationContext;
 import org.sca4j.spi.services.contenttype.ContentTypeResolver;
+import org.sca4j.spi.services.contribution.CompositeResourceElement;
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.ContributionProcessor;
 import org.sca4j.spi.services.contribution.MetaDataStore;
@@ -210,7 +211,7 @@ public class ContributionServiceImpl implements ContributionService {
             QName name = deployable.getName();
             boolean found = false;
             for (Resource resource : contribution.getResources()) {
-                for (ResourceElement<?, ?> element : resource.getResourceElements()) {
+                for (CompositeResourceElement element : resource.getResourceElements(CompositeResourceElement.class)) {
                     if (element.getSymbol().equals(name)) {
                         found = true;
                     }

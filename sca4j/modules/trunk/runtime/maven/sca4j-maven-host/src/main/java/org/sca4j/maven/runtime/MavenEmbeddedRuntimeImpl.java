@@ -97,6 +97,7 @@ import org.sca4j.spi.component.GroupInitializationException;
 import org.sca4j.spi.domain.Domain;
 import org.sca4j.spi.invocation.CallFrame;
 import org.sca4j.spi.invocation.WorkContext;
+import org.sca4j.spi.services.contribution.CompositeResourceElement;
 import org.sca4j.spi.services.contribution.ResourceElement;
 
 /**
@@ -125,8 +126,7 @@ public class MavenEmbeddedRuntimeImpl extends AbstractRuntime<MavenHostInfo> imp
         ContributionService contributionService = getSystemComponent(ContributionService.class, CONTRIBUTION_SERVICE_URI);
         contributionService.contribute(source);
         domain.include(qName);
-        ResourceElement<?, ?> element = getMetaDataStore().resolve(qName);
-        assert element != null;
+        CompositeResourceElement element = getMetaDataStore().resolve(qName, CompositeResourceElement.class);
         return (Composite) element.getValue();
     }
 

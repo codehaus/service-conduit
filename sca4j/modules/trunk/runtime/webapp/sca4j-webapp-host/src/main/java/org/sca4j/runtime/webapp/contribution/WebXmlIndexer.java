@@ -67,6 +67,7 @@ import org.sca4j.spi.services.contribution.Resource;
 import org.sca4j.spi.services.contribution.ResourceElement;
 import org.sca4j.spi.services.contribution.XmlIndexer;
 import org.sca4j.spi.services.contribution.XmlIndexerRegistry;
+import org.sca4j.web.introspection.WebXmlResourceElement;
 
 /**
  * Adds an index entry for the web.xml descriptor to the symbol space of a WAR contribution.

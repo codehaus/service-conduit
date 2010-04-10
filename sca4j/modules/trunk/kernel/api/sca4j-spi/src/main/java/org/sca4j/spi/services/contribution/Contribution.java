@@ -136,12 +136,11 @@ public class Contribution implements Serializable {
         return resources;
     }
 
-    @SuppressWarnings({"unchecked"})
-    public <S> ResourceElement<S, ?> findResourceElement(S symbol) {
+    public <RE extends ResourceElement<?, ?>, S> RE findResourceElement(S symbol, Class<RE> resourceElementType) {
         for (Resource resource : resources) {
-            for (ResourceElement<?, ?> element : resource.getResourceElements()) {
+            for (ResourceElement<?, ?> element : resource.getResourceElements(resourceElementType)) {
                 if (element.getSymbol().equals(symbol)) {
-                    return (ResourceElement<S, ?>) element;
+                    return resourceElementType.cast(element);
                 }
             }
         }

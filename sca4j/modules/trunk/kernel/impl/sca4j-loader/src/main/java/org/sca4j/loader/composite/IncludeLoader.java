@@ -93,6 +93,7 @@ import org.sca4j.introspection.xml.TypeLoader;
 import org.sca4j.introspection.xml.UnrecognizedAttribute;
 import org.sca4j.scdl.Composite;
 import org.sca4j.scdl.Include;
+import org.sca4j.spi.services.contribution.CompositeResourceElement;
 import org.sca4j.spi.services.contribution.MetaDataStore;
 import org.sca4j.spi.services.contribution.MetaDataStoreException;
 import org.sca4j.spi.services.contribution.ResourceElement;
@@ -161,7 +162,7 @@ public class IncludeLoader implements TypeLoader<Include> {
             }
 
             try {
-                ResourceElement<QName, Composite> element = store.resolve(contributionUri, Composite.class, name, context);
+                CompositeResourceElement element = store.resolve(contributionUri, CompositeResourceElement.class, name, context);
                 if (element == null) {
                     String id = name.toString();
                     MissingComposite failure = new MissingComposite("Composite file not found: " + id, id, reader);

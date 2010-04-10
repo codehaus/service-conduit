@@ -95,8 +95,14 @@ public class Resource implements Serializable {
      *
      * @return the map of resource elements
      */
-    public List<ResourceElement<?, ?>> getResourceElements() {
-        return elements;
+    public <RE extends ResourceElement<?, ?>> List<RE> getResourceElements(Class<RE> resourceElementType) {
+        List<RE> resourceElements = new ArrayList<RE>();
+        for (ResourceElement<?, ?> resourceElement : elements) {
+            if (resourceElementType.isAssignableFrom(resourceElement.getClass())) {
+                resourceElements.add(resourceElementType.cast(resourceElement));
+            }
+        }
+        return resourceElements;
     }
 
     /**

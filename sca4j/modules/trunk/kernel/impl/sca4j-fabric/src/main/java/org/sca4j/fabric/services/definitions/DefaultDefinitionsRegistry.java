@@ -78,6 +78,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.xml.namespace.QName;
 
+import org.osoa.sca.annotations.Reference;
+import org.sca4j.loader.definitions.DefinitionResourceElement;
 import org.sca4j.scdl.definitions.AbstractDefinition;
 import org.sca4j.scdl.definitions.BindingType;
 import org.sca4j.scdl.definitions.ImplementationType;
@@ -86,10 +88,8 @@ import org.sca4j.scdl.definitions.PolicySet;
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.MetaDataStore;
 import org.sca4j.spi.services.contribution.Resource;
-import org.sca4j.spi.services.contribution.ResourceElement;
 import org.sca4j.spi.services.definitions.DefinitionActivationException;
 import org.sca4j.spi.services.definitions.DefinitionsRegistry;
-import org.osoa.sca.annotations.Reference;
 
 /**
  * Default implementation of the definitions registry.
@@ -132,11 +132,9 @@ public class DefaultDefinitionsRegistry implements DefinitionsRegistry {
         for (URI uri : contributionUris) {
             Contribution contribution = metaDataStore.find(uri);
             for (Resource resource : contribution.getResources()) {
-                for (ResourceElement<?, ?> resourceElement : resource.getResourceElements()) {
-                    Object value = resourceElement.getValue();
-                    if (value instanceof AbstractDefinition) {
-                        activate((AbstractDefinition) value);
-                    }
+                for (DefinitionResourceElement resourceElement : resource.getResourceElements(DefinitionResourceElement.class)) {
+                    AbstractDefinition value = resourceElement.getValue();
+                    activate(value);
                 }
             }
         }

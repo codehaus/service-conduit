@@ -132,7 +132,7 @@ public class IncludeLoaderTestCase extends TestCase {
         CompositeResourceElement element = new CompositeResourceElement(name);
         element.setValue(include);
         // FIXME null check
-        expect(store.resolve((URI) EasyMock.isNull(), eq(Composite.class), isA(QName.class), isA(ValidationContext.class))).andReturn(element);
+        expect(store.resolve((URI) EasyMock.isNull(), eq(CompositeResourceElement.class), isA(QName.class), isA(ValidationContext.class))).andReturn(element);
         replay(registry, reader, namespaceContext, context, store);
 
         loader.load(reader, context);

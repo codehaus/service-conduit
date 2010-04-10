@@ -74,6 +74,7 @@ import org.sca4j.spi.generator.CommandMap;
 import org.sca4j.spi.generator.GenerationException;
 import org.sca4j.spi.model.instance.LogicalComponent;
 import org.sca4j.spi.model.instance.LogicalCompositeComponent;
+import org.sca4j.spi.services.contribution.CompositeResourceElement;
 import org.sca4j.spi.services.contribution.MetaDataStore;
 import org.sca4j.spi.services.contribution.MetaDataStoreException;
 import org.sca4j.spi.services.contribution.ResourceElement;
@@ -114,9 +115,9 @@ public abstract class AbstractDomain implements Domain {
 
     public void include(QName deployable) throws DeploymentException {
 
-        ResourceElement<QName, ?> element;
+        CompositeResourceElement element;
         try {
-            element = metadataStore.resolve(deployable);
+            element = metadataStore.resolve(deployable, CompositeResourceElement.class);
         } catch (MetaDataStoreException e) {
             throw new DeploymentException("Error deploying: " + deployable, e);
         }
@@ -177,9 +178,9 @@ public abstract class AbstractDomain implements Domain {
 
     public void remove(QName deployable) throws DeploymentException {
 
-        ResourceElement<QName, ?> element;
+        CompositeResourceElement element;
         try {
-            element = metadataStore.resolve(deployable);
+            element = metadataStore.resolve(deployable, CompositeResourceElement.class);
         } catch (MetaDataStoreException e) {
             throw new DeploymentException(e);
         }

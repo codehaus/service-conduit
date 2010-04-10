@@ -98,7 +98,6 @@ import org.sca4j.scdl.definitions.ImplementationType;
 import org.sca4j.scdl.definitions.Intent;
 import org.sca4j.scdl.definitions.PolicySet;
 import org.sca4j.spi.services.contribution.Resource;
-import org.sca4j.spi.services.contribution.ResourceElement;
 import org.sca4j.spi.services.contribution.ResourceElementNotFoundException;
 import org.sca4j.spi.services.contribution.XmlResourceElementLoader;
 import org.sca4j.spi.services.contribution.XmlResourceElementLoaderRegistry;
@@ -191,7 +190,7 @@ public class DefinitionsLoader implements XmlResourceElementLoader {
                 // update indexed elements with the loaded definitions
                 for (AbstractDefinition candidate : definitions) {
                     boolean found = false;
-                    for (ResourceElement element : resource.getResourceElements()) {
+                    for (DefinitionResourceElement element : resource.getResourceElements(DefinitionResourceElement.class)) {
                         QName candidateSymbol = candidate.getName();
                         if (element.getSymbol().equals(candidateSymbol)) {
                             element.setValue(candidate);

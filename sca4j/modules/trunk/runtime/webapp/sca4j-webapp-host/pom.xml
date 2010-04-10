@@ -85,7 +85,6 @@
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-web</artifactId>
             <version>0.9.1-SNAPSHOT</version>
-            <scope>runtime</scope>
         </dependency>
 
         <dependency>

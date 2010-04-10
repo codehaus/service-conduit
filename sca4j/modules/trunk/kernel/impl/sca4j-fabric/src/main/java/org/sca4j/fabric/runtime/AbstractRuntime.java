@@ -121,6 +121,7 @@ import org.sca4j.spi.invocation.CallFrame;
 import org.sca4j.spi.invocation.WorkContext;
 import org.sca4j.spi.runtime.RuntimeServices;
 import org.sca4j.spi.services.componentmanager.ComponentManager;
+import org.sca4j.spi.services.contribution.CompositeResourceElement;
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.MetaDataStore;
 import org.sca4j.spi.services.contribution.Resource;
@@ -351,12 +352,7 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
         for (URI uri : contributionUris) {
             Contribution contribution = metaDataStore.find(uri);
             for (Resource resource : contribution.getResources()) {
-                for (ResourceElement<?, ?> entry : resource.getResourceElements()) {
-                    if (!(entry.getValue() instanceof Composite)) {
-                        continue;
-                    }
-                    @SuppressWarnings( { "unchecked" })
-                    ResourceElement<QName, Composite> element = (ResourceElement<QName, Composite>) entry;
+                for (CompositeResourceElement element : resource.getResourceElements(CompositeResourceElement.class)) {
                     QName name = element.getSymbol();
                     Composite childComposite = element.getValue();
                     for (Deployable deployable : contribution.getManifest().getDeployables()) {

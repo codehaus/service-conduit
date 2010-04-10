@@ -93,9 +93,9 @@ public class WebXmlIntrospectorImpl implements WebXmlIntrospector {
     public List<Class<?>> introspectArtifactClasses(IntrospectionContext context) {
         List<Class<?>> artifacts = new ArrayList<Class<?>>();
         ClassLoader cl = context.getTargetClassLoader();
-        Resource resource = store.resolveContainingResource(context.getContributionUri(), WEB_APP_NAMESPACE);
+        Resource resource = store.resolveContainingResource(context.getContributionUri(), WEB_APP_NAMESPACE, WebXmlResourceElement.class);
         if (resource == null) {
-            resource = store.resolveContainingResource(context.getContributionUri(), WEB_APP_NO_NAMESPACE);
+            resource = store.resolveContainingResource(context.getContributionUri(), WEB_APP_NO_NAMESPACE, WebXmlResourceElement.class);
             if (resource == null) {
                 // tolerate no web.xml
                 return artifacts;
