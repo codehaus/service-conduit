@@ -53,7 +53,6 @@
 package org.sca4j.spi.services.contribution;
 
 import java.net.URI;
-import java.io.Serializable;
 
 import org.sca4j.scdl.ValidationContext;
 

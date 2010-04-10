@@ -62,9 +62,9 @@ import org.sca4j.host.Namespaces;
  *
  * @version $Rev: 4825 $ $Date: 2008-06-13 23:21:32 +0100 (Fri, 13 Jun 2008) $
  */
-@SuppressWarnings({"SerializableHasSerializationMethods"})
+
 public class QNameImport implements Import {
-    private static final long serialVersionUID = 7714960525252585065L;
+    
     private static final QName TYPE = new QName(Namespaces.SCA4J_NS, "qname");
     private QName namespace;
     private URI location;

@@ -63,9 +63,9 @@ import org.sca4j.host.contribution.Deployable;
  *
  * @version $Rev: 5224 $ $Date: 2008-08-19 19:07:18 +0100 (Tue, 19 Aug 2008) $
  */
-@SuppressWarnings({"SerializableHasSerializationMethods"})
+
 public class ContributionManifest implements Serializable {
-    private static final long serialVersionUID = -4968254313720890686L;
+    
     private List<Export> exports = new ArrayList<Export>();
     private List<Import> imports = new ArrayList<Import>();
     private List<Deployable> deployables = new ArrayList<Deployable>();

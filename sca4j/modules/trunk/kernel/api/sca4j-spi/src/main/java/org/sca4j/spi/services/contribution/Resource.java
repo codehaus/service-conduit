@@ -52,11 +52,10 @@
  */
 package org.sca4j.spi.services.contribution;
 
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.io.Serializable;
 
 /**
  * Represents a resource in a contribution such as a WSDL file or Composite definition
@@ -89,10 +88,6 @@ public class Resource implements Serializable {
      */
     public void addResourceElement(ResourceElement<?, ?> element) {
         elements.add(element);
-    }
-
-    public void addResourceElements(Collection<ResourceElement<?, ?>> elements) {
-        elements.addAll(elements);
     }
 
     /**
