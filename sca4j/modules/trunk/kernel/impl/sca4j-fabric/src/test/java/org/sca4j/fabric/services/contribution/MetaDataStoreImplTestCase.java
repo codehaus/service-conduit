@@ -53,24 +53,20 @@
 package org.sca4j.fabric.services.contribution;
 
 import java.io.File;
-import java.io.Serializable;
 import java.net.URI;
 import java.net.URL;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 
 import junit.framework.TestCase;
 
 import org.sca4j.fabric.util.FileHelper;
-import org.sca4j.scdl.Composite;
 import org.sca4j.spi.services.contribution.CompositeResourceElement;
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.ContributionManifest;
 import org.sca4j.spi.services.contribution.QNameExport;
 import org.sca4j.spi.services.contribution.QNameImport;
 import org.sca4j.spi.services.contribution.Resource;
-import org.sca4j.spi.services.contribution.ResourceElement;
 
 /**
  * @version $Rev: 5299 $ $Date: 2008-08-29 23:02:05 +0100 (Fri, 29 Aug 2008) $
