@@ -72,6 +72,9 @@ package org.sca4j.fabric.component;
 
 import org.oasisopen.sca.ServiceReference;
 import org.sca4j.spi.ObjectFactory;
+import org.oasisopen.sca.ServiceRuntimeException;
+import org.sca4j.spi.ObjectCreationException;
+
 
 /**
  * Default implementation of a ServiceReference.
@@ -79,25 +82,26 @@ import org.sca4j.spi.ObjectFactory;
  * @version $Rev: 1 $ $Date: 2007-05-14 18:40:37 +0100 (Mon, 14 May 2007) $
  * @param <B> the type of the business interface
  */
-public class ServiceReferenceImpl<B> extends CallableReferenceImpl<B> implements ServiceReference<B> {
+public class ServiceReferenceImpl<B> implements ServiceReference<B> {
+
+    private final Class<B> businessInterface;
+    private final ObjectFactory<B> factory;
+
     public ServiceReferenceImpl(Class<B> businessInterface, ObjectFactory<B> factory) {
-        super(businessInterface, factory);
+    	this.businessInterface = businessInterface;
+        this.factory = factory;
     }
 
-    public Object getConversationID() {
-        return null;
+   public B getService() {
+        try {
+            return factory.getInstance();
+        } catch (ObjectCreationException e) {
+            throw new ServiceRuntimeException(e.getMessage(), e);
+        }
     }
 
-    public void setConversationID(Object conversationId) throws IllegalStateException {
+    public Class<B> getBusinessInterface() {
+        return businessInterface;
     }
 
-    public void setCallbackID(Object callbackID) {
-    }
-
-    public Object getCallback() {
-        return null;
-    }
-
-    public void setCallback(Object callback) {
-    }
 }

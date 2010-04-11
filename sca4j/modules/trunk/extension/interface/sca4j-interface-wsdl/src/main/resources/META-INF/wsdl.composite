@@ -18,7 +18,7 @@
     This project contains code licensed from the Apache Software Foundation under
     the Apache License, Version 2.0 and original code from project contributors.
 -->
-<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912" xmlns:sca4j="urn:sca4j.org" 0targetNamespace="urn:sca4j.org" name="WsdlExtension" autowire="true">
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912" xmlns:sca4j="urn:sca4j.org" targetNamespace="urn:sca4j.org" name="WsdlExtension" autowire="true">
 
     <component name="WsdlResourceProcessor" sca4j:key="sca4j:wsdl">
         <sca4j:implementation.system class="org.sca4j.idl.wsdl.processor.WsdlResourceProcessor"/>
