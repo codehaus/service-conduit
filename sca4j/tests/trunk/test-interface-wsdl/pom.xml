@@ -52,10 +52,10 @@
         </dependency>
     </dependencies>
 
-    <!-- build>
+    <build>
         <defaultGoal>verify</defaultGoal>
         <plugins>
-            <plugin>
+            <!-- plugin>
                 <groupId>org.codehaus.service-conduit</groupId>
                 <artifactId>sca4j-itest-plugin</artifactId>
                 <executions>
@@ -65,8 +65,23 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin-->               
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxws-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                           <goal>wsimport</goal>
+                       </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <wsdlDirectory>src/main/resources</wsdlDirectory>
+                    <sourceDestDir>${basedir}/target/generated-sources</sourceDestDir>
+                </configuration>
             </plugin>
         </plugins>
-    </build-->
+    </build>
 
 </project>
