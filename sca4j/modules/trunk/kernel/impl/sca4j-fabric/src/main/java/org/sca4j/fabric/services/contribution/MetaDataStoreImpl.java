@@ -53,7 +53,6 @@
 package org.sca4j.fabric.services.contribution;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -82,21 +81,32 @@ public class MetaDataStoreImpl implements MetaDataStore {
     
     public static final QName COMPOSITE = new QName(Constants.SCA_NS, "composite");
     
-    private Map<URI, Contribution> cache = new ConcurrentHashMap<URI, Contribution>();
-    private Map<QName, Map<Export, Contribution>> exportsToContributionCache = new ConcurrentHashMap<QName, Map<Export, Contribution>>();
-    
     @Reference public ResourceProcessorRegistry resourceProcessorRegistry;
     
+    private Map<URI, Contribution> cache = new ConcurrentHashMap<URI, Contribution>();
+    private Map<QName, Map<Export, Contribution>> exportsToContributionCache = new ConcurrentHashMap<QName, Map<Export, Contribution>>();
 
+    /**
+     * {@inheritDoc}
+     * @see org.sca4j.spi.services.contribution.MetaDataStore#store(org.sca4j.spi.services.contribution.Contribution)
+     */
     public void store(Contribution contribution) throws MetaDataStoreException {
         cache.put(contribution.getUri(), contribution);
         addToExports(contribution);
     }
 
+    /**
+     * {@inheritDoc}
+     * @see org.sca4j.spi.services.contribution.MetaDataStore#find(java.net.URI)
+     */
     public Contribution find(URI contributionUri) {
         return cache.get(contributionUri);
     }
 
+    /**
+     * {@inheritDoc}
+     * @see org.sca4j.spi.services.contribution.MetaDataStore#remove(java.net.URI)
+     */
     public void remove(URI contributionUri) {
         Contribution contribution = find(contributionUri);
         if (contribution != null) {
@@ -113,8 +123,11 @@ public class MetaDataStoreImpl implements MetaDataStore {
         cache.remove(contributionUri);
     }
 
-    @SuppressWarnings({"unchecked"})
-    public <S, RE extends ResourceElement<S, ?>> RE resolve(S symbol, Class<RE> resourceElementType) throws MetaDataStoreException {
+    /**
+     * {@inheritDoc}
+     * @see org.sca4j.spi.services.contribution.MetaDataStore#resolve(java.lang.Object, java.lang.Class)
+     */
+    public <S, V, RE extends ResourceElement<S, V>> RE resolve(S symbol, Class<RE> resourceElementType) throws MetaDataStoreException {
         for (Contribution contribution : cache.values()) {
             for (Resource resource : contribution.getResources()) {
                 for (ResourceElement<?, ?> element : resource.getResourceElements(resourceElementType)) {
@@ -131,7 +144,11 @@ public class MetaDataStoreImpl implements MetaDataStore {
         return null;
     }
 
-    public <S, RE extends ResourceElement<S, ?>> Resource resolveContainingResource(URI contributionUri, S symbol, Class<RE> resourceElementType) {
+    /**
+     * {@inheritDoc}
+     * @see org.sca4j.spi.services.contribution.MetaDataStore#resolveContainingResource(java.net.URI, java.lang.Object, java.lang.Class)
+     */
+    public <S, V, RE extends ResourceElement<S, V>> Resource resolveContainingResource(URI contributionUri, S symbol, Class<RE> resourceElementType) {
         Contribution contribution = cache.get(contributionUri);
         if (contribution != null) {
             for (Resource resource : contribution.getResources()) {
@@ -145,7 +162,11 @@ public class MetaDataStoreImpl implements MetaDataStore {
         return null;
     }
 
-    public <S, RE extends ResourceElement<S, ?>> RE resolve(URI contributionUri, Class<RE> type, S symbol, ValidationContext context) throws MetaDataStoreException {
+    /**
+     * {@inheritDoc}
+     * @see org.sca4j.spi.services.contribution.MetaDataStore#resolve(java.net.URI, java.lang.Class, java.lang.Object, org.sca4j.scdl.ValidationContext)
+     */
+    public <S, V, RE extends ResourceElement<S, V>> RE resolve(URI contributionUri, Class<RE> type, S symbol, ValidationContext context) throws MetaDataStoreException {
         Contribution contribution = find(contributionUri);
         if (contribution == null) {
             String identifier = contributionUri.toString();
@@ -170,10 +191,8 @@ public class MetaDataStoreImpl implements MetaDataStore {
     }
 
     /**
-     * Resolves an import to a Contribution that exports it
-     *
-     * @param imprt the import to resolve
-     * @return the contribution or null
+     * {@inheritDoc}
+     * @see org.sca4j.spi.services.contribution.MetaDataStore#resolve(org.sca4j.spi.services.contribution.Import)
      */
     public Contribution resolve(Import imprt) {
         Map<Export, Contribution> map = exportsToContributionCache.get(imprt.getType());
@@ -189,28 +208,6 @@ public class MetaDataStoreImpl implements MetaDataStore {
         return null;
     }
 
-    public List<Contribution> resolveTransitiveImports(Contribution contribution) throws UnresolvableImportException {
-        ArrayList<Contribution> contributions = new ArrayList<Contribution>();
-        resolveTransitiveImports(contribution, contributions);
-        return contributions;
-    }
-
-    private void resolveTransitiveImports(Contribution contribution, List<Contribution> dependencies)
-            throws UnresolvableImportException {
-        for (Import imprt : contribution.getManifest().getImports()) {
-            Contribution imported = resolve(imprt);
-            if (imported == null) {
-                String id = contribution.getUri().toString();
-                throw new UnresolvableImportException("Import " + imprt + " in contribution " + id + " cannot be resolved", id, imprt);
-            }
-            if (!dependencies.contains(imported)) {
-                dependencies.add(imported);
-            }
-            resolveTransitiveImports(imported, dependencies);
-        }
-    }
-
-    @SuppressWarnings({"unchecked"})
     private <S, RE extends ResourceElement<?, ?>> RE resolveInternal(Contribution contribution, Class<RE> type, S symbol, ValidationContext context) throws MetaDataStoreException {
         URI contributionUri = contribution.getUri();
         ClassLoader loader = getClass().getClassLoader();
@@ -235,17 +232,10 @@ public class MetaDataStoreImpl implements MetaDataStore {
         return null;
     }
 
-    /**
-     * Adds the contribution exports to the cached list of exports for the domain
-     *
-     * @param contribution the contribution containing the exports to add
-     */
     private void addToExports(Contribution contribution) {
-
         if (contribution.getManifest() == null) {
             return;
         }
-
         List<Export> exports = contribution.getManifest().getExports();
         if (exports.size() > 0) {
             for (Export export : exports) {

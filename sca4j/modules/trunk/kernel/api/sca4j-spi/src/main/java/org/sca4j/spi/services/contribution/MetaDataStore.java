@@ -95,7 +95,7 @@ public interface MetaDataStore {
      * @return the resource element or null if not found
      * @throws MetaDataStoreException if an error occurs during resolution
      */
-    <S, RE extends ResourceElement<S, ?>> RE resolve(S symbol, Class<RE> resourceElementType) throws MetaDataStoreException;
+    <S, V, RE extends ResourceElement<S, V>> RE resolve(S symbol, Class<RE> resourceElementType) throws MetaDataStoreException;
 
     /**
      * Resolves the containing resource for a resource element symbol against the given contribution symbol space.
@@ -104,7 +104,7 @@ public interface MetaDataStore {
      * @param symbol the symbol used to represent the resource element.
      * @return the resource or null if not found
      */
-    <S, RE extends ResourceElement<S, ?>> Resource resolveContainingResource(URI uri, S symbol, Class<RE> resourceElementType);
+    <S, V, RE extends ResourceElement<S, V>> Resource resolveContainingResource(URI uri, S symbol, Class<RE> resourceElementType);
 
     /**
      * Resolves a resource element by its symbol against the given contribution uri.
@@ -116,7 +116,7 @@ public interface MetaDataStore {
      * @return the resource element or null if not found
      * @throws MetaDataStoreException if an error occurs during resolution
      */
-    <S, RE extends ResourceElement<S, ?>> RE resolve(URI contributionUri, Class<RE> type, S symbol, ValidationContext context) throws MetaDataStoreException;
+    <S, V, RE extends ResourceElement<S, V>> RE resolve(URI contributionUri, Class<RE> type, S symbol, ValidationContext context) throws MetaDataStoreException;
 
     /**
      * Resolves an import to a matching export
