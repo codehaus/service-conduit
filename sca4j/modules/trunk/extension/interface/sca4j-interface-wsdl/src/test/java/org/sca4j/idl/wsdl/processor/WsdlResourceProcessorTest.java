@@ -71,37 +71,58 @@
 
 package org.sca4j.idl.wsdl.processor;
 
-import javax.xml.namespace.QName;
+import java.net.URI;
+import java.net.URL;
+import java.util.List;
 
-import org.apache.ws.commons.schema.XmlSchemaCollection;
-import org.apache.ws.commons.schema.XmlSchemaElement;
+import junit.framework.TestCase;
+
 import org.apache.ws.commons.schema.XmlSchemaType;
+import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.scdl.DataType;
+import org.sca4j.scdl.DefaultValidationContext;
+import org.sca4j.scdl.Operation;
+import org.sca4j.spi.services.contribution.Contribution;
 
 /**
- * Super class for WSDL processors.
- * 
  * @version $Revision: 2694 $ $Date: 2008-02-06 18:08:27 +0000 (Wed, 06 Feb 2008) $
- *
  */
-public abstract class AbstractWsdlProcessor {
+public class WsdlResourceProcessorTest extends TestCase {
     
-    /*
-     * Create a data type with the XML type for the part.
-     */
-    protected DataType<XmlSchemaType> getDataType(QName qName, XmlSchemaCollection xmlSchema) {
+    private WsdlResourceProcessor wsdlProcessor = new WsdlResourceProcessor();
 
-        XmlSchemaType type = xmlSchema.getTypeByQName(qName);
-        if(type != null) {
-            return new DataType<XmlSchemaType>(Object.class, type);
-        } else {
-            XmlSchemaElement element = xmlSchema.getElementByQName(qName);
-            if(element != null) {
-                return new DataType<XmlSchemaType>(Object.class, element.getSchemaType());
-            }
-        }
-        throw new WsdlProcessorException("Unable to find type " + qName);
+    /**
+     * Checks for version 1.1
+     * @throws ContributionException 
+     */
+    public void testGetOperations() throws ContributionException {    
         
+        Contribution contribution = new Contribution(URI.create("test"));
+        URL url = getClass().getClassLoader().getResource("example_1_1.wsdl");
+        
+        wsdlProcessor.index(contribution, url, new DefaultValidationContext());
+        wsdlProcessor.process(contribution.getUri(), contribution.getResources().get(0), new DefaultValidationContext(), getClass().getClassLoader());
+        
+        PortTypeResourceElement resourceElement = contribution.getResources().get(0).getResourceElements(PortTypeResourceElement.class).get(0);
+        List<Operation<XmlSchemaType>> operations = resourceElement.getOperations();
+        assertEquals(1, operations.size());
+        
+        Operation<XmlSchemaType> operation = operations.get(0);
+        assertEquals("GetLastTradePrice", operation.getName());
+        
+        DataType<List<DataType<XmlSchemaType>>> inputType = operation.getInputType();
+        List<DataType<XmlSchemaType>> inputParts = inputType.getLogical();
+        assertEquals(1, inputParts.size());
+        
+        DataType<XmlSchemaType> inputPart = inputParts.get(0);
+        XmlSchemaType inputPartLogical = inputPart.getLogical();
+        
+        assertNotNull(inputPartLogical);
+        assertEquals("string", inputPartLogical.getName());
+        
+        DataType<XmlSchemaType> outputType = operation.getOutputType();
+        assertEquals("float", outputType.getLogical().getName());
+
     }
 
 }

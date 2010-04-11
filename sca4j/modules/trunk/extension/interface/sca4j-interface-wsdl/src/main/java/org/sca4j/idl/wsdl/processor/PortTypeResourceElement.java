@@ -18,15 +18,33 @@
  */
 package org.sca4j.idl.wsdl.processor;
 
+import java.util.List;
+
 import javax.wsdl.PortType;
 import javax.xml.namespace.QName;
 
+import org.apache.ws.commons.schema.XmlSchemaCollection;
+import org.apache.ws.commons.schema.XmlSchemaType;
+import org.sca4j.scdl.Operation;
 import org.sca4j.spi.services.contribution.ResourceElement;
 
 public class PortTypeResourceElement extends ResourceElement<QName, PortType> {
-
-    public PortTypeResourceElement(QName symbol, PortType portType) {
+    
+    private XmlSchemaCollection schemaCollection;
+    private List<Operation<XmlSchemaType>> operations;
+    
+    public PortTypeResourceElement(QName symbol, PortType portType, XmlSchemaCollection schemaCollection, List<Operation<XmlSchemaType>> operations) {
         super(symbol);
+        this.schemaCollection = schemaCollection;
+        this.operations = operations;
+    }
+
+    public XmlSchemaCollection getSchemaCollection() {
+        return schemaCollection;
+    }
+
+    public List<Operation<XmlSchemaType>> getOperations() {
+        return operations;
     }
 
 }

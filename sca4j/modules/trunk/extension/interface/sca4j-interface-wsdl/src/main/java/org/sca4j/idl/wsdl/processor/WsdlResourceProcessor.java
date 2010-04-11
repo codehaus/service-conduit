@@ -69,11 +69,20 @@ public class WsdlResourceProcessor implements ResourceProcessor {
             reader.setExtensionRegistry(factory.newPopulatedExtensionRegistry());
         
             Definition definition = reader.readWSDL(resource.getUrl().toExternalForm());
+            XmlSchemaCollection schemaCollection = getXmlSchema(definition);
             
             for (Object object : definition.getPortTypes().keySet()) {
+                
                 QName portTypeName = (QName) object;
                 PortType portType = (PortType) definition.getPortType(portTypeName);
-                PortTypeResourceElement resorceElement = new PortTypeResourceElement(portTypeName, portType);
+                
+                List<Operation<XmlSchemaType>> operations = new LinkedList<Operation<XmlSchemaType>>();
+                for(Object obj : portType.getOperations()) {     
+                    Operation<XmlSchemaType> op = getOperation(schemaCollection, (javax.wsdl.Operation) obj);                
+                    operations.add(op);                
+                }
+                
+                PortTypeResourceElement resorceElement = new PortTypeResourceElement(portTypeName, portType, schemaCollection, operations);
                 resource.addResourceElement(resorceElement);
             }
             
