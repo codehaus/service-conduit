@@ -88,16 +88,6 @@ public class MetaDataStoreImplTestCase extends TestCase {
         assertEquals(RESOURCE_URI, contribution.getUri());
     }
 
-    public void testTransitiveResolution() throws Exception {
-        Contribution contribution = new Contribution(URI.create("resource"));
-        ContributionManifest manifest = new ContributionManifest();
-        QNameImport imprt = new QNameImport(IMPORT_EXPORT_QNAME2);
-        manifest.addImport(imprt);
-        contribution.setManifest(manifest);
-        List<Contribution> contributions = store.resolveTransitiveImports(contribution);
-        assertEquals(2, contributions.size());
-    }
-
     public void testResolveContainingResource() throws Exception {
         URI uri = URI.create("resource");
         Contribution contribution = new Contribution(uri);
