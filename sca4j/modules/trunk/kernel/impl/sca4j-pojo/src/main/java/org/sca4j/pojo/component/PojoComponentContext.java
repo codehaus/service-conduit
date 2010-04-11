@@ -52,10 +52,10 @@
  */
 package org.sca4j.pojo.component;
 
-import org.osoa.sca.ComponentContext;
 import org.osoa.sca.CallableReference;
-import org.osoa.sca.ServiceReference;
+import org.osoa.sca.ComponentContext;
 import org.osoa.sca.RequestContext;
+import org.osoa.sca.ServiceReference;
 
 /**
  * @version $Rev: 5243 $ $Date: 2008-08-20 22:14:37 +0100 (Wed, 20 Aug 2008) $

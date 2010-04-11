@@ -56,11 +56,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.xml.namespace.QName;
 
 import junit.framework.TestCase;
-import org.easymock.EasyMock;
 
+import org.easymock.EasyMock;
 import org.sca4j.spi.binding.BindingProvider;
 
 /**

@@ -74,6 +74,7 @@ import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
+
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
@@ -81,7 +82,6 @@ import org.osoa.sca.annotations.Destroy;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.introspection.DefaultIntrospectionContext;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.ElementLoadFailure;

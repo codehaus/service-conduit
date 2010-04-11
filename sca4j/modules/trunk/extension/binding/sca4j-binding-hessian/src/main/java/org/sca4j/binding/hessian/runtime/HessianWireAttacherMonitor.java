@@ -55,8 +55,6 @@ package org.sca4j.binding.hessian.runtime;
 import java.net.URI;
 
 import org.sca4j.api.annotation.logging.Info;
-import org.sca4j.api.annotation.logging.LogLevel;
-import org.sca4j.api.annotation.logging.LogLevels;
 
 /**
  * @version $Rev: 4339 $ $Date: 2008-05-25 16:15:34 +0100 (Sun, 25 May 2008) $

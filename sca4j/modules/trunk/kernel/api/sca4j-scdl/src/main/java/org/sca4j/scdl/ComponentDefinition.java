@@ -74,12 +74,11 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.w3c.dom.Document;
-
 import org.sca4j.scdl.validation.MissingImplementation;
 import org.sca4j.scdl.validation.NoPropertyInComponentType;
 import org.sca4j.scdl.validation.NoReferenceInComponentType;
 import org.sca4j.scdl.validation.NoServiceInComponentType;
+import org.w3c.dom.Document;
 
 /**
  * Represents a component. <p>A component is a configured instance of an implementation. The provided and consumed services, as well as the available

@@ -125,7 +125,6 @@ import org.sca4j.spi.services.contribution.CompositeResourceElement;
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.MetaDataStore;
 import org.sca4j.spi.services.contribution.Resource;
-import org.sca4j.spi.services.contribution.ResourceElement;
 import org.sca4j.spi.services.definitions.DefinitionActivationException;
 import org.sca4j.spi.services.definitions.DefinitionsRegistry;
 import org.sca4j.spi.services.discovery.DiscoveryException;

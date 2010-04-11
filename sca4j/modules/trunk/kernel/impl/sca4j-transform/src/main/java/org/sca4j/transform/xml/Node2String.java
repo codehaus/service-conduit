@@ -53,18 +53,18 @@
 package org.sca4j.transform.xml;
 
 import java.io.ByteArrayOutputStream;
+
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.Node;
-
 import org.sca4j.scdl.DataType;
 import org.sca4j.transform.AbstractPullTransformer;
 import org.sca4j.transform.TransformContext;
 import org.sca4j.transform.TransformationException;
+import org.w3c.dom.Node;
 
 /**
  * Serializes an element.

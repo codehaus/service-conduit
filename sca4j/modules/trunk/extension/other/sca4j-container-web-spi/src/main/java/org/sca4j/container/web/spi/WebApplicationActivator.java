@@ -55,10 +55,10 @@ package org.sca4j.container.web.spi;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.ServletContext;
 
 import org.osoa.sca.ComponentContext;
-
 import org.sca4j.pojo.reflection.Injector;
 
 /**

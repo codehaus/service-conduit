@@ -57,8 +57,6 @@ import javax.xml.stream.XMLStreamReader;
 
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
-import org.w3c.dom.Document;
-
 import org.sca4j.introspection.DefaultIntrospectionContext;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.LoaderHelper;
@@ -68,6 +66,7 @@ import org.sca4j.scdl.Implementation;
 import org.sca4j.scdl.PropertyValue;
 import org.sca4j.system.introspection.SystemImplementationProcessor;
 import org.sca4j.system.scdl.SystemImplementation;
+import org.w3c.dom.Document;
 
 /**
  * @version $Revision: 1 $ $Date: 2007-05-14 18:40:37 +0100 (Mon, 14 May 2007) $

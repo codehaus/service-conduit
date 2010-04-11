@@ -52,8 +52,9 @@
  */
 package org.sca4j.scdl;
 
-import java.util.Collection;
 import java.net.URI;
+import java.util.Collection;
+
 import javax.xml.namespace.QName;
 
 import junit.framework.TestCase;

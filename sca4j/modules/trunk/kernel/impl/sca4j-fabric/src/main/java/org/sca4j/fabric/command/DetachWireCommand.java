@@ -52,8 +52,8 @@
  */
 package org.sca4j.fabric.command;
 
-import java.util.Set;
 import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.sca4j.spi.command.AbstractCommand;
 import org.sca4j.spi.model.physical.PhysicalWireDefinition;

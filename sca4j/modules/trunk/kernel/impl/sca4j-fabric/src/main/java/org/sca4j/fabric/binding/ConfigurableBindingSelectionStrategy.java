@@ -54,10 +54,10 @@ package org.sca4j.fabric.binding;
 
 import java.util.List;
 import java.util.Map;
+
 import javax.xml.namespace.QName;
 
 import org.osoa.sca.annotations.Property;
-
 import org.sca4j.spi.binding.BindingProvider;
 import org.sca4j.spi.binding.BindingSelectionStrategy;
 

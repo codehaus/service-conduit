@@ -53,11 +53,11 @@
 package org.sca4j.binding.hessian.control;
 
 import java.net.URI;
+
 import javax.xml.namespace.QName;
 
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.binding.hessian.scdl.HessianBindingDefinition;
 import org.sca4j.host.Namespaces;
 import org.sca4j.spi.binding.BindingProvider;

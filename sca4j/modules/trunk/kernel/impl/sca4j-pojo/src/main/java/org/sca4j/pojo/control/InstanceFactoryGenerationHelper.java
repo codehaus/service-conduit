@@ -54,8 +54,8 @@ package org.sca4j.pojo.control;
 
 import java.lang.reflect.Method;
 
-import org.sca4j.pojo.provision.PojoComponentDefinition;
 import org.sca4j.pojo.provision.InstanceFactoryDefinition;
+import org.sca4j.pojo.provision.PojoComponentDefinition;
 import org.sca4j.pojo.scdl.PojoComponentType;
 import org.sca4j.scdl.ComponentDefinition;
 import org.sca4j.scdl.Implementation;

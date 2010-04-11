@@ -71,6 +71,7 @@
 package org.sca4j.introspection.xml;
 
 import java.net.URL;
+
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 

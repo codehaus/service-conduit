@@ -52,13 +52,14 @@
  */
 package org.sca4j.introspection.validation;
 
-import java.util.List;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
+import java.util.List;
+
 import javax.xml.namespace.QName;
 
-import org.sca4j.host.contribution.ValidationFailure;
 import org.sca4j.host.contribution.ValidationException;
+import org.sca4j.host.contribution.ValidationFailure;
 
 /**
  * @version $Rev: 5307 $ $Date: 2008-09-01 02:49:55 +0100 (Mon, 01 Sep 2008) $

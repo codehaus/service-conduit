@@ -70,14 +70,16 @@
  */
 package org.sca4j.timer.component.introspection;
 
+import static org.sca4j.timer.component.provision.TriggerData.UNSPECIFIED;
+
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.LoaderHelper;
 import org.sca4j.introspection.xml.LoaderUtil;
@@ -88,7 +90,6 @@ import org.sca4j.java.introspection.ImplementationArtifactNotFound;
 import org.sca4j.java.introspection.JavaImplementationProcessor;
 import org.sca4j.pojo.scdl.PojoComponentType;
 import org.sca4j.timer.component.provision.TriggerData;
-import static org.sca4j.timer.component.provision.TriggerData.UNSPECIFIED;
 import org.sca4j.timer.component.provision.TriggerType;
 import org.sca4j.timer.component.scdl.TimerImplementation;
 

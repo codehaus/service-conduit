@@ -52,8 +52,6 @@
  */
 package org.sca4j.mock;
 
-import java.net.URI;
-
 import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
 
 /**

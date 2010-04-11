@@ -73,8 +73,8 @@ package org.sca4j.pojo.instancefactory;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.sca4j.spi.component.InstanceFactoryProvider;
 import org.sca4j.pojo.provision.InstanceFactoryDefinition;
+import org.sca4j.spi.component.InstanceFactoryProvider;
 
 /**
  * Default implementation of the registry.

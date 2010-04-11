@@ -59,10 +59,10 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
 
+import junit.framework.TestCase;
+
 import org.easymock.EasyMock;
 import org.sca4j.introspection.IntrospectionContext;
-
-import junit.framework.TestCase;
 
 /**
  * @version $Revision$ $Date$

@@ -70,13 +70,13 @@
  */
 package org.sca4j.pojo.injection;
 
+import org.sca4j.pojo.PojoWorkContextTunnel;
 import org.sca4j.spi.ObjectCreationException;
 import org.sca4j.spi.ObjectFactory;
-import org.sca4j.spi.invocation.WorkContext;
 import org.sca4j.spi.component.AtomicComponent;
-import org.sca4j.spi.component.ScopeContainer;
 import org.sca4j.spi.component.InstanceLifecycleException;
-import org.sca4j.pojo.PojoWorkContextTunnel;
+import org.sca4j.spi.component.ScopeContainer;
+import org.sca4j.spi.invocation.WorkContext;
 
 /**
  * @version $Rev: 5241 $ $Date: 2008-08-20 21:58:24 +0100 (Wed, 20 Aug 2008) $

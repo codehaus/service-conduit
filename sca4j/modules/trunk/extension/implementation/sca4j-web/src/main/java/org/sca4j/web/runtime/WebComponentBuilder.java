@@ -60,7 +60,6 @@ import org.osoa.sca.annotations.Destroy;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.container.web.spi.WebApplicationActivator;
 import org.sca4j.scdl.InjectionSite;
 import org.sca4j.spi.ObjectFactory;

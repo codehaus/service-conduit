@@ -57,7 +57,6 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import org.osoa.sca.annotations.EagerInit;
-
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.TypeLoader;
 import org.sca4j.introspection.xml.UnrecognizedAttribute;

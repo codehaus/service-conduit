@@ -62,7 +62,6 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.osoa.sca.ServiceUnavailableException;
-import org.osoa.sca.annotations.Intent;
 import org.osoa.sca.annotations.Reference;
 import org.sca4j.fabric.wire.InvocationChainImpl;
 import org.sca4j.scdl.definitions.PolicyPhase;
@@ -76,7 +75,6 @@ import org.sca4j.spi.generator.InterceptorDefinitionGenerator;
 import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.model.physical.PhysicalInterceptorDefinition;
-import org.sca4j.spi.policy.PolicyResult;
 import org.sca4j.spi.services.definitions.DefinitionsRegistry;
 import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.wire.InvocationChain;

@@ -53,7 +53,6 @@
 package org.sca4j.introspection.impl.annotation;
 
 import org.osoa.sca.annotations.Scope;
-
 import org.sca4j.api.annotation.scope.Stateless;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.java.AbstractAnnotationProcessor;

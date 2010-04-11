@@ -54,10 +54,12 @@ package org.sca4j.transform.dom2java.generics.list;
 
 import java.io.StringReader;
 import java.util.List;
+
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import junit.framework.TestCase;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;

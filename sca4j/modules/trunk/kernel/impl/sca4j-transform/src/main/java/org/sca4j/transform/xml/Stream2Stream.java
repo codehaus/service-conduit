@@ -63,13 +63,14 @@ import static javax.xml.stream.XMLStreamConstants.PROCESSING_INSTRUCTION;
 import static javax.xml.stream.XMLStreamConstants.SPACE;
 import static javax.xml.stream.XMLStreamConstants.START_DOCUMENT;
 import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
+
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.sca4j.scdl.DataType;
-import org.sca4j.transform.TransformContext;
 import org.sca4j.transform.AbstractPushTransformer;
+import org.sca4j.transform.TransformContext;
 import org.sca4j.transform.TransformationException;
 
 /**

@@ -54,16 +54,14 @@ package org.sca4j.loader.composite;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import org.osoa.sca.annotations.Reference;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.InvalidValue;
 import org.sca4j.introspection.xml.LoaderHelper;
@@ -74,6 +72,8 @@ import org.sca4j.introspection.xml.UnrecognizedAttribute;
 import org.sca4j.scdl.DataType;
 import org.sca4j.scdl.PropertyValue;
 import org.sca4j.spi.model.type.XSDSimpleType;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * @version $Rev: 5134 $ $Date: 2008-08-02 07:33:02 +0100 (Sat, 02 Aug 2008) $

@@ -55,6 +55,7 @@ package org.sca4j.spi.model.instance;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.namespace.QName;
 
 /**

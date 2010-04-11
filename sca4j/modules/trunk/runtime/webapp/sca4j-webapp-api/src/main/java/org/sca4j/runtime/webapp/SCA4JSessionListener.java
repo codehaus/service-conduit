@@ -52,11 +52,11 @@
  */
 package org.sca4j.runtime.webapp;
 
-import javax.servlet.http.HttpSessionListener;
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.ServletContext;
-
 import static org.sca4j.runtime.webapp.Constants.RUNTIME_ATTRIBUTE;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
 
 /**
  * Notifies the WebappRuntime of session events.

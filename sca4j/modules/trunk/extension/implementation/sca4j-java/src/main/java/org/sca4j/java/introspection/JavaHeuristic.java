@@ -60,14 +60,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.IntrospectionHelper;
 import org.sca4j.introspection.TypeMapping;
 import org.sca4j.introspection.contract.ContractProcessor;
 import org.sca4j.introspection.java.HeuristicProcessor;
-import org.sca4j.introspection.java.UnknownInjectionType;
 import org.sca4j.introspection.java.NoConstructorFound;
+import org.sca4j.introspection.java.UnknownInjectionType;
 import org.sca4j.java.scdl.JavaImplementation;
 import org.sca4j.pojo.scdl.PojoComponentType;
 import org.sca4j.scdl.ConstructorInjectionSite;

@@ -53,8 +53,9 @@
 package org.sca4j.api.annotation;
 
 import static java.lang.annotation.ElementType.TYPE;
-import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import org.osoa.sca.Constants;

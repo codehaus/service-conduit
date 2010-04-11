@@ -53,6 +53,7 @@
 package org.sca4j.host.contribution;
 
 import java.io.Serializable;
+
 import javax.xml.namespace.QName;
 
 /**

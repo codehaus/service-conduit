@@ -57,10 +57,10 @@ import java.lang.reflect.Method;
 
 import org.sca4j.pojo.PojoWorkContextTunnel;
 import org.sca4j.spi.component.AtomicComponent;
-import org.sca4j.spi.component.InstanceWrapper;
-import org.sca4j.spi.component.ScopeContainer;
 import org.sca4j.spi.component.InstanceDestructionException;
 import org.sca4j.spi.component.InstanceLifecycleException;
+import org.sca4j.spi.component.InstanceWrapper;
+import org.sca4j.spi.component.ScopeContainer;
 import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.WorkContext;
 import org.sca4j.spi.wire.Interceptor;

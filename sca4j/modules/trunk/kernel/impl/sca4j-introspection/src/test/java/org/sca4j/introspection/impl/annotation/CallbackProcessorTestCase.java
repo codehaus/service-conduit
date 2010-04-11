@@ -55,11 +55,12 @@ package org.sca4j.introspection.impl.annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+
 import javax.xml.namespace.QName;
 
 import junit.framework.TestCase;
-import org.osoa.sca.annotations.Callback;
 
+import org.osoa.sca.annotations.Callback;
 import org.sca4j.introspection.DefaultIntrospectionContext;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.IntrospectionHelper;

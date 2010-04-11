@@ -57,8 +57,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import junit.framework.TestCase;
-import org.easymock.EasyMock;
 
+import org.easymock.EasyMock;
 import org.sca4j.spi.builder.interceptor.InterceptorBuilder;
 import org.sca4j.spi.model.physical.PhysicalInterceptorDefinition;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;

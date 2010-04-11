@@ -52,16 +52,16 @@
  */
 package org.sca4j.introspection.impl.annotation;
 
-import org.osoa.sca.annotations.Scope;
-
-import org.sca4j.introspection.IntrospectionContext;
-import org.sca4j.introspection.java.AbstractAnnotationProcessor;
-import org.sca4j.scdl.Implementation;
-import org.sca4j.scdl.InjectingComponentType;
 import static org.sca4j.scdl.Scope.COMPOSITE;
 import static org.sca4j.scdl.Scope.CONVERSATION;
 import static org.sca4j.scdl.Scope.REQUEST;
 import static org.sca4j.scdl.Scope.STATELESS;
+
+import org.osoa.sca.annotations.Scope;
+import org.sca4j.introspection.IntrospectionContext;
+import org.sca4j.introspection.java.AbstractAnnotationProcessor;
+import org.sca4j.scdl.Implementation;
+import org.sca4j.scdl.InjectingComponentType;
 
 /**
  * @version $Rev: 4359 $ $Date: 2008-05-26 07:52:15 +0100 (Mon, 26 May 2008) $

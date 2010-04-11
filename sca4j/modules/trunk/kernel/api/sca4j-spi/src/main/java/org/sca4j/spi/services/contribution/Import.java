@@ -73,6 +73,7 @@ package org.sca4j.spi.services.contribution;
 
 import java.io.Serializable;
 import java.net.URI;
+
 import javax.xml.namespace.QName;
 
 /**

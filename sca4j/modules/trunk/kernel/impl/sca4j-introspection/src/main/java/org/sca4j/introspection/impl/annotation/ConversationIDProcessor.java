@@ -56,7 +56,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import org.osoa.sca.annotations.ConversationID;
-
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.java.AbstractAnnotationProcessor;
 import org.sca4j.scdl.FieldInjectionSite;

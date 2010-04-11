@@ -57,7 +57,6 @@ import java.net.URI;
 import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
-
 import org.sca4j.spi.executor.CommandExecutorRegistry;
 
 /**

@@ -52,13 +52,13 @@
  */
 package org.sca4j.groovy.introspection;
 
+import groovy.lang.GroovyClassLoader;
+import groovy.lang.GroovyCodeSource;
+
 import java.io.IOException;
 import java.net.URL;
 
-import groovy.lang.GroovyClassLoader;
-import groovy.lang.GroovyCodeSource;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.groovy.scdl.GroovyImplementation;
 import org.sca4j.introspection.DefaultIntrospectionContext;
 import org.sca4j.introspection.IntrospectionContext;

@@ -73,9 +73,9 @@ package org.sca4j.fabric.component.scope;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.sca4j.scdl.Scope;
 import org.sca4j.spi.component.ScopeContainer;
 import org.sca4j.spi.component.ScopeRegistry;
-import org.sca4j.scdl.Scope;
 
 /**
  * The default implementation of a scope registry

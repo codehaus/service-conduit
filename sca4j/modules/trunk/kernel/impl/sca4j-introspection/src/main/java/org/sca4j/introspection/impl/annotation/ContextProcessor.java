@@ -60,7 +60,6 @@ import org.osoa.sca.ComponentContext;
 import org.osoa.sca.RequestContext;
 import org.osoa.sca.annotations.Context;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.IntrospectionHelper;
 import org.sca4j.introspection.java.AbstractAnnotationProcessor;

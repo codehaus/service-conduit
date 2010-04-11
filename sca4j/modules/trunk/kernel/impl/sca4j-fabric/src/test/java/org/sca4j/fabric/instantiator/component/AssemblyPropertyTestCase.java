@@ -54,14 +54,11 @@ package org.sca4j.fabric.instantiator.component;
 
 import java.net.URI;
 import java.util.Map;
+
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPathExpressionException;
 
 import junit.framework.TestCase;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import org.sca4j.fabric.instantiator.LogicalChange;
 import org.sca4j.scdl.ComponentDefinition;
@@ -69,6 +66,10 @@ import org.sca4j.scdl.CompositeImplementation;
 import org.sca4j.scdl.Implementation;
 import org.sca4j.spi.model.instance.LogicalComponent;
 import org.sca4j.spi.model.instance.LogicalCompositeComponent;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * @version $Rev: 5344 $ $Date: 2008-09-07 18:59:55 +0100 (Sun, 07 Sep 2008) $

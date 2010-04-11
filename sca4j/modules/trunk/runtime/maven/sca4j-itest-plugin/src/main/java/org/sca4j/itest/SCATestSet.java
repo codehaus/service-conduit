@@ -74,7 +74,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.maven.surefire.report.PojoStackTraceWriter;
 import org.apache.maven.surefire.report.ReportEntry;
@@ -87,7 +86,6 @@ import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.invocation.WorkContext;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
-import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;
 
 /**

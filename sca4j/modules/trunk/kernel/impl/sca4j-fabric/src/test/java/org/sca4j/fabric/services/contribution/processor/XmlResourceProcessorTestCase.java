@@ -58,8 +58,8 @@ import junit.framework.TestCase;
 
 import org.sca4j.host.expression.ExpressionExpander;
 import org.sca4j.host.expression.ExpressionExpansionException;
-import org.sca4j.services.xmlfactory.impl.XMLFactoryImpl;
 import org.sca4j.services.xmlfactory.XMLFactory;
+import org.sca4j.services.xmlfactory.impl.XMLFactoryImpl;
 
 /**
  * @version $Rev: 4226 $ $Date: 2008-05-15 10:38:18 +0100 (Thu, 15 May 2008) $

@@ -61,7 +61,6 @@ import java.util.Map;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.pojo.provision.InstanceFactoryDefinition;
 import org.sca4j.pojo.reflection.ReflectiveInstanceFactoryProvider;
 import org.sca4j.scdl.ConstructorInjectionSite;

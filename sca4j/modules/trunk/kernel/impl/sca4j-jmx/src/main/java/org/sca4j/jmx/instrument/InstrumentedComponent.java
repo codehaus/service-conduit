@@ -70,8 +70,9 @@
  */
 package org.sca4j.jmx.instrument;
 
-import java.util.Map;
 import java.net.URI;
+import java.util.Map;
+
 import javax.management.Attribute;
 import javax.management.AttributeList;
 import javax.management.AttributeNotFoundException;
@@ -82,8 +83,8 @@ import javax.management.MBeanInfo;
 import javax.management.MBeanNotificationInfo;
 import javax.management.MBeanOperationInfo;
 
-import org.sca4j.spi.component.Component;
 import org.sca4j.scdl.PropertyValue;
+import org.sca4j.spi.component.Component;
 
 /**
  * This is Ruscany component exposed as a dynamic MBean. Currently it only supports a read-only vew of all the

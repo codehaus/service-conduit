@@ -77,7 +77,6 @@ import org.sca4j.services.xmlfactory.XMLFactory;
 import org.sca4j.spi.services.contribution.CompositeResourceElement;
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.Resource;
-import org.sca4j.spi.services.contribution.ResourceElement;
 import org.sca4j.spi.services.contribution.ResourceElementNotFoundException;
 import org.sca4j.spi.services.contribution.ResourceProcessor;
 

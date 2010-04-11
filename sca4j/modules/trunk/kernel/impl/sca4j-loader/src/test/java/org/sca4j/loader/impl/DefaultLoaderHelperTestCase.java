@@ -54,18 +54,18 @@ package org.sca4j.loader.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+
 import javax.xml.namespace.QName;
+import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
-import javax.xml.stream.XMLInputFactory;
 
 import junit.framework.TestCase;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Element;
 
-import org.sca4j.loader.impl.DefaultLoaderHelper;
 import org.sca4j.introspection.xml.InvalidPrefixException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  * @version $Rev: 4301 $ $Date: 2008-05-23 06:33:58 +0100 (Fri, 23 May 2008) $

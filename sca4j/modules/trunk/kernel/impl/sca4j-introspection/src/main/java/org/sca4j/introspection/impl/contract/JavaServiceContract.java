@@ -70,14 +70,14 @@
  */
 package org.sca4j.introspection.impl.contract;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
-import java.io.Serializable;
-
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 import org.sca4j.scdl.DataType;
 import org.sca4j.scdl.Operation;
 import org.sca4j.scdl.ServiceContract;

@@ -52,8 +52,8 @@
  */
 package org.sca4j.scdl.validation;
 
-import org.sca4j.scdl.PropertyValue;
 import org.sca4j.host.contribution.ValidationFailure;
+import org.sca4j.scdl.PropertyValue;
 
 /**
  * Validation warning indicating that a component is trying to configure a property not defined by the component type.

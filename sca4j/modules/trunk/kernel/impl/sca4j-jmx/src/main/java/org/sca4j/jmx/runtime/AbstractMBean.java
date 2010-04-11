@@ -52,11 +52,11 @@
  */
 package org.sca4j.jmx.runtime;
 
-import javax.management.DynamicMBean;
-import javax.management.MBeanInfo;
-import javax.management.AttributeList;
 import javax.management.Attribute;
+import javax.management.AttributeList;
+import javax.management.DynamicMBean;
 import javax.management.JMException;
+import javax.management.MBeanInfo;
 
 /**
  * @version $Rev: 3690 $ $Date: 2008-04-22 20:06:52 +0100 (Tue, 22 Apr 2008) $

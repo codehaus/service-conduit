@@ -72,7 +72,6 @@ package org.sca4j.jetty;
 
 import org.mortbay.jetty.Handler;
 import org.mortbay.jetty.Server;
-
 import org.sca4j.spi.host.ServletHost;
 
 /**

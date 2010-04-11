@@ -57,13 +57,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.w3c.dom.Node;
-
 import org.sca4j.scdl.DataType;
 import org.sca4j.spi.model.type.JavaClass;
+import org.sca4j.transform.AbstractPullTransformer;
 import org.sca4j.transform.TransformContext;
 import org.sca4j.transform.TransformationException;
-import org.sca4j.transform.AbstractPullTransformer;
+import org.w3c.dom.Node;
 
 /**
  * @version $Rev: 566 $ $Date: 2007-07-24 22:07:41 +0100 (Tue, 24 Jul 2007) $ String format of Date, expects format of

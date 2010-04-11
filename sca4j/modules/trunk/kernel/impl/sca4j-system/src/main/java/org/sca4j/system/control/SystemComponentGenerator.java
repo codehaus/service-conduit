@@ -56,9 +56,8 @@ import java.net.URI;
 
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
-
-import org.sca4j.pojo.provision.InstanceFactoryDefinition;
 import org.sca4j.pojo.control.InstanceFactoryGenerationHelper;
+import org.sca4j.pojo.provision.InstanceFactoryDefinition;
 import org.sca4j.pojo.scdl.PojoComponentType;
 import org.sca4j.scdl.ComponentDefinition;
 import org.sca4j.scdl.InjectableAttribute;

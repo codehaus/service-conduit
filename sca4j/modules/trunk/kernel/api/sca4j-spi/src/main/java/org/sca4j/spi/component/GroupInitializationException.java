@@ -70,9 +70,9 @@
  */
 package org.sca4j.spi.component;
 
-import java.util.List;
-import java.io.PrintWriter;
 import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.util.List;
 
 /**
  * @version $Rev: 3566 $ $Date: 2008-04-05 02:26:37 +0100 (Sat, 05 Apr 2008) $

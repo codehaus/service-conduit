@@ -99,7 +99,6 @@ import org.sca4j.scdl.CompositeImplementation;
 import org.sca4j.spi.services.contribution.CompositeResourceElement;
 import org.sca4j.spi.services.contribution.MetaDataStore;
 import org.sca4j.spi.services.contribution.MetaDataStoreException;
-import org.sca4j.spi.services.contribution.ResourceElement;
 
 /**
  * Loader that handles an &lt;implementation.composite&gt; element.

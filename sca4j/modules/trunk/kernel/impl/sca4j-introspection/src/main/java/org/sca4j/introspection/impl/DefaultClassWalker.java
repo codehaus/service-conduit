@@ -59,7 +59,6 @@ import java.lang.reflect.Method;
 import java.util.Map;
 
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.java.AnnotationProcessor;
 import org.sca4j.introspection.java.ClassWalker;

@@ -56,7 +56,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.host.expression.ExpressionEvaluator;
 import org.sca4j.host.expression.ExpressionExpander;
 import org.sca4j.host.expression.ExpressionExpansionException;

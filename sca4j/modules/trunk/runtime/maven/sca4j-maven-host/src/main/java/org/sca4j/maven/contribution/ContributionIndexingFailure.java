@@ -52,9 +52,9 @@
  */
 package org.sca4j.maven.contribution;
 
-import org.sca4j.host.contribution.ValidationFailure;
-
 import java.io.File;
+
+import org.sca4j.host.contribution.ValidationFailure;
 
 /**
  * Validation warning indicating that the possible contribution file with the given File could not be loaded.

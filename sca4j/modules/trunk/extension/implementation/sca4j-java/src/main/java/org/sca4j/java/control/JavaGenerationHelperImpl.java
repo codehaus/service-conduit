@@ -53,10 +53,10 @@
 package org.sca4j.java.control;
 
 import java.net.URI;
+
 import javax.xml.namespace.QName;
 
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.host.Namespaces;
 import org.sca4j.java.provision.JavaComponentDefinition;
 import org.sca4j.java.provision.JavaWireSourceDefinition;

@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.fabric.instantiator.AmbiguousService;
 import org.sca4j.fabric.instantiator.LogicalChange;
 import org.sca4j.fabric.instantiator.NoServiceOnComponent;

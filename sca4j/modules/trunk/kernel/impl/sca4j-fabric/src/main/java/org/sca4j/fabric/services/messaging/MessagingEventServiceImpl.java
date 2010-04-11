@@ -54,6 +54,7 @@ package org.sca4j.fabric.services.messaging;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamReader;
 

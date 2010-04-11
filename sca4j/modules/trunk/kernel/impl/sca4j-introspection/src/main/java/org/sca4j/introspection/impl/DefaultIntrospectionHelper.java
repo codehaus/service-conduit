@@ -76,7 +76,6 @@ import org.osoa.sca.ServiceReference;
 import org.osoa.sca.annotations.Callback;
 import org.osoa.sca.annotations.Remotable;
 import org.osoa.sca.annotations.Service;
-
 import org.sca4j.introspection.IntrospectionHelper;
 import org.sca4j.introspection.TypeMapping;
 import org.sca4j.introspection.java.ImplementationNotFoundException;

@@ -75,12 +75,11 @@ import java.net.InetAddress;
 
 import org.osoa.sca.annotations.Property;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.ftp.server.data.DataConnection;
 import org.sca4j.ftp.server.data.PassiveDataConnection;
 import org.sca4j.ftp.server.passive.PassiveConnectionService;
-import org.sca4j.ftp.server.protocol.DefaultResponse;
 import org.sca4j.ftp.server.protocol.DefaultFtpSession;
+import org.sca4j.ftp.server.protocol.DefaultResponse;
 import org.sca4j.ftp.server.protocol.Request;
 import org.sca4j.ftp.server.protocol.RequestHandler;
 

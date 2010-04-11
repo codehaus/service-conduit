@@ -56,13 +56,12 @@ import java.io.IOException;
 import java.io.StringBufferInputStream;
 import java.util.Properties;
 
-import org.w3c.dom.Node;
-
 import org.sca4j.scdl.DataType;
 import org.sca4j.spi.model.type.JavaClass;
+import org.sca4j.transform.AbstractPullTransformer;
 import org.sca4j.transform.TransformContext;
 import org.sca4j.transform.TransformationException;
-import org.sca4j.transform.AbstractPullTransformer;
+import org.w3c.dom.Node;
 
 /**
  * @version $Rev: 3524 $ $Date: 2008-03-31 22:43:51 +0100 (Mon, 31 Mar 2008) $

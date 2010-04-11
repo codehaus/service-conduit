@@ -70,18 +70,18 @@
  */
 package org.sca4j.loader.componentType;
 
-import javax.xml.namespace.QName;
 import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
 import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
+import static org.osoa.sca.Constants.SCA_NS;
+
+import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import static org.osoa.sca.Constants.SCA_NS;
 import org.osoa.sca.annotations.Destroy;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.LoaderRegistry;
 import org.sca4j.introspection.xml.LoaderUtil;

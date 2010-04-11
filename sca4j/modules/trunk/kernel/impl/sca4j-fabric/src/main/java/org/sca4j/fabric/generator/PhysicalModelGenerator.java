@@ -54,10 +54,10 @@ package org.sca4j.fabric.generator;
 
 import java.util.Collection;
 
+import org.sca4j.fabric.instantiator.LogicalChange;
 import org.sca4j.spi.generator.CommandMap;
 import org.sca4j.spi.generator.GenerationException;
 import org.sca4j.spi.model.instance.LogicalComponent;
-import org.sca4j.fabric.instantiator.LogicalChange;
 
 /**
  * Interface that abstracts the concerns of a generating commands to provision a set of componets to runtimes in a domain.

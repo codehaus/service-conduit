@@ -52,12 +52,12 @@
  */
 package org.sca4j.fabric.wire;
 
+import junit.framework.TestCase;
+
+import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.wire.Interceptor;
-import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.wire.InvocationChain;
-
-import junit.framework.TestCase;
 
 /**
  * @version $Rev: 3021 $ $Date: 2008-03-04 03:28:04 +0000 (Tue, 04 Mar 2008) $

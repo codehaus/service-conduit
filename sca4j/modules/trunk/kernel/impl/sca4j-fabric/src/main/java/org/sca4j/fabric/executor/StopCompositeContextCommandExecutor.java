@@ -55,19 +55,17 @@ package org.sca4j.fabric.executor;
 import java.net.URI;
 
 import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Reference;
 import org.osoa.sca.annotations.Init;
-
+import org.osoa.sca.annotations.Reference;
 import org.sca4j.fabric.command.StopCompositeContextCommand;
+import org.sca4j.scdl.Scope;
+import org.sca4j.spi.component.ScopeContainer;
+import org.sca4j.spi.component.ScopeRegistry;
 import org.sca4j.spi.executor.CommandExecutor;
 import org.sca4j.spi.executor.CommandExecutorRegistry;
 import org.sca4j.spi.executor.ExecutionException;
-import org.sca4j.spi.component.ScopeContainer;
-import org.sca4j.spi.component.ScopeRegistry;
-import org.sca4j.spi.component.GroupInitializationException;
 import org.sca4j.spi.invocation.CallFrame;
 import org.sca4j.spi.invocation.WorkContext;
-import org.sca4j.scdl.Scope;
 
 /*
  * See the NOTICE file distributed with this work for information

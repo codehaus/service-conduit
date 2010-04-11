@@ -54,13 +54,12 @@ package org.sca4j.fabric.instantiator.component;
 
 import java.util.Map;
 
-import org.w3c.dom.Document;
-
 import org.sca4j.fabric.instantiator.LogicalChange;
 import org.sca4j.scdl.ComponentDefinition;
 import org.sca4j.scdl.Implementation;
 import org.sca4j.spi.model.instance.LogicalComponent;
 import org.sca4j.spi.model.instance.LogicalCompositeComponent;
+import org.w3c.dom.Document;
 
 /**
  * @version $Revision$ $Date$

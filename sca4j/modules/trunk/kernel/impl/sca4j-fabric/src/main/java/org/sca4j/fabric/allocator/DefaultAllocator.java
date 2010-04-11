@@ -60,7 +60,6 @@ import java.util.Set;
 
 import org.osoa.sca.annotations.Property;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.scdl.CompositeImplementation;
 import org.sca4j.spi.model.instance.LogicalComponent;
 import org.sca4j.spi.model.instance.LogicalCompositeComponent;

@@ -72,13 +72,13 @@ package org.sca4j.binding.hessian.introspection;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.binding.hessian.scdl.HessianBindingDefinition;
 import org.sca4j.host.Namespaces;
 import org.sca4j.introspection.IntrospectionContext;

@@ -55,7 +55,6 @@ package org.sca4j.jmx.control;
 import java.net.URI;
 
 import org.osoa.sca.annotations.EagerInit;
-
 import org.sca4j.jmx.provision.JMXWireSourceDefinition;
 import org.sca4j.jmx.scdl.JMXBinding;
 import org.sca4j.scdl.ReferenceDefinition;

@@ -55,7 +55,6 @@ package org.sca4j.pojo.component;
 import javax.security.auth.Subject;
 
 import org.osoa.sca.CallableReference;
-
 import org.sca4j.api.SCA4JRequestContext;
 import org.sca4j.pojo.PojoWorkContextTunnel;
 import org.sca4j.spi.invocation.WorkContext;

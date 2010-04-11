@@ -52,11 +52,6 @@
  */
 package org.sca4j.transform.xml;
 
-import javax.xml.namespace.QName;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.stream.XMLStreamConstants;
 import static javax.xml.stream.XMLStreamConstants.CDATA;
 import static javax.xml.stream.XMLStreamConstants.CHARACTERS;
 import static javax.xml.stream.XMLStreamConstants.COMMENT;
@@ -66,19 +61,24 @@ import static javax.xml.stream.XMLStreamConstants.ENTITY_REFERENCE;
 import static javax.xml.stream.XMLStreamConstants.PROCESSING_INSTRUCTION;
 import static javax.xml.stream.XMLStreamConstants.SPACE;
 import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
-import javax.xml.stream.XMLStreamReader;
+
+import javax.xml.namespace.QName;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 
 import org.osoa.sca.annotations.EagerInit;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Text;
-
 import org.sca4j.scdl.DataType;
 import org.sca4j.spi.model.type.JavaClass;
 import org.sca4j.transform.AbstractPullTransformer;
 import org.sca4j.transform.TransformContext;
 import org.sca4j.transform.TransformationException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 
 /**
  * Pull transformer that will convert a Stax stream to a DOM representation. The transformer expects the cursor to be at the element from which the

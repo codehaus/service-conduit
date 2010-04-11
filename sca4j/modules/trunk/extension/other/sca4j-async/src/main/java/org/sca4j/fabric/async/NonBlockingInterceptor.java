@@ -53,14 +53,14 @@
 package org.sca4j.fabric.async;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 import org.sca4j.host.work.WorkScheduler;
 import org.sca4j.spi.invocation.CallFrame;
-import org.sca4j.spi.invocation.WorkContext;
 import org.sca4j.spi.invocation.Message;
+import org.sca4j.spi.invocation.WorkContext;
 import org.sca4j.spi.wire.Interceptor;
 
 /**

@@ -55,15 +55,15 @@ package org.sca4j.mock;
 import java.util.LinkedList;
 import java.util.List;
 
+import junit.framework.TestCase;
+
 import org.easymock.EasyMock;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.IntrospectionHelper;
 import org.sca4j.introspection.contract.ContractProcessor;
-import org.sca4j.introspection.impl.contract.DefaultContractProcessor;
 import org.sca4j.introspection.impl.DefaultIntrospectionHelper;
+import org.sca4j.introspection.impl.contract.DefaultContractProcessor;
 import org.sca4j.scdl.ServiceDefinition;
-
-import junit.framework.TestCase;
 
 /**
  * @version $Revision$ $Date$

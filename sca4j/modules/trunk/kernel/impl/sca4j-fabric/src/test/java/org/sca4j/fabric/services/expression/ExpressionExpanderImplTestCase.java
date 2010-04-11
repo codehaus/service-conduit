@@ -56,8 +56,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import junit.framework.TestCase;
-import org.easymock.EasyMock;
 
+import org.easymock.EasyMock;
 import org.sca4j.host.expression.ExpressionEvaluator;
 import org.sca4j.host.expression.ExpressionExpansionException;
 

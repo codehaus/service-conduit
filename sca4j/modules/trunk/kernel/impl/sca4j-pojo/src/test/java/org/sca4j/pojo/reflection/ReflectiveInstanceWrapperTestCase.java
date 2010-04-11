@@ -70,10 +70,10 @@
  */
 package org.sca4j.pojo.reflection;
 
-import junit.framework.TestCase;
-import org.easymock.EasyMock;
 import static org.easymock.EasyMock.createMock;
+import junit.framework.TestCase;
 
+import org.easymock.EasyMock;
 import org.sca4j.spi.component.InstanceDestructionException;
 import org.sca4j.spi.component.InstanceInitializationException;
 import org.sca4j.spi.invocation.WorkContext;

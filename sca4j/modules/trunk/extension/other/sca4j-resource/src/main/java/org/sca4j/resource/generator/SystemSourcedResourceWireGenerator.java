@@ -72,15 +72,15 @@ package org.sca4j.resource.generator;
 
 import java.net.URI;
 
+import org.osoa.sca.annotations.EagerInit;
+import org.osoa.sca.annotations.Init;
+import org.osoa.sca.annotations.Reference;
 import org.sca4j.resource.model.SystemSourcedResource;
 import org.sca4j.resource.model.SystemSourcedWireTargetDefinition;
 import org.sca4j.spi.generator.GenerationException;
 import org.sca4j.spi.generator.GeneratorRegistry;
 import org.sca4j.spi.generator.ResourceWireGenerator;
 import org.sca4j.spi.model.instance.LogicalResource;
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Init;
-import org.osoa.sca.annotations.Reference;
 
 /**
  * @version $Revision$ $Date$

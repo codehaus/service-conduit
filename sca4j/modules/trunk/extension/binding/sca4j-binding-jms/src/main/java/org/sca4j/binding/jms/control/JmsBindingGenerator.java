@@ -52,18 +52,19 @@
  */
 package org.sca4j.binding.jms.control;
 
+import static org.osoa.sca.Constants.SCA_NS;
+
 import java.net.URI;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
 import javax.xml.namespace.QName;
 
-import static org.osoa.sca.Constants.SCA_NS;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.binding.jms.common.JmsBindingMetadata;
 import org.sca4j.binding.jms.common.TransactionType;
 import org.sca4j.binding.jms.provision.JmsWireSourceDefinition;

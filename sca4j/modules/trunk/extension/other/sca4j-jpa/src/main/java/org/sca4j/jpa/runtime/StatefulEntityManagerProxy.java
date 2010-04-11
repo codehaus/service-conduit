@@ -63,7 +63,6 @@ import javax.transaction.TransactionManager;
 
 import org.osoa.sca.Conversation;
 import org.osoa.sca.ServiceRuntimeException;
-
 import org.sca4j.pojo.PojoWorkContextTunnel;
 import org.sca4j.spi.invocation.WorkContext;
 

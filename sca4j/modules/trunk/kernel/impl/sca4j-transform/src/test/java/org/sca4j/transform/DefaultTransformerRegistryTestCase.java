@@ -53,13 +53,11 @@
 package org.sca4j.transform;
 
 import junit.framework.TestCase;
-import org.w3c.dom.Node;
 
 import org.sca4j.spi.model.type.JavaClass;
 import org.sca4j.spi.model.type.XSDSimpleType;
-import org.sca4j.transform.PullTransformer;
-import org.sca4j.transform.TransformerRegistry;
 import org.sca4j.transform.dom2java.String2Integer;
+import org.w3c.dom.Node;
 
 /**
  * @version $Rev: 3524 $ $Date: 2008-03-31 22:43:51 +0100 (Mon, 31 Mar 2008) $

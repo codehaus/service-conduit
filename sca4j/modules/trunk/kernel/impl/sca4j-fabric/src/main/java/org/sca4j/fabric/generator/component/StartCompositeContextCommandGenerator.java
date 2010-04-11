@@ -54,7 +54,6 @@ package org.sca4j.fabric.generator.component;
 
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Property;
-
 import org.sca4j.fabric.command.StartCompositeContextCommand;
 import org.sca4j.spi.generator.AddCommandGenerator;
 import org.sca4j.spi.generator.GenerationException;

@@ -58,15 +58,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.sca4j.fabric.util.IOHelper;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
-import org.sca4j.fabric.util.IOHelper;
 
 /**
  * Default implementation that creates a new DocumentBuilder for every invocation.

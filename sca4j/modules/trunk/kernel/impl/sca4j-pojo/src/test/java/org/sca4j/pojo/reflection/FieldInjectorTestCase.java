@@ -73,8 +73,8 @@ package org.sca4j.pojo.reflection;
 import java.lang.reflect.Field;
 
 import junit.framework.TestCase;
-import org.easymock.EasyMock;
 
+import org.easymock.EasyMock;
 import org.sca4j.spi.ObjectFactory;
 
 /**

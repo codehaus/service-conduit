@@ -74,8 +74,8 @@ package org.sca4j.binding.ws.scdl;
 import java.net.URI;
 import java.util.Map;
 
-import org.sca4j.scdl.BindingDefinition;
 import org.sca4j.binding.ws.introspection.WsBindingLoader;
+import org.sca4j.scdl.BindingDefinition;
 import org.w3c.dom.Document;
 
 /**

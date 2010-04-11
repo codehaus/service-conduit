@@ -71,12 +71,12 @@
 package org.sca4j.jpa.control;
 
 import java.net.URI;
+
 import javax.persistence.PersistenceContextType;
 
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.jpa.provision.PersistenceContextWireTargetDefinition;
 import org.sca4j.jpa.scdl.PersistenceContextResource;
 import org.sca4j.spi.generator.GenerationException;

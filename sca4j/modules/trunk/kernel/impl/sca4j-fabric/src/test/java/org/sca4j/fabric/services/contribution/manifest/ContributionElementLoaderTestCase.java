@@ -52,16 +52,18 @@
  */
 package org.sca4j.fabric.services.contribution.manifest;
 
+import static org.osoa.sca.Constants.SCA_NS;
+
 import java.net.URI;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
 
 import junit.framework.TestCase;
+
 import org.easymock.EasyMock;
 import org.easymock.IMocksControl;
-import static org.osoa.sca.Constants.SCA_NS;
-
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.LoaderHelper;
 import org.sca4j.introspection.xml.LoaderRegistry;

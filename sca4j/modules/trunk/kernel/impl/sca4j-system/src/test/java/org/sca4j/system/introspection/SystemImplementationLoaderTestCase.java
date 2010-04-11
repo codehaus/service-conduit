@@ -57,12 +57,10 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
 
 import junit.framework.TestCase;
-import org.easymock.EasyMock;
 
+import org.easymock.EasyMock;
 import org.sca4j.host.Namespaces;
 import org.sca4j.introspection.IntrospectionContext;
-import org.sca4j.system.introspection.SystemImplementationProcessor;
-import org.sca4j.system.introspection.SystemImplementationLoader;
 import org.sca4j.system.scdl.SystemImplementation;
 
 /**

@@ -52,8 +52,8 @@
  */
 package org.sca4j.mock;
 
-import java.util.List;
 import java.net.URI;
+import java.util.List;
 
 import org.sca4j.spi.model.physical.PhysicalComponentDefinition;
 

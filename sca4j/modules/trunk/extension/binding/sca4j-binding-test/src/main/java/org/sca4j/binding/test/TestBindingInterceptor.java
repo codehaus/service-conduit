@@ -54,8 +54,8 @@ package org.sca4j.binding.test;
 
 import java.net.URI;
 
-import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.invocation.Message;
+import org.sca4j.spi.wire.Interceptor;
 
 /**
  * @version $Rev: 3021 $ $Date: 2008-03-04 03:28:04 +0000 (Tue, 04 Mar 2008) $

@@ -55,10 +55,10 @@ package org.sca4j.resource.introspection;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+
 import javax.annotation.Resource;
 
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.IntrospectionHelper;
 import org.sca4j.introspection.TypeMapping;

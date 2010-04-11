@@ -53,6 +53,7 @@
 package org.sca4j.spi.services.contribution;
 
 import java.net.URI;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;

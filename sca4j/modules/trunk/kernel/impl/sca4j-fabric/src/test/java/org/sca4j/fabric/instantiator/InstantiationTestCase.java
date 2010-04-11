@@ -55,11 +55,12 @@ package org.sca4j.fabric.instantiator;
 import java.net.URI;
 import java.util.Collections;
 import java.util.List;
+
 import javax.xml.namespace.QName;
 
 import junit.framework.TestCase;
-import org.easymock.classextension.EasyMock;
 
+import org.easymock.classextension.EasyMock;
 import org.sca4j.fabric.instantiator.component.AtomicComponentInstantiator;
 import org.sca4j.fabric.instantiator.component.CompositeComponentInstantiator;
 import org.sca4j.fabric.instantiator.component.WireInstantiator;

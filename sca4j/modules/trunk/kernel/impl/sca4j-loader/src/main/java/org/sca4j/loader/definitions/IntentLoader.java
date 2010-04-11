@@ -70,17 +70,18 @@
  */
 package org.sca4j.loader.definitions;
 
+import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
+import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
+
 import javax.xml.namespace.QName;
-import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
-import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.InvalidPrefixException;
 import org.sca4j.introspection.xml.LoaderHelper;

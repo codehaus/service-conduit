@@ -74,9 +74,8 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.w3c.dom.Document;
-
 import org.sca4j.spi.model.physical.PhysicalComponentDefinition;
+import org.w3c.dom.Document;
 
 /**
  * Definition of a physical component whose actual implementation is based on a POJO.

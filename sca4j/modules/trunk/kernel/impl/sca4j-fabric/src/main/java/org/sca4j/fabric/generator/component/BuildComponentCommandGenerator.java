@@ -72,7 +72,6 @@ package org.sca4j.fabric.generator.component;
 
 import org.osoa.sca.annotations.Property;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.fabric.command.BuildComponentCommand;
 import org.sca4j.scdl.Implementation;
 import org.sca4j.spi.generator.AddCommandGenerator;

@@ -52,15 +52,16 @@
  */
 package org.sca4j.fabric.services.contribution.processor;
 
+import static org.osoa.sca.Constants.SCA_NS;
+
 import java.net.URI;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import static org.osoa.sca.Constants.SCA_NS;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.scdl.ValidationContext;
 import org.sca4j.spi.services.contribution.Contribution;

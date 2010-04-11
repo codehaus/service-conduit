@@ -57,8 +57,6 @@ import java.util.Collection;
 
 import junit.framework.TestCase;
 
-import org.sca4j.introspection.TypeMapping;
-
 /**
  * @version $Rev: 3105 $ $Date: 2008-03-15 16:47:31 +0000 (Sat, 15 Mar 2008) $
  */

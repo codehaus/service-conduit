@@ -70,19 +70,21 @@
  */
 package org.sca4j.loader.composite;
 
-import java.net.URI;
-import javax.xml.namespace.QName;
 import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
 import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
-
-import junit.framework.TestCase;
-import org.easymock.EasyMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
+import java.net.URI;
+
+import javax.xml.namespace.QName;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+
+import junit.framework.TestCase;
+
+import org.easymock.EasyMock;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.LoaderException;
 import org.sca4j.introspection.xml.LoaderHelper;

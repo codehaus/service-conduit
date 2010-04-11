@@ -54,11 +54,11 @@ package org.sca4j.fabric.services.lcm;
 
 import java.net.URI;
 import java.util.Collection;
+
 import javax.xml.namespace.QName;
 
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.scdl.Composite;
 import org.sca4j.scdl.CompositeReference;
 import org.sca4j.scdl.CompositeService;

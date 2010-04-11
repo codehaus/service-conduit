@@ -72,7 +72,6 @@ package org.sca4j.fabric.component.scope;
 
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Service;
-
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.scdl.Scope;
 import org.sca4j.spi.ObjectCreationException;
@@ -80,10 +79,10 @@ import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.component.AtomicComponent;
 import org.sca4j.spi.component.ExpirationPolicy;
 import org.sca4j.spi.component.GroupInitializationException;
-import org.sca4j.spi.component.InstanceWrapper;
-import org.sca4j.spi.component.ScopeContainer;
 import org.sca4j.spi.component.InstanceDestructionException;
 import org.sca4j.spi.component.InstanceLifecycleException;
+import org.sca4j.spi.component.InstanceWrapper;
+import org.sca4j.spi.component.ScopeContainer;
 import org.sca4j.spi.invocation.WorkContext;
 
 /**

@@ -54,6 +54,7 @@ package org.sca4j.binding.ws.axis2.runtime.jaxb;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -62,11 +63,10 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.impl.builder.StAXOMBuilder;
 import org.apache.commons.io.output.ByteArrayOutputStream;
-
 import org.sca4j.scdl.DataType;
 import org.sca4j.spi.model.type.JavaClass;
-import org.sca4j.transform.TransformContext;
 import org.sca4j.transform.AbstractPullTransformer;
+import org.sca4j.transform.TransformContext;
 
 /**
  * @version $Revision$ $Date$

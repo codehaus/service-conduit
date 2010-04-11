@@ -52,8 +52,8 @@
  */
 package org.sca4j.introspection.validation;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import junit.framework.TestCase;
 

@@ -96,7 +96,6 @@ import org.sca4j.scdl.Include;
 import org.sca4j.spi.services.contribution.CompositeResourceElement;
 import org.sca4j.spi.services.contribution.MetaDataStore;
 import org.sca4j.spi.services.contribution.MetaDataStoreException;
-import org.sca4j.spi.services.contribution.ResourceElement;
 
 /**
  * Loader that handles &lt;include&gt; elements.

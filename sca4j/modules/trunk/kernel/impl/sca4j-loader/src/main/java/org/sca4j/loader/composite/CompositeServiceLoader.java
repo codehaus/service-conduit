@@ -70,23 +70,23 @@
  */
 package org.sca4j.loader.composite;
 
-import javax.xml.namespace.QName;
 import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
 import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
+import static org.osoa.sca.Constants.SCA_NS;
+
+import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import static org.osoa.sca.Constants.SCA_NS;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.Loader;
 import org.sca4j.introspection.xml.LoaderHelper;
 import org.sca4j.introspection.xml.MissingAttribute;
 import org.sca4j.introspection.xml.TypeLoader;
+import org.sca4j.introspection.xml.UnrecognizedAttribute;
 import org.sca4j.introspection.xml.UnrecognizedElement;
 import org.sca4j.introspection.xml.UnrecognizedElementException;
-import org.sca4j.introspection.xml.UnrecognizedAttribute;
 import org.sca4j.scdl.BindingDefinition;
 import org.sca4j.scdl.CompositeService;
 import org.sca4j.scdl.ModelObject;

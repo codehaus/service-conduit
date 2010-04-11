@@ -70,6 +70,8 @@
  */
 package org.sca4j.maven;
 
+import static org.apache.maven.artifact.Artifact.SCOPE_RUNTIME;
+
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -81,7 +83,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import static org.apache.maven.artifact.Artifact.SCOPE_RUNTIME;
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.metadata.ArtifactMetadataRetrievalException;
 import org.apache.maven.artifact.metadata.ArtifactMetadataSource;

@@ -52,8 +52,8 @@
  */
 package org.sca4j.scdl.validation;
 
-import org.sca4j.scdl.Implementation;
 import org.sca4j.host.contribution.ValidationFailure;
+import org.sca4j.scdl.Implementation;
 
 /**
  * Validation failure indicating that an implementation does not have an associated component type.

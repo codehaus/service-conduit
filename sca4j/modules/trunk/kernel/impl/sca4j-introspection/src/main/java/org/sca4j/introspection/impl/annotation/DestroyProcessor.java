@@ -55,7 +55,6 @@ package org.sca4j.introspection.impl.annotation;
 import java.lang.reflect.Method;
 
 import org.osoa.sca.annotations.Destroy;
-
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.java.AbstractAnnotationProcessor;
 import org.sca4j.scdl.Implementation;

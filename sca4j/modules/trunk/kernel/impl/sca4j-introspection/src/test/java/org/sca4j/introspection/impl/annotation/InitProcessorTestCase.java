@@ -52,20 +52,19 @@
  */
 package org.sca4j.introspection.impl.annotation;
 
-import java.net.URI;
 import java.lang.reflect.Method;
+import java.net.URI;
+
 import javax.xml.namespace.QName;
 
 import junit.framework.TestCase;
 
+import org.osoa.sca.annotations.Init;
+import org.osoa.sca.annotations.Scope;
+import org.sca4j.introspection.DefaultIntrospectionContext;
+import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.scdl.Implementation;
 import org.sca4j.scdl.InjectingComponentType;
-import org.sca4j.scdl.AbstractComponentType;
-import org.sca4j.introspection.IntrospectionContext;
-import org.sca4j.introspection.DefaultIntrospectionContext;
-
-import org.osoa.sca.annotations.Scope;
-import org.osoa.sca.annotations.Init;
 
 @SuppressWarnings("unchecked")
 public class InitProcessorTestCase extends TestCase {

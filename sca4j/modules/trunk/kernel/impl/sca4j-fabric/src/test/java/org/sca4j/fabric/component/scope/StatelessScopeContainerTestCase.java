@@ -71,9 +71,9 @@
 package org.sca4j.fabric.component.scope;
 
 import junit.framework.TestCase;
+
 import org.easymock.IMocksControl;
 import org.easymock.classextension.EasyMock;
-
 import org.sca4j.scdl.Scope;
 import org.sca4j.spi.component.AtomicComponent;
 import org.sca4j.spi.component.InstanceWrapper;

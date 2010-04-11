@@ -81,7 +81,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Service;
-
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.scdl.Scope;
 import org.sca4j.spi.ObjectCreationException;

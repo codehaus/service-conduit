@@ -56,7 +56,6 @@ import org.osoa.sca.annotations.Destroy;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.scdl.MonitorResource;
 import org.sca4j.spi.generator.GenerationException;
 import org.sca4j.spi.generator.GeneratorRegistry;

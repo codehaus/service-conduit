@@ -52,13 +52,13 @@
  */
 package org.sca4j.monitor.impl;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
-import java.io.StringWriter;
-import java.io.PrintWriter;
 
 /**
  * @version $Revision$ $Date$

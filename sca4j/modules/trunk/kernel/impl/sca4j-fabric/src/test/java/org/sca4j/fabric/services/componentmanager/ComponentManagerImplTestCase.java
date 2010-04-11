@@ -56,8 +56,8 @@ import java.net.URI;
 import java.util.List;
 
 import junit.framework.TestCase;
-import org.easymock.EasyMock;
 
+import org.easymock.EasyMock;
 import org.sca4j.spi.component.Component;
 
 /**

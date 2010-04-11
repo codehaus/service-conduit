@@ -52,7 +52,9 @@
  */
 package org.sca4j.java.introspection;
 
-import java.awt.*;
+import static javax.xml.XMLConstants.XML_NS_URI;
+
+import java.awt.Image;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
@@ -61,7 +63,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import static javax.xml.XMLConstants.XML_NS_URI;
+
 import javax.xml.datatype.Duration;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;

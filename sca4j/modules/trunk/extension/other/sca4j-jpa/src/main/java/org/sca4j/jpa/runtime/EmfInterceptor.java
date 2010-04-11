@@ -54,9 +54,9 @@ package org.sca4j.jpa.runtime;
 
 import javax.persistence.EntityManagerFactory;
 
-import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.MessageImpl;
+import org.sca4j.spi.wire.Interceptor;
 
 /**
  * Target interceptor for entity manager factory.

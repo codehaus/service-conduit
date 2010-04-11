@@ -60,8 +60,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.osoa.sca.annotations.Reference;
-import org.w3c.dom.Document;
-
 import org.sca4j.fabric.instantiator.component.ComponentInstantiator;
 import org.sca4j.fabric.instantiator.component.WireInstantiator;
 import org.sca4j.fabric.instantiator.normalize.PromotionNormalizer;
@@ -82,6 +80,7 @@ import org.sca4j.spi.model.instance.LogicalReference;
 import org.sca4j.spi.model.instance.LogicalService;
 import org.sca4j.spi.services.lcm.LogicalComponentManager;
 import org.sca4j.spi.util.UriHelper;
+import org.w3c.dom.Document;
 
 /**
  * @version $Revision$ $Date$

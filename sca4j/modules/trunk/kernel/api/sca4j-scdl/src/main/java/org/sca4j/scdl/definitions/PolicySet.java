@@ -53,6 +53,7 @@
 package org.sca4j.scdl.definitions;
 
 import java.util.Set;
+
 import javax.xml.namespace.QName;
 
 import org.w3c.dom.Element;

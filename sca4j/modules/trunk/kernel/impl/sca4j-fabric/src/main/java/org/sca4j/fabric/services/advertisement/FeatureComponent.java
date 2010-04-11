@@ -58,7 +58,6 @@ import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Property;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.spi.services.advertisement.AdvertisementService;
 
 /**

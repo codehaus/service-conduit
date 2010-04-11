@@ -52,19 +52,19 @@
  */
 package org.sca4j.fabric.async;
 
-import junit.framework.TestCase;
-import org.easymock.EasyMock;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.getCurrentArguments;
 import static org.easymock.EasyMock.isA;
 import static org.easymock.EasyMock.replay;
-import org.easymock.IAnswer;
+import junit.framework.TestCase;
 
+import org.easymock.EasyMock;
+import org.easymock.IAnswer;
 import org.sca4j.host.work.WorkScheduler;
 import org.sca4j.spi.invocation.CallFrame;
-import org.sca4j.spi.invocation.WorkContext;
-import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.invocation.Message;
+import org.sca4j.spi.invocation.MessageImpl;
+import org.sca4j.spi.invocation.WorkContext;
 import org.sca4j.spi.wire.Interceptor;
 
 /**

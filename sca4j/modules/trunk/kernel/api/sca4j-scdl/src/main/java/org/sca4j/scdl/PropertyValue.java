@@ -71,6 +71,7 @@
 package org.sca4j.scdl;
 
 import java.net.URI;
+
 import javax.xml.namespace.QName;
 
 import org.w3c.dom.Document;

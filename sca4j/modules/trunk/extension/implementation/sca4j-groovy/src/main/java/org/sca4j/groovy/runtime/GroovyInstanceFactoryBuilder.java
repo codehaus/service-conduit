@@ -52,6 +52,9 @@
  */
 package org.sca4j.groovy.runtime;
 
+import groovy.lang.GroovyClassLoader;
+import groovy.lang.GroovyCodeSource;
+
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -59,12 +62,9 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Map;
 
-import groovy.lang.GroovyClassLoader;
-import groovy.lang.GroovyCodeSource;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.groovy.provision.GroovyInstanceFactoryDefinition;
 import org.sca4j.pojo.instancefactory.InstanceFactoryBuildHelper;
 import org.sca4j.pojo.instancefactory.InstanceFactoryBuilder;

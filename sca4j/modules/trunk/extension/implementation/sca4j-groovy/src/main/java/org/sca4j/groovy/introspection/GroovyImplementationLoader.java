@@ -57,7 +57,6 @@ import javax.xml.stream.XMLStreamReader;
 
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.groovy.scdl.GroovyImplementation;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.java.ImplementationProcessor;

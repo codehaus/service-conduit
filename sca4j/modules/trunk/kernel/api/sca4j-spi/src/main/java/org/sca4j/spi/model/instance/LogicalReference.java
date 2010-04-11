@@ -56,10 +56,10 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
 import javax.xml.namespace.QName;
 
 import org.osoa.sca.Constants;
-
 import org.sca4j.scdl.ComponentReference;
 import org.sca4j.scdl.ReferenceDefinition;
 

@@ -80,7 +80,6 @@ import org.osoa.sca.Conversation;
 import org.osoa.sca.annotations.Destroy;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.scdl.Scope;
 import org.sca4j.spi.AbstractLifecycle;
 import org.sca4j.spi.component.AtomicComponent;

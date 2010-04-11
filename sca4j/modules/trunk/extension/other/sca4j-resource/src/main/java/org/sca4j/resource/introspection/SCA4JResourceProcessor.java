@@ -57,7 +57,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.api.annotation.Resource;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.IntrospectionHelper;

@@ -72,7 +72,6 @@ package org.sca4j.fabric.generator.component;
  */
 
 import org.osoa.sca.annotations.Property;
-
 import org.sca4j.fabric.command.StopCompositeContextCommand;
 import org.sca4j.spi.generator.GenerationException;
 import org.sca4j.spi.generator.RemoveCommandGenerator;

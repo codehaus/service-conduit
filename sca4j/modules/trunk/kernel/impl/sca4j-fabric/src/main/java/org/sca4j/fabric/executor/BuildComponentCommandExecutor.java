@@ -56,7 +56,6 @@ import org.osoa.sca.annotations.Constructor;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.fabric.command.BuildComponentCommand;
 import org.sca4j.spi.builder.BuilderException;
 import org.sca4j.spi.builder.component.ComponentBuilderRegistry;

@@ -54,10 +54,10 @@ package org.sca4j.transform.xml;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import junit.framework.TestCase;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-import junit.framework.TestCase;
 
 /**
  * @version $Revision$ $Date$

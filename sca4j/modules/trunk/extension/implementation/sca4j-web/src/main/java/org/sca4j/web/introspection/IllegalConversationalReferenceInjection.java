@@ -52,8 +52,8 @@
  */
 package org.sca4j.web.introspection;
 
-import org.sca4j.scdl.ReferenceDefinition;
 import org.sca4j.host.contribution.ValidationFailure;
+import org.sca4j.scdl.ReferenceDefinition;
 
 /**
  * Denotes an illegal reference declaration.

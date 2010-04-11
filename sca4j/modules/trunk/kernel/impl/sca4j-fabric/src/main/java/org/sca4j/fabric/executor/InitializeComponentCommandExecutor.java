@@ -60,7 +60,6 @@ import org.osoa.sca.annotations.Constructor;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.fabric.command.ComponentInitializationUri;
 import org.sca4j.fabric.command.InitializeComponentCommand;
 import org.sca4j.pojo.PojoWorkContextTunnel;

@@ -58,14 +58,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.w3c.dom.Document;
-
 import org.sca4j.host.domain.AssemblyFailure;
 import org.sca4j.spi.model.instance.LogicalComponent;
 import org.sca4j.spi.model.instance.LogicalCompositeComponent;
 import org.sca4j.spi.model.instance.LogicalReference;
 import org.sca4j.spi.model.instance.LogicalService;
 import org.sca4j.spi.model.instance.LogicalWire;
+import org.w3c.dom.Document;
 
 /**
  * @version $Rev: 5095 $ $Date: 2008-07-28 18:49:36 +0100 (Mon, 28 Jul 2008) $

@@ -71,7 +71,6 @@
 package org.sca4j.fabric.component;
 
 import org.osoa.sca.ServiceReference;
-
 import org.sca4j.spi.ObjectFactory;
 
 /**

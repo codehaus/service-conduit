@@ -57,9 +57,6 @@ import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
 
-import org.sca4j.transform.PushTransformer;
-import org.sca4j.transform.TransformerRegistry;
-
 /**
  * @version $Rev: 3524 $ $Date: 2008-03-31 22:43:51 +0100 (Mon, 31 Mar 2008) $
  */

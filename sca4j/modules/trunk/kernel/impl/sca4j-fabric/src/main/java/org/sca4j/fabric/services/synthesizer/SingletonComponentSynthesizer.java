@@ -52,16 +52,16 @@
  */
 package org.sca4j.fabric.services.synthesizer;
 
+import static org.sca4j.fabric.runtime.ComponentNames.BOOT_CLASSLOADER_ID;
+
 import java.net.URI;
 
 import org.osoa.sca.annotations.Constructor;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.fabric.implementation.singleton.SingletonComponent;
 import org.sca4j.fabric.implementation.singleton.SingletonImplementation;
 import org.sca4j.fabric.instantiator.LogicalChange;
 import org.sca4j.fabric.instantiator.component.ComponentInstantiator;
-import static org.sca4j.fabric.runtime.ComponentNames.BOOT_CLASSLOADER_ID;
 import org.sca4j.host.domain.AssemblyException;
 import org.sca4j.introspection.DefaultIntrospectionContext;
 import org.sca4j.introspection.IntrospectionContext;

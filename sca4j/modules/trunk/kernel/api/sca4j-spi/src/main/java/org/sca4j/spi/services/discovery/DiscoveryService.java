@@ -52,8 +52,8 @@
  */
 package org.sca4j.spi.services.discovery;
 
-import java.util.Set;
 import java.net.URI;
+import java.util.Set;
 
 import org.sca4j.spi.model.topology.RuntimeInfo;
 

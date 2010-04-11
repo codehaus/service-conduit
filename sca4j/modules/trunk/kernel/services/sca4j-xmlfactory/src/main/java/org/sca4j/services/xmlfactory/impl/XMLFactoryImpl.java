@@ -59,10 +59,9 @@ import javax.xml.stream.XMLOutputFactory;
 import org.osoa.sca.annotations.Constructor;
 import org.osoa.sca.annotations.Property;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.host.expression.ExpressionExpander;
-import org.sca4j.services.xmlfactory.XMLFactoryInstantiationException;
 import org.sca4j.services.xmlfactory.XMLFactory;
+import org.sca4j.services.xmlfactory.XMLFactoryInstantiationException;
 
 /**
  * An implementation of XMLFactory that uses WoodStox stax parser for input &

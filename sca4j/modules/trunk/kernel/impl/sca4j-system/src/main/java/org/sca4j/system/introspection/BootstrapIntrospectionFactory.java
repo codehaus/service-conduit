@@ -61,7 +61,6 @@ import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Property;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.introspection.IntrospectionHelper;
 import org.sca4j.introspection.contract.ContractProcessor;

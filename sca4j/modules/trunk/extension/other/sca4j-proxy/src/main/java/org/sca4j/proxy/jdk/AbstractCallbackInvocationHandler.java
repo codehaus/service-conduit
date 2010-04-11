@@ -56,7 +56,6 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
 import org.osoa.sca.ServiceUnavailableException;
-
 import org.sca4j.spi.component.InstanceInvocationException;
 import org.sca4j.spi.invocation.CallFrame;
 import org.sca4j.spi.invocation.Message;

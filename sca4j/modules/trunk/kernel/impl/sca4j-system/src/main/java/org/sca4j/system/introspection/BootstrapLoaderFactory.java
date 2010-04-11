@@ -54,6 +54,7 @@ package org.sca4j.system.introspection;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.xml.namespace.QName;
 
 import org.sca4j.introspection.xml.Loader;

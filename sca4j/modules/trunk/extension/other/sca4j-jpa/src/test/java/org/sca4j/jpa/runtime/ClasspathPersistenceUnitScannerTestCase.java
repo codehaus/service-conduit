@@ -72,10 +72,6 @@ package org.sca4j.jpa.runtime;
 
 import javax.persistence.spi.PersistenceUnitInfo;
 
-import org.sca4j.jpa.runtime.SCA4JJpaRuntimeException;
-import org.sca4j.jpa.runtime.ClasspathPersistenceUnitScanner;
-import org.sca4j.jpa.runtime.PersistenceUnitScanner;
-
 import junit.framework.TestCase;
 
 /**

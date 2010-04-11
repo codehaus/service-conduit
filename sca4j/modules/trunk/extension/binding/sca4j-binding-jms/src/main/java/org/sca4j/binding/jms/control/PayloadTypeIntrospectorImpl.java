@@ -52,17 +52,18 @@
  */
 package org.sca4j.binding.jms.control;
 
+import static org.sca4j.host.Namespaces.SCA4J_NS;
+
 import java.io.InputStream;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.List;
+
 import javax.xml.namespace.QName;
 
 import org.sca4j.binding.jms.provision.PayloadType;
 import org.sca4j.scdl.DataType;
 import org.sca4j.scdl.Operation;
-
-import static org.sca4j.host.Namespaces.SCA4J_NS;
 
 /**
  * Default implementation of the PayloadTypeIntrospector. Message types are

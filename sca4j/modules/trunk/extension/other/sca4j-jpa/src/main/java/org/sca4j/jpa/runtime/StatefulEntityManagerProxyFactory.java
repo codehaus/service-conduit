@@ -54,8 +54,8 @@ package org.sca4j.jpa.runtime;
 
 import javax.transaction.TransactionManager;
 
-import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.ObjectCreationException;
+import org.sca4j.spi.ObjectFactory;
 
 /**
  * Creates StatefulEntityManagerProxy intances.

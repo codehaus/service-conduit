@@ -58,10 +58,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.groovy.provision.GroovyWireTargetDefinition;
-import org.sca4j.pojo.component.PojoComponent;
 import org.sca4j.pojo.component.InvokerInterceptor;
+import org.sca4j.pojo.component.PojoComponent;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.TargetWireAttacher;

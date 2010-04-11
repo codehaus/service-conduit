@@ -80,8 +80,8 @@ import javax.transaction.SystemException;
 import javax.transaction.Transaction;
 import javax.transaction.TransactionManager;
 
-import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.invocation.Message;
+import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.tx.TxException;
 
 /**

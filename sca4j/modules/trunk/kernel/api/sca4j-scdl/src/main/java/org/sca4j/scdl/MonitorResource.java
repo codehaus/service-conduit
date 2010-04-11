@@ -52,9 +52,6 @@
  */
 package org.sca4j.scdl;
 
-import org.sca4j.scdl.InjectionSite;
-import org.sca4j.scdl.ServiceContract;
-import org.sca4j.scdl.ResourceDefinition;
 
 /**
  * @version $Rev: 5070 $ $Date: 2008-07-21 17:52:37 +0100 (Mon, 21 Jul 2008) $

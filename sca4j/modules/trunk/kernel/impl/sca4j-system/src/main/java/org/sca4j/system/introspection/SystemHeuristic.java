@@ -53,7 +53,6 @@
 package org.sca4j.system.introspection;
 
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.java.HeuristicProcessor;
 import org.sca4j.system.scdl.SystemImplementation;

@@ -75,7 +75,6 @@ import java.net.URI;
 import org.osoa.sca.annotations.Constructor;
 import org.osoa.sca.annotations.Property;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.fabric.command.AttachWireCommand;
 import org.sca4j.fabric.runtime.ComponentNames;
 import org.sca4j.scdl.CompositeImplementation;

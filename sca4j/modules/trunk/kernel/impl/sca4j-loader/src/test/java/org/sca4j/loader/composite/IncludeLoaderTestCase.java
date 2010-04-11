@@ -97,7 +97,6 @@ import org.sca4j.scdl.Include;
 import org.sca4j.scdl.ValidationContext;
 import org.sca4j.spi.services.contribution.CompositeResourceElement;
 import org.sca4j.spi.services.contribution.MetaDataStore;
-import org.sca4j.spi.services.contribution.ResourceElement;
 
 /**
  * @version $Rev: 5134 $ $Date: 2008-08-02 07:33:02 +0100 (Sat, 02 Aug 2008) $

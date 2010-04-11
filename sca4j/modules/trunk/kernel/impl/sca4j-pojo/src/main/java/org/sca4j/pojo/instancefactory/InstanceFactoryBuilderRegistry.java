@@ -70,8 +70,8 @@
  */
 package org.sca4j.pojo.instancefactory;
 
-import org.sca4j.spi.component.InstanceFactoryProvider;
 import org.sca4j.pojo.provision.InstanceFactoryDefinition;
+import org.sca4j.spi.component.InstanceFactoryProvider;
 
 /**
  * Registry for instance factory builders.

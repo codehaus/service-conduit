@@ -58,11 +58,10 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.stream.XMLStreamReader;
 
 import org.apache.axiom.om.OMElement;
-
 import org.sca4j.scdl.DataType;
 import org.sca4j.spi.model.type.JavaClass;
-import org.sca4j.transform.TransformContext;
 import org.sca4j.transform.AbstractPullTransformer;
+import org.sca4j.transform.TransformContext;
 
 /**
  * @version $Revision$ $Date$

@@ -78,11 +78,11 @@ import java.util.List;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import org.sca4j.resource.jndi.proxy.AbstractProxy;
-import org.sca4j.spi.resource.DataSourceRegistry;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Property;
 import org.osoa.sca.annotations.Reference;
+import org.sca4j.resource.jndi.proxy.AbstractProxy;
+import org.sca4j.spi.resource.DataSourceRegistry;
 
 /**
  * Proxy class for a JNDI-based datasource.

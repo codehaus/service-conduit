@@ -56,8 +56,8 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamReader;
 
 import junit.framework.TestCase;
-import org.easymock.EasyMock;
 
+import org.easymock.EasyMock;
 import org.sca4j.spi.services.contribution.QNameExport;
 
 /**

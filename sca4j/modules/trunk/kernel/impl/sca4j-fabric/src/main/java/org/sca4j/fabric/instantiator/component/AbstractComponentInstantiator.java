@@ -56,6 +56,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
+
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -65,12 +66,6 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import javax.xml.xpath.XPathVariableResolver;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import org.sca4j.fabric.instantiator.LogicalChange;
 import org.sca4j.fabric.services.documentloader.DocumentLoader;
@@ -87,6 +82,11 @@ import org.sca4j.scdl.ServiceDefinition;
 import org.sca4j.spi.model.instance.LogicalComponent;
 import org.sca4j.spi.model.instance.LogicalReference;
 import org.sca4j.spi.model.instance.LogicalService;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  * @version $Revision$ $Date$

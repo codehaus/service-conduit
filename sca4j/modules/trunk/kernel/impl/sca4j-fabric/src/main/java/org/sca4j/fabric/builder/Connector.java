@@ -71,7 +71,6 @@
 package org.sca4j.fabric.builder;
 
 import org.sca4j.spi.builder.BuilderException;
-import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.model.physical.PhysicalWireDefinition;
 
 /**

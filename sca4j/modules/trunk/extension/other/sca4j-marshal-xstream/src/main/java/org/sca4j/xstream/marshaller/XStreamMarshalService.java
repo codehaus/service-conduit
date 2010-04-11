@@ -56,15 +56,15 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.StaxDriver;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.spi.services.marshaller.MarshalException;
 import org.sca4j.spi.services.marshaller.MarshalService;
 import org.sca4j.xstream.factory.ClassLoaderStaxDriver;
 import org.sca4j.xstream.factory.XStreamFactory;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
 
 /**
  * XStream-based implementation of the MarshalService.

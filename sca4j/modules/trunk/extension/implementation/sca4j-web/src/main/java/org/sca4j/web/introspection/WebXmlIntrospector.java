@@ -55,7 +55,6 @@ package org.sca4j.web.introspection;
 import java.util.List;
 
 import org.sca4j.introspection.IntrospectionContext;
-import org.sca4j.introspection.IntrospectionException;
 
 /**
  * Introspects a web.xml descriptor.

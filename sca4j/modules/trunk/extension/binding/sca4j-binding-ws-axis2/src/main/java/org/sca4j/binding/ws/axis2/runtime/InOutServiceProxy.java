@@ -61,12 +61,12 @@ import org.apache.axiom.soap.SOAPFactory;
 import org.apache.axis2.AxisFault;
 import org.apache.axis2.context.MessageContext;
 import org.apache.axis2.receivers.AbstractInOutMessageReceiver;
+import org.sca4j.binding.ws.axis2.runtime.jaxb.FaultData;
 import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.invocation.WorkContext;
 import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.wire.InvocationChain;
-import org.sca4j.binding.ws.axis2.runtime.jaxb.FaultData;
 
 /**
  * Axis2 to SCA4J proxy - implemented as Axis2 Message Receiver & engaged on operation level.

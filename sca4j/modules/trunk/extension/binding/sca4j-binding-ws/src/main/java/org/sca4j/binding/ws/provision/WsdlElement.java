@@ -53,6 +53,7 @@
 package org.sca4j.binding.ws.provision;
 
 import java.io.Serializable;
+
 import javax.xml.namespace.QName;
 
 /** 

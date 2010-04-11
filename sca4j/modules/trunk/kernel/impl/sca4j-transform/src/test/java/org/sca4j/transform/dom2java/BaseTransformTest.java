@@ -71,10 +71,12 @@
 package org.sca4j.transform.dom2java;
 
 import java.io.ByteArrayInputStream;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import junit.framework.TestCase;
+
 import org.w3c.dom.Node;
 
 /**

@@ -52,12 +52,12 @@
  */
 package org.sca4j.runtime.webapp;
 
+import static org.sca4j.runtime.webapp.Constants.RUNTIME_ATTRIBUTE;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;
-
-import static org.sca4j.runtime.webapp.Constants.RUNTIME_ATTRIBUTE;
 
 /**
  * Notifies the SCA4J runtime of session creation and expiration events.

@@ -73,15 +73,13 @@ package org.sca4j.loader.definitions;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
 import org.sca4j.host.Namespaces;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.InvalidPrefixException;
@@ -93,6 +91,8 @@ import org.sca4j.scdl.definitions.PolicyPhase;
 import org.sca4j.scdl.definitions.PolicySet;
 import org.sca4j.transform.TransformationException;
 import org.sca4j.transform.xml.Stream2Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  * Loader for definitions.

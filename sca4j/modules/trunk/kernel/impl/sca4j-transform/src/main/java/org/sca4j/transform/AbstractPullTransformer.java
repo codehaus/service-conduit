@@ -56,12 +56,9 @@ import org.osoa.sca.annotations.Destroy;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
-import org.w3c.dom.Node;
-
 import org.sca4j.scdl.DataType;
 import org.sca4j.spi.model.type.XSDSimpleType;
-import org.sca4j.transform.PullTransformer;
-import org.sca4j.transform.TransformerRegistry;
+import org.w3c.dom.Node;
 
 /**
  * @version $Rev: 3524 $ $Date: 2008-03-31 22:43:51 +0100 (Mon, 31 Mar 2008) $

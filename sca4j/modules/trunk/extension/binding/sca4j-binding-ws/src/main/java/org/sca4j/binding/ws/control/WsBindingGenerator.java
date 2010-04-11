@@ -72,6 +72,8 @@ package org.sca4j.binding.ws.control;
 
 import java.util.Map;
 
+import org.osoa.sca.annotations.EagerInit;
+import org.osoa.sca.annotations.Reference;
 import org.sca4j.binding.ws.scdl.WsBindingDefinition;
 import org.sca4j.scdl.ReferenceDefinition;
 import org.sca4j.scdl.ServiceDefinition;
@@ -82,8 +84,6 @@ import org.sca4j.spi.model.instance.LogicalBinding;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
 import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
 import org.sca4j.spi.policy.Policy;
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Reference;
 
 /**
  * Implementation of the WS binding generator.

@@ -70,8 +70,8 @@
  */
 package org.sca4j.ftp.server.handler;
 
-import org.sca4j.ftp.server.protocol.DefaultResponse;
 import org.sca4j.ftp.server.protocol.DefaultFtpSession;
+import org.sca4j.ftp.server.protocol.DefaultResponse;
 import org.sca4j.ftp.server.protocol.Request;
 import org.sca4j.ftp.server.protocol.RequestHandler;
 import org.sca4j.ftp.server.security.User;

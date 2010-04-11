@@ -72,9 +72,8 @@ package org.sca4j.resource.model;
 
 import java.lang.reflect.Type;
 
-import org.sca4j.scdl.InjectionSite;
-import org.sca4j.scdl.ServiceContract;
 import org.sca4j.scdl.ResourceDefinition;
+import org.sca4j.scdl.ServiceContract;
 
 /**
  *

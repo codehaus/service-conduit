@@ -53,6 +53,7 @@
 package org.sca4j.spi.binding;
 
 import java.util.Map;
+
 import javax.xml.namespace.QName;
 
 /**

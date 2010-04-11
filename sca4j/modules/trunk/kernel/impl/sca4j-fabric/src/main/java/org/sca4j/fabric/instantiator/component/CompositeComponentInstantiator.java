@@ -60,8 +60,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.osoa.sca.annotations.Reference;
-import org.w3c.dom.Document;
-
 import org.sca4j.fabric.instantiator.LogicalChange;
 import org.sca4j.fabric.services.documentloader.DocumentLoader;
 import org.sca4j.scdl.BindingDefinition;
@@ -79,6 +77,7 @@ import org.sca4j.spi.model.instance.LogicalCompositeComponent;
 import org.sca4j.spi.model.instance.LogicalReference;
 import org.sca4j.spi.model.instance.LogicalService;
 import org.sca4j.spi.model.instance.LogicalWire;
+import org.w3c.dom.Document;
 
 /**
  * Instatiates a composite component in the logical representation of a domain. Child components will be recursively instantiated if they exist.

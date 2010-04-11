@@ -74,21 +74,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.caucho.burlap.io.BurlapInput;
-import com.caucho.burlap.io.BurlapOutput;
-import com.caucho.burlap.io.SerializerFactory;
-
+import org.sca4j.spi.invocation.Message;
+import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.invocation.WorkContext;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.wire.InvocationChain;
-import org.sca4j.spi.invocation.Message;
-import org.sca4j.spi.invocation.MessageImpl;
+
+import com.caucho.burlap.io.BurlapInput;
+import com.caucho.burlap.io.BurlapOutput;
+import com.caucho.burlap.io.SerializerFactory;
 
 /**
  * Servlet for handling the hessian service requests.

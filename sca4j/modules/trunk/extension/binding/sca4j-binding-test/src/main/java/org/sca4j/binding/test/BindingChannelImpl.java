@@ -56,17 +56,16 @@ import java.net.URI;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.osoa.sca.Conversation;
 import org.osoa.sca.ServiceRuntimeException;
 import org.osoa.sca.ServiceUnavailableException;
-import org.osoa.sca.Conversation;
 import org.osoa.sca.annotations.EagerInit;
-
 import org.sca4j.spi.invocation.CallFrame;
+import org.sca4j.spi.invocation.ConversationContext;
+import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.WorkContext;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.wire.InvocationChain;
-import org.sca4j.spi.invocation.Message;
-import org.sca4j.spi.invocation.ConversationContext;
 import org.sca4j.spi.wire.Wire;
 
 /**

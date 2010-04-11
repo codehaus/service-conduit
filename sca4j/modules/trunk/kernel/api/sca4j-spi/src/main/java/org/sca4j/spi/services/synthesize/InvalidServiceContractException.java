@@ -54,8 +54,8 @@ package org.sca4j.spi.services.synthesize;
 
 import java.util.List;
 
-import org.sca4j.host.runtime.InitializationException;
 import org.sca4j.host.contribution.ValidationFailure;
+import org.sca4j.host.runtime.InitializationException;
 import org.sca4j.introspection.xml.XmlValidationFailure;
 
 /**

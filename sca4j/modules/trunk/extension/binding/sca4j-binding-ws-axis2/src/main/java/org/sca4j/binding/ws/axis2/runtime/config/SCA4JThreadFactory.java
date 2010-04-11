@@ -53,7 +53,6 @@
 package org.sca4j.binding.ws.axis2.runtime.config;
 
 import org.apache.axis2.util.threadpool.ThreadFactory;
-
 import org.sca4j.host.work.DefaultPausableWork;
 import org.sca4j.host.work.WorkScheduler;
 

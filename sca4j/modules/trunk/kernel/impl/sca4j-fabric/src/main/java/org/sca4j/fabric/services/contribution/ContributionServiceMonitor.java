@@ -52,8 +52,8 @@
  */
 package org.sca4j.fabric.services.contribution;
 
-import org.sca4j.api.annotation.logging.Severe;
 import org.sca4j.api.annotation.logging.Info;
+import org.sca4j.api.annotation.logging.Severe;
 
 /**
  * Receives callback events from the ContributionService

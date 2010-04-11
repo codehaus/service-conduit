@@ -54,8 +54,6 @@ package org.sca4j.binding.ws.axis2.runtime;
 
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
-
-import org.sca4j.binding.ws.axis2.runtime.Axis2ServiceProvisioner;
 import org.sca4j.binding.ws.axis2.provision.Axis2WireSourceDefinition;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;

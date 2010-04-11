@@ -74,7 +74,6 @@ import java.net.URI;
 
 import org.osoa.sca.CallableReference;
 import org.osoa.sca.ServiceReference;
-
 import org.sca4j.pojo.component.PojoComponent;
 import org.sca4j.spi.component.InstanceFactoryProvider;
 import org.sca4j.spi.component.ScopeContainer;

@@ -71,7 +71,6 @@
 package org.sca4j.fabric.generator.component;
 
 import org.osoa.sca.annotations.Property;
-
 import org.sca4j.fabric.command.StartComponentCommand;
 import org.sca4j.spi.generator.AddCommandGenerator;
 import org.sca4j.spi.generator.GenerationException;

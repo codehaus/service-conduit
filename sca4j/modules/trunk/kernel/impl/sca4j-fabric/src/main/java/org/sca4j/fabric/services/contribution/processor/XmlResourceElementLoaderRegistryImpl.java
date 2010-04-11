@@ -55,6 +55,7 @@ package org.sca4j.fabric.services.contribution.processor;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;

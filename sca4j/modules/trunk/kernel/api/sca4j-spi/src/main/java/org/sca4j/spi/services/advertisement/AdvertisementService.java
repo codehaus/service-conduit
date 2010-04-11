@@ -54,6 +54,7 @@ package org.sca4j.spi.services.advertisement;
 
 import java.util.Map;
 import java.util.Set;
+
 import javax.xml.namespace.QName;
 
 /**

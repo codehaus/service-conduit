@@ -56,7 +56,6 @@ import java.net.URI;
 
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.groovy.provision.GroovyComponentDefinition;
 import org.sca4j.groovy.provision.GroovyInstanceFactoryDefinition;
 import org.sca4j.groovy.provision.GroovyWireSourceDefinition;

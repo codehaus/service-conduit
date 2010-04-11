@@ -60,7 +60,6 @@ import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.ws.WebFault;
 
 import org.apache.axiom.om.OMElement;
 import org.sca4j.spi.invocation.Message;

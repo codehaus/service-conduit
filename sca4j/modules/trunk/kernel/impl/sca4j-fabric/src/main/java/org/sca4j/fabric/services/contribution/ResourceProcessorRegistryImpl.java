@@ -81,9 +81,9 @@ import org.osoa.sca.annotations.Service;
 import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.scdl.ValidationContext;
 import org.sca4j.spi.services.contribution.Contribution;
-import org.sca4j.spi.services.contribution.ResourceProcessorRegistry;
 import org.sca4j.spi.services.contribution.Resource;
 import org.sca4j.spi.services.contribution.ResourceProcessor;
+import org.sca4j.spi.services.contribution.ResourceProcessorRegistry;
 
 /**
  * Default implementation of ProcessorRegistry

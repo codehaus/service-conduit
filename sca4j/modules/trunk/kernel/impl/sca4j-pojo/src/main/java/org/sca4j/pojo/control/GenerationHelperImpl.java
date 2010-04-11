@@ -57,10 +57,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.w3c.dom.Document;
-
-import org.sca4j.pojo.provision.PojoComponentDefinition;
 import org.sca4j.pojo.provision.InstanceFactoryDefinition;
+import org.sca4j.pojo.provision.PojoComponentDefinition;
 import org.sca4j.pojo.scdl.PojoComponentType;
 import org.sca4j.scdl.ComponentDefinition;
 import org.sca4j.scdl.ConstructorInjectionSite;
@@ -69,6 +67,7 @@ import org.sca4j.scdl.InjectableAttribute;
 import org.sca4j.scdl.InjectionSite;
 import org.sca4j.scdl.Signature;
 import org.sca4j.spi.model.instance.LogicalComponent;
+import org.w3c.dom.Document;
 
 /**
  * @version $Rev: 5246 $ $Date: 2008-08-20 22:30:18 +0100 (Wed, 20 Aug 2008) $

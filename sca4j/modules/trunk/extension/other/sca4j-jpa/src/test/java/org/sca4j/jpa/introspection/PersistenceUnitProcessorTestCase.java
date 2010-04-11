@@ -55,12 +55,12 @@ package org.sca4j.jpa.introspection;
 import javax.persistence.PersistenceUnit;
 
 import junit.framework.TestCase;
-import org.easymock.EasyMock;
 
+import org.easymock.EasyMock;
+import org.sca4j.introspection.IntrospectionHelper;
+import org.sca4j.introspection.contract.ContractProcessor;
 import org.sca4j.introspection.impl.DefaultIntrospectionHelper;
 import org.sca4j.introspection.impl.contract.DefaultContractProcessor;
-import org.sca4j.introspection.contract.ContractProcessor;
-import org.sca4j.introspection.IntrospectionHelper;
 import org.sca4j.jpa.scdl.PersistenceUnitResource;
 
 /**

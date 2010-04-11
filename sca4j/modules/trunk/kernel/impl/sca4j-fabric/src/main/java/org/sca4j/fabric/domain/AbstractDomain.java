@@ -77,7 +77,6 @@ import org.sca4j.spi.model.instance.LogicalCompositeComponent;
 import org.sca4j.spi.services.contribution.CompositeResourceElement;
 import org.sca4j.spi.services.contribution.MetaDataStore;
 import org.sca4j.spi.services.contribution.MetaDataStoreException;
-import org.sca4j.spi.services.contribution.ResourceElement;
 import org.sca4j.spi.services.lcm.LogicalComponentManager;
 import org.sca4j.spi.services.lcm.StoreException;
 

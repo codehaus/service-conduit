@@ -53,9 +53,9 @@
 package org.sca4j.java.introspection;
 
 import junit.framework.TestCase;
+
 import org.easymock.EasyMock;
 import org.easymock.IMocksControl;
-
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.IntrospectionException;
 import org.sca4j.introspection.IntrospectionHelper;

@@ -53,16 +53,15 @@
 package org.sca4j.system.introspection;
 
 import java.lang.reflect.Type;
-import java.net.URI;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import junit.framework.TestCase;
+
 import org.easymock.classextension.EasyMock;
 import org.easymock.classextension.IMocksControl;
-
 import org.sca4j.introspection.DefaultIntrospectionContext;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.IntrospectionException;

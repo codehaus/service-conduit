@@ -70,8 +70,8 @@
  */
 package org.sca4j.introspection.xml;
 
-import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.Location;
+import javax.xml.stream.XMLStreamReader;
 
 import org.sca4j.introspection.IntrospectionException;
 

@@ -56,9 +56,9 @@ import java.lang.reflect.Method;
 import java.net.URI;
 
 import junit.framework.TestCase;
+
 import org.easymock.IMocksControl;
 import org.easymock.classextension.EasyMock;
-
 import org.sca4j.scdl.Scope;
 import org.sca4j.spi.component.AtomicComponent;
 import org.sca4j.spi.component.InstanceLifecycleException;

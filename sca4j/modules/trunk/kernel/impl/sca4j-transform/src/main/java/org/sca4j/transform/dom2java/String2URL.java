@@ -57,10 +57,9 @@ import java.net.URL;
 
 import org.sca4j.scdl.DataType;
 import org.sca4j.spi.model.type.JavaClass;
+import org.sca4j.transform.AbstractPullTransformer;
 import org.sca4j.transform.TransformContext;
 import org.sca4j.transform.TransformationException;
-import org.sca4j.transform.AbstractPullTransformer;
-
 import org.w3c.dom.Node;
 
 /**

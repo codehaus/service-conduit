@@ -52,8 +52,6 @@
  */
 package org.sca4j.introspection.impl.annotation;
 
-import java.lang.reflect.Method;
-
 import org.sca4j.host.contribution.ValidationFailure;
 
 /**

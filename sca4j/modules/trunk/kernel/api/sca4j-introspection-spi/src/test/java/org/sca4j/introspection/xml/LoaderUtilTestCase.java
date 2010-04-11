@@ -56,6 +56,7 @@ import javax.xml.namespace.NamespaceContext;
 import javax.xml.namespace.QName;
 
 import junit.framework.TestCase;
+
 import org.easymock.EasyMock;
 
 /**

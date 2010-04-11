@@ -73,8 +73,8 @@ package org.sca4j.spi.component;
 import java.net.URI;
 import java.util.Map;
 
-import org.sca4j.spi.Lifecycle;
 import org.sca4j.scdl.PropertyValue;
+import org.sca4j.spi.Lifecycle;
 
 /**
  * The runtime instantiation of an SCA component

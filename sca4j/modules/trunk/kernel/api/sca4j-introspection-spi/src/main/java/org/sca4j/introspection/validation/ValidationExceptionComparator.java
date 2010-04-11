@@ -54,8 +54,8 @@ package org.sca4j.introspection.validation;
 
 import java.util.Comparator;
 
-import org.sca4j.scdl.ArtifactValidationFailure;
 import org.sca4j.host.contribution.ValidationFailure;
+import org.sca4j.scdl.ArtifactValidationFailure;
 
 /**
  * Orders ValidationFailures. ArtifactValidationFailures are ordered after other types.

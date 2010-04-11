@@ -52,16 +52,17 @@
  */
 package org.sca4j.fabric.services.contenttype;
 
-import java.util.Map;
-import java.util.HashMap;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.activation.FileTypeMap;
+
 import org.osoa.sca.annotations.Property;
-import org.sca4j.spi.services.contenttype.ContentTypeResolver;
 import org.sca4j.spi.services.contenttype.ContentTypeResolutionException;
+import org.sca4j.spi.services.contenttype.ContentTypeResolver;
 
 /**
  * Content type resolver that is implemented using a configured map.

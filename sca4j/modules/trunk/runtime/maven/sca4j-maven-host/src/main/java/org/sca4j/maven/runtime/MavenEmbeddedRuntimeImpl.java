@@ -98,7 +98,6 @@ import org.sca4j.spi.domain.Domain;
 import org.sca4j.spi.invocation.CallFrame;
 import org.sca4j.spi.invocation.WorkContext;
 import org.sca4j.spi.services.contribution.CompositeResourceElement;
-import org.sca4j.spi.services.contribution.ResourceElement;
 
 /**
  * Default Maven runtime implementation.

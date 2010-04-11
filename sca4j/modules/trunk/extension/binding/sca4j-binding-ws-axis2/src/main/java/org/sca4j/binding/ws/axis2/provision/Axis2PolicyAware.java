@@ -54,8 +54,6 @@ package org.sca4j.binding.ws.axis2.provision;
 
 import java.util.Set;
 
-import org.sca4j.binding.ws.axis2.provision.AxisPolicy;
-
 /**
  * @version $Revision$ $Date$
  * 

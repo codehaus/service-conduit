@@ -70,6 +70,8 @@
  */
 package org.sca4j.web.runtime;
 
+import static org.sca4j.container.web.spi.WebApplicationActivator.CONTEXT_ATTRIBUTE;
+
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
@@ -79,10 +81,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.osoa.sca.CallableReference;
 import org.osoa.sca.ComponentContext;
 import org.osoa.sca.ServiceReference;
-
 import org.sca4j.container.web.spi.WebApplicationActivationException;
 import org.sca4j.container.web.spi.WebApplicationActivator;
-import static org.sca4j.container.web.spi.WebApplicationActivator.CONTEXT_ATTRIBUTE;
 import org.sca4j.pojo.reflection.Injector;
 import org.sca4j.scdl.InjectionSite;
 import org.sca4j.scdl.PropertyValue;

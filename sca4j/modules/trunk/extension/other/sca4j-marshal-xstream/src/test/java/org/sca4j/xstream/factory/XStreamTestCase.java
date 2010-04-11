@@ -52,8 +52,9 @@
  */
 package org.sca4j.xstream.factory;
 
-import com.thoughtworks.xstream.XStream;
 import junit.framework.TestCase;
+
+import com.thoughtworks.xstream.XStream;
 
 /**
  * @version $Rev: 4842 $ $Date: 2008-06-20 11:47:22 +0100 (Fri, 20 Jun 2008) $

@@ -54,14 +54,15 @@ package org.sca4j.fabric.services.contribution.processor;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamReader;
 
 import org.sca4j.host.contribution.ContributionException;
+import org.sca4j.scdl.ValidationContext;
 import org.sca4j.spi.services.contribution.Resource;
 import org.sca4j.spi.services.contribution.XmlIndexer;
 import org.sca4j.spi.services.contribution.XmlIndexerRegistry;
-import org.sca4j.scdl.ValidationContext;
 
 /**
  * Default impelmentation of an XmlIndexerRegistry.

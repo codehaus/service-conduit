@@ -53,6 +53,7 @@
 package org.sca4j.fabric.services.contribution.manifest;
 
 import java.net.URI;
+
 import javax.xml.namespace.QName;
 
 import org.sca4j.host.Namespaces;

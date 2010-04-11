@@ -52,15 +52,14 @@
  */
 package org.sca4j.web.runtime;
 
-import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.osoa.sca.CallableReference;
 import org.osoa.sca.ComponentContext;
 import org.osoa.sca.RequestContext;
 import org.osoa.sca.ServiceReference;
 import org.osoa.sca.ServiceRuntimeException;
-
 import org.sca4j.container.web.spi.WebRequestTunnel;
 import org.sca4j.host.SCA4JRuntimeException;
 import org.sca4j.spi.ObjectCreationException;

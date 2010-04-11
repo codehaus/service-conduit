@@ -52,11 +52,11 @@
  */
 package org.sca4j.rs.runtime.rs;
 
-import com.sun.jersey.api.core.DefaultResourceConfig;
-
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
+
+import com.sun.jersey.api.core.DefaultResourceConfig;
 
 /**
  * @version $Rev: 5443 $ $Date: 2008-09-19 15:55:03 +0100 (Fri, 19 Sep 2008) $

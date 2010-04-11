@@ -71,11 +71,10 @@
 package org.sca4j.pojo.injection;
 
 import org.osoa.sca.Conversation;
-
 import org.sca4j.pojo.PojoWorkContextTunnel;
 import org.sca4j.spi.ObjectFactory;
-import org.sca4j.spi.invocation.WorkContext;
 import org.sca4j.spi.invocation.CallFrame;
+import org.sca4j.spi.invocation.WorkContext;
 
 public class ConversationIDObjectFactory implements ObjectFactory<String> {
 

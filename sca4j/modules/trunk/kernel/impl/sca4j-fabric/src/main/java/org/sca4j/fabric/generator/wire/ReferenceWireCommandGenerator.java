@@ -74,7 +74,6 @@ import java.util.List;
 
 import org.osoa.sca.annotations.Property;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.fabric.command.AttachWireCommand;
 import org.sca4j.spi.generator.AddCommandGenerator;
 import org.sca4j.spi.generator.GenerationException;

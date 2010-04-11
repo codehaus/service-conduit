@@ -70,10 +70,14 @@
  */
 package org.sca4j.introspection.impl.contract;
 
+import static org.sca4j.scdl.Operation.CONVERSATION_END;
+import static org.sca4j.scdl.Operation.NO_CONVERSATION;
+
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.namespace.QName;
 
 import org.osoa.sca.Constants;
@@ -83,7 +87,6 @@ import org.osoa.sca.annotations.EndsConversation;
 import org.osoa.sca.annotations.OneWay;
 import org.osoa.sca.annotations.Reference;
 import org.osoa.sca.annotations.Remotable;
-
 import org.sca4j.introspection.IntrospectionHelper;
 import org.sca4j.introspection.TypeMapping;
 import org.sca4j.introspection.contract.ContractProcessor;
@@ -91,8 +94,6 @@ import org.sca4j.introspection.contract.InterfaceIntrospector;
 import org.sca4j.introspection.contract.OperationIntrospector;
 import org.sca4j.scdl.DataType;
 import org.sca4j.scdl.Operation;
-import static org.sca4j.scdl.Operation.CONVERSATION_END;
-import static org.sca4j.scdl.Operation.NO_CONVERSATION;
 import org.sca4j.scdl.ServiceContract;
 import org.sca4j.scdl.ValidationContext;
 

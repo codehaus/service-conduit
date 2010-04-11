@@ -52,8 +52,8 @@
  */
 package org.sca4j.scdl;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.sca4j.host.contribution.ValidationFailure;
 

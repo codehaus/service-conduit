@@ -52,8 +52,8 @@
  */
 package org.sca4j.scdl.validation;
 
-import org.sca4j.scdl.CompositeService;
 import org.sca4j.host.contribution.ValidationFailure;
+import org.sca4j.scdl.CompositeService;
 
 /**
  * Validation warning indicating that the component being promoted was not found in this composite.

@@ -52,8 +52,8 @@
  */
 package org.sca4j.scdl.validation;
 
-import org.sca4j.scdl.ModelObject;
 import org.sca4j.host.contribution.ValidationFailure;
+import org.sca4j.scdl.ModelObject;
 
 /**
  * Validation failure indicating that a composite service or reference does not specify what it promotes.

@@ -72,7 +72,6 @@ package org.sca4j.pojo.builder;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.net.URI;
 import java.util.Map;
 
 import org.sca4j.pojo.component.PojoComponent;

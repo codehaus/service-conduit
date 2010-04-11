@@ -53,6 +53,7 @@
 package org.sca4j.pojo.control;
 
 import java.util.Map;
+
 import javax.xml.namespace.QName;
 
 import junit.framework.TestCase;

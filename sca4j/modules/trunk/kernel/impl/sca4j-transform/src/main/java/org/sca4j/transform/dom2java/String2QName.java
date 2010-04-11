@@ -54,13 +54,12 @@ package org.sca4j.transform.dom2java;
 
 import javax.xml.namespace.QName;
 
-import org.w3c.dom.Node;
-
 import org.sca4j.scdl.DataType;
 import org.sca4j.spi.model.type.JavaClass;
+import org.sca4j.transform.AbstractPullTransformer;
 import org.sca4j.transform.TransformContext;
 import org.sca4j.transform.TransformationException;
-import org.sca4j.transform.AbstractPullTransformer;
+import org.w3c.dom.Node;
 
 /**
  * @version $Rev: 42 $ $Date: 2007-05-16 18:58:55 +0100 (Wed, 16 May 2007) $

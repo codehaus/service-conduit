@@ -73,9 +73,8 @@ package org.sca4j.fabric.component;
 import org.osoa.sca.CallableReference;
 import org.osoa.sca.Conversation;
 import org.osoa.sca.ServiceRuntimeException;
-
-import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.ObjectCreationException;
+import org.sca4j.spi.ObjectFactory;
 
 /**
  * Base class for implementations of service and callback references.

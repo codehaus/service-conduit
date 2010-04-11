@@ -53,7 +53,6 @@
 package org.sca4j.fabric.services.expression;
 
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.host.expression.ExpressionEvaluator;
 import org.sca4j.host.runtime.HostInfo;
 

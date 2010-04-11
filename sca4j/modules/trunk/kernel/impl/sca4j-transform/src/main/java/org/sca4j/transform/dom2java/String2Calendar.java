@@ -53,17 +53,17 @@
 package org.sca4j.transform.dom2java;
 
 import java.util.Calendar;
+
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.w3c.dom.Node;
-
 import org.sca4j.scdl.DataType;
 import org.sca4j.spi.model.type.JavaClass;
+import org.sca4j.transform.AbstractPullTransformer;
 import org.sca4j.transform.TransformContext;
 import org.sca4j.transform.TransformationException;
-import org.sca4j.transform.AbstractPullTransformer;
+import org.w3c.dom.Node;
 
 /**
  * String format for Calendar, expects format of date per XMLSchema (2007-10-31T01:02:03Z)

@@ -54,6 +54,7 @@ package org.sca4j.jpa.runtime;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.RollbackException;
@@ -64,7 +65,6 @@ import javax.transaction.TransactionManager;
 
 import org.osoa.sca.Conversation;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.scdl.Scope;
 import org.sca4j.spi.component.ConversationExpirationCallback;
 import org.sca4j.spi.component.ScopeContainer;

@@ -73,14 +73,13 @@ package org.sca4j.resource.wire;
 import java.net.URI;
 
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.resource.model.SystemSourcedWireTargetDefinition;
 import org.sca4j.spi.ObjectFactory;
-import org.sca4j.spi.services.componentmanager.ComponentManager;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.TargetWireAttacher;
 import org.sca4j.spi.component.AtomicComponent;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
+import org.sca4j.spi.services.componentmanager.ComponentManager;
 import org.sca4j.spi.util.UriHelper;
 import org.sca4j.spi.wire.Wire;
 

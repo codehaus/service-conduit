@@ -73,9 +73,8 @@ package org.sca4j.spi.model.physical;
 
 import java.net.URI;
 
-import org.w3c.dom.Document;
-
 import org.sca4j.scdl.InjectableAttribute;
+import org.w3c.dom.Document;
 
 /**
  * Represents a physical wire source definition.

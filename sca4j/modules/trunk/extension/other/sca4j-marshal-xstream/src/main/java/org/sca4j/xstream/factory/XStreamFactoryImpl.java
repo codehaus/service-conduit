@@ -55,19 +55,6 @@ package org.sca4j.xstream.factory;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.reflection.ReflectionProvider;
 import com.thoughtworks.xstream.core.JVM;
-import com.thoughtworks.xstream.mapper.ArrayMapper;
-import com.thoughtworks.xstream.mapper.AttributeAliasingMapper;
-import com.thoughtworks.xstream.mapper.AttributeMapper;
-import com.thoughtworks.xstream.mapper.CachingMapper;
-import com.thoughtworks.xstream.mapper.ClassAliasingMapper;
-import com.thoughtworks.xstream.mapper.DefaultImplementationsMapper;
-import com.thoughtworks.xstream.mapper.DynamicProxyMapper;
-import com.thoughtworks.xstream.mapper.EnumMapper;
-import com.thoughtworks.xstream.mapper.FieldAliasingMapper;
-import com.thoughtworks.xstream.mapper.ImmutableTypesMapper;
-import com.thoughtworks.xstream.mapper.ImplicitCollectionMapper;
-import com.thoughtworks.xstream.mapper.Mapper;
-import com.thoughtworks.xstream.mapper.OuterClassMapper;
 
 /**
  * Default implemenation of XStreamFactory. The factory may be configured with custom converters and drivers.

@@ -55,6 +55,7 @@ package org.sca4j.runtime.webapp.activator;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
@@ -63,7 +64,6 @@ import javax.servlet.http.HttpSessionListener;
 import org.osoa.sca.ComponentContext;
 import org.osoa.sca.annotations.Reference;
 import org.osoa.sca.annotations.Service;
-
 import org.sca4j.container.web.spi.WebApplicationActivationException;
 import org.sca4j.container.web.spi.WebApplicationActivator;
 import org.sca4j.pojo.reflection.Injector;

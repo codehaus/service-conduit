@@ -79,7 +79,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.osoa.sca.ComponentContext;
-
 import org.sca4j.scdl.FieldInjectionSite;
 import org.sca4j.scdl.InjectableAttribute;
 import org.sca4j.scdl.InjectionSite;

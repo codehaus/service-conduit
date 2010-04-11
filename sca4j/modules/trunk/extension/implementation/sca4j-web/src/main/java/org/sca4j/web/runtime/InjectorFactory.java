@@ -56,8 +56,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.sca4j.pojo.reflection.Injector;
-import org.sca4j.spi.ObjectFactory;
 import org.sca4j.scdl.InjectionSite;
+import org.sca4j.spi.ObjectFactory;
 
 /**
  * Creates Injector collections for injecting references, properties and context proxies into web application artifacts. These include servlets,

@@ -71,14 +71,13 @@
 package org.sca4j.loader.definitions;
 
 import java.util.List;
-import java.util.Set;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.InvalidPrefixException;
 import org.sca4j.introspection.xml.LoaderHelper;

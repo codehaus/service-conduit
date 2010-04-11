@@ -56,8 +56,6 @@ import java.net.URI;
 import java.util.Map;
 
 import org.osoa.sca.annotations.Reference;
-import org.w3c.dom.Document;
-
 import org.sca4j.fabric.instantiator.LogicalChange;
 import org.sca4j.fabric.services.documentloader.DocumentLoader;
 import org.sca4j.scdl.AbstractComponentType;
@@ -75,6 +73,7 @@ import org.sca4j.spi.model.instance.LogicalCompositeComponent;
 import org.sca4j.spi.model.instance.LogicalReference;
 import org.sca4j.spi.model.instance.LogicalResource;
 import org.sca4j.spi.model.instance.LogicalService;
+import org.w3c.dom.Document;
 
 /**
  * @version $Revision$ $Date$

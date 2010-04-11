@@ -53,6 +53,7 @@
 package org.sca4j.fabric.services.messaging;
 
 import java.net.URI;
+
 import javax.xml.stream.XMLStreamReader;
 
 import org.sca4j.spi.services.messaging.MessagingException;

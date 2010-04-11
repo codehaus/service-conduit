@@ -52,9 +52,7 @@
  */
 package org.sca4j.junit.introspection;
 
-import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.java.ImplementationProcessor;
-import org.sca4j.introspection.xml.LoaderException;
 import org.sca4j.junit.scdl.JUnitImplementation;
 
 /**

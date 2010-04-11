@@ -56,10 +56,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
 import javax.xml.namespace.QName;
 
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.scdl.BindingDefinition;
 import org.sca4j.scdl.Implementation;
 import org.sca4j.scdl.ResourceDefinition;

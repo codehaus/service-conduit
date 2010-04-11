@@ -56,7 +56,6 @@ import java.net.URI;
 
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Property;
-
 import org.sca4j.fabric.command.ComponentInitializationUri;
 import org.sca4j.fabric.command.InitializeComponentCommand;
 import org.sca4j.spi.generator.AddCommandGenerator;

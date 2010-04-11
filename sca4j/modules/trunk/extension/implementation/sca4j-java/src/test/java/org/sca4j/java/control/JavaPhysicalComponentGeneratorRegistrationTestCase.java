@@ -53,8 +53,8 @@
 package org.sca4j.java.control;
 
 import junit.framework.TestCase;
-import org.easymock.EasyMock;
 
+import org.easymock.EasyMock;
 import org.sca4j.spi.generator.GeneratorRegistry;
 
 /**

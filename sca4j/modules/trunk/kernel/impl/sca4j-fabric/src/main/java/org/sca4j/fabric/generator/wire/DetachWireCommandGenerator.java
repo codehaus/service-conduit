@@ -52,21 +52,20 @@
  */
 package org.sca4j.fabric.generator.wire;
 
-import java.util.List;
 import java.net.URI;
+import java.util.List;
 
 import org.osoa.sca.annotations.Property;
 import org.osoa.sca.annotations.Reference;
-
-import org.sca4j.spi.generator.RemoveCommandGenerator;
-import org.sca4j.spi.generator.GenerationException;
-import org.sca4j.spi.model.instance.LogicalComponent;
-import org.sca4j.spi.model.instance.LogicalService;
-import org.sca4j.spi.model.instance.LogicalCompositeComponent;
-import org.sca4j.spi.model.instance.LogicalBinding;
-import org.sca4j.spi.model.physical.PhysicalWireDefinition;
 import org.sca4j.fabric.command.DetachWireCommand;
 import org.sca4j.scdl.ServiceContract;
+import org.sca4j.spi.generator.GenerationException;
+import org.sca4j.spi.generator.RemoveCommandGenerator;
+import org.sca4j.spi.model.instance.LogicalBinding;
+import org.sca4j.spi.model.instance.LogicalComponent;
+import org.sca4j.spi.model.instance.LogicalCompositeComponent;
+import org.sca4j.spi.model.instance.LogicalService;
+import org.sca4j.spi.model.physical.PhysicalWireDefinition;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

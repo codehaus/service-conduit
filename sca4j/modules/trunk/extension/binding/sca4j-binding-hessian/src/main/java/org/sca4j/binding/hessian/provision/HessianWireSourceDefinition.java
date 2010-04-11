@@ -70,8 +70,6 @@
  */
 package org.sca4j.binding.hessian.provision;
 
-import java.net.URI;
-
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
 
 /**

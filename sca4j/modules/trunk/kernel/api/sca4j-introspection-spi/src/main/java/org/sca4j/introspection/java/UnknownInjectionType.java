@@ -53,11 +53,11 @@
 package org.sca4j.introspection.java;
 
 import org.sca4j.host.contribution.ValidationFailure;
+import org.sca4j.scdl.ConstructorInjectionSite;
+import org.sca4j.scdl.FieldInjectionSite;
 import org.sca4j.scdl.InjectableAttributeType;
 import org.sca4j.scdl.InjectionSite;
-import org.sca4j.scdl.FieldInjectionSite;
 import org.sca4j.scdl.MethodInjectionSite;
-import org.sca4j.scdl.ConstructorInjectionSite;
 
 /**
  * Denotes an unknown InjectableAttributeType.

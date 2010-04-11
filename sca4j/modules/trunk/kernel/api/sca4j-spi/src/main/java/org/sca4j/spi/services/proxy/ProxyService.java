@@ -75,7 +75,6 @@ import java.net.URI;
 import java.util.Map;
 
 import org.osoa.sca.CallableReference;
-
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.component.ScopeContainer;
 import org.sca4j.spi.model.physical.InteractionType;

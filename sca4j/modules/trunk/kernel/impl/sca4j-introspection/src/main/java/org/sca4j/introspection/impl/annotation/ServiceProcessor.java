@@ -56,7 +56,6 @@ import java.lang.reflect.Type;
 
 import org.osoa.sca.annotations.Reference;
 import org.osoa.sca.annotations.Service;
-
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.TypeMapping;
 import org.sca4j.introspection.contract.ContractProcessor;

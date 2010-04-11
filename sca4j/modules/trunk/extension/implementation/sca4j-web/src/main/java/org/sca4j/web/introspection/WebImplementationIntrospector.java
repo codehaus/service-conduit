@@ -53,7 +53,6 @@
 package org.sca4j.web.introspection;
 
 import org.sca4j.introspection.IntrospectionContext;
-import org.sca4j.introspection.IntrospectionException;
 
 /**
  * Introspects the contents of a web application for a web component and generates a corresponding component type. Introspected information will be

@@ -74,6 +74,7 @@ package org.sca4j.binding.jms.runtime;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
@@ -89,11 +90,11 @@ import org.sca4j.binding.jms.common.SCA4JJmsException;
 import org.sca4j.binding.jms.common.TransactionType;
 import org.sca4j.binding.jms.runtime.helper.JmsHelper;
 import org.sca4j.binding.jms.runtime.tx.TransactionHandler;
+import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.invocation.WorkContext;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.wire.InvocationChain;
-import org.sca4j.spi.invocation.MessageImpl;
 
 /**
  * Message listeher for service requests.

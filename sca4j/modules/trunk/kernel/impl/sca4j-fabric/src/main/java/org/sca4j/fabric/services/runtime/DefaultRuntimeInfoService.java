@@ -57,7 +57,6 @@ import java.net.URISyntaxException;
 
 import org.osoa.sca.annotations.Property;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.host.runtime.HostInfo;
 import org.sca4j.spi.model.topology.RuntimeInfo;
 import org.sca4j.spi.services.advertisement.AdvertisementService;

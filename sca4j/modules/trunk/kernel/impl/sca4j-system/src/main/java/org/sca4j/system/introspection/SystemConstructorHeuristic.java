@@ -56,10 +56,10 @@ import java.lang.reflect.Constructor;
 
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.java.HeuristicProcessor;
+import org.sca4j.introspection.java.NoConstructorFound;
 import org.sca4j.pojo.scdl.PojoComponentType;
 import org.sca4j.scdl.Signature;
 import org.sca4j.scdl.validation.AmbiguousConstructor;
-import org.sca4j.introspection.java.NoConstructorFound;
 import org.sca4j.system.scdl.SystemImplementation;
 
 /**

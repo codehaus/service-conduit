@@ -56,10 +56,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.sca4j.host.work.DefaultPausableWork;
-import org.sca4j.spi.wire.Interceptor;
-import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.CallFrame;
+import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.WorkContext;
+import org.sca4j.spi.wire.Interceptor;
 
 /**
  * Encapsulates an invocation to be processed asynchronously.

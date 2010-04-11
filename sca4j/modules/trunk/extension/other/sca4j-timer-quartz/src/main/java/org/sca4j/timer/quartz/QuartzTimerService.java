@@ -63,6 +63,7 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
 import javax.transaction.TransactionManager;
 
 import org.osoa.sca.annotations.Destroy;
@@ -87,7 +88,6 @@ import org.quartz.simpl.RAMJobStore;
 import org.quartz.spi.JobFactory;
 import org.quartz.spi.JobStore;
 import org.quartz.spi.ThreadPool;
-
 import org.sca4j.host.work.DefaultPausableWork;
 import org.sca4j.host.work.WorkScheduler;
 import org.sca4j.timer.spi.TimerService;

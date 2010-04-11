@@ -54,7 +54,6 @@ package org.sca4j.loader.composite;
 
 import javax.xml.stream.XMLStreamReader;
 
-import org.sca4j.introspection.xml.LoaderException;
 import org.sca4j.introspection.xml.XmlValidationFailure;
 import org.sca4j.scdl.ComponentDefinition;
 

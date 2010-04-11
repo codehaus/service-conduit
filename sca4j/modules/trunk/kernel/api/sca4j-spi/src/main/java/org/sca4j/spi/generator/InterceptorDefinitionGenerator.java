@@ -70,11 +70,10 @@
  */
 package org.sca4j.spi.generator;
 
-import org.w3c.dom.Element;
-
 import org.sca4j.scdl.Operation;
 import org.sca4j.spi.model.instance.LogicalBinding;
 import org.sca4j.spi.model.physical.PhysicalInterceptorDefinition;
+import org.w3c.dom.Element;
 
 /**
  * Interface for the interceptor definition generator.

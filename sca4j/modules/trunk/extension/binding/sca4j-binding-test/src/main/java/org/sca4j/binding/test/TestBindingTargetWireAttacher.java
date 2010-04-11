@@ -57,7 +57,6 @@ import java.util.Map;
 
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.TargetWireAttacher;

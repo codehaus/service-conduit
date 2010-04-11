@@ -70,12 +70,17 @@
  */
 package org.sca4j.runtime.webapp;
 
+import static org.easymock.EasyMock.expect;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.replay;
+import static org.easymock.classextension.EasyMock.verify;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
-import static org.easymock.classextension.EasyMock.*;
 
 /**
  * @version $Rev: 1636 $ $Date: 2007-10-30 19:23:13 +0000 (Tue, 30 Oct 2007) $

@@ -55,7 +55,6 @@ package org.sca4j.spi.services.contribution;
 import java.net.URL;
 
 import org.sca4j.host.contribution.ContributionException;
-import org.sca4j.spi.services.contribution.Contribution;
 
 /**
  * Used to perform a callback operation when iterating contained artifacts in a contribution.

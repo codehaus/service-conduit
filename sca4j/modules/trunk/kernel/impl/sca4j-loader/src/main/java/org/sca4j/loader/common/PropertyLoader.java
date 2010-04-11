@@ -76,13 +76,12 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import org.osoa.sca.annotations.Reference;
-import org.w3c.dom.Document;
-
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.LoaderHelper;
 import org.sca4j.introspection.xml.TypeLoader;
 import org.sca4j.introspection.xml.UnrecognizedAttribute;
 import org.sca4j.scdl.Property;
+import org.w3c.dom.Document;
 
 /**
  * Loads a property declaration from an XML-based assembly file

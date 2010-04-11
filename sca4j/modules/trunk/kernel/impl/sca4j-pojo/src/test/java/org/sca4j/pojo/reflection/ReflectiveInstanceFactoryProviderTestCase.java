@@ -73,9 +73,9 @@ import org.sca4j.scdl.MethodInjectionSite;
 import org.sca4j.spi.ObjectCreationException;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.component.InstanceFactory;
-import org.sca4j.spi.component.InstanceWrapper;
 import org.sca4j.spi.component.InstanceInitializationException;
 import org.sca4j.spi.component.InstanceLifecycleException;
+import org.sca4j.spi.component.InstanceWrapper;
 import org.sca4j.spi.invocation.WorkContext;
 
 /**

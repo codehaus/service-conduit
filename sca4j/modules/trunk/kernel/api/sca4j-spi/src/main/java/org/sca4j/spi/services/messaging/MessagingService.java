@@ -53,6 +53,7 @@
 package org.sca4j.spi.services.messaging;
 
 import java.net.URI;
+
 import javax.xml.stream.XMLStreamReader;
 
 /**

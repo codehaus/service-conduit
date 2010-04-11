@@ -53,18 +53,18 @@
 package org.sca4j.loader.composite;
 
 import java.net.URI;
-import javax.xml.stream.XMLStreamReader;
-import javax.xml.stream.XMLStreamException;
+
 import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 
 import junit.framework.TestCase;
 
-import org.sca4j.scdl.WireDefinition;
+import org.easymock.EasyMock;
 import org.sca4j.introspection.xml.LoaderException;
 import org.sca4j.introspection.xml.LoaderHelper;
 import org.sca4j.loader.impl.DefaultLoaderHelper;
-
-import org.easymock.EasyMock;
+import org.sca4j.scdl.WireDefinition;
 
 /**
  * @version $Rev: 5134 $ $Date: 2008-08-02 07:33:02 +0100 (Sat, 02 Aug 2008) $

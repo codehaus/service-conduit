@@ -73,15 +73,15 @@ package org.sca4j.fabric.component.scope;
 import java.net.URI;
 
 import junit.framework.TestCase;
+
 import org.easymock.IMocksControl;
 import org.easymock.classextension.EasyMock;
-
 import org.sca4j.scdl.Scope;
 import org.sca4j.spi.component.AtomicComponent;
 import org.sca4j.spi.component.InstanceWrapper;
 import org.sca4j.spi.component.ScopeContainer;
-import org.sca4j.spi.invocation.WorkContext;
 import org.sca4j.spi.invocation.CallFrame;
+import org.sca4j.spi.invocation.WorkContext;
 
 /**
  * @version $$Rev: 3566 $$ $$Date: 2008-04-05 02:26:37 +0100 (Sat, 05 Apr 2008) $$

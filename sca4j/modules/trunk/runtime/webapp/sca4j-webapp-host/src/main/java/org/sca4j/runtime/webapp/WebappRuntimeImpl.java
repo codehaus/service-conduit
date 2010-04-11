@@ -70,9 +70,13 @@
  */
 package org.sca4j.runtime.webapp;
 
+import static org.sca4j.fabric.runtime.ComponentNames.APPLICATION_DOMAIN_URI;
+import static org.sca4j.fabric.runtime.ComponentNames.CONTRIBUTION_SERVICE_URI;
+
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletRequestEvent;
 import javax.servlet.http.HttpServletRequest;
@@ -83,8 +87,6 @@ import javax.xml.namespace.QName;
 import org.sca4j.container.web.spi.WebRequestTunnel;
 import org.sca4j.fabric.runtime.AbstractRuntime;
 import org.sca4j.fabric.runtime.ComponentNames;
-import static org.sca4j.fabric.runtime.ComponentNames.CONTRIBUTION_SERVICE_URI;
-import static org.sca4j.fabric.runtime.ComponentNames.APPLICATION_DOMAIN_URI;
 import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.host.contribution.ContributionService;
 import org.sca4j.host.domain.DeploymentException;

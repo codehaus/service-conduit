@@ -55,6 +55,7 @@ package org.sca4j.fabric.instantiator;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.namespace.QName;
 
 import junit.framework.TestCase;

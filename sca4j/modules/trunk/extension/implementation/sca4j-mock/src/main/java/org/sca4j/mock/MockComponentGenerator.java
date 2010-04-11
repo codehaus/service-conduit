@@ -54,6 +54,9 @@ package org.sca4j.mock;
 
 import java.net.URI;
 
+import org.osoa.sca.annotations.EagerInit;
+import org.osoa.sca.annotations.Init;
+import org.osoa.sca.annotations.Reference;
 import org.sca4j.scdl.ServiceContract;
 import org.sca4j.spi.generator.ComponentGenerator;
 import org.sca4j.spi.generator.GenerationException;
@@ -64,10 +67,6 @@ import org.sca4j.spi.model.instance.LogicalResource;
 import org.sca4j.spi.model.instance.LogicalService;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
 import org.sca4j.spi.policy.Policy;
-
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Init;
-import org.osoa.sca.annotations.Reference;
 
 /**
  * @version $Revision$ $Date$

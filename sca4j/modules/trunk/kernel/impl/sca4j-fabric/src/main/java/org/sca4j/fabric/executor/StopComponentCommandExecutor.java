@@ -54,17 +54,16 @@ package org.sca4j.fabric.executor;
 
 import java.net.URI;
 
-import org.osoa.sca.annotations.Reference;
-import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.EagerInit;
-
+import org.osoa.sca.annotations.Init;
+import org.osoa.sca.annotations.Reference;
 import org.sca4j.fabric.command.StopComponentCommand;
+import org.sca4j.spi.component.Component;
 import org.sca4j.spi.executor.CommandExecutor;
 import org.sca4j.spi.executor.CommandExecutorRegistry;
 import org.sca4j.spi.executor.ExecutionException;
 import org.sca4j.spi.services.componentmanager.ComponentManager;
 import org.sca4j.spi.services.componentmanager.RegistrationException;
-import org.sca4j.spi.component.Component;
 
 /*
  * See the NOTICE file distributed with this work for information

@@ -57,7 +57,6 @@ import java.util.List;
 
 import org.easymock.IMocksControl;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.IntrospectionHelper;
 import org.sca4j.introspection.TypeMapping;

@@ -71,8 +71,9 @@
 package org.sca4j.runtime.webapp;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -84,7 +85,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Reference;
 import org.osoa.sca.annotations.Service;
-
 import org.sca4j.spi.component.ScopeRegistry;
 import org.sca4j.spi.host.ServletHost;
 

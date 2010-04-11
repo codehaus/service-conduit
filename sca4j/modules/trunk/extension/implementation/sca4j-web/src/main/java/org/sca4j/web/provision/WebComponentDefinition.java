@@ -56,10 +56,9 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.w3c.dom.Document;
-
 import org.sca4j.scdl.InjectionSite;
 import org.sca4j.spi.model.physical.PhysicalComponentDefinition;
+import org.w3c.dom.Document;
 
 /**
  * @version $Rev: 2803 $ $Date: 2008-02-17 05:57:55 -0800 (Sun, 17 Feb 2008) $

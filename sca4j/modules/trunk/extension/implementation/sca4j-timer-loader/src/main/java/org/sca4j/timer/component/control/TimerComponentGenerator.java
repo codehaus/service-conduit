@@ -58,7 +58,6 @@ import org.osoa.sca.Constants;
 import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
-
 import org.sca4j.java.control.JavaGenerationHelper;
 import org.sca4j.java.provision.JavaWireSourceDefinition;
 import org.sca4j.scdl.ServiceContract;

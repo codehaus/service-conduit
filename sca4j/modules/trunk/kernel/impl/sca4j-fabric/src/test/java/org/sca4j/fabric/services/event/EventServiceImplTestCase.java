@@ -53,8 +53,8 @@
 package org.sca4j.fabric.services.event;
 
 import junit.framework.TestCase;
-import org.easymock.EasyMock;
 
+import org.easymock.EasyMock;
 import org.sca4j.spi.services.event.EventService;
 import org.sca4j.spi.services.event.SCA4JEvent;
 import org.sca4j.spi.services.event.SCA4JEventListener;

@@ -55,6 +55,7 @@ package org.sca4j.conversation.propagation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+
 import javax.xml.namespace.QName;
 
 import org.sca4j.api.annotation.PropagatesConversation;

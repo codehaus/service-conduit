@@ -52,8 +52,6 @@
  */
 package org.sca4j.runtime.webapp.contribution;
 
-import java.io.Serializable;
-
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamReader;
 
@@ -64,7 +62,6 @@ import org.osoa.sca.annotations.Reference;
 import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.scdl.ValidationContext;
 import org.sca4j.spi.services.contribution.Resource;
-import org.sca4j.spi.services.contribution.ResourceElement;
 import org.sca4j.spi.services.contribution.XmlIndexer;
 import org.sca4j.spi.services.contribution.XmlIndexerRegistry;
 import org.sca4j.web.introspection.WebXmlResourceElement;
