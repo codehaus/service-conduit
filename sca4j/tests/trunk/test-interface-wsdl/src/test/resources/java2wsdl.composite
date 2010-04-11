@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    SCA4J
+    Copyright (c) 2009 - 2099 Service Symphony Ltd
+
+    Licensed to you under the Apache License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License.  A copy of the license
+    is included in this distrubtion or you may obtain a copy at
+
+       http://www.opensource.org/licenses/apache2.0.php
+
+    Unless required by applicable law or agreed to in writing, software distributed
+    under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+    CONDITIONS OF ANY KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations under the License.
+
+    This project contains code licensed from the Apache Software Foundation under
+    the Apache License, Version 2.0 and original code from project contributors.
+-->
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0" 
+           xmlns:sca4j="urn:sca4j.org" 
+           xmlns:stock="http://wsdl.idl.tests.sca4j.org"
+           name="Java2Wsdl" 
+           autowire="true">
+
+    <!-- component name="StockQuoteTest">
+        <sca4j:junit class="org.sca4j.tests.idl.wsdl.StockQuotePortTypeImplITest"/>
+    </component>
+
+    <component name="StockQuoteService">
+        <implementation.java class="org.sca4j.tests.idl.wsdl.StockQuotePortTypeImpl"/>
+        <service name="StockQuotePortType">
+            <interface.wsdl interface="stock:StockQuotePortType" />
+        </service>
+    </component-->
+    
+</composite>

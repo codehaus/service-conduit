@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <definitions name="StockQuote" 
-             targetNamespace="http://org.sca4j.tests.idl.wsdl"
-             xmlns:tns="http://org.sca4j.tests.idl.wsdl"
+             targetNamespace="http://wsdl.idl.tests.sca4j.org"
+             xmlns:tns="http://wsdl.idl.tests.sca4j.org"
              xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
              xmlns="http://schemas.xmlsoap.org/wsdl/">
 
     <types>
-       <schema targetNamespace="http://org.sca4j.tests.idl.wsdl" xmlns="http://www.w3.org/2001/XMLSchema">
-           <element name="price" type="float"/>
+       <schema targetNamespace="http://wsdl.idl.tests.sca4j.org" xmlns="http://www.w3.org/2001/XMLSchema">
+           <element name="price" type="int"/>
            <element name="tickerSymbol" type="string"/>
        </schema>
     </types>
