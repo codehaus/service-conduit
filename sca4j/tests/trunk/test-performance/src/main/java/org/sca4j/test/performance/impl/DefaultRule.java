@@ -54,7 +54,7 @@ package org.sca4j.test.performance.impl;
 
 import java.net.URI;
 
-import org.osoa.sca.annotations.Property;
+import org.oasisopen.sca.annotation.Property;
 import org.sca4j.api.annotation.scope.Composite;
 import org.sca4j.test.performance.api.Rule;
 
@@ -63,7 +63,7 @@ public class DefaultRule implements Rule {
     
     private URI uri;
     
-    public DefaultRule(@Property(name="uri") URI uri) {
+    public DefaultRule(@Property(name="uri", required=false) URI uri) {
         this.uri = uri;
     }
 

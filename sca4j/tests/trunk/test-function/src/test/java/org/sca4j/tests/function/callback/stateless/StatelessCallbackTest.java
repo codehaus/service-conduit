@@ -53,7 +53,7 @@
 package org.sca4j.tests.function.callback.stateless;
 
 import junit.framework.TestCase;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 
 import org.sca4j.tests.function.callback.common.CallbackData;
 
@@ -109,7 +109,7 @@ public class StatelessCallbackTest extends TestCase {
     }
 
     /**
-     * Verifies a callback is routed through a CallableReference passed to another service.
+     * Verifies a callback is routed through a ServiceReference passed to another service.
      *
      * @throws Exception
      */

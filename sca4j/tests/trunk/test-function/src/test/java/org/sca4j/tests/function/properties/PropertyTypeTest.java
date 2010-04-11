@@ -66,7 +66,7 @@ import java.util.Properties;
 import javax.xml.namespace.QName;
 
 import junit.framework.TestCase;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 
 /**
  * @version $Rev: 3152 $ $Date: 2008-03-21 23:00:25 +0000 (Fri, 21 Mar 2008) $

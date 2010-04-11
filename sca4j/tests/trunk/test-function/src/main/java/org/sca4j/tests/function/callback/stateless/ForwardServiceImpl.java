@@ -52,17 +52,17 @@
  */
 package org.sca4j.tests.function.callback.stateless;
 
-import org.osoa.sca.ServiceReference;
-import org.osoa.sca.annotations.Callback;
-import org.osoa.sca.annotations.Reference;
-import org.osoa.sca.annotations.Service;
+import org.oasisopen.sca.ServiceReference;
+import org.oasisopen.sca.annotation.Callback;
+import org.oasisopen.sca.annotation.Reference;
+import org.oasisopen.sca.annotation.Service;
 
 import org.sca4j.tests.function.callback.common.CallbackData;
 
 /**
  * @version $Rev: 2893 $ $Date: 2008-02-26 00:24:57 +0000 (Tue, 26 Feb 2008) $
  */
-@Service(interfaces = {ForwardService.class, CallbackService.class})
+@Service(value = {ForwardService.class, CallbackService.class})
 public class ForwardServiceImpl implements ForwardService, CallbackService {
     @Reference
     protected EndService endService;

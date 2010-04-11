@@ -48,7 +48,7 @@ public class EmployeeServiceTest extends AbstractScaTest {
         
         getTransactionManager().rollback();
         
-        QName bindingType = new QName("http://www.osoa.org/xmlns/sca/1.0", "binding.ws");
+        QName bindingType = new QName("http://docs.oasis-open.org/ns/opencsa/sca/200912", "binding.ws");
         URI endpointUri = URI.create("http://localhost:8080/axis2/employee");
         employeeService = getBinding(EmployeeService.class, bindingType, endpointUri);
         employee = new Employee("Neil Ellis");

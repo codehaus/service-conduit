@@ -52,7 +52,7 @@
  */
 package org.sca4j.tests.function.conversation;
 
-import org.osoa.sca.annotations.Scope;
+import org.oasisopen.sca.annotation.Scope;
 
 /**
  * @version $Rev: 2946 $ $Date: 2008-02-29 07:13:44 +0000 (Fri, 29 Feb 2008) $

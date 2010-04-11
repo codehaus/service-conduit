@@ -60,7 +60,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import org.osoa.sca.annotations.Property;
+import org.oasisopen.sca.annotation.Property;
 import org.sca4j.jpa.model.Employee;
 import org.sca4j.jpa.model.ExEmployee;
 
@@ -71,7 +71,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     
     private EntityManager employeeEM;
     private EntityManager exEmployeeEM;
-    @Property public boolean debug;
+    @Property(required=false) public boolean debug;
 
     @PersistenceContext(name = "employeeEmf", unitName = "employee")
     public void setEmployeeEM(EntityManager em) {

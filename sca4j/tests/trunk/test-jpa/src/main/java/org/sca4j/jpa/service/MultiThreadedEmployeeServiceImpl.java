@@ -56,7 +56,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.osoa.sca.annotations.Scope;
+import org.oasisopen.sca.annotation.Scope;
 
 import org.sca4j.jpa.model.Employee;
 import org.sca4j.jpa.model.ExEmployee;

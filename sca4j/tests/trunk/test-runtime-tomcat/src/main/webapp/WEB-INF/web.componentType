@@ -15,7 +15,7 @@
  specific language governing permissions and limitations
  under the License.
 -->
-<componentType xmlns="http://www.osoa.org/xmlns/sca/1.0">
+<componentType xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912">
     <reference name="hello">
         <interface.java interface="org.fabric3.runtime.webapp.smoketest.HelloService"/>
     </reference>

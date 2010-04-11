@@ -52,7 +52,7 @@
  */
 package org.sca4j.test.performance.impl;
 
-import org.osoa.sca.annotations.Callback;
+import org.oasisopen.sca.annotation.Callback;
 import org.sca4j.test.performance.api.BindingListener;
 import org.sca4j.test.performance.api.Translator;
 

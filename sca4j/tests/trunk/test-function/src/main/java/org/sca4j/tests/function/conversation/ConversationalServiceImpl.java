@@ -52,9 +52,9 @@
  */
 package org.sca4j.tests.function.conversation;
 
-import org.osoa.sca.annotations.Scope;
-import org.osoa.sca.annotations.EndsConversation;
-import org.osoa.sca.annotations.ConversationID;
+import org.oasisopen.sca.annotation.Scope;
+import org.sca4j.api.annotation.scope.EndsConversation;
+import org.sca4j.api.scope.ConversationID;
 
 /**
  * @version $Rev: 2946 $ $Date: 2008-02-29 07:13:44 +0000 (Fri, 29 Feb 2008) $

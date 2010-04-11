@@ -55,8 +55,8 @@ package org.sca4j.test.performance.impl;
 import java.net.URI;
 import java.util.List;
 
-import org.osoa.sca.annotations.Reference;
-import org.osoa.sca.annotations.Service;
+import org.oasisopen.sca.annotation.Reference;
+import org.oasisopen.sca.annotation.Service;
 import org.sca4j.api.annotation.scope.Conversation;
 import org.sca4j.test.performance.api.BindingListener;
 import org.sca4j.test.performance.api.ExceptionStore;
@@ -68,7 +68,7 @@ import org.sca4j.test.performance.api.ValidationListener;
 import org.sca4j.test.performance.api.Validator;
 
 @Conversation
-@Service(interfaces = {SubmissionProcessor.class, ValidationListener.class, BindingListener.class})
+@Service(value = {SubmissionProcessor.class, ValidationListener.class, BindingListener.class})
 public class DefaultSubmissionProcessor implements SubmissionProcessor, ValidationListener, BindingListener {
     
     @Reference protected Parser parser;

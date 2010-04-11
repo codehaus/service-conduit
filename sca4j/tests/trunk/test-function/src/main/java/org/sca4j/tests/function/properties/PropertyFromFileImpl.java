@@ -52,7 +52,7 @@
  */
 package org.sca4j.tests.function.properties;
 
-import org.osoa.sca.annotations.Property;
+import org.oasisopen.sca.annotation.Property;
 
 /**
  * @version $Rev: 1517 $ $Date: 2007-10-13 11:21:17 +0100 (Sat, 13 Oct 2007) $
@@ -60,7 +60,7 @@ import org.osoa.sca.annotations.Property;
 public class PropertyFromFileImpl implements PropertyFromFile {
     private String string;
 
-    @Property
+    @Property(required=false)
     public void setString(String string) {
         this.string = string;
     }

@@ -53,14 +53,14 @@
 package org.sca4j.tests.function.properties;
 
 import junit.framework.TestCase;
-import org.osoa.sca.annotations.Property;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Property;
+import org.oasisopen.sca.annotation.Reference;
 
 /**
  * @version $Rev: 1517 $ $Date: 2007-10-13 11:21:17 +0100 (Sat, 13 Oct 2007) $
  */
 public class PropertyFileTest extends TestCase {
-    @Property
+    @Property(required=false)
     public String string;
 
     @Reference

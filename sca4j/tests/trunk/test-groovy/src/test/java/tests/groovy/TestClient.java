@@ -53,7 +53,7 @@
 package tests.groovy;
 
 import junit.framework.TestCase;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 
 /**
  * @version $Rev: 222 $ $Date: 2007-06-14 03:07:28 +0100 (Thu, 14 Jun 2007) $

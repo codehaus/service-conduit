@@ -52,7 +52,7 @@
  */
 package org.sca4j.tests.function.callback.composite;
 
-import org.osoa.sca.annotations.OneWay;
+import org.oasisopen.sca.annotation.OneWay;
 
 import org.sca4j.tests.function.callback.common.CallbackData;
 

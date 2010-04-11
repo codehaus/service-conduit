@@ -53,7 +53,7 @@
     The Apache Software Foundation (http://www.apache.org/).
 
 -->
-<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
            xmlns:f3="http://sca4j.org/xmlns/sca/2.0-alpha"
            name="CloverTestComposite"
            autowire="true">

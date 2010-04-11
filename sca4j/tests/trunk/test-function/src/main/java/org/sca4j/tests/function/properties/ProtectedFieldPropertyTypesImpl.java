@@ -62,40 +62,40 @@ import java.util.Properties;
 
 import javax.xml.namespace.QName;
 
-import org.osoa.sca.annotations.Property;
+import org.oasisopen.sca.annotation.Property;
 
 /**
  * @version $Rev: 3152 $ $Date: 2008-03-21 23:00:25 +0000 (Fri, 21 Mar 2008) $
  */
 public class ProtectedFieldPropertyTypesImpl implements PropertyTypes {
-    @Property protected boolean booleanPrimitive;
-    @Property protected byte bytePrimitive;
-    @Property protected short shortPrimitive;
-    @Property protected int intPrimitive;
-    @Property protected long longPrimitive;
-    @Property protected float floatPrimitive;
-    @Property protected double doublePrimitive;
+    @Property(required=false) protected boolean booleanPrimitive;
+    @Property(required=false) protected byte bytePrimitive;
+    @Property(required=false) protected short shortPrimitive;
+    @Property(required=false) protected int intPrimitive;
+    @Property(required=false) protected long longPrimitive;
+    @Property(required=false) protected float floatPrimitive;
+    @Property(required=false) protected double doublePrimitive;
 
-    @Property protected Boolean booleanValue;
-    @Property protected Byte byteValue;
-    @Property protected Short shortValue;
-    @Property protected Integer integerValue;
-    @Property protected Long longValue;
-    @Property protected Float floatValue;
-    @Property protected Double doubleValue;
-    @Property protected Class<?> classValue;
+    @Property(required=false) protected Boolean booleanValue;
+    @Property(required=false) protected Byte byteValue;
+    @Property(required=false) protected Short shortValue;
+    @Property(required=false) protected Integer integerValue;
+    @Property(required=false) protected Long longValue;
+    @Property(required=false) protected Float floatValue;
+    @Property(required=false) protected Double doubleValue;
+    @Property(required=false) protected Class<?> classValue;
 
-    @Property protected String string;
-    @Property protected URI uriValue;
-    @Property protected URL urlValue;
-    @Property protected Date dateValue;
-    @Property protected Calendar calendarValue;
+    @Property(required=false) protected String string;
+    @Property(required=false) protected URI uriValue;
+    @Property(required=false) protected URL urlValue;
+    @Property(required=false) protected Date dateValue;
+    @Property(required=false) protected Calendar calendarValue;
 
-    @Property protected int[] intArray;
-    @Property protected Map<String, String> mapValue;
-    @Property protected Properties propertiesValue;
-    @Property protected List<String> listValue;
-    @Property protected Map<QName, Class<?>> mapOfQNameToClassValue;
+    @Property(required=false) protected int[] intArray;
+    @Property(required=false) protected Map<String, String> mapValue;
+    @Property(required=false) protected Properties propertiesValue;
+    @Property(required=false) protected List<String> listValue;
+    @Property(required=false) protected Map<QName, Class<?>> mapOfQNameToClassValue;
 
 
     public boolean getBooleanPrimitive() {

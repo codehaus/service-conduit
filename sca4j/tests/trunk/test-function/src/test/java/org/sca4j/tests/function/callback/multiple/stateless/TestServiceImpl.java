@@ -52,7 +52,7 @@
  */
 package org.sca4j.tests.function.callback.multiple.stateless;
 
-import org.osoa.sca.annotations.Callback;
+import org.oasisopen.sca.annotation.Callback;
 
 
 public class TestServiceImpl implements TestService {

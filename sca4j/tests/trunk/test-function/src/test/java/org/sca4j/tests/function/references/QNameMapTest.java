@@ -57,7 +57,7 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import junit.framework.TestCase;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 
 import org.sca4j.tests.function.common.IdentityService;
 

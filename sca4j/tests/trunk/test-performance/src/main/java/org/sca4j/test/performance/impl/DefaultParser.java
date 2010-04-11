@@ -52,14 +52,14 @@
  */
 package org.sca4j.test.performance.impl;
 
-import org.osoa.sca.annotations.Property;
+import org.oasisopen.sca.annotation.Property;
 import org.sca4j.api.annotation.scope.Conversation;
 import org.sca4j.test.performance.api.Parser;
 
 @Conversation
 public class DefaultParser implements Parser {
     
-    @Property protected int count;
+    @Property(required=false) protected int count;
 
     public void close() {
         // TODO Auto-generated method stub

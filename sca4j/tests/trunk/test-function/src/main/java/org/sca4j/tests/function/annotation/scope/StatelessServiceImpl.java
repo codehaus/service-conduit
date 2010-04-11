@@ -53,7 +53,7 @@
 package org.sca4j.tests.function.annotation.scope;
 
 import org.sca4j.api.annotation.scope.Scopes;
-import org.osoa.sca.annotations.Scope;
+import org.oasisopen.sca.annotation.Scope;
 
 @Scope(Scopes.STATELESS)
 public class StatelessServiceImpl implements StatelessService {

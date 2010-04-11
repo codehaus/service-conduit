@@ -14,7 +14,7 @@
   See the separate licenses for those programs included in the distribution for the 
   permitted and restricted uses of such software.
  -->
-<componentType xmlns="http://www.osoa.org/xmlns/sca/1.0">
+<componentType xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912">
     <reference name="context">
         <interface.java interface="org.sca4j.runtime.webapp.smoketest.TestService"/>
     </reference>

@@ -52,12 +52,12 @@
  */
 package org.sca4j.tests.function.ordering;
 
-import org.osoa.sca.annotations.Property;
+import org.oasisopen.sca.annotation.Property;
 
 public class ItemImpl implements Item {
 	private String typeName;
 	
-	public ItemImpl(@Property(name="typeName") String typeName) {
+	public ItemImpl(@Property(name="typeName", required=false) String typeName) {
 		this.typeName = typeName;
 	}
 	

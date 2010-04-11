@@ -66,8 +66,8 @@ import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMFactory;
 import org.apache.axiom.om.OMText;
-import org.osoa.sca.ServiceUnavailableException;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.ServiceUnavailableException;
+import org.oasisopen.sca.annotation.Reference;
 
 /**
  * @version $Rev: 4924 $ $Date: 2008-06-29 10:42:38 +0100 (Sun, 29 Jun 2008) $

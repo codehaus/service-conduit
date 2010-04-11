@@ -55,7 +55,7 @@ package org.sca4j.tests.function.callback.binding;
 import java.util.concurrent.TimeUnit;
 
 import junit.framework.TestCase;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 
 import org.sca4j.tests.function.callback.common.CallbackData;
 

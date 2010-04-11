@@ -52,7 +52,7 @@
  */
 package org.sca4j.tests.function.callback.composite;
 
-import org.osoa.sca.annotations.Callback;
+import org.oasisopen.sca.annotation.Callback;
 
 /**
  * @version $Revision$ $Date$

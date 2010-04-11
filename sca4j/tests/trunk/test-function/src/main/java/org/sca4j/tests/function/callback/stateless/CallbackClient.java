@@ -52,24 +52,24 @@
  */
 package org.sca4j.tests.function.callback.stateless;
 
-import org.osoa.sca.ComponentContext;
-import org.osoa.sca.annotations.Context;
-import org.osoa.sca.annotations.Reference;
-import org.osoa.sca.annotations.Property;
-import org.osoa.sca.annotations.Service;
+import org.oasisopen.sca.ComponentContext;
+import org.oasisopen.sca.annotation.Context;
+import org.oasisopen.sca.annotation.Reference;
+import org.oasisopen.sca.annotation.Property;
+import org.oasisopen.sca.annotation.Service;
 
 import org.sca4j.tests.function.callback.common.CallbackData;
 
 /**
  * @version $Rev: 2893 $ $Date: 2008-02-26 00:24:57 +0000 (Tue, 26 Feb 2008) $
  */
-@Service(interfaces = {ForwardService.class, ClientService.class, CallbackService.class})
+@Service(value = {ForwardService.class, ClientService.class, CallbackService.class})
 public class CallbackClient implements ForwardService, CallbackService, ClientService {
 
     @Reference
     protected ForwardService forwardService;
 
-    @Property
+    @Property(required=false)
     protected boolean fail;
 
 //    @Reference

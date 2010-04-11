@@ -85,8 +85,8 @@ import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMFactory;
 import org.apache.axiom.om.OMText;
-import org.osoa.sca.annotations.Context;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Context;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.api.SCA4JRequestContext;
 
 /**

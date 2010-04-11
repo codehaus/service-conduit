@@ -72,7 +72,7 @@ package org.sca4j.binding.jms.test.object;
 
 import java.util.Date;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 
 import junit.framework.TestCase;
 

@@ -62,7 +62,7 @@ import java.util.Properties;
 
 import javax.xml.namespace.QName;
 
-import org.osoa.sca.annotations.Property;
+import org.oasisopen.sca.annotation.Property;
 
 /**
  * @version $Rev: 3152 $ $Date: 2008-03-21 23:00:25 +0000 (Fri, 21 Mar 2008) $
@@ -97,31 +97,31 @@ public class PublicConstructorPropertyTypesImpl implements PropertyTypes {
     private final List<String> listValue;
     private final Map<QName, Class<?>> mapOfQNameToClassValue;
 
-    public PublicConstructorPropertyTypesImpl(@Property(name = "booleanPrimitive")boolean booleanPrimitive,
-                                              @Property(name = "bytePrimitive")byte bytePrimitive,
-                                              @Property(name = "shortPrimitive")short shortPrimitive,
-                                              @Property(name = "intPrimitive")int intPrimitive,
-                                              @Property(name = "longPrimitive")long longPrimitive,
-                                              @Property(name = "floatPrimitive")float floatPrimitive,
-                                              @Property(name = "doublePrimitive")double doublePrimitive,
-                                              @Property(name = "booleanValue")Boolean booleanValue,
-                                              @Property(name = "byteValue")Byte byteValue,
-                                              @Property(name = "shortValue")Short shortValue,
-                                              @Property(name = "integerValue")Integer integerValue,
-                                              @Property(name = "longValue")Long longValue,
-                                              @Property(name = "floatValue")Float floatValue,
-                                              @Property(name = "doubleValue")Double doubleValue,
-                                              @Property(name = "classValue")Class<?> classValue,
-                                              @Property(name = "string")String string,
-                                              @Property(name = "uriValue")URI uriValue,
-                                              @Property(name = "urlValue")URL urlValue,
-                                              @Property(name = "dateValue")Date dateValue,
-                                              @Property(name = "calendarValue")Calendar calendarValue,
-                                              @Property(name = "intArray") int[] intArray,
-                                              @Property(name = "mapValue") Map<String, String> mapValue,
-                                              @Property(name = "propertiesValue") Properties propertiesValue,
-                                              @Property(name = "listValue") List<String> listValue,
-                                              @Property(name = "mapOfQNameToClassValue") Map<QName, Class<?>> mapOfQNameToClassValue) {
+    public PublicConstructorPropertyTypesImpl(@Property(required=false, name = "booleanPrimitive")boolean booleanPrimitive,
+                                              @Property(required=false, name = "bytePrimitive")byte bytePrimitive,
+                                              @Property(required=false, name = "shortPrimitive")short shortPrimitive,
+                                              @Property(required=false, name = "intPrimitive")int intPrimitive,
+                                              @Property(required=false, name = "longPrimitive")long longPrimitive,
+                                              @Property(required=false, name = "floatPrimitive")float floatPrimitive,
+                                              @Property(required=false, name = "doublePrimitive")double doublePrimitive,
+                                              @Property(required=false, name = "booleanValue")Boolean booleanValue,
+                                              @Property(required=false, name = "byteValue")Byte byteValue,
+                                              @Property(required=false, name = "shortValue")Short shortValue,
+                                              @Property(required=false, name = "integerValue")Integer integerValue,
+                                              @Property(required=false, name = "longValue")Long longValue,
+                                              @Property(required=false, name = "floatValue")Float floatValue,
+                                              @Property(required=false, name = "doubleValue")Double doubleValue,
+                                              @Property(required=false, name = "classValue")Class<?> classValue,
+                                              @Property(required=false, name = "string")String string,
+                                              @Property(required=false, name = "uriValue")URI uriValue,
+                                              @Property(required=false, name = "urlValue")URL urlValue,
+                                              @Property(required=false, name = "dateValue")Date dateValue,
+                                              @Property(required=false, name = "calendarValue")Calendar calendarValue,
+                                              @Property(required=false, name = "intArray") int[] intArray,
+                                              @Property(required=false, name = "mapValue") Map<String, String> mapValue,
+                                              @Property(required=false, name = "propertiesValue") Properties propertiesValue,
+                                              @Property(required=false, name = "listValue") List<String> listValue,
+                                              @Property(required=false, name = "mapOfQNameToClassValue") Map<QName, Class<?>> mapOfQNameToClassValue) {
         this.booleanPrimitive = booleanPrimitive;
         this.bytePrimitive = bytePrimitive;
         this.shortPrimitive = shortPrimitive;

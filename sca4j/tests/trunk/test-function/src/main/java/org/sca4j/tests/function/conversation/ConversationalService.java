@@ -52,8 +52,8 @@
  */
 package org.sca4j.tests.function.conversation;
 
-import org.osoa.sca.annotations.Conversational;
-import org.osoa.sca.annotations.EndsConversation;
+import org.sca4j.api.annotation.scope.Conversational;
+import org.sca4j.api.annotation.scope.EndsConversation;
 
 /**
  * @version $Rev: 2946 $ $Date: 2008-02-29 07:13:44 +0000 (Fri, 29 Feb 2008) $

@@ -18,11 +18,11 @@
  */
 package org.sca4j.tests.function.properties;
 
-import org.osoa.sca.annotations.Property;
+import org.oasisopen.sca.annotation.Property;
 
 public class DomainConfigProperty {
     
-    @Property protected boolean flag;
+    @Property(required=false) protected boolean flag;
     
     public boolean isFlag() {
         return flag;

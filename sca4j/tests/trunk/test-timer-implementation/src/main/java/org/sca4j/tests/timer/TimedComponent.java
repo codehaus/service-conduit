@@ -52,7 +52,7 @@
  */
 package org.sca4j.tests.timer;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 
 /**
  * @version $Revision$ $Date$

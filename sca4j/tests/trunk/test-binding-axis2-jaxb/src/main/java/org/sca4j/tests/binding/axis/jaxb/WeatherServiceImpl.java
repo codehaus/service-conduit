@@ -52,7 +52,7 @@
  */
 package org.sca4j.tests.binding.axis.jaxb;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 
 public class WeatherServiceImpl implements WeatherService {
 

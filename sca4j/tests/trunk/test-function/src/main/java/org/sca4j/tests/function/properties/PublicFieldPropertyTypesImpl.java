@@ -62,40 +62,40 @@ import java.util.Properties;
 
 import javax.xml.namespace.QName;
 
-import org.osoa.sca.annotations.Property;
+import org.oasisopen.sca.annotation.Property;
 
 /**
  * @version $Rev: 3152 $ $Date: 2008-03-21 23:00:25 +0000 (Fri, 21 Mar 2008) $
  */
 public class PublicFieldPropertyTypesImpl implements PropertyTypes {
-    @Property public boolean booleanPrimitive;
-    @Property public byte bytePrimitive;
-    @Property public short shortPrimitive;
-    @Property public int intPrimitive;
-    @Property public long longPrimitive;
-    @Property public float floatPrimitive;
-    @Property public double doublePrimitive;
+    @Property(required=false)  public boolean booleanPrimitive;
+    @Property(required=false) public byte bytePrimitive;
+    @Property(required=false) public short shortPrimitive;
+    @Property(required=false) public int intPrimitive;
+    @Property(required=false) public long longPrimitive;
+    @Property(required=false) public float floatPrimitive;
+    @Property(required=false) public double doublePrimitive;
 
-    @Property public Boolean booleanValue;
-    @Property public Byte byteValue;
-    @Property public Short shortValue;
-    @Property public Integer integerValue;
-    @Property public Long longValue;
-    @Property public Float floatValue;
-    @Property public Double doubleValue;
-    @Property public Class<?> classValue;
+    @Property(required=false) public Boolean booleanValue;
+    @Property(required=false) public Byte byteValue;
+    @Property(required=false) public Short shortValue;
+    @Property(required=false) public Integer integerValue;
+    @Property(required=false) public Long longValue;
+    @Property(required=false) public Float floatValue;
+    @Property(required=false) public Double doubleValue;
+    @Property(required=false) public Class<?> classValue;
 
-    @Property public String string;
-    @Property public URI uriValue;
-    @Property public URL urlValue;
-    @Property public Date dateValue;
-    @Property public Calendar calendarValue;
+    @Property(required=false) public String string;
+    @Property(required=false) public URI uriValue;
+    @Property(required=false) public URL urlValue;
+    @Property(required=false) public Date dateValue;
+    @Property(required=false) public Calendar calendarValue;
 
-    @Property public int[] intArray;
-    @Property public Map<String, String> mapValue;
-    @Property public Properties propertiesValue;
-    @Property public List<String> listValue;
-    @Property public Map<QName, Class<?>> mapOfQNameToClassValue;
+    @Property(required=false) public int[] intArray;
+    @Property(required=false) public Map<String, String> mapValue;
+    @Property(required=false) public Properties propertiesValue;
+    @Property(required=false) public List<String> listValue;
+    @Property(required=false) public Map<QName, Class<?>> mapOfQNameToClassValue;
 
     public boolean getBooleanPrimitive() {
         return booleanPrimitive;

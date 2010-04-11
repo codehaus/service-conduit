@@ -78,7 +78,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.osoa.sca.ComponentContext;
+import org.oasisopen.sca.ComponentContext;
 
 import org.sca4j.runtime.webapp.smoketest.model.Employee;
 
@@ -94,7 +94,7 @@ public class TestServlet extends HttpServlet {
         String test = request.getParameter("test");
         if ("context".equals(test)) {
             HttpSession session = request.getSession();
-            ComponentContext context = (ComponentContext) session.getAttribute("org.osoa.sca.ComponentContext");
+            ComponentContext context = (ComponentContext) session.getAttribute("org.oasisopen.sca.ComponentContext");
             if (context == null) {
                 response.sendError(500, "Context was not bound");
                 return;

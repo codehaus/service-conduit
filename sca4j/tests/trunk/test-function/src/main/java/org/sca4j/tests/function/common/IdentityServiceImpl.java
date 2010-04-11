@@ -52,7 +52,7 @@
  */
 package org.sca4j.tests.function.common;
 
-import org.osoa.sca.annotations.Property;
+import org.oasisopen.sca.annotation.Property;
 
 /**
  * @version $Rev: 934 $ $Date: 2007-08-31 16:35:29 +0100 (Fri, 31 Aug 2007) $
@@ -60,7 +60,7 @@ import org.osoa.sca.annotations.Property;
 public class IdentityServiceImpl implements IdentityService {
     private final String identity;
 
-    public IdentityServiceImpl(@Property(name = "id")String identity) {
+    public IdentityServiceImpl(@Property(name = "id", required=false)String identity) {
         this.identity = identity;
     }
 

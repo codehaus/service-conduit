@@ -59,8 +59,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
 import org.hibernate.Session;
-import org.osoa.sca.annotations.EndsConversation;
-import org.osoa.sca.annotations.Scope;
+import org.sca4j.api.annotation.scope.EndsConversation;
+import org.oasisopen.sca.annotation.Scope;
 import org.sca4j.jpa.model.Employee;
 import org.sca4j.jpa.model.ExEmployee;
 

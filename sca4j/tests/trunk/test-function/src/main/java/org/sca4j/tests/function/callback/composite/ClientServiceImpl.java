@@ -70,16 +70,16 @@
 */
 package org.sca4j.tests.function.callback.composite;
 
-import org.osoa.sca.annotations.OneWay;
-import org.osoa.sca.annotations.Reference;
-import org.osoa.sca.annotations.Service;
+import org.oasisopen.sca.annotation.OneWay;
+import org.oasisopen.sca.annotation.Reference;
+import org.oasisopen.sca.annotation.Service;
 
 import org.sca4j.tests.function.callback.common.CallbackData;
 
 /**
  * @version $Revision$ $Date$
  */
-@Service(interfaces = {ClientService.class, CallbackService.class})
+@Service(value = {ClientService.class, CallbackService.class})
 public class ClientServiceImpl implements ClientService, CallbackService {
 
     @Reference

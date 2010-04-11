@@ -56,8 +56,8 @@ import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.osoa.sca.annotations.Callback;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Callback;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.api.annotation.scope.Conversation;
 import org.sca4j.test.performance.api.Rule;
 import org.sca4j.test.performance.api.ValidationListener;

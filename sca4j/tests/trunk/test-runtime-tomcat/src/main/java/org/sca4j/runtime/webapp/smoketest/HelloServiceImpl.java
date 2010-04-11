@@ -70,7 +70,7 @@
  */
 package org.sca4j.runtime.webapp.smoketest;
 
-import org.osoa.sca.annotations.Property;
+import org.oasisopen.sca.annotation.Property;
 
 /**
  * @version $Rev: 3049 $ $Date: 2008-03-10 11:48:11 +0000 (Mon, 10 Mar 2008) $

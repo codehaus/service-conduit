@@ -53,10 +53,10 @@
 package org.sca4j.tests.function.lifecycle;
 
 import junit.framework.TestCase;
-import org.osoa.sca.ComponentContext;
-import org.osoa.sca.RequestContext;
-import org.osoa.sca.annotations.Context;
-import org.osoa.sca.annotations.Property;
+import org.oasisopen.sca.ComponentContext;
+import org.oasisopen.sca.RequestContext;
+import org.oasisopen.sca.annotation.Context;
+import org.oasisopen.sca.annotation.Property;
 
 /**
  * @version $Rev: 2683 $ $Date: 2008-02-03 11:44:34 +0000 (Sun, 03 Feb 2008) $
@@ -69,7 +69,7 @@ public class ContextTest extends TestCase {
     @Context
     protected ComponentContext componentContext;
 
-    @Property
+    @Property(required=false)
     protected String uri;
 
     public void testRequestContext() {

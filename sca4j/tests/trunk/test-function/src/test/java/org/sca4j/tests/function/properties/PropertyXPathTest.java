@@ -53,17 +53,17 @@
 package org.sca4j.tests.function.properties;
 
 import junit.framework.TestCase;
-import org.osoa.sca.annotations.Property;
+import org.oasisopen.sca.annotation.Property;
 
 /**
  * @version $Rev: 1712 $ $Date: 2007-11-04 09:35:10 +0000 (Sun, 04 Nov 2007) $
  */
 public class PropertyXPathTest extends TestCase {
-    @Property
+    @Property(required=false)
     public String simple;
-    @Property
+    @Property(required=false)
     public String complex;
-    @Property
+    @Property(required=false)
     public String complexWithNamespace;
 
     public void testSimpleXPath() {

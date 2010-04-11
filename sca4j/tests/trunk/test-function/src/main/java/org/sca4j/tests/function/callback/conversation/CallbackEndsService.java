@@ -52,8 +52,8 @@
  */
 package org.sca4j.tests.function.callback.conversation;
 
-import org.osoa.sca.annotations.EndsConversation;
-import org.osoa.sca.annotations.Conversational;
+import org.sca4j.api.annotation.scope.EndsConversation;
+import org.sca4j.api.annotation.scope.Conversational;
 
 /**
  * @version $Revision$ $Date$

@@ -52,9 +52,9 @@
  */
 package org.sca4j.test.performance.api;
 
-import org.osoa.sca.annotations.Callback;
-import org.osoa.sca.annotations.Conversational;
-import org.osoa.sca.annotations.EndsConversation;
+import org.oasisopen.sca.annotation.Callback;
+import org.sca4j.api.annotation.scope.Conversational;
+import org.sca4j.api.annotation.scope.EndsConversation;
 
 @Conversational
 @Callback(BindingListener.class)

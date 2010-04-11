@@ -62,7 +62,7 @@ import java.util.Properties;
 
 import javax.xml.namespace.QName;
 
-import org.osoa.sca.annotations.Property;
+import org.oasisopen.sca.annotation.Property;
 
 /**
  * @version $Rev: 3152 $ $Date: 2008-03-21 23:00:25 +0000 (Fri, 21 Mar 2008) $
@@ -101,7 +101,7 @@ public class PublicSetterPropertyTypesImpl implements PropertyTypes {
         return booleanPrimitive;
     }
 
-    @Property
+    @Property(required=false)
     public void setBooleanPrimitive(boolean booleanPrimitive) {
         this.booleanPrimitive = booleanPrimitive;
     }
@@ -110,7 +110,7 @@ public class PublicSetterPropertyTypesImpl implements PropertyTypes {
         return bytePrimitive;
     }
 
-    @Property
+    @Property(required=false)
     public void setBytePrimitive(byte bytePrimitive) {
         this.bytePrimitive = bytePrimitive;
     }
@@ -119,7 +119,7 @@ public class PublicSetterPropertyTypesImpl implements PropertyTypes {
         return shortPrimitive;
     }
 
-    @Property
+    @Property(required=false)
     public void setShortPrimitive(short shortPrimitive) {
         this.shortPrimitive = shortPrimitive;
     }
@@ -128,7 +128,7 @@ public class PublicSetterPropertyTypesImpl implements PropertyTypes {
         return intPrimitive;
     }
 
-    @Property
+    @Property(required=false)
     public void setIntPrimitive(int intPrimitive) {
         this.intPrimitive = intPrimitive;
     }
@@ -137,7 +137,7 @@ public class PublicSetterPropertyTypesImpl implements PropertyTypes {
         return longPrimitive;
     }
 
-    @Property
+    @Property(required=false)
     public void setLongPrimitive(long longPrimitive) {
         this.longPrimitive = longPrimitive;
     }
@@ -146,7 +146,7 @@ public class PublicSetterPropertyTypesImpl implements PropertyTypes {
         return floatPrimitive;
     }
 
-    @Property
+    @Property(required=false)
     public void setFloatPrimitive(float floatPrimitive) {
         this.floatPrimitive = floatPrimitive;
     }
@@ -155,7 +155,7 @@ public class PublicSetterPropertyTypesImpl implements PropertyTypes {
         return doublePrimitive;
     }
 
-    @Property
+    @Property(required=false)
     public void setDoublePrimitive(double doublePrimitive) {
         this.doublePrimitive = doublePrimitive;
     }
@@ -164,7 +164,7 @@ public class PublicSetterPropertyTypesImpl implements PropertyTypes {
         return booleanValue;
     }
 
-    @Property
+    @Property(required=false)
     public void setBooleanValue(Boolean booleanValue) {
         this.booleanValue = booleanValue;
     }
@@ -173,7 +173,7 @@ public class PublicSetterPropertyTypesImpl implements PropertyTypes {
         return byteValue;
     }
 
-    @Property
+    @Property(required=false)
     public void setByteValue(Byte byteValue) {
         this.byteValue = byteValue;
     }
@@ -182,7 +182,7 @@ public class PublicSetterPropertyTypesImpl implements PropertyTypes {
         return shortValue;
     }
 
-    @Property
+    @Property(required=false)
     public void setShortValue(Short shortValue) {
         this.shortValue = shortValue;
     }
@@ -191,7 +191,7 @@ public class PublicSetterPropertyTypesImpl implements PropertyTypes {
         return integerValue;
     }
 
-    @Property
+    @Property(required=false)
     public void setIntegerValue(Integer integerValue) {
         this.integerValue = integerValue;
     }
@@ -200,7 +200,7 @@ public class PublicSetterPropertyTypesImpl implements PropertyTypes {
         return longValue;
     }
 
-    @Property
+    @Property(required=false)
     public void setLongValue(Long longValue) {
         this.longValue = longValue;
     }
@@ -209,7 +209,7 @@ public class PublicSetterPropertyTypesImpl implements PropertyTypes {
         return floatValue;
     }
 
-    @Property
+    @Property(required=false)
     public void setFloatValue(Float floatValue) {
         this.floatValue = floatValue;
     }
@@ -218,7 +218,7 @@ public class PublicSetterPropertyTypesImpl implements PropertyTypes {
         return doubleValue;
     }
 
-    @Property
+    @Property(required=false)
     public void setDoubleValue(Double doubleValue) {
         this.doubleValue = doubleValue;
     }
@@ -227,7 +227,7 @@ public class PublicSetterPropertyTypesImpl implements PropertyTypes {
         return classValue;
     }
 
-    @Property
+    @Property(required=false)
     public void setClassValue(Class<?> classValue) {
         this.classValue = classValue;
     }
@@ -236,7 +236,7 @@ public class PublicSetterPropertyTypesImpl implements PropertyTypes {
         return string;
     }
 
-    @Property
+    @Property(required=false)
     public void setString(String string) {
         this.string = string;
     }
@@ -245,7 +245,7 @@ public class PublicSetterPropertyTypesImpl implements PropertyTypes {
         return uriValue;
     }
 
-    @Property
+    @Property(required=false)
     public void setUriValue(URI uriValue) {
         this.uriValue = uriValue;
     }
@@ -254,7 +254,7 @@ public class PublicSetterPropertyTypesImpl implements PropertyTypes {
         return urlValue;
     }
 
-    @Property
+    @Property(required=false)
     public void setUrlValue(URL urlValue) {
         this.urlValue = urlValue;
     }
@@ -263,7 +263,7 @@ public class PublicSetterPropertyTypesImpl implements PropertyTypes {
         return dateValue;
     }
 
-    @Property
+    @Property(required=false)
     public void setDateValue(Date dateValue) {
         this.dateValue = dateValue;
     }
@@ -272,7 +272,7 @@ public class PublicSetterPropertyTypesImpl implements PropertyTypes {
         return calendarValue;
     }
 
-    @Property
+    @Property(required=false)
     public void setCalendarValue(Calendar calendarValue) {
         this.calendarValue = calendarValue;
     }
@@ -281,7 +281,7 @@ public class PublicSetterPropertyTypesImpl implements PropertyTypes {
         return intArray;
     }
 
-    @Property
+    @Property(required=false)
     public void setIntArray(int[] intArray) {
         this.intArray = intArray;
     }
@@ -290,7 +290,7 @@ public class PublicSetterPropertyTypesImpl implements PropertyTypes {
         return mapValue;
     }
 
-    @Property
+    @Property(required=false)
     public void setMapValue(Map<String, String> mapValue) {
         this.mapValue = mapValue;
     }
@@ -299,12 +299,12 @@ public class PublicSetterPropertyTypesImpl implements PropertyTypes {
         return propertiesValue;
     }
 
-    @Property
+    @Property(required=false)
     public void setPropertiesValue(Properties propertiesValue) {
         this.propertiesValue = propertiesValue;
     }
     
-    @Property
+    @Property(required=false)
     public void setListValue(List<String> listValue) {
         this.listValue = listValue;
     }
@@ -313,7 +313,7 @@ public class PublicSetterPropertyTypesImpl implements PropertyTypes {
         return listValue;
     }
     
-    @Property
+    @Property(required=false)
     public void setMapOfQNameToClassValue(Map<QName, Class<?>> mapOfQNameToClassValue) {
         this.mapOfQNameToClassValue = mapOfQNameToClassValue;
     }

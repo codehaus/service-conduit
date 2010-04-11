@@ -53,7 +53,7 @@
 package org.sca4j.tests.function.conversation;
 
 import junit.framework.TestCase;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 
 /**
  * @version $Rev: 5388 $ $Date: 2008-09-11 07:37:42 +0100 (Thu, 11 Sep 2008) $

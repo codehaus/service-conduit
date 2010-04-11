@@ -52,7 +52,7 @@
  */
 package org.sca4j.tests.function.headers;
 
-import org.osoa.sca.annotations.Context;
+import org.oasisopen.sca.annotation.Context;
 import org.sca4j.api.SCA4JRequestContext;
 
 /**

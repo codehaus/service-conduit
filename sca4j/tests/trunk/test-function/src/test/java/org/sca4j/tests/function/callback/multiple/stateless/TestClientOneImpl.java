@@ -54,13 +54,13 @@ package org.sca4j.tests.function.callback.multiple.stateless;
 
 import junit.framework.TestCase;
 
-import org.osoa.sca.annotations.Reference;
-import org.osoa.sca.annotations.Service;
+import org.oasisopen.sca.annotation.Reference;
+import org.oasisopen.sca.annotation.Service;
 
 /**
  * 
  */
-@Service(interfaces = {TestClientOne.class, TestCallbackService.class})
+@Service(value = {TestClientOne.class, TestCallbackService.class})
 public class TestClientOneImpl implements TestClientOne, TestCallbackService {
 	
 	@Reference protected TestService testService;

@@ -52,16 +52,16 @@
  */
 package org.sca4j.tests.function.callback.conversation;
 
-import org.osoa.sca.annotations.Callback;
-import org.osoa.sca.annotations.Reference;
-import org.osoa.sca.annotations.Scope;
-import org.osoa.sca.annotations.Service;
+import org.oasisopen.sca.annotation.Callback;
+import org.oasisopen.sca.annotation.Reference;
+import org.oasisopen.sca.annotation.Scope;
+import org.oasisopen.sca.annotation.Service;
 
 /**
  * @version $Revision$ $Date$
  */
 @Scope("COMPOSITE")
-@Service(interfaces = {CompositeService.class, CallbackService.class})
+@Service(value = {CompositeService.class, CallbackService.class})
 public class CompositeServiceImpl implements CompositeService, CallbackService {
     @Callback
     protected CallbackService callbackService;

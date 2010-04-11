@@ -52,8 +52,8 @@
  */
 package org.sca4j.tests.function.callback.conversation;
 
-import org.osoa.sca.annotations.Callback;
-import org.osoa.sca.annotations.OneWay;
+import org.oasisopen.sca.annotation.Callback;
+import org.oasisopen.sca.annotation.OneWay;
 
 /**
  * @version $Revision$ $Date$

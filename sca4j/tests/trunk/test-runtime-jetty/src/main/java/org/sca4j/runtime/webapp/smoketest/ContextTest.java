@@ -59,7 +59,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
 import javax.servlet.ServletContext;
 
-import org.osoa.sca.ComponentContext;
+import org.oasisopen.sca.ComponentContext;
 
 import org.sca4j.runtime.webapp.Constants;
 

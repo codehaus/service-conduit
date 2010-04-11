@@ -53,7 +53,7 @@
 package org.sca4j.tests.binding.axis2;
 
 import org.apache.axiom.om.OMElement;
-import org.osoa.sca.annotations.Scope;
+import org.oasisopen.sca.annotation.Scope;
 
 /**
  * @version $Rev: 2688 $ $Date: 2008-02-03 16:27:06 +0000 (Sun, 03 Feb 2008) $

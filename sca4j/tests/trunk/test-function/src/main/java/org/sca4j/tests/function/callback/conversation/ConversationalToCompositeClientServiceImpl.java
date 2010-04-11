@@ -52,16 +52,16 @@
  */
 package org.sca4j.tests.function.callback.conversation;
 
-import org.osoa.sca.annotations.Reference;
-import org.osoa.sca.annotations.Scope;
-import org.osoa.sca.annotations.Service;
+import org.oasisopen.sca.annotation.Reference;
+import org.oasisopen.sca.annotation.Scope;
+import org.oasisopen.sca.annotation.Service;
 
 import org.sca4j.tests.function.callback.common.CallbackData;
 
 /**
  * @version $Revision$ $Date$
  */
-@Service(interfaces = {ConversationalClientService.class, CallbackService.class})
+@Service(value = {ConversationalClientService.class, CallbackService.class})
 @Scope("CONVERSATION")
 public class ConversationalToCompositeClientServiceImpl implements ConversationalClientService, CallbackService {
     private int count;

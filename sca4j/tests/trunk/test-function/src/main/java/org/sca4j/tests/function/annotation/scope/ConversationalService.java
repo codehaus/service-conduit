@@ -52,7 +52,7 @@
  */
 package org.sca4j.tests.function.annotation.scope;
 
-import org.osoa.sca.annotations.Conversational;
+import org.sca4j.api.annotation.scope.Conversational;
 
 @Conversational
 public interface ConversationalService extends ScopedService {

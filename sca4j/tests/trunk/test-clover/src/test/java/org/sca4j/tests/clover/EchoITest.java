@@ -53,7 +53,7 @@
 package org.sca4j.tests.clover;
 
 import junit.framework.TestCase;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 
 /**
  * @version $Rev: 2860 $ $Date: 2008-02-22 16:16:42 +0000 (Fri, 22 Feb 2008) $

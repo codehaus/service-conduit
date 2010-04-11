@@ -52,7 +52,7 @@
  */
 package org.sca4j.tests.function.common;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 
 /**
  * @version $Rev: 1706 $ $Date: 2007-11-03 17:07:23 +0000 (Sat, 03 Nov 2007) $
