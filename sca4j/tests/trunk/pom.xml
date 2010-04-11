@@ -39,6 +39,7 @@
     </properties>
     
     <modules>
+        <module>test-interface-wsdl</module>
         <module>test-jpa</module>
         <module>test-ftp-security-policy</module>
         <module>test-binding-ftp</module>
