@@ -52,6 +52,7 @@
  */
 package org.sca4j.idl.wsdl.loader;
 
+import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamReader;
 
 import org.sca4j.introspection.xml.XmlValidationFailure;
@@ -59,8 +60,8 @@ import org.sca4j.introspection.xml.XmlValidationFailure;
 /**
  * @version $Revision$ $Date$
  */
-public class InvalidWSDLLocation extends XmlValidationFailure<String> {
-    protected InvalidWSDLLocation(String message, String url, XMLStreamReader reader) {
-        super(message, url, reader);
+public class InvalidWsdlElement extends XmlValidationFailure<QName> {
+    protected InvalidWsdlElement(String message, QName wsdlElement, XMLStreamReader reader) {
+        super(message, wsdlElement, reader);
     }
 }

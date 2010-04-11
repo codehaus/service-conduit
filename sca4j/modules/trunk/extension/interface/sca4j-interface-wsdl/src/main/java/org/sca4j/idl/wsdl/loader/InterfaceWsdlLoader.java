@@ -81,11 +81,14 @@ import org.osoa.sca.annotations.EagerInit;
 import org.osoa.sca.annotations.Init;
 import org.osoa.sca.annotations.Reference;
 import org.sca4j.idl.wsdl.WsdlContract;
+import org.sca4j.idl.wsdl.processor.PortTypeResourceElement;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.LoaderRegistry;
 import org.sca4j.introspection.xml.LoaderUtil;
 import org.sca4j.introspection.xml.MissingAttribute;
 import org.sca4j.introspection.xml.TypeLoader;
+import org.sca4j.spi.services.contribution.MetaDataStore;
+import org.sca4j.spi.services.contribution.MetaDataStoreException;
 
 /**
  * Loader for interface.wsdl.
@@ -98,6 +101,7 @@ public class InterfaceWsdlLoader implements TypeLoader<WsdlContract>, Constants 
     private static final QName QNAME = new QName(SCA_NS, "interface.wsdl");
 
     @Reference public LoaderRegistry registry;
+    @Reference public MetaDataStore metaDataStore;
 
     @Init
     public void start() {
@@ -111,16 +115,28 @@ public class InterfaceWsdlLoader implements TypeLoader<WsdlContract>, Constants 
 
     public WsdlContract load(XMLStreamReader reader, IntrospectionContext context) throws XMLStreamException {
 
-
+        WsdlContract wsdlContract = new WsdlContract();
+        
         String interfaze = reader.getAttributeValue(null, "interface");
         if (interfaze == null) {
             MissingAttribute failure = new MissingAttribute("Interface attribute is required", "interface", reader);
             context.addError(failure);
-            return new WsdlContract(null);
+            return wsdlContract;
         }
         
         QName interfaceQName = LoaderUtil.getQName(interfaze, context.getTargetNamespace(), reader.getNamespaceContext());
-        return new WsdlContract(interfaceQName);
+        wsdlContract.setQname(interfaceQName);
+        
+        try {
+            PortTypeResourceElement resourceElement = metaDataStore.resolve(interfaceQName, PortTypeResourceElement.class);
+            wsdlContract.setOperations(resourceElement.getOperations());
+        } catch (MetaDataStoreException e) {
+            InvalidWsdlElement failure = new InvalidWsdlElement(e.getMessage(), interfaceQName, reader);
+            context.addError(failure);
+            return wsdlContract;
+        }
+        
+        return wsdlContract;
 
     }
 

@@ -71,9 +71,12 @@
 
 package org.sca4j.idl.wsdl;
 
+import java.util.List;
+
 import javax.xml.namespace.QName;
 
 import org.apache.ws.commons.schema.XmlSchemaType;
+import org.sca4j.scdl.Operation;
 import org.sca4j.scdl.ServiceContract;
 
 /**
@@ -84,17 +87,22 @@ import org.sca4j.scdl.ServiceContract;
 public class WsdlContract extends ServiceContract<XmlSchemaType> {
 
     private QName qname;
-    
-    public WsdlContract(QName qname) {
-        this.qname = qname;
-    }
+    private List<Operation<XmlSchemaType>> operations;
 
     public boolean isAssignableFrom(ServiceContract<?> serviceContract) {
-        return true;
+        return serviceContract.getOperations().size() == operations.size(); // TODO this is just a hack
     }
 
     public String getQualifiedInterfaceName() {
         return qname.toString();
+    }
+
+    public void setQname(QName qname) {
+        this.qname = qname;
+    }
+
+    public void setOperations(List<Operation<XmlSchemaType>> operations) {
+        this.operations = operations;
     }
     
 }
