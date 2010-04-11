@@ -21,12 +21,14 @@
         <artifactId>parent</artifactId>
         <version>6</version>
     </parent>
-    <groupId>org.codehaus.service-conduit.spec</groupId>
-    <artifactId>sca-api-r1.0</artifactId>
-    <version>0.2.3-SNAPSHOT</version>
+
+	<groupId>org.codehaus.service-conduit.spec</groupId>
+	<artifactId>sca-caa-apis</artifactId>
+	<version>1.1-CD04</version>
+
     <packaging>jar</packaging>
-    <name>SCA API Version 1.0</name>
-    <description>Service Component Architecture V1.0 Java API and Annotations</description>
+    <name>SCA API Version 1.1-CD04</name>
+    <description>Service Component Architecture V1.1 (release candidate 4) Java API and Annotations</description>
 
     <scm>
         <connection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/spec/trunk</connection>
