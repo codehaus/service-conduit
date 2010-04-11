@@ -52,7 +52,7 @@
  */
 package org.sca4j.fabric.async;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.host.work.WorkScheduler;
 import org.sca4j.spi.builder.BuilderException;
 import org.sca4j.spi.builder.interceptor.InterceptorBuilder;

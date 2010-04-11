@@ -54,8 +54,8 @@ package org.sca4j.introspection.impl.annotation;
 
 import javax.xml.namespace.QName;
 
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Scope;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Scope;
 import org.sca4j.host.Namespaces;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.java.AbstractAnnotationProcessor;

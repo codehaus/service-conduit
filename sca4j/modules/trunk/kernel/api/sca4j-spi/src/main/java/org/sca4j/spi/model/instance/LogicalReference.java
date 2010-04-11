@@ -59,7 +59,7 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
-import org.osoa.sca.Constants;
+import org.oasisopen.sca.Constants;
 import org.sca4j.scdl.ComponentReference;
 import org.sca4j.scdl.ReferenceDefinition;
 

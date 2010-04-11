@@ -56,9 +56,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.easymock.IMocksControl;
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Init;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Init;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.BuilderException;
 import org.sca4j.spi.builder.component.ComponentBuilder;

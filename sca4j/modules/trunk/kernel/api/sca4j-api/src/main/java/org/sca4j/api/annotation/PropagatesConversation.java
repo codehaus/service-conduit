@@ -57,7 +57,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.osoa.sca.annotations.Intent;
+import org.oasisopen.sca.annotation.Intent;
 
 /**
  * Declares that a component implementation or reference propagates conversational context.

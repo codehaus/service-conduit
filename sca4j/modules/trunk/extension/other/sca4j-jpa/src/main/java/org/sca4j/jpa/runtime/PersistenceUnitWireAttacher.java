@@ -74,7 +74,7 @@ import java.net.URI;
 
 import javax.persistence.EntityManagerFactory;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.host.jpa.EmfBuilder;
 import org.sca4j.jpa.provision.PersistenceUnitWireTargetDefinition;
 import org.sca4j.jpa.spi.classloading.EmfClassLoaderService;

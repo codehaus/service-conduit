@@ -84,12 +84,12 @@ import org.apache.mina.filter.executor.ExecutorFilter;
 import org.apache.mina.transport.socket.SocketAcceptor;
 import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
-import org.osoa.sca.annotations.Destroy;
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Init;
-import org.osoa.sca.annotations.Property;
-import org.osoa.sca.annotations.Reference;
-import org.osoa.sca.annotations.Scope;
+import org.oasisopen.sca.annotation.Destroy;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Init;
+import org.oasisopen.sca.annotation.Property;
+import org.oasisopen.sca.annotation.Reference;
+import org.oasisopen.sca.annotation.Scope;
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.host.work.WorkScheduler;
 
@@ -197,7 +197,7 @@ public class SCA4JFtpHost implements FtpHost {
      *
      * @param commandPort Command port.
      */
-    @Property
+    @Property(required=false)
     public void setCommandPort(int commandPort) {
         this.commandPort = commandPort;
     }
@@ -207,7 +207,7 @@ public class SCA4JFtpHost implements FtpHost {
      *
      * @param timeout timeout in seconds.
      */
-    @Property
+    @Property(required=false)
     public void setIdleTimeout(int timeout) {
         this.idleTimeout = timeout;
     }
@@ -217,7 +217,7 @@ public class SCA4JFtpHost implements FtpHost {
      *
      * @param listenAddress the address to bind to
      */
-    @Property
+    @Property(required=false)
     public void setListenAddress(String listenAddress) {
         this.listenAddress = listenAddress;
     }

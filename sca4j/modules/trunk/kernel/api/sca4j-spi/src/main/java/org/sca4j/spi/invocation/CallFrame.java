@@ -54,7 +54,7 @@ package org.sca4j.spi.invocation;
 
 import java.io.Serializable;
 
-import org.osoa.sca.Conversation;
+import org.sca4j.api.scope.Conversation;
 
 /**
  * Encapsulates information for a specific invocation that is made as part of a request entering the domain. Requests may have multiple associated

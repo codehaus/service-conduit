@@ -72,8 +72,8 @@ package org.sca4j.java.runtime;
 
 import java.net.URI;
 
-import org.osoa.sca.CallableReference;
-import org.osoa.sca.ServiceReference;
+import org.oasisopen.sca.ServiceReference;
+import org.oasisopen.sca.ServiceReference;
 import org.sca4j.pojo.component.PojoComponent;
 import org.sca4j.spi.component.InstanceFactoryProvider;
 import org.sca4j.spi.component.ScopeContainer;
@@ -121,7 +121,7 @@ public class JavaComponent<T> extends PojoComponent<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public <B, R extends CallableReference<B>> R cast(B target) {
+    public <B, R extends ServiceReference<B>> R cast(B target) {
         return (R) proxyService.cast(target);
     }
 

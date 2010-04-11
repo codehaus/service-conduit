@@ -75,7 +75,7 @@ import org.apache.axis2.description.AxisService;
 import org.apache.axis2.description.OutInAxisOperation;
 import org.apache.axis2.description.WSDL2Constants;
 import org.apache.axis2.transport.http.HTTPConstants;
-import org.osoa.sca.ServiceUnavailableException;
+import org.oasisopen.sca.ServiceUnavailableException;
 import org.sca4j.binding.ws.axis2.common.Constant;
 import org.sca4j.binding.ws.axis2.provision.AxisPolicy;
 import org.sca4j.binding.ws.axis2.runtime.config.SCA4JConfigurator;

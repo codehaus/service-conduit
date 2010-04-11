@@ -59,8 +59,7 @@ import java.lang.reflect.Type;
 import javax.xml.namespace.QName;
 
 import junit.framework.TestCase;
-
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.introspection.DefaultIntrospectionContext;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.IntrospectionHelper;

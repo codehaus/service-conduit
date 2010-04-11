@@ -55,7 +55,7 @@ package org.sca4j.introspection.impl.annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import org.osoa.sca.annotations.ConversationID;
+import org.sca4j.api.scope.ConversationID;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.java.AbstractAnnotationProcessor;
 import org.sca4j.scdl.FieldInjectionSite;

@@ -52,8 +52,8 @@
  */
 package org.sca4j.junit.runtime;
 
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.junit.provision.JUnitWireSourceDefinition;
 import org.sca4j.maven.runtime.TestWire;
 import org.sca4j.maven.runtime.WireHolder;

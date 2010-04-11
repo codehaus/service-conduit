@@ -70,9 +70,9 @@
  */
 package org.sca4j.fabric.component;
 
-import org.osoa.sca.CallableReference;
-import org.osoa.sca.Conversation;
-import org.osoa.sca.ServiceRuntimeException;
+import org.oasisopen.sca.ServiceReference;
+import org.sca4j.api.annotation.scope.Conversation;
+import org.oasisopen.sca.ServiceRuntimeException;
 import org.sca4j.spi.ObjectCreationException;
 import org.sca4j.spi.ObjectFactory;
 
@@ -82,7 +82,7 @@ import org.sca4j.spi.ObjectFactory;
  * @version $Rev: 1 $ $Date: 2007-05-14 18:40:37 +0100 (Mon, 14 May 2007) $
  * @param <B> the type of the business interface
  */
-public abstract class CallableReferenceImpl<B> implements CallableReference<B> {
+public abstract class CallableReferenceImpl<B> implements ServiceReference<B> {
     private final Class<B> businessInterface;
     private final ObjectFactory<B> factory;
 

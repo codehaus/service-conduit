@@ -72,7 +72,7 @@ package org.sca4j.binding.hessian.control;
 
 import java.net.URI;
 
-import org.osoa.sca.annotations.EagerInit;
+import org.oasisopen.sca.annotation.EagerInit;
 import org.sca4j.binding.hessian.provision.HessianWireSourceDefinition;
 import org.sca4j.binding.hessian.provision.HessianWireTargetDefinition;
 import org.sca4j.binding.hessian.scdl.HessianBindingDefinition;

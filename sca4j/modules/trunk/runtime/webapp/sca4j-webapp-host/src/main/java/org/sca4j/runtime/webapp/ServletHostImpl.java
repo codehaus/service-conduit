@@ -82,9 +82,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Reference;
-import org.osoa.sca.annotations.Service;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Reference;
+import org.oasisopen.sca.annotation.Service;
 import org.sca4j.spi.component.ScopeRegistry;
 import org.sca4j.spi.host.ServletHost;
 
@@ -93,7 +93,7 @@ import org.sca4j.spi.host.ServletHost;
  *
  * @version $Rev: 4260 $ $Date: 2008-05-17 22:02:33 +0100 (Sat, 17 May 2008) $
  */
-@Service(interfaces = {ServletHost.class, ServletRequestInjector.class})
+@Service(value = {ServletHost.class, ServletRequestInjector.class})
 @EagerInit
 public class ServletHostImpl implements ServletHost, ServletRequestInjector {
     protected Map<String, Servlet> servlets;

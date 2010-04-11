@@ -76,9 +76,9 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Init;
-import org.osoa.sca.annotations.Property;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Init;
+import org.oasisopen.sca.annotation.Property;
 
 /**
  *
@@ -147,7 +147,7 @@ public class AbstractProxy<D> {
     /**
      * @param providerUrl the providerUrl to set
      */
-    @Property
+    @Property(required=false)
     public void setProviderUrl(String providerUrl) {
         this.providerUrl = providerUrl;
     }
@@ -155,7 +155,7 @@ public class AbstractProxy<D> {
     /**
      * @param initialContextFactory the initialContextFactory to set
      */
-    @Property
+    @Property(required=false)
     public void setInitialContextFactory(String initialContextFactory) {
         this.initialContextFactory = initialContextFactory;
     }
@@ -163,7 +163,7 @@ public class AbstractProxy<D> {
     /**
      * @param env the env to set
      */
-    @Property
+    @Property(required=false)
     public void setEnv(boolean env) {
         this.env = env;
     }

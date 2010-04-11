@@ -54,7 +54,7 @@ package org.sca4j.rs.control;
 
 import java.net.URI;
 
-import org.osoa.sca.annotations.EagerInit;
+import org.oasisopen.sca.annotation.EagerInit;
 import org.sca4j.rs.provision.RsWireSourceDefinition;
 import org.sca4j.rs.provision.RsWireTargetDefinition;
 import org.sca4j.rs.scdl.RsBindingDefinition;

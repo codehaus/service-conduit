@@ -56,8 +56,8 @@ import static org.sca4j.fabric.runtime.ComponentNames.BOOT_CLASSLOADER_ID;
 
 import java.net.URI;
 
-import org.osoa.sca.annotations.Constructor;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Constructor;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.fabric.implementation.singleton.SingletonComponent;
 import org.sca4j.fabric.implementation.singleton.SingletonImplementation;
 import org.sca4j.fabric.instantiator.LogicalChange;

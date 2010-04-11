@@ -85,7 +85,7 @@ public class SystemConstructorHeuristic implements HeuristicProcessor<SystemImpl
      * Find the constructor to use.
      * <p/>
      * For now, we require that the class have a single constructor or one annotated with @Constructor. If there is more than one, the default
-     * constructor will be selected or an org.osoa.sca.annotations.Constructor annotation must be used.
+     * constructor will be selected or an org.oasisopen.sca.annotation.Constructor annotation must be used.
      *
      * @param implClass the class we are inspecting
      * @param context   the introspection context to report errors and warnings
@@ -98,7 +98,7 @@ public class SystemConstructorHeuristic implements HeuristicProcessor<SystemImpl
             selected = constructors[0];
         } else {
             for (Constructor<?> constructor : constructors) {
-                if (constructor.isAnnotationPresent(org.osoa.sca.annotations.Constructor.class)) {
+                if (constructor.isAnnotationPresent(org.oasisopen.sca.annotation.Constructor.class)) {
                     if (selected != null) {
                         context.addError(new AmbiguousConstructor(implClass));
                         return null;

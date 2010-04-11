@@ -74,7 +74,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLDecoder;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.binding.ftp.provision.FtpWireSourceDefinition;
 import org.sca4j.ftp.spi.FtpLetContainer;

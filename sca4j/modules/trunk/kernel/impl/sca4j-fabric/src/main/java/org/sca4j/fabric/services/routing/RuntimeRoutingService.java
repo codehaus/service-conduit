@@ -54,7 +54,7 @@ package org.sca4j.fabric.services.routing;
 
 import java.util.Set;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.scdl.Scope;
 import org.sca4j.spi.command.Command;
 import org.sca4j.spi.component.InstanceLifecycleException;

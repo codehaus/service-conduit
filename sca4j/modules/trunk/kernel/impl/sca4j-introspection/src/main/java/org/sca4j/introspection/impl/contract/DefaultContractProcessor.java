@@ -80,13 +80,13 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.osoa.sca.Constants;
-import org.osoa.sca.annotations.Callback;
-import org.osoa.sca.annotations.Conversational;
-import org.osoa.sca.annotations.EndsConversation;
-import org.osoa.sca.annotations.OneWay;
-import org.osoa.sca.annotations.Reference;
-import org.osoa.sca.annotations.Remotable;
+import org.oasisopen.sca.Constants;
+import org.oasisopen.sca.annotation.Callback;
+import org.sca4j.api.annotation.scope.Conversational;
+import org.sca4j.api.annotation.scope.EndsConversation;
+import org.oasisopen.sca.annotation.OneWay;
+import org.oasisopen.sca.annotation.Reference;
+import org.oasisopen.sca.annotation.Remotable;
 import org.sca4j.introspection.IntrospectionHelper;
 import org.sca4j.introspection.TypeMapping;
 import org.sca4j.introspection.contract.ContractProcessor;

@@ -74,9 +74,9 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.Map;
 
-import org.osoa.sca.annotations.Destroy;
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Init;
+import org.oasisopen.sca.annotation.Destroy;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Init;
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.binding.burlap.provision.BurlapWireTargetDefinition;
 import org.sca4j.spi.ObjectFactory;

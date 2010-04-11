@@ -73,8 +73,8 @@ package org.sca4j.ftp.server.handler;
 import java.io.IOException;
 import java.net.InetAddress;
 
-import org.osoa.sca.annotations.Property;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Property;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.ftp.server.data.DataConnection;
 import org.sca4j.ftp.server.data.PassiveDataConnection;
 import org.sca4j.ftp.server.passive.PassiveConnectionService;
@@ -139,7 +139,7 @@ public class PasvRequestHandler implements RequestHandler {
 
     }
 
-    @Property
+    @Property(required=false)
     public void setListenAddress(String listenAddress) {
         this.listenAddress = listenAddress;
     }
@@ -149,7 +149,7 @@ public class PasvRequestHandler implements RequestHandler {
      *
      * @param timeout timeout in seconds.
      */
-    @Property
+    @Property(required=false)
     public void setIdleTimeout(int timeout) {
         this.idleTimeout = timeout * 1000;
     }

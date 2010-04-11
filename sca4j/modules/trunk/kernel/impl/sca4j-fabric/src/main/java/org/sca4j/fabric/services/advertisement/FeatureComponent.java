@@ -54,10 +54,10 @@ package org.sca4j.fabric.services.advertisement;
 
 import javax.xml.namespace.QName;
 
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Init;
-import org.osoa.sca.annotations.Property;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Init;
+import org.oasisopen.sca.annotation.Property;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.spi.services.advertisement.AdvertisementService;
 
 /**
@@ -83,7 +83,7 @@ public class FeatureComponent {
     /**
      * @param feature Feature injected as a property.
      */
-    @Property
+    @Property(required=false)
     public void setFeature(String feature) {
         this.feature = feature;
     }

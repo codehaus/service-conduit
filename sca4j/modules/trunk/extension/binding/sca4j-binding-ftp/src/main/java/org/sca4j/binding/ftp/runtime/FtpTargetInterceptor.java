@@ -80,7 +80,7 @@ import java.util.List;
 import org.apache.commons.net.SocketFactory;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
-import org.osoa.sca.ServiceUnavailableException;
+import org.oasisopen.sca.ServiceUnavailableException;
 import org.sca4j.binding.ftp.provision.FtpSecurity;
 import org.sca4j.ftp.api.FtpConstants;
 import org.sca4j.spi.invocation.Message;

@@ -72,7 +72,7 @@ package org.sca4j.scdl;
 
 import java.net.URI;
 
-import org.osoa.sca.Conversation;
+import org.sca4j.api.scope.Conversation;
 
 /**
  * An implementation scope that defines the lifecycle for implementation instances.

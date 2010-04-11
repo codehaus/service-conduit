@@ -28,8 +28,8 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.namespace.QName;
 
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.binding.ws.axis2.introspection.JaxbMethodInfo;
 import org.sca4j.binding.ws.axis2.runtime.config.SCA4JConfigurator;
 import org.sca4j.binding.ws.axis2.runtime.jaxb.JaxbInterceptor;

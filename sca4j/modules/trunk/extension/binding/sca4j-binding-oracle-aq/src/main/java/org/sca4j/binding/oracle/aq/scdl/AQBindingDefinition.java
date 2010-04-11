@@ -37,7 +37,7 @@ package org.sca4j.binding.oracle.aq.scdl;
 
 import javax.xml.namespace.QName;
 
-import org.osoa.sca.Constants;
+import org.oasisopen.sca.Constants;
 import org.sca4j.binding.oracle.aq.common.InitialState;
 import org.sca4j.scdl.BindingDefinition;
 import org.w3c.dom.Document;

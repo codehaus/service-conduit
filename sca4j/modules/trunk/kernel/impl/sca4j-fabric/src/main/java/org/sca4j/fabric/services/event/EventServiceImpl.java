@@ -57,7 +57,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.osoa.sca.annotations.EagerInit;
+import org.oasisopen.sca.annotation.EagerInit;
 import org.sca4j.spi.services.event.EventService;
 import org.sca4j.spi.services.event.SCA4JEvent;
 import org.sca4j.spi.services.event.SCA4JEventListener;

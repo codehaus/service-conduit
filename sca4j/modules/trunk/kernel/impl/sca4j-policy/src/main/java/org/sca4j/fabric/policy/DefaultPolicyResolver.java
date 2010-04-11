@@ -75,7 +75,7 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.fabric.policy.helper.ImplementationPolicyHelper;
 import org.sca4j.fabric.policy.helper.InteractionPolicyHelper;
 import org.sca4j.fabric.policy.infoset.PolicyInfosetBuilder;

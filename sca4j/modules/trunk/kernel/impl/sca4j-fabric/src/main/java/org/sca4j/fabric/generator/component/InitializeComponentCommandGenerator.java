@@ -54,8 +54,8 @@ package org.sca4j.fabric.generator.component;
 
 import java.net.URI;
 
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Property;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Property;
 import org.sca4j.fabric.command.ComponentInitializationUri;
 import org.sca4j.fabric.command.InitializeComponentCommand;
 import org.sca4j.spi.generator.AddCommandGenerator;
@@ -72,7 +72,7 @@ import org.sca4j.spi.model.instance.LogicalCompositeComponent;
 public class InitializeComponentCommandGenerator implements AddCommandGenerator {
     private final int order;
 
-    public InitializeComponentCommandGenerator(@Property(name = "order")int order) {
+    public InitializeComponentCommandGenerator(@Property(name = "order", required=false)int order) {
         this.order = order;
     }
 

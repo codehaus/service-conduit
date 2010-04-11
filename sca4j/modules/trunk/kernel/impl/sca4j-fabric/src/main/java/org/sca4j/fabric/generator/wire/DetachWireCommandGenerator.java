@@ -55,8 +55,8 @@ package org.sca4j.fabric.generator.wire;
 import java.net.URI;
 import java.util.List;
 
-import org.osoa.sca.annotations.Property;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Property;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.fabric.command.DetachWireCommand;
 import org.sca4j.scdl.ServiceContract;
 import org.sca4j.spi.generator.GenerationException;
@@ -91,7 +91,7 @@ public class DetachWireCommandGenerator implements RemoveCommandGenerator {
     private final int order;
     private final PhysicalWireGenerator generator;
 
-    public DetachWireCommandGenerator(@Reference PhysicalWireGenerator generator, @Property(name = "order")int order) {
+    public DetachWireCommandGenerator(@Reference PhysicalWireGenerator generator, @Property(name = "order", required=false)int order) {
         this.order = order;
         this.generator = generator; 
     }

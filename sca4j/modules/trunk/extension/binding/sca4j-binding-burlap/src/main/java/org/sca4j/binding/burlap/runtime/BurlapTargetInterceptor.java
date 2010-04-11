@@ -76,7 +76,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.osoa.sca.ServiceUnavailableException;
 import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.wire.Interceptor;
@@ -84,6 +83,7 @@ import org.sca4j.spi.wire.Interceptor;
 import com.caucho.burlap.io.BurlapInput;
 import com.caucho.burlap.io.BurlapOutput;
 import com.caucho.burlap.io.SerializerFactory;
+import org.oasisopen.sca.ServiceUnavailableException;
 
 
 /**

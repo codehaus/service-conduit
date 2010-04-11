@@ -61,9 +61,9 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-import org.osoa.sca.ComponentContext;
-import org.osoa.sca.annotations.Reference;
-import org.osoa.sca.annotations.Service;
+import org.oasisopen.sca.ComponentContext;
+import org.oasisopen.sca.annotation.Reference;
+import org.oasisopen.sca.annotation.Service;
 import org.sca4j.container.web.spi.WebApplicationActivationException;
 import org.sca4j.container.web.spi.WebApplicationActivator;
 import org.sca4j.pojo.reflection.Injector;
@@ -75,7 +75,7 @@ import org.sca4j.spi.host.ServletHost;
  *
  * @version $Revision$ $Date$
  */
-@Service(interfaces = {WebApplicationActivator.class, HttpSessionListener.class})
+@Service(value = {WebApplicationActivator.class, HttpSessionListener.class})
 public class EmbeddedWebApplicationActivator implements WebApplicationActivator, HttpSessionListener {
     private ServletHost host;
     private List<Injector<HttpSession>> sessionInjectors;

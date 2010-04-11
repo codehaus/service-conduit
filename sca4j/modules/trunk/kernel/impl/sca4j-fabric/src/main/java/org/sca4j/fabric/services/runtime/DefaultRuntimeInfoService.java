@@ -55,8 +55,8 @@ package org.sca4j.fabric.services.runtime;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.osoa.sca.annotations.Property;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Property;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.host.runtime.HostInfo;
 import org.sca4j.spi.model.topology.RuntimeInfo;
 import org.sca4j.spi.services.advertisement.AdvertisementService;

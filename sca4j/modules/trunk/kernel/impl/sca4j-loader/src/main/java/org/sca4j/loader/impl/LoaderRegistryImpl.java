@@ -81,8 +81,8 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.LoaderException;
 import org.sca4j.introspection.xml.LoaderRegistry;

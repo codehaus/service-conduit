@@ -60,7 +60,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.easymock.IMocksControl;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.SingletonObjectFactory;
 import org.sca4j.spi.builder.WiringException;

@@ -72,9 +72,6 @@ package org.sca4j.tx.interceptor;
 
 import javax.xml.namespace.QName;
 
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Init;
-import org.osoa.sca.annotations.Reference;
 import org.sca4j.host.Namespaces;
 import org.sca4j.scdl.Operation;
 import org.sca4j.spi.generator.GenerationException;
@@ -82,6 +79,9 @@ import org.sca4j.spi.generator.GeneratorRegistry;
 import org.sca4j.spi.generator.InterceptorDefinitionGenerator;
 import org.sca4j.spi.model.instance.LogicalBinding;
 import org.sca4j.spi.model.physical.PhysicalInterceptorDefinition;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Init;
+import org.oasisopen.sca.annotation.Reference;
 import org.w3c.dom.Element;
 
 /**

@@ -62,9 +62,9 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.osoa.sca.ComponentContext;
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.ComponentContext;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.host.runtime.HostInfo;
 import org.sca4j.scdl.ComponentDefinition;
 import org.sca4j.scdl.InjectableAttribute;

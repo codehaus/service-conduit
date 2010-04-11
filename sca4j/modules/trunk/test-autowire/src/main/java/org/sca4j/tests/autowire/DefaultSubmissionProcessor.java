@@ -20,7 +20,7 @@ package org.sca4j.tests.autowire;
 
 import java.util.List;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 
 public class DefaultSubmissionProcessor implements SubmissionProcessor {
     

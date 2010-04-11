@@ -73,7 +73,7 @@ import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.io.IOUtils;
-import org.osoa.sca.ServiceUnavailableException;
+import org.oasisopen.sca.ServiceUnavailableException;
 import org.sca4j.binding.http.provision.security.AuthenticationPolicy;
 import org.sca4j.binding.http.runtime.introspection.DataBinding;
 import org.sca4j.binding.http.runtime.introspection.OperationMetadata;

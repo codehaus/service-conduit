@@ -54,9 +54,9 @@
 
 -->
 <definitions 
-    xmlns="http://www.osoa.org/xmlns/sca/1.0" 
-    xmlns:sca="http://www.osoa.org/xmlns/sca/1.0"
-    targetNamespace="http://www.osoa.org/xmlns/sca/1.0" 
+    xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912" 
+    xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+    targetNamespace="http://docs.oasis-open.org/ns/opencsa/sca/200912" 
     xmlns:sca4j="urn:sca4j.org">
     
     <bindingType name="binding.jms" mayProvide="sca:oneWay sca:transactedOneWay sca:transactedOneWay.global sca:transactedOneWay.local"/>

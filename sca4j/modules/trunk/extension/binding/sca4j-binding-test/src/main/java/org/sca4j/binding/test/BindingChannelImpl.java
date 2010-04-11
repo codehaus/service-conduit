@@ -56,10 +56,10 @@ import java.net.URI;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.osoa.sca.Conversation;
-import org.osoa.sca.ServiceRuntimeException;
-import org.osoa.sca.ServiceUnavailableException;
-import org.osoa.sca.annotations.EagerInit;
+import org.oasisopen.sca.ServiceRuntimeException;
+import org.oasisopen.sca.ServiceUnavailableException;
+import org.sca4j.api.scope.Conversation;
+import org.oasisopen.sca.annotation.EagerInit;
 import org.sca4j.spi.invocation.CallFrame;
 import org.sca4j.spi.invocation.ConversationContext;
 import org.sca4j.spi.invocation.Message;

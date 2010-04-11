@@ -60,7 +60,7 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.osoa.sca.Constants;
+import org.oasisopen.sca.Constants;
 import org.sca4j.scdl.AbstractComponentType;
 import org.sca4j.scdl.Autowire;
 import org.sca4j.scdl.ComponentDefinition;

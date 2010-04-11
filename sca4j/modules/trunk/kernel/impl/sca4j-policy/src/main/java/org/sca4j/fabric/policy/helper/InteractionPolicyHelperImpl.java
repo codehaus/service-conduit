@@ -58,7 +58,7 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.fabric.policy.infoset.PolicySetEvaluator;
 import org.sca4j.scdl.Operation;
 import org.sca4j.scdl.definitions.BindingType;

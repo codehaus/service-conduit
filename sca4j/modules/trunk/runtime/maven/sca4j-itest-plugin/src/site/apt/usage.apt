@@ -50,7 +50,7 @@ Usage
   An example itest composite might look something like:
 
 +---+
-<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
            xmlns:f3="http://fabric3.org/xmlns/sca/2.0-alpha"
            xmlns:tns="urn:com.example:MyComponent"
            targetNamespace="urn:com.example:MyComponent" name="MyTestComposite">

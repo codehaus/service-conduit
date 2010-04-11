@@ -55,11 +55,11 @@ package org.sca4j.web.runtime;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.osoa.sca.CallableReference;
-import org.osoa.sca.ComponentContext;
-import org.osoa.sca.RequestContext;
-import org.osoa.sca.ServiceReference;
-import org.osoa.sca.ServiceRuntimeException;
+import org.oasisopen.sca.ServiceReference;
+import org.oasisopen.sca.ComponentContext;
+import org.oasisopen.sca.RequestContext;
+import org.oasisopen.sca.ServiceReference;
+import org.oasisopen.sca.ServiceRuntimeException;
 import org.sca4j.container.web.spi.WebRequestTunnel;
 import org.sca4j.host.SCA4JRuntimeException;
 import org.sca4j.spi.ObjectCreationException;
@@ -83,10 +83,10 @@ public class WebComponentContext implements ComponentContext {
             throw new ServiceRuntimeException(e.getMessage(), e);
         }
     }
-
-    public <B, R extends CallableReference<B>> R cast(B target) throws IllegalArgumentException {
+	
+    public <B> ServiceReference<B> cast(B target) throws IllegalArgumentException {
         try {
-            return (R) component.cast(target);
+            return component.cast(target);
         } catch (SCA4JRuntimeException e) {
             throw new ServiceRuntimeException(e.getMessage(), e);
         }
@@ -150,5 +150,12 @@ public class WebComponentContext implements ComponentContext {
         return request.getSession(true);  // force creation of session 
     }
 
+    public <B> java.util.Collection<ServiceReference<B>> getServiceReferences(Class<B> businessInterface, String referenceName) throws IllegalArgumentException {
+	return null;
+    }
+
+    public <B> java.util.Collection<B> getServices(Class<B> businessInterface, String referenceName) throws IllegalArgumentException {
+	return null;
+    }
 
 }

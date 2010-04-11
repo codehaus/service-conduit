@@ -54,8 +54,8 @@ package org.sca4j.introspection.impl.annotation;
 
 import java.lang.reflect.Type;
 
-import org.osoa.sca.annotations.Reference;
-import org.osoa.sca.annotations.Service;
+import org.oasisopen.sca.annotation.Reference;
+import org.oasisopen.sca.annotation.Service;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.TypeMapping;
 import org.sca4j.introspection.contract.ContractProcessor;
@@ -81,12 +81,12 @@ public class ServiceProcessor<I extends Implementation<? extends InjectingCompon
         TypeMapping typeMapping = context.getTypeMapping();
         InjectingComponentType componentType = implementation.getComponentType();
 
-        for (Class<?> service : annotation.interfaces()) {
+        for (Class<?> service : annotation.value()) {
             ServiceDefinition definition = createDefinition(service, typeMapping, context);
             componentType.add(definition);
         }
 
-        Class<?> service = annotation.value();
+        Class<?> service = annotation.value()[0];
         if (!Void.class.equals(service)) {
             ServiceDefinition definition = createDefinition(service, typeMapping, context);
             componentType.add(definition);

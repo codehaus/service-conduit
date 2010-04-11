@@ -72,7 +72,7 @@ import org.w3c.dom.NodeList;
  */
 public class DefaultLoaderHelperTestCase extends TestCase {
 
-    public static final String XML = "<composite xmlns=\"http://www.osoa.org/xmlns/sca/1.0\" " +
+    public static final String XML = "<composite xmlns=\"http://docs.oasis-open.org/ns/opencsa/sca/200912\" " +
             "xmlns:f3=\"urn:sca4j.org\"/>";
     private XMLInputFactory xmlFactory;
     private DefaultLoaderHelper helper;
@@ -87,7 +87,7 @@ public class DefaultLoaderHelperTestCase extends TestCase {
     public void testCreateQNameContext() throws Exception {
         XMLStreamReader reader = createReader(XML);
         QName qName = helper.createQName("bar", reader);
-        assertEquals("http://www.osoa.org/xmlns/sca/1.0", qName.getNamespaceURI());
+        assertEquals("http://docs.oasis-open.org/ns/opencsa/sca/200912", qName.getNamespaceURI());
     }
 
     public void testCreateQNameInvalidPrefix() throws Exception {

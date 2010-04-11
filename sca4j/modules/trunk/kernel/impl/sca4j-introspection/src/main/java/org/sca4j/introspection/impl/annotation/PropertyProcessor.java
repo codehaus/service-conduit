@@ -58,7 +58,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.IntrospectionHelper;
 import org.sca4j.introspection.TypeMapping;
@@ -73,15 +73,15 @@ import org.sca4j.scdl.Property;
 /**
  * @version $Rev: 4359 $ $Date: 2008-05-26 07:52:15 +0100 (Mon, 26 May 2008) $
  */
-public class PropertyProcessor<I extends Implementation<? extends InjectingComponentType>> extends AbstractAnnotationProcessor<org.osoa.sca.annotations.Property, I> {
+public class PropertyProcessor<I extends Implementation<? extends InjectingComponentType>> extends AbstractAnnotationProcessor<org.oasisopen.sca.annotation.Property, I> {
     private final IntrospectionHelper helper;
 
     public PropertyProcessor(@Reference IntrospectionHelper helper) {
-        super(org.osoa.sca.annotations.Property.class);
+        super(org.oasisopen.sca.annotation.Property.class);
         this.helper = helper;
     }
 
-    public void visitField(org.osoa.sca.annotations.Property annotation, Field field, I implementation, IntrospectionContext context) {
+    public void visitField(org.oasisopen.sca.annotation.Property annotation, Field field, I implementation, IntrospectionContext context) {
         validate(annotation, field, context);
         String name = helper.getSiteName(field, annotation.name());
         Type type = field.getGenericType();
@@ -90,7 +90,7 @@ public class PropertyProcessor<I extends Implementation<? extends InjectingCompo
         implementation.getComponentType().add(property, site);
     }
 
-    public void visitMethod(org.osoa.sca.annotations.Property annotation, Method method, I implementation, IntrospectionContext context) {
+    public void visitMethod(org.oasisopen.sca.annotation.Property annotation, Method method, I implementation, IntrospectionContext context) {
         validate(annotation, method, context);
         String name = helper.getSiteName(method, annotation.name());
         Type type = helper.getGenericType(method);
@@ -99,7 +99,7 @@ public class PropertyProcessor<I extends Implementation<? extends InjectingCompo
         implementation.getComponentType().add(property, site);
     }
 
-    private void validate(org.osoa.sca.annotations.Property annotation, Field field, IntrospectionContext context) {
+    private void validate(org.oasisopen.sca.annotation.Property annotation, Field field, IntrospectionContext context) {
         if (!Modifier.isProtected(field.getModifiers()) && !Modifier.isPublic(field.getModifiers())) {
             Class<?> clazz = field.getDeclaringClass();
             if (annotation.required()) {
@@ -116,7 +116,7 @@ public class PropertyProcessor<I extends Implementation<? extends InjectingCompo
         }
     }
 
-    private void validate(org.osoa.sca.annotations.Property annotation, Method method, IntrospectionContext context) {
+    private void validate(org.oasisopen.sca.annotation.Property annotation, Method method, IntrospectionContext context) {
         if (!Modifier.isProtected(method.getModifiers()) && !Modifier.isPublic(method.getModifiers())) {
             Class<?> clazz = method.getDeclaringClass();
             if (annotation.required()) {
@@ -132,7 +132,7 @@ public class PropertyProcessor<I extends Implementation<? extends InjectingCompo
         }
     }
 
-    public void visitConstructorParameter(org.osoa.sca.annotations.Property annotation,
+    public void visitConstructorParameter(org.oasisopen.sca.annotation.Property annotation,
                                           Constructor<?> constructor,
                                           int index,
                                           I implementation,

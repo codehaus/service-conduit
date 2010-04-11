@@ -55,7 +55,7 @@ package org.sca4j.pojo.component;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import org.osoa.sca.ConversationEndedException;
+import org.sca4j.api.scope.ConversationEndedException;
 import org.sca4j.pojo.PojoWorkContextTunnel;
 import org.sca4j.scdl.Scope;
 import org.sca4j.spi.component.AtomicComponent;

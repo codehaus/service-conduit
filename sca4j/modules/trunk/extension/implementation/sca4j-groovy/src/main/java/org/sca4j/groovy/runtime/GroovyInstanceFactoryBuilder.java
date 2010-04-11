@@ -62,9 +62,9 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Map;
 
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Init;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Init;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.groovy.provision.GroovyInstanceFactoryDefinition;
 import org.sca4j.pojo.instancefactory.InstanceFactoryBuildHelper;
 import org.sca4j.pojo.instancefactory.InstanceFactoryBuilder;

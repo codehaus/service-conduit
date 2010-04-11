@@ -54,7 +54,7 @@
 
 -->
 <definitions 
-    xmlns="http://www.osoa.org/xmlns/sca/1.0" 
+    xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912" 
     targetNamespace="http://www.sca4j.org/binding/burlap/0.2" 
     xmlns:sca4j="urn:sca4j.org">
     

@@ -58,8 +58,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import org.osoa.sca.Constants;
-import org.osoa.sca.annotations.Intent;
+import org.oasisopen.sca.Constants;
+import org.oasisopen.sca.annotation.Intent;
 
 /**
  * Annotation that indicates this class intends to use the SCA Java programming model.

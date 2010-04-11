@@ -66,10 +66,10 @@ import java.util.concurrent.TimeoutException;
 
 import javax.transaction.TransactionManager;
 
-import org.osoa.sca.annotations.Destroy;
-import org.osoa.sca.annotations.Init;
-import org.osoa.sca.annotations.Property;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Destroy;
+import org.oasisopen.sca.annotation.Init;
+import org.oasisopen.sca.annotation.Property;
+import org.oasisopen.sca.annotation.Reference;
 import org.quartz.CronTrigger;
 import org.quartz.Job;
 import org.quartz.JobDetail;
@@ -138,17 +138,17 @@ public class QuartzTimerService implements TimerService {
         }
     }
 
-    @Property
+    @Property(required=false)
     public void setWaitTime(long waitTime) {
         this.waitTime = waitTime;
     }
 
-    @Property
+    @Property(required=false)
     public void setTransactional(boolean transactional) {
         this.transactional = transactional;
     }
 
-    @Property
+    @Property(required=false)
     public void setSchedulerName(String schedulerName) {
         this.schedulerName = schedulerName;
     }

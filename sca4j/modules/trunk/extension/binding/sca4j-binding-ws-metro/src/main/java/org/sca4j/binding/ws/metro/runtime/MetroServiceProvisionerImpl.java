@@ -26,11 +26,11 @@ import java.util.Map;
 import javax.servlet.ServletConfig;
 import javax.xml.namespace.QName;
 
-import org.osoa.sca.ServiceUnavailableException;
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Init;
-import org.osoa.sca.annotations.Property;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.ServiceUnavailableException;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Init;
+import org.oasisopen.sca.annotation.Property;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.binding.ws.metro.provision.MetroWireSourceDefinition;
 import org.sca4j.host.runtime.HostInfo;
 import org.sca4j.spi.builder.WiringException;

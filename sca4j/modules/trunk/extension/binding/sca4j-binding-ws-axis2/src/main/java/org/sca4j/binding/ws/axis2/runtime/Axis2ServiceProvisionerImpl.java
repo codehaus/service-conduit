@@ -70,10 +70,10 @@ import org.apache.axis2.description.Parameter;
 import org.apache.axis2.description.WSDL2Constants;
 import org.apache.axis2.engine.MessageReceiver;
 import org.apache.axis2.transport.http.AxisServlet;
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Init;
-import org.osoa.sca.annotations.Property;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Init;
+import org.oasisopen.sca.annotation.Property;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.binding.ws.axis2.provision.Axis2WireSourceDefinition;
 import org.sca4j.binding.ws.axis2.provision.AxisPolicy;
@@ -120,7 +120,7 @@ public class Axis2ServiceProvisionerImpl implements Axis2ServiceProvisioner {
      * 
      * @param servicePath Service path for Axis requests.
      */
-    @Property
+    @Property(required=false)
     public void setServicePath(String servicePath) {
         this.servicePath = servicePath;
     }

@@ -52,12 +52,11 @@
  */
 package org.sca4j.introspection.impl.annotation;
 
+import org.oasisopen.sca.annotation.Scope;
 import static org.sca4j.scdl.Scope.COMPOSITE;
 import static org.sca4j.scdl.Scope.CONVERSATION;
 import static org.sca4j.scdl.Scope.REQUEST;
 import static org.sca4j.scdl.Scope.STATELESS;
-
-import org.osoa.sca.annotations.Scope;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.java.AbstractAnnotationProcessor;
 import org.sca4j.scdl.Implementation;

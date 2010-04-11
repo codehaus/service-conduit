@@ -72,7 +72,7 @@ package org.sca4j.java.scdl;
 
 import javax.xml.namespace.QName;
 
-import org.osoa.sca.Constants;
+import org.oasisopen.sca.Constants;
 import org.sca4j.pojo.scdl.PojoComponentType;
 import org.sca4j.scdl.Implementation;
 

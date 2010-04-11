@@ -72,7 +72,7 @@ package org.sca4j.tx.interceptor;
 
 import javax.transaction.TransactionManager;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.spi.builder.BuilderException;
 import org.sca4j.spi.builder.interceptor.InterceptorBuilder;

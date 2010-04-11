@@ -87,11 +87,11 @@ import org.mortbay.jetty.servlet.SessionHandler;
 import org.mortbay.log.Log;
 import org.mortbay.log.Logger;
 import org.mortbay.thread.BoundedThreadPool;
-import org.osoa.sca.annotations.Constructor;
-import org.osoa.sca.annotations.Destroy;
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Init;
-import org.osoa.sca.annotations.Property;
+import org.oasisopen.sca.annotation.Constructor;
+import org.oasisopen.sca.annotation.Destroy;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Init;
+import org.oasisopen.sca.annotation.Property;
 import org.sca4j.api.annotation.Monitor;
 
 /**
@@ -106,15 +106,15 @@ public class JettyServiceImpl implements JettyService {
 
     private final Object joinLock = new Object();
     
-    @Property protected int httpPort = 8080;
-    @Property protected int httpsPort = -1;
-    @Property protected String keystore;
-    @Property protected String certPassword;
-    @Property protected String keyPassword;
-    @Property protected String truststore;
-    @Property protected String trustPassword;
-    @Property protected boolean sendServerVersion;
-    @Property protected boolean clientAuth;
+    @Property(required=false) protected int httpPort = 8080;
+    @Property(required=false) protected int httpsPort = -1;
+    @Property(required=false) protected String keystore;
+    @Property(required=false) protected String certPassword;
+    @Property(required=false) protected String keyPassword;
+    @Property(required=false) protected String truststore;
+    @Property(required=false) protected String trustPassword;
+    @Property(required=false) protected boolean sendServerVersion;
+    @Property(required=false) protected boolean clientAuth;
 
     private TransportMonitor monitor;
     private boolean debug;

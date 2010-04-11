@@ -52,7 +52,7 @@
  */
 package org.sca4j.spi.component;
 
-import org.osoa.sca.Conversation;
+import org.sca4j.api.scope.Conversation;
 
 /**
  * Implementations receive notifications of a conversation having expired.

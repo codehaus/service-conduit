@@ -58,8 +58,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.fabric.instantiator.LogicalChange;
 import org.sca4j.spi.command.Command;
 import org.sca4j.spi.generator.AddCommandGenerator;

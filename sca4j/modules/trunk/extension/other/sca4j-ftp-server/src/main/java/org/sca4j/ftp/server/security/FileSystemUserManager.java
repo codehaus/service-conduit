@@ -77,7 +77,7 @@ import java.security.cert.X509Certificate;
 import java.util.Map;
 import java.util.Properties;
 
-import org.osoa.sca.annotations.Property;
+import org.oasisopen.sca.annotation.Property;
 
 /**
  * 
@@ -115,7 +115,7 @@ public class FileSystemUserManager implements UserManager {
      * 
      * @param users Map of users to passwords.
      */
-    @Property
+    @Property(required=false)
     public void setUsers(Map<String, String> users) {
         this.users.putAll(users);
     }
@@ -126,7 +126,7 @@ public class FileSystemUserManager implements UserManager {
      * @param userFile User file location.
      * @throws IOException If unable to load the properties.
      */
-    @Property
+    @Property(required=false)
     public void setUserFile(String userFile) throws IOException {
         
         InputStream inputStream = new FileInputStream(userFile);

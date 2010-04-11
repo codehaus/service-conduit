@@ -18,8 +18,8 @@
  */
 package org.sca4j.fabric.component.scope;
 
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.scdl.Scope;
 import org.sca4j.spi.builder.BuilderException;
 import org.sca4j.spi.builder.interceptor.InterceptorBuilder;

@@ -54,8 +54,8 @@
 
 -->
 <definitions 
-    xmlns="http://www.osoa.org/xmlns/sca/1.0" 
-    targetNamespace="http://www.osoa.org/xmlns/sca/1.02" 
+    xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912" 
+    targetNamespace="http://docs.oasis-open.org/ns/opencsa/sca/2009122" 
     xmlns:sca4j="urn:sca4j.org">
     
     <bindingType name="ws"/>

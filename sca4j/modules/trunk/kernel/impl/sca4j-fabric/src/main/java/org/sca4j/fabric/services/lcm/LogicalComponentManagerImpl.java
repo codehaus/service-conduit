@@ -57,8 +57,8 @@ import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
-import org.osoa.sca.annotations.Init;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Init;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.scdl.Composite;
 import org.sca4j.scdl.CompositeReference;
 import org.sca4j.scdl.CompositeService;

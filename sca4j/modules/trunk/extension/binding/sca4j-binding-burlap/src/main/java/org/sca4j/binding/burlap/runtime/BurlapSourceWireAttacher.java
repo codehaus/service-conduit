@@ -74,7 +74,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.binding.burlap.provision.BurlapWireSourceDefinition;
 import org.sca4j.spi.ObjectFactory;

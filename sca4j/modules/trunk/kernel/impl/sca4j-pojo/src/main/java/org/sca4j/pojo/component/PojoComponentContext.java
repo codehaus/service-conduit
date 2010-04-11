@@ -52,10 +52,10 @@
  */
 package org.sca4j.pojo.component;
 
-import org.osoa.sca.CallableReference;
-import org.osoa.sca.ComponentContext;
-import org.osoa.sca.RequestContext;
-import org.osoa.sca.ServiceReference;
+import org.oasisopen.sca.ComponentContext;
+import org.oasisopen.sca.ServiceReference;
+import org.oasisopen.sca.ServiceReference;
+import org.oasisopen.sca.RequestContext;
 
 /**
  * @version $Rev: 5243 $ $Date: 2008-08-20 22:14:37 +0100 (Wed, 20 Aug 2008) $
@@ -71,10 +71,6 @@ public class PojoComponentContext implements ComponentContext {
 
     public String getURI() {
         return component.getUri().toString();
-    }
-
-    public <B, R extends CallableReference<B>> R cast(B target) throws IllegalArgumentException {
-        return null;
     }
 
     public <B> B getService(Class<B> businessInterface, String referenceName) {
@@ -100,4 +96,18 @@ public class PojoComponentContext implements ComponentContext {
     public RequestContext getRequestContext() {
         return requestContext;
     }
+
+    public <B> ServiceReference<B> cast(B target) throws java.lang.IllegalArgumentException {
+	return null;
+    }
+
+    public <B> java.util.Collection<ServiceReference<B>> getServiceReferences(java.lang.Class<B> businessInterface, java.lang.String referenceName) throws java.lang.IllegalArgumentException {
+	return null;
+    }
+
+    public <B> java.util.Collection<B> getServices(java.lang.Class<B> businessInterface, java.lang.String referenceName) throws java.lang.IllegalArgumentException {
+	return null;
+    }
+
+
 }

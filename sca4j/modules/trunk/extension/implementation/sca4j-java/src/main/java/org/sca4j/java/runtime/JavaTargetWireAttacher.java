@@ -58,7 +58,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.java.provision.JavaWireTargetDefinition;
 import org.sca4j.pojo.component.InvokerInterceptor;
 import org.sca4j.pojo.provision.PojoWireSourceDefinition;

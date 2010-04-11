@@ -70,12 +70,12 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.SortedSet;
 
-import org.osoa.sca.ComponentContext;
-import org.osoa.sca.RequestContext;
-import org.osoa.sca.ServiceReference;
-import org.osoa.sca.annotations.Callback;
-import org.osoa.sca.annotations.Remotable;
-import org.osoa.sca.annotations.Service;
+import org.oasisopen.sca.ComponentContext;
+import org.oasisopen.sca.RequestContext;
+import org.oasisopen.sca.ServiceReference;
+import org.oasisopen.sca.annotation.Callback;
+import org.oasisopen.sca.annotation.Remotable;
+import org.oasisopen.sca.annotation.Service;
 import org.sca4j.introspection.IntrospectionHelper;
 import org.sca4j.introspection.TypeMapping;
 import org.sca4j.introspection.java.ImplementationNotFoundException;
@@ -142,13 +142,6 @@ public class DefaultIntrospectionHelper implements IntrospectionHelper {
             return override;
         }
 
-        org.osoa.sca.annotations.Constructor annotation = constructor.getAnnotation(org.osoa.sca.annotations.Constructor.class);
-        if (annotation != null) {
-            String[] names = annotation.value();
-            if (names.length != 1 || names[0].length() != 0) {
-                return names[index];
-            }
-        }
         return constructor.getDeclaringClass().getSimpleName() + "[" + index + ']';
     }
 

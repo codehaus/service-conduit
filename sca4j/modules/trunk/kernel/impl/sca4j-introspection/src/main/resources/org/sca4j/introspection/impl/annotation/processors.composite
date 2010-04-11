@@ -53,8 +53,8 @@
     The Apache Software Foundation (http://www.apache.org/).
 
 -->
-<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
-           xmlns:sca="http://www.osoa.org/xmlns/sca/1.0"
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+           xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912"
            xmlns:sca4j="urn:sca4j.org"
            name="AnnotationProcessorsComposite" 
            targetNamespace="urn:org.sca4j"
@@ -62,51 +62,51 @@
 
     <!-- OSOA Specification Annotations -->
 
-    <component name="CallbackProcessor" sca4j:key="org.osoa.sca.annotations.Callback">
+    <component name="CallbackProcessor" sca4j:key="org.oasisopen.sca.annotation.Callback">
         <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.CallbackProcessor"/>
     </component>
 
-    <component name="ContextProcessor" sca4j:key="org.osoa.sca.annotations.Context">
+    <component name="ContextProcessor" sca4j:key="org.oasisopen.sca.annotation.Context">
         <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.ContextProcessor"/>
     </component>
 
-    <component name="ConversationIDProcessor" sca4j:key="org.osoa.sca.annotations.ConversationID">
-        <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.ConversationIDProcessor"/>
-    </component>
-
-    <component name="DestroyProcessor" sca4j:key="org.osoa.sca.annotations.Destroy">
+    <component name="DestroyProcessor" sca4j:key="org.oasisopen.sca.annotation.Destroy">
         <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.DestroyProcessor"/>
     </component>
 
-    <component name="EagerInitProcessor" sca4j:key="org.osoa.sca.annotations.EagerInit">
+    <component name="EagerInitProcessor" sca4j:key="org.oasisopen.sca.annotation.EagerInit">
         <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.EagerInitProcessor"/>
     </component>
 
-    <component name="InitProcessor" sca4j:key="org.osoa.sca.annotations.Init">
+    <component name="InitProcessor" sca4j:key="org.oasisopen.sca.annotation.Init">
         <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.InitProcessor"/>
     </component>
 
-    <component name="PropertyProcessor" sca4j:key="org.osoa.sca.annotations.Property">
+    <component name="PropertyProcessor" sca4j:key="org.oasisopen.sca.annotation.Property">
         <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.PropertyProcessor"/>
     </component>
 
-    <component name="ReferenceProcessor" sca4j:key="org.osoa.sca.annotations.Reference">
+    <component name="ReferenceProcessor" sca4j:key="org.oasisopen.sca.annotation.Reference">
         <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.ReferenceProcessor"/>
     </component>
 
-    <component name="RemotableProcessor" sca4j:key="org.osoa.sca.annotations.Remotable">
+    <component name="RemotableProcessor" sca4j:key="org.oasisopen.sca.annotation.Remotable">
         <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.RemotableProcessor"/>
     </component>
 
-    <component name="ScopeProcessor" sca4j:key="org.osoa.sca.annotations.Scope">
+    <component name="ScopeProcessor" sca4j:key="org.oasisopen.sca.annotation.Scope">
         <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.ScopeProcessor"/>
     </component>
 
-    <component name="ServiceProcessor" sca4j:key="org.osoa.sca.annotations.Service">
+    <component name="ServiceProcessor" sca4j:key="org.oasisopen.sca.annotation.Service">
         <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.ServiceProcessor"/>
     </component>
 
     <!-- SCA4J Annotations -->
+
+    <component name="ConversationIDProcessor" sca4j:key="org.sca4j.api.scope.ConversationID">
+        <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.ConversationIDProcessor"/>
+    </component>
 
     <component name="MonitorProcessor" sca4j:key="org.sca4j.api.annotation.Monitor">
         <sca4j:implementation.system class="org.sca4j.introspection.impl.annotation.MonitorProcessor"/>

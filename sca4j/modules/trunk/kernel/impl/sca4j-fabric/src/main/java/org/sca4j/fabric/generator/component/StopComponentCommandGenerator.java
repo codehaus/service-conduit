@@ -70,7 +70,7 @@ package org.sca4j.fabric.generator.component;
  * under the License.
  */
 
-import org.osoa.sca.annotations.Property;
+import org.oasisopen.sca.annotation.Property;
 import org.sca4j.fabric.command.StopComponentCommand;
 import org.sca4j.spi.generator.GenerationException;
 import org.sca4j.spi.generator.RemoveCommandGenerator;
@@ -86,7 +86,7 @@ public class StopComponentCommandGenerator implements RemoveCommandGenerator {
 
     private final int order;
     
-    public StopComponentCommandGenerator(@Property(name = "order")int order) {
+    public StopComponentCommandGenerator(@Property(name = "order", required=false)int order) {
         this.order = order;
     }
 

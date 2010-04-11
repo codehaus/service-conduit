@@ -54,8 +54,8 @@ package org.sca4j.groovy.control;
 
 import java.net.URI;
 
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.groovy.provision.GroovyComponentDefinition;
 import org.sca4j.groovy.provision.GroovyInstanceFactoryDefinition;
 import org.sca4j.groovy.provision.GroovyWireSourceDefinition;

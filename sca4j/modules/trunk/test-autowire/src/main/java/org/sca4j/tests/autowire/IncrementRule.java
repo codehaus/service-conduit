@@ -18,7 +18,7 @@
  */
 package org.sca4j.tests.autowire;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 
 public class IncrementRule implements Rule<Payment> {
 

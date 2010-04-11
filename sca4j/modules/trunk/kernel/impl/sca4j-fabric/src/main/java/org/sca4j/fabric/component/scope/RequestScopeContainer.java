@@ -18,9 +18,9 @@
  */
 package org.sca4j.fabric.component.scope;
 
-import org.osoa.sca.ConversationEndedException;
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Service;
+import org.sca4j.api.scope.ConversationEndedException;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Service;
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.scdl.Scope;
 import org.sca4j.spi.ObjectFactory;

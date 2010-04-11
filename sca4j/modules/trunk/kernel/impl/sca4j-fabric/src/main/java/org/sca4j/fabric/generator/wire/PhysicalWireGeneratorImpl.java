@@ -61,7 +61,7 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.fabric.component.scope.RequestScopeInterceptorDefinition;
 import org.sca4j.scdl.BindingDefinition;
 import org.sca4j.scdl.Implementation;

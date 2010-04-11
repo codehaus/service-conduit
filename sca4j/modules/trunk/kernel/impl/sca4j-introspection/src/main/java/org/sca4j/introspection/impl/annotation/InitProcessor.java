@@ -57,7 +57,7 @@ import java.lang.reflect.Modifier;
 
 import javax.xml.namespace.QName;
 
-import org.osoa.sca.annotations.Init;
+import org.oasisopen.sca.annotation.Init;
 import org.sca4j.host.Namespaces;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.java.AbstractAnnotationProcessor;

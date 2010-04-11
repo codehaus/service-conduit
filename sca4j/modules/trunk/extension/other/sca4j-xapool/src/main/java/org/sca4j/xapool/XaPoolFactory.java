@@ -22,10 +22,10 @@ import java.sql.SQLException;
 
 import javax.transaction.TransactionManager;
 
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Init;
-import org.osoa.sca.annotations.Property;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Init;
+import org.oasisopen.sca.annotation.Property;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.spi.resource.DataSourceRegistry;
 
 /**
@@ -39,7 +39,7 @@ public class XaPoolFactory {
 
     @Reference public DataSourceRegistry dataSourceRegistry;
     @Reference public TransactionManager transactionManager;
-    @Property public DataSourceConfigCollection dataSourceConfigCollection;
+    @Property(required=false) public DataSourceConfigCollection dataSourceConfigCollection;
     
     @Init public void start() throws SQLException {
         

@@ -59,8 +59,8 @@ import java.net.URI;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.rs.provision.RsWireSourceDefinition;
 import org.sca4j.rs.runtime.rs.RsWebApplication;
 import org.sca4j.spi.ObjectFactory;

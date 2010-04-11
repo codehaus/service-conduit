@@ -56,7 +56,7 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.Set;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.spi.model.topology.RuntimeInfo;
 import org.sca4j.spi.services.discovery.DiscoveryService;
 import org.sca4j.spi.services.runtime.RuntimeInfoService;

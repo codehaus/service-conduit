@@ -40,8 +40,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.osoa.sca.annotations.Destroy;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Destroy;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.binding.oracle.aq.common.QueueDefinition;
 import org.sca4j.binding.oracle.aq.provision.AQWireSourceDefinition;

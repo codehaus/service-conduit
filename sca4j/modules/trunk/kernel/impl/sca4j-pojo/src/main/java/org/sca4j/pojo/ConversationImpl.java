@@ -54,7 +54,7 @@ package org.sca4j.pojo;
 
 import java.io.Serializable;
 
-import org.osoa.sca.Conversation;
+import org.sca4j.api.scope.Conversation;
 import org.sca4j.spi.component.ScopeContainer;
 import org.sca4j.spi.invocation.CallFrame;
 import org.sca4j.spi.invocation.WorkContext;

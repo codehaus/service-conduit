@@ -73,8 +73,8 @@ package org.sca4j.ftp.server.handler;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.osoa.sca.annotations.Property;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Property;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.ftp.api.FtpLet;
 import org.sca4j.ftp.server.data.DataConnection;
@@ -178,7 +178,7 @@ public class StorRequestHandler implements RequestHandler {
      *
      * @param timeout timeout in seconds.
      */
-    @Property
+    @Property(required=false)
     public void setIdleTimeout(int timeout) {
         this.idleTimeout = timeout * 1000;
     }

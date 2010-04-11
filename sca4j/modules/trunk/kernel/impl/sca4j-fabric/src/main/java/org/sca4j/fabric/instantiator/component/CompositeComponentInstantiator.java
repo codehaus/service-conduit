@@ -59,7 +59,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.fabric.instantiator.LogicalChange;
 import org.sca4j.fabric.services.documentloader.DocumentLoader;
 import org.sca4j.scdl.BindingDefinition;

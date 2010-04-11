@@ -68,9 +68,9 @@ import javax.management.MBeanOperationInfo;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Property;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Property;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.jmx.provision.JMXWireSourceDefinition;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;
@@ -90,7 +90,7 @@ public class JMXWireAttacher implements SourceWireAttacher<JMXWireSourceDefiniti
     private final String subDomain;
 
     public JMXWireAttacher(@Reference MBeanServer mBeanServer,
-                           @Property(name = "subDomain")String subDomain) {
+                           @Property(name = "subDomain", required=false)String subDomain) {
         this.mBeanServer = mBeanServer;
         this.subDomain = subDomain;
     }

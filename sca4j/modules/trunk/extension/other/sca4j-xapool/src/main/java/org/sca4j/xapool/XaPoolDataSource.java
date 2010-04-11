@@ -67,7 +67,7 @@ import javax.transaction.Transaction;
 import javax.transaction.TransactionManager;
 
 import org.enhydra.jdbc.standard.StandardXADataSource;
-import org.osoa.sca.annotations.EagerInit;
+import org.oasisopen.sca.annotation.EagerInit;
 import org.sca4j.spi.resource.DataSourceRegistry;
 
 /**

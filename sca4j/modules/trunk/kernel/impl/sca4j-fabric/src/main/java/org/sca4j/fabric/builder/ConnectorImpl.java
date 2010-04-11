@@ -72,7 +72,7 @@ package org.sca4j.fabric.builder;
 
 import java.util.Map;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.fabric.wire.InvocationChainImpl;
 import org.sca4j.fabric.wire.WireImpl;
 import org.sca4j.spi.ObjectFactory;

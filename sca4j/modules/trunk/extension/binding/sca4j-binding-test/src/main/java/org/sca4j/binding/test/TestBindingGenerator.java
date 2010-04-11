@@ -52,13 +52,13 @@
  */
 package org.sca4j.binding.test;
 
-import org.osoa.sca.annotations.EagerInit;
 import org.sca4j.scdl.ReferenceDefinition;
 import org.sca4j.scdl.ServiceDefinition;
 import org.sca4j.spi.generator.BindingGenerator;
 import org.sca4j.spi.generator.GenerationException;
 import org.sca4j.spi.model.instance.LogicalBinding;
 import org.sca4j.spi.policy.Policy;
+import org.oasisopen.sca.annotation.EagerInit;
 
 /**
  * Implementation of the test binding generator.

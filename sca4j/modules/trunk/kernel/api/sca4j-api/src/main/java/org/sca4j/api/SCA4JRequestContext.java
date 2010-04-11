@@ -52,7 +52,7 @@
  */
 package org.sca4j.api;
 
-import org.osoa.sca.RequestContext;
+import org.oasisopen.sca.RequestContext;
 
 /**
  * A SCA4J extension to the SCA RequestContext API. Components may reference this interface when for fields or setters marked with @Context instead

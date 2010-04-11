@@ -77,8 +77,8 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.host.contribution.ContributionService;

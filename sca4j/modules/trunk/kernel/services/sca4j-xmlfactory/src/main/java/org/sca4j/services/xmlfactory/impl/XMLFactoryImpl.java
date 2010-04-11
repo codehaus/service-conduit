@@ -56,9 +56,9 @@ import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
 
-import org.osoa.sca.annotations.Constructor;
-import org.osoa.sca.annotations.Property;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Constructor;
+import org.oasisopen.sca.annotation.Property;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.host.expression.ExpressionExpander;
 import org.sca4j.services.xmlfactory.XMLFactory;
 import org.sca4j.services.xmlfactory.XMLFactoryInstantiationException;
@@ -81,8 +81,8 @@ public final class XMLFactoryImpl implements XMLFactory {
     }
 
     @Constructor
-    public XMLFactoryImpl(@Property(name = "input")String inputFactoryName,
-                          @Property(name = "output")String outputFactoryName,
+    public XMLFactoryImpl(@Property(name = "input", required=false)String inputFactoryName,
+                          @Property(name = "output", required=false)String outputFactoryName,
                           @Reference ExpressionExpander expressionExpander) {
         this.inputFactoryName = inputFactoryName;
         this.outputFactoryName = outputFactoryName;

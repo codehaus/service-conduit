@@ -53,14 +53,14 @@
 package org.sca4j.loader.common;
 
 import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
-import static org.osoa.sca.Constants.SCA_NS;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import org.osoa.sca.annotations.Reference;
+import static org.oasisopen.sca.Constants.SCA_NS;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.Loader;
 import org.sca4j.introspection.xml.LoaderHelper;

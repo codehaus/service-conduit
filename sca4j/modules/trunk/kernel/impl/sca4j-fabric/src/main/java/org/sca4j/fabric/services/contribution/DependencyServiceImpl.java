@@ -55,7 +55,7 @@ package org.sca4j.fabric.services.contribution;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.fabric.util.graph.Cycle;
 import org.sca4j.fabric.util.graph.CycleDetector;
 import org.sca4j.fabric.util.graph.CycleDetectorImpl;

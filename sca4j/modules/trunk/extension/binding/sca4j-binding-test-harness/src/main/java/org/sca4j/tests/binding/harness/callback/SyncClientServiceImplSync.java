@@ -70,13 +70,13 @@
 */
 package org.sca4j.tests.binding.harness.callback;
 
-import org.osoa.sca.annotations.Reference;
-import org.osoa.sca.annotations.Service;
+import org.oasisopen.sca.annotation.Reference;
+import org.oasisopen.sca.annotation.Service;
 
 /**
  * @version $Revision$ $Date$
  */
-@Service(interfaces = {SyncClientService.class, SyncCallbackService.class})
+@Service(value = {SyncClientService.class, SyncCallbackService.class})
 public class SyncClientServiceImplSync implements SyncClientService, SyncCallbackService {
 
     @Reference

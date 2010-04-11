@@ -60,7 +60,7 @@ import java.util.Map;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.binding.jms.common.ConnectionFactoryDefinition;
 import org.sca4j.binding.jms.common.CorrelationScheme;
 import org.sca4j.binding.jms.common.CreateOption;

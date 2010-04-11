@@ -52,7 +52,7 @@
  */
 package org.sca4j.introspection.impl.annotation;
 
-import org.osoa.sca.annotations.Scope;
+import org.oasisopen.sca.annotation.Scope;
 import org.sca4j.api.annotation.scope.Request;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.java.AbstractAnnotationProcessor;

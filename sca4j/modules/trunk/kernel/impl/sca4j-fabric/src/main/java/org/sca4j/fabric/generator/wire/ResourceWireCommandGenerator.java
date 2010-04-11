@@ -70,8 +70,8 @@
  */
 package org.sca4j.fabric.generator.wire;
 
-import org.osoa.sca.annotations.Property;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Property;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.fabric.command.AttachWireCommand;
 import org.sca4j.spi.generator.AddCommandGenerator;
 import org.sca4j.spi.generator.GenerationException;
@@ -90,7 +90,7 @@ public class ResourceWireCommandGenerator implements AddCommandGenerator {
     private final PhysicalWireGenerator physicalWireGenerator;
     private final int order;
 
-    public ResourceWireCommandGenerator(@Reference PhysicalWireGenerator physicalWireGenerator, @Property(name = "order")int order) {
+    public ResourceWireCommandGenerator(@Reference PhysicalWireGenerator physicalWireGenerator, @Property(name = "order", required=false)int order) {
         this.physicalWireGenerator = physicalWireGenerator;
         this.order = order;
     }

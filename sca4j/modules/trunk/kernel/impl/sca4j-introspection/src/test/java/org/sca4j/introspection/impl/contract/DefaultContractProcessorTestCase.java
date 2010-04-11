@@ -77,10 +77,9 @@ import java.util.Comparator;
 import java.util.List;
 
 import junit.framework.TestCase;
-
-import org.osoa.sca.annotations.Callback;
-import org.osoa.sca.annotations.Conversational;
-import org.osoa.sca.annotations.EndsConversation;
+import org.oasisopen.sca.annotation.Callback;
+import org.sca4j.api.annotation.scope.Conversational;
+import org.sca4j.api.annotation.scope.EndsConversation;
 import org.sca4j.introspection.IntrospectionHelper;
 import org.sca4j.introspection.TypeMapping;
 import org.sca4j.introspection.contract.ContractProcessor;

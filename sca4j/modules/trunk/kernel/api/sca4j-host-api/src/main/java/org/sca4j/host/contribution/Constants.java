@@ -92,7 +92,7 @@ public final class Constants {
     
     public static final String URI_PREFIX = "sca://contribution/";
 
-    public final static QName COMPOSITE_TYPE = new QName("http://www.osoa.org/xmlns/sca/1.0", "composite");
+    public final static QName COMPOSITE_TYPE = new QName("http://docs.oasis-open.org/ns/opencsa/sca/200912", "composite");
 
     private Constants() {
     }

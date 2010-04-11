@@ -72,7 +72,7 @@ package org.sca4j.scdl;
 
 import javax.xml.namespace.QName;
 
-import org.osoa.sca.Constants;
+import org.oasisopen.sca.Constants;
 
 /**
  * A specialization of an implementation associated with composite components

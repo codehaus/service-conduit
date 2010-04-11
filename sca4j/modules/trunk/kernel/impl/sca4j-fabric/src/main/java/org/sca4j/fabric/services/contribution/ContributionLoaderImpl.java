@@ -54,7 +54,7 @@ package org.sca4j.fabric.services.contribution;
 
 import java.net.URI;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.ContributionManifest;
 import org.sca4j.spi.services.contribution.Import;

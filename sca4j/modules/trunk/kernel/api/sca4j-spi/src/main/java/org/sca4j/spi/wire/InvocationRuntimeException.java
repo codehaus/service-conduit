@@ -70,7 +70,7 @@
  */
 package org.sca4j.spi.wire;
 
-import org.osoa.sca.ServiceRuntimeException;
+import org.oasisopen.sca.ServiceRuntimeException;
 
 /**
  * Denotes a runtime exception thrown during an invocation over a wire

@@ -26,8 +26,8 @@ import java.util.Map;
 
 import javax.xml.ws.Service;
 
-import org.osoa.sca.ServiceUnavailableException;
-import org.osoa.sca.annotations.EagerInit;
+import org.oasisopen.sca.ServiceUnavailableException;
+import org.oasisopen.sca.annotation.EagerInit;
 import org.sca4j.binding.ws.metro.provision.MetroWireTargetDefinition;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;

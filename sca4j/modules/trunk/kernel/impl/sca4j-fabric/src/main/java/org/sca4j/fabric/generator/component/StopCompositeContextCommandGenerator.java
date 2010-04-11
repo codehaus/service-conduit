@@ -71,7 +71,7 @@ package org.sca4j.fabric.generator.component;
  * under the License.
  */
 
-import org.osoa.sca.annotations.Property;
+import org.oasisopen.sca.annotation.Property;
 import org.sca4j.fabric.command.StopCompositeContextCommand;
 import org.sca4j.spi.generator.GenerationException;
 import org.sca4j.spi.generator.RemoveCommandGenerator;
@@ -89,7 +89,7 @@ public class StopCompositeContextCommandGenerator implements RemoveCommandGenera
 
     private final int order;
 
-    public StopCompositeContextCommandGenerator(@Property(name = "order")int order) {
+    public StopCompositeContextCommandGenerator(@Property(name = "order", required=false)int order) {
         this.order = order;
     }
 

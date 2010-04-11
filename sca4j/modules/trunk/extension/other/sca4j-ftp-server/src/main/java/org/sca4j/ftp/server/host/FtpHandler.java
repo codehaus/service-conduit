@@ -75,7 +75,7 @@ import java.util.Map;
 import org.apache.mina.core.service.IoHandler;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.ftp.api.Session;
 import org.sca4j.ftp.server.monitor.FtpMonitor;

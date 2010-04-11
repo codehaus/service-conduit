@@ -58,8 +58,8 @@
     
     $Rev: 1577 $ $Date: 2007-10-20 23:49:45 +0100 (Sat, 20 Oct 2007) $
 -->
-<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
-           xmlns:sca="http://www.osoa.org/xmlns/sca/1.0"
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+           xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912"
            xmlns:sca4j="urn:sca4j.org"
            name="org.sca4j.MockImplementation"
            autowire="true">

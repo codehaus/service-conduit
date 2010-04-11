@@ -52,7 +52,7 @@
  */
 package org.sca4j.fabric.domain;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.fabric.allocator.Allocator;
 import org.sca4j.fabric.generator.PhysicalModelGenerator;
 import org.sca4j.fabric.instantiator.LogicalModelInstantiator;

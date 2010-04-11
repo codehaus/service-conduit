@@ -54,8 +54,8 @@ package org.sca4j.spi.model.type;
 
 import javax.xml.namespace.QName;
 
-import org.osoa.sca.Constants;
 import org.sca4j.scdl.BindingDefinition;
+import org.oasisopen.sca.Constants;
 
 /**
  * Represents the SCA binding

@@ -70,7 +70,7 @@
  */
 package org.sca4j.pojo.injection;
 
-import org.osoa.sca.Conversation;
+import org.sca4j.api.scope.Conversation;
 import org.sca4j.pojo.PojoWorkContextTunnel;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.invocation.CallFrame;

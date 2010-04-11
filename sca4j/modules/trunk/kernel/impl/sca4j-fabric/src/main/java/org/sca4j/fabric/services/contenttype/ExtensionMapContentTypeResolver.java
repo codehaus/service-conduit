@@ -59,8 +59,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.activation.FileTypeMap;
-
-import org.osoa.sca.annotations.Property;
+import org.oasisopen.sca.annotation.Property;
 import org.sca4j.spi.services.contenttype.ContentTypeResolutionException;
 import org.sca4j.spi.services.contenttype.ContentTypeResolver;
 
@@ -82,7 +81,7 @@ public class ExtensionMapContentTypeResolver implements ContentTypeResolver {
     /**
      * @param extensionMap Injected extension map.
      */
-    @Property
+    @Property(required=false)
     public void setExtensionMap(Map<String, String> extensionMap) {
         this.extensionMap = extensionMap;
     }

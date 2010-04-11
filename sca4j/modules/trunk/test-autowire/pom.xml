@@ -32,9 +32,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.codehaus.service-conduit.spec</groupId>
-            <artifactId>sca-api-r1.0</artifactId>
-            <version>0.2.2</version>
+	    <groupId>org.codehaus.service-conduit.spec</groupId>
+	    <artifactId>sca-caa-apis</artifactId>
+	    <version>1.1-CD04</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>

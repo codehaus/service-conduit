@@ -55,7 +55,7 @@ package org.sca4j.proxy.jdk;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
-import org.osoa.sca.ServiceUnavailableException;
+import org.oasisopen.sca.ServiceUnavailableException;
 import org.sca4j.spi.component.InstanceInvocationException;
 import org.sca4j.spi.invocation.CallFrame;
 import org.sca4j.spi.invocation.Message;

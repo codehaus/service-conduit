@@ -57,7 +57,7 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.osoa.sca.annotations.Property;
+import org.oasisopen.sca.annotation.Property;
 import org.sca4j.spi.binding.BindingProvider;
 import org.sca4j.spi.binding.BindingSelectionStrategy;
 
@@ -70,7 +70,7 @@ import org.sca4j.spi.binding.BindingSelectionStrategy;
 public class ConfigurableBindingSelectionStrategy implements BindingSelectionStrategy {
     private List<QName> scaBindingOrder;
 
-    @Property
+    @Property(required=false)
     public void setScaBindingOrder(List<QName> scaBindingOrder) {
         this.scaBindingOrder = scaBindingOrder;
     }

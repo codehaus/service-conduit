@@ -55,7 +55,7 @@ package org.sca4j.fabric.instantiator.component;
 import java.net.URI;
 import java.util.Map;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.fabric.instantiator.LogicalChange;
 import org.sca4j.fabric.services.documentloader.DocumentLoader;
 import org.sca4j.scdl.AbstractComponentType;

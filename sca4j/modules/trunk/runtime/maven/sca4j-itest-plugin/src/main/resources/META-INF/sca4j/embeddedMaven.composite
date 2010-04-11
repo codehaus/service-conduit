@@ -58,7 +58,7 @@
 
     $Rev: 5395 $ $Date: 2008-09-13 14:35:47 +0100 (Sat, 13 Sep 2008) $
 -->
-<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
            xmlns:sca4j="urn:sca4j.org"
            name="MavenRuntimeComposite"
            autowire="true">

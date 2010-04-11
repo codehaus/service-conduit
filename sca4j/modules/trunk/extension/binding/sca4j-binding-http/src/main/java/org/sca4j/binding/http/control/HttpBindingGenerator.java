@@ -55,8 +55,8 @@ package org.sca4j.binding.http.control;
 import java.net.URI;
 import java.util.Map;
 
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.binding.http.provision.HttpSourceWireDefinition;
 import org.sca4j.binding.http.provision.HttpTargetWireDefinition;
 import org.sca4j.binding.http.provision.PolicyAware;

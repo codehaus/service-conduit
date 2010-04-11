@@ -117,7 +117,7 @@ public final class Constants {
     /**
      * Name of the context attribute that contains the ComponentContext.
      */
-    public static final String CONTEXT_ATTRIBUTE = "org.osoa.sca.ComponentContext";
+    public static final String CONTEXT_ATTRIBUTE = "org.oasisopen.sca.ComponentContext";
 
     /**
      * Name of the parameter that defines the class to load to launch the runtime.

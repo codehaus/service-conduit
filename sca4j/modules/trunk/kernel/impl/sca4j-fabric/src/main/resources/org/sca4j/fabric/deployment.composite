@@ -53,8 +53,8 @@
     The Apache Software Foundation (http://www.apache.org/).
 
 -->
-<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
-           xmlns:sca="http://www.osoa.org/xmlns/sca/1.0"
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+           xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912"
            xmlns:sca4j="urn:sca4j.org"
            name="DeploymentBootComposite"
            autowire="true">

@@ -72,9 +72,9 @@ package org.sca4j.fabric.generator.wire;
 
 import java.net.URI;
 
-import org.osoa.sca.annotations.Constructor;
-import org.osoa.sca.annotations.Property;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Constructor;
+import org.oasisopen.sca.annotation.Property;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.fabric.command.AttachWireCommand;
 import org.sca4j.fabric.runtime.ComponentNames;
 import org.sca4j.scdl.CompositeImplementation;
@@ -128,7 +128,7 @@ public class LocalWireCommandGenerator implements AddCommandGenerator {
     public LocalWireCommandGenerator(@Reference PhysicalWireGenerator physicalWireGenerator,
                                      @Reference(name = "runtimeLCM")LogicalComponentManager runtimeLCM,
                                      @Reference(name = "applicationLCM")LogicalComponentManager applicationLCM,
-                                     @Property(name = "order")int order) {
+                                     @Property(name = "order", required=false)int order) {
         this.physicalWireGenerator = physicalWireGenerator;
         this.runtimeLCM = runtimeLCM;
         this.applicationLCM = applicationLCM;

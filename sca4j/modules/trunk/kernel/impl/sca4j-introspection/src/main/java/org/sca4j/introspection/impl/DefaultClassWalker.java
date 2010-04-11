@@ -58,7 +58,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.java.AnnotationProcessor;
 import org.sca4j.introspection.java.ClassWalker;
@@ -86,7 +86,7 @@ public class DefaultClassWalker<I extends Implementation<? extends InjectingComp
      * <p/>
      * TODO This needs to be working once the re-injection is working properly.
      */
-    @org.osoa.sca.annotations.Constructor
+    @org.oasisopen.sca.annotation.Constructor
     public DefaultClassWalker() {
     }
 

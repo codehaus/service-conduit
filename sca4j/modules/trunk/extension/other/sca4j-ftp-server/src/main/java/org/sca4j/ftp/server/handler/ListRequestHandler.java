@@ -73,7 +73,7 @@ package org.sca4j.ftp.server.handler;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.ftp.server.data.DataConnection;
 import org.sca4j.ftp.server.passive.PassiveConnectionService;
 import org.sca4j.ftp.server.protocol.DefaultFtpSession;

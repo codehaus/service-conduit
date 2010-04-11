@@ -52,8 +52,8 @@
  */
 package org.sca4j.fabric.generator.component;
 
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Property;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Property;
 import org.sca4j.fabric.command.StartCompositeContextCommand;
 import org.sca4j.spi.generator.AddCommandGenerator;
 import org.sca4j.spi.generator.GenerationException;
@@ -69,7 +69,7 @@ import org.sca4j.spi.model.instance.LogicalCompositeComponent;
 public class StartCompositeContextCommandGenerator implements AddCommandGenerator {
     private final int order;
 
-    public StartCompositeContextCommandGenerator(@Property(name = "order")int order) {
+    public StartCompositeContextCommandGenerator(@Property(name = "order", required=false)int order) {
         this.order = order;
     }
 

@@ -52,7 +52,7 @@
  */
 package org.sca4j.fabric.domain;
 
-import static org.osoa.sca.Constants.SCA_NS;
+import static org.oasisopen.sca.Constants.SCA_NS;
 
 import java.util.Collection;
 

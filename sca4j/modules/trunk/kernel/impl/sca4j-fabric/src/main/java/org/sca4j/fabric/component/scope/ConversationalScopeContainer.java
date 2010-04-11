@@ -61,14 +61,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.osoa.sca.Conversation;
-import org.osoa.sca.ConversationEndedException;
-import org.osoa.sca.annotations.Destroy;
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Init;
-import org.osoa.sca.annotations.Property;
-import org.osoa.sca.annotations.Reference;
-import org.osoa.sca.annotations.Service;
+import org.sca4j.api.scope.Conversation;
+import org.sca4j.api.scope.ConversationEndedException;
+import org.oasisopen.sca.annotation.Destroy;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Init;
+import org.oasisopen.sca.annotation.Property;
+import org.oasisopen.sca.annotation.Reference;
+import org.oasisopen.sca.annotation.Service;
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.scdl.Scope;
 import org.sca4j.spi.ObjectCreationException;
@@ -116,7 +116,7 @@ public class ConversationalScopeContainer extends AbstractScopeContainer<Convers
      *
      * @param delay the delay in seconds
      */
-    @Property
+    @Property(required=false)
     public void setDelay(long delay) {
         this.delay = delay;
     }

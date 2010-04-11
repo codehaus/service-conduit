@@ -78,9 +78,9 @@ import java.util.List;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import org.osoa.sca.annotations.Init;
-import org.osoa.sca.annotations.Property;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Init;
+import org.oasisopen.sca.annotation.Property;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.resource.jndi.proxy.AbstractProxy;
 import org.sca4j.spi.resource.DataSourceRegistry;
 
@@ -94,7 +94,7 @@ public class DataSourceProxy extends AbstractProxy<DataSource> implements DataSo
     private DataSourceRegistry dataSourceRegistry;
     private List<String> dataSourceKeys;
 
-    @Property
+    @Property(required=false)
     public void setDataSourceKeys(List<String> dataSourceKeys) {
         this.dataSourceKeys = dataSourceKeys;
     }

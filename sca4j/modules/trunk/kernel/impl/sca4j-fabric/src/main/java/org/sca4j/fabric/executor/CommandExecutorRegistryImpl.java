@@ -55,7 +55,7 @@ package org.sca4j.fabric.executor;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.osoa.sca.annotations.EagerInit;
+import org.oasisopen.sca.annotation.EagerInit;
 import org.sca4j.spi.command.Command;
 import org.sca4j.spi.executor.CommandExecutor;
 import org.sca4j.spi.executor.CommandExecutorRegistry;

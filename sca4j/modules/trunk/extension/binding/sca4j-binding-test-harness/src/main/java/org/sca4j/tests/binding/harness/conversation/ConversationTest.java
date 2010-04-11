@@ -53,8 +53,7 @@
 package org.sca4j.tests.binding.harness.conversation;
 
 import junit.framework.TestCase;
-
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 
 /**
  * Verifies a binding supports basic conversational semantics

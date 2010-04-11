@@ -43,7 +43,7 @@ import javax.transaction.SystemException;
 import javax.transaction.TransactionManager;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.binding.oracle.aq.runtime.monitor.AQMonitor;
 

@@ -56,8 +56,8 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.fabric.services.contribution.processor.AbstractContributionProcessor;
 import org.sca4j.fabric.util.FileHelper;
 import org.sca4j.host.contribution.ContributionException;

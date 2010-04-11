@@ -63,7 +63,7 @@ import org.apache.axis2.description.AxisDescription;
 import org.apache.neethi.PolicyEngine;
 import org.apache.neethi.builders.AssertionBuilder;
 import org.apache.neethi.builders.xml.XMLPrimitiveAssertionBuilder;
-import org.osoa.sca.annotations.EagerInit;
+import org.oasisopen.sca.annotation.EagerInit;
 import org.w3c.dom.Element;
 
 /**

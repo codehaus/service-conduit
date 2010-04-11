@@ -54,7 +54,7 @@ package org.sca4j.binding.http.runtime;
 
 import java.net.URI;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.binding.http.runtime.introspection.ServiceIntrospector;
 import org.sca4j.binding.http.runtime.introspection.ServiceMetadata;
 import org.sca4j.spi.builder.WiringException;

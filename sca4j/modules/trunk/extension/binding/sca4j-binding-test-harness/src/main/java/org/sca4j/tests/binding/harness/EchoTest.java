@@ -55,8 +55,7 @@ package org.sca4j.tests.binding.harness;
 import java.util.List;
 
 import junit.framework.TestCase;
-
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 
 /**
  * @version $Rev: 2428 $ $Date: 2008-01-04 20:08:39 +0000 (Fri, 04 Jan 2008) $

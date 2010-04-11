@@ -70,7 +70,7 @@
  */
 package org.sca4j.spi.services;
 
-import org.osoa.sca.annotations.Service;
+import org.oasisopen.sca.annotation.Service;
 
 /**
  * Empty interface for a service component that has no operations.
@@ -80,6 +80,6 @@ import org.osoa.sca.annotations.Service;
  *
  * @version $Rev: 1 $ $Date: 2007-05-14 18:40:37 +0100 (Mon, 14 May 2007) $
  */
-@Service
+@Service(value={VoidService.class})
 public interface VoidService {
 }

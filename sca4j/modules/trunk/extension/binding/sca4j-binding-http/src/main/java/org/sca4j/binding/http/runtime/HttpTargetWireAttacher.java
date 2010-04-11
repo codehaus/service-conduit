@@ -57,7 +57,7 @@ import java.net.URI;
 import java.net.URL;
 import java.util.Map;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.binding.http.provision.HttpTargetWireDefinition;
 import org.sca4j.binding.http.provision.security.AuthenticationPolicy;
 import org.sca4j.binding.http.runtime.introspection.OperationMetadata;

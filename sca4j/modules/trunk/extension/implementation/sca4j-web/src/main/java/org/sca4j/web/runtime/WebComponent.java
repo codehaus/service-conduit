@@ -78,9 +78,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.osoa.sca.CallableReference;
-import org.osoa.sca.ComponentContext;
-import org.osoa.sca.ServiceReference;
+import org.oasisopen.sca.ServiceReference;
+import org.oasisopen.sca.ComponentContext;
+import org.oasisopen.sca.ServiceReference;
 import org.sca4j.container.web.spi.WebApplicationActivationException;
 import org.sca4j.container.web.spi.WebApplicationActivator;
 import org.sca4j.pojo.reflection.Injector;
@@ -257,7 +257,7 @@ public class WebComponent<T> extends AbstractLifecycle implements AtomicComponen
     }
 
     @SuppressWarnings({"unchecked"})
-    public <B, R extends CallableReference<B>> R cast(B target) {
+    public <B, R extends ServiceReference<B>> R cast(B target) {
         return (R) proxyService.cast(target);
     }
 

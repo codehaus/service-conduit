@@ -52,7 +52,7 @@
  */
 package org.sca4j.tests.binding.harness.scope;
 
-import org.osoa.sca.annotations.Scope;
+import org.oasisopen.sca.annotation.Scope;
 
 /**
  * @version $Revision$ $Date$

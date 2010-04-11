@@ -78,7 +78,7 @@ import org.sca4j.spi.ObjectFactory;
  * @version $Rev: 1 $ $Date: 2007-05-14 18:40:37 +0100 (Mon, 14 May 2007) $
  * @param <CB> the type of the business interface
  */
-public class CallbackReferenceImpl<CB> extends CallableReferenceImpl<CB> {
+public class CallbackReferenceImpl<CB> extends ServiceReferenceImpl<CB> {
     public CallbackReferenceImpl(Class<CB> businessInterface, ObjectFactory<CB> factory) {
         super(businessInterface, factory);
     }

@@ -72,8 +72,8 @@ package org.sca4j.spi.component;
 
 import java.util.List;
 
-import org.osoa.sca.Conversation;
-import org.osoa.sca.ConversationEndedException;
+import org.sca4j.api.scope.Conversation;
+import org.sca4j.api.scope.ConversationEndedException;
 import org.sca4j.scdl.Scope;
 import org.sca4j.spi.Lifecycle;
 import org.sca4j.spi.ObjectFactory;

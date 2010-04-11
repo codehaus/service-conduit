@@ -55,7 +55,7 @@ package org.sca4j.jpa.runtime;
 import javax.persistence.EntityManager;
 import javax.transaction.Transaction;
 
-import org.osoa.sca.Conversation;
+import org.sca4j.api.scope.Conversation;
 
 /**
  * Responsible for returning an EntityManager with a persitence context tied to an execution context.

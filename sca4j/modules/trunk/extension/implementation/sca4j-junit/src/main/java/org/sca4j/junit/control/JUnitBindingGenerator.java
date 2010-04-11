@@ -52,7 +52,7 @@
  */
 package org.sca4j.junit.control;
 
-import org.osoa.sca.annotations.EagerInit;
+import org.oasisopen.sca.annotation.EagerInit;
 import org.sca4j.junit.provision.JUnitWireSourceDefinition;
 import org.sca4j.junit.scdl.JUnitBindingDefinition;
 import org.sca4j.scdl.ComponentDefinition;

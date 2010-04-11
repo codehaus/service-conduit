@@ -70,8 +70,8 @@
  */
 package org.sca4j.fabric.generator.component;
 
-import org.osoa.sca.annotations.Property;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Property;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.fabric.command.BuildComponentCommand;
 import org.sca4j.scdl.Implementation;
 import org.sca4j.spi.generator.AddCommandGenerator;
@@ -93,7 +93,7 @@ public class BuildComponentCommandGenerator implements AddCommandGenerator {
     private final GeneratorRegistry generatorRegistry;
     private final int order;
 
-    public BuildComponentCommandGenerator(@Reference GeneratorRegistry generatorRegistry, @Property(name = "order")int order) {
+    public BuildComponentCommandGenerator(@Reference GeneratorRegistry generatorRegistry, @Property(name = "order", required=false)int order) {
         this.generatorRegistry = generatorRegistry;
         this.order = order;
     }

@@ -55,10 +55,10 @@ package org.sca4j.runtime.webapp.contribution;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamReader;
 
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Init;
-import org.osoa.sca.annotations.Property;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Init;
+import org.oasisopen.sca.annotation.Property;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.scdl.ValidationContext;
 import org.sca4j.spi.services.contribution.Resource;
@@ -79,7 +79,7 @@ public class WebXmlIndexer implements XmlIndexer {
     private XmlIndexerRegistry registry;
     private boolean namespace;
 
-    public WebXmlIndexer(@Reference XmlIndexerRegistry registry, @Property(name = "namespace")boolean namespace) {
+    public WebXmlIndexer(@Reference XmlIndexerRegistry registry, @Property(name = "namespace", required=false)boolean namespace) {
         this.registry = registry;
         this.namespace = namespace;
     }

@@ -70,7 +70,7 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import org.osoa.sca.annotations.EagerInit;
+import org.oasisopen.sca.annotation.EagerInit;
 import org.sca4j.scdl.DataType;
 import org.sca4j.spi.model.type.JavaClass;
 import org.sca4j.transform.AbstractPullTransformer;

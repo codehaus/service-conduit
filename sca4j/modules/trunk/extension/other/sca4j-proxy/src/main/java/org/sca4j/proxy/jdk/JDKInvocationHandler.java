@@ -62,9 +62,9 @@ import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
-import org.osoa.sca.Conversation;
-import org.osoa.sca.ServiceReference;
-import org.osoa.sca.ServiceUnavailableException;
+import org.sca4j.api.scope.Conversation;
+import org.oasisopen.sca.ServiceReference;
+import org.oasisopen.sca.ServiceUnavailableException;
 import org.sca4j.pojo.ConversationImpl;
 import org.sca4j.pojo.PojoWorkContextTunnel;
 import org.sca4j.spi.component.ConversationExpirationCallback;

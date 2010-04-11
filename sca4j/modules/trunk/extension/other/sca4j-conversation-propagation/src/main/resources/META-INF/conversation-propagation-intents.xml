@@ -54,8 +54,8 @@
 
 -->
 <definitions
-        xmlns="http://www.osoa.org/xmlns/sca/1.0"
-        xmlns:sca="http://www.osoa.org/xmlns/sca/1.0"
+        xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+        xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912"
         xmlns:sca4j="urn:sca4j.org"
         targetNamespace="urn:sca4j.org">
     <!-- Propagates conversation is defined as an interaction intent that must be handled by the component impplementation type -->

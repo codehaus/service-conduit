@@ -54,7 +54,7 @@ package org.sca4j.pojo.component;
 
 import javax.security.auth.Subject;
 
-import org.osoa.sca.CallableReference;
+import org.oasisopen.sca.ServiceReference;
 import org.sca4j.api.SCA4JRequestContext;
 import org.sca4j.pojo.PojoWorkContextTunnel;
 import org.sca4j.spi.invocation.WorkContext;
@@ -72,7 +72,7 @@ public class PojoRequestContext implements SCA4JRequestContext {
         return null;
     }
 
-    public <B> CallableReference<B> getServiceReference() {
+    public <B> ServiceReference<B> getServiceReference() {
         return null;
     }
 
@@ -80,7 +80,7 @@ public class PojoRequestContext implements SCA4JRequestContext {
         return null;
     }
 
-    public <CB> CallableReference<CB> getCallbackReference() {
+    public <CB> ServiceReference<CB> getCallbackReference() {
         return null;
     }
 

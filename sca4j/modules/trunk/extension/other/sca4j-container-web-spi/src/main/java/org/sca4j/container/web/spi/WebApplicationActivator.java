@@ -58,7 +58,7 @@ import java.util.Map;
 
 import javax.servlet.ServletContext;
 
-import org.osoa.sca.ComponentContext;
+import org.oasisopen.sca.ComponentContext;
 import org.sca4j.pojo.reflection.Injector;
 
 /**
@@ -69,7 +69,7 @@ import org.sca4j.pojo.reflection.Injector;
 public interface WebApplicationActivator {
     public static final String SERVLET_CONTEXT_SITE = "sca4j.servletContext";
     public static final String SESSION_CONTEXT_SITE = "sca4j.sessionContext";
-    public static final String CONTEXT_ATTRIBUTE = "org.osoa.sca.ComponentContext";
+    public static final String CONTEXT_ATTRIBUTE = "org.oasisopen.sca.ComponentContext";
 
     /**
      * Returns the classloader to use for the web component corresponding the given id

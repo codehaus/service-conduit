@@ -75,9 +75,9 @@ import java.util.Map;
 
 import javax.persistence.EntityManagerFactory;
 
-import org.osoa.sca.annotations.Destroy;
-import org.osoa.sca.annotations.Reference;
-import org.osoa.sca.annotations.Service;
+import org.oasisopen.sca.annotation.Destroy;
+import org.oasisopen.sca.annotation.Reference;
+import org.oasisopen.sca.annotation.Service;
 import org.sca4j.host.jpa.EmfBuilder;
 import org.sca4j.jpa.spi.delegate.EmfBuilderDelegate;
 
@@ -87,7 +87,7 @@ import org.sca4j.jpa.spi.delegate.EmfBuilderDelegate;
  *
  * @version $Revision$ $Date$
  */
-@Service(interfaces = {EmfBuilder.class, EmfCache.class})
+@Service(value = {EmfBuilder.class, EmfCache.class})
 public class CachingEmfBuilder implements EmfBuilder, EmfCache {
 
     private Map<String, EntityManagerFactory> cache = new HashMap<String, EntityManagerFactory>();

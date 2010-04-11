@@ -69,10 +69,10 @@ import org.apache.axis2.description.AxisModule;
 import org.apache.axis2.description.Flow;
 import org.apache.axis2.engine.AxisConfiguration;
 import org.apache.axis2.transport.http.HTTPConstants;
-import org.osoa.sca.annotations.EagerInit;
-import org.osoa.sca.annotations.Init;
-import org.osoa.sca.annotations.Property;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Init;
+import org.oasisopen.sca.annotation.Property;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.host.work.WorkScheduler;
 
 /**
@@ -95,7 +95,7 @@ public class SCA4JConfiguratorImpl implements SCA4JConfigurator {
     /**
      * @param servicePath Service path for Axis requests.
      */
-    @Property
+    @Property(required=false)
     public void setServicePath(String servicePath) {
         this.servicePath = servicePath;
     }
@@ -105,7 +105,7 @@ public class SCA4JConfiguratorImpl implements SCA4JConfigurator {
      *
      * @param val true if large MTOM attachments should be streamed to disk to avoid buffering in memory. Note, Axis2 requires String values.
      */
-    @Property
+    @Property(required=false)
     public void setCacheLargeAttachements(String val) {
         this.cacheLargeAttachements = val;
     }
@@ -115,7 +115,7 @@ public class SCA4JConfiguratorImpl implements SCA4JConfigurator {
      *
      * @param threshold the file size threshold to cache to disk if MTOM file caching is enabled. Note, Axis2 requires String values.
      */
-    @Property
+    @Property(required=false)
     public void setCacheThreshold(String threshold) {
         this.cacheThreshold = threshold;
     }
@@ -125,7 +125,7 @@ public class SCA4JConfiguratorImpl implements SCA4JConfigurator {
      *
      * @param val true if chunked encoding should be used. Note, Axis2 requires String values.
      */
-    @Property
+    @Property(required=false)
     public void setChunkTransferEncoding(String val) {
         this.chunkTransferEncoding = val;
     }

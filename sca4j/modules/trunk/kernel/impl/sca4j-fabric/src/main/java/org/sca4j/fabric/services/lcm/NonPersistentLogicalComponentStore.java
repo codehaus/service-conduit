@@ -54,8 +54,6 @@ package org.sca4j.fabric.services.lcm;
 
 import java.net.URI;
 
-import org.osoa.sca.annotations.Constructor;
-import org.osoa.sca.annotations.Reference;
 import org.sca4j.host.runtime.HostInfo;
 import org.sca4j.scdl.Autowire;
 import org.sca4j.scdl.ComponentDefinition;
@@ -64,7 +62,8 @@ import org.sca4j.scdl.CompositeImplementation;
 import org.sca4j.spi.model.instance.LogicalCompositeComponent;
 import org.sca4j.spi.services.lcm.LogicalComponentStore;
 import org.sca4j.spi.services.lcm.RecoveryException;
-
+import org.oasisopen.sca.annotation.Constructor;
+import org.oasisopen.sca.annotation.Reference;
 /**
  * A non-persistent LogicalComponentStore
  *

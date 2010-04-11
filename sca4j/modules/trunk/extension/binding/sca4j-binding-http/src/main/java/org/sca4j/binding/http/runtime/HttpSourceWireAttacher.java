@@ -54,7 +54,7 @@ package org.sca4j.binding.http.runtime;
 
 import java.util.Map;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.binding.http.provision.HttpSourceWireDefinition;
 import org.sca4j.binding.http.runtime.injection.DataBinder;
 import org.sca4j.binding.http.runtime.introspection.DataBinding;

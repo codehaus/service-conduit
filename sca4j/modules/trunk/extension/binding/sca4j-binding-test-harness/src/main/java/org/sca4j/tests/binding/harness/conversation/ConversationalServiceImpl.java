@@ -52,8 +52,8 @@
  */
 package org.sca4j.tests.binding.harness.conversation;
 
-import org.osoa.sca.annotations.EndsConversation;
-import org.osoa.sca.annotations.Scope;
+import org.oasisopen.sca.annotation.Scope;
+import org.sca4j.api.annotation.scope.EndsConversation;
 
 /**
  * @version $Revision$ $Date$

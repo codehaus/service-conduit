@@ -54,8 +54,8 @@
 
 -->
 <definitions 
-    xmlns="http://www.osoa.org/xmlns/sca/1.0" 
-    targetNamespace="http://www.osoa.org/xmlns/sca/1.0">
+    xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912" 
+    targetNamespace="http://docs.oasis-open.org/ns/opencsa/sca/200912">
 
     <!-- Asynchronous invocation intent -->
     <intent name="oneWay" constrains="binding">

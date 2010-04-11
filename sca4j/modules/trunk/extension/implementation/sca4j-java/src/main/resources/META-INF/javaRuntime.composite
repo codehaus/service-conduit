@@ -58,8 +58,8 @@
 
     $Rev: 5317 $ $Date: 2008-09-01 19:32:44 +0100 (Mon, 01 Sep 2008) $
 -->
-<composite xmlns="http://www.osoa.org/xmlns/sca/1.0"
-           xmlns:sca="http://www.osoa.org/xmlns/sca/1.0"
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+           xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912"
            xmlns:sca4j="urn:sca4j.org"
            name="JavaRuntimeExtension"
            targetNamespace="urn:sca4j.org"

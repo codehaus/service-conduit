@@ -18,8 +18,8 @@
  */
 package org.sca4j.tests.autowire;
 
-import org.osoa.sca.annotations.Conversational;
-import org.osoa.sca.annotations.EndsConversation;
+import org.sca4j.api.annotation.scope.Conversational;
+import org.sca4j.api.annotation.scope.EndsConversation;
 
 @Conversational
 public interface Parser {
