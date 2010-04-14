@@ -106,9 +106,7 @@ public class SimpleInterceptorDefinitionGenerator implements InterceptorDefiniti
         generatorRegistry.register(EXTENSION_NAME, this);
     }
 
-    public SimpleInterceptorDefinition generate(Element policySetDefinition, 
-                                                Operation<?> operation,
-                                                LogicalBinding<?> logicalBinding) {
+    public SimpleInterceptorDefinition generate(Element policySetDefinition, Operation operation, LogicalBinding<?> logicalBinding) {
 
         String interceptorClass = policySetDefinition.getAttribute("class");
 

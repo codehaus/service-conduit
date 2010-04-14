@@ -76,7 +76,7 @@ public interface ImplementationPolicyHelper {
      * @return Set of intents that need to be explictly provided by the implementation.
      * @throws PolicyResolutionException If there are any unidentified intents.
      */
-    List<Intent> getProvidedIntents(LogicalComponent<?> logicalComponent, Operation<?> operation) 
+    List<Intent> getProvidedIntents(LogicalComponent<?> logicalComponent, Operation operation) 
     throws PolicyResolutionException;
     
     /**
@@ -87,6 +87,6 @@ public interface ImplementationPolicyHelper {
      * @return Set of resolved policies.
      * @throws PolicyResolutionException If all intents cannot be resolved.
      */
-    List<PolicySet> resolveIntents(LogicalComponent<?> logicalComponent, Operation<?> operation, Element target) throws PolicyResolutionException;
+    List<PolicySet> resolveIntents(LogicalComponent<?> logicalComponent, Operation operation, Element target) throws PolicyResolutionException;
 
 }

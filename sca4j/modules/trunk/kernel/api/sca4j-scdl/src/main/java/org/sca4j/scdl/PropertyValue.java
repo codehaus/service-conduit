@@ -88,7 +88,7 @@ public class PropertyValue extends ModelObject {
     private String name;
     private String source;
     private URI file;
-    private DataType<QName> valueType;
+    private DataType valueType;
     private Document value;
 
     public PropertyValue() {
@@ -121,7 +121,7 @@ public class PropertyValue extends ModelObject {
      * @param valueType the XML type of the value
      * @param value     the property value
      */
-    public PropertyValue(String name, DataType<QName> valueType, Document value) {
+    public PropertyValue(String name, DataType valueType, Document value) {
         this.name = name;
         this.valueType = valueType;
         this.value = value;
@@ -204,7 +204,7 @@ public class PropertyValue extends ModelObject {
      *
      * @return the value's XML Schema type
      */
-    public DataType<QName> getValueType() {
+    public DataType getValueType() {
         return valueType;
     }
 
@@ -213,7 +213,7 @@ public class PropertyValue extends ModelObject {
      *
      * @param valueType the value's XML Schema type
      */
-    public void setValueType(DataType<QName> valueType) {
+    public void setValueType(DataType valueType) {
         this.valueType = valueType;
     }
 }

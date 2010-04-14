@@ -142,7 +142,7 @@ public class JmsBindingGenerator implements BindingGenerator<JmsWireSourceDefini
     private TransactionType getTransactionType(Policy policy, ServiceContract serviceContract) {
 
         // If any operation has the intent, return that
-        for (Operation<?> operation : serviceContract.getOperations()) {
+        for (Operation operation : serviceContract.getOperations()) {
             for (Intent intent : policy.getProvidedIntents(operation)) {
                 if (TRANSACTED_ONEWAY_GLOBAL.equals(intent.getName())) {
                     return TransactionType.GLOBAL;
@@ -164,7 +164,7 @@ public class JmsBindingGenerator implements BindingGenerator<JmsWireSourceDefini
     private Set<String> getOneWayOperations(Policy policy, ServiceContract serviceContract) {
         Set<String> result = null;
         // If any operation has the intent, return that
-        for (Operation<?> operation : serviceContract.getOperations()) {
+        for (Operation operation : serviceContract.getOperations()) {
             for (Intent intent : policy.getProvidedIntents(operation)) {
                 if (ONEWAY.equals(intent.getName())) {
                     if (result == null) {
@@ -191,7 +191,7 @@ public class JmsBindingGenerator implements BindingGenerator<JmsWireSourceDefini
      */
     private Map<String, PayloadType> processPayloadTypes(ServiceContract serviceContract) throws JmsGenerationException {
         Map<String, PayloadType> types = new HashMap<String, PayloadType>();
-        for (Operation<?> operation : serviceContract.getOperations()) {
+        for (Operation operation : serviceContract.getOperations()) {
             PayloadType payloadType = introspector.introspect(operation);
             types.put(operation.getName(), payloadType);
         }

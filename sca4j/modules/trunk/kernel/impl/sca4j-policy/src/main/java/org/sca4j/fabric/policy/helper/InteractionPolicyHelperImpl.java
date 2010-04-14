@@ -79,7 +79,7 @@ public class InteractionPolicyHelperImpl extends AbstractPolicyHelper implements
         super(definitionsRegistry, policySetEvaluator);
     }
 
-    public List<Intent> getProvidedIntents(LogicalBinding<?> logicalBinding, Operation<?> operation) throws PolicyResolutionException {
+    public List<Intent> getProvidedIntents(LogicalBinding<?> logicalBinding, Operation operation) throws PolicyResolutionException {
         
         QName type = logicalBinding.getBinding().getType();
         BindingType bindingType = definitionsRegistry.getDefinition(type, BindingType.class);
@@ -104,7 +104,7 @@ public class InteractionPolicyHelperImpl extends AbstractPolicyHelper implements
         
     }
     
-    public List<PolicySet> resolveIntents(LogicalBinding<?> logicalBinding, Operation<?> operation, Element target) throws PolicyResolutionException {
+    public List<PolicySet> resolveIntents(LogicalBinding<?> logicalBinding, Operation operation, Element target) throws PolicyResolutionException {
 
         QName type = logicalBinding.getBinding().getType();
         BindingType bindingType = definitionsRegistry.getDefinition(type, BindingType.class);
@@ -139,8 +139,7 @@ public class InteractionPolicyHelperImpl extends AbstractPolicyHelper implements
         
     }
 
-    private List<Intent> getRequestedIntents(LogicalBinding<?> logicalBinding, 
-                                            Operation<?> operation) throws PolicyResolutionException {
+    private List<Intent> getRequestedIntents(LogicalBinding<?> logicalBinding, Operation operation) throws PolicyResolutionException {
         
         // Aggregate all the intents from the ancestors
         List<QName> intentNames = new LinkedList<QName>();
@@ -158,8 +157,7 @@ public class InteractionPolicyHelperImpl extends AbstractPolicyHelper implements
         
     }
 
-    private List<QName> getRequestedPolicies(LogicalBinding<?> logicalBinding, 
-            Operation<?> operation) throws PolicyResolutionException {
+    private List<QName> getRequestedPolicies(LogicalBinding<?> logicalBinding, Operation operation) throws PolicyResolutionException {
         
         // Aggregate all the intents from the ancestors
         List<QName> policies = new LinkedList<QName>();

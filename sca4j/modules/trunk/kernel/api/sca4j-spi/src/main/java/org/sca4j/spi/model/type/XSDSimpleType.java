@@ -52,8 +52,6 @@
  */
 package org.sca4j.spi.model.type;
 
-import java.lang.reflect.Type;
-
 import javax.xml.namespace.QName;
 
 /**
@@ -62,10 +60,10 @@ import javax.xml.namespace.QName;
  * @version $Rev: 5070 $ $Date: 2008-07-21 17:52:37 +0100 (Mon, 21 Jul 2008) $
  */
 public class XSDSimpleType extends XSDType {
-    private static final long serialVersionUID = 1482637673051984949L;
+    
     public static final QName STRING = new QName(XSD_NS, "string");
 
-    public XSDSimpleType(Type physical, QName logical) {
-        super(physical, logical);
+    public XSDSimpleType(QName physical) {
+        super(physical);
     }
 }

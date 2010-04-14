@@ -71,7 +71,7 @@ public class PolicyResultImpl implements PolicyResult {
     private final PolicyImpl sourcePolicy = new PolicyImpl();
     private final PolicyImpl targetPolicy = new PolicyImpl();
 
-    private final Map<Operation<?>, List<PolicySet>> interceptedPolicySets = new HashMap<Operation<?>, List<PolicySet>>();
+    private final Map<Operation, List<PolicySet>> interceptedPolicySets = new HashMap<Operation, List<PolicySet>>();
 
     /**
      * @return Policies and intents provided at the source end.
@@ -93,7 +93,7 @@ public class PolicyResultImpl implements PolicyResult {
      * @param operation Operation against which the intent was requested.
      * @return Resolved policy sets.
      */
-    public List<PolicySet> getInterceptedPolicySets(Operation<?> operation) {
+    public List<PolicySet> getInterceptedPolicySets(Operation operation) {
         return interceptedPolicySets.get(operation);
     }
 
@@ -103,7 +103,7 @@ public class PolicyResultImpl implements PolicyResult {
      * @param operation Operation against which the intent was requested.
      * @param intents   Intents that are provided.
      */
-    void addSourceIntents(Operation<?> operation, List<Intent> intents) {
+    void addSourceIntents(Operation operation, List<Intent> intents) {
         sourcePolicy.addIntents(operation, intents);
     }
 
@@ -113,7 +113,7 @@ public class PolicyResultImpl implements PolicyResult {
      * @param operation Operation against which the intent was requested.
      * @param intents   Intents that are provided.
      */
-    void addTargetIntents(Operation<?> operation, List<Intent> intents) {
+    void addTargetIntents(Operation operation, List<Intent> intents) {
         targetPolicy.addIntents(operation, intents);
     }
 
@@ -123,7 +123,7 @@ public class PolicyResultImpl implements PolicyResult {
      * @param operation  Operation against which the intent was requested.
      * @param policySets Resolved policy sets.
      */
-    void addSourcePolicySets(Operation<?> operation, List<PolicySet> policySets) {
+    void addSourcePolicySets(Operation operation, List<PolicySet> policySets) {
         sourcePolicy.addPolicySets(operation, policySets);
     }
 
@@ -133,7 +133,7 @@ public class PolicyResultImpl implements PolicyResult {
      * @param operation  Operation against which the intent was requested.
      * @param policySets Resolved policy sets.
      */
-    void addTargetPolicySets(Operation<?> operation, List<PolicySet> policySets) {
+    void addTargetPolicySets(Operation operation, List<PolicySet> policySets) {
         targetPolicy.addPolicySets(operation, policySets);
     }
 
@@ -143,7 +143,7 @@ public class PolicyResultImpl implements PolicyResult {
      * @param operation  Operation against which the intent was requested.
      * @param policySets Resolved policy sets.
      */
-    void addInterceptedPolicySets(Operation<?> operation, List<PolicySet> policySets) {
+    void addInterceptedPolicySets(Operation operation, List<PolicySet> policySets) {
 
         if (!interceptedPolicySets.containsKey(operation)) {
             interceptedPolicySets.put(operation, new ArrayList<PolicySet>());

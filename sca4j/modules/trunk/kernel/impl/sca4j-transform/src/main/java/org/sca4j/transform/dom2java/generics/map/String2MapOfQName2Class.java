@@ -71,7 +71,7 @@ public class String2MapOfQName2Class extends String2Map<QName, Class> {
     }
 
     @Override
-    public DataType<?> getTargetType() {
+    public DataType getTargetType() {
         try {
             return new JavaParameterizedType((ParameterizedType) String2MapOfQName2Class.class.getDeclaredField("FIELD").getGenericType());
         } catch (NoSuchFieldException e) {

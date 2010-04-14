@@ -77,11 +77,11 @@ import org.sca4j.transform.TransformationException;
  * @version $Rev: 3524 $ $Date: 2008-03-31 22:43:51 +0100 (Mon, 31 Mar 2008) $
  */
 public class Stream2Stream extends AbstractPushTransformer<XMLStreamReader, XMLStreamWriter> {
-    public DataType<?> getSourceType() {
+    public DataType getSourceType() {
         return null;
     }
 
-    public DataType<?> getTargetType() {
+    public DataType getTargetType() {
         return null;
     }
 

@@ -60,7 +60,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import javax.xml.namespace.QName;
+
 import org.oasisopen.sca.annotation.Reference;
+import org.sca4j.host.Namespaces;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.IntrospectionHelper;
 import org.sca4j.introspection.TypeMapping;
@@ -113,19 +116,19 @@ public class JUnitServiceHeuristic implements HeuristicProcessor<JUnitImplementa
         return new ServiceDefinition(contract.getInterfaceName(), contract);
     }
 
-    private static final List<DataType<Type>> INPUT_TYPE;
-    private static final DataType<Type> OUTPUT_TYPE;
-    private static final List<DataType<Type>> FAULT_TYPE;
+    private static final List<DataType> INPUT_TYPE;
+    private static final DataType OUTPUT_TYPE;
+    private static final List<DataType> FAULT_TYPE;
 
     static {
-        List<DataType<Type>> paramDataTypes = Collections.emptyList();
+        List<DataType> paramDataTypes = Collections.emptyList();
         INPUT_TYPE = paramDataTypes;
-        OUTPUT_TYPE = new DataType<Type>(void.class, void.class);
+        OUTPUT_TYPE = new DataType(void.class);
         FAULT_TYPE = Collections.emptyList();
     }
 
     JUnitServiceContract generateTestContract(Class<?> implClass) {
-        List<Operation<?>> operations = new ArrayList<Operation<?>>();
+        List<Operation> operations = new ArrayList<Operation>();
         for (Method method : implClass.getMethods()) {
             // see if this is a test method
             if (Modifier.isStatic(method.getModifiers())) {
@@ -141,7 +144,7 @@ public class JUnitServiceHeuristic implements HeuristicProcessor<JUnitImplementa
             if (name.length() < 5 || !name.startsWith("test")) {
                 continue;
             }
-            Operation<Type> operation = new Operation<Type>(name, INPUT_TYPE, OUTPUT_TYPE, FAULT_TYPE);
+            Operation operation = new Operation(name, INPUT_TYPE, OUTPUT_TYPE, FAULT_TYPE);
             operations.add(operation);
         }
         return new JUnitServiceContract(operations);

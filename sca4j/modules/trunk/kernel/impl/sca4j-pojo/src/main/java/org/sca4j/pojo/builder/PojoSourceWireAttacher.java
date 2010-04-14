@@ -95,7 +95,7 @@ import org.w3c.dom.Node;
  */
 public abstract class PojoSourceWireAttacher {
 
-    private static final XSDSimpleType SOURCE_TYPE = new XSDSimpleType(Node.class, XSDSimpleType.STRING);
+    private static final XSDSimpleType SOURCE_TYPE = new XSDSimpleType(XSDSimpleType.STRING);
 
     protected TransformerRegistry<PullTransformer<?, ?>> transformerRegistry;
 
@@ -150,7 +150,7 @@ public abstract class PojoSourceWireAttacher {
     @SuppressWarnings("unchecked")
     private Object createKey(Type type, Element value, TransformContext context) throws PropertyTransformException {
 
-        DataType<?> targetType;
+        DataType targetType;
         if (type instanceof Class<?>) {
             targetType = new JavaClass((Class<?>) type);
         } else {

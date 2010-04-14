@@ -127,7 +127,7 @@ public class PropertyValueLoader implements TypeLoader<PropertyValue> {
     }
 
     private PropertyValue loadInlinePropertyValue(String name, XMLStreamReader reader, IntrospectionContext context) throws XMLStreamException {
-        DataType<QName> dataType;
+        DataType dataType;
         String type = reader.getAttributeValue(null, "type");
         String element = reader.getAttributeValue(null, "element");
         if (type != null) {
@@ -142,7 +142,7 @@ public class PropertyValueLoader implements TypeLoader<PropertyValue> {
             // TODO support element attribute
             throw new UnsupportedOperationException();
         } else {
-            dataType = new XSDSimpleType(Element.class, XSDSimpleType.STRING);
+            dataType = new XSDSimpleType(XSDSimpleType.STRING);
         }
 
         Document value = helper.loadValue(reader);

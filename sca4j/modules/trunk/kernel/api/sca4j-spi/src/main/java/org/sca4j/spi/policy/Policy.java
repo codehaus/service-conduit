@@ -70,7 +70,7 @@ public interface Policy {
      * @param operation Operation for which requested intents are provided.
      * @return Requested intents that are provided.
      */
-    public List<Intent> getProvidedIntents(Operation<?> operation);
+    public List<Intent> getProvidedIntents(Operation operation);
 
     /**
      * Policy sets that are provided by the binding or implemenenation for the
@@ -79,6 +79,6 @@ public interface Policy {
      * @param operation Operation for which requested intents are provided.
      * @return Resolved policy sets that are provided.
      */
-    public List<PolicySet> getProvidedPolicySets(Operation<?> operation);
+    public List<PolicySet> getProvidedPolicySets(Operation operation);
 
 }

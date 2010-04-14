@@ -96,16 +96,16 @@ public class NullPolicyResolver implements PolicyResolver {
                                             LogicalComponent<?> target) throws PolicyResolutionException {
         return new PolicyResult() {
 
-            public List<PolicySet> getInterceptedPolicySets(Operation<?> operation) {
+            public List<PolicySet> getInterceptedPolicySets(Operation operation) {
                 return Collections.emptyList();
             }
 
             public Policy getSourcePolicy() {
                 return new Policy() {
-                    public List<Intent> getProvidedIntents(Operation<?> operation) {
+                    public List<Intent> getProvidedIntents(Operation operation) {
                         return Collections.emptyList();
                     }
-                    public List<PolicySet> getProvidedPolicySets(Operation<?> operation) {
+                    public List<PolicySet> getProvidedPolicySets(Operation operation) {
                         return Collections.emptyList();
                     }
                 };
@@ -113,10 +113,10 @@ public class NullPolicyResolver implements PolicyResolver {
 
             public Policy getTargetPolicy() {
                 return new Policy() {
-                    public List<Intent> getProvidedIntents(Operation<?> operation) {
+                    public List<Intent> getProvidedIntents(Operation operation) {
                         return Collections.emptyList();
                     }
-                    public List<PolicySet> getProvidedPolicySets(Operation<?> operation) {
+                    public List<PolicySet> getProvidedPolicySets(Operation operation) {
                         return Collections.emptyList();
                     }
                 };

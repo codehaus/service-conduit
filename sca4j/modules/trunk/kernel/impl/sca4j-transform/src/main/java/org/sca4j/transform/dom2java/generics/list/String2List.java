@@ -82,7 +82,7 @@ public abstract class String2List<T> extends AbstractPullTransformer<Node, List<
         target = new JavaParameterizedType(List.class, typeParameter);
     }
 
-    public DataType<?> getTargetType() {
+    public DataType getTargetType() {
         return target;
     }
 

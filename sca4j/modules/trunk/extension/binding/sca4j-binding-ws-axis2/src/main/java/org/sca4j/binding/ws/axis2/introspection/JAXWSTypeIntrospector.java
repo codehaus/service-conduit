@@ -68,7 +68,7 @@ import org.sca4j.scdl.ValidationContext;
  */
 public class JAXWSTypeIntrospector implements OperationIntrospector {
 
-    public <T> void introspect(Operation<T> operation, Method method, ValidationContext context) {
+    public <T> void introspect(Operation operation, Method method, ValidationContext context) {
         WebMethod webMethod = method.getAnnotation(WebMethod.class);
         if (webMethod != null) {
             String soapAction = webMethod.action();

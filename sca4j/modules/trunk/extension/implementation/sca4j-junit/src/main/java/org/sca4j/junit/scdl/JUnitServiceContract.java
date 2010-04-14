@@ -80,7 +80,7 @@ import org.sca4j.scdl.ServiceContract;
  */
 public class JUnitServiceContract extends ServiceContract {
 
-    public JUnitServiceContract(List<Operation<?>> operations) {
+    public JUnitServiceContract(List<Operation> operations) {
         setOperations(operations);
     }
 

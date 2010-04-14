@@ -70,6 +70,6 @@ public interface PayloadTypeIntrospector {
      * @throws JmsGenerationException if an error occurs introspecting the
      *             operation
      */
-    <T> PayloadType introspect(Operation<T> operation) throws JmsGenerationException;
+    <T> PayloadType introspect(Operation operation) throws JmsGenerationException;
 
 }

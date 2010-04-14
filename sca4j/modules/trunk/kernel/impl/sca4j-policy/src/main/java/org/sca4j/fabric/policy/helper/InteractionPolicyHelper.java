@@ -76,7 +76,7 @@ public interface InteractionPolicyHelper {
      * @return Set of intents that need to be explictly provided by the binding.
      * @throws PolicyResolutionException If there are any unidentified intents.
      */
-    List<Intent> getProvidedIntents(LogicalBinding<?> logicalBinding, Operation<?> operation) throws PolicyResolutionException;
+    List<Intent> getProvidedIntents(LogicalBinding<?> logicalBinding, Operation operation) throws PolicyResolutionException;
     
     /**
      * Returns the set of policies that will address the intents that are not provided by the binding type.
@@ -86,6 +86,6 @@ public interface InteractionPolicyHelper {
      * @return Set of resolved policies.
      * @throws PolicyResolutionException If all intents cannot be resolved.
      */
-    List<PolicySet> resolveIntents(LogicalBinding<?> binding, Operation<?> operation, Element target) throws PolicyResolutionException;
+    List<PolicySet> resolveIntents(LogicalBinding<?> binding, Operation operation, Element target) throws PolicyResolutionException;
 
 }

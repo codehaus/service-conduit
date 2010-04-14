@@ -168,7 +168,7 @@ public class DefaultContractProcessor implements ContractProcessor {
         boolean conversational = helper.isAnnotationPresent(interfaze, Conversational.class);
         contract.setConversational(conversational);
 
-        List<Operation<?>> operations = getOperations(typeMapping, interfaze, remotable, conversational, context);
+        List<Operation> operations = getOperations(typeMapping, interfaze, remotable, conversational, context);
         contract.setOperations(operations);
         for (InterfaceIntrospector introspector : interfaceIntrospectors) {
             introspector.introspect(contract, interfaze, context);
@@ -176,18 +176,18 @@ public class DefaultContractProcessor implements ContractProcessor {
         return contract;
     }
 
-    private <T> List<Operation<?>> getOperations(TypeMapping typeMapping,
+    private <T> List<Operation> getOperations(TypeMapping typeMapping,
                                                     Class<T> type,
                                                     boolean remotable,
                                                     boolean conversational,
                                                     ValidationContext context) {
         Method[] methods = type.getMethods();
-        List<Operation<?>> operations = new ArrayList<Operation<?>>(methods.length);
+        List<Operation> operations = new ArrayList<Operation>(methods.length);
         for (Method method : methods) {
             String name = method.getName();
             if (remotable) {
                 boolean error = false;
-                for (Operation<?> operation : operations) {
+                for (Operation operation : operations) {
                     if (operation.getName().equals(name)) {
                         context.addError(new OverloadedOperation(method));
                         error = true;
@@ -214,19 +214,19 @@ public class DefaultContractProcessor implements ContractProcessor {
             }
 
             Type actualReturnType = typeMapping.getActualType(returnType);
-            DataType<Type> returnDataType = new DataType<Type>(actualReturnType, actualReturnType);
-            List<DataType<Type>> paramDataTypes = new ArrayList<DataType<Type>>(paramTypes.length);
+            DataType returnDataType = new DataType(actualReturnType);
+            List<DataType> paramDataTypes = new ArrayList<DataType>(paramTypes.length);
             for (Type paramType : paramTypes) {
                 Type actualType = typeMapping.getActualType(paramType);
-                paramDataTypes.add(new DataType<Type>(actualType, actualType));
+                paramDataTypes.add(new DataType(actualType));
             }
-            List<DataType<Type>> faultDataTypes = new ArrayList<DataType<Type>>(faultTypes.length);
+            List<DataType> faultDataTypes = new ArrayList<DataType>(faultTypes.length);
             for (Type faultType : faultTypes) {
                 Type actualType = typeMapping.getActualType(faultType);
-                faultDataTypes.add(new DataType<Type>(actualType, actualType));
+                faultDataTypes.add(new DataType(actualType));
             }
 
-            Operation<Type> operation = new Operation<Type>(name, paramDataTypes, returnDataType, faultDataTypes, conversationSequence);
+            Operation operation = new Operation(name, paramDataTypes, returnDataType, faultDataTypes, conversationSequence);
 
             if (method.isAnnotationPresent(OneWay.class)) {
                 operation.addIntent(ONEWAY_INTENT);

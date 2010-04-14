@@ -72,6 +72,8 @@ package org.sca4j.scdl;
 
 import java.lang.reflect.Type;
 
+import javax.xml.namespace.QName;
+
 /**
  * Representation of a user-supplied data type comprising a abstract logical form and a runtime-specific physical form.
  * The logical form describes an abstract type in some arbitrary type system such as XML Schema type or Java Classes. It
@@ -80,60 +82,59 @@ import java.lang.reflect.Type;
  * Type of that Object typically a Class) or it may describe a surrogate for that Object such as stream.
  *
  * @version $Rev: 5070 $ $Date: 2008-07-21 17:52:37 +0100 (Mon, 21 Jul 2008) $
- * @param <L> the type of identifier for the logical type system used by this DataType (such as an XML QName or Java
+ * @param <P> the type of identifier for the logical type system used by this DataType (such as an XML QName or Java
  * Class)
  */
-public class DataType<L> extends ModelObject {
+public class DataType extends ModelObject {
     
-    private final Type physical;
-    private final L logical;
-
-    /**
-     * Construct a data type specifying the physical and logical types.
-     *
-     * @param physical the physical class used by the runtime
-     * @param logical  the logical type identifier
-     */
-    public DataType(Type physical, L logical) {
-        this.physical = physical;
-        this.logical = logical;
+    private final Type javaType;
+    private QName xsdType;
+    
+    public DataType(Type javaType) {
+        this.javaType = javaType;
+    }
+    
+    public Type getJavaType() {
+        return javaType;
     }
 
-    /**
-     * Returns the physical type used by the runtime.
-     *
-     * @return the physical type used by the runtime
-     */
-    public Type getPhysical() {
-        return physical;
+    public QName getXsdType() {
+        return xsdType;
     }
 
-    /**
-     * Returns the logical type identifier.
-     *
-     * @return the logical type identifier
-     */
-    public L getLogical() {
-        return logical;
+    public void setXsdType(QName xsdType) {
+        this.xsdType = xsdType;
     }
 
+    @Override
     public int hashCode() {
-        return physical.hashCode() + 31 * logical.hashCode();
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((javaType == null) ? 0 : javaType.hashCode());
+        result = prime * result + ((xsdType == null) ? 0 : xsdType.hashCode());
+        return result;
     }
-
-    public boolean equals(Object o) {
-        if (this == o) {
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
             return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
+        if (obj == null)
             return false;
-        }
-
-        final DataType<?> other = (DataType<?>) o;
-        return logical.equals(other.logical) && physical.equals(other.physical);
+        if (getClass() != obj.getClass())
+            return false;
+        DataType other = (DataType) obj;
+        if (javaType == null) {
+            if (other.javaType != null)
+                return false;
+        } else if (!javaType.equals(other.javaType))
+            return false;
+        if (xsdType == null) {
+            if (other.xsdType != null)
+                return false;
+        } else if (!xsdType.equals(other.xsdType))
+            return false;
+        return true;
     }
 
-    public String toString() {
-        return "[" + logical + "(" + physical + ")]";
-    }
 }

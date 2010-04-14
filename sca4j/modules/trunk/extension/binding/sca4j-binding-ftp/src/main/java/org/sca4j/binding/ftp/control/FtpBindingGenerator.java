@@ -149,7 +149,7 @@ public class FtpBindingGenerator implements BindingGenerator<FtpWireSourceDefini
 
     }
 
-    private FtpSecurity processPolicies(Policy policy, Operation<?> operation) throws GenerationException {
+    private FtpSecurity processPolicies(Policy policy, Operation operation) throws GenerationException {
 
         List<PolicySet> policySets = policy.getProvidedPolicySets(operation);
         if (policySets == null || policySets.size() == 0) {

@@ -104,23 +104,20 @@ public class WsdlResourceProcessorTest extends TestCase {
         wsdlProcessor.process(contribution.getUri(), contribution.getResources().get(0), new DefaultValidationContext(), getClass().getClassLoader());
         
         PortTypeResourceElement resourceElement = contribution.getResources().get(0).getResourceElements(PortTypeResourceElement.class).get(0);
-        List<Operation<?>> operations = resourceElement.getOperations();
+        List<Operation> operations = resourceElement.getOperations();
         assertEquals(1, operations.size());
         
-        Operation<XmlSchemaType> operation = (Operation<XmlSchemaType>) operations.get(0);
+        Operation operation = (Operation) operations.get(0);
         assertEquals("GetLastTradePrice", operation.getName());
         
-        List<DataType<XmlSchemaType>> inputParts = operation.getInputType();
+        List<DataType> inputParts = operation.getInputType();
         assertEquals(1, inputParts.size());
         
-        DataType<XmlSchemaType> inputPart = inputParts.get(0);
-        XmlSchemaType inputPartLogical = inputPart.getLogical();
+        DataType inputPart = inputParts.get(0);
+        assertEquals("tickerSymbol", inputPart.getXsdType().getLocalPart());
         
-        assertNotNull(inputPartLogical);
-        assertEquals("string", inputPartLogical.getName());
-        
-        DataType<XmlSchemaType> outputType = operation.getOutputType();
-        assertEquals("float", outputType.getLogical().getName());
+        DataType outputType = operation.getOutputType();
+        assertEquals("price", outputType.getXsdType().getLocalPart());
 
     }
 

@@ -52,8 +52,6 @@
  */
 package org.sca4j.spi.model.type;
 
-import java.lang.reflect.Type;
-
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
@@ -64,11 +62,12 @@ import org.sca4j.scdl.DataType;
  *
  * @version $Rev: 5070 $ $Date: 2008-07-21 17:52:37 +0100 (Mon, 21 Jul 2008) $
  */
-public abstract class XSDType extends DataType<QName> {
-    private static final long serialVersionUID = 4837060732513291971L;
+public class XSDType extends DataType {
+    
     public static final String XSD_NS = XMLConstants.XML_NS_URI;
 
-    protected XSDType(Type physical, QName logical) {
-        super(physical, logical);
+    public XSDType(QName qname) {
+        super(Object.class);
+        setXsdType(qname);
     }
 }

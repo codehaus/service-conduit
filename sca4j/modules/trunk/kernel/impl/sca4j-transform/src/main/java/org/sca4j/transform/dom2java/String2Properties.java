@@ -69,7 +69,7 @@ import org.w3c.dom.Node;
 public class String2Properties extends AbstractPullTransformer<Node, Properties> {
     private static final JavaClass<Properties> TARGET = new JavaClass<Properties>(Properties.class);
 
-    public DataType<?> getTargetType() {
+    public DataType getTargetType() {
         return TARGET;
     }
 

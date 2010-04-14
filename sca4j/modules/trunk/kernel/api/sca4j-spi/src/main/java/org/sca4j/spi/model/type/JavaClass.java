@@ -52,6 +52,8 @@
  */
 package org.sca4j.spi.model.type;
 
+import javax.xml.namespace.QName;
+
 import org.sca4j.scdl.DataType;
 
 /**
@@ -59,10 +61,9 @@ import org.sca4j.scdl.DataType;
  *
  * @version $Rev: 5070 $ $Date: 2008-07-21 17:52:37 +0100 (Mon, 21 Jul 2008) $
  */
-public class JavaClass<P> extends DataType<Class<P>> {
-    private static final long serialVersionUID = -901379909664326192L;
+public class JavaClass<P> extends DataType {
 
     public JavaClass(Class<P> clazz) {
-        super(clazz, clazz);
+        super(clazz);
     }
 }

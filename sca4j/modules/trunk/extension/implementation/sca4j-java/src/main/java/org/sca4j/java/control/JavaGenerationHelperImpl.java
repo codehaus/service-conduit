@@ -221,7 +221,7 @@ public class JavaGenerationHelperImpl implements JavaGenerationHelper {
      * @param policy          the set of policies for the wire
      */
     private void calculateConversationalPolicy(JavaWireSourceDefinition wireDefinition, ServiceContract serviceContract, Policy policy) {
-        for (Operation<?> operation : serviceContract.getOperations()) {
+        for (Operation operation : serviceContract.getOperations()) {
             for (PolicySet policySet : policy.getProvidedPolicySets(operation)) {
                 if (PROPAGATES_CONVERSATION_POLICY.equals(policySet.getName())) {
                     wireDefinition.setInteractionType(InteractionType.PROPAGATES_CONVERSATION);

@@ -305,13 +305,13 @@ public class DefaultIntrospectionHelper implements IntrospectionHelper {
     private Set<Signature> getOperations(Collection<ServiceDefinition> services) {
         Set<Signature> operations = new HashSet<Signature>();
         for (ServiceDefinition definition : services) {
-            List<? extends Operation<?>> ops = definition.getServiceContract().getOperations();
-            for (Operation<?> operation : ops) {
+            List<? extends Operation> ops = definition.getServiceContract().getOperations();
+            for (Operation operation : ops) {
                 String name = operation.getName();
-                List<? extends DataType<?>> inputTypes = operation.getInputType();
+                List<? extends DataType> inputTypes = operation.getInputType();
                 List<String> paramTypes = new ArrayList<String>(inputTypes.size());
-                for (DataType<?> inputType : inputTypes) {
-                    paramTypes.add(((Class<?>) inputType.getPhysical()).getName());
+                for (DataType inputType : inputTypes) {
+                    paramTypes.add(((Class<?>) inputType.getJavaType()).getName());
                 }
                 operations.add(new Signature(name, paramTypes));
             }

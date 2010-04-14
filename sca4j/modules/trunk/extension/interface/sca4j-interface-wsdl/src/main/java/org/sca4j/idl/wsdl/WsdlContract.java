@@ -86,7 +86,7 @@ import org.sca4j.scdl.ServiceContract;
 public class WsdlContract extends ServiceContract {
 
     private QName qname;
-    private List<Operation<?>> operations;
+    private List<Operation> operations;
 
     public boolean isAssignableFrom(ServiceContract serviceContract) {
         return serviceContract.getOperations().size() == operations.size(); // TODO this is just a hack
@@ -100,7 +100,7 @@ public class WsdlContract extends ServiceContract {
         this.qname = qname;
     }
 
-    public void setOperations(List<Operation<?>> operations) {
+    public void setOperations(List<Operation> operations) {
         this.operations = operations;
     }
     

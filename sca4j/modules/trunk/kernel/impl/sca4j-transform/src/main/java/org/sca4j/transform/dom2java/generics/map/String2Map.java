@@ -82,7 +82,7 @@ public abstract class String2Map<K, V> extends AbstractPullTransformer<Node, Map
     /**
      * @see org.sca4j.transform.Transformer#getTargetType()
      */
-    public DataType<?> getTargetType() {
+    public DataType getTargetType() {
         return target;
     }
 

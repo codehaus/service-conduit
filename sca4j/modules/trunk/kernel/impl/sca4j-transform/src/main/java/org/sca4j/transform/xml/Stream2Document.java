@@ -97,7 +97,7 @@ public class Stream2Document extends AbstractPullTransformer<XMLStreamReader, Do
         FACTORY.setNamespaceAware(true);
     }
 
-    public DataType<?> getTargetType() {
+    public DataType getTargetType() {
         return TARGET;
     }
 

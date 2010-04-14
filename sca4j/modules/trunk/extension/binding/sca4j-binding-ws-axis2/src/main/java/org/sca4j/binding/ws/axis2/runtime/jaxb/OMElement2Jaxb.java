@@ -88,7 +88,7 @@ public class OMElement2Jaxb extends AbstractPullTransformer<OMElement, Object> {
 
     }
 
-    public DataType<?> getTargetType() {
+    public DataType getTargetType() {
         return TARGET;
     }
 

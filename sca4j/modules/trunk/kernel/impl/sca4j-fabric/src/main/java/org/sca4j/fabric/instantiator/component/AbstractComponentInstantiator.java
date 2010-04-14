@@ -262,7 +262,7 @@ public abstract class AbstractComponentInstantiator implements ComponentInstanti
 
     private void transferIntentsAndPolicies(ServiceContract serviceContract, List<OperationDefinition> operationDefinitions) {
         for (OperationDefinition operationDefinition : operationDefinitions) {
-            for (Operation<?> operation : serviceContract.getOperations()) {
+            for (Operation operation : serviceContract.getOperations()) {
                 if (operationDefinition.getName().equals(operation.getName())) {
                     for (QName intent : operationDefinition.getIntents()) {
                         operation.addIntent(intent);

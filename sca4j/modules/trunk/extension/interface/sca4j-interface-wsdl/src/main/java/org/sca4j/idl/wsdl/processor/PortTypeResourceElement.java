@@ -30,9 +30,9 @@ import org.sca4j.spi.services.contribution.ResourceElement;
 public class PortTypeResourceElement extends ResourceElement<QName, PortType> {
     
     private XmlSchemaCollection schemaCollection;
-    private List<Operation<?>> operations;
+    private List<Operation> operations;
     
-    public PortTypeResourceElement(QName symbol, PortType portType, XmlSchemaCollection schemaCollection, List<Operation<?>> operations) {
+    public PortTypeResourceElement(QName symbol, PortType portType, XmlSchemaCollection schemaCollection, List<Operation> operations) {
         super(symbol);
         this.schemaCollection = schemaCollection;
         this.operations = operations;
@@ -42,7 +42,7 @@ public class PortTypeResourceElement extends ResourceElement<QName, PortType> {
         return schemaCollection;
     }
 
-    public List<Operation<?>> getOperations() {
+    public List<Operation> getOperations() {
         return operations;
     }
 

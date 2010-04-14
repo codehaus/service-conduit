@@ -89,7 +89,7 @@ public class JaxbInterceptorDefinitionGenerator implements InterceptorDefinition
         generatorRegistry.register(EXTENSION_NAME, this);
     }
 
-    public JaxbInterceptorDefinition generate(Element policySet, Operation<?> operation, LogicalBinding<?> logicalBinding) throws GenerationException {
+    public JaxbInterceptorDefinition generate(Element policySet, Operation operation, LogicalBinding<?> logicalBinding) throws GenerationException {
         boolean service = logicalBinding.getParent() instanceof LogicalService;
         return new JaxbInterceptorDefinition(service);
     }

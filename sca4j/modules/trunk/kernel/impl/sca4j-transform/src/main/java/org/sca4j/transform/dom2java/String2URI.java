@@ -71,7 +71,7 @@ public class String2URI extends AbstractPullTransformer<Node, URI> {
     /**
      * @see org.sca4j.transform.Transformer#getTargetType()
      */
-    public DataType<?> getTargetType() {
+    public DataType getTargetType() {
         return TARGET;
     }
 

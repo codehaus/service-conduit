@@ -109,7 +109,7 @@ public class HttpBindingGenerator implements BindingGenerator<HttpSourceWireDefi
     
     private void applyTargetPolicies(ServiceContract serviceContract, Policy policy, PolicyAware policyAware) throws GenerationException {
         
-        for (Operation<?> operation : serviceContract.getOperations()) {
+        for (Operation operation : serviceContract.getOperations()) {
             
             for (PolicySet policySet : policy.getProvidedPolicySets(operation)) {
                 

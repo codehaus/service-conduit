@@ -68,8 +68,8 @@ import org.sca4j.spi.policy.Policy;
  */
 public class PolicyImpl implements Policy {
     
-    private final Map<Operation<?>, List<Intent>> intentMap = new HashMap<Operation<?>, List<Intent>>();
-    private final Map<Operation<?>, List<PolicySet>> policySetMap = new HashMap<Operation<?>, List<PolicySet>>();
+    private final Map<Operation, List<Intent>> intentMap = new HashMap<Operation, List<Intent>>();
+    private final Map<Operation, List<PolicySet>> policySetMap = new HashMap<Operation, List<PolicySet>>();
     
     /**
      * Gets the intents that are provided by the component or binding types 
@@ -78,7 +78,7 @@ public class PolicyImpl implements Policy {
      * @param operation Operation against which the intent was requested.
      * @return All intents that are provided.
      */
-    public List<Intent> getProvidedIntents(Operation<?> operation) {
+    public List<Intent> getProvidedIntents(Operation operation) {
         return intentMap.get(operation);
     }
     
@@ -90,7 +90,7 @@ public class PolicyImpl implements Policy {
      * @param operation Operation against which the intent was requested.
      * @return Resolved policy sets.
      */
-    public List<PolicySet> getProvidedPolicySets(Operation<?> operation) {
+    public List<PolicySet> getProvidedPolicySets(Operation operation) {
         return policySetMap.get(operation);
     }
     
@@ -101,7 +101,7 @@ public class PolicyImpl implements Policy {
      * @param operation Operation against which the intent was requested.
      * @param intents Intents that are provided.
      */
-    void addIntents(Operation<?> operation, List<Intent> intents) {
+    void addIntents(Operation operation, List<Intent> intents) {
         
         if (!intentMap.containsKey(operation)) {
             intentMap.put(operation, new ArrayList<Intent>());
@@ -118,7 +118,7 @@ public class PolicyImpl implements Policy {
      * @param operation Operation against which the intent was requested.
      * @param policySets Resolved policy sets.
      */
-    void addPolicySets(Operation<?> operation, List<PolicySet> policySets) {
+    void addPolicySets(Operation operation, List<PolicySet> policySets) {
         
         if (!policySetMap.containsKey(operation)) {
             policySetMap.put(operation, new ArrayList<PolicySet>());

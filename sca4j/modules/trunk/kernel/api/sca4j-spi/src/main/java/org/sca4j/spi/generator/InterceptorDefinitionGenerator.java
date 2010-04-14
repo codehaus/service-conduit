@@ -93,7 +93,7 @@ public interface InterceptorDefinitionGenerator {
      * @throws GenerationException i an exception occurs during generation
      */
     PhysicalInterceptorDefinition generate(Element policyDefinition,
-                                           Operation<?> operation,
+                                           Operation operation,
                                            LogicalBinding<?> logicalBinding) throws GenerationException;
 
 }

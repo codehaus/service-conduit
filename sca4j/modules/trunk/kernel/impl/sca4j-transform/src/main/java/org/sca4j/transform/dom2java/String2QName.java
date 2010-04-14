@@ -73,7 +73,7 @@ public class String2QName extends AbstractPullTransformer<Node, QName> {
     /**
      * @see org.sca4j.transform.Transformer#getTargetType()
      */
-    public DataType<?> getTargetType() {
+    public DataType getTargetType() {
         return TARGET;
     }
 

@@ -78,17 +78,17 @@ public class DefaultTransformerRegistry<T extends Transformer> implements Transf
         transformers.remove(pair);
     }
 
-    public T getTransformer(DataType<?> source, DataType<?> target) {
+    public T getTransformer(DataType source, DataType target) {
         TransformerPair pair = new TransformerPair(source, target);
         return transformers.get(keys.indexOf(pair));
     }
 
     private static class TransformerPair {
-        private final DataType<?> source;
-        private final DataType<?> target;
+        private final DataType source;
+        private final DataType target;
 
 
-        public TransformerPair(DataType<?> source, DataType<?> target) {
+        public TransformerPair(DataType source, DataType target) {
             this.source = source;
             this.target = target;
         }

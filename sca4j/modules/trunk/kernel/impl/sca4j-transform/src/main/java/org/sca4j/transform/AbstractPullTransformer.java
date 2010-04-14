@@ -67,7 +67,7 @@ import org.w3c.dom.Node;
 public abstract class AbstractPullTransformer<SOURCE, TARGET> implements PullTransformer<SOURCE, TARGET> {
 	
 	/** Default source to be used */
-	private static final XSDSimpleType DEFAULT_SOURCE = new XSDSimpleType(Node.class, XSDSimpleType.STRING);
+	private static final XSDSimpleType DEFAULT_SOURCE = new XSDSimpleType(XSDSimpleType.STRING);
 	
     /** Transform Registry to be used*/
     private TransformerRegistry<PullTransformer<SOURCE, TARGET>> registry;
@@ -96,7 +96,7 @@ public abstract class AbstractPullTransformer<SOURCE, TARGET> implements PullTra
     /**
      * @see Transformer#getSourceType()
      */
-    public DataType<?> getSourceType() {
+    public DataType getSourceType() {
     	return DEFAULT_SOURCE;
     }
 }

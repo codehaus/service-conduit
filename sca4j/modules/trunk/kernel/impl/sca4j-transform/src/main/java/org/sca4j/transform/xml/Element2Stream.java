@@ -73,11 +73,11 @@ public class Element2Stream extends AbstractPullTransformer<Element, XMLStreamRe
         this.xmlFactory = xmlFactory;
     }
 
-    public DataType<?> getSourceType() {
+    public DataType getSourceType() {
         return null;
     }
 
-    public DataType<?> getTargetType() {
+    public DataType getTargetType() {
         return null;
     }
 

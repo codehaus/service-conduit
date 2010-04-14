@@ -119,6 +119,6 @@ public interface PolicyResult {
      * @param operation Operation against which interceptors are defined.
      * @return Interceptors that are defined against the operation.
      */
-    public List<PolicySet> getInterceptedPolicySets(Operation<?> operation);
+    public List<PolicySet> getInterceptedPolicySets(Operation operation);
 
 }

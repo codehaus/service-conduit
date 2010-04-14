@@ -89,7 +89,7 @@ public class Node2String extends AbstractPullTransformer<Node, String> {
 
     }
 
-    public DataType<?> getTargetType() {
+    public DataType getTargetType() {
         // TODO Auto-generated method stub
         return null;
     }

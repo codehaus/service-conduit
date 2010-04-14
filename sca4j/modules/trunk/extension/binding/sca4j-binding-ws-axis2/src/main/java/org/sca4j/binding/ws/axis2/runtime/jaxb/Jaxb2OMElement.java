@@ -103,7 +103,7 @@ public class Jaxb2OMElement extends AbstractPullTransformer<Object, OMElement> {
 
     }
 
-    public DataType<?> getTargetType() {
+    public DataType getTargetType() {
         return TARGET;
     }
 

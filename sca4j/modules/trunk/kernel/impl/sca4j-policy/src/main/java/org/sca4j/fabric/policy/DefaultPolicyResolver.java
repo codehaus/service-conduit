@@ -122,17 +122,17 @@ public class DefaultPolicyResolver implements PolicyResolver {
 
     private static final PolicyResult RESULT = new PolicyResult() {
 
-        public List<PolicySet> getInterceptedPolicySets(Operation<?> operation) {
+        public List<PolicySet> getInterceptedPolicySets(Operation operation) {
             return Collections.emptyList();
         }
 
         public Policy getSourcePolicy() {
             return new Policy() {
-                public List<Intent> getProvidedIntents(Operation<?> operation) {
+                public List<Intent> getProvidedIntents(Operation operation) {
                     return Collections.emptyList();
                 }
 
-                public List<PolicySet> getProvidedPolicySets(Operation<?> operation) {
+                public List<PolicySet> getProvidedPolicySets(Operation operation) {
                     return Collections.emptyList();
                 }
             };
@@ -140,11 +140,11 @@ public class DefaultPolicyResolver implements PolicyResolver {
 
         public Policy getTargetPolicy() {
             return new Policy() {
-                public List<Intent> getProvidedIntents(Operation<?> operation) {
+                public List<Intent> getProvidedIntents(Operation operation) {
                     return Collections.emptyList();
                 }
 
-                public List<PolicySet> getProvidedPolicySets(Operation<?> operation) {
+                public List<PolicySet> getProvidedPolicySets(Operation operation) {
                     return Collections.emptyList();
                 }
             };
@@ -185,7 +185,7 @@ public class DefaultPolicyResolver implements PolicyResolver {
         }
         PolicyResultImpl policyResult = new PolicyResultImpl();
 
-        for (Operation<?> operation : serviceContract.getOperations()) {
+        for (Operation operation : serviceContract.getOperations()) {
 
             policyResult.addSourceIntents(operation, interactionPolicyHelper.getProvidedIntents(sourceBinding, operation));
             

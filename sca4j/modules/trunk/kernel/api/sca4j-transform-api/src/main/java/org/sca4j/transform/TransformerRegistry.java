@@ -60,5 +60,5 @@ import org.sca4j.scdl.DataType;
 public interface TransformerRegistry<T extends Transformer> {
     void register(T transformer);
     void unregister(T transformer);
-    T getTransformer(DataType<?> source, DataType<?> target);
+    T getTransformer(DataType source, DataType target);
 }

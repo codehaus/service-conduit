@@ -81,11 +81,11 @@ public class Stream2Element2 extends AbstractPushTransformer<XMLStreamReader, El
     public Stream2Element2() {
     }
 
-    public DataType<?> getSourceType() {
+    public DataType getSourceType() {
         return null;
     }
 
-    public DataType<?> getTargetType() {
+    public DataType getTargetType() {
         return null;
     }
 

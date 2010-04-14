@@ -83,15 +83,15 @@ import org.sca4j.scdl.Operation;
 public class PayloadTypeIntrospectorImpl implements PayloadTypeIntrospector {
     private static final QName DATABINDING_INTENT = new QName(SCA4J_NS, "dataBinding.jaxb");
 
-    public <T> PayloadType introspect(Operation<T> operation) throws JmsGenerationException {
+    public <T> PayloadType introspect(Operation operation) throws JmsGenerationException {
         // TODO perform error checking, e.g. mixing of databindings
         if (operation.getIntents().contains(DATABINDING_INTENT)) {
             return PayloadType.TEXT;
         }
-        List<DataType<T>> inputType = operation.getInputType();
+        List<DataType> inputType = operation.getInputType();
         if (inputType.size() == 1) {
-            DataType<?> param = inputType.get(0);
-            Type physical = param.getPhysical();
+            DataType param = inputType.get(0);
+            Type physical = (Type) param.getJavaType();
             if (physical instanceof Class<?>) {
                 Class<?> clazz = (Class<?>) physical;
                 if (clazz.isPrimitive()) {

@@ -65,7 +65,7 @@ import org.w3c.dom.Node;
 public class String2String extends AbstractPullTransformer<Node, String> {
     private static final JavaClass<String> TARGET = new JavaClass<String>(String.class);
 
-    public DataType<?> getTargetType() {
+    public DataType getTargetType() {
         return TARGET;
     }
 

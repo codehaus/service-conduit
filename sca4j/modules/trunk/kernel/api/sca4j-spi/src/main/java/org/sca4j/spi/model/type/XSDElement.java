@@ -52,8 +52,6 @@
  */
 package org.sca4j.spi.model.type;
 
-import java.lang.reflect.Type;
-
 import javax.xml.namespace.QName;
 
 /**
@@ -62,9 +60,8 @@ import javax.xml.namespace.QName;
  * @version $Rev: 5070 $ $Date: 2008-07-21 17:52:37 +0100 (Mon, 21 Jul 2008) $
  */
 public class XSDElement extends XSDType {
-    private static final long serialVersionUID = -2602951884349165087L;
 
-    public XSDElement(Type physical, QName logical) {
-        super(physical, logical);
+    public XSDElement(QName physical) {
+        super(physical);
     }
 }

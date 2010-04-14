@@ -79,14 +79,14 @@ import org.sca4j.scdl.DataType;
  *
  * @version $Revision$ $Date$
  */
-public class JavaParameterizedType extends DataType<ParameterizedType> {
+public class JavaParameterizedType extends DataType {
 
     public JavaParameterizedType(ParameterizedType parameterizedType) {
-        super(parameterizedType, parameterizedType);
+        super(parameterizedType);
     }
 
     public JavaParameterizedType(Type rawType, Type ... formalParameters) {
-        super(new ParameterizedTypeImpl(formalParameters, rawType), new ParameterizedTypeImpl(formalParameters, rawType));
+        super(new ParameterizedTypeImpl(formalParameters, rawType));
     }
 
 }

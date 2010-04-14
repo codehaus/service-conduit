@@ -96,7 +96,7 @@ public abstract class PojoComponentBuilder<T, PCD extends PojoComponentDefinitio
     protected final InstanceFactoryBuilderRegistry providerBuilders;
     protected final TransformerRegistry<PullTransformer<?, ?>> transformerRegistry;
 
-    private static final XSDSimpleType SOURCE_TYPE = new XSDSimpleType(Node.class, XSDSimpleType.STRING);
+    private static final XSDSimpleType SOURCE_TYPE = new XSDSimpleType(XSDSimpleType.STRING);
     private static final Map<Type, Class<?>> OBJECT_TYPES;
 
     static {
@@ -148,7 +148,7 @@ public abstract class PojoComponentBuilder<T, PCD extends PojoComponentDefinitio
     private ObjectFactory<?> createObjectFactory(String name, Type type, Element value, TransformContext context) throws BuilderException {
 
         try {
-            DataType<?> targetType = null;
+            DataType targetType = null;
             
             if (type instanceof Class<?>) {
                 Class<?> clazz = (Class<?>) type;

@@ -79,7 +79,7 @@ public class String2Calendar extends AbstractPullTransformer<Node, Calendar> {
         factory = DatatypeFactory.newInstance();
     }
 
-    public DataType<?> getTargetType() {
+    public DataType getTargetType() {
         return TARGET;
     }
 

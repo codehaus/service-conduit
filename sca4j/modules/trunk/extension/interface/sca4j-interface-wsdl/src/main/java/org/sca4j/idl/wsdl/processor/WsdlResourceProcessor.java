@@ -46,6 +46,8 @@ import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.scdl.DataType;
 import org.sca4j.scdl.Operation;
 import org.sca4j.scdl.ValidationContext;
+import org.sca4j.spi.model.type.XSDElement;
+import org.sca4j.spi.model.type.XSDType;
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.Resource;
 import org.sca4j.spi.services.contribution.ResourceProcessor;
@@ -76,9 +78,9 @@ public class WsdlResourceProcessor implements ResourceProcessor {
                 QName portTypeName = (QName) object;
                 PortType portType = (PortType) definition.getPortType(portTypeName);
                 
-                List<Operation<?>> operations = new LinkedList<Operation<?>>();
+                List<Operation> operations = new LinkedList<Operation>();
                 for(Object obj : portType.getOperations()) {     
-                    Operation<XmlSchemaType> op = getOperation(schemaCollection, (javax.wsdl.Operation) obj);                
+                    Operation op = getOperation(schemaCollection, (javax.wsdl.Operation) obj);                
                     operations.add(op);                
                 }
                 
@@ -94,18 +96,18 @@ public class WsdlResourceProcessor implements ResourceProcessor {
     /*
      * Creates an F3 operation from a WSDL operation.
      */
-    private Operation<XmlSchemaType> getOperation(XmlSchemaCollection xmlSchema, javax.wsdl.Operation operation) {
+    private Operation getOperation(XmlSchemaCollection xmlSchema, javax.wsdl.Operation operation) {
         
         Input input = operation.getInput();
         Output output = operation.getOutput();
         Map<?, ?> faults = operation.getFaults();
         
         String name = operation.getName();
-        List<DataType<XmlSchemaType>> inputType = getInputType(input, xmlSchema);
-        DataType<XmlSchemaType> outputType = getOutputType(output, xmlSchema);
-        List<DataType<XmlSchemaType>> faultTypes = getFaultTypes(faults, xmlSchema);
+        List<DataType> inputType = getInputType(input, xmlSchema);
+        DataType outputType = getOutputType(output, xmlSchema);
+        List<DataType> faultTypes = getFaultTypes(faults, xmlSchema);
         
-        return new Operation<XmlSchemaType>(name, inputType, outputType, faultTypes);
+        return new Operation(name, inputType, outputType, faultTypes);
         
     }
     
@@ -113,14 +115,14 @@ public class WsdlResourceProcessor implements ResourceProcessor {
      * Gets the fault types.
      */
     @SuppressWarnings("unchecked")
-    private List<DataType<XmlSchemaType>> getFaultTypes(Map faults, XmlSchemaCollection xmlSchema) {
+    private List<DataType> getFaultTypes(Map faults, XmlSchemaCollection xmlSchema) {
         
-        List<DataType<XmlSchemaType>> types = new LinkedList<DataType<XmlSchemaType>>();
+        List<DataType> types = new LinkedList<DataType>();
         
         for(Fault fault : (Collection<Fault>) faults.values()) {
             
             Part part = (Part) fault.getMessage().getOrderedParts(null).get(0);  
-            DataType<XmlSchemaType> dataType = getDataType(part.getElementName(), xmlSchema);
+            DataType dataType = getDataType(part.getElementName(), xmlSchema);
             if(dataType != null) {
                 types.add(dataType);
             }        
@@ -134,7 +136,7 @@ public class WsdlResourceProcessor implements ResourceProcessor {
     /*
      * Get the output type.
      */
-    private DataType<XmlSchemaType> getOutputType(Output output, XmlSchemaCollection xmlSchema) {
+    private DataType getOutputType(Output output, XmlSchemaCollection xmlSchema) {
         
         if(output == null) return null;
         
@@ -149,17 +151,17 @@ public class WsdlResourceProcessor implements ResourceProcessor {
      * Get the input type.
      */
     @SuppressWarnings("unchecked")
-    private List<DataType<XmlSchemaType>> getInputType(Input input, XmlSchemaCollection xmlSchema) {
+    private List<DataType> getInputType(Input input, XmlSchemaCollection xmlSchema) {
         
         if(input == null) return null;
         
         Message message = input.getMessage();
         List<Part> parts = message.getOrderedParts(null);
         
-        List<DataType<XmlSchemaType>> types = new LinkedList<DataType<XmlSchemaType>>();
+        List<DataType> types = new LinkedList<DataType>();
         
         for(Part part : parts) {    
-            DataType<XmlSchemaType> dataType = getDataType(part.getElementName(), xmlSchema);
+            DataType dataType = getDataType(part.getElementName(), xmlSchema);
             if(dataType != null) {
                 types.add(dataType);
             }        
@@ -191,15 +193,15 @@ public class WsdlResourceProcessor implements ResourceProcessor {
     /*
      * Create a data type with the XML type for the part.
      */
-    private DataType<XmlSchemaType> getDataType(QName qName, XmlSchemaCollection xmlSchema) {
+    private DataType getDataType(QName qName, XmlSchemaCollection xmlSchema) {
 
         XmlSchemaType type = xmlSchema.getTypeByQName(qName);
         if(type != null) {
-            return new DataType<XmlSchemaType>(Object.class, type);
+            return new XSDType(type.getQName());
         } else {
             XmlSchemaElement element = xmlSchema.getElementByQName(qName);
             if(element != null) {
-                return new DataType<XmlSchemaType>(Object.class, element.getSchemaType());
+                return new XSDElement(element.getQName());
             }
         }
         throw new WsdlProcessorException("Unable to find type " + qName);

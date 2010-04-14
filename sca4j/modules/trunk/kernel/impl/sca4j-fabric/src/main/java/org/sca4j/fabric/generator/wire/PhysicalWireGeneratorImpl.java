@@ -375,11 +375,11 @@ public class PhysicalWireGeneratorImpl implements PhysicalWireGenerator {
                                                                 PolicyResult policyResult,
                                                                 LogicalBinding<?> logicalBinding) throws GenerationException {
 
-        List<? extends Operation<?>> operations = contract.getOperations();
+        List<? extends Operation> operations = contract.getOperations();
         Set<PhysicalOperationDefinition> physicalOperations = new HashSet<PhysicalOperationDefinition>(operations.size());
         String interfaze = contract.getQualifiedInterfaceName();
 
-        for (Operation<?> operation : operations) {
+        for (Operation operation : operations) {
             PhysicalOperationDefinition physicalOperation = physicalOperationHelper.mapOperation(operation);
             if (policyResult != null) {
                 List<PolicySet> policies = policyResult.getInterceptedPolicySets(operation);
@@ -395,7 +395,7 @@ public class PhysicalWireGeneratorImpl implements PhysicalWireGenerator {
 
     @SuppressWarnings("unchecked")
     private List<PhysicalInterceptorDefinition> generateInterceptorDefinitions(List<PolicySet> policies,
-                                                                              Operation<?> operation,
+                                                                              Operation operation,
                                                                               LogicalBinding<?> logicalBinding,
                                                                               String interfaze) throws GenerationException {
 

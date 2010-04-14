@@ -87,9 +87,7 @@ public class NonBlockingGenerator implements InterceptorDefinitionGenerator {
         registry.register(QNAME, this);
     }
 
-    public PhysicalInterceptorDefinition generate(Element policyDefinition,
-                                                  Operation<?> operation,
-                                                  LogicalBinding<?> logicalBinding) throws GenerationException {
+    public PhysicalInterceptorDefinition generate(Element policyDefinition, Operation operation, LogicalBinding<?> logicalBinding) throws GenerationException {
         return new NonBlockingInterceptorDefinition();
     }
 }

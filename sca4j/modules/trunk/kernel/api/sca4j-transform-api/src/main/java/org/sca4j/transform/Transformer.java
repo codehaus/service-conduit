@@ -58,6 +58,6 @@ import org.sca4j.scdl.DataType;
  * @version $Rev: 3524 $ $Date: 2008-03-31 22:43:51 +0100 (Mon, 31 Mar 2008) $
  */
 public interface Transformer {
-    DataType<?> getSourceType();
-    DataType<?> getTargetType();
+    DataType getSourceType();
+    DataType getTargetType();
 }

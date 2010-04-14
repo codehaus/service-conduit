@@ -156,7 +156,7 @@ public class Axis2BindingGeneratorDelegate implements BindingGeneratorDelegate<W
     }*/
     
     private void addOperationInfo(Axis2WireTargetDefinition hwtd, ServiceContract serviceContract) {
-    	for (Operation<?> operation : serviceContract.getOperations()) {
+    	for (Operation operation : serviceContract.getOperations()) {
             Map<String, String> info = operation.getInfo(org.sca4j.binding.ws.axis2.common.Constant.AXIS2_JAXWS_QNAME);
             if (info != null) {
                 hwtd.addOperationInfo(operation.getName(), info);
@@ -166,7 +166,7 @@ public class Axis2BindingGeneratorDelegate implements BindingGeneratorDelegate<W
 
     private void setPolicyConfigs(Axis2PolicyAware policyAware, Policy policy, ServiceContract serviceContract) throws Axis2GenerationException {
         
-        for (Operation<?> operation : serviceContract.getOperations()) {
+        for (Operation operation : serviceContract.getOperations()) {
             
             List<PolicySet> policySets = policy.getProvidedPolicySets(operation);
             if (policySets == null) {

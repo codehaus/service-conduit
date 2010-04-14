@@ -106,9 +106,7 @@ public class TxInterceptorDefinitionGenerator implements InterceptorDefinitionGe
         generatorRegistry.register(EXTENSION_NAME, this);
     }
 
-    public PhysicalInterceptorDefinition generate(Element policyDefinition,
-                                                  Operation<?> operation,
-                                                  LogicalBinding<?> logicalBinding) throws GenerationException {
+    public PhysicalInterceptorDefinition generate(Element policyDefinition, Operation operation, LogicalBinding<?> logicalBinding) throws GenerationException {
         String action = policyDefinition.getAttribute("action");
 
         return new TxInterceptorDefinition(TxAction.valueOf(action));

@@ -188,10 +188,10 @@ public class JavaServiceContract extends ServiceContract {
     private boolean isNonJavaAssignableFrom(ServiceContract contract) {
         
         //compare contract operations
-        List<Operation<?>> theirOperations = contract.getOperations();
-        Map<String, Operation<?>> theirOperationNames = new HashMap<String, Operation<?>>();
+        List<Operation> theirOperations = contract.getOperations();
+        Map<String, Operation> theirOperationNames = new HashMap<String, Operation>();
         
-        for (Operation<?> o : theirOperations) {
+        for (Operation o : theirOperations) {
             theirOperationNames.put(o.getName(), o);
         }
         
@@ -206,8 +206,8 @@ public class JavaServiceContract extends ServiceContract {
             //    return false;
             //}
             
-            List<DataType<?>> myParams = o.getInputType();
-            List<DataType<?>> theirParams = theirs.getInputType();
+            List<DataType> myParams = o.getInputType();
+            List<DataType> theirParams = theirs.getInputType();
 
             if (myParams.size() == theirParams.size()) {
                 for (int i = 0; i < myParams.size(); i++) {
@@ -223,8 +223,8 @@ public class JavaServiceContract extends ServiceContract {
                 return false;
             }
 
-            List<DataType<?>> theirFaults = theirs.getFaultTypes();
-            List<DataType<?>> faults = o.getFaultTypes();
+            List<DataType> theirFaults = theirs.getFaultTypes();
+            List<DataType> faults = o.getFaultTypes();
             for (DataType theirFault : theirFaults) {
                 boolean matches = false;
                 for (DataType myFault : faults) {
@@ -244,8 +244,8 @@ public class JavaServiceContract extends ServiceContract {
     }
 
     private boolean compareTypes(DataType mine, DataType theirs) {
-        Type myType = mine.getPhysical();
-        Type theirType = theirs.getPhysical();
+        Type myType = mine.getJavaType();
+        Type theirType = theirs.getJavaType();
         if (myType instanceof Class && theirType instanceof Class) {
             Class myClass = (Class) myType;
             Class theirClass = (Class) theirType;

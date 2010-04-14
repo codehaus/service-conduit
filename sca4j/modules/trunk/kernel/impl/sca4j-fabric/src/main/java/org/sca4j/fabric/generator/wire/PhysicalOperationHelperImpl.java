@@ -73,12 +73,12 @@ public class PhysicalOperationHelperImpl implements PhysicalOperationHelper {
         PhysicalOperationDefinition operation = new PhysicalOperationDefinition();
         operation.setName(o.getName());
         operation.setEndsConversation(o.getConversationSequence() == Operation.CONVERSATION_END);
-        Type returnType = o.getOutputType().getPhysical();
+        Type returnType = o.getOutputType().getJavaType();
         operation.setReturnType(getClassName(returnType));
 
-        List<? extends DataType<?>> params = o.getInputType();
-        for (DataType<?> param : params) {
-            Type paramType = param.getPhysical();
+        List<? extends DataType> params = o.getInputType();
+        for (DataType param : params) {
+            Type paramType = param.getJavaType();
             operation.addParameter(getClassName(paramType));
         }
         return operation;

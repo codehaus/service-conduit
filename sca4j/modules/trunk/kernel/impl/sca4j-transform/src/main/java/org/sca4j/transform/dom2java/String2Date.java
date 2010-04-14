@@ -91,7 +91,7 @@ public class String2Date extends AbstractPullTransformer<Node, Date> {
     /**
      * @see org.sca4j.transform.Transformer#getTargetType()
      */
-    public DataType<?> getTargetType() {
+    public DataType getTargetType() {
         return TARGET;
     }
 

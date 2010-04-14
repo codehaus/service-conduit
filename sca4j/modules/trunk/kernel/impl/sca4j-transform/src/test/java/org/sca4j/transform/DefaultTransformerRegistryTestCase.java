@@ -68,7 +68,7 @@ public class DefaultTransformerRegistryTestCase extends TestCase {
     public void testRegistration() {
         PullTransformer<?,?> transformer = new String2Integer();
         registry.register(transformer);
-        XSDSimpleType source = new XSDSimpleType(Node.class, XSDSimpleType.STRING);
+        XSDSimpleType source = new XSDSimpleType(XSDSimpleType.STRING);
         JavaClass<Integer> target = new JavaClass<Integer>(Integer.class);
         assertSame(transformer, registry.getTransformer(source, target));
     }

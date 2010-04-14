@@ -65,7 +65,7 @@ import org.w3c.dom.Node;
 public class String2Boolean extends AbstractPullTransformer<Node, Boolean> {
     private static final JavaClass<Boolean> TARGET = new JavaClass<Boolean>(Boolean.class);
 
-    public DataType<?> getTargetType() {
+    public DataType getTargetType() {
         return TARGET;
     }
 
