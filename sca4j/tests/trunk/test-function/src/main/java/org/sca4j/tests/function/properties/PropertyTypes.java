@@ -54,8 +54,8 @@ package org.sca4j.tests.function.properties;
 
 import java.net.URI;
 import java.net.URL;
-import java.util.Date;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;

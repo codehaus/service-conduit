@@ -58,8 +58,8 @@ import java.util.List;
 import java.util.Set;
 
 import junit.framework.TestCase;
-import org.oasisopen.sca.annotation.Reference;
 
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.tests.function.common.IdentityService;
 
 /**

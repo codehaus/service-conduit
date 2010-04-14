@@ -53,7 +53,6 @@
 package org.sca4j.tests.function.callback.stateless;
 
 import org.oasisopen.sca.annotation.Callback;
-
 import org.sca4j.tests.function.callback.common.CallbackData;
 
 /**

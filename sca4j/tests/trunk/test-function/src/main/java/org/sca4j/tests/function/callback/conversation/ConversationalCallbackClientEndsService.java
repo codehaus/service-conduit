@@ -53,10 +53,6 @@
 package org.sca4j.tests.function.callback.conversation;
 
 import org.sca4j.api.annotation.scope.Conversational;
-import org.oasisopen.sca.annotation.OneWay;
-import org.oasisopen.sca.annotation.Callback;
-
-import org.sca4j.tests.function.callback.common.CallbackData;
 
 /**
  * @version $Revision$ $Date$

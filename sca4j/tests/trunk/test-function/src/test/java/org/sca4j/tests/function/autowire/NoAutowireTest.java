@@ -53,8 +53,8 @@
 package org.sca4j.tests.function.autowire;
 
 import junit.framework.TestCase;
-import org.oasisopen.sca.annotation.Reference;
 
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.tests.function.common.Target;
 
 /**

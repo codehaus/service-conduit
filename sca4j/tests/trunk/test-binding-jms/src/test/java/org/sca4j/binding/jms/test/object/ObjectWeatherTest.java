@@ -72,14 +72,9 @@ package org.sca4j.binding.jms.test.object;
 
 import java.util.Date;
 
-import org.oasisopen.sca.annotation.Reference;
-
 import junit.framework.TestCase;
 
-import org.sca4j.binding.jms.test.object.WeatherCondition;
-import org.sca4j.binding.jms.test.object.WeatherRequest;
-import org.sca4j.binding.jms.test.object.WeatherResponse;
-import org.sca4j.binding.jms.test.object.WeatherService;
+import org.oasisopen.sca.annotation.Reference;
 
 /**
  * @version $Revision$ $Date$

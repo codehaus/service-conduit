@@ -18,9 +18,9 @@
  */
 package org.sca4j.tests.function.references;
 
-import org.oasisopen.sca.annotation.Reference;
-
 import junit.framework.TestCase;
+
+import org.oasisopen.sca.annotation.Reference;
 
 public class ClassInjectionTest extends TestCase {
     

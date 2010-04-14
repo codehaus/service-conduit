@@ -55,8 +55,8 @@ package org.sca4j.jpa.service;
 import java.util.List;
 
 import junit.framework.TestCase;
-import org.oasisopen.sca.annotation.Reference;
 
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.jpa.model.Employee;
 import org.sca4j.jpa.model.ExEmployee;
 

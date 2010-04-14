@@ -52,8 +52,8 @@
  */
 package org.sca4j.tests.function.conversation;
 
-import org.oasisopen.sca.annotation.Scope;
 import org.oasisopen.sca.annotation.Reference;
+import org.oasisopen.sca.annotation.Scope;
 
 /**
  * @version $Revision$ $Date$

@@ -70,9 +70,9 @@
  */
 package org.sca4j.fabric.policy;
 
-import org.oasisopen.sca.annotation.Reference;
-
 import junit.framework.TestCase;
+
+import org.oasisopen.sca.annotation.Reference;
 
 /**
  * @version $Revision$ $Date$

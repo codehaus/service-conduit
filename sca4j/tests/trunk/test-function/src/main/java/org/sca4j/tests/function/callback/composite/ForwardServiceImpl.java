@@ -55,7 +55,6 @@ package org.sca4j.tests.function.callback.composite;
 import org.oasisopen.sca.annotation.Callback;
 import org.oasisopen.sca.annotation.OneWay;
 import org.oasisopen.sca.annotation.Scope;
-
 import org.sca4j.tests.function.callback.common.CallbackData;
 
 /**

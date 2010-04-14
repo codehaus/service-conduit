@@ -53,6 +53,7 @@
 package org.sca4j.tests.function.lifecycle;
 
 import junit.framework.TestCase;
+
 import org.oasisopen.sca.ComponentContext;
 import org.oasisopen.sca.RequestContext;
 import org.oasisopen.sca.annotation.Context;

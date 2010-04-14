@@ -54,7 +54,6 @@ package org.sca4j.jpa.service;
 
 import org.sca4j.api.annotation.scope.Conversational;
 import org.sca4j.api.annotation.scope.EndsConversation;
-
 import org.sca4j.jpa.model.Employee;
 
 /**

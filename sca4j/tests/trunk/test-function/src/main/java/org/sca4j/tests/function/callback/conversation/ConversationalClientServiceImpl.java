@@ -55,7 +55,6 @@ package org.sca4j.tests.function.callback.conversation;
 import org.oasisopen.sca.annotation.Reference;
 import org.oasisopen.sca.annotation.Scope;
 import org.oasisopen.sca.annotation.Service;
-
 import org.sca4j.tests.function.callback.common.CallbackData;
 
 /**

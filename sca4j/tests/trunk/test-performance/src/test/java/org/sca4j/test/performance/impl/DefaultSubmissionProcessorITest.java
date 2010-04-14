@@ -55,11 +55,11 @@ package org.sca4j.test.performance.impl;
 import java.net.URI;
 import java.util.LinkedList;
 
+import junit.framework.TestCase;
+
 import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.test.performance.api.Rule;
 import org.sca4j.test.performance.api.SubmissionProcessor;
-
-import junit.framework.TestCase;
 
 public class DefaultSubmissionProcessorITest extends TestCase {
     

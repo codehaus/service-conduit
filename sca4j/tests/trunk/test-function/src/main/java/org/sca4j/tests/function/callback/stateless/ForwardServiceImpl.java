@@ -56,7 +56,6 @@ import org.oasisopen.sca.ServiceReference;
 import org.oasisopen.sca.annotation.Callback;
 import org.oasisopen.sca.annotation.Reference;
 import org.oasisopen.sca.annotation.Service;
-
 import org.sca4j.tests.function.callback.common.CallbackData;
 
 /**

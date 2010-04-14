@@ -53,8 +53,8 @@
 package org.sca4j.tests.function.binding;
 
 import junit.framework.TestCase;
-import org.oasisopen.sca.annotation.Reference;
 
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.tests.function.common.HelloService;
 
 /**

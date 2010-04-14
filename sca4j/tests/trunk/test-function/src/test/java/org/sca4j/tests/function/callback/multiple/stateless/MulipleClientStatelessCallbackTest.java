@@ -52,9 +52,9 @@
  */
 package org.sca4j.tests.function.callback.multiple.stateless;
 
-import org.oasisopen.sca.annotation.Reference;
-
 import junit.framework.TestCase;
+
+import org.oasisopen.sca.annotation.Reference;
 
 /**
  * Tests for multiple stateless callbacks.

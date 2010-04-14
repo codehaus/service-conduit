@@ -52,9 +52,9 @@
  */
 package org.sca4j.tests.function.ordering;
 
-import org.oasisopen.sca.annotation.Reference;
-
 import junit.framework.TestCase;
+
+import org.oasisopen.sca.annotation.Reference;
 
 /**
  * Tests the retention of composite file order for injected components

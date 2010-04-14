@@ -53,6 +53,7 @@
 package org.sca4j.tests.function.wiring;
 
 import junit.framework.TestCase;
+
 import org.oasisopen.sca.annotation.Reference;
 
 /**

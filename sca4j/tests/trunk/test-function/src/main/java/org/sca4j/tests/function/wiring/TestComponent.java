@@ -53,7 +53,6 @@
 package org.sca4j.tests.function.wiring;
 
 import org.oasisopen.sca.annotation.Reference;
-
 import org.sca4j.tests.function.common.HelloService;
 
 /**

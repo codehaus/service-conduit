@@ -54,10 +54,9 @@ package org.sca4j.tests.function.callback.stateless;
 
 import org.oasisopen.sca.ComponentContext;
 import org.oasisopen.sca.annotation.Context;
-import org.oasisopen.sca.annotation.Reference;
 import org.oasisopen.sca.annotation.Property;
+import org.oasisopen.sca.annotation.Reference;
 import org.oasisopen.sca.annotation.Service;
-
 import org.sca4j.tests.function.callback.common.CallbackData;
 
 /**

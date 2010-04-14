@@ -55,6 +55,7 @@ package org.sca4j.tests.function.generic;
 import java.util.List;
 
 import junit.framework.TestCase;
+
 import org.oasisopen.sca.annotation.Reference;
 
 /**

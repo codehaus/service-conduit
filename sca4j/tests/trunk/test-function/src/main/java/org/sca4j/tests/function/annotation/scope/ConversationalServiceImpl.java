@@ -52,8 +52,8 @@
  */
 package org.sca4j.tests.function.annotation.scope;
 
-import org.sca4j.api.annotation.scope.Scopes;
 import org.oasisopen.sca.annotation.Scope;
+import org.sca4j.api.annotation.scope.Scopes;
 
 @Scope(Scopes.CONVERSATION)
 public class ConversationalServiceImpl implements ConversationalService {

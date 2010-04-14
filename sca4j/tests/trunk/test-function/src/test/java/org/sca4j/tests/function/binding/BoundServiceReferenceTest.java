@@ -56,8 +56,8 @@ import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
-import org.oasisopen.sca.annotation.Reference;
 
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.tests.function.common.HelloService;
 
 /**

@@ -53,9 +53,10 @@
 package org.sca4j.tests.binding.axis.jaxb;
 
 import java.util.Date;
-import org.oasisopen.sca.annotation.Reference;
 
 import junit.framework.TestCase;
+
+import org.oasisopen.sca.annotation.Reference;
 
 public class WeatherServiceTest extends TestCase {
     

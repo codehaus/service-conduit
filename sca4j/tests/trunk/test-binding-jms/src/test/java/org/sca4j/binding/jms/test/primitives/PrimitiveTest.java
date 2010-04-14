@@ -53,6 +53,7 @@
 package org.sca4j.binding.jms.test.primitives;
 
 import junit.framework.TestCase;
+
 import org.oasisopen.sca.annotation.Reference;
 
 /**

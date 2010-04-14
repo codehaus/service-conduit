@@ -55,6 +55,7 @@ package org.sca4j.binding.jms.test.async;
 import java.util.concurrent.CountDownLatch;
 
 import junit.framework.TestCase;
+
 import org.oasisopen.sca.annotation.Reference;
 
 /**

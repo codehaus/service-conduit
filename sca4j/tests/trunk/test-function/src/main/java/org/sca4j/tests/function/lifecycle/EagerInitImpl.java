@@ -52,9 +52,9 @@
  */
 package org.sca4j.tests.function.lifecycle;
 
-import org.oasisopen.sca.annotation.Scope;
 import org.oasisopen.sca.annotation.EagerInit;
 import org.oasisopen.sca.annotation.Init;
+import org.oasisopen.sca.annotation.Scope;
 
 /**
  * @version $Rev: 2479 $ $Date: 2008-01-19 16:53:52 +0000 (Sat, 19 Jan 2008) $

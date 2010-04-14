@@ -52,9 +52,9 @@
  */
 package org.sca4j.tests.function.annotation.scope;
 
-import org.oasisopen.sca.annotation.Reference;
-
 import junit.framework.TestCase;
+
+import org.oasisopen.sca.annotation.Reference;
 
 public class ScopeTest extends TestCase {
     
