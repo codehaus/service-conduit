@@ -58,8 +58,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.oasisopen.sca.ServiceRuntimeException;
 import org.oasisopen.sca.ServiceUnavailableException;
-import org.sca4j.api.scope.Conversation;
 import org.oasisopen.sca.annotation.EagerInit;
+import org.sca4j.api.scope.Conversation;
 import org.sca4j.spi.invocation.CallFrame;
 import org.sca4j.spi.invocation.ConversationContext;
 import org.sca4j.spi.invocation.Message;

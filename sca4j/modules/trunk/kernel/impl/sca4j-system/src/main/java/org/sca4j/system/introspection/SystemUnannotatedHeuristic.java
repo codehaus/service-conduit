@@ -205,7 +205,7 @@ public class SystemUnannotatedHeuristic implements HeuristicProcessor<SystemImpl
                               Type parameterType,
                               InjectionSite site,
                               IntrospectionContext context) {
-        ServiceContract<Type> contract = contractProcessor.introspect(typeMapping, parameterType, context);
+        ServiceContract contract = contractProcessor.introspect(typeMapping, parameterType, context);
         Multiplicity multiplicity = helper.isManyValued(typeMapping, parameterType) ? Multiplicity.ONE_N : Multiplicity.ONE_ONE;
         ReferenceDefinition reference = new ReferenceDefinition(name, contract, multiplicity);
         componentType.add(reference, site);

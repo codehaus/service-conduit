@@ -59,13 +59,12 @@ import javax.xml.namespace.QName;
 
 import junit.framework.TestCase;
 
+import org.oasisopen.sca.annotation.Init;
+import org.oasisopen.sca.annotation.Scope;
 import org.sca4j.introspection.DefaultIntrospectionContext;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.scdl.Implementation;
 import org.sca4j.scdl.InjectingComponentType;
-
-import org.oasisopen.sca.annotation.Scope;
-import org.oasisopen.sca.annotation.Init;
 @SuppressWarnings("unchecked")
 public class InitProcessorTestCase extends TestCase {
 

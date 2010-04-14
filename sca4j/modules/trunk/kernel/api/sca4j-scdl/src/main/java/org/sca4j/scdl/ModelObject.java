@@ -70,15 +70,13 @@
  */
 package org.sca4j.scdl;
 
-import java.io.Serializable;
 
 /**
  * The base class for assembly model types
  *
  * @version $Rev: 5070 $ $Date: 2008-07-21 17:52:37 +0100 (Mon, 21 Jul 2008) $
  */
-public abstract class ModelObject implements Serializable {
-    private static final long serialVersionUID = -4731760911483352681L;
+public abstract class ModelObject {
 
     /**
      * Perform semantic validation on this model object.

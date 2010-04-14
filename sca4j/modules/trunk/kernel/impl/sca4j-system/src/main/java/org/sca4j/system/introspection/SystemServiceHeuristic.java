@@ -52,7 +52,6 @@
  */
 package org.sca4j.system.introspection;
 
-import java.lang.reflect.Type;
 import java.util.Set;
 
 import org.oasisopen.sca.annotation.Reference;
@@ -116,7 +115,7 @@ public class SystemServiceHeuristic implements HeuristicProcessor<SystemImplemen
     }
 
     ServiceDefinition createServiceDefinition(Class<?> serviceInterface, TypeMapping typeMapping, IntrospectionContext context) {
-        ServiceContract<Type> contract = contractProcessor.introspect(typeMapping, serviceInterface, context);
+        ServiceContract contract = contractProcessor.introspect(typeMapping, serviceInterface, context);
         ServiceDefinition service = new ServiceDefinition(contract.getInterfaceName(), contract);
         service.setManagement(serviceInterface.isAnnotationPresent(Management.class));
         return service;

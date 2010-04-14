@@ -52,6 +52,8 @@
  */
 package org.sca4j.binding.jms.control;
 
+import static org.oasisopen.sca.Constants.SCA_NS;
+
 import java.net.URI;
 import java.util.Collections;
 import java.util.HashMap;
@@ -61,7 +63,6 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
-import static org.oasisopen.sca.Constants.SCA_NS;
 import org.oasisopen.sca.annotation.EagerInit;
 import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.binding.jms.common.JmsBindingMetadata;
@@ -107,7 +108,7 @@ public class JmsBindingGenerator implements BindingGenerator<JmsWireSourceDefini
     public JmsWireSourceDefinition generateWireSource(LogicalBinding<JmsBindingDefinition> logicalBinding, Policy policy, ServiceDefinition serviceDefinition)
             throws GenerationException {
 
-        ServiceContract<?> serviceContract = serviceDefinition.getServiceContract();
+        ServiceContract serviceContract = serviceDefinition.getServiceContract();
         TransactionType transactionType = getTransactionType(policy, serviceContract);
         Set<String> oneWayOperations = getOneWayOperations(policy, serviceContract);
 
@@ -122,7 +123,7 @@ public class JmsBindingGenerator implements BindingGenerator<JmsWireSourceDefini
     public JmsWireTargetDefinition generateWireTarget(LogicalBinding<JmsBindingDefinition> logicalBinding, Policy policy, ReferenceDefinition referenceDefinition)
             throws GenerationException {
 
-        ServiceContract<?> serviceContract = referenceDefinition.getServiceContract();
+        ServiceContract serviceContract = referenceDefinition.getServiceContract();
 
         TransactionType transactionType = getTransactionType(policy, serviceContract);
         Set<String> oneWayOperations = getOneWayOperations(policy, serviceContract);
@@ -138,7 +139,7 @@ public class JmsBindingGenerator implements BindingGenerator<JmsWireSourceDefini
     /*
      * Gets the transaction type.
      */
-    private TransactionType getTransactionType(Policy policy, ServiceContract<?> serviceContract) {
+    private TransactionType getTransactionType(Policy policy, ServiceContract serviceContract) {
 
         // If any operation has the intent, return that
         for (Operation<?> operation : serviceContract.getOperations()) {
@@ -160,7 +161,7 @@ public class JmsBindingGenerator implements BindingGenerator<JmsWireSourceDefini
     /*
      * Gets one way method names.
      */
-    private Set<String> getOneWayOperations(Policy policy, ServiceContract<?> serviceContract) {
+    private Set<String> getOneWayOperations(Policy policy, ServiceContract serviceContract) {
         Set<String> result = null;
         // If any operation has the intent, return that
         for (Operation<?> operation : serviceContract.getOperations()) {
@@ -188,7 +189,7 @@ public class JmsBindingGenerator implements BindingGenerator<JmsWireSourceDefini
      * @return the collection of payload types keyed by operation name
      * @throws JmsGenerationException if an error occurs
      */
-    private Map<String, PayloadType> processPayloadTypes(ServiceContract<?> serviceContract) throws JmsGenerationException {
+    private Map<String, PayloadType> processPayloadTypes(ServiceContract serviceContract) throws JmsGenerationException {
         Map<String, PayloadType> types = new HashMap<String, PayloadType>();
         for (Operation<?> operation : serviceContract.getOperations()) {
             PayloadType payloadType = introspector.introspect(operation);

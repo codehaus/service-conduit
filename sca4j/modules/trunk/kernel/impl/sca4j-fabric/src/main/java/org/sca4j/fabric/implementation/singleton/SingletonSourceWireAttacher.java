@@ -54,8 +54,8 @@ package org.sca4j.fabric.implementation.singleton;
 
 import java.net.URI;
 
-import org.oasisopen.sca.annotation.Reference;
 import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.scdl.InjectableAttribute;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;

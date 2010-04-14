@@ -107,7 +107,7 @@ public class JSR250ResourceProcessor<I extends Implementation<? extends Injectin
                                          String mappedName,
                                          TypeMapping typeMapping,
                                          IntrospectionContext context) {
-        ServiceContract<Type> serviceContract = contractProcessor.introspect(typeMapping, type, context);
+        ServiceContract serviceContract = contractProcessor.introspect(typeMapping, type, context);
         return new SystemSourcedResource(name, optional, mappedName, serviceContract);
     }
 }

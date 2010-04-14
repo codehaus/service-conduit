@@ -92,7 +92,7 @@ public final class PersistenceUnitResource extends ResourceDefinition {
      * @param serviceContract the service contract for the persistence unit
      * @param providerSpecific True if a provider specific entity manager factory is used
      */
-    public PersistenceUnitResource(String name, String unitName, ServiceContract<?> serviceContract, boolean providerSpecific) {
+    public PersistenceUnitResource(String name, String unitName, ServiceContract serviceContract, boolean providerSpecific) {
         super(name, serviceContract, true);
         this.unitName = unitName;
         this.providerSpecific = providerSpecific;

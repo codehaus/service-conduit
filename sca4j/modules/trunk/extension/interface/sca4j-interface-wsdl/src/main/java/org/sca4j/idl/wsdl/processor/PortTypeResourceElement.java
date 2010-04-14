@@ -24,16 +24,15 @@ import javax.wsdl.PortType;
 import javax.xml.namespace.QName;
 
 import org.apache.ws.commons.schema.XmlSchemaCollection;
-import org.apache.ws.commons.schema.XmlSchemaType;
 import org.sca4j.scdl.Operation;
 import org.sca4j.spi.services.contribution.ResourceElement;
 
 public class PortTypeResourceElement extends ResourceElement<QName, PortType> {
     
     private XmlSchemaCollection schemaCollection;
-    private List<Operation<XmlSchemaType>> operations;
+    private List<Operation<?>> operations;
     
-    public PortTypeResourceElement(QName symbol, PortType portType, XmlSchemaCollection schemaCollection, List<Operation<XmlSchemaType>> operations) {
+    public PortTypeResourceElement(QName symbol, PortType portType, XmlSchemaCollection schemaCollection, List<Operation<?>> operations) {
         super(symbol);
         this.schemaCollection = schemaCollection;
         this.operations = operations;
@@ -43,7 +42,7 @@ public class PortTypeResourceElement extends ResourceElement<QName, PortType> {
         return schemaCollection;
     }
 
-    public List<Operation<XmlSchemaType>> getOperations() {
+    public List<Operation<?>> getOperations() {
         return operations;
     }
 

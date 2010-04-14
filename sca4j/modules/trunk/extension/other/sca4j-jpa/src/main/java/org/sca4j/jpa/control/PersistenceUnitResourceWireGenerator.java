@@ -72,15 +72,15 @@ package org.sca4j.jpa.control;
 
 import java.net.URI;
 
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Init;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.jpa.provision.PersistenceUnitWireTargetDefinition;
 import org.sca4j.jpa.scdl.PersistenceUnitResource;
 import org.sca4j.spi.generator.GenerationException;
 import org.sca4j.spi.generator.GeneratorRegistry;
 import org.sca4j.spi.generator.ResourceWireGenerator;
 import org.sca4j.spi.model.instance.LogicalResource;
-import org.oasisopen.sca.annotation.EagerInit;
-import org.oasisopen.sca.annotation.Init;
-import org.oasisopen.sca.annotation.Reference;
 
 /**
  *

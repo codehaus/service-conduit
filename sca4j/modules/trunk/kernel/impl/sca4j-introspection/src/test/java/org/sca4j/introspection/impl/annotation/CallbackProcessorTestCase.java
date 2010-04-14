@@ -59,6 +59,7 @@ import java.lang.reflect.Type;
 import javax.xml.namespace.QName;
 
 import junit.framework.TestCase;
+
 import org.oasisopen.sca.annotation.Callback;
 import org.sca4j.introspection.DefaultIntrospectionContext;
 import org.sca4j.introspection.IntrospectionContext;
@@ -125,8 +126,7 @@ public class CallbackProcessorTestCase extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         IntrospectionHelper helper = new DefaultIntrospectionHelper();
-        final ServiceContract<Type> contract = new ServiceContract<Type>() {
-            private static final long serialVersionUID = -1453983556738324512L;
+        final ServiceContract contract = new ServiceContract() {
 
             public boolean isAssignableFrom(ServiceContract serviceContract) {
                 return false;
@@ -139,7 +139,7 @@ public class CallbackProcessorTestCase extends TestCase {
 
         ContractProcessor contractProcessor = new ContractProcessor() {
 
-            public ServiceContract<Type> introspect(TypeMapping typeMapping, Type type, ValidationContext context) {
+            public ServiceContract introspect(TypeMapping typeMapping, Type type, ValidationContext context) {
                 return contract;
             }
         };

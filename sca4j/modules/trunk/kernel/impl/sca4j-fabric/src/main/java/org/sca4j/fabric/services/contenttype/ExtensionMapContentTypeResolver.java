@@ -59,6 +59,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.activation.FileTypeMap;
+
 import org.oasisopen.sca.annotation.Property;
 import org.sca4j.spi.services.contenttype.ContentTypeResolutionException;
 import org.sca4j.spi.services.contenttype.ContentTypeResolver;

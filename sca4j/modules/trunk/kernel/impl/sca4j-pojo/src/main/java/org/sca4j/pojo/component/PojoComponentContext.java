@@ -53,9 +53,8 @@
 package org.sca4j.pojo.component;
 
 import org.oasisopen.sca.ComponentContext;
-import org.oasisopen.sca.ServiceReference;
-import org.oasisopen.sca.ServiceReference;
 import org.oasisopen.sca.RequestContext;
+import org.oasisopen.sca.ServiceReference;
 
 /**
  * @version $Rev: 5243 $ $Date: 2008-08-20 22:14:37 +0100 (Wed, 20 Aug 2008) $

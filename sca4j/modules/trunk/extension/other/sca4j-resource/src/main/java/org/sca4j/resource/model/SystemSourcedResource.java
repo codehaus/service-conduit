@@ -70,8 +70,6 @@
  */
 package org.sca4j.resource.model;
 
-import java.lang.reflect.Type;
-
 import org.sca4j.scdl.ResourceDefinition;
 import org.sca4j.scdl.ServiceContract;
 
@@ -82,7 +80,7 @@ import org.sca4j.scdl.ServiceContract;
 public class SystemSourcedResource extends ResourceDefinition {
     private String mappedName;
 
-    public SystemSourcedResource(String name, boolean optional, String mappedName, ServiceContract<Type> serviceContract) {
+    public SystemSourcedResource(String name, boolean optional, String mappedName, ServiceContract serviceContract) {
         super(name, serviceContract, optional);
         this.mappedName = mappedName;
     }

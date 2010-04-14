@@ -265,7 +265,7 @@ public class Composite extends AbstractComponentType<CompositeService, Composite
      * @param contract the candidate contract
      * @return a collection of potential targets
      */
-    public Collection<URI> getTargets(ServiceContract<?> contract) {
+    public Collection<URI> getTargets(ServiceContract contract) {
         Collection<URI> targets = new ArrayList<URI>();
         for (ComponentDefinition<? extends Implementation<?>> component : getComponents().values()) {
             AbstractComponentType<?, ?, ?, ?> componentType = component.getComponentType();

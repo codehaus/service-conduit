@@ -112,7 +112,7 @@ public class MonitorProcessor<I extends Implementation<? extends InjectingCompon
 
 
     MonitorResource createDefinition(String name, Type type, TypeMapping typeMapping, IntrospectionContext context) {
-        ServiceContract<?> contract = contractProcessor.introspect(typeMapping, type, context);
+        ServiceContract contract = contractProcessor.introspect(typeMapping, type, context);
         return new MonitorResource(name, false, contract);
     }
 }

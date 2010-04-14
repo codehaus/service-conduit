@@ -98,7 +98,7 @@ public final class PersistenceContextResource extends ResourceDefinition {
     public PersistenceContextResource(String name,
                                       String unitName,
                                       PersistenceContextType type,
-                                      ServiceContract<?> serviceContract,
+                                      ServiceContract serviceContract,
                                       boolean multiThreaded) {
         super(name, serviceContract, true);
         this.unitName = unitName;

@@ -260,7 +260,7 @@ public abstract class AbstractComponentInstantiator implements ComponentInstanti
         }
     }
 
-    private void transferIntentsAndPolicies(ServiceContract<?> serviceContract, List<OperationDefinition> operationDefinitions) {
+    private void transferIntentsAndPolicies(ServiceContract serviceContract, List<OperationDefinition> operationDefinitions) {
         for (OperationDefinition operationDefinition : operationDefinitions) {
             for (Operation<?> operation : serviceContract.getOperations()) {
                 if (operationDefinition.getName().equals(operation.getName())) {

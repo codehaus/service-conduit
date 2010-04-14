@@ -155,8 +155,8 @@ public class ExplicitTargetResolutionService implements TargetResolutionService 
      * @param change    the logical change
      */
     private void validateContracts(LogicalReference reference, LogicalService service, LogicalChange change) {
-        ServiceContract<?> referenceContract = contractResolver.determineContract(reference);
-        ServiceContract<?> serviceContract = contractResolver.determineContract(service);
+        ServiceContract referenceContract = contractResolver.determineContract(reference);
+        ServiceContract serviceContract = contractResolver.determineContract(service);
         if (!referenceContract.isAssignableFrom(serviceContract)) {
             IncompatibleContracts error = new IncompatibleContracts(reference.getParent().getUri(), reference.getUri(), service.getUri());
             change.addError(error);

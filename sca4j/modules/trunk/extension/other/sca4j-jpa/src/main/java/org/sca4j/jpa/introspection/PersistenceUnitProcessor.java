@@ -54,7 +54,6 @@ package org.sca4j.jpa.introspection;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -80,7 +79,7 @@ import org.sca4j.scdl.ValidationContext;
 @EagerInit
 public class PersistenceUnitProcessor<I extends Implementation<? extends InjectingComponentType>> extends AbstractAnnotationProcessor<PersistenceUnit, I> {
 
-    private final ServiceContract<Type> factoryServiceContract;
+    private final ServiceContract factoryServiceContract;
 
     public PersistenceUnitProcessor(@Reference ContractProcessor contractProcessor) {
         super(PersistenceUnit.class);

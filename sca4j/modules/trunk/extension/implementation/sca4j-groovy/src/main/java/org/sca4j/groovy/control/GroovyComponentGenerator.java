@@ -127,7 +127,7 @@ public class GroovyComponentGenerator implements ComponentGenerator<LogicalCompo
                                                            Policy policy)
             throws GenerationException {
         URI uri = reference.getUri();
-        ServiceContract<?> serviceContract = reference.getDefinition().getServiceContract();
+        ServiceContract serviceContract = reference.getDefinition().getServiceContract();
         String interfaceName = serviceContract.getQualifiedInterfaceName();
         URI classLoaderId = source.getClassLoaderId();
 
@@ -143,7 +143,7 @@ public class GroovyComponentGenerator implements ComponentGenerator<LogicalCompo
     }
 
     public PhysicalWireSourceDefinition generateCallbackWireSource(LogicalComponent<GroovyImplementation> source,
-                                                                   ServiceContract<?> serviceContract,
+                                                                   ServiceContract serviceContract,
                                                                    Policy policy) throws GenerationException {
         throw new UnsupportedOperationException();
     }

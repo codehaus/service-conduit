@@ -137,7 +137,7 @@ public class JUnitComponentGenerator implements ComponentGenerator<LogicalCompon
                                                            LogicalReference reference,
                                                            Policy policy) throws GenerationException {
         URI uri = reference.getUri();
-        ServiceContract<?> serviceContract = reference.getDefinition().getServiceContract();
+        ServiceContract serviceContract = reference.getDefinition().getServiceContract();
         String interfaceName = getInterfaceName(serviceContract);
         URI classLoaderId = source.getClassLoaderId();
 
@@ -157,7 +157,7 @@ public class JUnitComponentGenerator implements ComponentGenerator<LogicalCompon
     }
 
     public PhysicalWireSourceDefinition generateCallbackWireSource(LogicalComponent<JUnitImplementation> source,
-                                                                   ServiceContract<?> serviceContract,
+                                                                   ServiceContract serviceContract,
                                                                    Policy policy) throws GenerationException {
         throw new UnsupportedOperationException();
     }
@@ -167,7 +167,7 @@ public class JUnitComponentGenerator implements ComponentGenerator<LogicalCompon
             throws GenerationException {
 
         URI uri = resource.getUri();
-        ServiceContract<?> serviceContract = resource.getResourceDefinition().getServiceContract();
+        ServiceContract serviceContract = resource.getResourceDefinition().getServiceContract();
         String interfaceName = getInterfaceName(serviceContract);
         URI classLoaderId = source.getClassLoaderId();
 
@@ -179,7 +179,7 @@ public class JUnitComponentGenerator implements ComponentGenerator<LogicalCompon
         return wireDefinition;
     }
 
-    private String getInterfaceName(ServiceContract<?> contract) {
+    private String getInterfaceName(ServiceContract contract) {
         return contract.getQualifiedInterfaceName();
     }
 

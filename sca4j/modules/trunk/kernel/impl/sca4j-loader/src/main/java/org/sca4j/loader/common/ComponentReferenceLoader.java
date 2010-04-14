@@ -54,6 +54,7 @@ package org.sca4j.loader.common;
 
 import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
 import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
+import static org.oasisopen.sca.Constants.SCA_NS;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -66,7 +67,6 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import static org.oasisopen.sca.Constants.SCA_NS;
 import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.InvalidValue;
@@ -165,8 +165,8 @@ public class ComponentReferenceLoader implements TypeLoader<ComponentReference> 
                     context.addError(failure);
                     continue;
                 }
-                if (type instanceof ServiceContract<?>) {
-                    reference.setServiceContract((ServiceContract<?>) type);
+                if (type instanceof ServiceContract) {
+                    reference.setServiceContract((ServiceContract) type);
                 } else if (type instanceof BindingDefinition) {
                     if (callback) {
                         reference.addCallbackBinding((BindingDefinition) type);

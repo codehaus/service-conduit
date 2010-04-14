@@ -79,9 +79,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.oasisopen.sca.ServiceReference;
-import org.sca4j.api.scope.Conversation;
 import org.oasisopen.sca.annotation.Constructor;
 import org.oasisopen.sca.annotation.Reference;
+import org.sca4j.api.scope.Conversation;
 import org.sca4j.scdl.Scope;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.component.ScopeContainer;

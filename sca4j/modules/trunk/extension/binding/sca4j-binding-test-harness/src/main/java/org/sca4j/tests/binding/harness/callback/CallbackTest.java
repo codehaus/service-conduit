@@ -53,6 +53,7 @@
 package org.sca4j.tests.binding.harness.callback;
 
 import junit.framework.TestCase;
+
 import org.oasisopen.sca.annotation.Reference;
 
 /**

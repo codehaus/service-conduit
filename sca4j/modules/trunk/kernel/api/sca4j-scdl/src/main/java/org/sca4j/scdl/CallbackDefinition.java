@@ -61,9 +61,9 @@ public class CallbackDefinition extends ModelObject {
     private static final long serialVersionUID = -1845071329121684755L;
 
     private String name;
-    private ServiceContract<?> serviceContract;
+    private ServiceContract serviceContract;
 
-    public CallbackDefinition(String name, ServiceContract<?> serviceContract) {
+    public CallbackDefinition(String name, ServiceContract serviceContract) {
         this.name = name;
         this.serviceContract = serviceContract;
     }
@@ -82,7 +82,7 @@ public class CallbackDefinition extends ModelObject {
      *
      * @return the service contract
      */
-    public ServiceContract<?> getServiceContract() {
+    public ServiceContract getServiceContract() {
         return serviceContract;
     }
 

@@ -75,7 +75,6 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.apache.ws.commons.schema.XmlSchemaType;
 import org.sca4j.scdl.Operation;
 import org.sca4j.scdl.ServiceContract;
 
@@ -84,12 +83,12 @@ import org.sca4j.scdl.ServiceContract;
  * 
  * @version $Revsion$ $Date: 2008-07-21 17:52:37 +0100 (Mon, 21 Jul 2008) $
  */
-public class WsdlContract extends ServiceContract<XmlSchemaType> {
+public class WsdlContract extends ServiceContract {
 
     private QName qname;
-    private List<Operation<XmlSchemaType>> operations;
+    private List<Operation<?>> operations;
 
-    public boolean isAssignableFrom(ServiceContract<?> serviceContract) {
+    public boolean isAssignableFrom(ServiceContract serviceContract) {
         return serviceContract.getOperations().size() == operations.size(); // TODO this is just a hack
     }
 
@@ -101,7 +100,7 @@ public class WsdlContract extends ServiceContract<XmlSchemaType> {
         this.qname = qname;
     }
 
-    public void setOperations(List<Operation<XmlSchemaType>> operations) {
+    public void setOperations(List<Operation<?>> operations) {
         this.operations = operations;
     }
     

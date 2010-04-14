@@ -93,7 +93,7 @@ public class Axis2BindingGeneratorDelegate implements BindingGeneratorDelegate<W
         Axis2WireSourceDefinition hwsd = new Axis2WireSourceDefinition();
         hwsd.setUri(binding.getBinding().getTargetUri());
         
-        ServiceContract<?> contract = serviceDefinition.getServiceContract();
+        ServiceContract contract = serviceDefinition.getServiceContract();
         hwsd.setServiceInterface(contract.getQualifiedInterfaceName());
         
         URI classloaderId = binding.getParent().getParent().getClassLoaderId();
@@ -115,7 +115,7 @@ public class Axis2BindingGeneratorDelegate implements BindingGeneratorDelegate<W
         hwtd.setWsdlLocation(binding.getBinding().getWsdlLocation());
         hwtd.setUri(binding.getBinding().getTargetUri());
         
-        ServiceContract<?> contract = referenceDefinition.getServiceContract();
+        ServiceContract contract = referenceDefinition.getServiceContract();
         hwtd.setReferenceInterface(contract.getQualifiedInterfaceName());
         
         URI classloaderId = binding.getParent().getParent().getClassLoaderId();
@@ -133,7 +133,7 @@ public class Axis2BindingGeneratorDelegate implements BindingGeneratorDelegate<W
 
     }
     
-    /*private void introspectJaxb(ServiceContract<?> serviceContract) {
+    /*private void introspectJaxb(ServiceContract serviceContract) {
         try {
             for (Method method : getClass().getClassLoader().loadClass(serviceContract.getQualifiedInterfaceName()).getMethods()) {
 
@@ -155,7 +155,7 @@ public class Axis2BindingGeneratorDelegate implements BindingGeneratorDelegate<W
         }
     }*/
     
-    private void addOperationInfo(Axis2WireTargetDefinition hwtd, ServiceContract<?> serviceContract) {
+    private void addOperationInfo(Axis2WireTargetDefinition hwtd, ServiceContract serviceContract) {
     	for (Operation<?> operation : serviceContract.getOperations()) {
             Map<String, String> info = operation.getInfo(org.sca4j.binding.ws.axis2.common.Constant.AXIS2_JAXWS_QNAME);
             if (info != null) {
@@ -164,7 +164,7 @@ public class Axis2BindingGeneratorDelegate implements BindingGeneratorDelegate<W
         }
     }
 
-    private void setPolicyConfigs(Axis2PolicyAware policyAware, Policy policy, ServiceContract<?> serviceContract) throws Axis2GenerationException {
+    private void setPolicyConfigs(Axis2PolicyAware policyAware, Policy policy, ServiceContract serviceContract) throws Axis2GenerationException {
         
         for (Operation<?> operation : serviceContract.getOperations()) {
             

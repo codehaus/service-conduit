@@ -129,7 +129,7 @@ public class DataType<L> extends ModelObject {
             return false;
         }
 
-        final DataType other = (DataType) o;
+        final DataType<?> other = (DataType<?>) o;
         return logical.equals(other.logical) && physical.equals(other.physical);
     }
 

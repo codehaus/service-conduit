@@ -184,7 +184,7 @@ public class SingletonComponentSynthesizer implements ComponentSynthesizer {
             return def;
         } else {
             // instance does not have any services injected
-            ServiceContract<?> contract = contractProcessor.introspect(mapping, type, context);
+            ServiceContract contract = contractProcessor.introspect(mapping, type, context);
             if (context.hasErrors()) {
                 throw new InvalidServiceContractException(context.getErrors());
             }

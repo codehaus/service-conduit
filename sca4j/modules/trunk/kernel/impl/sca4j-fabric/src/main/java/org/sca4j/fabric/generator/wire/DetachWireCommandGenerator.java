@@ -117,7 +117,7 @@ public class DetachWireCommandGenerator implements RemoveCommandGenerator {
                 continue;
             }
                         
-            ServiceContract<?> callbackContract = service.getDefinition().getServiceContract().getCallbackContract();
+            ServiceContract callbackContract = service.getDefinition().getServiceContract().getCallbackContract();
             LogicalBinding<?> callbackBinding = null;
             URI callbackUri = null;
             if (callbackContract != null) {

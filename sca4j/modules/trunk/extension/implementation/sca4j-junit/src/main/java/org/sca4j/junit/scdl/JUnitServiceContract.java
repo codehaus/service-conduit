@@ -70,7 +70,6 @@
  */
 package org.sca4j.junit.scdl;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 import org.sca4j.scdl.Operation;
@@ -79,14 +78,13 @@ import org.sca4j.scdl.ServiceContract;
 /**
  * @version $Rev: 5070 $ $Date: 2008-07-21 17:52:37 +0100 (Mon, 21 Jul 2008) $
  */
-public class JUnitServiceContract extends ServiceContract<Type> {
-    private static final long serialVersionUID = -2402977196426881023L;
+public class JUnitServiceContract extends ServiceContract {
 
-    public JUnitServiceContract(List<Operation<Type>> operations) {
+    public JUnitServiceContract(List<Operation<?>> operations) {
         setOperations(operations);
     }
 
-    public boolean isAssignableFrom(ServiceContract<?> contract) {
+    public boolean isAssignableFrom(ServiceContract contract) {
         throw new UnsupportedOperationException();
     }
 

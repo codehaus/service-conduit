@@ -135,7 +135,7 @@ public class WebComponentGenerator implements ComponentGenerator<LogicalComponen
     }
 
     public PhysicalWireSourceDefinition generateCallbackWireSource(LogicalComponent<WebImplementation> source,
-                                                                   ServiceContract<?> serviceContract,
+                                                                   ServiceContract serviceContract,
                                                                    Policy policy) throws GenerationException {
         throw new UnsupportedOperationException();
     }
@@ -177,7 +177,7 @@ public class WebComponentGenerator implements ComponentGenerator<LogicalComponen
                 }
             }
         }
-        ServiceContract<?> contract = definition.getServiceContract();
+        ServiceContract contract = definition.getServiceContract();
         String interfaceClass = contract.getQualifiedInterfaceName();
         // inject the reference into the session context
         WebContextInjectionSite site = new WebContextInjectionSite(interfaceClass, SESSION_CONTEXT);

@@ -61,7 +61,7 @@ public class TypeBasedAutowireResolutionService implements TargetResolutionServi
                 return;
             }
 
-            ServiceContract<?> requiredContract = contractResolver.determineContract(logicalReference);
+            ServiceContract requiredContract = contractResolver.determineContract(logicalReference);
 
             Autowire autowire = calculateAutowire(compositeComponent, component);
             if (autowire == Autowire.ON) {
@@ -77,7 +77,7 @@ public class TypeBasedAutowireResolutionService implements TargetResolutionServi
 
             if (componentReference.isAutowire()) {
                 ReferenceDefinition referenceDefinition = logicalReference.getDefinition();
-                ServiceContract<?> requiredContract = referenceDefinition.getServiceContract();
+                ServiceContract requiredContract = referenceDefinition.getServiceContract();
                 boolean resolved = resolveByType(component.getParent(), component, logicalReference, requiredContract, change);
                 if (!resolved) {
                     resolveByType(compositeComponent, component, logicalReference, requiredContract, change);
@@ -158,7 +158,7 @@ public class TypeBasedAutowireResolutionService implements TargetResolutionServi
     private boolean resolveByType(LogicalCompositeComponent composite,
                                   LogicalComponent<?> component,
                                   LogicalReference logicalReference,
-                                  ServiceContract<?> contract,
+                                  ServiceContract contract,
                                   LogicalChange change) {
 
         List<URI> candidates = new ArrayList<URI>();
@@ -166,7 +166,7 @@ public class TypeBasedAutowireResolutionService implements TargetResolutionServi
         boolean multiplicity = Multiplicity.ZERO_N.equals(refMultiplicity) || Multiplicity.ONE_N.equals(refMultiplicity);
         for (LogicalComponent<?> child : composite.getComponents()) {
             for (LogicalService service : child.getServices()) {
-                ServiceContract<?> targetContract = contractResolver.determineContract(service);
+                ServiceContract targetContract = contractResolver.determineContract(service);
                 if (targetContract == null) {
                     // This is a programming error since a non-composite service must have a service contract
                     throw new AssertionError("No service contract specified on service: " + service.getUri());

@@ -62,13 +62,13 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Init;
+import org.oasisopen.sca.annotation.Property;
 import org.sca4j.host.work.DefaultPausableWork;
 import org.sca4j.host.work.PausableWork;
 import org.sca4j.host.work.WorkScheduler;
 import org.sca4j.management.WorkSchedulerMBean;
-import org.oasisopen.sca.annotation.EagerInit;
-import org.oasisopen.sca.annotation.Init;
-import org.oasisopen.sca.annotation.Property;
 
 /**
  * Thread pool based implementation of the work scheduler.

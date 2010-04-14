@@ -153,7 +153,7 @@ public class ReferenceProcessor<I extends Implementation<? extends InjectingComp
 
     ReferenceDefinition createDefinition(String name, boolean required, Type type, TypeMapping typeMapping, IntrospectionContext context) {
         Type baseType = helper.getBaseType(type, typeMapping);
-        ServiceContract<Type> contract = contractProcessor.introspect(typeMapping, baseType, context);
+        ServiceContract contract = contractProcessor.introspect(typeMapping, baseType, context);
         Multiplicity multiplicity = multiplicity(required, type, typeMapping);
         return new ReferenceDefinition(name, contract, multiplicity);
     }

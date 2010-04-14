@@ -55,6 +55,7 @@ package org.sca4j.mock;
 import java.net.URI;
 import java.util.Map;
 
+import org.oasisopen.sca.ComponentContext;
 import org.sca4j.scdl.PropertyValue;
 import org.sca4j.spi.AbstractLifecycle;
 import org.sca4j.spi.ObjectCreationException;
@@ -62,7 +63,6 @@ import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.component.AtomicComponent;
 import org.sca4j.spi.component.InstanceWrapper;
 import org.sca4j.spi.invocation.WorkContext;
-import org.oasisopen.sca.ComponentContext;
 
 /**
  * @version $Revision$ $Date$

@@ -54,8 +54,8 @@ package org.sca4j.fabric.implementation.singleton;
 
 import java.net.URI;
 
-import org.oasisopen.sca.annotation.Reference;
 import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.scdl.InjectableAttribute;
 import org.sca4j.scdl.InjectableAttributeType;
 import org.sca4j.scdl.ServiceContract;
@@ -121,7 +121,7 @@ public class SingletonComponentGenerator implements ComponentGenerator<LogicalCo
     }
 
     public PhysicalWireSourceDefinition generateCallbackWireSource(LogicalComponent<SingletonImplementation> source,
-                                                                   ServiceContract<?> serviceContract,
+                                                                   ServiceContract serviceContract,
                                                                    Policy policy) throws GenerationException {
         throw new UnsupportedOperationException();
     }

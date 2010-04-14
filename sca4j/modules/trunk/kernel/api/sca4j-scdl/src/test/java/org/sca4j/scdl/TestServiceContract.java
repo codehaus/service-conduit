@@ -52,12 +52,11 @@
  */
 package org.sca4j.scdl;
 
-import java.lang.reflect.Type;
 
 /**
  * @version $Rev: 5070 $ $Date: 2008-07-21 17:52:37 +0100 (Mon, 21 Jul 2008) $
  */
-public class TestServiceContract extends ServiceContract<Type> {
+public class TestServiceContract extends ServiceContract {
     private static final long serialVersionUID = 7713843032375918467L;
     private final Class<?> type;
 
@@ -65,7 +64,7 @@ public class TestServiceContract extends ServiceContract<Type> {
         this.type = type;
     }
 
-    public boolean isAssignableFrom(ServiceContract<?> serviceContract) {
+    public boolean isAssignableFrom(ServiceContract serviceContract) {
         if (serviceContract instanceof TestServiceContract) {
             TestServiceContract other = (TestServiceContract) serviceContract;
             return this.type.isAssignableFrom(other.type);

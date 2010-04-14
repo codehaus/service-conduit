@@ -80,12 +80,12 @@ import javax.transaction.SystemException;
 import javax.transaction.Transaction;
 import javax.transaction.TransactionManager;
 
-import org.objectweb.jotm.Current;
-import org.objectweb.jotm.Jotm;
 import org.oasisopen.sca.annotation.Destroy;
 import org.oasisopen.sca.annotation.Init;
 import org.oasisopen.sca.annotation.Property;
 import org.oasisopen.sca.annotation.Service;
+import org.objectweb.jotm.Current;
+import org.objectweb.jotm.Jotm;
 
 /**
  * JOTM transaction manager with explicit service interface.

@@ -81,7 +81,7 @@ import java.util.List;
 public class ServiceDefinition extends AbstractPolicyAware {
     private static final long serialVersionUID = -3331868180749278028L;
     private String name;
-    private ServiceContract<?> serviceContract;
+    private ServiceContract serviceContract;
     private boolean management;
     private final List<BindingDefinition> bindings = new ArrayList<BindingDefinition>();
     private final List<BindingDefinition> callbackBindings = new ArrayList<BindingDefinition>();
@@ -91,7 +91,7 @@ public class ServiceDefinition extends AbstractPolicyAware {
         this(name, null);
     }
 
-    public ServiceDefinition(String name, ServiceContract<?> serviceContract) {
+    public ServiceDefinition(String name, ServiceContract serviceContract) {
         this.name = name;
         this.serviceContract = serviceContract;
     }
@@ -131,7 +131,7 @@ public class ServiceDefinition extends AbstractPolicyAware {
      *
      * @return the service contract
      */
-    public ServiceContract<?> getServiceContract() {
+    public ServiceContract getServiceContract() {
         return serviceContract;
     }
 
@@ -140,7 +140,7 @@ public class ServiceDefinition extends AbstractPolicyAware {
      *
      * @param contract the service contract
      */
-    public void setServiceContract(ServiceContract<?> contract) {
+    public void setServiceContract(ServiceContract contract) {
         this.serviceContract = contract;
     }
 

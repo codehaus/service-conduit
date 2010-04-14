@@ -54,6 +54,9 @@ package org.sca4j.mock;
 
 import java.net.URI;
 
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Init;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.scdl.ServiceContract;
 import org.sca4j.spi.generator.ComponentGenerator;
 import org.sca4j.spi.generator.GenerationException;
@@ -64,9 +67,6 @@ import org.sca4j.spi.model.instance.LogicalResource;
 import org.sca4j.spi.model.instance.LogicalService;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
 import org.sca4j.spi.policy.Policy;
-import org.oasisopen.sca.annotation.EagerInit;
-import org.oasisopen.sca.annotation.Init;
-import org.oasisopen.sca.annotation.Reference;
 
 /**
  * @version $Revision$ $Date$
@@ -126,7 +126,7 @@ public class MockComponentGenerator implements ComponentGenerator<LogicalCompone
         definition.setUri(service.getUri());
         URI classLoaderId = component.getClassLoaderId();
         definition.setClassLoaderId(classLoaderId);
-        ServiceContract<?> serviceContract = service.getDefinition().getServiceContract();
+        ServiceContract serviceContract = service.getDefinition().getServiceContract();
 
         definition.setMockedInterface(serviceContract.getQualifiedInterfaceName());
 
@@ -146,7 +146,7 @@ public class MockComponentGenerator implements ComponentGenerator<LogicalCompone
     }
 
     public PhysicalWireSourceDefinition generateCallbackWireSource(LogicalComponent<ImplementationMock> source,
-                                                                   ServiceContract<?> serviceContract,
+                                                                   ServiceContract serviceContract,
                                                                    Policy policy) throws GenerationException {
         return new MockWireSourceDefinition();
     }

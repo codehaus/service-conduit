@@ -93,7 +93,7 @@ public interface PolicyResolver {
      * @return Policy resolution result.
      * @throws PolicyResolutionException If unable to resolve any policies.
      */
-    public abstract PolicyResult resolvePolicies(ServiceContract<?> serviceContract,
+    public abstract PolicyResult resolvePolicies(ServiceContract serviceContract,
                                                  LogicalBinding<?> sourceBinding,
                                                  LogicalBinding<?> targetBinding,
                                                  LogicalComponent<?> source,

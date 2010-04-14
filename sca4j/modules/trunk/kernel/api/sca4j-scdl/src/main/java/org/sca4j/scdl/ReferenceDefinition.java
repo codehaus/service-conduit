@@ -81,7 +81,7 @@ import java.util.List;
 public class ReferenceDefinition extends AbstractPolicyAware {
     private static final long serialVersionUID = 4641581818938572132L;
     private final String name;
-    private ServiceContract<?> serviceContract;
+    private ServiceContract serviceContract;
     private Multiplicity multiplicity;
     private final List<BindingDefinition> bindings = new ArrayList<BindingDefinition>();
     private final List<BindingDefinition> callbackBindings = new ArrayList<BindingDefinition>();
@@ -93,7 +93,7 @@ public class ReferenceDefinition extends AbstractPolicyAware {
      * @param name            the refeence name
      * @param serviceContract the service contract required by this reference
      */
-    public ReferenceDefinition(String name, ServiceContract<?> serviceContract) {
+    public ReferenceDefinition(String name, ServiceContract serviceContract) {
         this(name, serviceContract, Multiplicity.ONE_ONE);
     }
 
@@ -104,7 +104,7 @@ public class ReferenceDefinition extends AbstractPolicyAware {
      * @param serviceContract the service contract required by this reference
      * @param multiplicity    the reference multiplicity
      */
-    public ReferenceDefinition(String name, ServiceContract<?> serviceContract, Multiplicity multiplicity) {
+    public ReferenceDefinition(String name, ServiceContract serviceContract, Multiplicity multiplicity) {
         this.name = name;
         this.serviceContract = serviceContract;
         this.multiplicity = multiplicity;
@@ -124,7 +124,7 @@ public class ReferenceDefinition extends AbstractPolicyAware {
      *
      * @return the service contract required by this reference
      */
-    public ServiceContract<?> getServiceContract() {
+    public ServiceContract getServiceContract() {
         return serviceContract;
     }
 
@@ -133,7 +133,7 @@ public class ReferenceDefinition extends AbstractPolicyAware {
      *
      * @param serviceContract the service contract required by this reference
      */
-    public void setServiceContract(ServiceContract<?> serviceContract) {
+    public void setServiceContract(ServiceContract serviceContract) {
         this.serviceContract = serviceContract;
     }
 

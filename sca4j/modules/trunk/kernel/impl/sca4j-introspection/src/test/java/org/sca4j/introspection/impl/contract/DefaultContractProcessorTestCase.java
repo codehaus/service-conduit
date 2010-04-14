@@ -77,6 +77,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import junit.framework.TestCase;
+
 import org.oasisopen.sca.annotation.Callback;
 import org.sca4j.api.annotation.scope.Conversational;
 import org.sca4j.api.annotation.scope.EndsConversation;
@@ -100,13 +101,13 @@ public class DefaultContractProcessorTestCase extends TestCase {
 
     public void testSimpleInterface() {
         ValidationContext context = new DefaultValidationContext();
-        ServiceContract<Type> contract = impl.introspect(emptyMapping, Simple.class, context);
+        ServiceContract contract = impl.introspect(emptyMapping, Simple.class, context);
         assertEquals("Simple", contract.getInterfaceName());
         assertEquals(Simple.class.getName(), contract.getQualifiedInterfaceName());
-        List<Operation<Type>> operations = contract.getOperations();
+        List<Operation<?>> operations = contract.getOperations();
         sort(operations);
         assertEquals(1, operations.size());
-        Operation<Type> baseInt = operations.get(0);
+        Operation<Type> baseInt = (Operation<Type>) operations.get(0);
         assertNotNull(baseInt);
 
         DataType<Type> returnType = baseInt.getOutputType();
@@ -128,13 +129,13 @@ public class DefaultContractProcessorTestCase extends TestCase {
 
     public void testBoundGenericInterface() {
         ValidationContext context = new DefaultValidationContext();
-        ServiceContract<Type> contract = impl.introspect(boundMapping, Generic.class, context);
+        ServiceContract contract = impl.introspect(boundMapping, Generic.class, context);
         assertEquals("Generic", contract.getInterfaceName());
 
-        List<Operation<Type>> operations = contract.getOperations();
+        List<Operation<?>> operations = contract.getOperations();
         sort(operations);
         assertEquals(2, operations.size());
-        Operation<Type> operation = operations.get(0);
+        Operation<Type> operation = (Operation<Type>) operations.get(0);
         assertEquals("echo", operation.getName());
 
         DataType<Type> returnType = operation.getOutputType();
@@ -144,10 +145,10 @@ public class DefaultContractProcessorTestCase extends TestCase {
 
     public void testMethodGeneric() {
         ValidationContext context = new DefaultValidationContext();
-        ServiceContract<Type> contract = impl.introspect(boundMapping, Generic.class, context);
-        List<Operation<Type>> operations = contract.getOperations();
+        ServiceContract contract = impl.introspect(boundMapping, Generic.class, context);
+        List<Operation<?>> operations = contract.getOperations();
         sort(operations);
-        Operation<Type> operation = operations.get(1);
+        Operation<Type> operation = (Operation<Type>) operations.get(1);
         assertEquals("echo2", operation.getName());
 
         DataType<Type> returnType = operation.getOutputType();
@@ -156,8 +157,8 @@ public class DefaultContractProcessorTestCase extends TestCase {
 
     public void testCallbackInterface() {
         ValidationContext context = new DefaultValidationContext();
-        ServiceContract<?> contract = impl.introspect(emptyMapping, ForwardInterface.class, context);
-        ServiceContract<?> callback = contract.getCallbackContract();
+        ServiceContract contract = impl.introspect(emptyMapping, ForwardInterface.class, context);
+        ServiceContract callback = contract.getCallbackContract();
         assertEquals("CallbackInterface", callback.getInterfaceName());
         assertEquals(CallbackInterface.class.getName(), callback.getQualifiedInterfaceName());
         List<? extends Operation<?>> operations = callback.getOperations();
@@ -168,13 +169,13 @@ public class DefaultContractProcessorTestCase extends TestCase {
 
     public void testConversationalInformationIntrospection() throws Exception {
         ValidationContext context = new DefaultValidationContext();
-        ServiceContract<Type> contract = impl.introspect(emptyMapping, Foo.class, context);
+        ServiceContract contract = impl.introspect(emptyMapping, Foo.class, context);
         assertTrue(contract.isConversational());
         boolean testedContinue = false;
         boolean testedEnd = false;
-        List<Operation<Type>> operations = contract.getOperations();
+        List<Operation<?>> operations = contract.getOperations();
         sort(operations);
-		for (Operation<Type> operation : operations) {
+		for (Operation<?> operation : operations) {
             if (operation.getName().equals("operation")) {
                 assertEquals(Operation.CONVERSATION_CONTINUE, operation.getConversationSequence());
                 testedContinue = true;
@@ -189,10 +190,10 @@ public class DefaultContractProcessorTestCase extends TestCase {
 
     public void testNonConversationalInformationIntrospection() throws Exception {
         ValidationContext context = new DefaultValidationContext();
-        ServiceContract<Type> contract = impl.introspect(emptyMapping, NonConversationalFoo.class, context);
+        ServiceContract contract = impl.introspect(emptyMapping, NonConversationalFoo.class, context);
         assertFalse(contract.isConversational());
         boolean tested = false;
-        for (Operation<Type> operation : contract.getOperations()) {
+        for (Operation<?> operation : contract.getOperations()) {
             if (operation.getName().equals("operation")) {
                 int seq = operation.getConversationSequence();
                 assertEquals(Operation.NO_CONVERSATION, seq);
@@ -237,10 +238,10 @@ public class DefaultContractProcessorTestCase extends TestCase {
      * order. There's no reason to have the corresponding runtime Operation list sorted by name but some of
      * the tests depend on ordering so sort the operations here rather than in the runtime implementation.  
      */
-    private void sort(List<Operation<Type>> operations) {
-        Collections.sort(operations, new Comparator<Operation<Type>>(){
+    private void sort(List<Operation<?>> operations) {
+        Collections.sort(operations, new Comparator<Operation<?>>(){
 			@Override
-			public int compare(Operation<Type> o1, Operation<Type> o2) {
+			public int compare(Operation<?> o1, Operation<?> o2) {
 				return o1.getName().compareTo(o2.getName());
 			}        	
         });  

@@ -52,8 +52,6 @@
  */
 package org.sca4j.introspection.impl.annotation;
 
-import java.lang.reflect.Type;
-
 import org.oasisopen.sca.annotation.Reference;
 import org.oasisopen.sca.annotation.Remotable;
 import org.sca4j.introspection.IntrospectionContext;
@@ -77,7 +75,7 @@ public class RemotableProcessor<I extends Implementation<? extends InjectingComp
     }
 
     public void visitType(Remotable annotation, Class<?> type, I implementation, IntrospectionContext context) {
-        ServiceContract<Type> serviceContract = contractProcessor.introspect(context.getTypeMapping(), type, context);
+        ServiceContract serviceContract = contractProcessor.introspect(context.getTypeMapping(), type, context);
         ServiceDefinition definition = new ServiceDefinition(serviceContract.getInterfaceName(), serviceContract);
         implementation.getComponentType().add(definition);
     }

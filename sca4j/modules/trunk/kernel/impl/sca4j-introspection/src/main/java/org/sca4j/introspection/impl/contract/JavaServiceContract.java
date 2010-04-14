@@ -87,7 +87,7 @@ import org.sca4j.scdl.ServiceContract;
  *
  * @version $Rev: 5441 $ $Date: 2008-09-19 06:10:33 +0100 (Fri, 19 Sep 2008) $
  */
-public class JavaServiceContract extends ServiceContract<Type> {
+public class JavaServiceContract extends ServiceContract {
 
     private static final long serialVersionUID = -7360275776965712638L;
     // NOTE: this class cannot reference the actual Java class it represents as #isAssignableFrom may be performed
@@ -150,7 +150,7 @@ public class JavaServiceContract extends ServiceContract<Type> {
      * <code>Class</code> parameter. It returns <code>true</code> if so;
     
      */
-    public boolean isAssignableFrom(ServiceContract<?> contract) {
+    public boolean isAssignableFrom(ServiceContract contract) {
         if (JavaServiceContract.class.isInstance(contract)) {
             return isJavaAssignableFrom(JavaServiceContract.class.cast(contract));
         } else {
@@ -191,7 +191,7 @@ public class JavaServiceContract extends ServiceContract<Type> {
         for (Operation o : theirOperations) {
             theirOperationNames.put(o.getName(), o);
         }
-        List<Operation<Type>> myOperations = this.getOperations();
+        List<Operation<?>> myOperations = this.getOperations();
         for (Operation o : myOperations) {
             Operation theirs = theirOperationNames.remove(o.getName());
             if (theirs == null) {

@@ -62,7 +62,6 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.oasisopen.sca.ServiceUnavailableException;
-import org.oasisopen.sca.annotation.Intent;
 import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.fabric.wire.InvocationChainImpl;
 import org.sca4j.scdl.definitions.PolicyPhase;

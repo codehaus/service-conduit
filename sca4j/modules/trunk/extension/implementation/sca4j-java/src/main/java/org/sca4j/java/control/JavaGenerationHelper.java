@@ -83,7 +83,7 @@ public interface JavaGenerationHelper {
 
     PhysicalWireSourceDefinition generateCallbackWireSource(LogicalComponent<? extends JavaImplementation> source,
                                                             JavaWireSourceDefinition wireDefinition,
-                                                            ServiceContract<?> serviceContract,
+                                                            ServiceContract serviceContract,
                                                             Policy policy) throws GenerationException;
 
     PhysicalWireSourceDefinition generateResourceWireSource(LogicalComponent<? extends JavaImplementation> source,

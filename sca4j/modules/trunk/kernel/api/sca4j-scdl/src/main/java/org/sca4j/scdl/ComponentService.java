@@ -58,7 +58,7 @@ package org.sca4j.scdl;
 public class ComponentService extends ServiceDefinition {
     private static final long serialVersionUID = 1076710434904709542L;
 
-    public ComponentService(String name, ServiceContract<?> serviceContract) {
+    public ComponentService(String name, ServiceContract serviceContract) {
         super(name, serviceContract);
     }
 }

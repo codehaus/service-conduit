@@ -82,11 +82,11 @@ import javax.xml.namespace.QName;
 
 import org.oasisopen.sca.Constants;
 import org.oasisopen.sca.annotation.Callback;
-import org.sca4j.api.annotation.scope.Conversational;
-import org.sca4j.api.annotation.scope.EndsConversation;
 import org.oasisopen.sca.annotation.OneWay;
 import org.oasisopen.sca.annotation.Reference;
 import org.oasisopen.sca.annotation.Remotable;
+import org.sca4j.api.annotation.scope.Conversational;
+import org.sca4j.api.annotation.scope.EndsConversation;
 import org.sca4j.introspection.IntrospectionHelper;
 import org.sca4j.introspection.TypeMapping;
 import org.sca4j.introspection.contract.ContractProcessor;
@@ -127,7 +127,7 @@ public class DefaultContractProcessor implements ContractProcessor {
         this.operationIntrospectors = operationIntrospectors;
     }
 
-    public ServiceContract<Type> introspect(TypeMapping typeMapping, Type type, ValidationContext context) {
+    public ServiceContract introspect(TypeMapping typeMapping, Type type, ValidationContext context) {
         if (type instanceof Class<?>) {
             return introspect(typeMapping, (Class<?>) type, context);
         } else {
@@ -168,7 +168,7 @@ public class DefaultContractProcessor implements ContractProcessor {
         boolean conversational = helper.isAnnotationPresent(interfaze, Conversational.class);
         contract.setConversational(conversational);
 
-        List<Operation<Type>> operations = getOperations(typeMapping, interfaze, remotable, conversational, context);
+        List<Operation<?>> operations = getOperations(typeMapping, interfaze, remotable, conversational, context);
         contract.setOperations(operations);
         for (InterfaceIntrospector introspector : interfaceIntrospectors) {
             introspector.introspect(contract, interfaze, context);
@@ -176,18 +176,18 @@ public class DefaultContractProcessor implements ContractProcessor {
         return contract;
     }
 
-    private <T> List<Operation<Type>> getOperations(TypeMapping typeMapping,
+    private <T> List<Operation<?>> getOperations(TypeMapping typeMapping,
                                                     Class<T> type,
                                                     boolean remotable,
                                                     boolean conversational,
                                                     ValidationContext context) {
         Method[] methods = type.getMethods();
-        List<Operation<Type>> operations = new ArrayList<Operation<Type>>(methods.length);
+        List<Operation<?>> operations = new ArrayList<Operation<?>>(methods.length);
         for (Method method : methods) {
             String name = method.getName();
             if (remotable) {
                 boolean error = false;
-                for (Operation<Type> operation : operations) {
+                for (Operation<?> operation : operations) {
                     if (operation.getName().equals(name)) {
                         context.addError(new OverloadedOperation(method));
                         error = true;

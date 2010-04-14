@@ -52,7 +52,6 @@
  */
 package org.sca4j.system.introspection;
 
-import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
@@ -85,8 +84,8 @@ public class SystemServiceHeuristicTestCase extends TestCase {
     private IntrospectionContext context;
     private SystemImplementation impl;
     private PojoComponentType componentType;
-    private ServiceContract<Type> serviceInterfaceContract;
-    private ServiceContract<Type> noInterfaceContract;
+    private ServiceContract serviceInterfaceContract;
+    private ServiceContract noInterfaceContract;
     private IMocksControl control;
     private TypeMapping typeMapping;
 
@@ -141,7 +140,6 @@ public class SystemServiceHeuristicTestCase extends TestCase {
     public static class OneInterface implements ServiceInterface {
     }
 
-    @SuppressWarnings("unchecked")
     protected void setUp() throws Exception {
         super.setUp();
         impl = new SystemImplementation();
@@ -160,9 +158,9 @@ public class SystemServiceHeuristicTestCase extends TestCase {
         heuristic = new SystemServiceHeuristic(contractProcessor, helper);
     }
 
-    private ServiceContract<Type> createServiceContract(Class<?> type) {
+    private ServiceContract createServiceContract(Class<?> type) {
         @SuppressWarnings("unchecked")
-        ServiceContract<Type> contract = EasyMock.createMock(ServiceContract.class);
+        ServiceContract contract = EasyMock.createMock(ServiceContract.class);
         EasyMock.expect(contract.getInterfaceName()).andStubReturn(type.getSimpleName());
         EasyMock.replay(contract);
         return contract;

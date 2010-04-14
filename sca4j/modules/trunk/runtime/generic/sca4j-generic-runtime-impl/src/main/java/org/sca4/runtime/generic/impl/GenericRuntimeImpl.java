@@ -248,7 +248,7 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
     /*
      * Get to the normalized service contract.
      */
-    private ServiceContract<?> getServiceContract(LogicalCompositeComponent parent, String serviceName) {
+    private ServiceContract getServiceContract(LogicalCompositeComponent parent, String serviceName) {
         
         LogicalService logicalService = parent.getService(serviceName);
         URI promotedUri = logicalService.getPromotedUri();

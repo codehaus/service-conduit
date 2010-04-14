@@ -71,9 +71,9 @@
 package org.sca4j.fabric.component;
 
 import org.oasisopen.sca.ServiceReference;
-import org.sca4j.spi.ObjectFactory;
 import org.oasisopen.sca.ServiceRuntimeException;
 import org.sca4j.spi.ObjectCreationException;
+import org.sca4j.spi.ObjectFactory;
 
 
 /**

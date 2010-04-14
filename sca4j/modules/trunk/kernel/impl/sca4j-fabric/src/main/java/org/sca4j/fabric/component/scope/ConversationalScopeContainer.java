@@ -61,8 +61,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.sca4j.api.scope.Conversation;
-import org.sca4j.api.scope.ConversationEndedException;
 import org.oasisopen.sca.annotation.Destroy;
 import org.oasisopen.sca.annotation.EagerInit;
 import org.oasisopen.sca.annotation.Init;
@@ -70,6 +68,8 @@ import org.oasisopen.sca.annotation.Property;
 import org.oasisopen.sca.annotation.Reference;
 import org.oasisopen.sca.annotation.Service;
 import org.sca4j.api.annotation.Monitor;
+import org.sca4j.api.scope.Conversation;
+import org.sca4j.api.scope.ConversationEndedException;
 import org.sca4j.scdl.Scope;
 import org.sca4j.spi.ObjectCreationException;
 import org.sca4j.spi.ObjectFactory;

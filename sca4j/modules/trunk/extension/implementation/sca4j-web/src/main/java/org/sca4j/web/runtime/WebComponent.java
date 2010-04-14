@@ -78,7 +78,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.oasisopen.sca.ServiceReference;
 import org.oasisopen.sca.ComponentContext;
 import org.oasisopen.sca.ServiceReference;
 import org.sca4j.container.web.spi.WebApplicationActivationException;

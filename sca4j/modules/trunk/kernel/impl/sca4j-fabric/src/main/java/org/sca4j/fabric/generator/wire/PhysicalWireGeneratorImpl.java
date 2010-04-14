@@ -126,7 +126,7 @@ public class PhysicalWireGeneratorImpl implements PhysicalWireGenerator {
             throws GenerationException {
 
         ResourceDefinition resourceDefinition = resource.getResourceDefinition();
-        ServiceContract<?> serviceContract = resourceDefinition.getServiceContract();
+        ServiceContract serviceContract = resourceDefinition.getServiceContract();
 
         // Generates the source side of the wire
         ComponentGenerator<C> sourceGenerator = getGenerator(source);
@@ -153,7 +153,7 @@ public class PhysicalWireGeneratorImpl implements PhysicalWireGenerator {
             throws GenerationException {
 
         ReferenceDefinition referenceDefinition = reference.getDefinition();
-        ServiceContract<?> serviceContract = referenceDefinition.getServiceContract();
+        ServiceContract serviceContract = referenceDefinition.getServiceContract();
 
         LogicalBinding<SCABindingDefinition> sourceBinding = new LogicalBinding<SCABindingDefinition>(SCABindingDefinition.INSTANCE, reference);
         LogicalBinding<SCABindingDefinition> targetBinding = new LogicalBinding<SCABindingDefinition>(SCABindingDefinition.INSTANCE, service);
@@ -165,7 +165,7 @@ public class PhysicalWireGeneratorImpl implements PhysicalWireGenerator {
         ComponentGenerator<T> targetGenerator = getGenerator(target);
         // generate metadata for the target side of the wire
         PhysicalWireTargetDefinition targetDefinition = targetGenerator.generateWireTarget(service, target, targetPolicy);
-        ServiceContract<?> callbackContract = reference.getDefinition().getServiceContract().getCallbackContract();
+        ServiceContract callbackContract = reference.getDefinition().getServiceContract().getCallbackContract();
         if (callbackContract != null) {
             // if there is a callback wire associated with this forward wire, calculate its URI
             URI callbackUri = generateCallbackUri(source, callbackContract, referenceDefinition.getName());
@@ -194,7 +194,7 @@ public class PhysicalWireGeneratorImpl implements PhysicalWireGenerator {
                                                                                                                              T target)
             throws GenerationException {
 
-        ServiceContract<?> contract = reference.getDefinition().getServiceContract().getCallbackContract();
+        ServiceContract contract = reference.getDefinition().getServiceContract().getCallbackContract();
         LogicalService callbackService = target.getService(contract.getInterfaceName());
         assert callbackService != null;
         LogicalBinding<SCABindingDefinition> sourceBinding = new LogicalBinding<SCABindingDefinition>(SCABindingDefinition.INSTANCE, callbackService);
@@ -231,7 +231,7 @@ public class PhysicalWireGeneratorImpl implements PhysicalWireGenerator {
         assert bindable instanceof LogicalService;
         LogicalService logicalService = (LogicalService) bindable;
 
-        ServiceContract<?> contract = logicalService.getDefinition().getServiceContract();
+        ServiceContract contract = logicalService.getDefinition().getServiceContract();
         if (contract == null) {
             contract = service.getDefinition().getServiceContract();
         }
@@ -281,7 +281,7 @@ public class PhysicalWireGeneratorImpl implements PhysicalWireGenerator {
                                                                                              LogicalBinding<?> binding) throws GenerationException {
 
         ReferenceDefinition referenceDefinition = reference.getDefinition();
-        ServiceContract<?> contract = referenceDefinition.getServiceContract();
+        ServiceContract contract = referenceDefinition.getServiceContract();
         LogicalBinding<SCABindingDefinition> sourceBinding = new LogicalBinding<SCABindingDefinition>(SCABindingDefinition.INSTANCE, reference);
 
         PolicyResult policyResult = resolvePolicies(contract, sourceBinding, binding, component, null);
@@ -290,7 +290,7 @@ public class PhysicalWireGeneratorImpl implements PhysicalWireGenerator {
 
         BindingGenerator targetGenerator = getGenerator(binding);
         PhysicalWireTargetDefinition targetDefinition = targetGenerator.generateWireTarget(binding, targetPolicy, reference.getDefinition());
-        ServiceContract<?> callbackContract = contract.getCallbackContract();
+        ServiceContract callbackContract = contract.getCallbackContract();
         if (callbackContract != null) {
             // if there is a callback wire associated with this forward wire, calculate its URI
             URI callbackUri = generateCallbackUri(component, callbackContract, referenceDefinition.getName());
@@ -313,8 +313,8 @@ public class PhysicalWireGeneratorImpl implements PhysicalWireGenerator {
                                                                                                    LogicalBinding<?> binding,
                                                                                                    C component) throws GenerationException {
         ReferenceDefinition definition = reference.getDefinition();
-        ServiceContract<?> contract = definition.getServiceContract();
-        ServiceContract<?> callbackContract = contract.getCallbackContract();
+        ServiceContract contract = definition.getServiceContract();
+        ServiceContract callbackContract = contract.getCallbackContract();
 
         LogicalService callbackService = component.getService(callbackContract.getInterfaceName());
 
@@ -347,11 +347,11 @@ public class PhysicalWireGeneratorImpl implements PhysicalWireGenerator {
         assert bindable instanceof LogicalService;
         LogicalService logicalService = (LogicalService) bindable;
 
-        ServiceContract<?> contract = logicalService.getDefinition().getServiceContract();
+        ServiceContract contract = logicalService.getDefinition().getServiceContract();
         if (contract == null) {
             contract = service.getDefinition().getServiceContract();
         }
-        ServiceContract<?> callbackContract = contract.getCallbackContract();
+        ServiceContract callbackContract = contract.getCallbackContract();
 
         // TODO policies are not correctly calculated
         LogicalBinding<SCABindingDefinition> targetBinding = new LogicalBinding<SCABindingDefinition>(SCABindingDefinition.INSTANCE, service);
@@ -371,7 +371,7 @@ public class PhysicalWireGeneratorImpl implements PhysicalWireGenerator {
 
     }
 
-    private Set<PhysicalOperationDefinition> generateOperations(ServiceContract<?> contract,
+    private Set<PhysicalOperationDefinition> generateOperations(ServiceContract contract,
                                                                 PolicyResult policyResult,
                                                                 LogicalBinding<?> logicalBinding) throws GenerationException {
 
@@ -421,7 +421,7 @@ public class PhysicalWireGeneratorImpl implements PhysicalWireGenerator {
 
     }
 
-    private PolicyResult resolvePolicies(ServiceContract<?> serviceContract,
+    private PolicyResult resolvePolicies(ServiceContract serviceContract,
                                          LogicalBinding<?> sourceBinding,
                                          LogicalBinding<?> targetBinding,
                                          LogicalComponent<?> source,
@@ -435,7 +435,7 @@ public class PhysicalWireGeneratorImpl implements PhysicalWireGenerator {
 
     }
 
-    private <S extends LogicalComponent<?>> URI generateCallbackUri(S source, ServiceContract<?> contract, String sourceName)
+    private <S extends LogicalComponent<?>> URI generateCallbackUri(S source, ServiceContract contract, String sourceName)
             throws CallbackServiceNotFoundException {
         LogicalService candidate = null;
         for (LogicalService entry : source.getServices()) {
@@ -469,7 +469,7 @@ public class PhysicalWireGeneratorImpl implements PhysicalWireGenerator {
         return (BindingGenerator<?, ?, T>) generatorRegistry.getBindingGenerator(binding.getBinding().getClass());
     }
 
-    private boolean checkOptimization(ServiceContract<?> serviceContract, Set<PhysicalOperationDefinition> operationDefinitions) {
+    private boolean checkOptimization(ServiceContract serviceContract, Set<PhysicalOperationDefinition> operationDefinitions) {
 
         if (serviceContract.isConversational()) {
             return false;

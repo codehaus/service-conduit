@@ -126,7 +126,7 @@ public class CallbackProcessor<I extends Implementation<? extends InjectingCompo
 
     private CallbackDefinition createDefinition(String name, Type type, TypeMapping typeMapping, IntrospectionContext context) {
         Type baseType = helper.getBaseType(type, typeMapping);
-        ServiceContract<Type> contract = contractProcessor.introspect(typeMapping, baseType, context);
+        ServiceContract contract = contractProcessor.introspect(typeMapping, baseType, context);
         return new CallbackDefinition(name, contract);
     }
 }

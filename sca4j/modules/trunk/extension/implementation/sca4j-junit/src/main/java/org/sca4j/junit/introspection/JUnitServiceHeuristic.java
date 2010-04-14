@@ -109,7 +109,7 @@ public class JUnitServiceHeuristic implements HeuristicProcessor<JUnitImplementa
     }
 
     ServiceDefinition createServiceDefinition(Class<?> serviceInterface, TypeMapping typeMapping, IntrospectionContext context) {
-        ServiceContract<Type> contract = contractProcessor.introspect(typeMapping, serviceInterface, context);
+        ServiceContract contract = contractProcessor.introspect(typeMapping, serviceInterface, context);
         return new ServiceDefinition(contract.getInterfaceName(), contract);
     }
 
@@ -125,7 +125,7 @@ public class JUnitServiceHeuristic implements HeuristicProcessor<JUnitImplementa
     }
 
     JUnitServiceContract generateTestContract(Class<?> implClass) {
-        List<Operation<Type>> operations = new ArrayList<Operation<Type>>();
+        List<Operation<?>> operations = new ArrayList<Operation<?>>();
         for (Method method : implClass.getMethods()) {
             // see if this is a test method
             if (Modifier.isStatic(method.getModifiers())) {

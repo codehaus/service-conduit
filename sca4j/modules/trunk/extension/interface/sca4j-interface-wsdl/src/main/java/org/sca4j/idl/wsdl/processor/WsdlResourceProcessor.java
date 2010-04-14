@@ -76,7 +76,7 @@ public class WsdlResourceProcessor implements ResourceProcessor {
                 QName portTypeName = (QName) object;
                 PortType portType = (PortType) definition.getPortType(portTypeName);
                 
-                List<Operation<XmlSchemaType>> operations = new LinkedList<Operation<XmlSchemaType>>();
+                List<Operation<?>> operations = new LinkedList<Operation<?>>();
                 for(Object obj : portType.getOperations()) {     
                     Operation<XmlSchemaType> op = getOperation(schemaCollection, (javax.wsdl.Operation) obj);                
                     operations.add(op);                

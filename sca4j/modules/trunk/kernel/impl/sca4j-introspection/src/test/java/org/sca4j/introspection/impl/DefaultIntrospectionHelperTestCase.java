@@ -263,7 +263,7 @@ public class DefaultIntrospectionHelperTestCase extends TestCase {
         Set<Method> expected = Collections.emptySet();
         Set<ServiceDefinition> services = new HashSet<ServiceDefinition>();
         ValidationContext context = new DefaultValidationContext();
-        ServiceContract<?> contract = new DefaultContractProcessor(helper).introspect(new TypeMapping(), InterfaceWithSetter.class, context);
+        ServiceContract contract = new DefaultContractProcessor(helper).introspect(new TypeMapping(), InterfaceWithSetter.class, context);
         ServiceDefinition definition = new ServiceDefinition("InterfaceWithSetter", contract);
         services.add(definition);
         assertEquals(expected, helper.getInjectionMethods(InjectionWithInterface.class, services));

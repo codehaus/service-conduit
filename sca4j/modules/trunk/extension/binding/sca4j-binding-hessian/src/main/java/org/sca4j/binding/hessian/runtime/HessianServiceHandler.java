@@ -81,6 +81,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.sca4j.api.scope.Conversation;
 import org.sca4j.spi.invocation.CallFrame;
 import org.sca4j.spi.invocation.ConversationContext;
 import org.sca4j.spi.invocation.Message;
@@ -90,7 +91,6 @@ import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.wire.InvocationChain;
 
-import org.sca4j.api.scope.Conversation;
 import com.caucho.hessian.io.Hessian2Input;
 import com.caucho.hessian.io.Hessian2Output;
 import com.caucho.hessian.io.SerializerFactory;

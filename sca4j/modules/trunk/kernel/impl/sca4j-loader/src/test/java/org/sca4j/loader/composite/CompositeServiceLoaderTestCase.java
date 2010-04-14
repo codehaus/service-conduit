@@ -181,8 +181,8 @@ public class CompositeServiceLoaderTestCase extends TestCase {
     }
 
     public void testWithInterface() throws LoaderException, XMLStreamException {
-        ServiceContract sc = new ServiceContract<Object>() {
-            public boolean isAssignableFrom(ServiceContract<?> contract) {
+        ServiceContract sc = new ServiceContract() {
+            public boolean isAssignableFrom(ServiceContract contract) {
                 return false;
             }
 

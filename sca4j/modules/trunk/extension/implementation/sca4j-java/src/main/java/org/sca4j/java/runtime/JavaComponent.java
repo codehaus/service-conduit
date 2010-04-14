@@ -73,7 +73,6 @@ package org.sca4j.java.runtime;
 import java.net.URI;
 
 import org.oasisopen.sca.ServiceReference;
-import org.oasisopen.sca.ServiceReference;
 import org.sca4j.pojo.component.PojoComponent;
 import org.sca4j.spi.component.InstanceFactoryProvider;
 import org.sca4j.spi.component.ScopeContainer;

@@ -54,9 +54,9 @@ package org.sca4j.fabric.executor;
 
 import java.net.URI;
 
-import org.oasisopen.sca.annotation.Reference;
-import org.oasisopen.sca.annotation.Init;
 import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Init;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.fabric.command.StopComponentCommand;
 import org.sca4j.spi.component.Component;
 import org.sca4j.spi.executor.CommandExecutor;

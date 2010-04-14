@@ -105,7 +105,7 @@ public class FtpBindingGenerator implements BindingGenerator<FtpWireSourceDefini
                                                       Policy policy,
                                                       ServiceDefinition serviceDefinition) throws GenerationException {
 
-        ServiceContract<?> serviceContract = serviceDefinition.getServiceContract();
+        ServiceContract serviceContract = serviceDefinition.getServiceContract();
         if (serviceContract.getOperations().size() <= 0 || serviceContract.getOperations().size() > 2) {
             throw new AssertionError("Expects one download and/or an upload method");
         }
@@ -130,7 +130,7 @@ public class FtpBindingGenerator implements BindingGenerator<FtpWireSourceDefini
                                                       Policy policy,
                                                       ReferenceDefinition referenceDefinition) throws GenerationException {
 
-        ServiceContract<?> serviceContract = referenceDefinition.getServiceContract();
+        ServiceContract serviceContract = referenceDefinition.getServiceContract();
         if (serviceContract.getOperations().size() <= 0 || serviceContract.getOperations().size() > 2) {
             throw new AssertionError("Expects one download and/or an upload method");
         }

@@ -55,7 +55,6 @@ package org.sca4j.web.runtime;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.oasisopen.sca.ServiceReference;
 import org.oasisopen.sca.ComponentContext;
 import org.oasisopen.sca.RequestContext;
 import org.oasisopen.sca.ServiceReference;

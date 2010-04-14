@@ -104,7 +104,7 @@ public interface ComponentGenerator<C extends LogicalComponent<? extends Impleme
      * @return the metadata used to attach the wire to its source on the service node
      * @throws GenerationException if an error occurs during the generation process
      */
-    PhysicalWireSourceDefinition generateCallbackWireSource(C source, ServiceContract<?> serviceContract, Policy policy)
+    PhysicalWireSourceDefinition generateCallbackWireSource(C source, ServiceContract serviceContract, Policy policy)
             throws GenerationException;
 
     /**

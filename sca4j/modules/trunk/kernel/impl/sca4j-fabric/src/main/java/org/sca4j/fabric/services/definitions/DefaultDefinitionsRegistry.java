@@ -78,6 +78,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.xml.namespace.QName;
 
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.loader.definitions.DefinitionResourceElement;
 import org.sca4j.scdl.definitions.AbstractDefinition;
 import org.sca4j.scdl.definitions.BindingType;
@@ -89,7 +90,6 @@ import org.sca4j.spi.services.contribution.MetaDataStore;
 import org.sca4j.spi.services.contribution.Resource;
 import org.sca4j.spi.services.definitions.DefinitionActivationException;
 import org.sca4j.spi.services.definitions.DefinitionsRegistry;
-import org.oasisopen.sca.annotation.Reference;
 
 /**
  * Default implementation of the definitions registry.

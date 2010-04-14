@@ -72,7 +72,7 @@ public class CompositeService extends ServiceDefinition {
      * @param serviceContract the service contract to expose
      * @param promote         the component service that is being promoted
      */
-    public CompositeService(String name, ServiceContract<?> serviceContract, URI promote) {
+    public CompositeService(String name, ServiceContract serviceContract, URI promote) {
         super(name, serviceContract);
         this.promote = promote;
     }

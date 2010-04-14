@@ -53,6 +53,7 @@
 package org.sca4j.loader.composite;
 
 import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
+import static org.oasisopen.sca.Constants.SCA_NS;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -64,7 +65,6 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import static org.oasisopen.sca.Constants.SCA_NS;
 import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.InvalidValue;
@@ -151,7 +151,7 @@ public class CompositeReferenceLoader implements TypeLoader<CompositeReference> 
                     continue;
                 }
                 if (type instanceof ServiceContract) {
-                    referenceDefinition.setServiceContract((ServiceContract<?>) type);
+                    referenceDefinition.setServiceContract((ServiceContract) type);
                 } else if (type instanceof BindingDefinition) {
                     if (callback) {
                         referenceDefinition.addCallbackBinding((BindingDefinition) type);

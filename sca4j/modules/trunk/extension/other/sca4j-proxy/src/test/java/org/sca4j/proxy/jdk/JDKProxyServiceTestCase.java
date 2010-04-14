@@ -57,6 +57,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import junit.framework.TestCase;
+
 import org.oasisopen.sca.ServiceReference;
 import org.sca4j.spi.wire.InvocationChain;
 

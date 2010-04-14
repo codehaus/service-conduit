@@ -36,7 +36,7 @@ public interface ServiceContractResolver {
      * @param service the service to determine the service contract for.
      * @return the contract or null if none is found
      */
-    ServiceContract<?> determineContract(LogicalService service);
+    ServiceContract determineContract(LogicalService service);
 
     /**
      * Returns the contract for a reference.
@@ -44,6 +44,6 @@ public interface ServiceContractResolver {
      * @param reference the reference to determine the service contract for.
      * @return the contract or null if none is found
      */
-    ServiceContract<?> determineContract(LogicalReference reference);
+    ServiceContract determineContract(LogicalReference reference);
 
 }

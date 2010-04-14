@@ -89,7 +89,7 @@ import org.sca4j.spi.policy.PolicyResult;
  */
 public class NullPolicyResolver implements PolicyResolver {
     
-    public PolicyResult resolvePolicies(ServiceContract<?> serviceContract,
+    public PolicyResult resolvePolicies(ServiceContract serviceContract,
                                             LogicalBinding<?> sourceBinding, 
                                             LogicalBinding<?> targetBinding, 
                                             LogicalComponent<?> source, 

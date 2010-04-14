@@ -175,7 +175,7 @@ public class DefaultPolicyResolver implements PolicyResolver {
      * @return Policy resolution result.
      * @throws PolicyResolutionException If unable to resolve any policies.
      */
-    public PolicyResult resolvePolicies(ServiceContract<?> serviceContract,
+    public PolicyResult resolvePolicies(ServiceContract serviceContract,
                                         LogicalBinding<?> sourceBinding,
                                         LogicalBinding<?> targetBinding,
                                         LogicalComponent<?> source,

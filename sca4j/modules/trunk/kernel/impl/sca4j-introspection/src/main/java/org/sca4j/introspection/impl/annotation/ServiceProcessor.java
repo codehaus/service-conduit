@@ -52,8 +52,6 @@
  */
 package org.sca4j.introspection.impl.annotation;
 
-import java.lang.reflect.Type;
-
 import org.oasisopen.sca.annotation.Reference;
 import org.oasisopen.sca.annotation.Service;
 import org.sca4j.introspection.IntrospectionContext;
@@ -94,7 +92,7 @@ public class ServiceProcessor<I extends Implementation<? extends InjectingCompon
     }
 
     private ServiceDefinition createDefinition(Class<?> service, TypeMapping typeMapping, IntrospectionContext context) {
-        ServiceContract<Type> serviceContract = contractProcessor.introspect(typeMapping, service, context);
+        ServiceContract serviceContract = contractProcessor.introspect(typeMapping, service, context);
         return new ServiceDefinition(serviceContract.getInterfaceName(), serviceContract);
     }
 }

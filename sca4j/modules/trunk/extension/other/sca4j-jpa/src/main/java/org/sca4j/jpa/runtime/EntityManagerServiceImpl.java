@@ -63,8 +63,8 @@ import javax.transaction.SystemException;
 import javax.transaction.Transaction;
 import javax.transaction.TransactionManager;
 
-import org.sca4j.api.scope.Conversation;
 import org.oasisopen.sca.annotation.Reference;
+import org.sca4j.api.scope.Conversation;
 import org.sca4j.scdl.Scope;
 import org.sca4j.spi.component.ConversationExpirationCallback;
 import org.sca4j.spi.component.ScopeContainer;

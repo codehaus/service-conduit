@@ -57,6 +57,7 @@ import java.net.URI;
 import javax.xml.namespace.QName;
 
 import junit.framework.TestCase;
+
 import org.oasisopen.sca.annotation.Scope;
 import org.sca4j.introspection.DefaultIntrospectionContext;
 import org.sca4j.introspection.IntrospectionContext;

@@ -61,8 +61,8 @@ import javax.transaction.SystemException;
 import javax.transaction.Transaction;
 import javax.transaction.TransactionManager;
 
-import org.sca4j.api.scope.Conversation;
 import org.oasisopen.sca.ServiceRuntimeException;
+import org.sca4j.api.scope.Conversation;
 import org.sca4j.pojo.PojoWorkContextTunnel;
 import org.sca4j.spi.invocation.WorkContext;
 

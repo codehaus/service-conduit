@@ -132,7 +132,7 @@ public class JavaGenerationHelperImpl implements JavaGenerationHelper {
                                                            LogicalReference reference,
                                                            Policy policy) throws GenerationException {
         URI uri = reference.getUri();
-        ServiceContract<?> serviceContract = reference.getDefinition().getServiceContract();
+        ServiceContract serviceContract = reference.getDefinition().getServiceContract();
         String interfaceName = serviceContract.getQualifiedInterfaceName();
         URI classLoaderId = source.getClassLoaderId();
 
@@ -149,7 +149,7 @@ public class JavaGenerationHelperImpl implements JavaGenerationHelper {
 
     public PhysicalWireSourceDefinition generateCallbackWireSource(LogicalComponent<? extends JavaImplementation> source,
                                                                    JavaWireSourceDefinition wireDefinition,
-                                                                   ServiceContract<?> serviceContract,
+                                                                   ServiceContract serviceContract,
                                                                    Policy policy) throws GenerationException {
         String interfaceName = serviceContract.getQualifiedInterfaceName();
         URI classLoaderId = source.getClassLoaderId();
@@ -180,7 +180,7 @@ public class JavaGenerationHelperImpl implements JavaGenerationHelper {
                                                                    LogicalResource<?> resource,
                                                                    JavaWireSourceDefinition wireDefinition) throws GenerationException {
         URI uri = resource.getUri();
-        ServiceContract<?> serviceContract = resource.getResourceDefinition().getServiceContract();
+        ServiceContract serviceContract = resource.getResourceDefinition().getServiceContract();
         String interfaceName = serviceContract.getQualifiedInterfaceName();
         URI classLoaderId = source.getClassLoaderId();
 
@@ -220,7 +220,7 @@ public class JavaGenerationHelperImpl implements JavaGenerationHelper {
      * @param serviceContract the wire service cotnract
      * @param policy          the set of policies for the wire
      */
-    private void calculateConversationalPolicy(JavaWireSourceDefinition wireDefinition, ServiceContract<?> serviceContract, Policy policy) {
+    private void calculateConversationalPolicy(JavaWireSourceDefinition wireDefinition, ServiceContract serviceContract, Policy policy) {
         for (Operation<?> operation : serviceContract.getOperations()) {
             for (PolicySet policySet : policy.getProvidedPolicySets(operation)) {
                 if (PROPAGATES_CONVERSATION_POLICY.equals(policySet.getName())) {

@@ -95,7 +95,7 @@ public class TCPBindingGenerator implements
     public TCPWireSourceDefinition generateWireSource(LogicalBinding<TCPBindingDefinition> binding, Policy policy,
                                                       ServiceDefinition serviceDefinition) throws GenerationException {
 
-        ServiceContract<?> serviceContract = serviceDefinition.getServiceContract();
+        ServiceContract serviceContract = serviceDefinition.getServiceContract();
         if (serviceContract.getOperations().size() != 1) {
             throw new GenerationException("Expects only one operation");
         }
@@ -117,7 +117,7 @@ public class TCPBindingGenerator implements
                                                       ReferenceDefinition referenceDefinition)
             throws GenerationException {
 
-        ServiceContract<?> serviceContract = referenceDefinition.getServiceContract();
+        ServiceContract serviceContract = referenceDefinition.getServiceContract();
         if (serviceContract.getOperations().size() != 1) {
             throw new GenerationException("Expects only one operation");
         }

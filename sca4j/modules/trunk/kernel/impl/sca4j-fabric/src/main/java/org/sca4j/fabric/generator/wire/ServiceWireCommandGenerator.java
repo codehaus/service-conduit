@@ -121,7 +121,7 @@ public class ServiceWireCommandGenerator implements AddCommandGenerator {
                 continue;
             }
 
-            ServiceContract<?> callbackContract = service.getDefinition().getServiceContract().getCallbackContract();
+            ServiceContract callbackContract = service.getDefinition().getServiceContract().getCallbackContract();
             LogicalBinding<?> callbackBinding = null;
             URI callbackUri = null;
             if (callbackContract != null) {
