@@ -184,24 +184,30 @@ public class JavaServiceContract extends ServiceContract {
 
     }
 
+    @SuppressWarnings("unchecked")
     private boolean isNonJavaAssignableFrom(ServiceContract contract) {
+        
         //compare contract operations
         List<Operation<?>> theirOperations = contract.getOperations();
         Map<String, Operation<?>> theirOperationNames = new HashMap<String, Operation<?>>();
-        for (Operation o : theirOperations) {
+        
+        for (Operation<?> o : theirOperations) {
             theirOperationNames.put(o.getName(), o);
         }
-        List<Operation<?>> myOperations = this.getOperations();
-        for (Operation o : myOperations) {
+        
+        for (Operation o : getOperations()) {
+            
             Operation theirs = theirOperationNames.remove(o.getName());
             if (theirs == null) {
                 return false;
             }
-            if (!compareTypes(o.getInputType(), theirs.getInputType())) {
-                return false;
-            }
-            List<DataType<?>> myParams = (List<DataType<?>>) o.getInputType().getLogical();
-            List<DataType<?>> theirParams = (List<DataType<?>>) theirs.getInputType().getLogical();
+            
+            //if (!compareTypes(o.getInputType(), theirs.getInputType())) {
+            //    return false;
+            //}
+            
+            List<DataType<?>> myParams = o.getInputType();
+            List<DataType<?>> theirParams = theirs.getInputType();
 
             if (myParams.size() == theirParams.size()) {
                 for (int i = 0; i < myParams.size(); i++) {
@@ -209,7 +215,7 @@ public class JavaServiceContract extends ServiceContract {
                         return false;
                     }
                 }
-            }else{
+            } else {
                 return false;
             }
 

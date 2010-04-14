@@ -158,7 +158,7 @@ public class DefaultIntrospectionHelper implements IntrospectionHelper {
     }
 
     public Type getBaseType(Type type, TypeMapping typeMapping) {
-        if (type instanceof Class) {
+        if (type instanceof Class<?>) {
             Class<?> clazz = (Class<?>) type;
             if (clazz.isArray()) {
                 return clazz.getComponentType();
@@ -308,7 +308,7 @@ public class DefaultIntrospectionHelper implements IntrospectionHelper {
             List<? extends Operation<?>> ops = definition.getServiceContract().getOperations();
             for (Operation<?> operation : ops) {
                 String name = operation.getName();
-                List<? extends DataType<?>> inputTypes = operation.getInputType().getLogical();
+                List<? extends DataType<?>> inputTypes = operation.getInputType();
                 List<String> paramTypes = new ArrayList<String>(inputTypes.size());
                 for (DataType<?> inputType : inputTypes) {
                     paramTypes.add(((Class<?>) inputType.getPhysical()).getName());

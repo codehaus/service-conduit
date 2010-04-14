@@ -85,6 +85,7 @@ import javax.xml.namespace.QName;
  * @version $Rev: 5475 $ $Date: 2008-09-24 17:48:34 +0100 (Wed, 24 Sep 2008) $
  */
 public class Operation<T> extends AbstractPolicyAware {
+    
     public static final int NO_CONVERSATION = -1;
     public static final int CONVERSATION_CONTINUE = 1;
     public static final int CONVERSATION_END = 2;
@@ -92,7 +93,7 @@ public class Operation<T> extends AbstractPolicyAware {
     private static final long serialVersionUID = 5279880534105654066L;
     private final String name;
     private DataType<T> outputType;
-    private DataType<List<DataType<T>>> inputType;
+    private List<DataType<T>> inputType;
     private List<DataType<T>> faultTypes;
     private int conversationSequence = NO_CONVERSATION;
     private Map<QName, Map<String, String>> info;
@@ -105,10 +106,7 @@ public class Operation<T> extends AbstractPolicyAware {
      * @param outputType the data type returned by the operation
      * @param faultTypes the data type of faults raised by the operation
      */
-    public Operation(String name,
-                     DataType<List<DataType<T>>> inputType,
-                     DataType<T> outputType,
-                     List<DataType<T>> faultTypes) {
+    public Operation(String name, List<DataType<T>> inputType, DataType<T> outputType, List<DataType<T>> faultTypes) {
         this(name, inputType, outputType, faultTypes, NO_CONVERSATION);
     }
 
@@ -122,12 +120,7 @@ public class Operation<T> extends AbstractPolicyAware {
      * @param sequence    the conversational attributes of the operation, {@link #NO_CONVERSATION}, {@link #CONVERSATION_CONTINUE}, {@link
 *                    #CONVERSATION_CONTINUE}
      */
-    public Operation(final String name,
-                     final DataType<List<DataType<T>>> inputType,
-                     final DataType<T> outputType,
-                     final List<DataType<T>> faultTypes,
-                     int sequence) {
-        super();
+    public Operation(String name, List<DataType<T>> inputType, DataType<T> outputType, List<DataType<T>> faultTypes, int sequence) {
         this.name = name;
         List<DataType<T>> types = Collections.emptyList();
         this.inputType = inputType;
@@ -161,7 +154,7 @@ public class Operation<T> extends AbstractPolicyAware {
      *
      * @return the data types of the parameters passed to the operation
      */
-    public DataType<List<DataType<T>>> getInputType() {
+    public List<DataType<T>> getInputType() {
         return inputType;
     }
 
@@ -236,7 +229,7 @@ public class Operation<T> extends AbstractPolicyAware {
             return false;
         }
 
-        final Operation operation = (Operation) o;
+        final Operation<?> operation = (Operation<?>) o;
 
         if (name != null ? !name.equals(operation.name) : operation.name != null) {
             return false;

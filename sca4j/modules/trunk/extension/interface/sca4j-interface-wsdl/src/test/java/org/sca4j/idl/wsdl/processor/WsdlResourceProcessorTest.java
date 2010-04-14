@@ -110,8 +110,7 @@ public class WsdlResourceProcessorTest extends TestCase {
         Operation<XmlSchemaType> operation = (Operation<XmlSchemaType>) operations.get(0);
         assertEquals("GetLastTradePrice", operation.getName());
         
-        DataType<List<DataType<XmlSchemaType>>> inputType = operation.getInputType();
-        List<DataType<XmlSchemaType>> inputParts = inputType.getLogical();
+        List<DataType<XmlSchemaType>> inputParts = operation.getInputType();
         assertEquals(1, inputParts.size());
         
         DataType<XmlSchemaType> inputPart = inputParts.get(0);

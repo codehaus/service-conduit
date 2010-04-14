@@ -101,7 +101,7 @@ public class WsdlResourceProcessor implements ResourceProcessor {
         Map<?, ?> faults = operation.getFaults();
         
         String name = operation.getName();
-        DataType<List<DataType<XmlSchemaType>>> inputType = getInputType(input, xmlSchema);
+        List<DataType<XmlSchemaType>> inputType = getInputType(input, xmlSchema);
         DataType<XmlSchemaType> outputType = getOutputType(output, xmlSchema);
         List<DataType<XmlSchemaType>> faultTypes = getFaultTypes(faults, xmlSchema);
         
@@ -149,7 +149,7 @@ public class WsdlResourceProcessor implements ResourceProcessor {
      * Get the input type.
      */
     @SuppressWarnings("unchecked")
-    private DataType<List<DataType<XmlSchemaType>>> getInputType(Input input, XmlSchemaCollection xmlSchema) {
+    private List<DataType<XmlSchemaType>> getInputType(Input input, XmlSchemaCollection xmlSchema) {
         
         if(input == null) return null;
         
@@ -165,7 +165,7 @@ public class WsdlResourceProcessor implements ResourceProcessor {
             }        
         }
         
-        return new DataType<List<DataType<XmlSchemaType>>>(Object.class, types);
+        return types;
         
     }
 

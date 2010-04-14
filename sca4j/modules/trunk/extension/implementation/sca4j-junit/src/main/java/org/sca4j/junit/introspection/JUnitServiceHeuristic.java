@@ -98,7 +98,7 @@ public class JUnitServiceHeuristic implements HeuristicProcessor<JUnitImplementa
         // if the class implements a single interface, use it, otherwise the contract is the class itself
         Set<Class<?>> interfaces = helper.getImplementedInterfaces(implClass);
         if (interfaces.size() > 1) {
-            for (Class interfaze : interfaces) {
+            for (Class<?> interfaze : interfaces) {
                 if (interfaze.getCanonicalName().endsWith("Test")) {
                     continue;
                 }
@@ -113,13 +113,13 @@ public class JUnitServiceHeuristic implements HeuristicProcessor<JUnitImplementa
         return new ServiceDefinition(contract.getInterfaceName(), contract);
     }
 
-    private static final DataType<List<DataType<Type>>> INPUT_TYPE;
+    private static final List<DataType<Type>> INPUT_TYPE;
     private static final DataType<Type> OUTPUT_TYPE;
     private static final List<DataType<Type>> FAULT_TYPE;
 
     static {
         List<DataType<Type>> paramDataTypes = Collections.emptyList();
-        INPUT_TYPE = new DataType<List<DataType<Type>>>(Object[].class, paramDataTypes);
+        INPUT_TYPE = paramDataTypes;
         OUTPUT_TYPE = new DataType<Type>(void.class, void.class);
         FAULT_TYPE = Collections.emptyList();
     }

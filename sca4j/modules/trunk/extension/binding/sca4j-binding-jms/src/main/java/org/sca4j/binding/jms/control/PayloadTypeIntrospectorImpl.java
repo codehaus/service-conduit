@@ -88,11 +88,11 @@ public class PayloadTypeIntrospectorImpl implements PayloadTypeIntrospector {
         if (operation.getIntents().contains(DATABINDING_INTENT)) {
             return PayloadType.TEXT;
         }
-        DataType<List<DataType<T>>> inputType = operation.getInputType();
-        if (inputType.getLogical().size() == 1) {
-            DataType<?> param = inputType.getLogical().get(0);
+        List<DataType<T>> inputType = operation.getInputType();
+        if (inputType.size() == 1) {
+            DataType<?> param = inputType.get(0);
             Type physical = param.getPhysical();
-            if (physical instanceof Class) {
+            if (physical instanceof Class<?>) {
                 Class<?> clazz = (Class<?>) physical;
                 if (clazz.isPrimitive()) {
                     return calculatePrimitivePayloadType(clazz);

@@ -52,7 +52,6 @@
  */
 package org.sca4j.transform;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,18 +80,6 @@ public class DefaultTransformerRegistry<T extends Transformer> implements Transf
 
     public T getTransformer(DataType<?> source, DataType<?> target) {
         TransformerPair pair = new TransformerPair(source, target);
-        if (keys.indexOf(pair) < 0) {
-            for (TransformerPair pair1 : keys) {
-                if (pair1.target.getLogical() instanceof ParameterizedType) {
-                    ParameterizedType parameterizedType = (ParameterizedType) pair1.target.getLogical();
-                    if (parameterizedType.getActualTypeArguments().length == 2) {
-                        System.err.println(parameterizedType.getActualTypeArguments()[0] + ":" + parameterizedType.getActualTypeArguments()[1]);
-                    }
-                }
-            }
-            boolean foo = true;
-            foo = !foo;
-        }
         return transformers.get(keys.indexOf(pair));
     }
 

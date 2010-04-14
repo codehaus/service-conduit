@@ -226,8 +226,7 @@ public class DefaultContractProcessor implements ContractProcessor {
                 faultDataTypes.add(new DataType<Type>(actualType, actualType));
             }
 
-            DataType<List<DataType<Type>>> inputType = new DataType<List<DataType<Type>>>(Object[].class, paramDataTypes);
-            Operation<Type> operation = new Operation<Type>(name, inputType, returnDataType, faultDataTypes, conversationSequence);
+            Operation<Type> operation = new Operation<Type>(name, paramDataTypes, returnDataType, faultDataTypes, conversationSequence);
 
             if (method.isAnnotationPresent(OneWay.class)) {
                 operation.addIntent(ONEWAY_INTENT);

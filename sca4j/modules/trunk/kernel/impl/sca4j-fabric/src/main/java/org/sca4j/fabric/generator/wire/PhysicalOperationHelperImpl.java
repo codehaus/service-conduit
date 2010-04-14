@@ -76,8 +76,8 @@ public class PhysicalOperationHelperImpl implements PhysicalOperationHelper {
         Type returnType = o.getOutputType().getPhysical();
         operation.setReturnType(getClassName(returnType));
 
-        DataType<List<? extends DataType<?>>> params = o.getInputType();
-        for (DataType<?> param : params.getLogical()) {
+        List<? extends DataType<?>> params = o.getInputType();
+        for (DataType<?> param : params) {
             Type paramType = param.getPhysical();
             operation.addParameter(getClassName(paramType));
         }
