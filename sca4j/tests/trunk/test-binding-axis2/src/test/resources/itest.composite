@@ -63,7 +63,7 @@
         <reference name="service">
             <binding.ws uri="${host.url}/echoService" sca4j:impl="axis2"/>
             <operation name="echoWsUsernameToken"  requires="sca:authentication.message"/>
-            <operation name="echoWsX509Token"  requires="sca:authentication.message"/>
+            <!-- operation name="echoWsX509Token"  requires="sca:authentication.message"/-->
         </reference>
         <reference name="faultService">
             <binding.ws uri="${host.url}/faultService" sca4j:impl="axis2">
@@ -79,7 +79,7 @@
         <service name="Axis2EchoService">
             <binding.ws uri="echoService" sca4j:impl="axis2"/>
             <operation name="echoWsUsernameToken"  requires="sca:authentication.message"/>
-            <operation name="echoWsX509Token"  requires="sca:authentication.message"/>
+            <!-- operation name="echoWsX509Token"  requires="sca:authentication.message"/-->
             <operation name="echoNoSecurity" requires="sca4j:audit.message"/>
         </service>
     </component>
