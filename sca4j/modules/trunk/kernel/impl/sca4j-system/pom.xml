@@ -48,14 +48,6 @@
             <version>0.9.1-SNAPSHOT</version>
         </dependency>
 
-        <!-- mark the API as provided as it is included in Java6 -->
-        <dependency>
-            <groupId>stax</groupId>
-            <artifactId>stax-api</artifactId>
-            <version>1.0</version>
-            <scope>provided</scope>
-        </dependency>
-
         <dependency>
             <groupId>org.easymock</groupId>
             <artifactId>easymockclassextension</artifactId>

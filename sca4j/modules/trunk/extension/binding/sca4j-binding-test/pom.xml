@@ -38,13 +38,6 @@
         </dependency>
 
         <dependency>
-            <groupId>stax</groupId>
-            <artifactId>stax-api</artifactId>
-            <!-- use version 1.0 as it is the version bundled in JDK 6 -->
-            <version>1.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>

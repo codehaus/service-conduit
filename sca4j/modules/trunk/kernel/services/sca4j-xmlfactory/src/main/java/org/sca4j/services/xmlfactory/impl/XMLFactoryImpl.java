@@ -56,8 +56,6 @@ import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
 
-import org.oasisopen.sca.annotation.Constructor;
-import org.oasisopen.sca.annotation.Property;
 import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.host.expression.ExpressionExpander;
 import org.sca4j.services.xmlfactory.XMLFactory;
@@ -71,21 +69,10 @@ import org.sca4j.services.xmlfactory.XMLFactoryInstantiationException;
  */
 public final class XMLFactoryImpl implements XMLFactory {
 
-    private final String inputFactoryName;
-    private final String outputFactoryName;
     private final ClassLoader classLoader = getClass().getClassLoader();
     private ExpressionExpander expressionExpander;
 
-    public XMLFactoryImpl(ExpressionExpander expressionExpander) {
-        this("com.ctc.wstx.stax.WstxInputFactory", "com.ctc.wstx.stax.WstxOutputFactory", expressionExpander);
-    }
-
-    @Constructor
-    public XMLFactoryImpl(@Property(name = "input", required=false)String inputFactoryName,
-                          @Property(name = "output", required=false)String outputFactoryName,
-                          @Reference ExpressionExpander expressionExpander) {
-        this.inputFactoryName = inputFactoryName;
-        this.outputFactoryName = outputFactoryName;
+    public XMLFactoryImpl(@Reference ExpressionExpander expressionExpander) {
         this.expressionExpander = expressionExpander;
     }
 
@@ -95,13 +82,7 @@ public final class XMLFactoryImpl implements XMLFactory {
      * @throws FactoryConfigurationError
      */
     public XMLInputFactory newInputFactoryInstance() throws FactoryConfigurationError {
-        ClassLoader oldCL = Thread.currentThread().getContextClassLoader();
-        Thread.currentThread().setContextClassLoader(classLoader);
-        try {
-            return newInputFactoryInstance(inputFactoryName, classLoader);
-        } finally {
-            Thread.currentThread().setContextClassLoader(oldCL);
-        }
+        return newInputFactoryInstance(classLoader);
     }
 
     /**
@@ -110,35 +91,15 @@ public final class XMLFactoryImpl implements XMLFactory {
      * @throws FactoryConfigurationError
      */
     public XMLOutputFactory newOutputFactoryInstance() throws FactoryConfigurationError {
-        return newOutputFactoryInstance(outputFactoryName, classLoader);
+        return newOutputFactoryInstance(classLoader);
     }
 
-    private XMLInputFactory newInputFactoryInstance(String factoryName, ClassLoader cl)
-            throws XMLFactoryInstantiationException {
-        try {
-            Class<?> clazz = cl.loadClass(factoryName);
-            return new DecoratingInputFactory((XMLInputFactory) clazz.newInstance(), expressionExpander);
-        } catch (InstantiationException ie) {
-            throw new XMLFactoryInstantiationException("Error instantiating factory", factoryName, ie);
-        } catch (IllegalAccessException iae) {
-            throw new XMLFactoryInstantiationException("Error instantiating factory", factoryName, iae);
-        } catch (ClassNotFoundException cnfe) {
-            throw new XMLFactoryInstantiationException("Error loading factory", factoryName, cnfe);
-        }
+    private XMLInputFactory newInputFactoryInstance(ClassLoader cl) throws XMLFactoryInstantiationException {
+        return new DecoratingInputFactory(XMLInputFactory.newInstance(), expressionExpander);
     }
 
-    private XMLOutputFactory newOutputFactoryInstance(String factoryName, ClassLoader cl)
-            throws FactoryConfigurationError {
-        try {
-            Class<?> clazz = cl.loadClass(factoryName);
-            return (XMLOutputFactory) clazz.newInstance();
-        } catch (InstantiationException ie) {
-            throw new XMLFactoryInstantiationException("Error instantiating factory", factoryName, ie);
-        } catch (IllegalAccessException iae) {
-            throw new XMLFactoryInstantiationException("Error instantiating factory", factoryName, iae);
-        } catch (ClassNotFoundException cnfe) {
-            throw new XMLFactoryInstantiationException("Error loading factory", factoryName, cnfe);
-        }
+    private XMLOutputFactory newOutputFactoryInstance(ClassLoader cl) throws FactoryConfigurationError {
+        return XMLOutputFactory.newInstance();
     }
 
 }

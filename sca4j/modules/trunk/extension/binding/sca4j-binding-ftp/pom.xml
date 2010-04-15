@@ -45,12 +45,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>stax</groupId>
-            <artifactId>stax-api</artifactId>
-            <!-- use version 1.0 as it is the version bundled in JDK 6 -->
-            <version>1.0</version>
-        </dependency>
-        <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
             <version>1.4.1</version>
@@ -66,12 +60,12 @@
             <scope>test</scope>
         </dependency>
         
-        <dependency>
+        <!--dependency>
             <groupId>org.codehaus.woodstox</groupId>
             <artifactId>wstx-asl</artifactId>
             <scope>test</scope>
             <version>3.2.2</version>
-        </dependency>
+        </dependency-->
     </dependencies>
 
 </project>

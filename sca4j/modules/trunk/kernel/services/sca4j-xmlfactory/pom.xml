@@ -39,22 +39,13 @@
             <version>0.9.1-SNAPSHOT</version>
         </dependency>
 
-        <!-- mark the API as provided as it is included in Java6 -->
-        <dependency>
-            <groupId>stax</groupId>
-            <artifactId>stax-api</artifactId>
-            <version>1.0</version>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- default implementation is Woodstox -->
-        <dependency>
+        <!--dependency>
             <groupId>org.codehaus.woodstox</groupId>
             <artifactId>wstx-asl</artifactId>
+            <scope>test</scope>
             <version>3.2.2</version>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
+        </dependency-->
 
         <dependency>
             <groupId>junit</groupId>

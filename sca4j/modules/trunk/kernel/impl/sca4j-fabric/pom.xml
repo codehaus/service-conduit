@@ -118,12 +118,12 @@
             <scope>provided</scope>
         </dependency>
         
-        <dependency>
+        <!--dependency>
             <groupId>org.codehaus.woodstox</groupId>
             <artifactId>wstx-asl</artifactId>
+            <scope>test</scope>
             <version>3.2.2</version>
-            <scope>provided</scope>
-        </dependency>
+        </dependency-->
 
         <dependency>
             <groupId>junit</groupId>

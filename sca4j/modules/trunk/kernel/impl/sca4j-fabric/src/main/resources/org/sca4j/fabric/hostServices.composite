@@ -60,8 +60,6 @@
 
     <component name="XMLFactory">
         <sca4j:implementation.system class="org.sca4j.services.xmlfactory.impl.XMLFactoryImpl"/>
-        <property name="input">com.ctc.wstx.stax.WstxInputFactory</property>
-        <property name="output">com.ctc.wstx.stax.WstxOutputFactory</property>
     </component>
 
     <component name="Allocator">
