@@ -35,7 +35,7 @@
         <dependency>
             <groupId>org.apache.ws.security</groupId>
             <artifactId>wss4j</artifactId>
-            <version>1.5.4</version>
+            <version>1.5.7</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>

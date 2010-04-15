@@ -109,6 +109,7 @@
                             <ramp:property name="org.apache.ws.security.crypto.merlin.keystore.type">JKS</ramp:property>
                             <ramp:property name="org.apache.ws.security.crypto.merlin.file">sca4j.keystore</ramp:property>
                             <ramp:property name="org.apache.ws.security.crypto.merlin.keystore.password">changeit</ramp:property>
+                            <ramp:property name="org.apache.ws.security.crypto.merlin.load.cacerts">false</ramp:property>
                         </ramp:crypto>
                     </ramp:signatureCrypto>
                 </ramp:RampartConfig>
@@ -169,6 +170,7 @@
                         <ramp:property name="org.apache.ws.security.crypto.merlin.keystore.type">JKS</ramp:property>
                         <ramp:property name="org.apache.ws.security.crypto.merlin.file">sca4j.keystore</ramp:property>
                         <ramp:property name="org.apache.ws.security.crypto.merlin.keystore.password">changeit</ramp:property>
+                        <ramp:property name="org.apache.ws.security.crypto.merlin.load.cacerts">false</ramp:property>
                     </ramp:crypto>
                 </ramp:signatureCrypto>
             </ramp:RampartConfig>
