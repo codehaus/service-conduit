@@ -24,15 +24,15 @@
            name="Wsdl2Java" 
            autowire="true">
 
-    <!-- component name="StockQuoteTest">
+    <component name="StockQuoteTest3">
         <sca4j:junit class="org.sca4j.tests.idl.wsdl.StockQuotePortTypeImplITest"/>
-        <reference name="StockQuotePortType">
+        <reference name="stockQuotePortType">
             <interface.wsdl interface="stock:StockQuotePortType" />
         </reference>
     </component>
 
-    <component name="StockQuoteService">
+    <component name="StockQuoteService3">
         <implementation.java class="org.sca4j.tests.idl.wsdl.StockQuotePortTypeImpl"/>
-    </component-->
+    </component>
     
 </composite>
