@@ -103,6 +103,7 @@ import org.sca4j.scdl.ComponentService;
 import org.sca4j.scdl.Implementation;
 import org.sca4j.scdl.Property;
 import org.sca4j.scdl.PropertyValue;
+import org.sca4j.scdl.ServiceContract;
 
 /**
  * Loads a component definition from an XML-based assembly file
@@ -216,8 +217,7 @@ public class ComponentLoader implements TypeLoader<ComponentDefinition<?>> {
                               AbstractComponentType<?, ?, ?, ?> componentType,
                               XMLStreamReader reader,
                               IntrospectionContext context) throws XMLStreamException {
-        ComponentService service;
-        service = serviceLoader.load(reader, context);
+        ComponentService service = serviceLoader.load(reader, context);
         if (service == null) {
             // there was an error with the service configuration, just skip it
             return;
@@ -233,6 +233,16 @@ public class ComponentLoader implements TypeLoader<ComponentDefinition<?>> {
             DuplicateComponentService failure = new DuplicateComponentService(id, componentDefinition.getName(), reader);
             context.addError(failure);
         } else {
+            if (service.getServiceContract() != null) {
+                // TODO perform compatibility check.
+                // ServiceContract typeServiceContract = componentType.getServices().get(service.getName()).getServiceContract();
+                // ServiceContract componentServiceContract = service.getServiceContract();
+                // if (typeServiceContract.isAssignableFrom(componentServiceContract)) {
+                //    IncompatibleContract failure = new IncompatibleContract("Contract for service on component is not compatible with the contract on the type");
+                //    context.addError(failure);
+                //    return;
+                //}
+            }
             componentDefinition.add(service);
         }
     }
@@ -241,8 +251,7 @@ public class ComponentLoader implements TypeLoader<ComponentDefinition<?>> {
                                 AbstractComponentType<?, ?, ?, ?> componentType,
                                 XMLStreamReader reader,
                                 IntrospectionContext context) throws XMLStreamException {
-        ComponentReference reference;
-        reference = referenceLoader.load(reader, context);
+        ComponentReference reference = referenceLoader.load(reader, context);
         if (reference == null) {
             // there was an error with the reference configuration, just skip it
             return;
@@ -258,6 +267,16 @@ public class ComponentLoader implements TypeLoader<ComponentDefinition<?>> {
             DuplicateComponentReference failure = new DuplicateComponentReference(refKey, componentDefinition.getName(), reader);
             context.addError(failure);
         } else {
+            if (reference.getServiceContract() != null) {
+                // TODO perform compatibility check.
+                // ServiceContract typeReferenceContract = componentType.getReferences().get(service.getName()).getServiceContract();
+                // ServiceContract componentReferenceContract = reference.getServiceContract();
+                // if (typeReferenceContract.isAssignableFrom(componentReferenceContract)) {
+                //    IncompatibleContract failure = new IncompatibleContract("Contract for reference on component is not compatible with the contract on the type");
+                //    context.addError(failure);
+                //    return;
+                //}
+            }
             componentDefinition.add(reference);
         }
     }

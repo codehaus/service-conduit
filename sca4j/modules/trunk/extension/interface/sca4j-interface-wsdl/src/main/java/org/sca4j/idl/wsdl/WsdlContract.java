@@ -71,11 +71,6 @@
 
 package org.sca4j.idl.wsdl;
 
-import java.util.List;
-
-import javax.xml.namespace.QName;
-
-import org.sca4j.scdl.Operation;
 import org.sca4j.scdl.ServiceContract;
 
 /**
@@ -85,23 +80,9 @@ import org.sca4j.scdl.ServiceContract;
  */
 public class WsdlContract extends ServiceContract {
 
-    private QName qname;
-    private List<Operation> operations;
-
-    public boolean isAssignableFrom(ServiceContract serviceContract) {
-        return serviceContract.getOperations().size() == operations.size(); // TODO this is just a hack
-    }
-
+    @Override
     public String getQualifiedInterfaceName() {
-        return qname.toString();
-    }
-
-    public void setQname(QName qname) {
-        this.qname = qname;
-    }
-
-    public void setOperations(List<Operation> operations) {
-        this.operations = operations;
+        return getPortTypeName().toString();
     }
     
 }

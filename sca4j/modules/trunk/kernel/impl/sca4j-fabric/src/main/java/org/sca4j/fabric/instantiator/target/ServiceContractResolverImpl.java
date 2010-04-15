@@ -34,6 +34,11 @@ import org.sca4j.spi.util.UriHelper;
 public class ServiceContractResolverImpl implements ServiceContractResolver {
 
     public ServiceContract determineContract(LogicalService service) {
+        
+        if (service.getComponentService() != null && service.getComponentService().getServiceContract() != null) {
+            return service.getComponentService().getServiceContract();
+        }
+        
         ServiceContract contract = service.getDefinition().getServiceContract();
         if (contract != null) {
             return contract;
@@ -68,6 +73,11 @@ public class ServiceContractResolverImpl implements ServiceContractResolver {
     }
 
     public ServiceContract determineContract(LogicalReference reference) {
+        
+        if (reference.getComponentReference() != null && reference.getComponentReference().getServiceContract() != null) {
+            return reference.getComponentReference().getServiceContract();
+        }
+        
         ServiceContract contract = reference.getDefinition().getServiceContract();
         if (contract != null) {
             return contract;

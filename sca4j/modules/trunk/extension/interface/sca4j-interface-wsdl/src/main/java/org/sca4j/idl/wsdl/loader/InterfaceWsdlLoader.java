@@ -87,6 +87,7 @@ import org.sca4j.introspection.xml.LoaderRegistry;
 import org.sca4j.introspection.xml.LoaderUtil;
 import org.sca4j.introspection.xml.MissingAttribute;
 import org.sca4j.introspection.xml.TypeLoader;
+import org.sca4j.scdl.DefaultValidationContext;
 import org.sca4j.spi.services.contribution.MetaDataStore;
 import org.sca4j.spi.services.contribution.MetaDataStoreException;
 
@@ -116,8 +117,9 @@ public class InterfaceWsdlLoader implements TypeLoader<WsdlContract>, Constants 
     public WsdlContract load(XMLStreamReader reader, IntrospectionContext context) throws XMLStreamException {
 
         WsdlContract wsdlContract = new WsdlContract();
-        
         String interfaze = reader.getAttributeValue(null, "interface");
+        LoaderUtil.skipToEndElement(reader);
+        
         if (interfaze == null) {
             MissingAttribute failure = new MissingAttribute("Interface attribute is required", "interface", reader);
             context.addError(failure);
@@ -125,10 +127,10 @@ public class InterfaceWsdlLoader implements TypeLoader<WsdlContract>, Constants 
         }
         
         QName interfaceQName = LoaderUtil.getQName(interfaze, context.getTargetNamespace(), reader.getNamespaceContext());
-        wsdlContract.setQname(interfaceQName);
+        wsdlContract.setPortTypeName(interfaceQName);
         
         try {
-            PortTypeResourceElement resourceElement = metaDataStore.resolve(interfaceQName, PortTypeResourceElement.class);
+            PortTypeResourceElement resourceElement = metaDataStore.resolve(context.getContributionUri(), PortTypeResourceElement.class, interfaceQName, new DefaultValidationContext());
             wsdlContract.setOperations(resourceElement.getOperations());
         } catch (MetaDataStoreException e) {
             InvalidWsdlElement failure = new InvalidWsdlElement(e.getMessage(), interfaceQName, reader);

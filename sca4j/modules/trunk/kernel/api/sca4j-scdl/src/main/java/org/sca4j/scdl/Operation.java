@@ -97,6 +97,7 @@ public class Operation extends AbstractPolicyAware {
     private List<DataType> faultTypes;
     private int conversationSequence = NO_CONVERSATION;
     private Map<QName, Map<String, String>> info;
+    private String wsdlName;
 
     /**
      * Construct a minimally-specified operation
@@ -130,6 +131,24 @@ public class Operation extends AbstractPolicyAware {
     }
 
     /**
+     * Gets the optional WSDL name of the operation.
+     * 
+     * @return Optional WSDL name of the operation.
+     */
+    public String getWsdlName() {
+        return wsdlName;
+    }
+
+    /**
+     * Sets the optional WSDL name of the operation.
+     * 
+     * @param wsdlName Optional WSDL name of the operation.
+     */
+    public void setWsdlName(String wsdlName) {
+        this.wsdlName = wsdlName;
+    }
+
+    /**
      * Returns the name of the operation.
      *
      * @return the name of the operation
@@ -154,7 +173,7 @@ public class Operation extends AbstractPolicyAware {
      *
      * @return the data types of the parameters passed to the operation
      */
-    public List<DataType> getInputType() {
+    public List<DataType> getInputTypes() {
         return inputType;
     }
 

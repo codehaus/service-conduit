@@ -103,11 +103,15 @@ public class WsdlResourceProcessor implements ResourceProcessor {
         Map<?, ?> faults = operation.getFaults();
         
         String name = operation.getName();
+        
         List<DataType> inputType = getInputType(input, xmlSchema);
         DataType outputType = getOutputType(output, xmlSchema);
         List<DataType> faultTypes = getFaultTypes(faults, xmlSchema);
         
-        return new Operation(name, inputType, outputType, faultTypes);
+        Operation op = new Operation(name, inputType, outputType, faultTypes);
+        op.setWsdlName(name);
+        
+        return op;
         
     }
     

@@ -435,8 +435,7 @@ public class PhysicalWireGeneratorImpl implements PhysicalWireGenerator {
 
     }
 
-    private <S extends LogicalComponent<?>> URI generateCallbackUri(S source, ServiceContract contract, String sourceName)
-            throws CallbackServiceNotFoundException {
+    private <S extends LogicalComponent<?>> URI generateCallbackUri(S source, ServiceContract contract, String sourceName) throws CallbackServiceNotFoundException {
         LogicalService candidate = null;
         for (LogicalService entry : source.getServices()) {
             if (contract.isAssignableFrom(entry.getDefinition().getServiceContract())) {

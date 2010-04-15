@@ -71,7 +71,11 @@
 package org.sca4j.scdl;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.xml.namespace.QName;
 
 /**
  * Base class representing service contract information
@@ -79,14 +83,33 @@ import java.util.List;
  * @version $Rev: 5224 $ $Date: 2008-08-19 19:07:18 +0100 (Tue, 19 Aug 2008) $
  */
 public abstract class ServiceContract extends ModelObject {
-    private static final long serialVersionUID = 7930416351019873131L;
+    
     protected boolean conversational;
     protected boolean remotable;
     protected String interfaceName;
     protected List<Operation> operations;
     protected ServiceContract callbackContract;
+    protected QName portTypeName;
 
     protected ServiceContract() {
+    }
+    
+    /**
+     * Gets the WSDL port type name if one is present.
+     * 
+     * @return WSDL port type name.
+     */
+    public QName getPortTypeName() {
+        return portTypeName;
+    }
+    
+    /**
+     * Sets the WSDL port type name if one is present.
+     * 
+     * @param portTypeName WSDL Port type name.
+     */
+    public void setPortTypeName(QName portTypeName) {
+        this.portTypeName = portTypeName;
     }
 
     /**
@@ -189,16 +212,71 @@ public abstract class ServiceContract extends ModelObject {
      * @param contract the contract to test compatibility with
      * @return true if the contracts are compatible
      */
-    public abstract boolean isAssignableFrom(ServiceContract contract);
+    public boolean isAssignableFrom(ServiceContract contract) {
+        
+        //compare contract operations
+        List<Operation> theirOperations = contract.getOperations();
+        Map<String, Operation> theirOperationNames = new HashMap<String, Operation>();
+        
+        for (Operation o : theirOperations) {
+            if (o.getWsdlName() == null) {
+                return false;
+            }
+            theirOperationNames.put(o.getWsdlName(), o);
+        }
+        
+        for (Operation o : getOperations()) {
+            
+            if (o.getWsdlName() == null) {
+                return false;
+            }
+            
+            Operation theirs = theirOperationNames.remove(o.getWsdlName());
+            if (theirs == null) {
+                return false;
+            }
+            
+            List<DataType> myParams = o.getInputTypes();
+            List<DataType> theirParams = theirs.getInputTypes();
+
+            if (myParams.size() == theirParams.size()) {
+                for (int i = 0; i < myParams.size(); i++) {
+                    if (!compareTypes(myParams.get(i), theirParams.get(i))) {
+                        return false;
+                    }
+                }
+            } else {
+                return false;
+            }
+
+            if (!compareTypes(o.getOutputType(), theirs.getOutputType())) {
+                return false;
+            }
+
+            List<DataType> theirFaults = theirs.getFaultTypes();
+            List<DataType> faults = o.getFaultTypes();
+            for (DataType theirFault : theirFaults) {
+                boolean matches = false;
+                for (DataType myFault : faults) {
+                    if (compareTypes(theirFault, myFault)) {
+                        matches = true;
+                        break;
+                    }
+                }
+                if (!matches) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
     public abstract String getQualifiedInterfaceName();
 
-    public String toString() {
-        if (interfaceName != null) {
-            return new StringBuilder().append("ServiceContract[").append(interfaceName).append("]").toString();
-        } else {
-            return super.toString();
-        }
-
+    private boolean compareTypes(DataType mine, DataType theirs) {
+        QName myType = mine.getXsdType();
+        QName theirType = theirs.getXsdType();
+        return myType != null && theirType != null && myType.equals(theirType);
     }
+    
 }

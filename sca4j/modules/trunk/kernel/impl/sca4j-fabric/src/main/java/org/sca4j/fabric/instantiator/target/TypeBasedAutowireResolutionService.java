@@ -75,7 +75,8 @@ public class TypeBasedAutowireResolutionService implements TargetResolutionServi
                 return;
             }
 
-            if (componentReference.isAutowire()) {
+            Autowire autowire = calculateAutowire(compositeComponent, component);
+            if (autowire == Autowire.ON) {
                 ReferenceDefinition referenceDefinition = logicalReference.getDefinition();
                 ServiceContract requiredContract = referenceDefinition.getServiceContract();
                 boolean resolved = resolveByType(component.getParent(), component, logicalReference, requiredContract, change);
@@ -136,6 +137,9 @@ public class TypeBasedAutowireResolutionService implements TargetResolutionServi
                     break;
                 }
                 parentDefinition = composite.getDefinition();
+                if (parentDefinition == null) {
+                    break;
+                }
                 parentType = parentDefinition.getImplementation().getComponentType();
             }
         }

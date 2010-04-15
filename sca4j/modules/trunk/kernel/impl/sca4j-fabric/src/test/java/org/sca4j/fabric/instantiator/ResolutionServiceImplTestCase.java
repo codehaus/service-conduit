@@ -69,6 +69,7 @@ import org.sca4j.fabric.instantiator.target.TargetResolutionService;
 import org.sca4j.fabric.instantiator.target.TypeBasedAutowireResolutionService;
 import org.sca4j.introspection.impl.contract.JavaServiceContract;
 import org.sca4j.scdl.AbstractComponentType;
+import org.sca4j.scdl.Autowire;
 import org.sca4j.scdl.ComponentDefinition;
 import org.sca4j.scdl.ComponentReference;
 import org.sca4j.scdl.Composite;
@@ -179,6 +180,7 @@ public class ResolutionServiceImplTestCase extends TestCase {
                                                            Class<?> sourceClass,
                                                            Class<?> targetClass) {
         LogicalCompositeComponent composite = createComposite("composite", parent);
+        composite.getDefinition().getImplementation().getComponentType().setAutowire(Autowire.ON);
         LogicalComponent<?> source = createSourceAtomic(sourceClass, composite);
         composite.addComponent(source);
         Composite type = composite.getDefinition().getImplementation().getComponentType();

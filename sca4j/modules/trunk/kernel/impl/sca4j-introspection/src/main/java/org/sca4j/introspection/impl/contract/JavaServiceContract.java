@@ -70,16 +70,12 @@
  */
 package org.sca4j.introspection.impl.contract;
 
-import java.io.Serializable;
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.sca4j.scdl.DataType;
-import org.sca4j.scdl.Operation;
 import org.sca4j.scdl.ServiceContract;
 
 /**
@@ -90,9 +86,6 @@ import org.sca4j.scdl.ServiceContract;
 public class JavaServiceContract extends ServiceContract {
 
     private static final long serialVersionUID = -7360275776965712638L;
-    // NOTE: this class cannot reference the actual Java class it represents as #isAssignableFrom may be performed
-    // accross classloaders. This class may also be deserialized as part of a domain assembly in a context where the
-    // Java class may not be present on the classpath.
     private String interfaceClass;
     private List<String> interfaces;
     private String superType;
@@ -154,10 +147,8 @@ public class JavaServiceContract extends ServiceContract {
         if (JavaServiceContract.class.isInstance(contract)) {
             return isJavaAssignableFrom(JavaServiceContract.class.cast(contract));
         } else {
-            return isNonJavaAssignableFrom(contract);
+            return super.isAssignableFrom(contract);
         }
-    // TODO handle the case where the contract is defined using a different IDL
-    //return false;
     }
 
     private boolean isJavaAssignableFrom(JavaServiceContract contract) {
@@ -184,92 +175,8 @@ public class JavaServiceContract extends ServiceContract {
 
     }
 
-    @SuppressWarnings("unchecked")
-    private boolean isNonJavaAssignableFrom(ServiceContract contract) {
-        
-        //compare contract operations
-        List<Operation> theirOperations = contract.getOperations();
-        Map<String, Operation> theirOperationNames = new HashMap<String, Operation>();
-        
-        for (Operation o : theirOperations) {
-            theirOperationNames.put(o.getName(), o);
-        }
-        
-        for (Operation o : getOperations()) {
-            
-            Operation theirs = theirOperationNames.remove(o.getName());
-            if (theirs == null) {
-                return false;
-            }
-            
-            //if (!compareTypes(o.getInputType(), theirs.getInputType())) {
-            //    return false;
-            //}
-            
-            List<DataType> myParams = o.getInputType();
-            List<DataType> theirParams = theirs.getInputType();
-
-            if (myParams.size() == theirParams.size()) {
-                for (int i = 0; i < myParams.size(); i++) {
-                    if (!compareTypes(myParams.get(i), theirParams.get(i))) {
-                        return false;
-                    }
-                }
-            } else {
-                return false;
-            }
-
-            if (!compareTypes(o.getOutputType(), theirs.getOutputType())) {
-                return false;
-            }
-
-            List<DataType> theirFaults = theirs.getFaultTypes();
-            List<DataType> faults = o.getFaultTypes();
-            for (DataType theirFault : theirFaults) {
-                boolean matches = false;
-                for (DataType myFault : faults) {
-                    if (compareTypes(theirFault, myFault)) {
-                        matches = true;
-                        break;
-                    }
-                }
-                if (!matches) {
-                    return false;
-                }
-            }
-        }
-        return true;
-
-
-    }
-
-    private boolean compareTypes(DataType mine, DataType theirs) {
-        Type myType = mine.getJavaType();
-        Type theirType = theirs.getJavaType();
-        if (myType instanceof Class && theirType instanceof Class) {
-            Class myClass = (Class) myType;
-            Class theirClass = (Class) theirType;
-            if (myClass.isPrimitive()){
-                myClass = PRIMITIVE_TYPES.get(myClass);
-            }
-            if (theirClass.isPrimitive()){
-                theirClass = PRIMITIVE_TYPES.get(theirClass);
-            }
-            if (!theirClass.isAssignableFrom(myClass)) {
-                return false;
-            }
-        } else {
-            return false;
-        }
-        return true;
-
-    }
-
-    /**
+    /*
      * Adds all interfaces implemented/extended by the class, including those of its ancestors.
-     *
-     * @param interfaze  the class to introspect
-     * @param interfaces the collection of interfaces to add to
      */
     private void addInterfaces(Class<?> interfaze, List<String> interfaces) {
         for (Class<?> superInterface : interfaze.getInterfaces()) {
@@ -280,9 +187,8 @@ public class JavaServiceContract extends ServiceContract {
         }
     }
 
-    private class MethodSignature implements Serializable {
+    private class MethodSignature {
 
-        private static final long serialVersionUID = 8945587852354777957L;
         String name;
         List<String> parameters;
         String returnType;

@@ -110,7 +110,7 @@ public class WsdlResourceProcessorTest extends TestCase {
         Operation operation = (Operation) operations.get(0);
         assertEquals("GetLastTradePrice", operation.getName());
         
-        List<DataType> inputParts = operation.getInputType();
+        List<DataType> inputParts = operation.getInputTypes();
         assertEquals(1, inputParts.size());
         
         DataType inputPart = inputParts.get(0);

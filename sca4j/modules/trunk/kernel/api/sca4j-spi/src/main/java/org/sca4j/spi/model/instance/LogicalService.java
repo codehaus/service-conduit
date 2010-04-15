@@ -58,6 +58,7 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.oasisopen.sca.Constants;
+import org.sca4j.scdl.ComponentService;
 import org.sca4j.scdl.ServiceDefinition;
 
 /**
@@ -154,4 +155,12 @@ public class LogicalService extends Bindable {
         definition.addPolicySets(policySets);
     }
 
+    /**
+     * Gets the component service for this logical service.
+     * 
+     * @return Component service if one was defined, otherwise null.
+     */
+    public ComponentService getComponentService() {
+        return getParent().getDefinition().getServices().get(getDefinition().getName());
+    }
 }

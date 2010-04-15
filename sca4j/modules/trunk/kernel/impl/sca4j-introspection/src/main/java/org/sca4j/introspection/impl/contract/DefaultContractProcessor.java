@@ -78,6 +78,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jws.WebService;
 import javax.xml.namespace.QName;
 
 import org.oasisopen.sca.Constants;
@@ -137,6 +138,11 @@ public class DefaultContractProcessor implements ContractProcessor {
 
     private JavaServiceContract introspect(TypeMapping typeMapping, Class<?> interfaze, ValidationContext context) {
         JavaServiceContract contract = introspectInterface(typeMapping, interfaze, context);
+        WebService webService = interfaze.getAnnotation(WebService.class);
+        if (webService != null) {
+            QName portTypeName = new QName(webService.targetNamespace(), webService.name());
+            contract.setPortTypeName(portTypeName);
+        }
         Callback callback = interfaze.getAnnotation(Callback.class);
         if (callback != null) {
             Class<?> callbackClass = callback.value();
