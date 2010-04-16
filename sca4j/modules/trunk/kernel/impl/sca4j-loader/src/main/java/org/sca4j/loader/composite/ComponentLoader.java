@@ -234,14 +234,13 @@ public class ComponentLoader implements TypeLoader<ComponentDefinition<?>> {
             context.addError(failure);
         } else {
             if (service.getServiceContract() != null) {
-                // TODO perform compatibility check.
-                // ServiceContract typeServiceContract = componentType.getServices().get(service.getName()).getServiceContract();
-                // ServiceContract componentServiceContract = service.getServiceContract();
-                // if (typeServiceContract.isAssignableFrom(componentServiceContract)) {
-                //    IncompatibleContract failure = new IncompatibleContract("Contract for service on component is not compatible with the contract on the type");
-                //    context.addError(failure);
-                //    return;
-                //}
+                 ServiceContract typeContract = componentType.getServices().get(service.getName()).getServiceContract();
+                 ServiceContract definedContract = service.getServiceContract();
+                 if (!typeContract.isAssignableFrom(definedContract)) {
+                    IncompatibleContract failure = new IncompatibleContract(definedContract, typeContract);
+                    context.addError(failure);
+                    return;
+                }
             }
             componentDefinition.add(service);
         }
@@ -268,14 +267,13 @@ public class ComponentLoader implements TypeLoader<ComponentDefinition<?>> {
             context.addError(failure);
         } else {
             if (reference.getServiceContract() != null) {
-                // TODO perform compatibility check.
-                // ServiceContract typeReferenceContract = componentType.getReferences().get(service.getName()).getServiceContract();
-                // ServiceContract componentReferenceContract = reference.getServiceContract();
-                // if (typeReferenceContract.isAssignableFrom(componentReferenceContract)) {
-                //    IncompatibleContract failure = new IncompatibleContract("Contract for reference on component is not compatible with the contract on the type");
-                //    context.addError(failure);
-                //    return;
-                //}
+                ServiceContract typeContract = componentType.getReferences().get(reference.getName()).getServiceContract();
+                ServiceContract definedContract = reference.getServiceContract();
+                if (!typeContract.isAssignableFrom(definedContract)) {
+                   IncompatibleContract failure = new IncompatibleContract(definedContract, typeContract);
+                   context.addError(failure);
+                   return;
+                }
             }
             componentDefinition.add(reference);
         }

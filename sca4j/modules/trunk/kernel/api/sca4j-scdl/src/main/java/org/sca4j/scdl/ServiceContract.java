@@ -270,6 +270,10 @@ public abstract class ServiceContract extends ModelObject {
         }
         return true;
     }
+    
+    public String toString() {
+        return getClass() + " {" + getQualifiedInterfaceName() + "}";
+    }
 
     public abstract String getQualifiedInterfaceName();
 
