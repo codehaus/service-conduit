@@ -126,14 +126,17 @@ public class InterfaceWsdlLoader implements TypeLoader<WsdlContract>, Constants 
             return wsdlContract;
         }
         
-        QName interfaceQName = LoaderUtil.getQName(interfaze, context.getTargetNamespace(), reader.getNamespaceContext());
+        QName interfaceQName = parseInterface(interfaze, context, reader);
+        if (interfaceQName == null) {
+            return null;
+        }
         wsdlContract.setPortTypeName(interfaceQName);
         
         try {
             PortTypeResourceElement resourceElement = metaDataStore.resolve(context.getContributionUri(), PortTypeResourceElement.class, interfaceQName, new DefaultValidationContext());
             wsdlContract.setOperations(resourceElement.getOperations());
         } catch (MetaDataStoreException e) {
-            InvalidWsdlElement failure = new InvalidWsdlElement(e.getMessage(), interfaceQName, reader);
+            InvalidWsdlElement failure = new InvalidWsdlElement(e.getMessage(), interfaze, reader);
             context.addError(failure);
             return wsdlContract;
         }
@@ -142,4 +145,23 @@ public class InterfaceWsdlLoader implements TypeLoader<WsdlContract>, Constants 
 
     }
 
+    private static QName parseInterface(String interfaze, IntrospectionContext context, XMLStreamReader reader) {
+        
+        String wsdlElementType = "wsdl.porttype(";
+        
+        String[] parts = interfaze.split("#");
+        if (parts == null || parts.length != 2) {
+            context.addError(new InvalidWsdlElement("Incorrect interface format", interfaze, reader));
+            return null;
+        }
+        
+        String targetNamespace = parts[0];
+        if (!parts[1].startsWith(wsdlElementType) || !parts[1].endsWith(")")) {
+            context.addError(new InvalidWsdlElement("Incorrect interface format", interfaze, reader));
+            return null;
+        }
+        String localPart = parts[1].substring(wsdlElementType.length(), parts[1].lastIndexOf(')'));
+        return new QName(targetNamespace, localPart);
+    }
+    
 }
