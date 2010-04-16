@@ -202,12 +202,10 @@ public class WsdlResourceProcessor implements ResourceProcessor {
      * Create a data type with the XML type for the part.
      */
     private DataType getDataType(QName qName, XmlSchemaCollection xmlSchema) {
-
         // We only support doc-lit
         XmlSchemaElement element = xmlSchema.getElementByQName(qName);
         if(element != null) {
-            System.err.println(qName + ":" + element.getSchemaTypeName());
-            return new XSDElement(element.getQName());
+            return new XSDElement(element.getSchemaTypeName());
         }
         throw new WsdlProcessorException("Unable to find element " + qName);
         

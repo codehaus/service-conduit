@@ -18,16 +18,23 @@
  */
 package org.sca4j.idl.wsdl;
 
+import static javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
+import javax.xml.bind.annotation.XmlSchema;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
 import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Init;
 import org.sca4j.introspection.contract.OperationIntrospector;
 import org.sca4j.scdl.DataType;
 import org.sca4j.scdl.Operation;
@@ -36,6 +43,15 @@ import org.sca4j.scdl.ValidationContext;
 @EagerInit
 public class WsdlOperationIntrospector implements OperationIntrospector {
 
+    private Map<Class<?>, QName> xsdTypes = new HashMap<Class<?>, QName>();
+    
+    @Init
+    public void start() {
+        xsdTypes.put(int.class, new QName(W3C_XML_SCHEMA_NS_URI, "int"));
+        xsdTypes.put(String.class, new QName(W3C_XML_SCHEMA_NS_URI, "string"));
+        // TODO Add more types
+    }
+    
     @Override
     public <T> void introspect(Operation operation, Method method, ValidationContext context) {
         
@@ -46,24 +62,33 @@ public class WsdlOperationIntrospector implements OperationIntrospector {
         
         List<DataType> inputTypes = operation.getInputTypes();
         for (int i = 0; i < inputTypes.size(); i++) {
-            if (method.getParameterAnnotations()[i] == null) {
-                continue;
-            }
-            for (Annotation annotation : method.getParameterAnnotations()[i]) {
-                if (annotation.annotationType() == WebParam.class) {
-                    WebParam webParam = WebParam.class.cast(annotation);
-                    QName xsdType = new QName(webParam.targetNamespace(), webParam.name());
-                    inputTypes.get(i).setXsdType(xsdType);
-                }
-            }
+            Class<?> parameterJavaType = method.getParameterTypes()[i];
+            QName parameterXsdType = getXsdType(parameterJavaType);
+            inputTypes.get(i).setXsdType(parameterXsdType);
         }
         
-        WebResult webResult = method.getAnnotation(WebResult.class);
-        if (webResult != null) {
-            QName xsdType = new QName(webResult.targetNamespace(), webResult.name());
-            operation.getOutputType().setXsdType(xsdType);
-        }
+        Class<?> returnJavaType = method.getReturnType();
+        QName returnXsdType = getXsdType(returnJavaType);
+        operation.getOutputType().setXsdType(returnXsdType);
+        
+    }
 
+    /*
+     * Gets the XSD type for a Java type.
+     */
+    private QName getXsdType(Class<?> javaType) {
+        if (javaType == null) {
+            return null;
+        }
+        QName xsdType = xsdTypes.get(javaType);
+        if (xsdType == null) {
+            XmlType xmlType = javaType.getAnnotation(XmlType.class);
+            XmlSchema xmlSchema = javaType.getPackage().getAnnotation(XmlSchema.class);
+            if (xmlType != null && xmlSchema != null) {
+                xsdType = new QName(xmlSchema.namespace(), xmlType.name());
+            }
+        }
+        return xsdType;
     }
 
 }
