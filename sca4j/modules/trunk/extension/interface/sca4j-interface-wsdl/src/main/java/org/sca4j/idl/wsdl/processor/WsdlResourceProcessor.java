@@ -41,13 +41,11 @@ import javax.xml.namespace.QName;
 
 import org.apache.ws.commons.schema.XmlSchemaCollection;
 import org.apache.ws.commons.schema.XmlSchemaElement;
-import org.apache.ws.commons.schema.XmlSchemaType;
 import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.scdl.DataType;
 import org.sca4j.scdl.Operation;
 import org.sca4j.scdl.ValidationContext;
 import org.sca4j.spi.model.type.XSDElement;
-import org.sca4j.spi.model.type.XSDType;
 import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.Resource;
 import org.sca4j.spi.services.contribution.ResourceProcessor;
@@ -65,6 +63,10 @@ public class WsdlResourceProcessor implements ResourceProcessor {
     public void process(URI contributionUri, Resource resource, ValidationContext context, ClassLoader loader) throws ContributionException {
         
         try {
+            
+            if (resource.isProcessed()) {
+                return;
+            }
             
             WSDLFactory factory = WSDLFactory.newInstance();
             WSDLReader reader = factory.newWSDLReader();
@@ -87,6 +89,8 @@ public class WsdlResourceProcessor implements ResourceProcessor {
                 PortTypeResourceElement resorceElement = new PortTypeResourceElement(portTypeName, portType, schemaCollection, operations);
                 resource.addResourceElement(resorceElement);
             }
+            
+            resource.setProcessed(true);
             
         } catch (WSDLException e) {
             throw new ContributionException(e);
@@ -199,16 +203,13 @@ public class WsdlResourceProcessor implements ResourceProcessor {
      */
     private DataType getDataType(QName qName, XmlSchemaCollection xmlSchema) {
 
-        XmlSchemaType type = xmlSchema.getTypeByQName(qName);
-        if(type != null) {
-            return new XSDType(type.getQName());
-        } else {
-            XmlSchemaElement element = xmlSchema.getElementByQName(qName);
-            if(element != null) {
-                return new XSDElement(element.getQName());
-            }
+        // We only support doc-lit
+        XmlSchemaElement element = xmlSchema.getElementByQName(qName);
+        if(element != null) {
+            System.err.println(qName + ":" + element.getSchemaTypeName());
+            return new XSDElement(element.getQName());
         }
-        throw new WsdlProcessorException("Unable to find type " + qName);
+        throw new WsdlProcessorException("Unable to find element " + qName);
         
     }
 
