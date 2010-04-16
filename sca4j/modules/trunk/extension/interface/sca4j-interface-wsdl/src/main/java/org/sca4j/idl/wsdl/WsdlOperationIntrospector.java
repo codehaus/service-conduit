@@ -20,17 +20,17 @@ package org.sca4j.idl.wsdl;
 
 import static javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebResult;
 import javax.xml.bind.annotation.XmlSchema;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.datatype.Duration;
+import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
 
 import org.oasisopen.sca.annotation.EagerInit;
@@ -47,9 +47,18 @@ public class WsdlOperationIntrospector implements OperationIntrospector {
     
     @Init
     public void start() {
-        xsdTypes.put(int.class, new QName(W3C_XML_SCHEMA_NS_URI, "int"));
         xsdTypes.put(String.class, new QName(W3C_XML_SCHEMA_NS_URI, "string"));
-        // TODO Add more types
+        xsdTypes.put(BigInteger.class, new QName(W3C_XML_SCHEMA_NS_URI, "positiveInteger"));
+        xsdTypes.put(int.class, new QName(W3C_XML_SCHEMA_NS_URI, "int"));
+        xsdTypes.put(long.class, new QName(W3C_XML_SCHEMA_NS_URI, "long"));
+        xsdTypes.put(short.class, new QName(W3C_XML_SCHEMA_NS_URI, "short"));
+        xsdTypes.put(float.class, new QName(W3C_XML_SCHEMA_NS_URI, "float"));
+        xsdTypes.put(double.class, new QName(W3C_XML_SCHEMA_NS_URI, "double"));
+        xsdTypes.put(boolean.class, new QName(W3C_XML_SCHEMA_NS_URI, "boolean"));
+        xsdTypes.put(byte.class, new QName(W3C_XML_SCHEMA_NS_URI, "byte"));
+        xsdTypes.put(QName.class, new QName(W3C_XML_SCHEMA_NS_URI, "QName"));
+        xsdTypes.put(XMLGregorianCalendar.class, new QName(W3C_XML_SCHEMA_NS_URI, "dateTime"));
+        xsdTypes.put(Duration.class, new QName(W3C_XML_SCHEMA_NS_URI, "duration"));
     }
     
     @Override
@@ -80,6 +89,7 @@ public class WsdlOperationIntrospector implements OperationIntrospector {
         if (javaType == null) {
             return null;
         }
+        // TODO check for @XmlSchemaType first
         QName xsdType = xsdTypes.get(javaType);
         if (xsdType == null) {
             XmlType xmlType = javaType.getAnnotation(XmlType.class);
