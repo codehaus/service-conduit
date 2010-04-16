@@ -21,16 +21,16 @@
 <composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912" xmlns:sca4j="urn:sca4j.org" name="Wsdl2Wsdl" autowire="true">
 
     <component name="StockQuoteTest4">
-        <sca4j:junit class="org.sca4j.tests.idl.wsdl.StockQuotePortTypeImplITest"/>
+        <sca4j:junit class="org.sca4j.tests.idl.wsdl.stock.StockQuotePortTypeImplITest"/>
         <reference name="stockQuotePortType">
-            <interface.wsdl interface="http://wsdl.idl.tests.sca4j.org#wsdl.porttype(StockQuotePortType)" />
+            <interface.wsdl interface="http://stock.wsdl.idl.tests.sca4j.org#wsdl.porttype(StockQuotePortType)" />
         </reference>
     </component>
 
     <component name="StockQuoteService4">
-        <implementation.java class="org.sca4j.tests.idl.wsdl.StockQuotePortTypeImpl"/>
+        <implementation.java class="org.sca4j.tests.idl.wsdl.stock.StockQuotePortTypeImpl"/>
         <service name="StockQuotePortType">
-            <interface.wsdl interface="http://wsdl.idl.tests.sca4j.org#wsdl.porttype(StockQuotePortType)" />
+            <interface.wsdl interface="http://stock.wsdl.idl.tests.sca4j.org#wsdl.porttype(StockQuotePortType)" />
         </service>
     </component>
     

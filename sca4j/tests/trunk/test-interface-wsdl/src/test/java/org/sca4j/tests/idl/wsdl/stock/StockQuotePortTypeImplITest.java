@@ -16,7 +16,7 @@
  * This project contains code licensed from the Apache Software Foundation under
  * the Apache License, Version 2.0 and original code from project contributors.
  */
-package org.sca4j.tests.idl.wsdl;
+package org.sca4j.tests.idl.wsdl.stock;
 
 import junit.framework.TestCase;
 

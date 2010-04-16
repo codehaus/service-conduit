@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <definitions name="StockQuote" 
-             targetNamespace="http://wsdl.idl.tests.sca4j.org"
-             xmlns:tns="http://wsdl.idl.tests.sca4j.org"
+             targetNamespace="http://stock.wsdl.idl.tests.sca4j.org"
+             xmlns:tns="http://stock.wsdl.idl.tests.sca4j.org"
              xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
              xmlns="http://schemas.xmlsoap.org/wsdl/">
 
     <types>
-       <schema targetNamespace="http://wsdl.idl.tests.sca4j.org" xmlns="http://www.w3.org/2001/XMLSchema">
+       <schema targetNamespace="http://stock.wsdl.idl.tests.sca4j.org" xmlns="http://www.w3.org/2001/XMLSchema">
            <element name="price" type="int"/>
            <element name="tickerSymbol" type="string"/>
        </schema>
