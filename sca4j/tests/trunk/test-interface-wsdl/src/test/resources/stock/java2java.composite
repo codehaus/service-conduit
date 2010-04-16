@@ -18,17 +18,13 @@
     This project contains code licensed from the Apache Software Foundation under
     the Apache License, Version 2.0 and original code from project contributors.
 -->
-<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912" xmlns:sca4j="urn:sca4j.org" name="Java2Wsdl" autowire="true">
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912" xmlns:sca4j="urn:sca4j.org" name="StockJava2Java" autowire="true">
 
-    <component name="StockQuoteTest2">
+    <component name="StockQuoteTest1">
         <sca4j:junit class="org.sca4j.tests.idl.wsdl.stock.StockQuotePortTypeImplITest"/>
     </component>
 
-    <component name="StockQuoteService2">
+    <component name="StockQuoteService1">
         <implementation.java class="org.sca4j.tests.idl.wsdl.stock.StockQuotePortTypeImpl"/>
-        <service name="StockQuotePortType">
-            <interface.wsdl interface="http://stock.wsdl.idl.tests.sca4j.org#wsdl.porttype(StockQuotePortType)" />
-        </service>
     </component>
-    
 </composite>

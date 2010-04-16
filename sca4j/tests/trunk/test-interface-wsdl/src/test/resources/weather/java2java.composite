@@ -18,17 +18,13 @@
     This project contains code licensed from the Apache Software Foundation under
     the Apache License, Version 2.0 and original code from project contributors.
 -->
-<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912" xmlns:sca4j="urn:sca4j.org" name="Wsdl2Java" autowire="true">
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912" xmlns:sca4j="urn:sca4j.org" name="WeatherJava2Java" autowire="true">
 
-    <component name="StockQuoteTest3">
-        <sca4j:junit class="org.sca4j.tests.idl.wsdl.stock.StockQuotePortTypeImplITest"/>
-        <reference name="stockQuotePortType">
-            <interface.wsdl interface="http://stock.wsdl.idl.tests.sca4j.org#wsdl.porttype(StockQuotePortType)" />
-        </reference>
+    <component name="WeatherTest1">
+        <sca4j:junit class="org.sca4j.tests.idl.wsdl.weather.WeatherPortTypeImplITest"/>
     </component>
 
-    <component name="StockQuoteService3">
-        <implementation.java class="org.sca4j.tests.idl.wsdl.stock.StockQuotePortTypeImpl"/>
+    <component name="WeatherService1">
+        <implementation.java class="org.sca4j.tests.idl.wsdl.weather.WeatherPortTypeImpl"/>
     </component>
-    
 </composite>

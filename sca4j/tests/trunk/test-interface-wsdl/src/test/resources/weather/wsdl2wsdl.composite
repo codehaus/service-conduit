@@ -18,15 +18,20 @@
     This project contains code licensed from the Apache Software Foundation under
     the Apache License, Version 2.0 and original code from project contributors.
 -->
-<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912" xmlns:sca4j="urn:sca4j.org" name="WsdlTestComposite" autowire="true">
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912" xmlns:sca4j="urn:sca4j.org" name="WeatherWsdl2Wsdl" autowire="true">
 
-    <include name="StockJava2Java" />
-    <include name="StockJava2Wsdl" />
-    <include name="StockWsdl2Java" />
-    <include name="StockWsdl2Wsdl" />
-    <include name="WeatherJava2Java" />
-    <include name="WeatherJava2Wsdl" />
-    <include name="WeatherWsdl2Java" />
-    <include name="WeatherWsdl2Wsdl" />
+    <component name="WeatherTest4">
+        <sca4j:junit class="org.sca4j.tests.idl.wsdl.weather.WeatherPortTypeImplITest"/>
+        <reference name="weatherPortType">
+            <interface.wsdl interface="http://weather.wsdl.idl.tests.sca4j.org#wsdl.porttype(WeatherPortType)" />
+        </reference>
+    </component>
+
+    <component name="WeatherService4">
+        <implementation.java class="org.sca4j.tests.idl.wsdl.weather.WeatherPortTypeImpl"/>
+        <service name="WeatherPortType">
+            <interface.wsdl interface="http://weather.wsdl.idl.tests.sca4j.org#wsdl.porttype(WeatherPortType)" />
+        </service>
+    </component>
     
 </composite>
