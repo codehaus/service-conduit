@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<definitions name="Weather" 
+             targetNamespace="http://weather.wsdl.idl.tests.sca4j.org"
+             xmlns:tns="http://weather.wsdl.idl.tests.sca4j.org"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+    <types>
+       <schema targetNamespace="http://weather.wsdl.idl.tests.sca4j.org" xmlns="http://www.w3.org/2001/XMLSchema">         
+            <complexType name="WeatherRequest">
+                <sequence>
+                    <element name="city" type="string"/>
+                    <element name="date" type="dateTime"/>
+                </sequence>
+            </complexType>
+            <complexType name="WeatherResponse">
+                <sequence>
+                    <element name="condition" type="string"/>
+                    <element name="temperatureMaximum" type="double"/>
+                    <element name="temperatureMinimum" type="double"/>
+                </sequence>
+            </complexType>
+            <element name="weatherRequest" type="tns:WeatherRequest" />
+            <element name="weatherResponse" type="tns:WeatherResponse" />
+       </schema>
+    </types>
+
+    <message name="GetWeatherRequest">
+        <part name="request" element="tns:weatherRequest"/>
+    </message>
+
+    <message name="GetWeatherResponse">
+        <part name="body" element="tns:weatherResponse"/>
+    </message>
+
+    <portType name="WeatherPortType">
+        <operation name="GetWeather">
+           <input message="tns:GetWeatherRequest"/>
+           <output message="tns:GetWeatherResponse"/>
+        </operation>
+    </portType>
+
+    <binding name="WeatherSoapBinding" type="tns:WeatherPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+        <operation name="GetWeather">
+           <soap:operation soapAction="http://example.com/GetWeather" />
+           <input>
+               <soap:body use="literal"/>
+           </input>
+           <output>
+               <soap:body use="literal"/>
+           </output>
+        </operation>
+    </binding>
+
+    <service name="WeatherService">
+        <port name="WeatherPort" binding="tns:WeatherSoapBinding">
+           <soap:address location="http://example.com/weather"/>
+        </port>
+    </service>
+    
+    <plnk:partnerLinkType name="weatherPartnerLink">
+        <plnk:role name="weatherService" portType="tns:WeatherPortType" />
+    </plnk:partnerLinkType>
+
+</definitions>
