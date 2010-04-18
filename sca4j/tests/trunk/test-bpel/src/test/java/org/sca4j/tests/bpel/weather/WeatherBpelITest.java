@@ -23,7 +23,6 @@ import junit.framework.TestCase;
 public class WeatherBpelITest extends TestCase {
     
     public void testWeather() {
-        Thread.dumpStack();
     }
 
 }
