@@ -23,10 +23,28 @@ import javax.xml.namespace.QName;
 import org.sca4j.scdl.definitions.AbstractDefinition;
 import org.sca4j.spi.services.contribution.ResourceElement;
 
-public class DefinitionResourceElement extends ResourceElement<QName, AbstractDefinition> {
+public class DefinitionResourceElement extends ResourceElement<QName> {
 
+    private AbstractDefinition definition;
+    
     public DefinitionResourceElement(QName symbol) {
         super(symbol);
     }
+
+    /**
+     * @return the definition
+     */
+    public AbstractDefinition getDefinition() {
+        return definition;
+    }
+
+    /**
+     * @param definition the definition to set
+     */
+    public void setDefinition(AbstractDefinition definition) {
+        this.definition = definition;
+    }
+    
+    
 
 }

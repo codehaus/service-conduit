@@ -127,10 +127,10 @@ public class MetaDataStoreImpl implements MetaDataStore {
      * {@inheritDoc}
      * @see org.sca4j.spi.services.contribution.MetaDataStore#resolve(java.lang.Object, java.lang.Class)
      */
-    public <S, V, RE extends ResourceElement<S, V>> RE resolve(S symbol, Class<RE> resourceElementType) throws MetaDataStoreException {
+    public <S, RE extends ResourceElement<S>> RE resolve(S symbol, Class<RE> resourceElementType) throws MetaDataStoreException {
         for (Contribution contribution : cache.values()) {
             for (Resource resource : contribution.getResources()) {
-                for (ResourceElement<?, ?> element : resource.getResourceElements(resourceElementType)) {
+                for (ResourceElement<?> element : resource.getResourceElements(resourceElementType)) {
                     if (element.getSymbol().equals(symbol)) {
                         if (!resource.isProcessed()) {
                             // this is a programming error as resolve(Symbol) should only be called after contribution resources have been processed
@@ -148,11 +148,11 @@ public class MetaDataStoreImpl implements MetaDataStore {
      * {@inheritDoc}
      * @see org.sca4j.spi.services.contribution.MetaDataStore#resolveContainingResource(java.net.URI, java.lang.Object, java.lang.Class)
      */
-    public <S, V, RE extends ResourceElement<S, V>> Resource resolveContainingResource(URI contributionUri, S symbol, Class<RE> resourceElementType) {
+    public <S, RE extends ResourceElement<S>> Resource resolveContainingResource(URI contributionUri, S symbol, Class<RE> resourceElementType) {
         Contribution contribution = cache.get(contributionUri);
         if (contribution != null) {
             for (Resource resource : contribution.getResources()) {
-                for (ResourceElement<?, ?> element : resource.getResourceElements(resourceElementType)) {
+                for (ResourceElement<?> element : resource.getResourceElements(resourceElementType)) {
                     if (element.getSymbol().equals(symbol)) {
                         return resource;
                     }
@@ -166,7 +166,7 @@ public class MetaDataStoreImpl implements MetaDataStore {
      * {@inheritDoc}
      * @see org.sca4j.spi.services.contribution.MetaDataStore#resolve(java.net.URI, java.lang.Class, java.lang.Object, org.sca4j.scdl.ValidationContext)
      */
-    public <S, V, RE extends ResourceElement<S, V>> RE resolve(URI contributionUri, Class<RE> type, S symbol, ValidationContext context) throws MetaDataStoreException {
+    public <S, RE extends ResourceElement<S>> RE resolve(URI contributionUri, Class<RE> type, S symbol, ValidationContext context) throws MetaDataStoreException {
         Contribution contribution = find(contributionUri);
         if (contribution == null) {
             String identifier = contributionUri.toString();
@@ -208,11 +208,11 @@ public class MetaDataStoreImpl implements MetaDataStore {
         return null;
     }
 
-    private <S, RE extends ResourceElement<?, ?>> RE resolveInternal(Contribution contribution, Class<RE> type, S symbol, ValidationContext context) throws MetaDataStoreException {
+    private <S, RE extends ResourceElement<?>> RE resolveInternal(Contribution contribution, Class<RE> type, S symbol, ValidationContext context) throws MetaDataStoreException {
         URI contributionUri = contribution.getUri();
         ClassLoader loader = getClass().getClassLoader();
         for (Resource resource : contribution.getResources()) {
-            for (ResourceElement<?, ?> element : resource.getResourceElements(type)) {
+            for (ResourceElement<?> element : resource.getResourceElements(type)) {
                 if (element.getSymbol().equals(symbol)) {
                     if (!resource.isProcessed()) {
                         try {

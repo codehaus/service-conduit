@@ -64,7 +64,7 @@ import java.util.List;
  */
 public class Resource implements Serializable {
     
-    private List<ResourceElement<?, ?>> elements = new ArrayList<ResourceElement<?, ?>>();
+    private List<ResourceElement<?>> elements = new ArrayList<ResourceElement<?>>();
     private URL url;
     private boolean processed;
 
@@ -86,7 +86,7 @@ public class Resource implements Serializable {
      *
      * @param element the resourceElement
      */
-    public void addResourceElement(ResourceElement<?, ?> element) {
+    public void addResourceElement(ResourceElement<?> element) {
         elements.add(element);
     }
 
@@ -95,9 +95,9 @@ public class Resource implements Serializable {
      *
      * @return the map of resource elements
      */
-    public <RE extends ResourceElement<?, ?>> List<RE> getResourceElements(Class<RE> resourceElementType) {
+    public <RE extends ResourceElement<?>> List<RE> getResourceElements(Class<RE> resourceElementType) {
         List<RE> resourceElements = new ArrayList<RE>();
-        for (ResourceElement<?, ?> resourceElement : elements) {
+        for (ResourceElement<?> resourceElement : elements) {
             if (resourceElementType.isAssignableFrom(resourceElement.getClass())) {
                 resourceElements.add(resourceElementType.cast(resourceElement));
             }

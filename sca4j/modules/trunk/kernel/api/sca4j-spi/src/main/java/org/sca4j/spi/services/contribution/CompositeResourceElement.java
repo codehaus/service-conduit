@@ -22,10 +22,28 @@ import javax.xml.namespace.QName;
 
 import org.sca4j.scdl.Composite;
 
-public class CompositeResourceElement extends ResourceElement<QName, Composite> {
+public class CompositeResourceElement extends ResourceElement<QName> {
 
+    private Composite composite;
+    
     public CompositeResourceElement(QName symbol) {
         super(symbol);
     }
+
+    /**
+     * @return the composite
+     */
+    public Composite getComposite() {
+        return composite;
+    }
+
+    /**
+     * @param composite the composite to set
+     */
+    public void setComposite(Composite composite) {
+        this.composite = composite;
+    }
+    
+    
 
 }

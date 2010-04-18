@@ -155,7 +155,7 @@ public class CompositeResourceProcessor implements ResourceProcessor {
         boolean found = false;
         for (CompositeResourceElement element : resource.getResourceElements(CompositeResourceElement.class)) {
             if (element.getSymbol().equals(composite.getName())) {
-                element.setValue(composite);
+                element.setComposite(composite);
                 found = true;
                 break;
             }

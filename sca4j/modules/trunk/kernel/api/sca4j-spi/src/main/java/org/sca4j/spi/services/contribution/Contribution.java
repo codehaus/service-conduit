@@ -136,9 +136,9 @@ public class Contribution implements Serializable {
         return resources;
     }
 
-    public <RE extends ResourceElement<?, ?>, S> RE findResourceElement(S symbol, Class<RE> resourceElementType) {
+    public <RE extends ResourceElement<?>, S> RE findResourceElement(S symbol, Class<RE> resourceElementType) {
         for (Resource resource : resources) {
-            for (ResourceElement<?, ?> element : resource.getResourceElements(resourceElementType)) {
+            for (ResourceElement<?> element : resource.getResourceElements(resourceElementType)) {
                 if (element.getSymbol().equals(symbol)) {
                     return resourceElementType.cast(element);
                 }

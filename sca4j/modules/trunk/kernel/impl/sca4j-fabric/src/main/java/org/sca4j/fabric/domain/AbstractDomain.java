@@ -125,13 +125,7 @@ public abstract class AbstractDomain implements Domain {
             throw new DeployableNotFoundException("Deployable not found: " + id, id);
         }
 
-        Object object = element.getValue();
-        if (!(object instanceof Composite)) {
-            String id = deployable.toString();
-            throw new IllegalDeployableTypeException("Deployable must be a composite:" + id, id);
-        }
-
-        Composite composite = (Composite) object;
+        Composite composite = element.getComposite();
         include(composite);
 
     }
@@ -188,13 +182,7 @@ public abstract class AbstractDomain implements Domain {
             throw new DeployableNotFoundException("Deployable not found " + id, id);
         }
 
-        Object object = element.getValue();
-        if (!(object instanceof Composite)) {
-            String id = deployable.toString();
-            throw new IllegalDeployableTypeException("Deployable must be a composite: " + id, id);
-        }
-
-        Composite composite = (Composite) object;
+        Composite composite = element.getComposite();
         remove(composite);
 
     }

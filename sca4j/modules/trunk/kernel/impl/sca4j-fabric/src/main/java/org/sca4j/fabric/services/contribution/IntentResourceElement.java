@@ -60,8 +60,16 @@ import org.sca4j.spi.services.contribution.ResourceElement;
 /**
  * @version $Rev: 654 $ $Date: 2007-08-03 17:51:06 +0100 (Fri, 03 Aug 2007) $
  */
-public class IntentResourceElement extends ResourceElement<QName, Intent> {
+public class IntentResourceElement extends ResourceElement<QName> {
+    
+    private Intent intent;
+    
     public IntentResourceElement(QName qNameSymbol, Intent intent) {
-        super(qNameSymbol, intent);
+        super(qNameSymbol);
+        this.intent = intent;
+    }
+    
+    public Intent getIntent() {
+        return intent;
     }
 }

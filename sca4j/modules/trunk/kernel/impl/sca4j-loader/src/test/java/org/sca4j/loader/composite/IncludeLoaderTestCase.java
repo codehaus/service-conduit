@@ -129,7 +129,7 @@ public class IncludeLoaderTestCase extends TestCase {
         expect(context.getContributionUri()).andReturn(null);
         Composite include = new Composite(name);
         CompositeResourceElement element = new CompositeResourceElement(name);
-        element.setValue(include);
+        element.setComposite(include);
         // FIXME null check
         expect(store.resolve((URI) EasyMock.isNull(), eq(CompositeResourceElement.class), isA(QName.class), isA(ValidationContext.class))).andReturn(element);
         replay(registry, reader, namespaceContext, context, store);

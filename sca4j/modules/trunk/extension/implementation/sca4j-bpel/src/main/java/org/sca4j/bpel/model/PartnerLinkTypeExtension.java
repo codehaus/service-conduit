@@ -25,13 +25,26 @@ import javax.xml.namespace.QName;
 
 import org.sca4j.spi.services.contribution.ResourceElement;
 
-public class PartnerLinkTypeExtension extends ResourceElement<QName, Map<String, QName>>implements ExtensibilityElement {
+public class PartnerLinkTypeExtension extends ResourceElement<QName>implements ExtensibilityElement {
     
     private static final QName PARTNER_LINK_TYPE = new QName("http://docs.oasis-open.org/wsbpel/2.0/plnktype", "partnerLinkType");
     
+    
+    private Map<String, QName> portTypes;
+    
     public PartnerLinkTypeExtension(QName symbol, Map<String, QName> portTypes) {
-        super(symbol, portTypes);
+        super(symbol);
+        this.portTypes = portTypes;
     }
+
+    /**
+     * @return the portTypes
+     */
+    public Map<String, QName> getPortTypes() {
+        return portTypes;
+    }
+
+
 
     @Override
     public QName getElementType() {

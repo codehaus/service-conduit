@@ -126,7 +126,7 @@ public class MavenEmbeddedRuntimeImpl extends AbstractRuntime<MavenHostInfo> imp
         contributionService.contribute(source);
         domain.include(qName);
         CompositeResourceElement element = getMetaDataStore().resolve(qName, CompositeResourceElement.class);
-        return (Composite) element.getValue();
+        return element.getComposite();
     }
 
     public Composite activate(URL url, URL scdlLocation) throws ContributionException, DeploymentException {

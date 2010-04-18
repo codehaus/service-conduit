@@ -60,8 +60,21 @@ import org.sca4j.spi.services.contribution.ResourceElement;
 /**
  * @version $Rev: 654 $ $Date: 2007-08-03 17:51:06 +0100 (Fri, 03 Aug 2007) $
  */
-public class PolicySetResourceElement extends ResourceElement<QName, PolicySet> {
+public class PolicySetResourceElement extends ResourceElement<QName> {
+    
+    private PolicySet policySet;
+    
     public PolicySetResourceElement(QName qNameSymbol, PolicySet policySet) {
-        super(qNameSymbol, policySet);
+        super(qNameSymbol);
+        this.policySet = policySet;
     }
+
+    /**
+     * @return the policySet
+     */
+    public PolicySet getPolicySet() {
+        return policySet;
+    }
+    
+    
 }

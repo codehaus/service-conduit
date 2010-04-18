@@ -230,7 +230,7 @@ public class ImplementationCompositeLoader implements TypeLoader<CompositeImplem
                     introspectionContext.addError(failure);
                     return impl;
                 }
-                impl.setComponentType(element.getValue());
+                impl.setComponentType(element.getComposite());
                 return impl;
             } catch (MetaDataStoreException e) {
                 ElementLoadFailure failure = new ElementLoadFailure("Error loading element", e, reader);

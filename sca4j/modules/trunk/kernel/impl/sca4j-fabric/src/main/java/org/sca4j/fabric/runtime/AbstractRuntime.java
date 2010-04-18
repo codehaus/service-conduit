@@ -353,7 +353,7 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
             for (Resource resource : contribution.getResources()) {
                 for (CompositeResourceElement element : resource.getResourceElements(CompositeResourceElement.class)) {
                     QName name = element.getSymbol();
-                    Composite childComposite = element.getValue();
+                    Composite childComposite = element.getComposite();
                     for (Deployable deployable : contribution.getManifest().getDeployables()) {
                         if (deployable.getName().equals(name)) {
                             Include include = new Include();

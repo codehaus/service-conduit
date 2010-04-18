@@ -22,7 +22,7 @@ import javax.xml.namespace.QName;
 
 import org.sca4j.spi.services.contribution.ResourceElement;
 
-public class WebXmlResourceElement extends ResourceElement<QName, Object> {
+public class WebXmlResourceElement extends ResourceElement<QName> {
 
     public WebXmlResourceElement(QName symbol) {
         super(symbol);

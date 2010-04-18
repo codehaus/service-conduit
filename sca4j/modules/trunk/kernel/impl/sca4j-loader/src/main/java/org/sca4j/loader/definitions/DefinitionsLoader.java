@@ -193,7 +193,7 @@ public class DefinitionsLoader implements XmlResourceElementLoader {
                     for (DefinitionResourceElement element : resource.getResourceElements(DefinitionResourceElement.class)) {
                         QName candidateSymbol = candidate.getName();
                         if (element.getSymbol().equals(candidateSymbol)) {
-                            element.setValue(candidate);
+                            element.setDefinition(candidate);
                             found = true;
                         }
                     }

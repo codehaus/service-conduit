@@ -168,7 +168,7 @@ public class IncludeLoader implements TypeLoader<Include> {
                     context.addError(failure);
                     return null;
                 }
-                Composite composite = element.getValue();
+                Composite composite = element.getComposite();
                 Include include = new Include();
                 include.setName(name);
                 include.setIncluded(composite);

@@ -52,42 +52,22 @@
  */
 package org.sca4j.spi.services.contribution;
 
-import java.io.Serializable;
 
 /**
  * An addressable part of a Resource, such as a WSDL PortType, ComponentType, or Schema.
  *
  * @version $Rev: 5299 $ $Date: 2008-08-29 23:02:05 +0100 (Fri, 29 Aug 2008) $
  */
-public abstract class ResourceElement<SYMBOL, VALUE> implements Serializable {
+public abstract class ResourceElement<SYMBOL> {
     
     private SYMBOL symbol;
-    private VALUE value;
 
     public ResourceElement(SYMBOL symbol) {
         this.symbol = symbol;
     }
 
-    public ResourceElement(SYMBOL symbol, VALUE value) {
-        this.symbol = symbol;
-        this.value = value;
-    }
-
     public SYMBOL getSymbol() {
         return symbol;
-    }
-
-    public VALUE getValue() {
-        return value;
-    }
-
-    public void setValue(VALUE value) {
-        this.value = value;
-    }
-
-    @Override
-    public String toString() {
-        return "Resource element:{type-" + getClass() + "};{symbol-" + symbol + "};{value-" + value + "}";
     }
     
 }

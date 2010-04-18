@@ -133,7 +133,7 @@ public class DefaultDefinitionsRegistry implements DefinitionsRegistry {
             Contribution contribution = metaDataStore.find(uri);
             for (Resource resource : contribution.getResources()) {
                 for (DefinitionResourceElement resourceElement : resource.getResourceElements(DefinitionResourceElement.class)) {
-                    AbstractDefinition value = resourceElement.getValue();
+                    AbstractDefinition value = resourceElement.getDefinition();
                     activate(value);
                 }
             }
