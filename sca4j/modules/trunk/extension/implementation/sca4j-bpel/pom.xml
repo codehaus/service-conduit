@@ -15,29 +15,38 @@
   permitted and restricted uses of such software.
  -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.codehaus.service-conduit</groupId>
-        <artifactId>sca4j-extension-parent-pom</artifactId>
-		<version>0.9.1-SNAPSHOT</version>
+        <artifactId>sca4j-extension-implementation-parent-pom</artifactId>
+        <version>0.9.1-SNAPSHOT</version>
     </parent>
     <groupId>org.codehaus.service-conduit</groupId>
-    <artifactId>sca4j-extension-implementation-parent-pom</artifactId>
-    <name>SCA4J Extension Implementation Parent POM</name>
-    <description>SCA4J Extension Implementation Parent POM.</description>
-	<packaging>pom</packaging>
+    <artifactId>sca4j-bpel</artifactId>
+    <name>SCA4J BPEL</name>
+    <packaging>jar</packaging>
+ 
+    <dependencies>
 
-	<modules>
-            <module>sca4j-bpel</module>
-            <module>sca4j-groovy</module>
-            <module>sca4j-java</module>
-            <module>sca4j-junit</module>
-            <module>sca4j-mock</module>
-            <module>sca4j-web</module>
-            <module>sca4j-rs</module>
-            <module>sca4j-timer-provision</module>
-            <module>sca4j-timer-loader</module>
-            <module>sca4j-timer-runtime</module>
-	</modules>
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-spi</artifactId>
+            <version>0.9.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-interface-wsdl</artifactId>
+            <version>0.9.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+    </dependencies>
+
 </project>
