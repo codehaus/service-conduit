@@ -54,7 +54,6 @@ public class PartnerLinkTypeExtensionHandler implements ExtensionHandler<Partner
     @Override
     public void onExtension(PartnerLinkTypeExtension extensibilityElement, Resource resource) {
         resource.addResourceElement(extensibilityElement);
-        System.err.println(extensibilityElement);
     }
 
     @SuppressWarnings("unchecked")
