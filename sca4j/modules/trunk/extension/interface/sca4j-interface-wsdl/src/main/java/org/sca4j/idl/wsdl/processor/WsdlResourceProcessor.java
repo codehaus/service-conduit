@@ -34,6 +34,8 @@ import javax.wsdl.Part;
 import javax.wsdl.PortType;
 import javax.wsdl.Types;
 import javax.wsdl.WSDLException;
+import javax.wsdl.extensions.ExtensibilityElement;
+import javax.wsdl.extensions.ExtensionRegistry;
 import javax.wsdl.extensions.schema.Schema;
 import javax.wsdl.factory.WSDLFactory;
 import javax.wsdl.xml.WSDLReader;
@@ -41,7 +43,12 @@ import javax.xml.namespace.QName;
 
 import org.apache.ws.commons.schema.XmlSchemaCollection;
 import org.apache.ws.commons.schema.XmlSchemaElement;
+import org.oasisopen.sca.annotation.EagerInit;
+import org.oasisopen.sca.annotation.Init;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.host.contribution.ContributionException;
+import org.sca4j.idl.wsdl.model.PortTypeResourceElement;
+import org.sca4j.idl.wsdl.processor.extension.ExtensionHandler;
 import org.sca4j.scdl.DataType;
 import org.sca4j.scdl.Operation;
 import org.sca4j.scdl.ValidationContext;
@@ -51,14 +58,36 @@ import org.sca4j.spi.services.contribution.Resource;
 import org.sca4j.spi.services.contribution.ResourceProcessor;
 import org.w3c.dom.Element;
 
+@EagerInit
 public class WsdlResourceProcessor implements ResourceProcessor {
 
+    @Reference(required = false) public Map<Class<? extends ExtensibilityElement>, ExtensionHandler<?>> extensionHandlers;
+    
+    private WSDLReader reader;
+    
+    @Init
+    public void start() throws WSDLException {
+        
+        WSDLFactory factory = WSDLFactory.newInstance();
+        reader = factory.newWSDLReader();
+        ExtensionRegistry extensionRegistry = factory.newPopulatedExtensionRegistry();
+        
+        for (Class<? extends ExtensibilityElement> type : extensionHandlers.keySet()) {
+            ExtensionHandler<?> extensionHandler = extensionHandlers.get(type);
+            extensionRegistry.registerSerializer(Definition.class, extensionHandler.getQualifiedName(), extensionHandler);
+            extensionRegistry.registerDeserializer(Definition.class, extensionHandler.getQualifiedName(), extensionHandler);
+        }
+        reader.setExtensionRegistry(extensionRegistry);
+        
+    }
+    
     @Override
     public void index(Contribution contribution, URL url, ValidationContext context) throws ContributionException {
         Resource resource = new Resource(url);
         contribution.addResource(resource);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void process(URI contributionUri, Resource resource, ValidationContext context, ClassLoader loader) throws ContributionException {
         
@@ -67,10 +96,6 @@ public class WsdlResourceProcessor implements ResourceProcessor {
             if (resource.isProcessed()) {
                 return;
             }
-            
-            WSDLFactory factory = WSDLFactory.newInstance();
-            WSDLReader reader = factory.newWSDLReader();
-            reader.setExtensionRegistry(factory.newPopulatedExtensionRegistry());
         
             Definition definition = reader.readWSDL(resource.getUrl().toExternalForm());
             XmlSchemaCollection schemaCollection = getXmlSchema(definition);
@@ -90,11 +115,21 @@ public class WsdlResourceProcessor implements ResourceProcessor {
                 resource.addResourceElement(resorceElement);
             }
             
+            for (Object object : definition.getExtensibilityElements()) {
+                ExtensibilityElement extensibilityElement = ExtensibilityElement.class.cast(object);
+                ExtensionHandler extensionHandler = extensionHandlers.get(extensibilityElement.getClass());
+                if (extensionHandler != null) {
+                    extensionHandler.onExtension(extensibilityElement, resource);
+                }
+                
+            }
+            
             resource.setProcessed(true);
             
         } catch (WSDLException e) {
             throw new ContributionException(e);
         }
+        
     }
 
     /*

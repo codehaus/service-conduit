@@ -84,4 +84,10 @@ public abstract class ResourceElement<SYMBOL, VALUE> implements Serializable {
     public void setValue(VALUE value) {
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return "Resource element:{type-" + getClass() + "};{symbol-" + symbol + "};{value-" + value + "}";
+    }
+    
 }

@@ -69,7 +69,7 @@
  * under the License.    
  */
 
-package org.sca4j.idl.wsdl;
+package org.sca4j.idl.wsdl.model;
 
 import org.sca4j.scdl.ServiceContract;
 
