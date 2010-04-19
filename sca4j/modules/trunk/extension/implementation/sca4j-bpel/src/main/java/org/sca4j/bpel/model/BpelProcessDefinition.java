@@ -19,11 +19,14 @@
 package org.sca4j.bpel.model;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.sca4j.scdl.ModelObject;
+import org.sca4j.spi.services.contribution.ResourceElement;
 
 /**
  * Represents a BPEL process definition.
@@ -31,33 +34,27 @@ import org.sca4j.scdl.ModelObject;
  * @author meerajk
  *
  */
-public class BpelProcessDefinition extends ModelObject {
+public class BpelProcessDefinition extends ResourceElement<QName> {
     
     private URL processUrl;
     private QName processName;
-    private Map<String, QName> services;
-    private Map<String, QName> references;
-    private Map<String, QName> properties;
+    private Map<QName, PartnerLink> partnerLinks = new HashMap<QName, PartnerLink>();
+    private List<ReceiveActivity> receiveActivities = new ArrayList<ReceiveActivity>();
+    private List<InvokeActivity> invokeActivities = new ArrayList<InvokeActivity>();
     
     /**
-     * Initialises the process definitions.
+     * Initialises the process name and URL.
      * 
      * @param processUrl URL to the process definition.
-     * @param processName Qualified name of the process.
-     * @param services Map of service names to port type qualified names.
-     * @param references Map of reference names to port type qualified names.
-     * @param properties Map of property names to XSD types.
+     * @param processName Name of the process.
      */
-    public BpelProcessDefinition(URL processUrl, QName processName, Map<String, QName> services, Map<String, QName> references, Map<String, QName> properties) {
+    public BpelProcessDefinition(URL processUrl, QName processName) {
+        super(processName);
         this.processUrl = processUrl;
         this.processName = processName;
-        this.services = services;
-        this.references = references;
-        this.properties = properties;
     }
 
     /**
-     * Returns URL to the process definition.
      * @return URL to the process definition.
      */
     public URL getProcessUrl() {
@@ -65,35 +62,31 @@ public class BpelProcessDefinition extends ModelObject {
     }
 
     /**
-     * Returns the qualified name of the process.
-     * @return Qualified name of the process.
+     * @return Name of the process.
      */
     public QName getProcessName() {
         return processName;
     }
 
     /**
-     * Returns the map of service names to port type qualified names.
-     * @return Map of service names to port type qualified names.
+     * @return Partner links available on the process.
      */
-    public Map<String, QName> getServices() {
-        return services;
+    public Map<QName, PartnerLink> getPartnerLinks() {
+        return partnerLinks;
     }
 
     /**
-     * Returns the map of reference names to port type qualified names.
-     * @return Map of reference names to port type qualified names.
+     * @return Receive activities on the process.
      */
-    public Map<String, QName> getReferences() {
-        return references;
+    public List<ReceiveActivity> getReceiveActivities() {
+        return receiveActivities;
     }
 
     /**
-     * Returns map of property names to XSD types. 
-     * @return Map of property names to XSD types.
+     * @return Invoke activities on the process.
      */
-    public Map<String, QName> getProperties() {
-        return properties;
+    public List<InvokeActivity> getInvokeActivities() {
+        return invokeActivities;
     }
 
 }

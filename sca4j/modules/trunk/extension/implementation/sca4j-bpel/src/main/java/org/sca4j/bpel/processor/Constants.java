@@ -30,17 +30,17 @@ public class Constants {
 
     static final String SCA_BPEL_NS = "http://docs.oasis-open.org/ns/opencsa/sca-bpel/200801";
     static final String WSDL_NS = "http://schemas.xmlsoap.org/wsdl/";
-    static final String BPEL_NS_20 = "http://docs.oasis-open.org/wsbpel/2.0/process/executable";
-    static final String BPEL_PLINK_NS_20 = "http://docs.oasis-open.org/wsbpel/2.0/plnktype";
+    static final String BPEL_NS = "http://docs.oasis-open.org/wsbpel/2.0/process/executable";
+    static final String BPEL_PLINK_NS = "http://docs.oasis-open.org/wsbpel/2.0/plnktype";
     
-    static final QName PROCESS_ELEMENT_20 = new QName(BPEL_NS_20, "process");
-    static final QName PARTNERLINK_ELEMENT_20 = new QName(BPEL_NS_20, "partnerLink");
-    static final QName ONEVENT_ELEMENT_20 = new QName(BPEL_NS_20, "onEvent");
-    static final QName RECEIVE_ELEMENT_20 = new QName(BPEL_NS_20, "receive");
-    static final QName ONMESSAGE_ELEMENT_20 = new QName(BPEL_NS_20, "onMessage");
-    static final QName INVOKE_ELEMENT_20 = new QName(BPEL_NS_20, "invoke");
-    static final QName IMPORT_ELEMENT_20 = new QName(BPEL_NS_20, "import");
-    static final QName VARIABLE_ELEMENT_20 = new QName(BPEL_NS_20, "variable");
-    static final QName LINKTYPE_ELEMENT_20 = new QName(BPEL_PLINK_NS_20, "partnerLinkType");
+    static final QName PROCESS_ELEMENT = new QName(BPEL_NS, "process");
+    static final QName PARTNERLINK_ELEMENT = new QName(BPEL_NS, "partnerLink");
+    static final QName ONEVENT_ELEMENT = new QName(BPEL_NS, "onEvent");
+    static final QName RECEIVE_ELEMENT = new QName(BPEL_NS, "receive");
+    static final QName ONMESSAGE_ELEMENT = new QName(BPEL_NS, "onMessage");
+    static final QName INVOKE_ELEMENT = new QName(BPEL_NS, "invoke");
+    static final QName IMPORT_ELEMENT = new QName(BPEL_NS, "import");
+    static final QName VARIABLE_ELEMENT = new QName(BPEL_NS, "variable");
+    static final QName LINKTYPE_ELEMENT = new QName(BPEL_NS, "partnerLinkType");
 
 }
