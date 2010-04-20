@@ -85,25 +85,22 @@ import javax.xml.namespace.QName;
  * @version $Rev: 5224 $ $Date: 2008-08-19 19:07:18 +0100 (Tue, 19 Aug 2008) $
  */
 public class Composite extends AbstractComponentType<CompositeService, CompositeReference, Property, ResourceDefinition> implements PolicyAware {
-    private static final long serialVersionUID = -3126069884608566611L;
 
-    private final QName name;
+    private QName name;
     private URI contributionUri;
     private boolean local;
     private Autowire autowire;
 
-    private final Map<String, ComponentDefinition<? extends Implementation<?>>> components =
-            new HashMap<String, ComponentDefinition<? extends Implementation<?>>>();
-    private final Map<QName, Include> includes = new HashMap<QName, Include>();
-    private final List<WireDefinition> wires = new ArrayList<WireDefinition>();
+    private Map<String, ComponentDefinition<? extends Implementation<?>>> components = new HashMap<String, ComponentDefinition<? extends Implementation<?>>>();
+    private Map<QName, Include> includes = new HashMap<QName, Include>();
+    private List<WireDefinition> wires = new ArrayList<WireDefinition>();
 
     // views are caches of all properties, references, wires, or components contained in the composite and its included composites
-    private final Map<String, Property> propertiesView = new HashMap<String, Property>();
-    private final Map<String, CompositeReference> referencesView = new HashMap<String, CompositeReference>();
-    private final Map<String, CompositeService> servicesView = new HashMap<String, CompositeService>();
-    private final Map<String, ComponentDefinition<? extends Implementation<?>>> componentsView =
-            new HashMap<String, ComponentDefinition<? extends Implementation<?>>>();
-    private final List<WireDefinition> wiresView = new ArrayList<WireDefinition>();
+    private Map<String, Property> propertiesView = new HashMap<String, Property>();
+    private Map<String, CompositeReference> referencesView = new HashMap<String, CompositeReference>();
+    private Map<String, CompositeService> servicesView = new HashMap<String, CompositeService>();
+    private Map<String, ComponentDefinition<? extends Implementation<?>>> componentsView = new HashMap<String, ComponentDefinition<? extends Implementation<?>>>();
+    private List<WireDefinition> wiresView = new ArrayList<WireDefinition>();
 
     private QName constrainingType;
     private List<QName> intents;

@@ -61,7 +61,6 @@ import java.util.Map;
  * @version $Rev: 5070 $ $Date: 2008-07-21 17:52:37 +0100 (Mon, 21 Jul 2008) $
  */
 public class InjectingComponentType extends AbstractComponentType<ServiceDefinition, ReferenceDefinition, Property, ResourceDefinition> {
-    private static final long serialVersionUID = -2602867276842414240L;
 
     private final Map<InjectionSite, InjectableAttribute> injectionSites = new HashMap<InjectionSite, InjectableAttribute>();
     private Signature constructor;

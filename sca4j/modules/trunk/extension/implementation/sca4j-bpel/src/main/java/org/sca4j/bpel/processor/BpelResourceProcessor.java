@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
@@ -32,27 +34,67 @@ import javax.xml.stream.XMLStreamReader;
 
 import org.apache.commons.io.IOUtils;
 import org.oasisopen.sca.annotation.Reference;
-import org.sca4j.bpel.model.BpelProcessDefinition;
-import org.sca4j.bpel.model.InvokeActivity;
+import org.sca4j.bpel.model.BpelComponentType;
+import org.sca4j.bpel.model.BpelComponentTypeResourceElement;
 import org.sca4j.bpel.model.PartnerLink;
-import org.sca4j.bpel.model.ReceiveActivity;
+import org.sca4j.bpel.model.PartnerLinkType;
 import org.sca4j.host.contribution.ContributionException;
+import org.sca4j.idl.wsdl.model.PortTypeResourceElement;
+import org.sca4j.idl.wsdl.model.WsdlContract;
 import org.sca4j.introspection.xml.LoaderUtil;
+import org.sca4j.scdl.DefaultValidationContext;
+import org.sca4j.scdl.ReferenceDefinition;
+import org.sca4j.scdl.ServiceDefinition;
 import org.sca4j.scdl.ValidationContext;
 import org.sca4j.services.xmlfactory.XMLFactory;
 import org.sca4j.services.xmlfactory.XMLFactoryInstantiationException;
 import org.sca4j.spi.services.contribution.Contribution;
+import org.sca4j.spi.services.contribution.MetaDataStore;
+import org.sca4j.spi.services.contribution.MetaDataStoreException;
 import org.sca4j.spi.services.contribution.Resource;
 import org.sca4j.spi.services.contribution.ResourceProcessor;
 
 public class BpelResourceProcessor implements ResourceProcessor {
     
     @Reference public XMLFactory xmlFactory;
+    @Reference public MetaDataStore metaDataStore;
 
     @Override
     public void index(Contribution contribution, URL url, ValidationContext context) throws ContributionException {
+        
         Resource resource = new Resource(url);
         contribution.addResource(resource);
+        
+        InputStream inputStream = null;
+        try {
+
+            inputStream = resource.getUrl().openStream();
+            XMLStreamReader reader = xmlFactory.newInputFactoryInstance().createXMLStreamReader(inputStream);
+            
+            while (true) {
+                switch (reader.next()) {
+                case START_ELEMENT:
+                    QName name = reader.getName();
+                    if (name.equals(Constants.PROCESS_ELEMENT)) {
+                        QName processName = new QName(reader.getAttributeValue(null, "targetNamespace"), reader.getAttributeValue(null, "name"));
+                        BpelComponentType componentType = new BpelComponentType(resource.getUrl(), processName);
+                        BpelComponentTypeResourceElement resourceElement = new BpelComponentTypeResourceElement(componentType);
+                        resource.addResourceElement(resourceElement);
+                        return;
+                    }
+                    break;
+                }
+            }
+        } catch (XMLFactoryInstantiationException e) {
+            throw new ContributionException(e);
+        } catch (XMLStreamException e) {
+            throw new ContributionException(e);
+        } catch (IOException e) {
+            throw new ContributionException(e);
+        } finally {
+            IOUtils.closeQuietly(inputStream);
+        }
+        
     }
 
     @Override
@@ -64,36 +106,30 @@ public class BpelResourceProcessor implements ResourceProcessor {
         
         InputStream inputStream = null;
         try {
-            
-            XMLStreamReader reader = xmlFactory.newInputFactoryInstance().createXMLStreamReader(inputStream);
+
             inputStream = resource.getUrl().openStream();
-            BpelProcessDefinition processDefinition = null;
+            XMLStreamReader reader = xmlFactory.newInputFactoryInstance().createXMLStreamReader(inputStream);
+            
+            BpelComponentType componentType = resource.getResourceElements(BpelComponentTypeResourceElement.class).iterator().next().getComponentType();
+            Map<QName, PartnerLink> partnerLinks = new HashMap<QName, PartnerLink>();
             
             while (true) {
                 switch (reader.next()) {
-                    case START_ELEMENT:
-                        QName name = reader.getName();
-                        if (name.equals(Constants.PROCESS_ELEMENT)) {
-                            QName processName = new QName(reader.getAttributeValue(null, "targetNamespace"), reader.getAttributeValue(null, "name"));
-                            processDefinition = new BpelProcessDefinition(resource.getUrl(), processName);
-                            resource.addResourceElement(processDefinition);
-                        } else if (name.equals(Constants.PARTNERLINK_ELEMENT)) {
-                            PartnerLink partnerLink = processPartnerLink(reader, processDefinition.getProcessName().getNamespaceURI());
-                            processDefinition.getPartnerLinks().put(partnerLink.getName(), partnerLink);
-                        } else if (name.equals(Constants.RECEIVE_ELEMENT)) {
-                            ReceiveActivity receiveActivity = processReceiveActivity(reader, processDefinition.getProcessName().getNamespaceURI());
-                            processDefinition.getReceiveActivities().add(receiveActivity);
-                        } else if (name.equals(Constants.INVOKE_ELEMENT)) {
-                            InvokeActivity invokeActivity = processInvokeActivity(reader, processDefinition.getProcessName().getNamespaceURI());
-                            processDefinition.getInvokeActivities().add(invokeActivity);
-                        }
-                        break;
-                    case END_ELEMENT:
-                        if (reader.getName().equals(Constants.PROCESS_ELEMENT)) {
-                            resource.setProcessed(true);
-                            return;
-                        }
-                        break;
+                case START_ELEMENT:
+                    QName name = reader.getName();
+                    if (name.equals(Constants.PARTNERLINK_ELEMENT)) {
+                        PartnerLink partnerLink = processPartnerLink(reader, componentType.getProcessName().getNamespaceURI());
+                        partnerLinks.put(partnerLink.getName(), partnerLink);
+                    } else if (name.equals(Constants.RECEIVE_ELEMENT) || name.equals(Constants.INVOKE_ELEMENT)) {
+                        processActivity(contributionUri, reader, componentType, partnerLinks);
+                    }
+                    break;
+                case END_ELEMENT:
+                    if (reader.getName().equals(Constants.PROCESS_ELEMENT)) {
+                        resource.setProcessed(true);
+                        return;
+                    }
+                    break;
                 }
             }
         } catch (XMLFactoryInstantiationException e) {
@@ -109,21 +145,34 @@ public class BpelResourceProcessor implements ResourceProcessor {
     }
 
     /*
-     * Creates an invoke activity.
+     * Interprets the receive activity as a service and invoke activity as a reference.
      */
-    private InvokeActivity processInvokeActivity(XMLStreamReader reader, String namespaceURI) {
-        QName partnerLink = new QName(namespaceURI, reader.getAttributeValue(null, "partnerLink"));
-        String operation = reader.getAttributeValue(null, "operation");
-        return new InvokeActivity(partnerLink, operation);
-    }
+    private void processActivity(URI contributionUri, XMLStreamReader reader, BpelComponentType componentType, Map<QName, PartnerLink> partnerLinks) throws MetaDataStoreException {
 
-    /*
-     * Creates a receive activity.
-     */
-    private ReceiveActivity processReceiveActivity(XMLStreamReader reader, String namespaceURI) {
-        QName partnerLink = new QName(namespaceURI, reader.getAttributeValue(null, "partnerLink"));
-        String operation = reader.getAttributeValue(null, "operation");
-        return new ReceiveActivity(partnerLink, operation);
+        ValidationContext validationContext = new DefaultValidationContext();
+        boolean service = Constants.RECEIVE_ELEMENT.equals(reader.getName());
+        
+        QName partnerLinkName = new QName(componentType.getProcessName().getNamespaceURI(), reader.getAttributeValue(null, "partnerLink"));
+        PartnerLink partnerLink = partnerLinks.get(partnerLinkName);
+        QName partnerLinkTypeName = partnerLink.getType();
+        String role = service ? partnerLink.getMyRole() : partnerLink.getPartnerRole();
+        
+        PartnerLinkType partnerLinkType = metaDataStore.resolve(contributionUri, PartnerLinkType.class, partnerLinkTypeName, validationContext);
+        QName portTypeName = partnerLinkType.getPortTypes().get(role);
+        
+        PortTypeResourceElement portTypeResourceElement = metaDataStore.resolve(contributionUri, PortTypeResourceElement.class, portTypeName, validationContext);
+        WsdlContract wsdlContract = new WsdlContract();
+        wsdlContract.setPortTypeName(portTypeName);
+        wsdlContract.setOperations(portTypeResourceElement.getOperations());
+        
+        if (service) {
+            ServiceDefinition serviceDefinition = new ServiceDefinition(partnerLink.getName().getLocalPart(), wsdlContract);
+            componentType.add(serviceDefinition);
+        } else {
+            ReferenceDefinition referenceDefinition = new ReferenceDefinition(partnerLink.getName().getLocalPart(), wsdlContract);
+            componentType.add(referenceDefinition);
+        }
+        
     }
 
     /*

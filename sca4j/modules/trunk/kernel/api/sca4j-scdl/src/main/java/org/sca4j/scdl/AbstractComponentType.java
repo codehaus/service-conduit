@@ -91,12 +91,8 @@ import java.util.Set;
  *
  * @version $Rev: 5070 $ $Date: 2008-07-21 17:52:37 +0100 (Mon, 21 Jul 2008) $
  */
-public abstract class AbstractComponentType<S extends ServiceDefinition,
-        R extends ReferenceDefinition,
-        P extends Property,
-        RD extends ResourceDefinition>
-        extends ModelObject {
-    private static final long serialVersionUID = 5302580019263119837L;
+public abstract class AbstractComponentType<S extends ServiceDefinition, R extends ReferenceDefinition, P extends Property, RD extends ResourceDefinition> extends ModelObject {
+    
     private String scope;
     private int initLevel;
     private long maxAge;

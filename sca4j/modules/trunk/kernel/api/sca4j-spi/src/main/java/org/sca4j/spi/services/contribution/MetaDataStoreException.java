@@ -58,7 +58,6 @@ import org.sca4j.host.contribution.ContributionException;
  * @version $Rev: 4336 $ $Date: 2008-05-25 10:06:15 +0100 (Sun, 25 May 2008) $
  */
 public class MetaDataStoreException extends ContributionException {
-    private static final long serialVersionUID = 5509464593295262830L;
 
     public MetaDataStoreException(String message) {
         super(message);

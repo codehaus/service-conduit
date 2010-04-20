@@ -140,7 +140,6 @@ public class CompositeResourceProcessor implements ResourceProcessor {
         }
     }
 
-    @SuppressWarnings({"unchecked"})
     public void process(URI contributionUri, Resource resource, ValidationContext context, ClassLoader classLoader) throws ContributionException {
         URL url = resource.getUrl();
         IntrospectionContext childContext = new DefaultIntrospectionContext(classLoader, contributionUri, url);

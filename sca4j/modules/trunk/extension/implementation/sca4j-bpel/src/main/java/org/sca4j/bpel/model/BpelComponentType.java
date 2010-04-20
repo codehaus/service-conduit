@@ -19,28 +19,19 @@
 package org.sca4j.bpel.model;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.sca4j.spi.services.contribution.ResourceElement;
+import org.sca4j.scdl.AbstractComponentType;
+import org.sca4j.scdl.Property;
+import org.sca4j.scdl.ReferenceDefinition;
+import org.sca4j.scdl.ResourceDefinition;
+import org.sca4j.scdl.ServiceDefinition;
 
-/**
- * Represents a BPEL process definition.
- * 
- * @author meerajk
- *
- */
-public class BpelProcessDefinition extends ResourceElement<QName> {
+public class BpelComponentType extends AbstractComponentType<ServiceDefinition, ReferenceDefinition, Property, ResourceDefinition> {
     
     private URL processUrl;
     private QName processName;
-    private Map<QName, PartnerLink> partnerLinks = new HashMap<QName, PartnerLink>();
-    private List<ReceiveActivity> receiveActivities = new ArrayList<ReceiveActivity>();
-    private List<InvokeActivity> invokeActivities = new ArrayList<InvokeActivity>();
     
     /**
      * Initialises the process name and URL.
@@ -48,8 +39,7 @@ public class BpelProcessDefinition extends ResourceElement<QName> {
      * @param processUrl URL to the process definition.
      * @param processName Name of the process.
      */
-    public BpelProcessDefinition(URL processUrl, QName processName) {
-        super(processName);
+    public BpelComponentType(URL processUrl, QName processName) {
         this.processUrl = processUrl;
         this.processName = processName;
     }
@@ -66,27 +56,6 @@ public class BpelProcessDefinition extends ResourceElement<QName> {
      */
     public QName getProcessName() {
         return processName;
-    }
-
-    /**
-     * @return Partner links available on the process.
-     */
-    public Map<QName, PartnerLink> getPartnerLinks() {
-        return partnerLinks;
-    }
-
-    /**
-     * @return Receive activities on the process.
-     */
-    public List<ReceiveActivity> getReceiveActivities() {
-        return receiveActivities;
-    }
-
-    /**
-     * @return Invoke activities on the process.
-     */
-    public List<InvokeActivity> getInvokeActivities() {
-        return invokeActivities;
     }
 
 }

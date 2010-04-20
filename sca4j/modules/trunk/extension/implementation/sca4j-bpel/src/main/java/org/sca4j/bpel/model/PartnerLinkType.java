@@ -16,49 +16,52 @@
  * This project contains code licensed from the Apache Software Foundation under
  * the Apache License, Version 2.0 and original code from project contributors.
  */
-package org.sca4j.idl.wsdl.model;
+package org.sca4j.bpel.model;
 
-import java.util.List;
+import java.util.Map;
 
-import javax.wsdl.PortType;
+import javax.wsdl.extensions.ExtensibilityElement;
 import javax.xml.namespace.QName;
 
-import org.apache.ws.commons.schema.XmlSchemaCollection;
-import org.sca4j.scdl.Operation;
 import org.sca4j.spi.services.contribution.ResourceElement;
 
-public class PortTypeResourceElement extends ResourceElement<QName> {
+public class PartnerLinkType extends ResourceElement<QName>implements ExtensibilityElement {
     
-    private XmlSchemaCollection schemaCollection;
-    private List<Operation> operations;
-    private PortType portType;
+    private static final QName PARTNER_LINK_TYPE = new QName("http://docs.oasis-open.org/wsbpel/2.0/plnktype", "partnerLinkType");
     
-    public PortTypeResourceElement(QName symbol) {
+    
+    private Map<String, QName> portTypes;
+    
+    public PartnerLinkType(QName symbol, Map<String, QName> portTypes) {
         super(symbol);
+        this.portTypes = portTypes;
     }
 
-    public XmlSchemaCollection getSchemaCollection() {
-        return schemaCollection;
+    /**
+     * @return the portTypes
+     */
+    public Map<String, QName> getPortTypes() {
+        return portTypes;
     }
 
-    public List<Operation> getOperations() {
-        return operations;
-    }
-    
-    public PortType getPortType() {
-        return portType;
+
+
+    @Override
+    public QName getElementType() {
+        return PARTNER_LINK_TYPE;
     }
 
-    public void setSchemaCollection(XmlSchemaCollection schemaCollection) {
-        this.schemaCollection = schemaCollection;
+    @Override
+    public Boolean getRequired() {
+        return Boolean.FALSE;
     }
 
-    public void setOperations(List<Operation> operations) {
-        this.operations = operations;
+    @Override
+    public void setElementType(QName elementType) {
     }
 
-    public void setPortType(PortType portType) {
-        this.portType = portType;
+    @Override
+    public void setRequired(Boolean required) {
     }
 
 }

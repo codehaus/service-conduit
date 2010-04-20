@@ -18,50 +18,35 @@
  */
 package org.sca4j.bpel.model;
 
-import java.util.Map;
-
-import javax.wsdl.extensions.ExtensibilityElement;
 import javax.xml.namespace.QName;
 
 import org.sca4j.spi.services.contribution.ResourceElement;
 
-public class PartnerLinkTypeExtension extends ResourceElement<QName>implements ExtensibilityElement {
+/**
+ * Represents a BPEL process definition.
+ * 
+ * @author meerajk
+ *
+ */
+public class BpelComponentTypeResourceElement extends ResourceElement<QName> {
     
-    private static final QName PARTNER_LINK_TYPE = new QName("http://docs.oasis-open.org/wsbpel/2.0/plnktype", "partnerLinkType");
+    private BpelComponentType componentType;
     
-    
-    private Map<String, QName> portTypes;
-    
-    public PartnerLinkTypeExtension(QName symbol, Map<String, QName> portTypes) {
-        super(symbol);
-        this.portTypes = portTypes;
+    /**
+     * Initialises the process name and component type.
+     * 
+     * @param componentType BPEL component type.
+     */
+    public BpelComponentTypeResourceElement(BpelComponentType componentType) {
+        super(componentType.getProcessName());
+        this.componentType = componentType;
     }
 
     /**
-     * @return the portTypes
+     * @return Introspected BPEL component type.
      */
-    public Map<String, QName> getPortTypes() {
-        return portTypes;
-    }
-
-
-
-    @Override
-    public QName getElementType() {
-        return PARTNER_LINK_TYPE;
-    }
-
-    @Override
-    public Boolean getRequired() {
-        return Boolean.FALSE;
-    }
-
-    @Override
-    public void setElementType(QName elementType) {
-    }
-
-    @Override
-    public void setRequired(Boolean required) {
+    public BpelComponentType getComponentType() {
+        return componentType;
     }
 
 }

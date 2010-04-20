@@ -20,8 +20,12 @@
 -->
 <composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912" xmlns:sca4j="urn:sca4j.org" targetNamespace="urn:sca4j.org" name="BpelExtension" autowire="true">
 
-    <component name="PartnerLinkTypeExtensionHandler" sca4j:key="org.sca4j.bpel.model.PartnerLinkTypeExtension">
+    <component name="PartnerLinkTypeExtensionHandler" sca4j:key="org.sca4j.bpel.model.PartnerLinkType">
         <sca4j:implementation.system class="org.sca4j.bpel.processor.PartnerLinkTypeExtensionHandler"/>
+    </component>
+    
+    <component name="BpelResourceProcessor" sca4j:key="bpel">
+        <sca4j:implementation.system class="org.sca4j.bpel.processor.BpelResourceProcessor"/>
     </component>
     
 </composite>

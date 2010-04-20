@@ -41,11 +41,19 @@ public interface ExtensionHandler<E extends ExtensibilityElement> extends Extens
     QName getQualifiedName();
     
     /**
+     * Callback when the extensibility element is indexed.
+     * 
+     * @param extensibilityElement Desrialised extensibility element.
+     * @param resource Resoure corresponding to the WSDL document.
+     */
+    void indexExtension(E extensibilityElement, Resource resource);
+    
+    /**
      * Callback when the extensibility element is processed.
      * 
      * @param extensibilityElement Desrialised extensibility element.
      * @param resource Resoure corresponding to the WSDL document.
      */
-    void onExtension(E extensibilityElement, Resource resource);
+    void processExtension(E extensibilityElement, Resource resource);
 
 }

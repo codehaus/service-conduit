@@ -80,11 +80,36 @@ public class WsdlResourceProcessor implements ResourceProcessor {
         reader.setExtensionRegistry(extensionRegistry);
         
     }
-    
+
+    @SuppressWarnings("unchecked")
     @Override
     public void index(Contribution contribution, URL url, ValidationContext context) throws ContributionException {
+        
         Resource resource = new Resource(url);
         contribution.addResource(resource);
+        
+        try {
+        
+            Definition definition = reader.readWSDL(resource.getUrl().toExternalForm());
+            
+            for (Object object : definition.getPortTypes().keySet()) {
+                QName portTypeName = (QName) object;
+                PortTypeResourceElement resorceElement = new PortTypeResourceElement(portTypeName);
+                resource.addResourceElement(resorceElement);
+            }
+            
+            for (Object object : definition.getExtensibilityElements()) {
+                ExtensibilityElement extensibilityElement = ExtensibilityElement.class.cast(object);
+                ExtensionHandler extensionHandler = extensionHandlers.get(extensibilityElement.getClass());
+                if (extensionHandler != null) {
+                    extensionHandler.indexExtension(extensibilityElement, resource);
+                }
+            }
+            
+        } catch (WSDLException e) {
+            throw new ContributionException(e);
+        }
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -100,26 +125,23 @@ public class WsdlResourceProcessor implements ResourceProcessor {
             Definition definition = reader.readWSDL(resource.getUrl().toExternalForm());
             XmlSchemaCollection schemaCollection = getXmlSchema(definition);
             
-            for (Object object : definition.getPortTypes().keySet()) {
-                
-                QName portTypeName = (QName) object;
-                PortType portType = (PortType) definition.getPortType(portTypeName);
-                
+            for (PortTypeResourceElement resourceElement : resource.getResourceElements(PortTypeResourceElement.class)) {
+                PortType portType = definition.getPortType(resourceElement.getSymbol());
                 List<Operation> operations = new LinkedList<Operation>();
                 for(Object obj : portType.getOperations()) {     
                     Operation op = getOperation(schemaCollection, (javax.wsdl.Operation) obj);                
                     operations.add(op);                
                 }
-                
-                PortTypeResourceElement resorceElement = new PortTypeResourceElement(portTypeName, portType, schemaCollection, operations);
-                resource.addResourceElement(resorceElement);
+                resourceElement.setPortType(portType);
+                resourceElement.setOperations(operations);
+                resourceElement.setSchemaCollection(schemaCollection);
             }
             
             for (Object object : definition.getExtensibilityElements()) {
                 ExtensibilityElement extensibilityElement = ExtensibilityElement.class.cast(object);
                 ExtensionHandler extensionHandler = extensionHandlers.get(extensibilityElement.getClass());
                 if (extensionHandler != null) {
-                    extensionHandler.onExtension(extensibilityElement, resource);
+                    extensionHandler.processExtension(extensibilityElement, resource);
                 }
                 
             }

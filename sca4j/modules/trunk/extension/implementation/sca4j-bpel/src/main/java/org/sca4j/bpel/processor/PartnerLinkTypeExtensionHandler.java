@@ -29,7 +29,7 @@ import javax.wsdl.extensions.ExtensionRegistry;
 import javax.xml.namespace.QName;
 
 import org.oasisopen.sca.annotation.EagerInit;
-import org.sca4j.bpel.model.PartnerLinkTypeExtension;
+import org.sca4j.bpel.model.PartnerLinkType;
 import org.sca4j.idl.wsdl.processor.extension.ExtensionHandler;
 import org.sca4j.spi.services.contribution.Resource;
 import org.w3c.dom.Element;
@@ -42,7 +42,7 @@ import org.w3c.dom.NodeList;
  *
  */
 @EagerInit
-public class PartnerLinkTypeExtensionHandler implements ExtensionHandler<PartnerLinkTypeExtension> {
+public class PartnerLinkTypeExtensionHandler implements ExtensionHandler<PartnerLinkType> {
     
     private static final QName PARTNER_LINK_TYPE = new QName("http://docs.oasis-open.org/wsbpel/2.0/plnktype", "partnerLinkType");
 
@@ -52,7 +52,12 @@ public class PartnerLinkTypeExtensionHandler implements ExtensionHandler<Partner
     }
 
     @Override
-    public void onExtension(PartnerLinkTypeExtension extensibilityElement, Resource resource) {
+    public void indexExtension(PartnerLinkType extensibilityElement, Resource resource) {
+        resource.addResourceElement(extensibilityElement);
+    }
+
+    @Override
+    public void processExtension(PartnerLinkType extensibilityElement, Resource resource) {
         resource.addResourceElement(extensibilityElement);
     }
 
@@ -85,7 +90,7 @@ public class PartnerLinkTypeExtensionHandler implements ExtensionHandler<Partner
             portTypes.put(roleName, portType);
         }
         
-        return new PartnerLinkTypeExtension(partnerLinkName, portTypes);
+        return new PartnerLinkType(partnerLinkName, portTypes);
         
     }
     

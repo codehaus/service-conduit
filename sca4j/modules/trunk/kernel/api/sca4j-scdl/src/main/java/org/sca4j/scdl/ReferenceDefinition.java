@@ -79,7 +79,7 @@ import java.util.List;
  * @version $Rev: 5224 $ $Date: 2008-08-19 19:07:18 +0100 (Tue, 19 Aug 2008) $
  */
 public class ReferenceDefinition extends AbstractPolicyAware {
-    private static final long serialVersionUID = 4641581818938572132L;
+    
     private final String name;
     private ServiceContract serviceContract;
     private Multiplicity multiplicity;
