@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<definitions name="Weather" 
+             targetNamespace="http://billing.bpel.tests.sca4j.org"
+             xmlns:tns="http://billing.bpel.tests.sca4j.org"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+    <types>
+       <schema targetNamespace="http://billing.bpel.tests.sca4j.org" xmlns="http://www.w3.org/2001/XMLSchema">         
+            <complexType name="BillingRequest">
+                <sequence>
+                    <element name="itemCode" type="string"/>
+                    <element name="billingAddress" type="string"/>
+                </sequence>
+            </complexType>
+            <element name="billingRequest" type="tns:BillingRequest" />
+            <element name="billingResponse" type="int" />
+       </schema>
+    </types>
+
+    <message name="BillRequest">
+        <part name="request" element="tns:billingRequest"/>
+    </message>
+
+    <message name="BillResponse">
+        <part name="response" element="tns:billingResponse"/>
+    </message>
+
+    <portType name="BillingPortType">
+        <operation name="Bill">
+           <input message="tns:BillRequest"/>
+           <output message="tns:BillResponse"/>
+        </operation>
+    </portType>
+
+    <binding name="BillingSoapBinding" type="tns:BillingPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+        <operation name="Bill">
+           <soap:operation soapAction="http://example.com/Bill" />
+           <input>
+               <soap:body use="literal"/>
+           </input>
+           <output>
+               <soap:body use="literal"/>
+           </output>
+        </operation>
+    </binding>
+
+    <service name="BillingService">
+        <port name="BillingPort" binding="tns:BillingSoapBinding">
+           <soap:address location="http://example.com/billing"/>
+        </port>
+    </service>
+    
+    <plnk:partnerLinkType name="BillingPartnerLink">
+        <plnk:role name="billingService" portType="tns:BillingPortType" />
+    </plnk:partnerLinkType>
+
+</definitions>
