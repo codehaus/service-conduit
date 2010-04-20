@@ -28,7 +28,7 @@
     </message>
 
     <portType name="ShippingPortType">
-        <operation name="Ship">
+        <operation name="ship">
            <input message="tns:ShipRequest"/>
            <output message="tns:ShipResponse"/>
         </operation>
@@ -36,8 +36,8 @@
 
     <binding name="ShippingSoapBinding" type="tns:ShippingPortType">
         <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
-        <operation name="Ship">
-           <soap:operation soapAction="http://example.com/Ship" />
+        <operation name="ship">
+           <soap:operation soapAction="http://example.com/ship" />
            <input>
                <soap:body use="literal"/>
            </input>

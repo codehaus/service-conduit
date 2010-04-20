@@ -35,7 +35,7 @@
     </message>
 
     <portType name="OrderPortType">
-        <operation name="PlaceOrder">
+        <operation name="placeOrder">
            <input message="tns:PlaceOrderRequest"/>
            <output message="tns:PlaceOrderResponse"/>
         </operation>
@@ -43,8 +43,8 @@
 
     <binding name="OrderSoapBinding" type="tns:OrderPortType">
         <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
-        <operation name="PlaceOrder">
-           <soap:operation soapAction="http://example.com/PlaceOrder" />
+        <operation name="placeOrder">
+           <soap:operation soapAction="http://example.com/placeOrder" />
            <input>
                <soap:body use="literal"/>
            </input>

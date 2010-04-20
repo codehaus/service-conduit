@@ -28,7 +28,7 @@
     </message>
 
     <portType name="BillingPortType">
-        <operation name="Bill">
+        <operation name="bill">
            <input message="tns:BillRequest"/>
            <output message="tns:BillResponse"/>
         </operation>
@@ -36,8 +36,8 @@
 
     <binding name="BillingSoapBinding" type="tns:BillingPortType">
         <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
-        <operation name="Bill">
-           <soap:operation soapAction="http://example.com/Bill" />
+        <operation name="bill">
+           <soap:operation soapAction="http://example.com/bill" />
            <input>
                <soap:body use="literal"/>
            </input>
