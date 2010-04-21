@@ -34,7 +34,7 @@
         <dependency>
             <groupId>org.sca4j.spec</groupId>
             <artifactId>sca-api-r1.0</artifactId>
-            <version>0.4.3</version>
+            <version>0.4.4</version>
         </dependency>
         <dependency>
             <groupId>org.sca4j</groupId>

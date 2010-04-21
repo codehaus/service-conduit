@@ -60,14 +60,15 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.sql.DataSource;
 import javax.transaction.RollbackException;
+import javax.transaction.Status;
 import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
 import javax.transaction.Transaction;
 import javax.transaction.TransactionManager;
 
-import org.enhydra.jdbc.pool.StandardXAPoolDataSource;
-import org.enhydra.jdbc.standard.StandardXADataSource;
+import org.apache.commons.dbcp.BasicDataSource;
 import org.osoa.sca.annotations.EagerInit;
+import org.sca4j.host.SCA4JRuntimeException;
 import org.sca4j.spi.resource.DataSourceRegistry;
 
 /**
@@ -82,44 +83,57 @@ public class XaPoolDataSource implements DataSource {
 
     TransactionManager transactionManager;
     DataSourceRegistry dataSourceRegistry;
-    
+
     private Map<Transaction, TransactedConnection> connectionCache = new ConcurrentHashMap<Transaction, TransactedConnection>();
-    private StandardXAPoolDataSource delegate;
+    private BasicDataSource delegate;
 
     public Connection getConnection() throws SQLException {
-		
+
         try {
-            
+
             final Transaction transaction = transactionManager.getTransaction();
-            
+
             if (transaction == null) {
-                return delegate.getConnection();
+                Connection connection = delegate.getConnection();
+                connection.setAutoCommit(true);
+                return connection;
             }
-            
+
             TransactedConnection transactedConnection = connectionCache.get(transaction);
             if (transactedConnection == null) {
-                final Connection connection = delegate.getConnection();
+                Connection connection = delegate.getConnection();
+                connection.setAutoCommit(false);
                 transactedConnection = new TransactedConnection(connection);
                 connectionCache.put(transaction, transactedConnection);
                 transaction.registerSynchronization(new Synchronization() {
                     public void afterCompletion(int status) {
-                        TransactedConnection connection = connectionCache.get(transaction);
-                        connection.closeForReal();
-                        connectionCache.remove(transaction);
+                        TransactedConnection transactedConnection = connectionCache.remove(transaction);
+                        try {
+                            if (status == Status.STATUS_COMMITTED) {
+                                transactedConnection.commit();
+                            } else {
+                                transactedConnection.rollback();
+                            }
+                        } catch (SQLException e) {
+                            throw new SCA4JRuntimeException(e) {
+                            };
+                        } finally {
+                            transactedConnection.closeForReal();
+                        }
                     }
                     public void beforeCompletion() {
                     }
                 });
             }
-            
+
             return transactedConnection;
-            
+
         } catch (SystemException e) {
             throw new SQLException(e.getMessage());
         } catch (RollbackException e) {
             throw new SQLException(e.getMessage());
         }
-        
+
     }
 
     public Connection getConnection(String username, String password) throws SQLException {
@@ -144,18 +158,13 @@ public class XaPoolDataSource implements DataSource {
 
     public void start() throws SQLException {
 
-        StandardXADataSource xds = new StandardXADataSource();
-        xds.setTransactionManager(transactionManager);
-        xds.setUrl(url);
-        xds.setDriverName(driver);
-        xds.setPassword(password);
-        xds.setUser(user);
-        xds.setMinCon(minSize);
-        xds.setMaxCon(maxSize);
-        
-        delegate = new StandardXAPoolDataSource(xds);
-        delegate.setUser(user);
+        delegate = new BasicDataSource();
+        delegate.setUrl(url);
+        delegate.setDriverClassName(driver);
         delegate.setPassword(password);
+        delegate.setUsername(user);
+        delegate.setMinIdle(minSize);
+        delegate.setMaxActive(maxSize);
 
         for (String dataSourceKey : dataSourceKeys) {
             dataSourceRegistry.registerDataSource(dataSourceKey, this);
