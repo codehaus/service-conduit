@@ -60,15 +60,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.sql.DataSource;
 import javax.transaction.RollbackException;
-import javax.transaction.Status;
 import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
 import javax.transaction.Transaction;
 import javax.transaction.TransactionManager;
 
-import org.apache.commons.dbcp.BasicDataSource;
+import org.enhydra.jdbc.pool.StandardXAPoolDataSource;
+import org.enhydra.jdbc.standard.StandardXADataSource;
 import org.osoa.sca.annotations.EagerInit;
-import org.sca4j.host.SCA4JRuntimeException;
 import org.sca4j.spi.resource.DataSourceRegistry;
 
 /**
@@ -85,7 +84,7 @@ public class XaPoolDataSource implements DataSource {
     DataSourceRegistry dataSourceRegistry;
     
     private Map<Transaction, TransactedConnection> connectionCache = new ConcurrentHashMap<Transaction, TransactedConnection>();
-    private BasicDataSource delegate;
+    private StandardXAPoolDataSource delegate;
 
     public Connection getConnection() throws SQLException {
 		
@@ -99,25 +98,14 @@ public class XaPoolDataSource implements DataSource {
             
             TransactedConnection transactedConnection = connectionCache.get(transaction);
             if (transactedConnection == null) {
-                Connection connection = delegate.getConnection();
+                final Connection connection = delegate.getConnection();
                 transactedConnection = new TransactedConnection(connection);
                 connectionCache.put(transaction, transactedConnection);
                 transaction.registerSynchronization(new Synchronization() {
                     public void afterCompletion(int status) {
-                        TransactedConnection transactedConnection = connectionCache.get(transaction);
-                        try {
-                            if (status == Status.STATUS_COMMITTED) {
-                                transactedConnection.commit();
-                            } else {
-                                transactedConnection.rollback();
-                            }
-                        } catch (SQLException e) {
-                            throw new SCA4JRuntimeException(e) {
-                            };
-                        } finally {
-                            transactedConnection.closeForReal();
-                            connectionCache.remove(transaction);
-                        }
+                        TransactedConnection connection = connectionCache.get(transaction);
+                        connection.closeForReal();
+                        connectionCache.remove(transaction);
                     }
                     public void beforeCompletion() {
                     }
@@ -156,13 +144,18 @@ public class XaPoolDataSource implements DataSource {
 
     public void start() throws SQLException {
 
-        delegate = new BasicDataSource();
-        delegate.setUrl(url);
-        delegate.setDriverClassName(driver);
+        StandardXADataSource xds = new StandardXADataSource();
+        xds.setTransactionManager(transactionManager);
+        xds.setUrl(url);
+        xds.setDriverName(driver);
+        xds.setPassword(password);
+        xds.setUser(user);
+        xds.setMinCon(minSize);
+        xds.setMaxCon(maxSize);
+        
+        delegate = new StandardXAPoolDataSource(xds);
+        delegate.setUser(user);
         delegate.setPassword(password);
-        delegate.setUsername(user);
-        delegate.setMinIdle(minSize);
-        delegate.setMaxActive(maxSize);
 
         for (String dataSourceKey : dataSourceKeys) {
             dataSourceRegistry.registerDataSource(dataSourceKey, this);
