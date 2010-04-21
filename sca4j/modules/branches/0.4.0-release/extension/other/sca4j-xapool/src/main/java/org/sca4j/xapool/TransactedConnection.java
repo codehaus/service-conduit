@@ -62,16 +62,12 @@ import java.sql.Savepoint;
 import java.sql.Statement;
 import java.util.Map;
 
-import javax.sql.XAConnection;
-
 public class TransactedConnection implements Connection {
     
     private Connection wrappedConnection;
-    private XAConnection xaConnection;
     
-    public TransactedConnection(XAConnection xaConnection) throws SQLException {
-        this.wrappedConnection = xaConnection.getConnection();
-        this.xaConnection = xaConnection;
+    public TransactedConnection(Connection wrappedConnection) throws SQLException {
+        this.wrappedConnection = wrappedConnection;
     }
     
     /**
@@ -79,8 +75,7 @@ public class TransactedConnection implements Connection {
      */
     public void closeForReal() {
         try {
-            // wrappedConnection.close();
-            xaConnection.close();
+            wrappedConnection.close();
         } catch (SQLException e) {
             throw new AssertionError(e);
         }

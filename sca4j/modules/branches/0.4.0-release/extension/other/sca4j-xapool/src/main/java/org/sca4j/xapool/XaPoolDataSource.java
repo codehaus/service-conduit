@@ -59,15 +59,16 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.sql.DataSource;
-import javax.sql.XAConnection;
 import javax.transaction.RollbackException;
+import javax.transaction.Status;
 import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
 import javax.transaction.Transaction;
 import javax.transaction.TransactionManager;
 
-import org.enhydra.jdbc.standard.StandardXADataSource;
+import org.apache.commons.dbcp.BasicDataSource;
 import org.osoa.sca.annotations.EagerInit;
+import org.sca4j.host.SCA4JRuntimeException;
 import org.sca4j.spi.resource.DataSourceRegistry;
 
 /**
@@ -84,7 +85,7 @@ public class XaPoolDataSource implements DataSource {
     DataSourceRegistry dataSourceRegistry;
     
     private Map<Transaction, TransactedConnection> connectionCache = new ConcurrentHashMap<Transaction, TransactedConnection>();
-    private StandardXADataSource delegate;
+    private BasicDataSource delegate;
 
     public Connection getConnection() throws SQLException {
 		
@@ -96,23 +97,34 @@ public class XaPoolDataSource implements DataSource {
                 return delegate.getConnection();
             }
             
-            TransactedConnection connection = connectionCache.get(transaction);
-            if (connection == null) {
-                final XAConnection xaConnection = delegate.getXAConnection();
-                connection = new TransactedConnection(xaConnection);
-                connectionCache.put(transaction, connection);
+            TransactedConnection transactedConnection = connectionCache.get(transaction);
+            if (transactedConnection == null) {
+                Connection connection = delegate.getConnection();
+                transactedConnection = new TransactedConnection(connection);
+                connectionCache.put(transaction, transactedConnection);
                 transaction.registerSynchronization(new Synchronization() {
                     public void afterCompletion(int status) {
-                        TransactedConnection connection = connectionCache.get(transaction);
-                        connection.closeForReal();
-                        connectionCache.remove(transaction);
+                        TransactedConnection transactedConnection = connectionCache.get(transaction);
+                        try {
+                            if (status == Status.STATUS_COMMITTED) {
+                                transactedConnection.commit();
+                            } else {
+                                transactedConnection.rollback();
+                            }
+                        } catch (SQLException e) {
+                            throw new SCA4JRuntimeException(e) {
+                            };
+                        } finally {
+                            transactedConnection.closeForReal();
+                            connectionCache.remove(transaction);
+                        }
                     }
                     public void beforeCompletion() {
                     }
                 });
             }
             
-            return connection;
+            return transactedConnection;
             
         } catch (SystemException e) {
             throw new SQLException(e.getMessage());
@@ -144,14 +156,13 @@ public class XaPoolDataSource implements DataSource {
 
     public void start() throws SQLException {
 
-        delegate = new StandardXADataSource();
-        delegate.setTransactionManager(transactionManager);
+        delegate = new BasicDataSource();
         delegate.setUrl(url);
-        delegate.setDriverName(driver);
+        delegate.setDriverClassName(driver);
         delegate.setPassword(password);
-        delegate.setUser(user);
-        delegate.setMinCon(minSize);
-        delegate.setMaxCon(maxSize);
+        delegate.setUsername(user);
+        delegate.setMinIdle(minSize);
+        delegate.setMaxActive(maxSize);
 
         for (String dataSourceKey : dataSourceKeys) {
             dataSourceRegistry.registerDataSource(dataSourceKey, this);
