@@ -20,7 +20,7 @@
 
     
     <parent>
-        <groupId>org.codehaus.service-conduit</groupId>
+        <groupId>org.sca4j</groupId>
         <artifactId>sca4j-modules-parent-pom</artifactId>
 	    <version>0.4.3-SNAPSHOT</version>
     </parent>
@@ -32,12 +32,12 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.codehaus.service-conduit.spec</groupId>
+            <groupId>org.sca4j.spec</groupId>
             <artifactId>sca-api-r1.0</artifactId>
-            <version>0.2.2</version>
+            <version>0.4.3</version>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.service-conduit</groupId>
+            <groupId>org.sca4j</groupId>
             <artifactId>sca4j-monitor</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -46,7 +46,7 @@
             <artifactId>junit</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.service-conduit</groupId>
+            <groupId>org.sca4j</groupId>
             <artifactId>sca4j-generic-junit-api</artifactId>
             <version>${project.version}</version>
         </dependency>

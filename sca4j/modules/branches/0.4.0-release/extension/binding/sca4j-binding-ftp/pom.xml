@@ -19,12 +19,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.codehaus.service-conduit</groupId>
+        <groupId>org.sca4j</groupId>
         <artifactId>sca4j-extension-binding-parent-pom</artifactId>
         <version>0.4.3-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.codehaus.service-conduit</groupId>
+    <groupId>org.sca4j</groupId>
     <artifactId>sca4j-binding-ftp</artifactId>
     <name>SCA4J FTP Binding</name>
     <description>SCA4J FTP Binding.</description>
@@ -33,13 +33,13 @@
 
     <dependencies>
          <dependency>
-            <groupId>org.codehaus.service-conduit</groupId>
+            <groupId>org.sca4j</groupId>
             <artifactId>sca4j-spi</artifactId>
             <version>0.4.3-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.service-conduit</groupId>
+            <groupId>org.sca4j</groupId>
             <artifactId>sca4j-ftp-spi</artifactId>
             <version>0.4.3-SNAPSHOT</version>
             <scope>provided</scope>
@@ -77,7 +77,7 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.service-conduit</groupId>
+                <groupId>org.sca4j</groupId>
                 <artifactId>sca4j-contribution-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>

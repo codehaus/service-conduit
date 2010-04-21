@@ -23,7 +23,7 @@
         <version>6</version>
     </parent>
 
-    <groupId>org.codehaus.service-conduit</groupId>
+    <groupId>org.sca4j</groupId>
     <artifactId>sca4j-modules-parent-pom</artifactId>
     <version>0.4.3-SNAPSHOT</version>
     <name>SCA4J Modules Parent POM</name>
@@ -42,9 +42,9 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.codehaus.service-conduit</groupId>
+                    <groupId>org.sca4j</groupId>
                     <artifactId>sca4j-contribution-plugin</artifactId>
-                    <version>0.4.3-SNAPSHOT</version>
+                    <version>0.4.3</version>
                 </plugin>                
             </plugins>
         </pluginManagement>
