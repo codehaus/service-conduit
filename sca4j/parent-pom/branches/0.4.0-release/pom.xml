@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.codehaus.service-conduit</groupId>
+    <groupId>org.sca4j</groupId>
     <artifactId>parent</artifactId>
     <version>6.1-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -83,68 +83,18 @@
     
     <distributionManagement>
         <repository>
-            <id>dav.codehaus.org</id>
-            <name>Service Conduit Release Repository</name>
-            <url>dav:https://dav.codehaus.org/repository/service-conduit/</url>
+            <id>sca4j</id>
+            <name>SCA4J Release Repository</name>
+            <url>http://www.sca4j.org:8180/nexus/content/repositories/releases/</url>
         </repository>
         <snapshotRepository>
-            <id>dav.codehaus.org</id>
-            <name>Service Conduit Snapshot Repository</name>
-            <url>dav:https://dav.codehaus.org/snapshots.repository/service-conduit/</url>
+            <id>sca4j</id>
+            <name>SCA4J Snapshot Repository</name>
+            <url>http://www.sca4j.org:8180/nexus/content/repositories/snapshots/</url>
             <uniqueVersion>false</uniqueVersion>
         </snapshotRepository>
     </distributionManagement>
 
-    <repositories>
-        <repository>
-            <id>repository.codehaus.org</id>
-            <name>Service Conduit Releases</name>
-            <url>http://repository.codehaus.org/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>snapshots.repository.codehaus.org</id>
-            <name>Service Conduit Snapshots</name>
-            <url>http://snapshots.repository.codehaus.org/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>repository.codehaus.org</id>
-            <name>Service Conduit Releases</name>
-            <url>http://repository.codehaus.org/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>snapshots.repository.codehaus.org</id>
-            <name>Service Conduit Snapshots</name>
-            <url>http://snapshots.repository.codehaus.org/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
- 
     <scm>
         <connection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/parent-pom/branches/0.4.0-release</connection>
         <developerConnection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/parent-pom/branches/0.4.0-release</developerConnection>
