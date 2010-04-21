@@ -20,7 +20,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>sca4j-runtime-parent-pom</artifactId>
-	<version>0.4.3-SNAPSHOT</version>
+	<version>0.4.4-SNAPSHOT</version>
     </parent>
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-runtime-webapp-parent-pom</artifactId>
