@@ -1,0 +1,104 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.sca4j</groupId>
+    <artifactId>parent</artifactId>
+    <version>6.1</version>
+    <packaging>pom</packaging>
+    <name>Service Conduit Project Parent</name>
+    <description>Parent POM defining project wide settings.</description>
+
+    <organization>
+        <name>Service Symphony</name>
+        <url>http://www.servicesymphony.com</url>
+    </organization>
+
+    <inceptionYear>2008</inceptionYear>
+
+    <licenses>
+        <license>
+            <name>ASL 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>3.8.2</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.easymock</groupId>
+                <artifactId>easymock</artifactId>
+                <version>2.2</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.easymock</groupId>
+                <artifactId>easymockclassextension</artifactId>
+                <version>2.2</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav</artifactId>
+                <version>RELEASE</version>
+            </extension>
+        </extensions>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>RELEASE</version>
+                    <configuration>
+                        <source>1.5</source>
+                        <target>1.5</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>RELEASE</version>
+                    <configuration>
+                        <includes>
+                            <include>**/*TestCase.java</include>
+                        </includes>
+                        <reportFormat>brief</reportFormat>
+                        <useFile>false</useFile>
+                        <forkMode>once</forkMode>
+                        <argLine>-ea</argLine>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+    
+    <distributionManagement>
+        <repository>
+            <id>sca4j</id>
+            <name>SCA4J Release Repository</name>
+            <url>http://www.sca4j.org:8180/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>sca4j</id>
+            <name>SCA4J Snapshot Repository</name>
+            <url>http://www.sca4j.org:8180/nexus/content/repositories/snapshots/</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <scm>
+        <connection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/parent-pom/tags/parent-6.1</connection>
+        <developerConnection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/parent-pom/tags/parent-6.1</developerConnection>
+        <url>http://svn.codehaus.org/service-conduit/sca4j/parent-pom/tags/parent-6.1</url>
+    </scm>
+
+</project>
