@@ -23,15 +23,15 @@
     </parent>
     <groupId>org.sca4j.spec</groupId>
     <artifactId>sca-api-r1.0</artifactId>
-    <version>0.4.4</version>
+    <version>0.4.5-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>SCA API Version 1.0</name>
     <description>Service Component Architecture V1.0 Java API and Annotations</description>
 
     <scm>
-        <connection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/spec/tags/sca-api-r1.0-0.4.4</connection>
-        <developerConnection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/spec/tags/sca-api-r1.0-0.4.4</developerConnection>
-        <url>https://svn.codehaus.org/service-conduit/sca4j/spec/tags/sca-api-r1.0-0.4.4</url>
+        <connection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/spec/branches/0.4.0-release</connection>
+        <developerConnection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/spec/branches/0.4.0-release</developerConnection>
+        <url>https://svn.codehaus.org/service-conduit/sca4j/spec/branches/0.4.0-release</url>
     </scm>
 
 </project>
