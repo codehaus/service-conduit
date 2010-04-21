@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>sca4j-kernel-impl-parent-pom</artifactId>
-        <version>0.4.4</version>
+        <version>0.4.5-SNAPSHOT</version>
     </parent>
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-loader</artifactId>
@@ -31,13 +31,13 @@
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-spi</artifactId>
-            <version>0.4.4</version>
+            <version>0.4.5-SNAPSHOT</version>
         </dependency>
         
         <dependency>
             <groupId>org.sca4j</groupId>
             <artifactId>sca4j-transform</artifactId>
-            <version>0.4.4</version>
+            <version>0.4.5-SNAPSHOT</version>
         </dependency>
         
         <dependency>
