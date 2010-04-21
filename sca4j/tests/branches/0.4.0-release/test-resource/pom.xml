@@ -21,9 +21,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.codehaus.service-conduit</groupId>
+        <groupId>org.sca4j</groupId>
         <artifactId>ci</artifactId>
-        <version>0.4.3-SNAPSHOT</version>
+        <version>0.4.4-SNAPSHOT</version>
     </parent>
 
     <artifactId>test-resource</artifactId>
@@ -33,12 +33,12 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.codehaus.service-conduit</groupId>
+            <groupId>org.sca4j</groupId>
             <artifactId>sca4j-api</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.service-conduit</groupId>
+            <groupId>org.sca4j</groupId>
             <artifactId>test-user-resource</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
@@ -52,7 +52,7 @@
         <defaultGoal>verify</defaultGoal>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.service-conduit</groupId>
+                <groupId>org.sca4j</groupId>
                 <artifactId>sca4j-itest-plugin</artifactId>
                 <!-- generally this should point to the latest plugin and kernel version -->
                 <version>${sca4j.version}</version>
@@ -60,19 +60,19 @@
                     <runtimeVersion>${sca4j.version}</runtimeVersion>
                     <extensions>
                         <dependency>
-                            <groupId>org.codehaus.service-conduit</groupId>
+                            <groupId>org.sca4j</groupId>
                             <artifactId>sca4j-resource</artifactId>
                             <version>${sca4j.version}</version>
                         </dependency>
                         <dependency>
-                            <groupId>org.codehaus.service-conduit</groupId>
+                            <groupId>org.sca4j</groupId>
                             <artifactId>test-user-resource</artifactId>
                             <version>0.1-SNAPSHOT</version>
                         </dependency>
                     </extensions>
                     <shared>
                         <dependency>
-                            <groupId>org.codehaus.service-conduit</groupId>
+                            <groupId>org.sca4j</groupId>
                             <artifactId>test-user-resource</artifactId>
                             <version>0.1-SNAPSHOT</version>
                         </dependency>

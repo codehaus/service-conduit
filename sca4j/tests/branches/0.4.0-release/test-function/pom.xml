@@ -21,9 +21,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.codehaus.service-conduit</groupId>
+        <groupId>org.sca4j</groupId>
         <artifactId>ci</artifactId>
-        <version>0.4.3-SNAPSHOT</version>
+        <version>0.4.4-SNAPSHOT</version>
     </parent>
 
     <artifactId>test-function</artifactId>
@@ -33,12 +33,12 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.codehaus.service-conduit.spec</groupId>
+            <groupId>org.sca4j.spec</groupId>
             <artifactId>sca-api-r1.0</artifactId>
-            <version>0.2.2</version>
+            <version>0.4.3</version>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.service-conduit</groupId>
+            <groupId>org.sca4j</groupId>
             <artifactId>sca4j-monitor</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
@@ -47,22 +47,22 @@
             <artifactId>junit</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.service-conduit</groupId>
+            <groupId>org.sca4j</groupId>
             <artifactId>sca4j-maven-host</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.service-conduit</groupId>
+            <groupId>org.sca4j</groupId>
             <artifactId>sca4j-async</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.service-conduit</groupId>
+            <groupId>org.sca4j</groupId>
             <artifactId>sca4j-conversation-propagation</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.service-conduit</groupId>
+            <groupId>org.sca4j</groupId>
             <artifactId>sca4j-binding-test</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
@@ -72,7 +72,7 @@
         <defaultGoal>verify</defaultGoal>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.service-conduit</groupId>
+                <groupId>org.sca4j</groupId>
                 <artifactId>sca4j-itest-plugin</artifactId>
                 <configuration>
                     <compositeName>FunctionTestHarnessComposite</compositeName>

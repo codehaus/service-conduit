@@ -21,9 +21,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.codehaus.service-conduit</groupId>
+        <groupId>org.sca4j</groupId>
         <artifactId>ci</artifactId>
-        <version>0.4.3-SNAPSHOT</version>
+        <version>0.4.4-SNAPSHOT</version>
     </parent>
 
     <artifactId>test-binding-hessian</artifactId>
@@ -38,23 +38,23 @@
         </dependency>
 
         <dependency>
-            <groupId>org.codehaus.service-conduit</groupId>
+            <groupId>org.sca4j</groupId>
             <artifactId>sca4j-binding-test-harness</artifactId>
             <version>${sca4j.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.service-conduit</groupId>
+            <groupId>org.sca4j</groupId>
             <artifactId>sca4j-maven-host</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.service-conduit</groupId>
+            <groupId>org.sca4j</groupId>
             <artifactId>sca4j-binding-hessian</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.service-conduit</groupId>
+            <groupId>org.sca4j</groupId>
             <artifactId>sca4j-jetty</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
@@ -64,7 +64,7 @@
         <defaultGoal>verify</defaultGoal>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.service-conduit</groupId>
+                <groupId>org.sca4j</groupId>
                 <artifactId>sca4j-itest-plugin</artifactId>
                 <configuration>
                     <systemConfig>

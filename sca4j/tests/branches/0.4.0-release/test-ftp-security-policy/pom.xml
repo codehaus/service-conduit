@@ -21,9 +21,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.codehaus.service-conduit</groupId>
+        <groupId>org.sca4j</groupId>
         <artifactId>ci</artifactId>
-        <version>0.4.3-SNAPSHOT</version>
+        <version>0.4.4-SNAPSHOT</version>
     </parent>
 
     <artifactId>test-ftp-security-policy</artifactId>
@@ -34,7 +34,7 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.service-conduit</groupId>
+                <groupId>org.sca4j</groupId>
                 <artifactId>sca4j-contribution-plugin</artifactId>
                 <extensions>true</extensions>
             </plugin>
