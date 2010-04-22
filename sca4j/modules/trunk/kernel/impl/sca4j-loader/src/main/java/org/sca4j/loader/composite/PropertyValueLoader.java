@@ -57,7 +57,6 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
@@ -73,7 +72,6 @@ import org.sca4j.scdl.DataType;
 import org.sca4j.scdl.PropertyValue;
 import org.sca4j.spi.model.type.XSDSimpleType;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 /**
  * @version $Rev: 5134 $ $Date: 2008-08-02 07:33:02 +0100 (Sat, 02 Aug 2008) $

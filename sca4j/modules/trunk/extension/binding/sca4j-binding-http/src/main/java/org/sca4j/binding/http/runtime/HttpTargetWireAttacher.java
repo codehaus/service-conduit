@@ -67,7 +67,6 @@ import org.sca4j.binding.http.runtime.invocation.security.ConnectionProvider;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.TargetWireAttacher;
-import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
 import org.sca4j.spi.wire.InvocationChain;
@@ -79,7 +78,7 @@ import org.sca4j.spi.wire.Wire;
  */
 public class HttpTargetWireAttacher extends AbstractWireAttacher implements TargetWireAttacher<HttpTargetWireDefinition> {
     
-    @Reference protected Map<Class<? extends AuthenticationPolicy>, ConnectionProvider<?>> connectionProviders;
+    @Reference public Map<Class<? extends AuthenticationPolicy>, ConnectionProvider<?>> connectionProviders;
 
     public void attachToTarget(PhysicalWireSourceDefinition source, HttpTargetWireDefinition target, Wire wire) throws WiringException {
     

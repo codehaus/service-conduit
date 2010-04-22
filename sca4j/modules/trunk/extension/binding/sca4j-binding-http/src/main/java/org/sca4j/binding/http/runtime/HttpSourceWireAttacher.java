@@ -65,7 +65,6 @@ import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.SourceWireAttacher;
 import org.sca4j.spi.host.ServletHost;
-import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
 import org.sca4j.spi.wire.InvocationChain;

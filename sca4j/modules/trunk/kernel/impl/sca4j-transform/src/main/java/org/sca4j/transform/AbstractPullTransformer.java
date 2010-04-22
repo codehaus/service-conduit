@@ -58,7 +58,6 @@ import org.oasisopen.sca.annotation.Init;
 import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.scdl.DataType;
 import org.sca4j.spi.model.type.XSDSimpleType;
-import org.w3c.dom.Node;
 
 /**
  * @version $Rev: 3524 $ $Date: 2008-03-31 22:43:51 +0100 (Mon, 31 Mar 2008) $

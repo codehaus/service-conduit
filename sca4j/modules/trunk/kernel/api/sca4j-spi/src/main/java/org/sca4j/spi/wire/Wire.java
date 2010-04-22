@@ -72,7 +72,6 @@ package org.sca4j.spi.wire;
 
 import java.util.Map;
 
-import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.model.physical.PhysicalOperationPair;
 
 /**

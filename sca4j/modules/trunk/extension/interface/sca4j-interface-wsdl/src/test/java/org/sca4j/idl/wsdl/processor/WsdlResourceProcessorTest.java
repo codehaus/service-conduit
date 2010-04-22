@@ -77,7 +77,6 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.apache.ws.commons.schema.XmlSchemaType;
 import org.sca4j.host.contribution.ContributionException;
 import org.sca4j.idl.wsdl.model.PortTypeResourceElement;
 import org.sca4j.scdl.DataType;

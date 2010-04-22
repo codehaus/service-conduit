@@ -55,7 +55,6 @@ package org.sca4j.fabric.wire;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;

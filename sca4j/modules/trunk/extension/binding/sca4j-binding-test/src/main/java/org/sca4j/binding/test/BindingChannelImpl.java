@@ -64,7 +64,6 @@ import org.sca4j.spi.invocation.CallFrame;
 import org.sca4j.spi.invocation.ConversationContext;
 import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.WorkContext;
-import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;

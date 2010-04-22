@@ -52,8 +52,6 @@
  */
 package org.sca4j.spi.model.type;
 
-import javax.xml.namespace.QName;
-
 import org.sca4j.scdl.DataType;
 
 /**

@@ -70,7 +70,6 @@
  */
 package org.sca4j.introspection.impl.contract;
 
-import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;

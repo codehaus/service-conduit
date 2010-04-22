@@ -81,7 +81,6 @@ import org.sca4j.spi.builder.component.SourceWireAttacher;
 import org.sca4j.spi.builder.component.TargetWireAttacher;
 import org.sca4j.spi.builder.interceptor.InterceptorBuilder;
 import org.sca4j.spi.model.physical.PhysicalInterceptorDefinition;
-import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.model.physical.PhysicalWireDefinition;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
