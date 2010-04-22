@@ -82,22 +82,11 @@ import java.util.List;
  */
 public class PhysicalOperationDefinition  {
 
-    // Parameters
     private List<String> parameterTypes = new LinkedList<String>();
-
-    // Return
     private String returnType;
-
-    // Name of the operation
     private String name;
-
-    // Callback
     private boolean callback;
-
     private boolean endsConversation;
-
-    // Interceptors defined against the operation
-    private List<PhysicalInterceptorDefinition> interceptors = new LinkedList<PhysicalInterceptorDefinition>();
 
     /**
      * Returns the fully qualified parameter types for this operation.
@@ -133,33 +122,6 @@ public class PhysicalOperationDefinition  {
      */
     public void setReturnType(String returnType) {
         this.returnType = returnType;
-    }
-
-    /**
-     * Returns the interceptor definitions available for this operation.
-     *
-     * @return Inteceptor definitions for this operation.
-     */
-    public List<PhysicalInterceptorDefinition> getInterceptors() {
-        return interceptors;
-    }
-
-    /**
-     * Sets the interceptor definitions available for this operations.
-     *
-     * @param interceptors the interceptor definitions available for this operations
-     */
-    public void setInterceptors(List<PhysicalInterceptorDefinition> interceptors) {
-        this.interceptors = interceptors;
-    }
-
-    /**
-     * Adds an interceptor definition to the operation.
-     *
-     * @param interceptor Interceptor definition to be added.
-     */
-    public void addInterceptor(PhysicalInterceptorDefinition interceptor) {
-        interceptors.add(interceptor);
     }
 
     /**

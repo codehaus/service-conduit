@@ -116,7 +116,10 @@ public class JavaTargetWireAttacher implements TargetWireAttacher<JavaWireTarget
 
         // attach the invoker interceptor to forward invocation chains
         for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
-            PhysicalOperationDefinition operation = entry.getKey().getSourceOperation();
+            PhysicalOperationDefinition operation = entry.getKey().getTargetOperation();
+            if (operation == null) {
+                operation = entry.getKey().getSourceOperation();
+            }
             InvocationChain chain = entry.getValue();
             List<String> params = operation.getParameters();
             Class<?>[] paramTypes = new Class<?>[params.size()];
