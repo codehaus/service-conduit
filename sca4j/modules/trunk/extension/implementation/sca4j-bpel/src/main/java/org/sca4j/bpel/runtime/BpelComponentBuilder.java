@@ -22,6 +22,7 @@ import org.oasisopen.sca.annotation.EagerInit;
 import org.oasisopen.sca.annotation.Init;
 import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.bpel.provision.BpelPhysicalComponentDefinition;
+import org.sca4j.bpel.spi.EmbeddedBpelServer;
 import org.sca4j.spi.builder.BuilderException;
 import org.sca4j.spi.builder.component.ComponentBuilder;
 import org.sca4j.spi.builder.component.ComponentBuilderRegistry;
@@ -30,6 +31,7 @@ import org.sca4j.spi.builder.component.ComponentBuilderRegistry;
 public class BpelComponentBuilder<T> implements ComponentBuilder<BpelPhysicalComponentDefinition, BpelComponent<T>> {
 
     @Reference public ComponentBuilderRegistry componentBuilderRegistry;
+    @Reference public EmbeddedBpelServer embeddedBpelServer;
     
     @Init
     public void start() {
@@ -37,6 +39,7 @@ public class BpelComponentBuilder<T> implements ComponentBuilder<BpelPhysicalCom
     }
     @Override
     public BpelComponent<T> build(BpelPhysicalComponentDefinition componentDefinition) throws BuilderException {
+        embeddedBpelServer.registerProcess(componentDefinition);
         return new BpelComponent<T>(componentDefinition.getComponentId(), componentDefinition.getGroupId());
     }
 
