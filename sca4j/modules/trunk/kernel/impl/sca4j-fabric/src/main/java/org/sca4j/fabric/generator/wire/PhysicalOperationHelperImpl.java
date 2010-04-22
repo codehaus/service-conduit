@@ -67,9 +67,12 @@ import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
  */
 public class PhysicalOperationHelperImpl implements PhysicalOperationHelper {
 
-    @SuppressWarnings({"unchecked"})
     public PhysicalOperationDefinition mapOperation(Operation o) {
 
+        if (o == null) {
+            return null;
+        }
+        
         PhysicalOperationDefinition operation = new PhysicalOperationDefinition();
         operation.setName(o.getName());
         operation.setEndsConversation(o.getConversationSequence() == Operation.CONVERSATION_END);

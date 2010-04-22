@@ -88,6 +88,7 @@ import org.sca4j.spi.component.ScopeContainer;
 import org.sca4j.spi.component.ScopeRegistry;
 import org.sca4j.spi.model.physical.InteractionType;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.services.proxy.ProxyCreationException;
 import org.sca4j.spi.services.proxy.ProxyService;
 import org.sca4j.spi.wire.InvocationChain;
@@ -207,11 +208,11 @@ public class JDKProxyService implements ProxyService {
 
 	private Map<Method, InvocationChain> createInterfaceToWireMapping(Class<?> interfaze, Wire wire) throws NoMethodForOperationException {
 
-        Map<PhysicalOperationDefinition, InvocationChain> invocationChains = wire.getInvocationChains();
+        Map<PhysicalOperationPair, InvocationChain> invocationChains = wire.getInvocationChains();
 
         Map<Method, InvocationChain> chains = new HashMap<Method, InvocationChain>(invocationChains.size());
-        for (Map.Entry<PhysicalOperationDefinition, InvocationChain> entry : invocationChains.entrySet()) {
-            PhysicalOperationDefinition operation = entry.getKey();
+        for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : invocationChains.entrySet()) {
+            PhysicalOperationDefinition operation = entry.getKey().getSourceOperation();
             try {
                 Method method = findMethod(interfaze, operation);
                 chains.put(method, entry.getValue());

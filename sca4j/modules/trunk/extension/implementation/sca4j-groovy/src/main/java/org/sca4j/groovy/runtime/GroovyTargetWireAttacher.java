@@ -69,6 +69,7 @@ import org.sca4j.spi.component.AtomicComponent;
 import org.sca4j.spi.component.Component;
 import org.sca4j.spi.component.ScopeContainer;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
 import org.sca4j.spi.services.componentmanager.ComponentManager;
 import org.sca4j.spi.util.UriHelper;
@@ -99,8 +100,8 @@ public class GroovyTargetWireAttacher implements TargetWireAttacher<GroovyWireTa
         Class<?> implementationClass = target.getImplementationClass();
         ClassLoader loader = implementationClass.getClassLoader();
         // attach the invoker interceptor to forward invocation chains
-        for (Map.Entry<PhysicalOperationDefinition, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
-            PhysicalOperationDefinition operation = entry.getKey();
+        for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
+            PhysicalOperationDefinition operation = entry.getKey().getSourceOperation();
             InvocationChain chain = entry.getValue();
             List<String> params = operation.getParameters();
             Class<?>[] paramTypes = new Class<?>[params.size()];

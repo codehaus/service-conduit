@@ -76,7 +76,7 @@ import org.sca4j.binding.jms.runtime.tx.TransactionHandler;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.SourceWireAttacher;
-import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
 import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;
@@ -162,7 +162,7 @@ public class JmsSourceWireAttacher implements SourceWireAttacher<JmsWireSourceDe
         }
 
         Map<String, PayloadType> messageTypes = source.getPayloadTypes();
-        Map<PhysicalOperationDefinition, InvocationChain> operations = wire.getInvocationChains();
+        Map<PhysicalOperationPair, InvocationChain> operations = wire.getInvocationChains();
 
         ResponseMessageListener messageListener;
         if (metadata.noResponse()) {

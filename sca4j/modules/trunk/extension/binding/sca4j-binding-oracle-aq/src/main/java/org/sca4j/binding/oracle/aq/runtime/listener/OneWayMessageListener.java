@@ -48,6 +48,7 @@ import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.invocation.WorkContext;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.wire.InvocationChain;
 
@@ -56,7 +57,7 @@ import org.sca4j.spi.wire.InvocationChain;
  */
 public class OneWayMessageListener implements MessageListener {
 
-    private final Map<String, Map.Entry<PhysicalOperationDefinition, InvocationChain>> ops;
+    private final Map<String, Map.Entry<PhysicalOperationPair, InvocationChain>> ops;
     private final QueueDefinition queueDefinition;
     private final AQMonitor monitor;
 
@@ -66,7 +67,7 @@ public class OneWayMessageListener implements MessageListener {
      * @param ops
      * @param QueueDefinition
      */
-    public OneWayMessageListener(Map<String, Map.Entry<PhysicalOperationDefinition, InvocationChain>> ops, QueueDefinition queueDefinition,
+    public OneWayMessageListener(Map<String, Map.Entry<PhysicalOperationPair, InvocationChain>> ops, QueueDefinition queueDefinition,
                                  AQMonitor monitor) {
         this.ops = ops;
         this.queueDefinition = queueDefinition;

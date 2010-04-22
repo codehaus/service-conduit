@@ -65,7 +65,7 @@ import org.sca4j.binding.jms.common.SCA4JJmsException;
 import org.sca4j.binding.jms.provision.PayloadType;
 import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.invocation.WorkContext;
-import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.wire.InvocationChain;
 
@@ -83,11 +83,11 @@ public class OneWayMessageListenerImpl implements ResponseMessageListener {
      * @param messageTypes the JMS message type used to enqueue service
      *            invocations keyed by operation name
      */
-    public OneWayMessageListenerImpl(Map<PhysicalOperationDefinition, InvocationChain> chains, Map<String, PayloadType> messageTypes) {
+    public OneWayMessageListenerImpl(Map<PhysicalOperationPair, InvocationChain> chains, Map<String, PayloadType> messageTypes) {
 
         this.operations = new HashMap<String, ChainHolder>();
-        for (Entry<PhysicalOperationDefinition, InvocationChain> entry : chains.entrySet()) {
-            String name = entry.getKey().getName();
+        for (Entry<PhysicalOperationPair, InvocationChain> entry : chains.entrySet()) {
+            String name = entry.getKey().getSourceOperation().getName();
             PayloadType type = messageTypes.get(name);
             if (type == null) {
                 throw new IllegalArgumentException("No message type for operation: " + name);

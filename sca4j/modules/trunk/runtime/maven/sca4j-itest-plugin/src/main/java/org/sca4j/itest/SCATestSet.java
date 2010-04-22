@@ -85,7 +85,7 @@ import org.sca4j.spi.invocation.CallFrame;
 import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.invocation.WorkContext;
-import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.wire.Wire;
 
 /**
@@ -101,15 +101,15 @@ public class SCATestSet implements SurefireTestSet {
     }
 
     public void execute(ReporterManager reporterManager, ClassLoader loader) throws TestSetFailedException {
-        List<PhysicalOperationDefinition> tests = new LinkedList<PhysicalOperationDefinition>();
+        List<PhysicalOperationPair> tests = new LinkedList<PhysicalOperationPair>();
         tests.addAll(wire.getInvocationChains().keySet());
-        Collections.sort(tests, new Comparator<PhysicalOperationDefinition>() {
-            public int compare(PhysicalOperationDefinition o1, PhysicalOperationDefinition o2) {
-                return o1.getName().compareTo(o2.getName());
+        Collections.sort(tests, new Comparator<PhysicalOperationPair>() {
+            public int compare(PhysicalOperationPair o1, PhysicalOperationPair o2) {
+                return o1.getSourceOperation().getName().compareTo(o2.getSourceOperation().getName());
             }
         });
-        for (PhysicalOperationDefinition pod : tests) {
-            String operationName = pod.getName();
+        for (PhysicalOperationPair pod : tests) {
+            String operationName = pod.getSourceOperation().getName();
             reporterManager.testStarting(new ReportEntry(this, operationName, name));
             try {
                 WorkContext workContext = new WorkContext();

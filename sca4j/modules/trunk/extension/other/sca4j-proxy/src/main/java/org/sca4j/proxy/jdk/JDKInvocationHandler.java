@@ -230,7 +230,7 @@ public final class JDKInvocationHandler<B> implements ConversationExpirationCall
             }
         } finally {
             if (InteractionType.CONVERSATIONAL == type || InteractionType.PROPAGATES_CONVERSATION == type) {
-                PhysicalOperationDefinition operation = chain.getPhysicalOperation();
+                PhysicalOperationDefinition operation = chain.getPhysicalOperation().getSourceOperation();
                 if (operation.isEndsConversation()) {
                     conversation = null;
                 }

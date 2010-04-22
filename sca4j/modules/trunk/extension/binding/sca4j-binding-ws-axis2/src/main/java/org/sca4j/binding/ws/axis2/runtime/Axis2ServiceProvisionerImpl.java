@@ -83,7 +83,7 @@ import org.sca4j.binding.ws.axis2.runtime.servlet.SCA4JAxisServlet;
 import org.sca4j.host.runtime.HostInfo;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.host.ServletHost;
-import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;
 import org.w3c.dom.Element;
@@ -224,8 +224,8 @@ public class Axis2ServiceProvisionerImpl implements Axis2ServiceProvisioner {
     private void setMessageReceivers(Wire wire, AxisService axisService) throws Exception {
 
         Map<String, InvocationChain> interceptors = new HashMap<String, InvocationChain>();
-        for (Map.Entry<PhysicalOperationDefinition, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
-            interceptors.put(entry.getKey().getName(), entry.getValue());
+        for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
+            interceptors.put(entry.getKey().getSourceOperation().getName(), entry.getValue());
         }
 
         Utils.fillAxisService(axisService, configurationContext.getAxisConfiguration(), null, null);

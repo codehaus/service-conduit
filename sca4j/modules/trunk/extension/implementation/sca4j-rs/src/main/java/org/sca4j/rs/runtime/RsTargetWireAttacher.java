@@ -66,7 +66,7 @@ import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.TargetWireAttacher;
 import org.sca4j.spi.invocation.Message;
-import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
 import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.wire.InvocationChain;
@@ -91,8 +91,8 @@ public class RsTargetWireAttacher implements TargetWireAttacher<RsWireTargetDefi
             for (Method method : referenceClass.getDeclaredMethods()) {
                 String operationName = method.getName();
                 InvocationChain invocationChain = null;
-                for (Map.Entry<PhysicalOperationDefinition, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
-                    if (entry.getKey().getName().equals(operationName)) {
+                for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
+                    if (entry.getKey().getSourceOperation().getName().equals(operationName)) {
                         invocationChain = entry.getValue();
                     }
                 }

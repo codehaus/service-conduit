@@ -73,6 +73,7 @@ package org.sca4j.spi.wire;
 import java.util.Map;
 
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 
 /**
  * Wires connect references and services via a collection of invocation chains. An invocation chain corresponds to a service operation.
@@ -86,13 +87,13 @@ public interface Wire {
      * @param operation the service operation
      * @param chain     the invocation chain
      */
-    void addInvocationChain(PhysicalOperationDefinition operation, InvocationChain chain);
+    void addInvocationChain(PhysicalOperationPair operation, InvocationChain chain);
 
     /**
      * Returns the collection of invocation chains for the wire.
      *
      * @return the collection of invocation chains for the wire
      */
-    Map<PhysicalOperationDefinition, InvocationChain> getInvocationChains();
+    Map<PhysicalOperationPair, InvocationChain> getInvocationChains();
 
 }

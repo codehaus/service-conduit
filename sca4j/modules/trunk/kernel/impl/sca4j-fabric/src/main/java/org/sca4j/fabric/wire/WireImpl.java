@@ -56,6 +56,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;
 
@@ -65,14 +66,13 @@ import org.sca4j.spi.wire.Wire;
  * @version $Rev: 5224 $ $Date: 2008-08-19 19:07:18 +0100 (Tue, 19 Aug 2008) $
  */
 public class WireImpl implements Wire {
-    private final Map<PhysicalOperationDefinition, InvocationChain> chains =
-            new HashMap<PhysicalOperationDefinition, InvocationChain>();
+    private final Map<PhysicalOperationPair, InvocationChain> chains =  new HashMap<PhysicalOperationPair, InvocationChain>();
 
-    public void addInvocationChain(PhysicalOperationDefinition operation, InvocationChain chain) {
+    public void addInvocationChain(PhysicalOperationPair operation, InvocationChain chain) {
         chains.put(operation, chain);
     }
 
-    public Map<PhysicalOperationDefinition, InvocationChain> getInvocationChains() {
+    public Map<PhysicalOperationPair, InvocationChain> getInvocationChains() {
         return chains;
     }
 

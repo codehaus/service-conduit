@@ -105,7 +105,7 @@ public class StatefulCallbackInvocationHandler<T> extends AbstractCallbackInvoca
         try {
             return super.invoke(chain, args, workContext);
         } finally {
-            if (chain.getPhysicalOperation().isEndsConversation()) {
+            if (chain.getPhysicalOperation().getSourceOperation().isEndsConversation()) {
                 scopeContainer.stopContext(workContext);
             }
         }

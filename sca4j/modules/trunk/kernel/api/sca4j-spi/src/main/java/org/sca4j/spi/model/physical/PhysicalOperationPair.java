@@ -33,28 +33,21 @@ public class PhysicalOperationPair {
     private PhysicalOperationDefinition targetOperation;
     private List<PhysicalInterceptorDefinition> interceptors = new LinkedList<PhysicalInterceptorDefinition>();
 
-    public PhysicalOperationDefinition getSourceOperation() {
-        return sourceOperation;
+    public PhysicalOperationPair(PhysicalOperationDefinition sourceOperation, PhysicalOperationDefinition targetOperation) {
+        this.sourceOperation = sourceOperation;
+        this.targetOperation = targetOperation;
     }
 
-    public void setSourceOperation(PhysicalOperationDefinition sourceOperation) {
-        this.sourceOperation = sourceOperation;
+    public PhysicalOperationDefinition getSourceOperation() {
+        return sourceOperation;
     }
 
     public PhysicalOperationDefinition getTargetOperation() {
         return targetOperation;
     }
 
-    public void setTargetOperation(PhysicalOperationDefinition targetOperation) {
-        this.targetOperation = targetOperation;
-    }
-
     public List<PhysicalInterceptorDefinition> getInterceptors() {
         return interceptors;
-    }
-
-    public void setInterceptors(List<PhysicalInterceptorDefinition> interceptors) {
-        this.interceptors = interceptors;
     }
 
 }

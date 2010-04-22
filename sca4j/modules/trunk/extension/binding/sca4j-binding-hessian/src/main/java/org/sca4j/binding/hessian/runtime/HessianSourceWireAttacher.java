@@ -81,7 +81,7 @@ import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.SourceWireAttacher;
 import org.sca4j.spi.host.ServletHost;
-import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
 import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;
@@ -116,11 +116,11 @@ public class HessianSourceWireAttacher implements SourceWireAttacher<HessianWire
                                PhysicalWireTargetDefinition targetDefinition,
                                Wire wire) throws WiringException {
 
-        Map<String, Map.Entry<PhysicalOperationDefinition, InvocationChain>> ops =
-                new HashMap<String, Map.Entry<PhysicalOperationDefinition, InvocationChain>>();
+        Map<String, Map.Entry<PhysicalOperationPair, InvocationChain>> ops =
+                new HashMap<String, Map.Entry<PhysicalOperationPair, InvocationChain>>();
 
-        for (Map.Entry<PhysicalOperationDefinition, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
-            ops.put(entry.getKey().getName(), entry);
+        for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
+            ops.put(entry.getKey().getSourceOperation().getName(), entry);
         }
         URI id = sourceDefinition.getClassLoaderId();
         ClassLoader loader = getClass().getClassLoader();

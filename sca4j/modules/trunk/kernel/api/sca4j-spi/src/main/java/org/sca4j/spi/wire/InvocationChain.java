@@ -70,7 +70,7 @@
  */
 package org.sca4j.spi.wire;
 
-import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 
 /**
  * A wire consists of 1..n invocation chains associated with the operations of its source service contract.
@@ -86,7 +86,7 @@ public interface InvocationChain {
      *
      * @return the target physical operation for this invocation chain
      */
-    PhysicalOperationDefinition getPhysicalOperation();
+    PhysicalOperationPair getPhysicalOperation();
 
     /**
      * Adds an interceptor to the chain

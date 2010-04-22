@@ -60,7 +60,7 @@ import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.TargetWireAttacher;
-import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
 import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.wire.InvocationChain;
@@ -78,14 +78,14 @@ public class TestBindingTargetWireAttacher implements TargetWireAttacher<TestBin
     }
 
     public void attachToTarget(PhysicalWireSourceDefinition source, TestBindingTargetDefinition target, Wire wire) throws WiringException {
-        for (Map.Entry<PhysicalOperationDefinition, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
+        for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
             URI destination;
             if (target.isCallback()) {
                 destination = target.getCallbackUri();
             } else {
                 destination = target.getUri();
             }
-            String name = entry.getKey().getName();
+            String name = entry.getKey().getSourceOperation().getName();
             Interceptor interceptor = new TestBindingInterceptor(channel, destination, name);
             entry.getValue().addInterceptor(interceptor);
         }

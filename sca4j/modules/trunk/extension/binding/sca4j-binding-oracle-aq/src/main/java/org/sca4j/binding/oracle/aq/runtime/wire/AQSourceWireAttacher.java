@@ -55,6 +55,7 @@ import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.SourceWireAttacher;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
 import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;
@@ -92,7 +93,7 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
 
 	public void attachToSource(AQWireSourceDefinition sourceDefinition, PhysicalWireTargetDefinition targetDefinition, Wire wire) throws WiringException {
 
-	    Map<String, Map.Entry<PhysicalOperationDefinition, InvocationChain>> ops = getWireOpertaions(wire);
+	    Map<String, Map.Entry<PhysicalOperationPair, InvocationChain>> ops = getWireOpertaions(wire);
 	    int consumerCount = sourceDefinition.getConsumerCount();
 		QueueDefinition queueDefinition = new QueueDefinition(queueManager, sourceDefinition.getDestination(),
 		                                                      sourceDefinition.getCorrelationId(),
@@ -160,12 +161,12 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
 	  /*
      * Gets the operational Methods for the service
      */
-    private Map<String, Map.Entry<PhysicalOperationDefinition, InvocationChain>> getWireOpertaions(Wire wire) {
-        Map<String, Map.Entry<PhysicalOperationDefinition, InvocationChain>> operations = new HashMap<String, Map.Entry<PhysicalOperationDefinition, InvocationChain>>();
+    private Map<String, Map.Entry<PhysicalOperationPair, InvocationChain>> getWireOpertaions(Wire wire) {
+        Map<String, Map.Entry<PhysicalOperationPair, InvocationChain>> operations = new HashMap<String, Map.Entry<PhysicalOperationPair, InvocationChain>>();
 
         /* Get the operation names */
-        for (Map.Entry<PhysicalOperationDefinition, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
-            operations.put(entry.getKey().getName(), entry);
+        for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
+            operations.put(entry.getKey().getSourceOperation().getName(), entry);
         }
         return operations;
     }	

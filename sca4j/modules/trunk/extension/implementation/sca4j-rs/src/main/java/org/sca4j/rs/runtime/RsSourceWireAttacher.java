@@ -71,7 +71,7 @@ import org.sca4j.spi.host.ServletHost;
 import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.invocation.WorkContext;
-import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
 import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;
@@ -129,8 +129,8 @@ public class RsSourceWireAttacher implements SourceWireAttacher<RsWireSourceDefi
         Object instance = Proxy.newProxyInstance(classLoader, new Class[] {serviceInterface}, new InvocationHandler() {
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
                 String methodName = method.getName();
-                for (Map.Entry<PhysicalOperationDefinition, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
-                    if (entry.getKey().getName().equals(methodName)) {
+                for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
+                    if (entry.getKey().getSourceOperation().getName().equals(methodName)) {
                         Message message = new MessageImpl(args, false, new WorkContext());
                         message = entry.getValue().getHeadInterceptor().invoke(message);
                         return message.getBody();

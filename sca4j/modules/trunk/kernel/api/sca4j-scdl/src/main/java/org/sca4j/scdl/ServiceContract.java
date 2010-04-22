@@ -252,21 +252,7 @@ public abstract class ServiceContract extends ModelObject {
             if (!compareTypes(o.getOutputType(), theirs.getOutputType())) {
                 return false;
             }
-
-            List<DataType> theirFaults = theirs.getFaultTypes();
-            List<DataType> faults = o.getFaultTypes();
-            for (DataType theirFault : theirFaults) {
-                boolean matches = false;
-                for (DataType myFault : faults) {
-                    if (compareTypes(theirFault, myFault)) {
-                        matches = true;
-                        break;
-                    }
-                }
-                if (!matches) {
-                    return false;
-                }
-            }
+            
         }
         return true;
     }
@@ -281,6 +267,43 @@ public abstract class ServiceContract extends ModelObject {
         QName myType = mine.getXsdType();
         QName theirType = theirs.getXsdType();
         return myType != null && theirType != null && myType.equals(theirType);
+    }
+
+    public Operation mapOperation(Operation sourceOperation, ServiceContract sourceServiceContract) {
+        
+        if (sourceOperation.getWsdlName() == null) {
+            return null;
+        }
+        
+        for (Operation o : getOperations()) {
+            
+            if (o.getWsdlName() == null || !o.getWsdlName().equals(sourceOperation.getWsdlName())) {
+                return null;
+            }
+            
+            List<DataType> myParams = o.getInputTypes();
+            List<DataType> theirParams = sourceOperation.getInputTypes();
+
+            if (myParams.size() == theirParams.size()) {
+                for (int i = 0; i < myParams.size(); i++) {
+                    if (!compareTypes(myParams.get(i), theirParams.get(i))) {
+                        return null;
+                    }
+                }
+            } else {
+                return null;
+            }
+
+            if (!compareTypes(o.getOutputType(), sourceOperation.getOutputType())) {
+                return null;
+            }
+            
+            return o;
+            
+        }
+        
+        return null;
+        
     }
     
 }

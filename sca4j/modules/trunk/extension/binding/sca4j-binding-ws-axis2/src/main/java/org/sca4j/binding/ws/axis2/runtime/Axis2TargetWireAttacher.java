@@ -76,6 +76,7 @@ import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.TargetWireAttacher;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
 import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.wire.InvocationChain;
@@ -109,9 +110,9 @@ public class Axis2TargetWireAttacher implements TargetWireAttacher<Axis2WireTarg
             }
             
             AxisService axisService = createAxisClientService(target);
-            for (Map.Entry<PhysicalOperationDefinition, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
+            for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
     
-                String operation = entry.getKey().getName();
+                String operation = entry.getKey().getSourceOperation().getName();
     
                 Set<AxisPolicy> policies = target.getPolicies(operation);
                 Map<String, String> opInfo = target.getOperationInfo() != null ? target.getOperationInfo().get(operation) : null;

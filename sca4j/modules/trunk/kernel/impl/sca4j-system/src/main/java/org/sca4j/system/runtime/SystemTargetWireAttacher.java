@@ -65,6 +65,7 @@ import org.sca4j.spi.builder.component.TargetWireAttacher;
 import org.sca4j.spi.builder.component.WireAttachException;
 import org.sca4j.spi.component.ScopeContainer;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
 import org.sca4j.spi.services.componentmanager.ComponentManager;
 import org.sca4j.spi.util.UriHelper;
@@ -92,8 +93,8 @@ public class SystemTargetWireAttacher implements TargetWireAttacher<SystemWireTa
         Class<?> implementationClass = targetComponent.getImplementationClass();
         ClassLoader loader = implementationClass.getClassLoader();
 
-        for (Map.Entry<PhysicalOperationDefinition, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
-            PhysicalOperationDefinition operation = entry.getKey();
+        for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
+            PhysicalOperationDefinition operation = entry.getKey().getSourceOperation();
             InvocationChain chain = entry.getValue();
 
             List<String> params = operation.getParameters();

@@ -83,7 +83,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.invocation.WorkContext;
-import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.wire.InvocationChain;
 
@@ -102,7 +102,7 @@ public class BurlapServiceHandler extends HttpServlet {
     /**
      * Map of op names to operation definitions.
      */
-    private Map<String, Map.Entry<PhysicalOperationDefinition, InvocationChain>> ops;
+    private Map<String, Map.Entry<PhysicalOperationPair, InvocationChain>> ops;
 
     /**
      * The classloader to deserialize parameters in. Referencing the classloader directly is ok given this class must be cleaned up if the target
@@ -117,8 +117,7 @@ public class BurlapServiceHandler extends HttpServlet {
      * @param ops         Map of op names to operation definitions.
      * @param classLoader the classloader to load service interfaces with
      */
-    public BurlapServiceHandler(Map<String, Map.Entry<PhysicalOperationDefinition, InvocationChain>> ops,
-                                ClassLoader classLoader) {
+    public BurlapServiceHandler(Map<String, Map.Entry<PhysicalOperationPair, InvocationChain>> ops, ClassLoader classLoader) {
         this.ops = ops;
         this.classLoader = classLoader;
     }
@@ -142,10 +141,10 @@ public class BurlapServiceHandler extends HttpServlet {
 
             String methodName = burlapInput.getMethod();
 
-            PhysicalOperationDefinition op = ops.get(methodName).getKey();
+            PhysicalOperationPair op = ops.get(methodName).getKey();
             Interceptor head = ops.get(methodName).getValue().getHeadInterceptor();
 
-            Object[] args = new Object[op.getParameters().size()];
+            Object[] args = new Object[op.getSourceOperation().getParameters().size()];
             ClassLoader oldCl = Thread.currentThread().getContextClassLoader();
             try {
                 // Hessian uses the TCCL to deserialize parameters

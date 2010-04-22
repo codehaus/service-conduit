@@ -91,6 +91,7 @@ import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.TargetWireAttacher;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
 import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.wire.InvocationChain;
@@ -172,9 +173,9 @@ public class JmsTargetWireAttacher implements TargetWireAttacher<JmsWireTargetDe
         }
 
         Map<String, PayloadType> payloadTypes = targetDefinition.getPayloadTypes();
-        for (Map.Entry<PhysicalOperationDefinition, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
+        for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
 
-            PhysicalOperationDefinition op = entry.getKey();
+            PhysicalOperationDefinition op = entry.getKey().getSourceOperation();
             InvocationChain chain = entry.getValue();
 
             if (resDestination != null && resCf != null) {

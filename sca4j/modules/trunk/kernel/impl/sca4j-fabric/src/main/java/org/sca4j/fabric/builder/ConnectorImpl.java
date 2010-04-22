@@ -82,6 +82,7 @@ import org.sca4j.spi.builder.component.TargetWireAttacher;
 import org.sca4j.spi.builder.interceptor.InterceptorBuilder;
 import org.sca4j.spi.model.physical.PhysicalInterceptorDefinition;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.model.physical.PhysicalWireDefinition;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
 import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
@@ -156,7 +157,7 @@ public class ConnectorImpl implements Connector {
 
     Wire createWire(PhysicalWireDefinition definition) throws BuilderException {
         Wire wire = new WireImpl();
-        for (PhysicalOperationDefinition operation : definition.getOperations()) {
+        for (PhysicalOperationPair operation : definition.getOperations()) {
             InvocationChain chain = new InvocationChainImpl(operation);
             for (PhysicalInterceptorDefinition interceptorDefinition : operation.getInterceptors()) {
                 InterceptorBuilder<? super PhysicalInterceptorDefinition, ?> builder = getBuilder(interceptorDefinition);

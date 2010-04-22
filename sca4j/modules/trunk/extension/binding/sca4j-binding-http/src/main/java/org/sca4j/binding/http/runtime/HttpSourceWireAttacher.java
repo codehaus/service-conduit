@@ -66,6 +66,7 @@ import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.SourceWireAttacher;
 import org.sca4j.spi.host.ServletHost;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
 import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;
@@ -85,8 +86,8 @@ public class HttpSourceWireAttacher extends AbstractWireAttacher implements Sour
         Class<?> serviceInterface = getServiceInterface(source.getClassloaderId(), source.getInterfaze());
         ServiceMetadata serviceMetadata = getServiceMetadata(serviceInterface);
         
-        for (Map.Entry<PhysicalOperationDefinition, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
-        	OperationMetadata operationMetadata = serviceMetadata.getOperation(entry.getKey().getName());
+        for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
+        	OperationMetadata operationMetadata = serviceMetadata.getOperation(entry.getKey().getSourceOperation().getName());
         	String path = serviceMetadata.getRootResourcePath() + operationMetadata.getSubResourcePath();
         	HttpBindingServlet servlet = new HttpBindingServlet(operationMetadata, entry.getValue(), inboundBinders, outboundBinders, source.isUrlCase());
         	servletHost.registerMapping(path, servlet);

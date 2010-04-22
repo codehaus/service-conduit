@@ -68,6 +68,7 @@ import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.TargetWireAttacher;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
 import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;
@@ -87,8 +88,8 @@ public class HttpTargetWireAttacher extends AbstractWireAttacher implements Targ
             ServiceMetadata serviceMetadata = getServiceMetadata(seiClass);
             URI uri = target.getUri();
             
-            for (Map.Entry<PhysicalOperationDefinition, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
-                OperationMetadata operationMetadata = serviceMetadata.getOperation(entry.getKey().getName());
+            for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
+                OperationMetadata operationMetadata = serviceMetadata.getOperation(entry.getKey().getSourceOperation().getName());
                 URL url = new URL(uri + serviceMetadata.getRootResourcePath() + operationMetadata.getSubResourcePath());
                 HttpBindingInterceptor<?> interceptor = createInterceptor(target.getAuthenticationPolicy(), url, operationMetadata, target.getClassLoaderId());
                 entry.getValue().addInterceptor(interceptor);

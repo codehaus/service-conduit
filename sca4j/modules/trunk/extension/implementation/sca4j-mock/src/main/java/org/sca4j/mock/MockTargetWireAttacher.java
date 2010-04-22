@@ -69,6 +69,7 @@ import org.sca4j.spi.builder.component.WireAttachException;
 import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
 import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.wire.InvocationChain;
@@ -92,8 +93,8 @@ public class MockTargetWireAttacher implements TargetWireAttacher<MockWireTarget
         Class<?> mockedInterface = loadInterface(wireTargetDefinition);
         Object mock = createMock(mockedInterface);
 
-        for (Map.Entry<PhysicalOperationDefinition, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
-            PhysicalOperationDefinition op = entry.getKey();
+        for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
+            PhysicalOperationDefinition op = entry.getKey().getSourceOperation();
             InvocationChain chain = entry.getValue();
  
             //Each invocation chain has a single physical operation associated with it. This physical operation needs a

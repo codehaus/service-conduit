@@ -87,7 +87,7 @@ import org.sca4j.spi.invocation.ConversationContext;
 import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.invocation.WorkContext;
-import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.wire.InvocationChain;
 
@@ -106,7 +106,7 @@ public class HessianServiceHandler extends HttpServlet {
     /**
      * Map of op names to operation definitions.
      */
-    private Map<String, Map.Entry<PhysicalOperationDefinition, InvocationChain>> ops;
+    private Map<String, Map.Entry<PhysicalOperationPair, InvocationChain>> ops;
 
     private String callbackUri;
     /**
@@ -125,7 +125,7 @@ public class HessianServiceHandler extends HttpServlet {
      * @param classLoader       the classloader to load parameters in
      * @param serializerFactory the factory for Hessian serializers
      */
-    public HessianServiceHandler(Map<String, Map.Entry<PhysicalOperationDefinition, InvocationChain>> ops,
+    public HessianServiceHandler(Map<String, Map.Entry<PhysicalOperationPair, InvocationChain>> ops,
                                  String callbackUri,
                                  ClassLoader classLoader,
                                  SerializerFactory serializerFactory) {
@@ -159,10 +159,10 @@ public class HessianServiceHandler extends HttpServlet {
 
         // TODO handle method overloading
         String methodName = hessianInput.getMethod();
-        PhysicalOperationDefinition op = ops.get(methodName).getKey();
+        PhysicalOperationPair op = ops.get(methodName).getKey();
         Interceptor head = ops.get(methodName).getValue().getHeadInterceptor();
 
-        Object[] args = new Object[op.getParameters().size()];
+        Object[] args = new Object[op.getSourceOperation().getParameters().size()];
         ClassLoader oldCl = Thread.currentThread().getContextClassLoader();
         try {
             // Hessian uses the TCCL to deserialize parameters

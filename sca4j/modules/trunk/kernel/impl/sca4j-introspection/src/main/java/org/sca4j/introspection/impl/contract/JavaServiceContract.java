@@ -76,6 +76,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.sca4j.scdl.Operation;
 import org.sca4j.scdl.ServiceContract;
 
 /**
@@ -148,6 +149,17 @@ public class JavaServiceContract extends ServiceContract {
             return isJavaAssignableFrom(JavaServiceContract.class.cast(contract));
         } else {
             return super.isAssignableFrom(contract);
+        }
+    }
+    
+    
+
+    @Override
+    public Operation mapOperation(Operation sourceOperation, ServiceContract sourceServiceContract) {
+        if (JavaServiceContract.class.isInstance(sourceServiceContract)) {
+            return sourceOperation;
+        } else {
+            return super.mapOperation(sourceOperation, sourceServiceContract);
         }
     }
 

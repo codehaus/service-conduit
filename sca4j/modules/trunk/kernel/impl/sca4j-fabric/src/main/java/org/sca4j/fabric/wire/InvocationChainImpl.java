@@ -52,7 +52,7 @@
  */
 package org.sca4j.fabric.wire;
 
-import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.wire.InvocationChain;
 
@@ -62,15 +62,15 @@ import org.sca4j.spi.wire.InvocationChain;
  * @version $Rev: 1 $ $Date: 2007-05-14 18:40:37 +0100 (Mon, 14 May 2007) $
  */
 public class InvocationChainImpl implements InvocationChain {
-    protected PhysicalOperationDefinition physicalOperation;
+    protected PhysicalOperationPair physicalOperation;
     protected Interceptor interceptorChainHead;
     protected Interceptor interceptorChainTail;
 
-    public InvocationChainImpl(PhysicalOperationDefinition operation) {
+    public InvocationChainImpl(PhysicalOperationPair operation) {
         this.physicalOperation = operation;
     }
 
-    public PhysicalOperationDefinition getPhysicalOperation() {
+    public PhysicalOperationPair getPhysicalOperation() {
         return physicalOperation;
     }
 

@@ -63,6 +63,7 @@ import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.invocation.WorkContext;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;
 
@@ -84,13 +85,13 @@ public class BindingFtpLet implements FtpLet {
         this.servicePath = servicePath;
         this.monitor = monitor;
         
-        Map<PhysicalOperationDefinition, InvocationChain> invocationChains = wire.getInvocationChains();
+        Map<PhysicalOperationPair, InvocationChain> invocationChains = wire.getInvocationChains();
         if (invocationChains.size() <= 0 || invocationChains.size() > 2) {
             throw new AssertionError("Expects one download and/or an upload method");
         }
         
-        for (Map.Entry<PhysicalOperationDefinition, InvocationChain> entry : invocationChains.entrySet()) {
-            PhysicalOperationDefinition opd = entry.getKey();
+        for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : invocationChains.entrySet()) {
+            PhysicalOperationDefinition opd = entry.getKey().getSourceOperation();
             List<?> parameters = opd.getParameters();
             if (parameters.size() == 1) {
                 if (!"java.lang.String".equals(parameters.get(0)) ) {

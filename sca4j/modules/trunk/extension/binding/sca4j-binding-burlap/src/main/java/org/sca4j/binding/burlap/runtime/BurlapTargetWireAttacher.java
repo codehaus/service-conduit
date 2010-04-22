@@ -84,6 +84,7 @@ import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.TargetWireAttacher;
 import org.sca4j.spi.builder.component.WireAttachException;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
 import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;
@@ -121,13 +122,12 @@ public class BurlapTargetWireAttacher implements TargetWireAttacher<BurlapWireTa
                                BurlapWireTargetDefinition targetDefinition,
                                Wire wire) throws WiringException {
 
-        URI id = targetDefinition.getClassLoaderId();
         ClassLoader loader = getClass().getClassLoader();
         URI uri = targetDefinition.getUri();
 
         try {
-            for (Map.Entry<PhysicalOperationDefinition, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
-                PhysicalOperationDefinition op = entry.getKey();
+            for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
+                PhysicalOperationDefinition op = entry.getKey().getSourceOperation();
                 InvocationChain chain = entry.getValue();
                 chain.addInterceptor(new BurlapTargetInterceptor(uri.toURL(), op.getName(), loader));
             }
