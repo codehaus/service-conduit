@@ -66,7 +66,11 @@ public class WsdlOperationIntrospector implements OperationIntrospector {
         
         WebMethod webMethod = method.getAnnotation(WebMethod.class);
         if (webMethod != null) {
-            operation.setWsdlName(webMethod.operationName());
+            String operationName = webMethod.operationName();
+            if (operationName == null || "".equals(operationName)) {
+                operationName = method.getName();
+            }
+            operation.setWsdlName(operationName);
         }
         
         List<DataType> inputTypes = operation.getInputTypes();
