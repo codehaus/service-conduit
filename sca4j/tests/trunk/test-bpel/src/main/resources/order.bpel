@@ -4,6 +4,10 @@
          xmlns:order="http://order.bpel.tests.sca4j.org"
          xmlns:billing="http://billing.bpel.tests.sca4j.org"
          xmlns:shipping="http://shipping.bpel.tests.sca4j.org">
+         
+    <import location="billing.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" namespace="http://billing.bpel.tests.sca4j.org"/>
+    <import location="shipping.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" namespace="http://shipping.bpel.tests.sca4j.org"/>
+    <import location="order.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" namespace="http://order.bpel.tests.sca4j.org"/>
 
     <partnerLinks>
         <partnerLink name="order" partnerLinkType="order:OrderPartnerLink" myRole="orderService" />
@@ -17,7 +21,7 @@
         <variable name="billingRequest" messageType="billing:BillRequest" />
         <variable name="billingResponse" messageType="billing:BillResponse" />
         <variable name="shippingRequest" messageType="shipping:ShipRequest" />
-        <variable name="shippingResponse" messageType="shipping:ShippingResponse" />
+        <variable name="shippingResponse" messageType="shipping:ShipResponse" />
     </variables>
     
     <sequence>
