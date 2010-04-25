@@ -77,10 +77,10 @@ public class BpelPhysicalComponentGenerator implements ComponentGenerator<Logica
         }
         
         for (Map.Entry<String, ServiceDefinition> service : type.getServices().entrySet()) {
-            String serviceName = service.getKey();
+            String referenceName = service.getKey();
             WsdlContract contract = (WsdlContract) service.getValue().getServiceContract();
             QName portType = contract.getPortTypeName();
-            physicalComponentDefinition.getServiceEndpoints().put(serviceName, portType);
+            physicalComponentDefinition.getServiceEndpoints().put(referenceName, portType);
             physicalComponentDefinition.getPortTypes().put(portType, type.getPortTypes().get(portType));
         }
         

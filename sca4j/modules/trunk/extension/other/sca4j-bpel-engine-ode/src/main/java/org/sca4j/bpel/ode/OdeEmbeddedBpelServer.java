@@ -18,13 +18,17 @@
  */
 package org.sca4j.bpel.ode;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Properties;
 import java.util.concurrent.Executors;
 
 import javax.sql.DataSource;
 import javax.transaction.TransactionManager;
 import javax.xml.namespace.QName;
+import javax.xml.transform.TransformerFactory;
 
+import org.apache.ode.bpel.compiler.api.CompilationException;
 import org.apache.ode.bpel.dao.BpelDAOConnectionFactory;
 import org.apache.ode.bpel.engine.BpelServerImpl;
 import org.apache.ode.bpel.memdao.BpelDAOConnectionFactoryImpl;
@@ -32,6 +36,7 @@ import org.apache.ode.scheduler.simple.DatabaseDelegate;
 import org.apache.ode.scheduler.simple.JdbcDelegate;
 import org.apache.ode.scheduler.simple.SimpleScheduler;
 import org.apache.ode.utils.GUID;
+import org.apache.ode.utils.xsl.XslTransformHandler;
 import org.oasisopen.sca.annotation.Destroy;
 import org.oasisopen.sca.annotation.EagerInit;
 import org.oasisopen.sca.annotation.Reference;
@@ -73,9 +78,21 @@ public class OdeEmbeddedBpelServer implements EmbeddedBpelServer {
         if (bpelServer == null) {
             start();
         }
+        try {
+            Sca4jProcessConf sca4jProcessConf = new Sca4jProcessConf(physicalComponentDefinition);
+            bpelServer.register(sca4jProcessConf);
+        } catch (CompilationException e) {
+            throw new Sca4jOdeException("Unable to compile bpel process " + physicalComponentDefinition.getProcessUrl(), e);
+        } catch (URISyntaxException e) {
+            throw new Sca4jOdeException("Unable to register bpel process " + physicalComponentDefinition.getProcessUrl(), e);
+        } catch (IOException e) {
+            throw new Sca4jOdeException("Unable to register bpel process " + physicalComponentDefinition.getProcessUrl(), e);
+        }
     }
     
     private void start() {
+        
+        XslTransformHandler.getInstance().setTransformerFactory(TransformerFactory.newInstance());
 
         SimpleScheduler scheduler = getScheduler();
         BpelDAOConnectionFactory daoConnectionFactory = new BpelDAOConnectionFactoryImpl(scheduler);
@@ -83,6 +100,8 @@ public class OdeEmbeddedBpelServer implements EmbeddedBpelServer {
         bpelServer = new BpelServerImpl();
         bpelServer.setDaoConnectionFactory(daoConnectionFactory);
         bpelServer.setScheduler(scheduler);
+        
+        bpelServer.setBindingContext(new Sca4jBindingContext());
         
         bpelServer.init();
         

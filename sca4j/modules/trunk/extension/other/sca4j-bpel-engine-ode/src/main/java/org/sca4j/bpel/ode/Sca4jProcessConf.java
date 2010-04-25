@@ -107,11 +107,6 @@ public class Sca4jProcessConf implements ProcessConf {
     }
 
     @Override
-    public List<CronJob> getCronJobs() {
-        return Collections.emptyList();
-    }
-
-    @Override
     public Date getDeployDate() {
         return new Date();
     }
@@ -211,7 +206,7 @@ public class Sca4jProcessConf implements ProcessConf {
 
     @Override
     public boolean isTransient() {
-        return true;
+        return false;
     }
 
     @Override
