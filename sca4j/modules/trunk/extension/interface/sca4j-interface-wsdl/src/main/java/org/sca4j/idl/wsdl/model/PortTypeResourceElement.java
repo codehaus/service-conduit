@@ -20,6 +20,7 @@ package org.sca4j.idl.wsdl.model;
 
 import java.util.List;
 
+import javax.wsdl.Definition;
 import javax.wsdl.PortType;
 import javax.xml.namespace.QName;
 
@@ -32,6 +33,7 @@ public class PortTypeResourceElement extends ResourceElement<QName> {
     private XmlSchemaCollection schemaCollection;
     private List<Operation> operations;
     private PortType portType;
+    private Definition definition;
     
     public PortTypeResourceElement(QName symbol) {
         super(symbol);
@@ -48,6 +50,10 @@ public class PortTypeResourceElement extends ResourceElement<QName> {
     public PortType getPortType() {
         return portType;
     }
+    
+    public Definition getDefinition() {
+        return definition;
+    }
 
     public void setSchemaCollection(XmlSchemaCollection schemaCollection) {
         this.schemaCollection = schemaCollection;
@@ -57,8 +63,9 @@ public class PortTypeResourceElement extends ResourceElement<QName> {
         this.operations = operations;
     }
 
-    public void setPortType(PortType portType) {
+    public void setPortType(PortType portType, Definition definition) {
         this.portType = portType;
+        this.definition = definition;
     }
 
 }

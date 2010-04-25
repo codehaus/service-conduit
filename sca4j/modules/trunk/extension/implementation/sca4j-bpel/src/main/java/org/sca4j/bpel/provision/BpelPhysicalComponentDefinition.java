@@ -19,7 +19,10 @@
 package org.sca4j.bpel.provision;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.wsdl.Definition;
 import javax.xml.namespace.QName;
 
 import org.sca4j.spi.model.physical.PhysicalComponentDefinition;
@@ -32,21 +35,37 @@ public class BpelPhysicalComponentDefinition extends PhysicalComponentDefinition
 
     private URL processUrl;
     private QName processName;
+    private Map<String, QName> serviceEndpoints = new HashMap<String, QName>();
+    private Map<String, QName> referenceEndpoints = new HashMap<String, QName>();
+    private Map<QName, Definition> portTypes = new HashMap<QName, Definition>();
+    
+    public BpelPhysicalComponentDefinition(URL processUrl, QName processName) {
+        this.processUrl = processUrl;
+        this.processName = processName;
+    }
 
     public URL getProcessUrl() {
         return processUrl;
-    }
-
-    public void setProcessUrl(URL processUrl) {
-        this.processUrl = processUrl;
     }
 
     public QName getProcessName() {
         return processName;
     }
 
-    public void setProcessName(QName processName) {
-        this.processName = processName;
+    public Map<String, QName> getServiceEndpoints() {
+        return serviceEndpoints;
     }
+
+    public Map<String, QName> getReferenceEndpoints() {
+        return referenceEndpoints;
+    }
+
+    public Map<QName, Definition> getPortTypes() {
+        return portTypes;
+    }
+    
+    
+    
+    
 
 }

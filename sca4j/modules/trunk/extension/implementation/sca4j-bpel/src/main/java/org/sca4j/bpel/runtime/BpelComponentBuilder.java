@@ -38,9 +38,9 @@ public class BpelComponentBuilder<T> implements ComponentBuilder<BpelPhysicalCom
         componentBuilderRegistry.register(BpelPhysicalComponentDefinition.class, this);
     }
     @Override
-    public BpelComponent<T> build(BpelPhysicalComponentDefinition componentDefinition) throws BuilderException {
-        embeddedBpelServer.registerProcess(componentDefinition);
-        return new BpelComponent<T>(componentDefinition.getComponentId(), componentDefinition.getGroupId());
+    public BpelComponent<T> build(BpelPhysicalComponentDefinition definition) throws BuilderException {
+        embeddedBpelServer.registerProcess(definition);
+        return new BpelComponent<T>(definition.getComponentId(), definition.getGroupId());
     }
 
 }

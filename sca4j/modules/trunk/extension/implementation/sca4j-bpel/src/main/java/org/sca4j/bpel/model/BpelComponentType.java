@@ -19,7 +19,10 @@
 package org.sca4j.bpel.model;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.wsdl.Definition;
 import javax.xml.namespace.QName;
 
 import org.sca4j.scdl.AbstractComponentType;
@@ -32,6 +35,7 @@ public class BpelComponentType extends AbstractComponentType<ServiceDefinition, 
     
     private URL processUrl;
     private QName processName;
+    private Map<QName, Definition> portTypes = new HashMap<QName, Definition>();
     
     /**
      * Initialises the process name and URL.
@@ -56,6 +60,10 @@ public class BpelComponentType extends AbstractComponentType<ServiceDefinition, 
      */
     public QName getProcessName() {
         return processName;
+    }
+
+    public Map<QName, Definition> getPortTypes() {
+        return portTypes;
     }
 
 }

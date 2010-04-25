@@ -132,7 +132,7 @@ public class WsdlResourceProcessor implements ResourceProcessor {
                     Operation op = getOperation(schemaCollection, (javax.wsdl.Operation) obj);                
                     operations.add(op);                
                 }
-                resourceElement.setPortType(portType);
+                resourceElement.setPortType(portType, definition);
                 resourceElement.setOperations(operations);
                 resourceElement.setSchemaCollection(schemaCollection);
             }

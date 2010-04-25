@@ -39,7 +39,6 @@
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-interface-wsdl</artifactId>
             <version>0.9.1-SNAPSHOT</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>

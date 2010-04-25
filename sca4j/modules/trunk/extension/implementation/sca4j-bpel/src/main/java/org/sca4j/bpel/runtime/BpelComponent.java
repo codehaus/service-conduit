@@ -38,7 +38,7 @@ public class BpelComponent<T> extends AbstractLifecycle implements AtomicCompone
         this.uri = uri;
         this.groupId = groupId;
     }
-
+    
     @Override
     public URI getUri() {
         return uri;

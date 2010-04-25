@@ -173,6 +173,8 @@ public class BpelResourceProcessor implements ResourceProcessor {
             componentType.add(referenceDefinition);
         }
         
+        componentType.getPortTypes().put(portTypeName, portTypeResourceElement.getDefinition());
+        
     }
 
     /*

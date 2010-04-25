@@ -56,6 +56,7 @@ public class OdeEmbeddedBpelServer implements EmbeddedBpelServer {
     
     @Destroy
     public void stop() {
+        bpelServer.shutdown();
     }
 
     @Override
