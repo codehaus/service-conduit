@@ -21,6 +21,8 @@ package org.sca4j.bpel.spi;
 import javax.xml.namespace.QName;
 
 import org.sca4j.bpel.provision.BpelPhysicalComponentDefinition;
+import org.sca4j.spi.invocation.Message;
+import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.wire.Interceptor;
 
 /**
@@ -30,15 +32,6 @@ import org.sca4j.spi.wire.Interceptor;
  *
  */
 public interface EmbeddedBpelServer {
-    
-    /**
-     * @param procesName
-     * @param serviceName
-     * @param operation
-     * @param payload
-     * @return
-     */
-    Object invokeService(QName procesName,QName serviceName, String operation, Object payload);
     
     /**
      * @param processName
@@ -51,5 +44,13 @@ public interface EmbeddedBpelServer {
      * @param physicalComponentDefinition
      */
     void registerProcess(BpelPhysicalComponentDefinition physicalComponentDefinition);
+
+    /**
+     * @param targetOperationDefinition Operation definition.
+     * @param processName Process to be executed.
+     * @param message Incoming message.
+     * @return Return message.
+     */
+    Message invokeService(PhysicalOperationDefinition targetOperationDefinition, QName processName, Message message);
 
 }

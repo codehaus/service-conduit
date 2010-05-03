@@ -20,7 +20,9 @@ package org.sca4j.bpel.runtime;
 
 import java.util.Map;
 
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.bpel.provision.BpelPhysicalWireTargetDefinition;
+import org.sca4j.bpel.spi.EmbeddedBpelServer;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.TargetWireAttacher;
@@ -37,12 +39,14 @@ import org.sca4j.spi.wire.Wire;
  *
  */
 public class BpelTargetWireAttacher implements TargetWireAttacher<BpelPhysicalWireTargetDefinition> {
+    
+    @Reference public EmbeddedBpelServer embeddedBpelServer;
 
     @Override
     public void attachToTarget(PhysicalWireSourceDefinition source, BpelPhysicalWireTargetDefinition target, Wire wire) throws WiringException {
         for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
             PhysicalOperationDefinition targetOperationDefinition = entry.getKey().getTargetOperation();
-            BpelInvocationReceiver receiver = new BpelInvocationReceiver(targetOperationDefinition);
+            BpelInvocationReceiver receiver = new BpelInvocationReceiver(targetOperationDefinition, embeddedBpelServer, target.getProcessName());
             entry.getValue().addInterceptor(receiver);
         }
     }

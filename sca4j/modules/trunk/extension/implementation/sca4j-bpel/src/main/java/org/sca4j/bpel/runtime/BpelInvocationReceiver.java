@@ -18,37 +18,43 @@
  */
 package org.sca4j.bpel.runtime;
 
+import javax.xml.namespace.QName;
+
+import org.sca4j.bpel.spi.EmbeddedBpelServer;
 import org.sca4j.spi.invocation.Message;
-import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.wire.Interceptor;
 
+/**
+ * Receives an invocation into a BPEL process.
+ * 
+ * @author meerajk
+ *
+ */
 public class BpelInvocationReceiver implements Interceptor {
 
     private PhysicalOperationDefinition targetOperationDefinition;
+    private EmbeddedBpelServer embeddedBpelServer;
+    private QName processName;
     
-    public BpelInvocationReceiver(PhysicalOperationDefinition targetOperationDefinition) {
+    public BpelInvocationReceiver(PhysicalOperationDefinition targetOperationDefinition, EmbeddedBpelServer embeddedBpelServer, QName processName) {
         this.targetOperationDefinition = targetOperationDefinition;
+        this.embeddedBpelServer = embeddedBpelServer;
+        this.processName = processName;
     }
 
     @Override
     public Interceptor getNext() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Message invoke(Message msg) {
-        Object[] payload = (Object[]) msg.getBody();
-        System.err.println("Invoked operation " + targetOperationDefinition.getName() + " with parameters " + payload[0]);
-        // TODO interface into the BPEL engine
-        return new MessageImpl();
+    public Message invoke(Message message) {
+        return embeddedBpelServer.invokeService(targetOperationDefinition, processName, message);
     }
 
     @Override
     public void setNext(Interceptor next) {
-        // TODO Auto-generated method stub
-
     }
 
 }

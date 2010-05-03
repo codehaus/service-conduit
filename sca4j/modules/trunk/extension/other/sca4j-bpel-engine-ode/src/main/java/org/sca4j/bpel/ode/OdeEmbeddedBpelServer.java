@@ -31,6 +31,7 @@ import javax.xml.transform.TransformerFactory;
 import org.apache.ode.bpel.compiler.api.CompilationException;
 import org.apache.ode.bpel.dao.BpelDAOConnectionFactory;
 import org.apache.ode.bpel.engine.BpelServerImpl;
+import org.apache.ode.bpel.iapi.MyRoleMessageExchange;
 import org.apache.ode.bpel.memdao.BpelDAOConnectionFactoryImpl;
 import org.apache.ode.scheduler.simple.DatabaseDelegate;
 import org.apache.ode.scheduler.simple.JdbcDelegate;
@@ -42,6 +43,8 @@ import org.oasisopen.sca.annotation.EagerInit;
 import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.bpel.provision.BpelPhysicalComponentDefinition;
 import org.sca4j.bpel.spi.EmbeddedBpelServer;
+import org.sca4j.spi.invocation.Message;
+import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.resource.DataSourceRegistry;
 import org.sca4j.spi.wire.Interceptor;
 
@@ -69,7 +72,9 @@ public class OdeEmbeddedBpelServer implements EmbeddedBpelServer {
     }
 
     @Override
-    public synchronized Object invokeService(QName procesName, QName serviceName, String operation, Object payload) {
+    public Message invokeService(PhysicalOperationDefinition targetOperationDefinition, QName processName, Message message) {
+        MyRoleMessageExchange mex = bpelServer.getEngine().createMessageExchange(new GUID().toString(), processName, targetOperationDefinition.getName());
+        // TODO Auto-generated method stub
         return null;
     }
 

@@ -18,6 +18,8 @@
  */
 package org.sca4j.bpel.provision;
 
+import javax.xml.namespace.QName;
+
 import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
 
 /**
@@ -27,6 +29,16 @@ import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
  *
  */
 public class BpelPhysicalWireTargetDefinition extends PhysicalWireTargetDefinition {
+
+    private QName processName;
+
+    public BpelPhysicalWireTargetDefinition(QName processName) {
+        this.processName = processName;
+    }
+
+    public QName getProcessName() {
+        return processName;
+    }
 
     @Override
     public boolean isOptimizable() {

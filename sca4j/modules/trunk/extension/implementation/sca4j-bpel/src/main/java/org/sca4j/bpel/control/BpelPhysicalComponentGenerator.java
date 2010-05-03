@@ -105,7 +105,12 @@ public class BpelPhysicalComponentGenerator implements ComponentGenerator<Logica
 
     @Override
     public PhysicalWireTargetDefinition generateWireTarget(LogicalService service, LogicalComponent<BpelImplementation> target, Policy policy) {
-        return new BpelPhysicalWireTargetDefinition();
+        
+        BpelImplementation implementation = target.getDefinition().getImplementation();
+        BpelComponentType type = implementation.getComponentType();
+        
+        return new BpelPhysicalWireTargetDefinition(type.getProcessName());
+        
     }
 
 }
