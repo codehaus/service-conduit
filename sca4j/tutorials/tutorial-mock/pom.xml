@@ -24,9 +24,9 @@
         <version>1.0</version>
     </parent>
     
-    <artifactId>tutorial-composite-shipping</artifactId>
+    <artifactId>tutorial-mock</artifactId>
     <packaging>jar</packaging>
-    <name>Shipping Composite</name>
+    <name>Getting Started</name>
 
     <dependencies>
         <dependency>
@@ -38,6 +38,20 @@
             <artifactId>sca4j-maven-host</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-mock</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.service-conduit</groupId>
+                <artifactId>sca4j-itest-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

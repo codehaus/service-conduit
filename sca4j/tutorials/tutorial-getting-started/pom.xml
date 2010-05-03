@@ -36,6 +36,7 @@
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-maven-host</artifactId>
+            <version>${sca4j.version}</version>
         </dependency>
     </dependencies>
 
