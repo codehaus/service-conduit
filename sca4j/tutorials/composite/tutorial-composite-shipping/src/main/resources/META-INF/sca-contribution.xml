@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<contribution xmlns="http://www.osoa.org/xmlns/sca/1.0">
+<contribution xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912">
     <export namespace="urn:sca4j.org:tutorials:shipping" />
 </contribution>

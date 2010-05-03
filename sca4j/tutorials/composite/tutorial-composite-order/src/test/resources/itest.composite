@@ -19,7 +19,7 @@
     the Apache License, Version 2.0 and original code from project contributors.
 
 -->
-<composite xmlns="http://www.osoa.org/xmlns/sca/1.0" 
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912" 
            xmlns:sca4j="urn:sca4j.org" 
            xmlns:order="urn:sca4j.org:tutorials:order"
            xmlns:shipping="urn:sca4j.org:tutorials:shipping"

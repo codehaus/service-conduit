@@ -19,7 +19,7 @@
     the Apache License, Version 2.0 and original code from project contributors.
 
 -->
-<composite xmlns="http://www.osoa.org/xmlns/sca/1.0" xmlns:sca4j="urn:sca4j.org" name="OrderTestComposite" autowire="true" >
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912" xmlns:sca4j="urn:sca4j.org" name="OrderTestComposite" autowire="true" >
     
     <component name="OrderITest">
         <sca4j:junit class="org.sca4j.tutorial.order.OrderITest"/>

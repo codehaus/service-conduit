@@ -18,9 +18,9 @@
  */
 package org.sca4j.tutorial.order;
 
-import org.osoa.sca.annotations.Reference;
-
 import junit.framework.TestCase;
+
+import org.oasisopen.sca.annotation.Reference;
 
 public class ComponentScopeITest extends TestCase {
     

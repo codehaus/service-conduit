@@ -18,8 +18,8 @@
  */
 package org.sca4j.tutorial.order;
 
-import org.osoa.sca.annotations.Property;
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Property;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.tutorial.billing.BillingComponent;
 import org.sca4j.tutorial.shipping.ShippingComponent;
 

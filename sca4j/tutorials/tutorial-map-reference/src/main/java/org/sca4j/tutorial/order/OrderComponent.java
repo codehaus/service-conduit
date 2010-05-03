@@ -20,7 +20,7 @@ package org.sca4j.tutorial.order;
 
 import java.util.Map;
 
-import org.osoa.sca.annotations.Reference;
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.tutorial.shipping.ShippingComponent;
 
 public class OrderComponent {

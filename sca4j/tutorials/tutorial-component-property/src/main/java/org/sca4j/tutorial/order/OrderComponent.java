@@ -20,7 +20,7 @@ package org.sca4j.tutorial.order;
 
 import java.util.Map;
 
-import org.osoa.sca.annotations.Property;
+import org.oasisopen.sca.annotation.Property;
 
 public class OrderComponent {
     

@@ -20,14 +20,14 @@ package org.sca4j.tutorial.order;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.osoa.sca.annotations.Reference;
-import org.osoa.sca.annotations.Service;
+import org.oasisopen.sca.annotation.Reference;
+import org.oasisopen.sca.annotation.Service;
 import org.sca4j.api.annotation.scope.Conversation;
 import org.sca4j.tutorial.shipping.ShippingCallbackService;
 import org.sca4j.tutorial.shipping.ShippingService;
 
 @Conversation
-@Service(interfaces = {OrderService.class, ShippingCallbackService.class})
+@Service({OrderService.class, ShippingCallbackService.class})
 public class OrderComponent implements OrderService, ShippingCallbackService {
     
     @Reference protected ShippingService shippingService;
