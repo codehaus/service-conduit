@@ -24,34 +24,15 @@
         <version>1.0</version>
     </parent>
     
-    <artifactId>tutorial-mock</artifactId>
-    <packaging>jar</packaging>
-    <name>Mocking Behaviour</name>
+    <artifactId>tutorial-web</artifactId>
+    <packaging>war</packaging>
+    <name>Web Application Integration</name>
 
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.codehaus.service-conduit</groupId>
-            <artifactId>sca4j-maven-host</artifactId>
-            <version>${sca4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.service-conduit</groupId>
-            <artifactId>sca4j-mock</artifactId>
-            <version>${sca4j.version}</version>
-        </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.service-conduit</groupId>
-                <artifactId>sca4j-itest-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
