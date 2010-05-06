@@ -15,16 +15,9 @@
   permitted and restricted uses of such software.
  -->
 <componentType xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912">
-    <reference name="context">
-        <interface.java interface="org.sca4j.runtime.webapp.smoketest.TestService"/>
+
+    <reference name="orderComponent">
+        <interface.java interface="org.sca4j.tutorial.order.OrderComponent"/>
     </reference>
-    <reference name="stateless">
-        <interface.java interface="org.sca4j.runtime.webapp.smoketest.TestService"/>
-    </reference>
-    <reference name="composite">
-        <interface.java interface="org.sca4j.runtime.webapp.smoketest.TestService"/>
-    </reference>
-    <reference name="counter">
-        <interface.java interface="org.sca4j.runtime.webapp.smoketest.CounterService"/>
-    </reference>
+    
 </componentType>

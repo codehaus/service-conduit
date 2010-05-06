@@ -19,29 +19,4 @@
     the Apache License, Version 2.0 and original code from project contributors.
 
 -->
-<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912" 
-           xmlns:order="urn:sca4j.org:tutorials:order"
-           xmlns:billing="urn:sca4j.org:tutorials:billing"
-           xmlns:shipping="urn:sca4j.org:tutorials:shipping"
-           name="WebappComposite"
-           autowire="true">
-
-    <component name="webapp">
-        <implementation.web/>
-    </component>
-    
-    <component name="OrderComponent">
-        <implementation.composite name="order:OrderComposite"/>
-        <property name="orderConfig">
-            <valueAddedTax xmlns="">10</valueAddedTax>
-            <deliveryCharge xmlns="">10</deliveryCharge>
-        </property>
-    </component>
-    
-    <component name="BillingComponent">
-        <implementation.composite name="billing:BillingComposite"/>
-    </component>
-    
-    <include name="shipping:ShippingComposite" />
-
-</composite>
+<config />

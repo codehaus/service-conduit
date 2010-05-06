@@ -57,53 +57,16 @@
          xmlns="http://java.sun.com/xml/ns/j2ee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-
     <display-name>SCA4J Webapp Smoketest</display-name>
-
     <listener>
         <listener-class>org.sca4j.runtime.webapp.SCA4JContextListener</listener-class>
     </listener>
-    <listener>
-        <listener-class>org.sca4j.runtime.webapp.SCA4JRequestListener</listener-class>
-    </listener>
-    <listener>
-        <listener-class>org.sca4j.runtime.webapp.SCA4JSessionListener</listener-class>
-    </listener>
-
-    <context-param>
-        <param-name>sca4j.composite</param-name>
-        <param-value>WebappSmoketestComposite</param-value>
-    </context-param>
-
-    <context-param>
-        <param-name>sca4j.compositeNamespace</param-name>
-        <param-value>urn:sca4j.org</param-value>
-    </context-param>
-
-    <context-param>
-        <param-name>sca4j.component</param-name>
-        <param-value>smoketest</param-value>
-    </context-param>
-
     <servlet>
-        <servlet-name>SCA4JServlet</servlet-name>
-        <servlet-class>org.sca4j.runtime.webapp.SCA4JServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
+        <servlet-name>OrderServlet</servlet-name>
+        <servlet-class>org.sca4j.tutorial.order.web.OrderServlet</servlet-class>
     </servlet>
-
-    <servlet>
-        <servlet-name>TestServlet</servlet-name>
-        <servlet-class>org.sca4j.runtime.webapp.smoketest.TestServlet</servlet-class>
-    </servlet>
-
     <servlet-mapping>
-        <servlet-name>TestServlet</servlet-name>
-        <url-pattern>/smoketest</url-pattern>
+        <servlet-name>OrderServlet</servlet-name>
+        <url-pattern>/order</url-pattern>
     </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>SCA4JServlet</servlet-name>
-        <url-pattern>/services</url-pattern>
-    </servlet-mapping>
-
 </web-app>
