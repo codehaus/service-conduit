@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <contribution xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912">
+    <export namespace="urn:sca4j.org:tutorials:order" />
     <import namespace="urn:sca4j.org:tutorials:billing" />
     <import namespace="urn:sca4j.org:tutorials:shipping" />
 </contribution>
