@@ -38,6 +38,26 @@
             <artifactId>sca4j-maven-host</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-resource</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-xapool</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-tx-jotm</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <version>10.3.1.4</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -45,6 +65,23 @@
             <plugin>
                 <groupId>org.codehaus.service-conduit</groupId>
                 <artifactId>sca4j-itest-plugin</artifactId>
+                <configuration>
+                    <systemConfig>
+                        <![CDATA[
+                            <config>
+                                <datasources>
+                                    <datasource>
+                                        <driver>org.apache.derby.jdbc.EmbeddedDriver</driver>
+                                        <url>jdbc:derby:orderDB;create=true</url>
+                                        <keys>orderDs</keys>
+                                        <minSize>10</minSize>
+                                        <maxSize>10</maxSize>
+                                    </datasource>
+                                </datasources>
+                            </config>
+                        ]]>
+                    </systemConfig>
+                </configuration>
             </plugin>
         </plugins>
     </build>
