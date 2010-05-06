@@ -43,7 +43,7 @@
         <module>test-interface-wsdl</module>
         <module>test-jpa</module>
         <module>test-ftp-security-policy</module>
-        <module>test-binding-ftp</module>
+        <!--module>test-binding-ftp</module-->
         <module>test-binding-tcp</module>
         <module>test-ssl-policy</module>
         <module>test-binding-http</module>
