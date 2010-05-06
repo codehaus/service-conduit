@@ -45,7 +45,7 @@ import org.sca4j.bpel.provision.BpelPhysicalComponentDefinition;
 import org.sca4j.bpel.spi.EmbeddedBpelServer;
 import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
-import org.sca4j.spi.resource.DataSourceRegistry;
+import org.sca4j.spi.resource.ResourceRegistry;
 import org.sca4j.spi.wire.Interceptor;
 
 /**
@@ -58,7 +58,7 @@ import org.sca4j.spi.wire.Interceptor;
 public class OdeEmbeddedBpelServer implements EmbeddedBpelServer {
     
     @Reference public TransactionManager transactionManager;
-    @Reference public DataSourceRegistry dataSourceRegistry;
+    @Reference public ResourceRegistry resourceRegistry;
     
     private BpelServerImpl bpelServer;
     
@@ -118,7 +118,7 @@ public class OdeEmbeddedBpelServer implements EmbeddedBpelServer {
      * Gets the scheduler.
      */
     private SimpleScheduler getScheduler() {
-        DataSource dataSource = dataSourceRegistry.getDataSource("OdeDS");
+        DataSource dataSource = resourceRegistry.getResource(DataSource.class, "OdeDS");
         if (dataSource == null) {
             throw new IllegalStateException("Datasource not found: OdeDS");
         }

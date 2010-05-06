@@ -50,29 +50,39 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.spi.resource;
+package org.sca4j.resource;
 
-import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.sca4j.spi.resource.ResourceRegistry;
 
 /**
  * @version $Revision$ $Date$
  */
-public interface DataSourceRegistry {
+public class ResourceRegistryImpl implements ResourceRegistry {
     
-    /**
-     * Gets a named datasource from the registry.
-     * 
-     * @param name Name of the datasource.
-     * @return Named datasource.
-     */
-    DataSource getDataSource(String name);
-    
-    /**
-     * Registers a datasource by name.
-     * 
-     * @param name Name of the datasource.
-     * @param dataSource Datasource to be registered.
-     */
-    void registerDataSource(String name, DataSource dataSource);
+    private Map<Class<?>, Map<String, Object>> cache = new HashMap<Class<?>, Map<String,Object>>();
+
+    @Override
+    public <T> T getResource(Class<T> resourceType, String name) {
+        return resourceType.cast(cache.get(resourceType).get(name));
+    }
+
+    @Override
+    public void registerResource(Class<?> resourceType, String name, Object resource) {
+        
+        if (!resourceType.isAssignableFrom(resource.getClass())) {
+            throw new IllegalArgumentException("Resource " + resource.getClass() + " is not of type " + resourceType);
+        }
+        
+        Map<String, Object> resourceCache = cache.get(resourceType);
+        if (resourceCache == null) {
+            resourceCache = new HashMap<String, Object>();
+            cache.put(resourceType, resourceCache);
+        }
+        resourceCache.put(name, resource);
+        
+    }
 
 }

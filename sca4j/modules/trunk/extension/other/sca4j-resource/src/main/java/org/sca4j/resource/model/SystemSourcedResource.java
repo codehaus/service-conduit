@@ -78,6 +78,7 @@ import org.sca4j.scdl.ServiceContract;
  * @version $Revision$ $Date$
  */
 public class SystemSourcedResource extends ResourceDefinition {
+    
     private String mappedName;
 
     public SystemSourcedResource(String name, boolean optional, String mappedName, ServiceContract serviceContract) {
@@ -87,6 +88,10 @@ public class SystemSourcedResource extends ResourceDefinition {
     
     public String getMappedName() {
         return this.mappedName;
+    }
+    
+    public String getResourceType() {
+        return getServiceContract().getQualifiedInterfaceName();
     }
 
 }

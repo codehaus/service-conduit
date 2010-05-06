@@ -56,7 +56,7 @@
 <composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912" xmlns:sca4j="urn:sca4j.org" targetNamespace="urn:sca4j.org" name="XaPoolDataSource">
            
     <reference name="transactionManager" promote="XaPoolFactory/transactionManager"/>
-    <reference name="dataSourceRegistry" promote="XaPoolFactory/dataSourceRegistry"/>
+    <reference name="resourceRegistry" promote="XaPoolFactory/resourceRegistry"/>
 
     <!-- XAPool Datasource -->
     <component name="XaPoolFactory">

@@ -64,14 +64,8 @@
            name="ResourceExtension"
            autowire="true">
 
-    <!-- Processor for F3 resources -->
-    <component name="SCA4JResourceProcessor" sca4j:key="org.sca4j.api.annotation.Resource">
-        <sca4j:implementation.system class="org.sca4j.resource.introspection.SCA4JResourceProcessor"/>
-    </component>
-
-    <!-- Processor for JSR250 resources -->
-    <component name="JSR250ResourceProcessor" sca4j:key="javax.annotation.Resource">
-        <sca4j:implementation.system class="org.sca4j.resource.introspection.JSR250ResourceProcessor"/>
+    <component name="ResourceProcessor" sca4j:key="javax.annotation.Resource">
+        <sca4j:implementation.system class="org.sca4j.resource.introspection.ResourceProcessor"/>
     </component>
 
     <!-- Wire Target Definition Generator -->
@@ -84,9 +78,9 @@
         <sca4j:implementation.system class="org.sca4j.resource.wire.SystemSourcedResourceWireAttacher"/>
     </component>
 
-    <!-- Datasource registry -->
-    <component name="DataSourceRegistry">
-        <sca4j:implementation.system class="org.sca4j.resource.ds.DataSourceRegistryImpl"/>
+    <!-- Resource registry -->
+    <component name="ResourceRegistry">
+        <sca4j:implementation.system class="org.sca4j.resource.ResourceRegistryImpl"/>
     </component>
 
 </composite>

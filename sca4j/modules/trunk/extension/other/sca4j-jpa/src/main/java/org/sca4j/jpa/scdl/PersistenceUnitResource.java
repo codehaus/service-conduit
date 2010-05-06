@@ -80,7 +80,6 @@ import org.sca4j.scdl.ServiceContract;
  */
 public final class PersistenceUnitResource extends ResourceDefinition {
     
-    private static final long serialVersionUID = 8935762119919982256L;
     private final String unitName;
     private final boolean providerSpecific;
     

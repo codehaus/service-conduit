@@ -77,5 +77,21 @@ import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
  * @version $Revision$ $Date$
  */
 public class SystemSourcedWireTargetDefinition extends PhysicalWireTargetDefinition {
+    
+    private final String name;
+    private final String resourceType;
+    
+    public SystemSourcedWireTargetDefinition(String name, String resourceType) {
+        this.name = name;
+        this.resourceType = resourceType;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getResourceType() {
+        return resourceType;
+    }
 
 }

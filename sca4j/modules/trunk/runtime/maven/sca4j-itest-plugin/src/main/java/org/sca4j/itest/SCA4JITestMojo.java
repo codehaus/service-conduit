@@ -211,13 +211,6 @@ public class SCA4JITestMojo extends AbstractMojo {
     public URL intentsLocation;
 
     /**
-     * The version of the runtime to use.
-     *
-     * @parameter expression="0.6.5"
-     */
-    public String runtimeVersion;
-
-    /**
      * Properties passed to the runtime throught the HostInfo interface.
      *
      * @parameter

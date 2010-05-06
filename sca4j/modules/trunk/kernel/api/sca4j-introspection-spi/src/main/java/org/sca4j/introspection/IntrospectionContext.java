@@ -117,6 +117,5 @@ public interface IntrospectionContext extends ValidationContext {
      *
      * @return the mappings from formal to actual types for the component being introspected
      */
-    @Deprecated
     TypeMapping getTypeMapping();
 }

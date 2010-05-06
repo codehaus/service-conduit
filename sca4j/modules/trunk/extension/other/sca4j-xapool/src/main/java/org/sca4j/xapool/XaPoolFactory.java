@@ -26,7 +26,7 @@ import org.oasisopen.sca.annotation.EagerInit;
 import org.oasisopen.sca.annotation.Init;
 import org.oasisopen.sca.annotation.Property;
 import org.oasisopen.sca.annotation.Reference;
-import org.sca4j.spi.resource.DataSourceRegistry;
+import org.sca4j.spi.resource.ResourceRegistry;
 
 /**
  * Used for creating XA pool datasources.
@@ -37,7 +37,7 @@ import org.sca4j.spi.resource.DataSourceRegistry;
 @EagerInit
 public class XaPoolFactory {
 
-    @Reference public DataSourceRegistry dataSourceRegistry;
+    @Reference public ResourceRegistry resourceRegistry;
     @Reference public TransactionManager transactionManager;
     @Property(required=false) public DataSourceConfigCollection dataSourceConfigCollection;
     
@@ -57,7 +57,7 @@ public class XaPoolFactory {
             xaPoolDataSource.dataSourceKeys = dataSourceConfig.keys.split(" ");
             
             xaPoolDataSource.transactionManager = transactionManager;
-            xaPoolDataSource.dataSourceRegistry = dataSourceRegistry;
+            xaPoolDataSource.resourceRegistry = resourceRegistry;
             
             xaPoolDataSource.start();
             

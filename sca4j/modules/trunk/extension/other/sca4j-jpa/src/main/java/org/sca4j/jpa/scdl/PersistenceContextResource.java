@@ -81,7 +81,7 @@ import org.sca4j.scdl.ServiceContract;
  * @version $Revision$ $Date$
  */
 public final class PersistenceContextResource extends ResourceDefinition {
-    private static final long serialVersionUID = -8717050996527626286L;
+    
     private final String unitName;
     private final PersistenceContextType type;
     private final boolean multiThreaded;

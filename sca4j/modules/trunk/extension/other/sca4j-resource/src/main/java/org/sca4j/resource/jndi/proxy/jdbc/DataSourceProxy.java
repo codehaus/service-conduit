@@ -82,7 +82,7 @@ import org.oasisopen.sca.annotation.Init;
 import org.oasisopen.sca.annotation.Property;
 import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.resource.jndi.proxy.AbstractProxy;
-import org.sca4j.spi.resource.DataSourceRegistry;
+import org.sca4j.spi.resource.ResourceRegistry;
 
 /**
  * Proxy class for a JNDI-based datasource.
@@ -91,7 +91,7 @@ import org.sca4j.spi.resource.DataSourceRegistry;
  */
 public class DataSourceProxy extends AbstractProxy<DataSource> implements DataSource {
     
-    private DataSourceRegistry dataSourceRegistry;
+    private ResourceRegistry resourceRegistry;
     private List<String> dataSourceKeys;
 
     @Property(required=false)
@@ -100,8 +100,8 @@ public class DataSourceProxy extends AbstractProxy<DataSource> implements DataSo
     }
 
     @Reference
-    public void setDataSourceRegistry(DataSourceRegistry dataSourceRegistry) {
-        this.dataSourceRegistry = dataSourceRegistry;
+    public void setResourceRegistry(ResourceRegistry resourceRegistry) {
+        this.resourceRegistry = resourceRegistry;
     }
     
     @Override
@@ -109,7 +109,7 @@ public class DataSourceProxy extends AbstractProxy<DataSource> implements DataSo
     public void init() throws NamingException {
         super.init();
         for (String dataSourceKey : dataSourceKeys) {
-            dataSourceRegistry.registerDataSource(dataSourceKey, this);
+            resourceRegistry.registerResource(DataSource.class, dataSourceKey, this);
         }
     }
 

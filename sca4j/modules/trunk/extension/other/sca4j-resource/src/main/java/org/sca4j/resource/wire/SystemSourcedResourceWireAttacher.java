@@ -70,37 +70,41 @@
  */
 package org.sca4j.resource.wire;
 
-import java.net.URI;
-
 import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.resource.model.SystemSourcedWireTargetDefinition;
 import org.sca4j.spi.ObjectFactory;
+import org.sca4j.spi.SingletonObjectFactory;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.TargetWireAttacher;
-import org.sca4j.spi.component.AtomicComponent;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
-import org.sca4j.spi.services.componentmanager.ComponentManager;
-import org.sca4j.spi.util.UriHelper;
+import org.sca4j.spi.resource.ResourceRegistry;
 import org.sca4j.spi.wire.Wire;
 
 /**
  * @version $Revision$ $Date$
  */
 public class SystemSourcedResourceWireAttacher implements TargetWireAttacher<SystemSourcedWireTargetDefinition> {
-    private final ComponentManager manager;
+    
+    private final ResourceRegistry resourceRegistry;
 
-    public SystemSourcedResourceWireAttacher(@Reference ComponentManager manager) {
-        this.manager = manager;
+    public SystemSourcedResourceWireAttacher(@Reference ResourceRegistry resourceRegistry) {
+        this.resourceRegistry = resourceRegistry;
     }
 
-    public void attachToTarget(PhysicalWireSourceDefinition source, SystemSourcedWireTargetDefinition target, Wire wire)
-            throws WiringException {
+    public void attachToTarget(PhysicalWireSourceDefinition source, SystemSourcedWireTargetDefinition target, Wire wire) {
         throw new AssertionError();
     }
 
+    @SuppressWarnings("unchecked")
     public ObjectFactory<?> createObjectFactory(SystemSourcedWireTargetDefinition target) throws WiringException {
-        URI targetId = UriHelper.getDefragmentedName(target.getUri());
-        AtomicComponent<?> targetComponent = (AtomicComponent<?>) manager.getComponent(targetId);
-        return targetComponent.createObjectFactory();
+        
+        try {
+            Class<?> resourceClass = getClass().getClassLoader().loadClass(target.getResourceType());
+            String resourceName = target.getName();
+            Object resource = resourceRegistry.getResource(resourceClass, resourceName);
+            return new SingletonObjectFactory(resource);
+        } catch (ClassNotFoundException e) {
+            throw new WiringException(e);
+        }
     }
 }

@@ -62,7 +62,7 @@ import javax.transaction.TransactionManager;
 import org.enhydra.jdbc.pool.StandardXAPoolDataSource;
 import org.enhydra.jdbc.standard.StandardXADataSource;
 import org.oasisopen.sca.annotation.EagerInit;
-import org.sca4j.spi.resource.DataSourceRegistry;
+import org.sca4j.spi.resource.ResourceRegistry;
 
 /**
  * @version $Revision$ $Date$
@@ -75,7 +75,7 @@ public class XaPoolDataSource implements DataSource {
     int minSize, maxSize;
 
     TransactionManager transactionManager;
-    DataSourceRegistry dataSourceRegistry;
+    ResourceRegistry resourceRegistry;
     
     private StandardXAPoolDataSource delegate;
 
@@ -116,7 +116,7 @@ public class XaPoolDataSource implements DataSource {
         delegate = new StandardXAPoolDataSource(standardXADataSource);
 
         for (String dataSourceKey : dataSourceKeys) {
-            dataSourceRegistry.registerDataSource(dataSourceKey, this);
+            resourceRegistry.registerResource(DataSource.class, dataSourceKey, this);
         }
 
     }

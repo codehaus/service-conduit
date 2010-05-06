@@ -66,7 +66,7 @@ import org.hibernate.ejb.EntityManagerFactoryImpl;
 import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.jpa.spi.delegate.EmfBuilderDelegate;
 import org.sca4j.resource.jndi.proxy.jdbc.DataSourceProxy;
-import org.sca4j.spi.resource.DataSourceRegistry;
+import org.sca4j.spi.resource.ResourceRegistry;
 import org.sca4j.spi.services.synthesize.ComponentRegistrationException;
 import org.sca4j.spi.services.synthesize.ComponentSynthesizer;
 
@@ -75,12 +75,12 @@ import org.sca4j.spi.services.synthesize.ComponentSynthesizer;
  */
 public class HibernateDelegate implements EmfBuilderDelegate {
 
-    private DataSourceRegistry dataSourceRegistry;
+    private ResourceRegistry resourceRegistry;
     private ComponentSynthesizer synthesizer;
 
     @Reference
-    public void setDataSourceRegistry(DataSourceRegistry dataSourceRegistry) {
-        this.dataSourceRegistry = dataSourceRegistry;
+    public void setResourceRegistry(ResourceRegistry resourceRegistry) {
+        this.resourceRegistry = resourceRegistry;
     }
 
     @Reference
@@ -93,7 +93,7 @@ public class HibernateDelegate implements EmfBuilderDelegate {
     	Ejb3Configuration cfg = new Ejb3Configuration();
 	
         if (dataSourceName != null) {
-            DataSource dataSource = dataSourceRegistry.getDataSource(dataSourceName);
+            DataSource dataSource = resourceRegistry.getResource(DataSource.class, dataSourceName);
             if (dataSource == null) {
                 dataSource = mapDataSource(dataSourceName, dataSourceName);
             }
@@ -112,7 +112,7 @@ public class HibernateDelegate implements EmfBuilderDelegate {
     
     private DataSource mapDataSource(String datasource, String persistenceUnit) {
         DataSourceProxy proxy = new DataSourceProxy();
-        proxy.setDataSourceRegistry(dataSourceRegistry);
+        proxy.setResourceRegistry(resourceRegistry);
         try {
             proxy.setJndiName(datasource);
             List<String> keys = new ArrayList<String>();

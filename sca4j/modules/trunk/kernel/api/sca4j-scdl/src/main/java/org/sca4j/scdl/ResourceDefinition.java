@@ -58,7 +58,6 @@ package org.sca4j.scdl;
  * @version $Rev: 5070 $ $Date: 2008-07-21 17:52:37 +0100 (Mon, 21 Jul 2008) $
  */
 public class ResourceDefinition extends ModelObject {
-    private static final long serialVersionUID = 4241666632750146304L;
 
     private String name;
     private boolean optional;

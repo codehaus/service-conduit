@@ -121,7 +121,7 @@ public class SystemSourcedResourceWireGenerator implements ResourceWireGenerator
 
         URI targetUri = URI.create(SYSTEM_URI + mappedName);
 
-        SystemSourcedWireTargetDefinition wtd = new SystemSourcedWireTargetDefinition();
+        SystemSourcedWireTargetDefinition wtd = new SystemSourcedWireTargetDefinition(resourceDefinition.getName(), resourceDefinition.getResourceType());
         wtd.setOptimizable(true);
         wtd.setUri(targetUri);
 
