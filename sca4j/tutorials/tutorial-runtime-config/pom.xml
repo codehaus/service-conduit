@@ -50,6 +50,19 @@
             <plugin>
                 <groupId>org.codehaus.service-conduit</groupId>
                 <artifactId>sca4j-itest-plugin</artifactId>
+                <configuration>
+                    <!-- Set the Jetty Listen Port for Integration Tests -->
+                    <systemConfig>
+                        <![CDATA[
+                            <config>
+                                <orderConfig>
+                                    <valueAddedTax>10</valueAddedTax>
+                                    <deliveryCharge>10</deliveryCharge>
+                                </orderConfig>
+                            </config>
+                        ]]>
+                    </systemConfig>
+                </configuration>
             </plugin>
         </plugins>
     </build>

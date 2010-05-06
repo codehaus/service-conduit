@@ -21,18 +21,28 @@
 -->
 <composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912" 
            xmlns:sca4j="urn:sca4j.org" 
-           targetNamespace="urn:sca4j.org:tutorials:order"
-           name="OrderComposite" >
-           
-    <service name="orderService" promote="OrderComponent" />       
-    <reference name="billingService" promote="OrderComponent/billingComponent" />
-    <reference name="shippingService" promote="OrderComponent/shippingComponent" />
-    <property name="orderConfig" />
+           xmlns:order="urn:sca4j.org:tutorials:order"
+           xmlns:shipping="urn:sca4j.org:tutorials:shipping"
+           xmlns:billing="urn:sca4j.org:tutorials:billing"
+           targetNamespace="urn:sca4j.org:tutorials:order:test"
+           name="OrderCompositeITest"
+           autowire="true">
+    
+    <component name="OrderITest">
+        <sca4j:junit class="org.sca4j.tutorial.order.OrderITest"/>
+        <reference name="orderComponent" target="OrderComponent" />
+    </component>
     
     <component name="OrderComponent">
-        <implementation.java class="org.sca4j.tutorial.order.OrderComponent"/>
-        <property name="deliveryCharge" source="$orderConfig//deliveryCharge" />
-        <property name="valueAddedTax" source="$orderConfig//valueAddedTax" />
+        <implementation.composite name="order:OrderComposite"/>
+        <reference name="billingService" target="BillingComponent" />
+        <property name="orderConfig" source="$config//orderConfig" />
     </component>
+    
+    <component name="BillingComponent">
+        <implementation.composite name="billing:BillingComposite"/>
+    </component>
+    
+    <include name="shipping:ShippingComposite" />
     
 </composite>
