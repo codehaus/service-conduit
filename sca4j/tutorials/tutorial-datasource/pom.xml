@@ -45,12 +45,7 @@
         </dependency>
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
-            <artifactId>sca4j-xapool</artifactId>
-            <version>${sca4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.service-conduit</groupId>
-            <artifactId>sca4j-tx-jotm</artifactId>
+            <artifactId>sca4j-atomikos</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
         <dependency>
@@ -70,7 +65,7 @@
                         <![CDATA[
                             <config>
                                 <datasources>
-                                    <datasource>
+                                    <datasource id="orderDs">
                                         <driver>org.apache.derby.jdbc.EmbeddedDriver</driver>
                                         <url>jdbc:derby:orderDB;create=true</url>
                                         <keys>orderDs</keys>
@@ -78,6 +73,7 @@
                                         <maxSize>10</maxSize>
                                     </datasource>
                                 </datasources>
+                                <transaction.manager timeout="30" />
                             </config>
                         ]]>
                     </systemConfig>
