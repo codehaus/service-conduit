@@ -48,5 +48,6 @@
 		<module>sca4j-timer-spi</module>
 		<module>sca4j-timer-quartz</module>
                 <module>sca4j-bpel-engine-ode</module>
+                <module>sca4j-atomikos</module>
 	</modules>
 </project>
