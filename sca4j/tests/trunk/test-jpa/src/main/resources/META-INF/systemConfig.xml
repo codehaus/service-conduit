@@ -55,7 +55,7 @@
 -->
 <config>
     <datasources>
-        <datasource>
+        <datasource id="employeeDs">
             <driver>org.apache.derby.jdbc.EmbeddedDriver</driver>
             <url>jdbc:derby:testDB;create=true</url>
             <keys>EmployeeDS</keys>
@@ -63,5 +63,5 @@
             <maxSize>10</maxSize>
         </datasource>
     </datasources>
-    <test debug="false" />
+    <transaction.manager timeout="30" />
 </config>
