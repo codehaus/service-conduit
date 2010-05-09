@@ -33,7 +33,6 @@
 		<module>sca4j-async</module>
 		<module>sca4j-container-web-spi</module>
 		<module>sca4j-conversation-propagation</module>
-		<module>sca4j-db-h2</module>
 		<module>sca4j-ftp-api</module>
 		<module>sca4j-ftp-server</module>
 		<module>sca4j-ftp-spi</module>
@@ -50,4 +49,5 @@
                 <module>sca4j-bpel-engine-ode</module>
                 <module>sca4j-atomikos</module>
 	</modules>
+
 </project>

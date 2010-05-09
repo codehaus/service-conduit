@@ -27,6 +27,7 @@ import javax.transaction.SystemException;
 import javax.transaction.Transaction;
 import javax.transaction.TransactionManager;
 
+import org.oasisopen.sca.annotation.Destroy;
 import org.oasisopen.sca.annotation.EagerInit;
 import org.oasisopen.sca.annotation.Init;
 import org.oasisopen.sca.annotation.Property;
@@ -39,7 +40,7 @@ import com.atomikos.icatch.jta.UserTransactionManager;
 public class AtomikosTransactionManager implements TransactionManager {
     
     @Reference public ResourceRegistry resourceRegistry;
-    @Property public int timeout = 30;
+    @Property(required = false) public int timeout = 30;
 
     private UserTransactionManager delegate;
     
@@ -49,6 +50,11 @@ public class AtomikosTransactionManager implements TransactionManager {
         delegate.setTransactionTimeout(timeout);
         delegate.init();
         resourceRegistry.registerResource(TransactionManager.class, "transactionManager", this);
+    }
+    
+    @Destroy
+    public void stop() {
+        delegate.close();
     }
 
     public void begin() throws NotSupportedException, SystemException {
