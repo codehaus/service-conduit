@@ -26,7 +26,7 @@
     
     <artifactId>tutorial-datasource</artifactId>
     <packaging>jar</packaging>
-    <name>Datasource</name>
+    <name>Working with datasource</name>
 
     <dependencies>
         <dependency>
