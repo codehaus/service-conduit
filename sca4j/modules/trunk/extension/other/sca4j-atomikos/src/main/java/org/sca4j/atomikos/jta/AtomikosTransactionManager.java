@@ -26,6 +26,7 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.Transaction;
 import javax.transaction.TransactionManager;
+import javax.transaction.UserTransaction;
 
 import org.oasisopen.sca.annotation.Destroy;
 import org.oasisopen.sca.annotation.EagerInit;
@@ -34,6 +35,7 @@ import org.oasisopen.sca.annotation.Property;
 import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.spi.resource.ResourceRegistry;
 
+import com.atomikos.icatch.jta.UserTransactionImp;
 import com.atomikos.icatch.jta.UserTransactionManager;
 
 @EagerInit
@@ -43,13 +45,16 @@ public class AtomikosTransactionManager implements TransactionManager {
     @Property(required = false) public int timeout = 30;
 
     private UserTransactionManager delegate;
+    private UserTransaction userTransaction;
     
     @Init
     public void start() throws SystemException {
         delegate = new UserTransactionManager();
         delegate.setTransactionTimeout(timeout);
         delegate.init();
-        resourceRegistry.registerResource(TransactionManager.class, "transactionManager", this);
+        userTransaction = new UserTransactionImp();
+        resourceRegistry.registerResource(UserTransaction.class, "userTransaction", userTransaction);
+        resourceRegistry.registerResource(TransactionManager.class, "transactionManager", delegate);
     }
     
     @Destroy
