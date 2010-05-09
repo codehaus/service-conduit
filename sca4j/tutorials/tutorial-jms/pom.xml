@@ -24,9 +24,9 @@
         <version>1.0</version>
     </parent>
     
-    <artifactId>tutorial-ws</artifactId>
+    <artifactId>tutorial-jms</artifactId>
     <packaging>jar</packaging>
-    <name>Working with web services</name>
+    <name>Working with JMS</name>
 
     <dependencies>
         <dependency>
