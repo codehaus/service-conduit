@@ -63,5 +63,5 @@
             <maxSize>10</maxSize>
         </datasource>
     </datasources>
-    <transaction.manager timeout="30" />
+    <!-- transaction.manager timeout="30" /-->
 </config>

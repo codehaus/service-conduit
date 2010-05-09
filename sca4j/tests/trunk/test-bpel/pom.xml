@@ -67,12 +67,7 @@
         </dependency>
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
-            <artifactId>sca4j-tx-jotm</artifactId>
-            <version>${sca4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.service-conduit</groupId>
-            <artifactId>sca4j-xapool</artifactId>
+            <artifactId>sca4j-atomikos</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
         <dependency>

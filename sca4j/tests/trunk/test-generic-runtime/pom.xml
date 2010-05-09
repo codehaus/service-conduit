@@ -90,7 +90,7 @@
 
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
-            <artifactId>sca4j-tx-jotm</artifactId>
+            <artifactId>sca4j-atomikos</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
