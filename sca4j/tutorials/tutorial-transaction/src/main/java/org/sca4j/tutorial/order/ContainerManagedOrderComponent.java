@@ -27,7 +27,7 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
-public class OrderComponent {
+public class ContainerManagedOrderComponent {
     
     @Resource protected DataSource orderDs;
     
@@ -36,7 +36,6 @@ public class OrderComponent {
         try {
             
             Connection con = orderDs.getConnection();
-            con.setAutoCommit(false);
             PreparedStatement ps = con.prepareStatement("insert into t_order (id, productName, address, creditCard) values (?, ?, ?, ?)");
             
             String orderId = UUID.randomUUID().toString();
@@ -46,7 +45,6 @@ public class OrderComponent {
             ps.setString(4, creditCard);
             
             ps.executeUpdate();
-            con.commit();
             ps.close();
             con.close();
             

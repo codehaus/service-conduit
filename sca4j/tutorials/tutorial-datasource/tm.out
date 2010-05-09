@@ -1,1 +1,40 @@
 10-05-08 18:33:31,382 [main] Logfile closed: /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog-1.log
+10-05-09 13:20:14,003 [main] Starting read of logfile /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog0.log
+10-05-09 13:20:14,037 [main] Done read of logfile
+10-05-09 13:20:14,038 [main] Logfile closed: /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog0.log
+10-05-09 13:21:29,606 [main] Starting read of logfile /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog1.log
+10-05-09 13:21:29,607 [main] Done read of logfile
+10-05-09 13:21:29,608 [main] Logfile closed: /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog1.log
+10-05-09 13:21:30,798 [main] Logfile closed: /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog2.log
+10-05-09 13:25:17,478 [main] Starting read of logfile /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog2.log
+10-05-09 13:25:17,479 [main] Done read of logfile
+10-05-09 13:25:17,479 [main] Logfile closed: /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog2.log
+10-05-09 13:25:17,993 [main] Logfile closed: /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog3.log
+10-05-09 13:25:52,415 [main] Starting read of logfile /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog3.log
+10-05-09 13:25:52,417 [main] Done read of logfile
+10-05-09 13:25:52,417 [main] Logfile closed: /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog3.log
+10-05-09 13:25:52,909 [main] Logfile closed: /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog4.log
+10-05-09 13:26:22,591 [main] Starting read of logfile /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog4.log
+10-05-09 13:26:22,593 [main] Done read of logfile
+10-05-09 13:26:22,593 [main] Logfile closed: /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog4.log
+10-05-09 13:26:23,846 [main] Logfile closed: /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog5.log
+10-05-09 13:27:30,505 [main] Starting read of logfile /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog5.log
+10-05-09 13:27:30,507 [main] Done read of logfile
+10-05-09 13:27:30,507 [main] Logfile closed: /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog5.log
+10-05-09 13:27:30,994 [main] Logfile closed: /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog6.log
+10-05-09 13:28:11,984 [main] Starting read of logfile /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog6.log
+10-05-09 13:28:11,985 [main] Done read of logfile
+10-05-09 13:28:11,985 [main] Logfile closed: /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog6.log
+10-05-09 13:28:13,043 [main] Logfile closed: /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog7.log
+10-05-09 13:28:41,939 [main] Starting read of logfile /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog7.log
+10-05-09 13:28:41,940 [main] Done read of logfile
+10-05-09 13:28:41,941 [main] Logfile closed: /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog7.log
+10-05-09 13:28:43,188 [main] Logfile closed: /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog8.log
+10-05-09 13:29:01,588 [main] Starting read of logfile /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog8.log
+10-05-09 13:29:01,589 [main] Done read of logfile
+10-05-09 13:29:01,589 [main] Logfile closed: /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog8.log
+10-05-09 13:29:02,933 [main] Logfile closed: /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog9.log
+10-05-09 13:30:19,454 [main] Starting read of logfile /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog9.log
+10-05-09 13:30:19,456 [main] Done read of logfile
+10-05-09 13:30:19,457 [main] Logfile closed: /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog9.log
+10-05-09 13:30:20,831 [main] Logfile closed: /Users/meerajk/projects/service-conduit-trunk/tutorials/tutorial-datasource/./tmlog10.log

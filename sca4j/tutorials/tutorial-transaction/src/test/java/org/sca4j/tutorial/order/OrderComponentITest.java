@@ -25,23 +25,36 @@ import java.sql.Statement;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
-import junit.framework.TestCase;
-
 import org.oasisopen.sca.annotation.Reference;
+
+import junit.framework.TestCase;
 
 public class OrderComponentITest extends TestCase {
 
     @Resource protected DataSource orderDs;
-    @Reference protected OrderComponent orderComponent;
+    @Reference protected BeanManagedOrderComponent beanManagedOrderComponent;
+    @Reference protected ContainerManagedOrderComponent containerManagedOrderComponent;
     
-    public void testOrder() throws SQLException {
+    public void testBeanManagedOrder() throws SQLException {
         Connection con = orderDs.getConnection();
         Statement stmt = con.createStatement();
         stmt.execute("create table t_order (id varchar(40), productName varchar(10), address varchar(10), creditCard varchar(10))");
-        String orderId = orderComponent.placeOrder("Pizza", "ABC", "DEF");
-        assertEquals("Pizza", orderComponent.getOrder(orderId));
+        String orderId = beanManagedOrderComponent.placeOrder("Pizza", "ABC", "DEF");
+        assertEquals("Pizza", beanManagedOrderComponent.getOrder(orderId));
         stmt.execute("drop table t_order");
         stmt.close();
         con.close();
     }
+    
+    public void testContainerManagedOrder() throws SQLException {
+        Connection con = orderDs.getConnection();
+        Statement stmt = con.createStatement();
+        stmt.execute("create table t_order (id varchar(40), productName varchar(10), address varchar(10), creditCard varchar(10))");
+        String orderId = containerManagedOrderComponent.placeOrder("Pizza", "ABC", "DEF");
+        assertEquals("Pizza", containerManagedOrderComponent.getOrder(orderId));
+        stmt.execute("drop table t_order");
+        stmt.close();
+        con.close();
+    }
+    
 }

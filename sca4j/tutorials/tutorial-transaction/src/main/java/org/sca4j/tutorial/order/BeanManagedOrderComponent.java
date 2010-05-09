@@ -26,14 +26,18 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+import javax.transaction.UserTransaction;
 
-public class OrderComponent {
+public class BeanManagedOrderComponent {
     
     @Resource protected DataSource orderDs;
+    @Resource protected UserTransaction userTransaction;
     
     public String placeOrder(String productName, String address, String creditCard) {
         
         try {
+            
+            userTransaction.begin();
             
             Connection con = orderDs.getConnection();
             con.setAutoCommit(false);
@@ -46,13 +50,13 @@ public class OrderComponent {
             ps.setString(4, creditCard);
             
             ps.executeUpdate();
-            con.commit();
+            userTransaction.commit();
             ps.close();
             con.close();
             
             return orderId;
             
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new AssertionError(e);
         }
         
