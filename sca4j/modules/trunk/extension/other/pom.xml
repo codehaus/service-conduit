@@ -43,7 +43,7 @@
 		<module>sca4j-resource</module>
 		<module>sca4j-tx</module>
 		<module>sca4j-tx-jotm</module>
-		<module>sca4j-xapool</module>
+		<module>sca4j-dbcp</module>
 		<module>sca4j-timer-spi</module>
 		<module>sca4j-timer-quartz</module>
                 <module>sca4j-bpel-engine-ode</module>
