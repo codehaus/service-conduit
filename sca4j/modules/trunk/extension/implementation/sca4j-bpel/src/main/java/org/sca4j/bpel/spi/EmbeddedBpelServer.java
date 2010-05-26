@@ -47,10 +47,10 @@ public interface EmbeddedBpelServer {
 
     /**
      * @param targetOperationDefinition Operation definition.
-     * @param processName Process to be executed.
+     * @param portTypeName Port type on the process to be executed.
      * @param message Incoming message.
      * @return Return message.
      */
-    Message invokeService(PhysicalOperationDefinition targetOperationDefinition, QName processName, Message message);
+    Message invokeService(PhysicalOperationDefinition targetOperationDefinition, QName portTypeName, Message message);
 
 }

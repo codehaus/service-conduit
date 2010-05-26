@@ -31,13 +31,19 @@ import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
 public class BpelPhysicalWireTargetDefinition extends PhysicalWireTargetDefinition {
 
     private QName processName;
-
-    public BpelPhysicalWireTargetDefinition(QName processName) {
+    private QName portTypeName;
+    
+    public BpelPhysicalWireTargetDefinition(QName processName, QName portTypeName) {
         this.processName = processName;
+        this.portTypeName = portTypeName;
     }
 
     public QName getProcessName() {
         return processName;
+    }
+
+    public QName getPortTypeName() {
+        return portTypeName;
     }
 
     @Override

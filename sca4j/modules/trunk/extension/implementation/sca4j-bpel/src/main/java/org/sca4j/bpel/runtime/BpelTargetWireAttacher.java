@@ -46,7 +46,7 @@ public class BpelTargetWireAttacher implements TargetWireAttacher<BpelPhysicalWi
     public void attachToTarget(PhysicalWireSourceDefinition source, BpelPhysicalWireTargetDefinition target, Wire wire) throws WiringException {
         for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
             PhysicalOperationDefinition targetOperationDefinition = entry.getKey().getTargetOperation();
-            BpelInvocationReceiver receiver = new BpelInvocationReceiver(targetOperationDefinition, embeddedBpelServer, target.getProcessName());
+            BpelInvocationReceiver receiver = new BpelInvocationReceiver(targetOperationDefinition, embeddedBpelServer, target.getPortTypeName());
             entry.getValue().addInterceptor(receiver);
         }
     }

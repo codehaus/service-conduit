@@ -108,8 +108,8 @@ public class BpelPhysicalComponentGenerator implements ComponentGenerator<Logica
         
         BpelImplementation implementation = target.getDefinition().getImplementation();
         BpelComponentType type = implementation.getComponentType();
-        
-        return new BpelPhysicalWireTargetDefinition(type.getProcessName());
+        QName portTypeName = service.getDefinition().getServiceContract().getPortTypeName();
+        return new BpelPhysicalWireTargetDefinition(type.getProcessName(), portTypeName);
         
     }
 

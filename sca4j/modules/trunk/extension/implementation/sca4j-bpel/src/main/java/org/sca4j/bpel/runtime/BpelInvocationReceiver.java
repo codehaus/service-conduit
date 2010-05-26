@@ -35,12 +35,12 @@ public class BpelInvocationReceiver implements Interceptor {
 
     private PhysicalOperationDefinition targetOperationDefinition;
     private EmbeddedBpelServer embeddedBpelServer;
-    private QName processName;
+    private QName portTypeName;
     
-    public BpelInvocationReceiver(PhysicalOperationDefinition targetOperationDefinition, EmbeddedBpelServer embeddedBpelServer, QName processName) {
+    public BpelInvocationReceiver(PhysicalOperationDefinition targetOperationDefinition, EmbeddedBpelServer embeddedBpelServer, QName portTypeName) {
         this.targetOperationDefinition = targetOperationDefinition;
         this.embeddedBpelServer = embeddedBpelServer;
-        this.processName = processName;
+        this.portTypeName = portTypeName;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class BpelInvocationReceiver implements Interceptor {
 
     @Override
     public Message invoke(Message message) {
-        return embeddedBpelServer.invokeService(targetOperationDefinition, processName, message);
+        return embeddedBpelServer.invokeService(targetOperationDefinition, portTypeName, message);
     }
 
     @Override

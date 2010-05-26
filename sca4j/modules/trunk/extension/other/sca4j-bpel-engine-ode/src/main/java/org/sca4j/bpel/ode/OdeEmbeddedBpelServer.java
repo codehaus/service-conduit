@@ -31,6 +31,7 @@ import javax.xml.transform.TransformerFactory;
 import org.apache.ode.bpel.compiler.api.CompilationException;
 import org.apache.ode.bpel.dao.BpelDAOConnectionFactory;
 import org.apache.ode.bpel.engine.BpelServerImpl;
+import org.apache.ode.bpel.iapi.BpelEngine;
 import org.apache.ode.bpel.iapi.MyRoleMessageExchange;
 import org.apache.ode.bpel.memdao.BpelDAOConnectionFactoryImpl;
 import org.apache.ode.scheduler.simple.DatabaseDelegate;
@@ -73,9 +74,15 @@ public class OdeEmbeddedBpelServer implements EmbeddedBpelServer {
     }
 
     @Override
-    public Message invokeService(PhysicalOperationDefinition targetOperationDefinition, QName processName, Message message) {
-        //MyRoleMessageExchange mex = bpelServer.getEngine().createMessageExchange(new GUID().toString(), processName, targetOperationDefinition.getName());
-        // TODO Auto-generated method stub
+    public Message invokeService(PhysicalOperationDefinition targetOperationDefinition, QName portTypeName, Message message) {
+    	
+    	String uid = new GUID().toString();
+    	String operationName = targetOperationDefinition.getName();
+    	BpelEngine bpelEngine = bpelServer.getEngine();
+    	
+        MyRoleMessageExchange mex = bpelEngine.createMessageExchange(uid, portTypeName, operationName);
+        if (mex != null) {
+        }
         return new MessageImpl();
     }
 
@@ -110,8 +117,6 @@ public class OdeEmbeddedBpelServer implements EmbeddedBpelServer {
         bpelServer.setBindingContext(new Sca4jBindingContext());
         
         bpelServer.init();
-        
-        System.err.print("BPEL server initialized");
         
     }
 
