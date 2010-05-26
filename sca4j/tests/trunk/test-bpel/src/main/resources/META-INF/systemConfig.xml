@@ -21,7 +21,7 @@
 -->
 <config>
     <datasources>
-        <datasource>
+        <datasource id="odeDs">
             <driver>org.apache.derby.jdbc.EmbeddedDriver</driver>
             <url>jdbc:derby:odeDB;create=true</url>
             <keys>OdeDS</keys>
