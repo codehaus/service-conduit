@@ -44,6 +44,7 @@ import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.bpel.provision.BpelPhysicalComponentDefinition;
 import org.sca4j.bpel.spi.EmbeddedBpelServer;
 import org.sca4j.spi.invocation.Message;
+import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.resource.ResourceRegistry;
 import org.sca4j.spi.wire.Interceptor;
@@ -64,7 +65,7 @@ public class OdeEmbeddedBpelServer implements EmbeddedBpelServer {
     
     @Destroy
     public void stop() {
-        bpelServer.shutdown();
+        //bpelServer.shutdown();
     }
 
     @Override
@@ -73,9 +74,9 @@ public class OdeEmbeddedBpelServer implements EmbeddedBpelServer {
 
     @Override
     public Message invokeService(PhysicalOperationDefinition targetOperationDefinition, QName processName, Message message) {
-        MyRoleMessageExchange mex = bpelServer.getEngine().createMessageExchange(new GUID().toString(), processName, targetOperationDefinition.getName());
+        //MyRoleMessageExchange mex = bpelServer.getEngine().createMessageExchange(new GUID().toString(), processName, targetOperationDefinition.getName());
         // TODO Auto-generated method stub
-        return null;
+        return new MessageImpl();
     }
 
     @Override
