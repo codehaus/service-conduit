@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<definitions elementName="Weather"
+             targetNamespace="http://order.bpel.tests.sca4j.org"
+             xmlns:tns="http://order.bpel.tests.sca4j.org"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+    <types>
+       <schema targetNamespace="http://order.bpel.tests.sca4j.org" xmlns="http://www.w3.org/2001/XMLSchema">         
+            <complexType elementName="OrderRequest">
+                <sequence>
+                    <element elementName="itemCode" type="string"/>
+                    <element elementName="shippingAddress" type="string"/>
+                    <element elementName="billingAddress" type="string"/>
+                </sequence>
+            </complexType>
+            <complexType elementName="OrderResponse">
+                <sequence>
+                    <element elementName="amount" type="int"/>
+                    <element elementName="deliveryDate" type="dateTime"/>
+                </sequence>
+            </complexType>
+            <element elementName="orderRequest" type="tns:OrderRequest" />
+            <element elementName="orderResponse" type="tns:OrderResponse" />
+       </schema>
+    </types>
+
+    <message elementName="PlaceOrderRequest">
+        <part elementName="request" element="tns:orderRequest"/>
+    </message>
+
+    <message elementName="PlaceOrderResponse">
+        <part elementName="response" element="tns:orderResponse"/>
+    </message>
+
+    <portType elementName="OrderPortType">
+        <operation elementName="placeOrder">
+           <input message="tns:PlaceOrderRequest"/>
+           <output message="tns:PlaceOrderResponse"/>
+        </operation>
+    </portType>
+
+    <binding elementName="OrderSoapBinding" type="tns:OrderPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+        <operation elementName="placeOrder">
+           <soap:operation soapAction="http://example.com/placeOrder" />
+           <input>
+               <soap:body use="literal"/>
+           </input>
+           <output>
+               <soap:body use="literal"/>
+           </output>
+        </operation>
+    </binding>
+
+    <service elementName="OrderService">
+        <port elementName="OrderPort" binding="tns:OrderSoapBinding">
+           <soap:address location="http://example.com/order"/>
+        </port>
+    </service>
+    
+    <plnk:partnerLinkType elementName="OrderPartnerLink">
+        <plnk:role elementName="orderService" portType="tns:OrderPortType" />
+    </plnk:partnerLinkType>
+
+</definitions>

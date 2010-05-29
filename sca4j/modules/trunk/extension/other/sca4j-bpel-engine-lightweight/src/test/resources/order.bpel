@@ -1,0 +1,62 @@
+<process elementName="OrderProcess" 
+         targetNamespace="http://order.bpel.tests.sca4j.org"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:order="http://order.bpel.tests.sca4j.org"
+         xmlns:billing="http://billing.bpel.tests.sca4j.org"
+         xmlns:shipping="http://shipping.bpel.tests.sca4j.org">
+         
+    <import location="billing.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" namespace="http://billing.bpel.tests.sca4j.org"/>
+    <import location="shipping.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" namespace="http://shipping.bpel.tests.sca4j.org"/>
+    <import location="order.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" namespace="http://order.bpel.tests.sca4j.org"/>
+
+    <partnerLinks>
+        <partnerLink elementName="order" partnerLinkType="order:OrderPartnerLink" myRole="orderService" />
+        <partnerLink elementName="billing" partnerLinkType="billing:BillingPartnerLink" partnerRole="billingService" />
+        <partnerLink elementName="shipping" partnerLinkType="shipping:ShippingPartnerLink" partnerRole="shippingService" />
+    </partnerLinks>
+    
+    <variables>
+        <variable elementName="orderRequest" messageType="order:PlaceOrderRequest" />
+        <variable elementName="orderResponse" messageType="order:PlaceOrderResponse" />
+        <variable elementName="billingRequest" messageType="billing:BillRequest" />
+        <variable elementName="billingResponse" messageType="billing:BillResponse" />
+        <variable elementName="shippingRequest" messageType="shipping:ShipRequest" />
+        <variable elementName="shippingResponse" messageType="shipping:ShipResponse" />
+    </variables>
+    
+    <sequence>
+        <receive operation="placeOrder" partnerLink="order" variable="orderRequest" />
+        <assign>
+            <copy>
+                <from>$orderRequest.itemCode</from>
+                <to>$billingRequest.itemCode</to>
+            </copy>
+            <copy>
+                <from>$orderRequest.billingAddress</from>
+                <to>$billingRequest.billingAddress</to>
+            </copy>
+            <copy>
+                <from>$orderRequest.itemCode</from>
+                <to>$shippingRequest.itemCode</to>
+            </copy>
+            <copy>
+                <from>$orderRequest.shippingAddress</from>
+                <to>$shippingRequest.shippingAddress</to>
+            </copy>
+        </assign>
+        <invoke operation="bill" partnerLink="billing" inputVariable="billingRequest" outputVariable="billingResponse" />
+        <invoke operation="ship" partnerLink="shipping" inputVariable="shippingRequest" outputVariable="shippingResponse" />
+        <assign>
+            <copy>
+                <from>$billingResponse</from>
+                <to>$orderResponse.amount</to>
+            </copy>
+            <copy>
+                <from>$shippingResponse</from>
+                <to>$orderResponse.deliveryDate</to>
+            </copy>
+        </assign>
+        <reply partnerLink="order" operation="placeOrder" variable="orderResponse" />
+    </sequence>
+
+</process>

@@ -34,6 +34,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-bpel</artifactId>
+            <version>0.9.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>

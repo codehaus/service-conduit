@@ -33,14 +33,17 @@ public class Constants {
     static final String BPEL_NS = "http://docs.oasis-open.org/wsbpel/2.0/process/executable";
     static final String BPEL_PLINK_NS = "http://docs.oasis-open.org/wsbpel/2.0/plnktype";
     
-    static final QName PROCESS_ELEMENT = new QName(BPEL_NS, "process");
-    static final QName PARTNERLINK_ELEMENT = new QName(BPEL_NS, "partnerLink");
-    static final QName ONEVENT_ELEMENT = new QName(BPEL_NS, "onEvent");
-    static final QName RECEIVE_ELEMENT = new QName(BPEL_NS, "receive");
-    static final QName ONMESSAGE_ELEMENT = new QName(BPEL_NS, "onMessage");
-    static final QName INVOKE_ELEMENT = new QName(BPEL_NS, "invoke");
-    static final QName IMPORT_ELEMENT = new QName(BPEL_NS, "import");
-    static final QName VARIABLE_ELEMENT = new QName(BPEL_NS, "variable");
-    static final QName LINKTYPE_ELEMENT = new QName(BPEL_NS, "partnerLinkType");
+    public static final QName PROCESS_ELEMENT = new QName(BPEL_NS, "process");
+    public static final QName PARTNERLINK_ELEMENT = new QName(BPEL_NS, "partnerLink");
+    public static final QName RECEIVE_ELEMENT = new QName(BPEL_NS, "receive");
+    public static final QName INVOKE_ELEMENT = new QName(BPEL_NS, "invoke");
+    public static final QName IMPORT_ELEMENT = new QName(BPEL_NS, "import");
+    public static final QName VARIABLE_ELEMENT = new QName(BPEL_NS, "variable");
+	public static final Object SEQUENCE_ELEMENT = new QName(BPEL_NS, "sequence");
+	public static final Object ASSIGN_ELEMENT = new QName(BPEL_NS, "assign");
+	public static final Object COPY_ELEMENT = new QName(BPEL_NS, "copy");
+	public static final Object FROM_ELEMENT = new QName(BPEL_NS, "from");
+	public static final Object TO_ELEMENT = new QName(BPEL_NS, "to");
+	public static final Object REPLY_ELEMENT = new QName(BPEL_NS, "reply");
 
 }

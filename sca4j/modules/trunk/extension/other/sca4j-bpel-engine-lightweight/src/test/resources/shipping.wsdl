@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<definitions elementName="Shipping"
+             targetNamespace="http://shipping.bpel.tests.sca4j.org"
+             xmlns:tns="http://shipping.bpel.tests.sca4j.org"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+    <types>
+       <schema targetNamespace="http://shipping.bpel.tests.sca4j.org" xmlns="http://www.w3.org/2001/XMLSchema">         
+            <complexType elementName="ShippingRequest">
+                <sequence>
+                    <element elementName="itemCode" type="string"/>
+                    <element elementName="shippingAddress" type="string"/>
+                </sequence>
+            </complexType>
+            <element elementName="shippingRequest" type="tns:ShippingRequest" />
+            <element elementName="shippingResponse" type="dateTime" />
+       </schema>
+    </types>
+
+    <message elementName="ShipRequest">
+        <part elementName="request" element="tns:shippingRequest"/>
+    </message>
+
+    <message elementName="ShipResponse">
+        <part elementName="response" element="tns:shippingResponse"/>
+    </message>
+
+    <portType elementName="ShippingPortType">
+        <operation elementName="ship">
+           <input message="tns:ShipRequest"/>
+           <output message="tns:ShipResponse"/>
+        </operation>
+    </portType>
+
+    <binding elementName="ShippingSoapBinding" type="tns:ShippingPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+        <operation elementName="ship">
+           <soap:operation soapAction="http://example.com/ship" />
+           <input>
+               <soap:body use="literal"/>
+           </input>
+           <output>
+               <soap:body use="literal"/>
+           </output>
+        </operation>
+    </binding>
+
+    <service elementName="ShippingService">
+        <port elementName="ShippingPort" binding="tns:ShippingSoapBinding">
+           <soap:address location="http://example.com/shipping"/>
+        </port>
+    </service>
+    
+    <plnk:partnerLinkType elementName="ShippingPartnerLink">
+        <plnk:role elementName="shippingService" portType="tns:ShippingPortType" />
+    </plnk:partnerLinkType>
+
+</definitions>
