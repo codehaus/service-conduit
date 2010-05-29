@@ -15,40 +15,33 @@
   permitted and restricted uses of such software.
  -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.codehaus.service-conduit</groupId>
-        <artifactId>sca4j-extension-parent-pom</artifactId>
-	<version>0.9.1-SNAPSHOT</version>
+        <artifactId>sca4j-extension-other-parent-pom</artifactId>
+        <version>0.9.1-SNAPSHOT</version>
     </parent>
     <groupId>org.codehaus.service-conduit</groupId>
-    <artifactId>sca4j-extension-other-parent-pom</artifactId>
-    <name>SCA4J Extension Other Parent POM</name>
-    <description>SCA4J Extension Other Parent POM.</description>
-	<packaging>pom</packaging>
+    <artifactId>sca4j-bpel-engine-lightweight</artifactId>
+    <name>Lightweight WS-BPEL Implementation</name>
+    <packaging>jar</packaging>
 
-	<modules>
-                <module>sca4j-standard-intents</module>
-		<module>sca4j-async</module>
-		<module>sca4j-container-web-spi</module>
-		<module>sca4j-conversation-propagation</module>
-		<module>sca4j-ftp-api</module>
-		<module>sca4j-ftp-server</module>
-		<module>sca4j-ftp-spi</module>
-		<module>sca4j-proxy</module>
-		<module>sca4j-jetty</module>
-		<module>sca4j-jpa</module>
-		<module>sca4j-marshal-xstream</module>
-		<module>sca4j-resource</module>
-		<module>sca4j-tx</module>
-		<module>sca4j-tx-jotm</module>
-		<module>sca4j-dbcp</module>
-		<module>sca4j-timer-spi</module>
-		<module>sca4j-timer-quartz</module>
-                <module>sca4j-bpel-engine-ode</module>
-                <module>sca4j-bpel-engine-lightweight</module>
-                <module>sca4j-atomikos</module>
-	</modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-spi</artifactId>
+            <version>0.9.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+        </dependency>
+
+    </dependencies>
 
 </project>
