@@ -160,6 +160,8 @@ public class BpelResourceProcessor implements ResourceProcessor {
         PartnerLinkType partnerLinkType = metaDataStore.resolve(contributionUri, PartnerLinkType.class, partnerLinkTypeName, validationContext);
         QName portTypeName = partnerLinkType.getPortTypes().get(role);
         
+        componentType.getPortTypeToPartnerLinks().put(portTypeName, partnerLinkName.getLocalPart());
+        
         PortTypeResourceElement portTypeResourceElement = metaDataStore.resolve(contributionUri, PortTypeResourceElement.class, portTypeName, validationContext);
         WsdlContract wsdlContract = new WsdlContract();
         wsdlContract.setPortTypeName(portTypeName);

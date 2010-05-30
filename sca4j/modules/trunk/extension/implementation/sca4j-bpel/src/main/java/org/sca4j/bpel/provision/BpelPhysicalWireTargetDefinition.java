@@ -18,6 +18,8 @@
  */
 package org.sca4j.bpel.provision;
 
+import java.net.URI;
+
 import javax.xml.namespace.QName;
 
 import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
@@ -32,10 +34,14 @@ public class BpelPhysicalWireTargetDefinition extends PhysicalWireTargetDefiniti
 
     private QName processName;
     private QName portTypeName;
+    private String partnerLinkName;
+    private URI componentId;
     
-    public BpelPhysicalWireTargetDefinition(QName processName, QName portTypeName) {
+    public BpelPhysicalWireTargetDefinition(QName processName, QName portTypeName, String partnerLinkName, URI componentId) {
         this.processName = processName;
         this.portTypeName = portTypeName;
+        this.partnerLinkName = partnerLinkName;
+        this.componentId = componentId;
     }
 
     public QName getProcessName() {
@@ -44,6 +50,14 @@ public class BpelPhysicalWireTargetDefinition extends PhysicalWireTargetDefiniti
 
     public QName getPortTypeName() {
         return portTypeName;
+    }
+
+    public String getPartnerLinkName() {
+        return partnerLinkName;
+    }
+    
+    public URI getComponentId() {
+        return componentId;
     }
 
     @Override

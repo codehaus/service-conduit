@@ -100,7 +100,14 @@ public class BpelPhysicalComponentGenerator implements ComponentGenerator<Logica
 
     @Override
     public PhysicalWireSourceDefinition generateWireSource(LogicalComponent<BpelImplementation> source, LogicalReference reference, Policy policy) {
-        return new BpelPhysicalWireSourceDefinition();
+        
+        BpelImplementation implementation = source.getDefinition().getImplementation();
+        BpelComponentType type = implementation.getComponentType();
+        QName portTypeName = reference.getDefinition().getServiceContract().getPortTypeName();
+        String partnerLinkName = type.getPortTypeToPartnerLinks().get(portTypeName);
+        QName processName = type.getProcessName();
+        
+        return new BpelPhysicalWireSourceDefinition(partnerLinkName, processName, source.getUri());
     }
 
     @Override
@@ -108,8 +115,10 @@ public class BpelPhysicalComponentGenerator implements ComponentGenerator<Logica
         
         BpelImplementation implementation = target.getDefinition().getImplementation();
         BpelComponentType type = implementation.getComponentType();
+        QName processName = type.getProcessName();
         QName portTypeName = service.getDefinition().getServiceContract().getPortTypeName();
-        return new BpelPhysicalWireTargetDefinition(type.getProcessName(), portTypeName);
+        String partnerLinkName = type.getPortTypeToPartnerLinks().get(portTypeName);
+        return new BpelPhysicalWireTargetDefinition(processName, portTypeName, partnerLinkName, target.getUri());
         
     }
 

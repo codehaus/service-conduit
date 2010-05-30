@@ -18,6 +18,10 @@
  */
 package org.sca4j.bpel.provision;
 
+import java.net.URI;
+
+import javax.xml.namespace.QName;
+
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
 
 /**
@@ -27,6 +31,28 @@ import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
  *
  */
 public class BpelPhysicalWireSourceDefinition extends PhysicalWireSourceDefinition {
+    
+    private String partnerLinkName;
+    private QName processName;
+    private URI componentId;
+
+    public BpelPhysicalWireSourceDefinition(String partnerLinkName, QName processName, URI componentId) {
+        this.partnerLinkName = partnerLinkName;
+        this.processName = processName;
+        this.componentId = componentId;
+    }
+    
+    public String getPartnerLinkName() {
+        return partnerLinkName;
+    }
+    
+    public QName getProcessName() {
+        return processName;
+    }
+    
+    public URI getComponentId() {
+        return componentId;
+    }
 
     @Override
     public boolean isOptimizable() {

@@ -52,17 +52,17 @@ public class BpelProcessIntrospectorTestCase extends TestCase {
         List<VariableDefinition> variables = bpelProcessDefinition.getVariables();
         assertEquals(6, variables.size());
         assertEquals("orderRequest", variables.get(0).getName());
-        assertEquals(new QName("http://order.bpel.tests.sca4j.org", "PlaceOrderRequest"), variables.get(0).getType());
+        assertEquals(new QName("http://order.bpel.tests.sca4j.org", "OrderRequest"), variables.get(0).getType());
         assertEquals("orderResponse", variables.get(1).getName());
-        assertEquals(new QName("http://order.bpel.tests.sca4j.org", "PlaceOrderResponse"), variables.get(1).getType());
+        assertEquals(new QName("http://order.bpel.tests.sca4j.org", "OrderResponse"), variables.get(1).getType());
         assertEquals("billingRequest", variables.get(2).getName());
         assertEquals(new QName("http://billing.bpel.tests.sca4j.org", "BillRequest"), variables.get(2).getType());
         assertEquals("billingResponse", variables.get(3).getName());
-        assertEquals(new QName("http://billing.bpel.tests.sca4j.org", "BillResponse"), variables.get(3).getType());
+        assertEquals(new QName("http://www.w3.org/2001/XMLSchema", "int"), variables.get(3).getType());
         assertEquals("shippingRequest", variables.get(4).getName());
         assertEquals(new QName("http://shipping.bpel.tests.sca4j.org", "ShipRequest"), variables.get(4).getType());
         assertEquals("shippingResponse", variables.get(5).getName());
-        assertEquals(new QName("http://shipping.bpel.tests.sca4j.org", "ShipResponse"), variables.get(5).getType());
+        assertEquals(new QName("http://www.w3.org/2001/XMLSchema", "dateTime"), variables.get(5).getType());
 
         List<SequenceDefinition> sequences = bpelProcessDefinition.getSequences();
         assertEquals(1, sequences.size());

@@ -18,6 +18,8 @@
  */
 package org.sca4j.bpel.runtime;
 
+import java.net.URI;
+
 import javax.xml.namespace.QName;
 
 import org.sca4j.bpel.spi.EmbeddedBpelServer;
@@ -35,12 +37,20 @@ public class BpelInvocationReceiver implements Interceptor {
 
     private PhysicalOperationDefinition targetOperationDefinition;
     private EmbeddedBpelServer embeddedBpelServer;
+    private URI componentId;
     private QName portTypeName;
+    private String partnerLinkName;
     
-    public BpelInvocationReceiver(PhysicalOperationDefinition targetOperationDefinition, EmbeddedBpelServer embeddedBpelServer, QName portTypeName) {
+    public BpelInvocationReceiver(PhysicalOperationDefinition targetOperationDefinition, 
+                                  EmbeddedBpelServer embeddedBpelServer, 
+                                  URI componentId,
+                                  QName portTypeName,
+                                  String partnerLinkName) {
         this.targetOperationDefinition = targetOperationDefinition;
         this.embeddedBpelServer = embeddedBpelServer;
+        this.componentId = componentId;
         this.portTypeName = portTypeName;
+        this.partnerLinkName = partnerLinkName;
     }
 
     @Override
@@ -50,7 +60,7 @@ public class BpelInvocationReceiver implements Interceptor {
 
     @Override
     public Message invoke(Message message) {
-        return embeddedBpelServer.invokeService(targetOperationDefinition, portTypeName, message);
+        return embeddedBpelServer.invokeService(targetOperationDefinition, componentId, portTypeName, partnerLinkName, message);
     }
 
     @Override

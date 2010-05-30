@@ -27,5 +27,13 @@
     <component name="EmbeddedBpelServer">
         <sca4j:implementation.system class="org.sca4j.bpel.lightweight.runtime.LightweightBpelServer"/>
     </component>
+
+    <component name="BpelProcessIntrospector">
+        <sca4j:implementation.system class="org.sca4j.bpel.lightweight.introspection.BpelProcessIntrospector"/>
+    </component>
+
+    <component name="BpelProcessRegistry">
+        <sca4j:implementation.system class="org.sca4j.bpel.lightweight.runtime.BpelProcessRegistry"/>
+    </component>
     
 </composite>

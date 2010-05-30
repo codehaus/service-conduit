@@ -1,27 +1,28 @@
-<process elementName="OrderProcess" 
+<process name="OrderProcess" 
          targetNamespace="http://order.bpel.tests.sca4j.org"
          xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
          xmlns:order="http://order.bpel.tests.sca4j.org"
          xmlns:billing="http://billing.bpel.tests.sca4j.org"
-         xmlns:shipping="http://shipping.bpel.tests.sca4j.org">
+         xmlns:shipping="http://shipping.bpel.tests.sca4j.org"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema">
          
     <import location="billing.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" namespace="http://billing.bpel.tests.sca4j.org"/>
     <import location="shipping.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" namespace="http://shipping.bpel.tests.sca4j.org"/>
     <import location="order.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" namespace="http://order.bpel.tests.sca4j.org"/>
 
     <partnerLinks>
-        <partnerLink elementName="order" partnerLinkType="order:OrderPartnerLink" myRole="orderService" />
-        <partnerLink elementName="billing" partnerLinkType="billing:BillingPartnerLink" partnerRole="billingService" />
-        <partnerLink elementName="shipping" partnerLinkType="shipping:ShippingPartnerLink" partnerRole="shippingService" />
+        <partnerLink name="order" partnerLinkType="order:OrderPartnerLink" myRole="orderService" />
+        <partnerLink name="billing" partnerLinkType="billing:BillingPartnerLink" partnerRole="billingService" />
+        <partnerLink name="shipping" partnerLinkType="shipping:ShippingPartnerLink" partnerRole="shippingService" />
     </partnerLinks>
     
     <variables>
-        <variable elementName="orderRequest" messageType="order:PlaceOrderRequest" />
-        <variable elementName="orderResponse" messageType="order:PlaceOrderResponse" />
-        <variable elementName="billingRequest" messageType="billing:BillRequest" />
-        <variable elementName="billingResponse" messageType="billing:BillResponse" />
-        <variable elementName="shippingRequest" messageType="shipping:ShipRequest" />
-        <variable elementName="shippingResponse" messageType="shipping:ShipResponse" />
+        <variable name="orderRequest" type="order:OrderRequest" />
+        <variable name="orderResponse" type="order:OrderResponse" />
+        <variable name="billingRequest" type="billing:BillRequest" />
+        <variable name="billingResponse" type="xsd:int" />
+        <variable name="shippingRequest" type="shipping:ShipRequest" />
+        <variable name="shippingResponse" type="xsd:dateTime" />
     </variables>
     
     <sequence>

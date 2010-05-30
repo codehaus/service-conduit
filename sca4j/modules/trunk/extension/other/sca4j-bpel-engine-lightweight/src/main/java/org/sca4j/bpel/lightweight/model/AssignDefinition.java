@@ -18,5 +18,9 @@ public class AssignDefinition extends AbstractActivity {
     public CopyDefinition getLastCopy() {
         return getCopies().get(getCopies().size() - 1);
     }
+    
+    public Type getType() {
+        return Type.ASSIGN;
+    }
 
 }

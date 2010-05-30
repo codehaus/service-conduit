@@ -18,11 +18,17 @@
  */
 package org.sca4j.bpel.runtime;
 
+import java.util.Map;
+
+import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.bpel.provision.BpelPhysicalWireSourceDefinition;
+import org.sca4j.bpel.spi.EmbeddedBpelServer;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.SourceWireAttacher;
+import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
+import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;
 
 /**
@@ -32,6 +38,8 @@ import org.sca4j.spi.wire.Wire;
  *
  */
 public class BpelSourceWireAttacher implements SourceWireAttacher<BpelPhysicalWireSourceDefinition> {
+    
+    @Reference public EmbeddedBpelServer embeddedBpelServer;
 
     @Override
     public void attachObjectFactory(BpelPhysicalWireSourceDefinition source, ObjectFactory<?> objectFactory, PhysicalWireTargetDefinition target) throws WiringException {
@@ -39,6 +47,12 @@ public class BpelSourceWireAttacher implements SourceWireAttacher<BpelPhysicalWi
 
     @Override
     public void attachToSource(BpelPhysicalWireSourceDefinition source, PhysicalWireTargetDefinition target, Wire wire) throws WiringException {
+        String partnerLink = source.getPartnerLinkName();
+        for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
+            PhysicalOperationPair physicalOperationPair = entry.getKey();
+            InvocationChain invocationChain = entry.getValue();
+            embeddedBpelServer.addOutboundEndpoint(source.getComponentId(), partnerLink, physicalOperationPair.getSourceOperation().getName(), invocationChain);
+        }
     }
 
     @Override

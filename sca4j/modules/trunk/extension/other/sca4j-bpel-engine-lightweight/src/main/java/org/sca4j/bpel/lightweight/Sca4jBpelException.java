@@ -18,4 +18,8 @@ public class Sca4jBpelException extends SCA4JRuntimeException {
     public Sca4jBpelException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    public Sca4jBpelException(String message) {
+        super(message);
+    }
 }

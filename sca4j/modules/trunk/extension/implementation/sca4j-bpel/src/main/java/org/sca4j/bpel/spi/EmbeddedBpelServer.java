@@ -18,12 +18,14 @@
  */
 package org.sca4j.bpel.spi;
 
+import java.net.URI;
+
 import javax.xml.namespace.QName;
 
 import org.sca4j.bpel.provision.BpelPhysicalComponentDefinition;
 import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
-import org.sca4j.spi.wire.Interceptor;
+import org.sca4j.spi.wire.InvocationChain;
 
 /**
  * SPI for talking to an embedded BPEL server.
@@ -32,25 +34,11 @@ import org.sca4j.spi.wire.Interceptor;
  *
  */
 public interface EmbeddedBpelServer {
-    
-    /**
-     * @param processName
-     * @param referenceName
-     * @param invoker
-     */
-    void addOutboundEndpoint(QName processName, QName referenceName, Interceptor invoker);
-    
-    /**
-     * @param physicalComponentDefinition
-     */
+
     void registerProcess(BpelPhysicalComponentDefinition physicalComponentDefinition);
 
-    /**
-     * @param targetOperationDefinition Operation definition.
-     * @param portTypeName Port type on the process to be executed.
-     * @param message Incoming message.
-     * @return Return message.
-     */
-    Message invokeService(PhysicalOperationDefinition targetOperationDefinition, QName portTypeName, Message message);
+    Message invokeService(PhysicalOperationDefinition targetOperationDefinition, URI componentId, QName portTypeName, String partnerLinkName, Message message);
+
+    void addOutboundEndpoint(URI componentId, String partnerLink, String operation, InvocationChain invocationChain);
 
 }

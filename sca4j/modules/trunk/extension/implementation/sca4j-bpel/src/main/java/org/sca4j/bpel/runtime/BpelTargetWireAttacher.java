@@ -18,7 +18,10 @@
  */
 package org.sca4j.bpel.runtime;
 
+import java.net.URI;
 import java.util.Map;
+
+import javax.xml.namespace.QName;
 
 import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.bpel.provision.BpelPhysicalWireTargetDefinition;
@@ -46,7 +49,10 @@ public class BpelTargetWireAttacher implements TargetWireAttacher<BpelPhysicalWi
     public void attachToTarget(PhysicalWireSourceDefinition source, BpelPhysicalWireTargetDefinition target, Wire wire) throws WiringException {
         for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
             PhysicalOperationDefinition targetOperationDefinition = entry.getKey().getTargetOperation();
-            BpelInvocationReceiver receiver = new BpelInvocationReceiver(targetOperationDefinition, embeddedBpelServer, target.getPortTypeName());
+            URI componentId = target.getComponentId();
+            QName portTypeName = target.getPortTypeName();
+            String partnerLinkName = target.getPartnerLinkName();
+            BpelInvocationReceiver receiver = new BpelInvocationReceiver(targetOperationDefinition, embeddedBpelServer, componentId, portTypeName, partnerLinkName);
             entry.getValue().addInterceptor(receiver);
         }
     }

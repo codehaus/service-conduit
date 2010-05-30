@@ -1,5 +1,6 @@
 package org.sca4j.bpel.lightweight.model;
 
+
 /**
  * Created by IntelliJ IDEA. User: meerajk Date: May 29, 2010 Time: 10:39:41 AM
  * To change this template use File | Settings | File Templates.
@@ -32,5 +33,9 @@ public class InvokeDefinition extends AbstractActivity {
 
     public String getOutput() {
         return output;
+    }
+    
+    public Type getType() {
+        return Type.INVOKE;
     }
 }

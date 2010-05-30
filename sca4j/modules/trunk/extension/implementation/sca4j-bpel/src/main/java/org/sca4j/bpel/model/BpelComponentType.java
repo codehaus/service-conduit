@@ -36,6 +36,7 @@ public class BpelComponentType extends AbstractComponentType<ServiceDefinition, 
     private URL processUrl;
     private QName processName;
     private Map<QName, Definition> portTypes = new HashMap<QName, Definition>();
+    private Map<QName, String> portTypeToPartnerLinks = new HashMap<QName, String>();
     
     /**
      * Initialises the process name and URL.
@@ -64,6 +65,10 @@ public class BpelComponentType extends AbstractComponentType<ServiceDefinition, 
 
     public Map<QName, Definition> getPortTypes() {
         return portTypes;
+    }
+
+    public Map<QName, String> getPortTypeToPartnerLinks() {
+        return portTypeToPartnerLinks;
     }
 
 }

@@ -19,6 +19,7 @@
 package org.sca4j.bpel.ode;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Properties;
 import java.util.concurrent.Executors;
@@ -48,7 +49,7 @@ import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.resource.ResourceRegistry;
-import org.sca4j.spi.wire.Interceptor;
+import org.sca4j.spi.wire.InvocationChain;
 
 /**
  * Implementation of the embedded BPEL server SPI using ODE.
@@ -70,11 +71,11 @@ public class OdeEmbeddedBpelServer implements EmbeddedBpelServer {
     }
 
     @Override
-    public synchronized void addOutboundEndpoint(QName processName, QName referenceName, Interceptor invoker) {
+    public synchronized void addOutboundEndpoint(URI componentId, String partnerLink, String operationName, InvocationChain invocationChain) {
     }
 
     @Override
-    public Message invokeService(PhysicalOperationDefinition targetOperationDefinition, QName portTypeName, Message message) {
+    public Message invokeService(PhysicalOperationDefinition targetOperationDefinition, URI componentId, QName portTypeName, String partnerLinkName, Message message) {
     	
     	String uid = new GUID().toString();
     	String operationName = targetOperationDefinition.getName();

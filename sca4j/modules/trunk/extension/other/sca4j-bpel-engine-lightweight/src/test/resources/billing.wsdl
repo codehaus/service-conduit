@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<definitions elementName="Weather"
+<definitions name="Weather" 
              targetNamespace="http://billing.bpel.tests.sca4j.org"
              xmlns:tns="http://billing.bpel.tests.sca4j.org"
              xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
@@ -8,35 +8,35 @@
 
     <types>
        <schema targetNamespace="http://billing.bpel.tests.sca4j.org" xmlns="http://www.w3.org/2001/XMLSchema">         
-            <complexType elementName="BillingRequest">
+            <complexType name="BillingRequest">
                 <sequence>
-                    <element elementName="itemCode" type="string"/>
-                    <element elementName="billingAddress" type="string"/>
+                    <element name="itemCode" type="string"/>
+                    <element name="billingAddress" type="string"/>
                 </sequence>
             </complexType>
-            <element elementName="billingRequest" type="tns:BillingRequest" />
-            <element elementName="billingResponse" type="int" />
+            <element name="billingRequest" type="tns:BillingRequest" />
+            <element name="billingResponse" type="int" />
        </schema>
     </types>
 
-    <message elementName="BillRequest">
-        <part elementName="request" element="tns:billingRequest"/>
+    <message name="BillRequest">
+        <part name="request" element="tns:billingRequest"/>
     </message>
 
-    <message elementName="BillResponse">
-        <part elementName="response" element="tns:billingResponse"/>
+    <message name="BillResponse">
+        <part name="response" element="tns:billingResponse"/>
     </message>
 
-    <portType elementName="BillingPortType">
-        <operation elementName="bill">
+    <portType name="BillingPortType">
+        <operation name="bill">
            <input message="tns:BillRequest"/>
            <output message="tns:BillResponse"/>
         </operation>
     </portType>
 
-    <binding elementName="BillingSoapBinding" type="tns:BillingPortType">
+    <binding name="BillingSoapBinding" type="tns:BillingPortType">
         <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
-        <operation elementName="bill">
+        <operation name="bill">
            <soap:operation soapAction="http://example.com/bill" />
            <input>
                <soap:body use="literal"/>
@@ -47,14 +47,14 @@
         </operation>
     </binding>
 
-    <service elementName="BillingService">
-        <port elementName="BillingPort" binding="tns:BillingSoapBinding">
+    <service name="BillingService">
+        <port name="BillingPort" binding="tns:BillingSoapBinding">
            <soap:address location="http://example.com/billing"/>
         </port>
     </service>
     
-    <plnk:partnerLinkType elementName="BillingPartnerLink">
-        <plnk:role elementName="billingService" portType="tns:BillingPortType" />
+    <plnk:partnerLinkType name="BillingPartnerLink">
+        <plnk:role name="billingService" portType="tns:BillingPortType" />
     </plnk:partnerLinkType>
 
 </definitions>

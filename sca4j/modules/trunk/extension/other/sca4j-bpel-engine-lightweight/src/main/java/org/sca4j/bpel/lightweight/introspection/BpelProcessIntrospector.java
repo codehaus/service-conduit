@@ -38,7 +38,7 @@ public class BpelProcessIntrospector {
                 case START_ELEMENT:
                     elementName = xmlStreamReader.getName();
                     if (elementName.equals(Constants.PROCESS_ELEMENT)) {
-                        String name = xmlStreamReader.getAttributeValue(null, "elementName");
+                        String name = xmlStreamReader.getAttributeValue(null, "name");
                         String targetNamespace = xmlStreamReader.getAttributeValue(null, "targetNamespace");
                         QName processName = new QName(targetNamespace, name);
                         bpelProcessDefinition = new BpelProcessDefinition(processName);
@@ -133,7 +133,7 @@ public class BpelProcessIntrospector {
     }
 
     private void processPartnerLink(XMLStreamReader xmlStreamReader, BpelProcessDefinition bpelProcessDefinition) {
-        String name = xmlStreamReader.getAttributeValue(null, "elementName");
+        String name = xmlStreamReader.getAttributeValue(null, "name");
         String val = xmlStreamReader.getAttributeValue(null, "partnerLinkType");
         QName partnerLinkType = LoaderUtil.getQName(val, null, xmlStreamReader.getNamespaceContext());
         String myRole = xmlStreamReader.getAttributeValue(null, "myRole");
@@ -143,8 +143,8 @@ public class BpelProcessIntrospector {
     }
 
     private void processVariable(XMLStreamReader xmlStreamReader, BpelProcessDefinition bpelProcessDefinition) {
-        String name = xmlStreamReader.getAttributeValue(null, "elementName");
-        String type = xmlStreamReader.getAttributeValue(null, "messageType");
+        String name = xmlStreamReader.getAttributeValue(null, "name");
+        String type = xmlStreamReader.getAttributeValue(null, "type");
         QName messageType = LoaderUtil.getQName(type, null, xmlStreamReader.getNamespaceContext());
         VariableDefinition variableDefinition = new VariableDefinition(name, messageType);
         bpelProcessDefinition.getVariables().add(variableDefinition);
