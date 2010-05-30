@@ -26,7 +26,7 @@
         <version>0.9.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>test-bpel</artifactId>
+    <artifactId>test-bpel-lightweight</artifactId>
     <packaging>jar</packaging>
     <name>SCA4J BPEL Implementation  Tests</name>
 

@@ -39,7 +39,7 @@
     </properties>
     
     <modules>
-        <module>test-bpel</module>
+        <module>test-bpel-lightweight</module>
         <module>test-interface-wsdl</module>
         <module>test-jpa</module>
         <module>test-ftp-security-policy</module>
