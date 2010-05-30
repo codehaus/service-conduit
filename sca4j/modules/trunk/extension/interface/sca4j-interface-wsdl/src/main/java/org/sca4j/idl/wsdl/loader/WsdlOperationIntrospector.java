@@ -35,6 +35,8 @@ import javax.xml.namespace.QName;
 
 import org.oasisopen.sca.annotation.EagerInit;
 import org.oasisopen.sca.annotation.Init;
+import org.oasisopen.sca.annotation.Reference;
+import org.sca4j.idl.wsdl.spi.WsdlTypeMapper;
 import org.sca4j.introspection.contract.OperationIntrospector;
 import org.sca4j.scdl.DataType;
 import org.sca4j.scdl.Operation;
@@ -43,6 +45,8 @@ import org.sca4j.scdl.ValidationContext;
 @EagerInit
 public class WsdlOperationIntrospector implements OperationIntrospector {
 
+    @Reference public WsdlTypeMapper wsdlTypeMapper;
+    
     private Map<Class<?>, QName> xsdTypes = new HashMap<Class<?>, QName>();
     
     @Init
@@ -102,6 +106,7 @@ public class WsdlOperationIntrospector implements OperationIntrospector {
                 xsdType = new QName(xmlSchema.namespace(), xmlType.name());
             }
         }
+        wsdlTypeMapper.register(xsdType, javaType);
         return xsdType;
     }
 

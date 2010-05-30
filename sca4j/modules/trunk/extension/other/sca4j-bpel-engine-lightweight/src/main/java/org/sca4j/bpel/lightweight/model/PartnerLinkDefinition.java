@@ -3,10 +3,7 @@ package org.sca4j.bpel.lightweight.model;
 import javax.xml.namespace.QName;
 
 /**
- * Created by IntelliJ IDEA.
- * User: meerajk
- * Date: May 29, 2010
- * Time: 10:42:45 AM
+ * Created by IntelliJ IDEA. User: meerajk Date: May 29, 2010 Time: 10:42:45 AM
  * To change this template use File | Settings | File Templates.
  */
 public class PartnerLinkDefinition {
@@ -38,5 +35,5 @@ public class PartnerLinkDefinition {
     public String getPartnerRole() {
         return partnerRole;
     }
-    
+
 }

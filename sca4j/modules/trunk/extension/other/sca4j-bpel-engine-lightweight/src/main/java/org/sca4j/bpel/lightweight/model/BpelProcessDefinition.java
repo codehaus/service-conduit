@@ -6,10 +6,7 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 /**
- * Created by IntelliJ IDEA.
- * User: meerajk
- * Date: May 29, 2010
- * Time: 10:33:06 AM
+ * Created by IntelliJ IDEA. User: meerajk Date: May 29, 2010 Time: 10:33:06 AM
  * To change this template use File | Settings | File Templates.
  */
 public class BpelProcessDefinition {
@@ -18,7 +15,7 @@ public class BpelProcessDefinition {
     private List<VariableDefinition> variables = new ArrayList<VariableDefinition>();
     private List<ImportDefinition> imports = new ArrayList<ImportDefinition>();
     private List<SequenceDefinition> sequences = new ArrayList<SequenceDefinition>();
-    private List<PartnerLinkDefinition> partnerLinks = new ArrayList<PartnerLinkDefinition>(); 
+    private List<PartnerLinkDefinition> partnerLinks = new ArrayList<PartnerLinkDefinition>();
 
     public BpelProcessDefinition(QName processName) {
         this.processName = processName;

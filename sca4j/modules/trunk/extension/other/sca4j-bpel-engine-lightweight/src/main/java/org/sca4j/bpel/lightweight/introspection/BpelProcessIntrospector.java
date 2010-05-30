@@ -16,12 +16,9 @@ import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
 import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
 
 /**
- * Created by IntelliJ IDEA.
- * User: meerajk
- * Date: May 29, 2010
- * Time: 10:23:43 AM
+ * Created by IntelliJ IDEA. User: meerajk Date: May 29, 2010 Time: 10:23:43 AM
  * To change this template use File | Settings | File Templates.
- *
+ * 
  * TODO Add stricter structural checks
  */
 public class BpelProcessIntrospector {
@@ -35,7 +32,7 @@ public class BpelProcessIntrospector {
 
             QName elementName = null;
             BpelProcessDefinition bpelProcessDefinition = null;
-            
+
             while (true) {
                 switch (xmlStreamReader.next()) {
                 case START_ELEMENT:
@@ -77,7 +74,6 @@ public class BpelProcessIntrospector {
                 }
             }
 
-
         } catch (XMLStreamException e) {
             throw new Sca4jBpelException("Unable tp parse process definition", e);
         } finally {
@@ -92,12 +88,12 @@ public class BpelProcessIntrospector {
     }
 
     private void processTo(XMLStreamReader xmlStreamReader, BpelProcessDefinition bpelProcessDefinition) throws XMLStreamException {
-        String to =  xmlStreamReader.getElementText();
+        String to = xmlStreamReader.getElementText();
         bpelProcessDefinition.getLastSequence().getLastAssignActivity().getLastCopy().setTo(to);
     }
 
     private void processFrom(XMLStreamReader xmlStreamReader, BpelProcessDefinition bpelProcessDefinition) throws XMLStreamException {
-        String from =  xmlStreamReader.getElementText();
+        String from = xmlStreamReader.getElementText();
         bpelProcessDefinition.getLastSequence().getLastAssignActivity().getLastCopy().setFrom(from);
     }
 
@@ -112,52 +108,52 @@ public class BpelProcessIntrospector {
     }
 
     private void processInvoke(XMLStreamReader xmlStreamReader, BpelProcessDefinition bpelProcessDefinition) {
-        String operation =  xmlStreamReader.getAttributeValue(null, "operation");
-        String partnerLink =  xmlStreamReader.getAttributeValue(null, "partnerLink");
-        String input =  xmlStreamReader.getAttributeValue(null, "inputVariable");
-        String output =  xmlStreamReader.getAttributeValue(null, "outputVariable");
+        String operation = xmlStreamReader.getAttributeValue(null, "operation");
+        String partnerLink = xmlStreamReader.getAttributeValue(null, "partnerLink");
+        String input = xmlStreamReader.getAttributeValue(null, "inputVariable");
+        String output = xmlStreamReader.getAttributeValue(null, "outputVariable");
         InvokeDefinition invokeDefinition = new InvokeDefinition(operation, partnerLink, input, output);
         bpelProcessDefinition.getLastSequence().getActivities().add(invokeDefinition);
     }
 
     private void processReply(XMLStreamReader xmlStreamReader, BpelProcessDefinition bpelProcessDefinition) {
-        String operation =  xmlStreamReader.getAttributeValue(null, "operation");
-        String partnerLink =  xmlStreamReader.getAttributeValue(null, "partnerLink");
-        String variable =  xmlStreamReader.getAttributeValue(null, "variable");
+        String operation = xmlStreamReader.getAttributeValue(null, "operation");
+        String partnerLink = xmlStreamReader.getAttributeValue(null, "partnerLink");
+        String variable = xmlStreamReader.getAttributeValue(null, "variable");
         ReplyDefinition receiveDefinition = new ReplyDefinition(operation, partnerLink, variable);
         bpelProcessDefinition.getLastSequence().getActivities().add(receiveDefinition);
     }
 
     private void processReceive(XMLStreamReader xmlStreamReader, BpelProcessDefinition bpelProcessDefinition) {
-        String operation =  xmlStreamReader.getAttributeValue(null, "operation");
-        String partnerLink =  xmlStreamReader.getAttributeValue(null, "partnerLink");
-        String variable =  xmlStreamReader.getAttributeValue(null, "variable");
+        String operation = xmlStreamReader.getAttributeValue(null, "operation");
+        String partnerLink = xmlStreamReader.getAttributeValue(null, "partnerLink");
+        String variable = xmlStreamReader.getAttributeValue(null, "variable");
         ReceiveDefinition receiveDefinition = new ReceiveDefinition(operation, partnerLink, variable);
         bpelProcessDefinition.getLastSequence().getActivities().add(receiveDefinition);
     }
 
     private void processPartnerLink(XMLStreamReader xmlStreamReader, BpelProcessDefinition bpelProcessDefinition) {
-        String name =  xmlStreamReader.getAttributeValue(null, "elementName");
-        String val =   xmlStreamReader.getAttributeValue(null, "partnerLinkType");
+        String name = xmlStreamReader.getAttributeValue(null, "elementName");
+        String val = xmlStreamReader.getAttributeValue(null, "partnerLinkType");
         QName partnerLinkType = LoaderUtil.getQName(val, null, xmlStreamReader.getNamespaceContext());
-        String myRole =  xmlStreamReader.getAttributeValue(null, "myRole");
-        String partnerRole =  xmlStreamReader.getAttributeValue(null, "partnerRole");
-        PartnerLinkDefinition partnerLinkDefinition = new PartnerLinkDefinition(name,  partnerLinkType, myRole, partnerRole);
+        String myRole = xmlStreamReader.getAttributeValue(null, "myRole");
+        String partnerRole = xmlStreamReader.getAttributeValue(null, "partnerRole");
+        PartnerLinkDefinition partnerLinkDefinition = new PartnerLinkDefinition(name, partnerLinkType, myRole, partnerRole);
         bpelProcessDefinition.getPartnerLinks().add(partnerLinkDefinition);
     }
 
     private void processVariable(XMLStreamReader xmlStreamReader, BpelProcessDefinition bpelProcessDefinition) {
-        String name =  xmlStreamReader.getAttributeValue(null, "elementName");
-        String type =   xmlStreamReader.getAttributeValue(null, "messageType");
+        String name = xmlStreamReader.getAttributeValue(null, "elementName");
+        String type = xmlStreamReader.getAttributeValue(null, "messageType");
         QName messageType = LoaderUtil.getQName(type, null, xmlStreamReader.getNamespaceContext());
         VariableDefinition variableDefinition = new VariableDefinition(name, messageType);
         bpelProcessDefinition.getVariables().add(variableDefinition);
     }
 
     private void processImport(XMLStreamReader xmlStreamReader, BpelProcessDefinition bpelProcessDefinition) {
-        String location =  xmlStreamReader.getAttributeValue(null, "location");
-        String importType =  xmlStreamReader.getAttributeValue(null, "importType");
-        String namespace =  xmlStreamReader.getAttributeValue(null, "namespace");
+        String location = xmlStreamReader.getAttributeValue(null, "location");
+        String importType = xmlStreamReader.getAttributeValue(null, "importType");
+        String namespace = xmlStreamReader.getAttributeValue(null, "namespace");
         ImportDefinition importDefinition = new ImportDefinition(location, importType, namespace);
         bpelProcessDefinition.getImports().add(importDefinition);
     }

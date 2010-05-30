@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by IntelliJ IDEA.
- * User: meerajk
- * Date: May 29, 2010
- * Time: 10:39:00 AM
+ * Created by IntelliJ IDEA. User: meerajk Date: May 29, 2010 Time: 10:39:00 AM
  * To change this template use File | Settings | File Templates.
  */
 public class SequenceDefinition {
@@ -21,5 +18,5 @@ public class SequenceDefinition {
     public AssignDefinition getLastAssignActivity() {
         return (AssignDefinition) getActivities().get(getActivities().size() - 1);
     }
-    
+
 }

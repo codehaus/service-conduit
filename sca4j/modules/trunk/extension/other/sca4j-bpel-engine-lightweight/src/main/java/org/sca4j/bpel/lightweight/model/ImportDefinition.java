@@ -1,10 +1,7 @@
 package org.sca4j.bpel.lightweight.model;
 
 /**
- * Created by IntelliJ IDEA.
- * User: meerajk
- * Date: May 29, 2010
- * Time: 10:42:31 AM
+ * Created by IntelliJ IDEA. User: meerajk Date: May 29, 2010 Time: 10:42:31 AM
  * To change this template use File | Settings | File Templates.
  */
 public class ImportDefinition {
@@ -30,5 +27,5 @@ public class ImportDefinition {
     public String getNamespace() {
         return namespace;
     }
-    
+
 }
