@@ -33,9 +33,9 @@ public class OrderServiceITest extends TestCase {
         orderRequest.setBillingAddress("123 ABC");
         orderRequest.setShippingAddress("456 DEF");
         
-        orderPortType.placeOrder(orderRequest);
-        //assertEquals(10, orderResponse.getAmount());
-        //assertEquals(1973, orderResponse.getDeliveryDate().getYear());
+        OrderResponse orderResponse = orderPortType.placeOrder(orderRequest);
+        assertEquals(10, orderResponse.getAmount());
+        assertEquals(1973, orderResponse.getDeliveryDate().getYear());
         
     }
 

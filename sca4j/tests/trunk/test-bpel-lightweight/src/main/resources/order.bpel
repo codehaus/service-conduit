@@ -3,7 +3,8 @@
          xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
          xmlns:order="http://order.bpel.tests.sca4j.org"
          xmlns:billing="http://billing.bpel.tests.sca4j.org"
-         xmlns:shipping="http://shipping.bpel.tests.sca4j.org">
+         xmlns:shipping="http://shipping.bpel.tests.sca4j.org"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema">
          
     <import location="billing.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" namespace="http://billing.bpel.tests.sca4j.org"/>
     <import location="shipping.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" namespace="http://shipping.bpel.tests.sca4j.org"/>
@@ -16,38 +17,32 @@
     </partnerLinks>
     
     <variables>
-        <variable name="orderRequest" messageType="order:PlaceOrderRequest" />
-        <variable name="orderResponse" messageType="order:PlaceOrderResponse" />
-        <variable name="billingRequest" messageType="billing:BillRequest" />
-        <variable name="billingResponse" messageType="billing:BillResponse" />
-        <variable name="shippingRequest" messageType="shipping:ShipRequest" />
-        <variable name="shippingResponse" messageType="shipping:ShipResponse" />
+        <variable name="orderRequest" type="order:OrderRequest" />
+        <variable name="orderResponse" type="order:OrderResponse" />
+        <variable name="billingRequest" type="billing:BillingRequest" />
+        <variable name="billingResponse" type="xsd:int" />
+        <variable name="shippingRequest" type="shipping:ShippingRequest" />
+        <variable name="shippingResponse" type="xsd:dateTime" />
     </variables>
     
     <sequence>
         <receive operation="placeOrder" partnerLink="order" variable="orderRequest" />
         <assign>
             <copy>
-                <from>$orderRequest.itemCode</from>
-                <to>$billingRequest.itemCode</to>
+                <from>$orderRequest/itemCode</from>
+                <to>$billingRequest/itemCode</to>
             </copy>
-        </assign>
-        <assign>
             <copy>
-                <from>$orderRequest.billingAddress</from>
-                <to>$billingRequest.billingAddress</to>
+                <from>$orderRequest/billingAddress</from>
+                <to>$billingRequest/billingAddress</to>
             </copy>
-        </assign>
-        <assign>
             <copy>
-                <from>$orderRequest.itemCode</from>
-                <to>$shippingRequest.itemCode</to>
+                <from>$orderRequest/itemCode</from>
+                <to>$shippingRequest/itemCode</to>
             </copy>
-        </assign>
-        <assign>
             <copy>
-                <from>$orderRequest.shippingAddress</from>
-                <to>$shippingRequest.shippingAddress</to>
+                <from>$orderRequest/shippingAddress</from>
+                <to>$shippingRequest/shippingAddress</to>
             </copy>
         </assign>
         <invoke operation="bill" partnerLink="billing" inputVariable="billingRequest" outputVariable="billingResponse" />
@@ -55,13 +50,11 @@
         <assign>
             <copy>
                 <from>$billingResponse</from>
-                <to>$orderResponse.amount</to>
+                <to>$orderResponse/amount</to>
             </copy>
-        </assign>
-        <assign>
             <copy>
                 <from>$shippingResponse</from>
-                <to>$orderResponse.deliveryDate</to>
+                <to>$orderResponse/deliveryDate</to>
             </copy>
         </assign>
         <reply partnerLink="order" operation="placeOrder" variable="orderResponse" />
