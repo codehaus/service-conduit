@@ -70,31 +70,24 @@
  */
 package org.sca4j.binding.jms.runtime;
 
-import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
 
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
+import javax.naming.Context;
 
 import org.oasisopen.sca.annotation.Reference;
-import org.sca4j.binding.jms.common.ConnectionFactoryDefinition;
 import org.sca4j.binding.jms.common.CorrelationScheme;
-import org.sca4j.binding.jms.common.CreateOption;
-import org.sca4j.binding.jms.common.DestinationDefinition;
 import org.sca4j.binding.jms.common.JmsBindingMetadata;
+import org.sca4j.binding.jms.common.TransactionType;
 import org.sca4j.binding.jms.provision.JmsWireTargetDefinition;
-import org.sca4j.binding.jms.provision.PayloadType;
-import org.sca4j.binding.jms.runtime.lookup.connectionfactory.ConnectionFactoryStrategy;
-import org.sca4j.binding.jms.runtime.lookup.destination.DestinationStrategy;
+import org.sca4j.binding.jms.runtime.helper.JndiHelper;
+import org.sca4j.binding.jms.runtime.tx.TransactionHandler;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.TargetWireAttacher;
-import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
-import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
 import org.sca4j.spi.wire.Interceptor;
-import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;
 
 /**
@@ -104,94 +97,48 @@ import org.sca4j.spi.wire.Wire;
  *          2008) $
  */
 public class JmsTargetWireAttacher implements TargetWireAttacher<JmsWireTargetDefinition> {
-    /**
-     * Destination strategies.
-     */
-    private Map<CreateOption, DestinationStrategy> destinationStrategies = new HashMap<CreateOption, DestinationStrategy>();
-
-    /**
-     * Connection factory strategies.
-     */
-    private Map<CreateOption, ConnectionFactoryStrategy> connectionFactoryStrategies = new HashMap<CreateOption, ConnectionFactoryStrategy>();
-
-    /**
-     * Injects the wire attacher registries.
-     */
-    public JmsTargetWireAttacher() {
-    }
-
-    /**
-     * Injects the destination strategies.
-     * 
-     * @param strategies Destination strategies.
-     */
-    @Reference
-    public void setDestinationStrategies(Map<CreateOption, DestinationStrategy> strategies) {
-        this.destinationStrategies = strategies;
-    }
-
-    /**
-     * Injects the connection factory strategies.
-     * 
-     * @param strategies Connection factory strategies.
-     */
-    @Reference
-    public void setConnectionFactoryStrategies(Map<CreateOption, ConnectionFactoryStrategy> strategies) {
-        this.connectionFactoryStrategies = strategies;
-    }
+    
+    @Reference(required = false) public TransactionHandler transactionHandler;
 
     public void attachToTarget(PhysicalWireSourceDefinition sourceDefinition, JmsWireTargetDefinition targetDefinition, Wire wire) throws WiringException {
 
-        SCA4JMessageReceiver messageReceiver = null;
-        Destination resDestination = null;
-        ConnectionFactory resCf = null;
-
-        ClassLoader cl = getClass().getClassLoader();
-
         JmsBindingMetadata metadata = targetDefinition.getMetadata();
 
-        Hashtable<String, String> env = metadata.getEnv();
-        CorrelationScheme correlationScheme = metadata.getCorrelationScheme();
+        Hashtable<String, String> env = new Hashtable<String, String>();
+        env.put(Context.PROVIDER_URL, metadata.jndiUrl);
+        env.put(Context.INITIAL_CONTEXT_FACTORY, metadata.initialContextFactory);
+        CorrelationScheme correlationScheme = metadata.correlationScheme;
+        TransactionType transactionType = targetDefinition.getTransactionType();
 
-        ConnectionFactoryDefinition connectionFactoryDefinition = metadata.getConnectionFactory();
-        CreateOption create = connectionFactoryDefinition.getCreate();
+        String connectionFactoryName = metadata.connectionFactoryName;
+        String destinationName = metadata.destinationName;
+        JMSObjectFactory requestFactory = buildObjectFactory(connectionFactoryName, destinationName, env);
 
-        ConnectionFactory reqCf = connectionFactoryStrategies.get(create).getConnectionFactory(connectionFactoryDefinition, env, cl);
-
-        DestinationDefinition destinationDefinition = metadata.getDestination();
-        create = destinationDefinition.getCreate();
-        Destination reqDestination = destinationStrategies.get(create).getDestination(destinationDefinition, reqCf, env, cl);
-
-        if (!metadata.noResponse()) {
-            connectionFactoryDefinition = metadata.getResponseConnectionFactory();
-            create = connectionFactoryDefinition.getCreate();
-            resCf = connectionFactoryStrategies.get(create).getConnectionFactory(connectionFactoryDefinition, env, cl);
-
-            destinationDefinition = metadata.getResponseDestination();
-            create = destinationDefinition.getCreate();
-            resDestination = destinationStrategies.get(create).getDestination(destinationDefinition, resCf, env, cl);
+        String responseConnectionFactoryName = metadata.responseConnectionFactoryName;
+        String responseDestinationName = metadata.responseDestinationName;
+        JMSObjectFactory responseFactory = null;
+        if (responseConnectionFactoryName != null && responseDestinationName != null) {
+            responseFactory = buildObjectFactory(responseConnectionFactoryName, responseDestinationName, env);
         }
 
-        Map<String, PayloadType> payloadTypes = targetDefinition.getPayloadTypes();
-        for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
+        Interceptor interceptor = new JmsTargetInterceptor(requestFactory,
+                                                           responseFactory,
+                                                           transactionType,
+                                                           transactionHandler,
+                                                           correlationScheme,
+                                                           wire);
 
-            PhysicalOperationDefinition op = entry.getKey().getSourceOperation();
-            InvocationChain chain = entry.getValue();
-
-            if (resDestination != null && resCf != null) {
-                messageReceiver = new SCA4JMessageReceiver(resDestination, resCf);
-            }
-            String operationName = op.getName();
-            PayloadType payloadType = payloadTypes.get(operationName);
-            Interceptor interceptor = new JmsTargetInterceptor(operationName, payloadType, reqDestination, reqCf, correlationScheme, messageReceiver, cl);
-
-            chain.addInterceptor(interceptor);
-
-        }
+        wire.getInvocationChains().entrySet().iterator().next().getValue().addInterceptor(interceptor);
 
     }
 
     public ObjectFactory<?> createObjectFactory(JmsWireTargetDefinition target) throws WiringException {
         throw new UnsupportedOperationException();
+    }
+
+    private JMSObjectFactory buildObjectFactory(String connectionFactoryName, String destinationName, Hashtable<String, String> env) {
+        ConnectionFactory connectionFactory = JndiHelper.lookup(connectionFactoryName, env);
+        Destination destination = JndiHelper.lookup(destinationName, env);
+        return new JMSObjectFactory(connectionFactory, destination, destinationName);
     }
 }

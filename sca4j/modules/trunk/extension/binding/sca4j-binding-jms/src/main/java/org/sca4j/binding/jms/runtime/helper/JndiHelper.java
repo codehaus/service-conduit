@@ -94,22 +94,18 @@ public class JndiHelper {
     /*
      * Looks up the administered object.
      */
-    public static Object lookup(String name, Hashtable<String, String> env, ClassLoader classLoader) throws NameNotFoundException {
+    @SuppressWarnings("unchecked")
+    public static <T> T lookup(String name, Hashtable<String, String> env) {
 
         ClassLoader oldCl = Thread.currentThread().getContextClassLoader();
 
         Context ctx = null;
 
         try {
-
-            Thread.currentThread().setContextClassLoader(classLoader);
-
             ctx = new InitialContext(env);
-
-            return ctx.lookup(name);
-
+            return (T) ctx.lookup(name);
         } catch (NameNotFoundException ex) {
-            throw ex;
+            throw new SCA4JJmsException("Unable to lookup administered object", ex);
         } catch (NamingException ex) {
             throw new SCA4JJmsException("Unable to lookup administered object", ex);
         } finally {

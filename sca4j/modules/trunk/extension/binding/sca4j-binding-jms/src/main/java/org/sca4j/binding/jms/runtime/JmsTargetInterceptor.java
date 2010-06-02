@@ -53,124 +53,149 @@
 package org.sca4j.binding.jms.runtime;
 
 import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
-import javax.jms.Destination;
 import javax.jms.JMSException;
+import javax.jms.MessageConsumer;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
+import javax.transaction.xa.XAResource;
 
 import org.sca4j.binding.jms.common.CorrelationScheme;
 import org.sca4j.binding.jms.common.SCA4JJmsException;
-import org.sca4j.binding.jms.provision.PayloadType;
+import org.sca4j.binding.jms.common.TransactionType;
 import org.sca4j.binding.jms.runtime.helper.JmsHelper;
+import org.sca4j.binding.jms.runtime.tx.TransactionHandler;
+import org.sca4j.binding.jms.runtime.wireformat.DataBinder;
 import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.MessageImpl;
+import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.wire.Interceptor;
+import org.sca4j.spi.wire.Wire;
 
 /**
  * Dispatches a service invocation to a JMS queue.
  * 
  * @version $Revision: 5322 $ $Date: 2008-09-02 20:15:34 +0100 (Tue, 02 Sep
  *          2008) $
+ * 
+ * TODO Enable global transactions will two-way reference.
+ * TODO Do rollback properly on local transactions.
  */
 public class JmsTargetInterceptor implements Interceptor {
 
-    /**
-     * Next interceptor in the chain.
-     */
     private Interceptor next;
-
-    /**
-     * Method name
-     */
-    private String methodName;
-
-    private PayloadType payloadType;
-    /**
-     * Request destination.
-     */
-    private Destination destination;
-
-    /**
-     * Request connection factory.
-     */
-    private ConnectionFactory connectionFactory;
-
-    /**
-     * Correlation scheme.
-     */
+    
     private CorrelationScheme correlationScheme;
+    private JMSObjectFactory requestFactory;
+    private JMSObjectFactory responseFactory;
+    private TransactionType transactionType;
+    private TransactionHandler transactionHandler;
+    private boolean twoWay;
+    
+    private Class<?> inputType;
+    private Class<?> outputType;
+    private DataBinder dataBinder = new DataBinder();
+    
 
-    /**
-     * Message receiver.
-     */
-    private SCA4JMessageReceiver messageReceiver;
-
-    /**
-     * Classloader to use.
-     */
-    private ClassLoader cl;
-
-    /**
-     * @param methodName Method name.
-     * @param payloadType the type of JMS message to send
-     * @param destination Request destination.
-     * @param connectionFactory Request connection factory.
-     * @param correlationScheme Correlation scheme.
-     * @param messageReceiver Message receiver for response.
-     * @param cl the classloader for loading parameter types.
-     */
-    public JmsTargetInterceptor(String methodName, PayloadType payloadType, Destination destination, ConnectionFactory connectionFactory, CorrelationScheme correlationScheme,
-            SCA4JMessageReceiver messageReceiver, ClassLoader cl) {
-        this.methodName = methodName;
-        this.payloadType = payloadType;
-        this.destination = destination;
-        this.connectionFactory = connectionFactory;
-        this.correlationScheme = correlationScheme;
-        this.messageReceiver = messageReceiver;
-        this.cl = cl;
+    public JmsTargetInterceptor(JMSObjectFactory requestFactory, 
+                                JMSObjectFactory responseFactory, 
+                                TransactionType transactionType,
+                                TransactionHandler transactionHandler,
+                                CorrelationScheme correlationScheme,
+                                Wire wire) {
+        try {
+            PhysicalOperationDefinition pod = wire.getInvocationChains().entrySet().iterator().next().getKey().getTargetOperation();
+            inputType = Class.forName(pod.getParameters().get(0));
+            String outputTypeName = pod.getReturnType();
+            if (outputTypeName != null) {
+                outputType = Class.forName(outputTypeName);
+            }
+            twoWay = outputType != null;
+            this.requestFactory = requestFactory;
+            this.responseFactory = responseFactory;
+            this.correlationScheme = correlationScheme;
+            this.transactionType = transactionType;
+            this.transactionHandler = transactionHandler;
+        } catch (ClassNotFoundException e) {
+            throw new SCA4JJmsException("Unable to load operation types", e);
+        }
     }
 
-    public Message invoke(Message message) {
+    public Message invoke(Message sca4jRequest) {
 
-        Message response = new MessageImpl();
+        Message sca4jResponse = new MessageImpl();
+        
+        Connection requestConnection = null;
+        Session requestSession = null;
+        MessageProducer requestProducer = null;
 
-        Connection connection = null;
-        ClassLoader oldCl = Thread.currentThread().getContextClassLoader();
+        Connection responseConnection = null;
+        Session responseSession = null;
+        MessageConsumer responseConsumer = null;
+        
+        boolean txStarted = false;
+        
         try {
-            Thread.currentThread().setContextClassLoader(cl);
-            connection = connectionFactory.createConnection();
-            Session session = connection.createSession(true, Session.SESSION_TRANSACTED);
-
-            MessageProducer producer = session.createProducer(destination);
-            Object[] payload = (Object[]) message.getBody();
-
-            javax.jms.Message jmsMessage = createMessage(session, payload);
-            jmsMessage.setObjectProperty("scaOperationName", methodName);
-            producer.send(jmsMessage);
-
-            String correlationId = null;
-            switch (correlationScheme) {
-            case None:
-            case RequestCorrelIDToCorrelID:
-                throw new UnsupportedOperationException("Correlation scheme not supported");
-            case RequestMsgIDToCorrelID:
-                correlationId = jmsMessage.getJMSMessageID();
-            }
-            session.commit();
-            if (messageReceiver != null) {
-                javax.jms.Message resultMessage = messageReceiver.receive(correlationId);
-                Object responseMessage = MessageHelper.getPayload(resultMessage, payloadType);
-                response.setBody(responseMessage);
+            
+            requestConnection = requestFactory.getConnection();
+            requestSession = requestFactory.getSession(requestConnection, transactionType);
+            if (transactionType == TransactionType.GLOBAL) {
+                if (transactionHandler.getTransaction() != null) {
+                    transactionHandler.begin();
+                    txStarted = true;
+                }
+                transactionHandler.enlist(requestSession);
             }
 
-            return response;
+            requestProducer = requestSession.createProducer(requestFactory.getDestination());
+            Object[] payload = (Object[]) sca4jRequest.getBody();
+            
+
+            javax.jms.Message jmsRequest = dataBinder.marshal(payload[0], inputType, requestSession);
+            requestProducer.send(jmsRequest);
+            
+            if (twoWay && transactionType == TransactionType.LOCAL) {
+                requestSession.commit();
+                responseConnection = responseFactory.getConnection();
+                responseSession = responseFactory.getSession(responseConnection, transactionType);
+                String selector = null;
+                switch (correlationScheme) {
+                    case messageID: 
+                        selector = "JMSCorrelationID = '" + jmsRequest.getJMSMessageID() + "'";
+                        break;
+                    case correlationID: 
+                        selector = "JMSCorrelationID = '" + jmsRequest.getJMSCorrelationID() + "'";
+                        break;
+                }
+                responseConsumer = responseSession.createConsumer(responseFactory.getDestination(), selector);
+                javax.jms.Message jmsResponse = responseConsumer.receive();
+                sca4jResponse.setBody(dataBinder.unmarshal(jmsResponse, outputType));
+                responseSession.commit();
+            }
+            
+            if (transactionType == TransactionType.GLOBAL) {
+                if (txStarted) {
+                    transactionHandler.commit();
+                } 
+                transactionHandler.delist(requestSession, XAResource.TMSUCCESS);
+            }
+
+            return sca4jResponse;
 
         } catch (JMSException ex) {
+            if (transactionType == TransactionType.GLOBAL) {
+                if (txStarted) {
+                    transactionHandler.rollback();
+                } 
+                transactionHandler.delist(requestSession, XAResource.TMFAIL);
+            }
             throw new SCA4JJmsException("Unable to receive response", ex);
         } finally {
-            JmsHelper.closeQuietly(connection);
-            Thread.currentThread().setContextClassLoader(oldCl);
+            JmsHelper.closeQuietly(requestProducer);
+            JmsHelper.closeQuietly(requestSession);
+            JmsHelper.closeQuietly(requestConnection);
+            JmsHelper.closeQuietly(responseConsumer);
+            JmsHelper.closeQuietly(responseSession);
+            JmsHelper.closeQuietly(responseConnection);
         }
     }
 
@@ -180,25 +205,6 @@ public class JmsTargetInterceptor implements Interceptor {
 
     public void setNext(Interceptor next) {
         this.next = next;
-    }
-
-    private javax.jms.Message createMessage(Session session, Object[] payload) throws JMSException {
-        switch (payloadType) {
-        case OBJECT:
-            return session.createObjectMessage(payload);
-        case STREAM:
-            throw new UnsupportedOperationException("Not yet implemented");
-        case TEXT:
-            if (payload.length != 1) {
-                throw new UnsupportedOperationException("Only single parameter operations are supported");
-            }
-            return session.createTextMessage((String) payload[0]);
-        default:
-            if (payload.length != 1) {
-                throw new AssertionError("Bytes messages must have a single parameter");
-            }
-            return MessageHelper.createBytesMessage(session, payload[0], payloadType);
-        }
     }
 
 }

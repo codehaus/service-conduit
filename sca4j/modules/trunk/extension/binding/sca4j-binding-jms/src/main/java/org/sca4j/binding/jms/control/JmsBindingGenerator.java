@@ -55,21 +55,14 @@ package org.sca4j.binding.jms.control;
 import static org.oasisopen.sca.Constants.SCA_NS;
 
 import java.net.URI;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 import javax.xml.namespace.QName;
 
 import org.oasisopen.sca.annotation.EagerInit;
-import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.binding.jms.common.JmsBindingMetadata;
 import org.sca4j.binding.jms.common.TransactionType;
 import org.sca4j.binding.jms.provision.JmsWireSourceDefinition;
 import org.sca4j.binding.jms.provision.JmsWireTargetDefinition;
-import org.sca4j.binding.jms.provision.PayloadType;
 import org.sca4j.binding.jms.scdl.JmsBindingDefinition;
 import org.sca4j.scdl.Operation;
 import org.sca4j.scdl.ReferenceDefinition;
@@ -83,9 +76,11 @@ import org.sca4j.spi.policy.Policy;
 
 /**
  * Binding generator that creates the physical source and target definitions for
- * wires. Message acknowledgement is always expected to be using transactions,
+ * wires. Message acknowledgment is always expected to be using transactions,
  * either local or global, as expressed by the intents transactedOneWay,
  * transactedOneWay.local or transactedOneWay.global.
+ * 
+ * TODO Enable global transactions will two-way reference.
  * 
  * @version $Revision: 5021 $ $Date: 2008-07-12 18:36:13 +0100 (Sat, 12 Jul
  *          2008) $
@@ -97,43 +92,40 @@ public class JmsBindingGenerator implements BindingGenerator<JmsWireSourceDefini
     private static final QName TRANSACTED_ONEWAY = new QName(SCA_NS, "transactedOneWay");
     private static final QName TRANSACTED_ONEWAY_LOCAL = new QName(SCA_NS, "transactedOneWay.local");
     private static final QName TRANSACTED_ONEWAY_GLOBAL = new QName(SCA_NS, "transactedOneWay.global");
-    private static final QName ONEWAY = new QName(SCA_NS, "oneWay");
 
-    private PayloadTypeIntrospector introspector;
-
-    public JmsBindingGenerator(@Reference PayloadTypeIntrospector introspector) {
-        this.introspector = introspector;
-    }
-
-    public JmsWireSourceDefinition generateWireSource(LogicalBinding<JmsBindingDefinition> logicalBinding, Policy policy, ServiceDefinition serviceDefinition)
-            throws GenerationException {
-
+    public JmsWireSourceDefinition generateWireSource(LogicalBinding<JmsBindingDefinition> logicalBinding, Policy policy, ServiceDefinition serviceDefinition) 
+        throws GenerationException {
         ServiceContract serviceContract = serviceDefinition.getServiceContract();
+        if (serviceContract.getOperations().size() != 1) {
+            throw new GenerationException("Services with JMS binding can have only one operation");
+        }
+        if (serviceContract.getOperations().get(0).getInputTypes().size() != 1) {
+            throw new GenerationException("Services with JMS binding can have only one operation with one parameter");
+        }
         TransactionType transactionType = getTransactionType(policy, serviceContract);
-        Set<String> oneWayOperations = getOneWayOperations(policy, serviceContract);
-
         URI classloaderId = logicalBinding.getParent().getParent().getClassLoaderId();
-
         JmsBindingMetadata metadata = logicalBinding.getBinding().getMetadata();
-        Map<String, PayloadType> payloadTypes = processPayloadTypes(serviceContract);
         URI uri = logicalBinding.getBinding().getTargetUri();
-        return new JmsWireSourceDefinition(uri, metadata, payloadTypes, transactionType, oneWayOperations, classloaderId);
+        return new JmsWireSourceDefinition(uri, metadata, transactionType, classloaderId);
     }
 
-    public JmsWireTargetDefinition generateWireTarget(LogicalBinding<JmsBindingDefinition> logicalBinding, Policy policy, ReferenceDefinition referenceDefinition)
-            throws GenerationException {
-
+    public JmsWireTargetDefinition generateWireTarget(LogicalBinding<JmsBindingDefinition> logicalBinding, Policy policy, ReferenceDefinition referenceDefinition) 
+        throws GenerationException {
         ServiceContract serviceContract = referenceDefinition.getServiceContract();
-
+        if (serviceContract.getOperations().size() != 1) {
+            throw new GenerationException("References with on JMS binding can have only one operation");
+        }
+        if (serviceContract.getOperations().get(0).getInputTypes().size() != 1) {
+            throw new GenerationException("References with JMS binding can have only one operation with one parameter");
+        }
         TransactionType transactionType = getTransactionType(policy, serviceContract);
-        Set<String> oneWayOperations = getOneWayOperations(policy, serviceContract);
-
+        if (transactionType == TransactionType.GLOBAL && serviceContract.getOperations().get(0).getOutputType() != null) {
+            throw new GenerationException("Global transaction not allowed on references with two-way operations");
+        }
         URI classloaderId = logicalBinding.getParent().getParent().getClassLoaderId();
-
         URI uri = logicalBinding.getBinding().getTargetUri();
         JmsBindingMetadata metadata = logicalBinding.getBinding().getMetadata();
-        Map<String, PayloadType> payloadTypes = processPayloadTypes(serviceContract);
-        return new JmsWireTargetDefinition(uri, metadata, payloadTypes, transactionType, oneWayOperations, classloaderId);
+        return new JmsWireTargetDefinition(uri, metadata, transactionType, classloaderId);
     }
 
     /*
@@ -157,44 +149,5 @@ public class JmsBindingGenerator implements BindingGenerator<JmsWireSourceDefini
         return TransactionType.LOCAL;
 
     }
-
-    /*
-     * Gets one way method names.
-     */
-    private Set<String> getOneWayOperations(Policy policy, ServiceContract serviceContract) {
-        Set<String> result = null;
-        // If any operation has the intent, return that
-        for (Operation operation : serviceContract.getOperations()) {
-            for (Intent intent : policy.getProvidedIntents(operation)) {
-                if (ONEWAY.equals(intent.getName())) {
-                    if (result == null) {
-                        result = new HashSet<String>();
-                    }
-                    result.add(operation.getName());
-                    break;
-                }
-            }
-        }
-        if (result != null) {
-            return result;
-        } else {
-            return Collections.emptySet();
-        }
-    }
-
-    /**
-     * Determines the the payload type to use based on the service contract.
-     * 
-     * @param serviceContract the service contract
-     * @return the collection of payload types keyed by operation name
-     * @throws JmsGenerationException if an error occurs
-     */
-    private Map<String, PayloadType> processPayloadTypes(ServiceContract serviceContract) throws JmsGenerationException {
-        Map<String, PayloadType> types = new HashMap<String, PayloadType>();
-        for (Operation operation : serviceContract.getOperations()) {
-            PayloadType payloadType = introspector.introspect(operation);
-            types.put(operation.getName(), payloadType);
-        }
-        return types;
-    }
+    
 }

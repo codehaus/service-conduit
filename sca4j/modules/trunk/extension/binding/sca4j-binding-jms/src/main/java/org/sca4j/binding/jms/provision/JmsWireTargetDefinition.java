@@ -53,8 +53,6 @@
 package org.sca4j.binding.jms.provision;
 
 import java.net.URI;
-import java.util.Map;
-import java.util.Set;
 
 import org.sca4j.binding.jms.common.JmsBindingMetadata;
 import org.sca4j.binding.jms.common.TransactionType;
@@ -65,29 +63,21 @@ import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
  *          2008) $
  */
 public class JmsWireTargetDefinition extends PhysicalWireTargetDefinition {
+    
     private JmsBindingMetadata metadata;
     private TransactionType transactionType;
     private URI classloaderUri;
-    private Set<String> oneWayOperations;
-    private Map<String, PayloadType> payloadTypes;
 
     /**
-     * Constructor
-     * 
-     * @param uri The target service URI
-     * @param metadata Metadata to be initialized.
-     * @param payloadTypes The payload types keyed by operation name
-     * @param transactionType Transaction type
-     * @param oneWayOperations The set of oneway operation names
-     * @param classloaderUri The classloader URI to deserialize types in
+     * @param uri
+     * @param metadata
+     * @param transactionType
+     * @param classloaderUri
      */
-    public JmsWireTargetDefinition(URI uri, JmsBindingMetadata metadata, Map<String, PayloadType> payloadTypes, TransactionType transactionType, Set<String> oneWayOperations,
-            URI classloaderUri) {
+    public JmsWireTargetDefinition(URI uri, JmsBindingMetadata metadata, TransactionType transactionType, URI classloaderUri) {
         this.metadata = metadata;
         this.transactionType = transactionType;
         this.classloaderUri = classloaderUri;
-        this.oneWayOperations = oneWayOperations;
-        this.payloadTypes = payloadTypes;
         setUri(uri);
     }
 
@@ -110,35 +100,10 @@ public class JmsWireTargetDefinition extends PhysicalWireTargetDefinition {
     }
 
     /**
-     * Returns the payload type keyed by operation name
-     * 
-     * @return the payload type
-     */
-    public Map<String, PayloadType> getPayloadTypes() {
-        return payloadTypes;
-    }
-
-    /**
      * @return Transaction type.
      */
     public TransactionType getTransactionType() {
         return transactionType;
-    }
-
-    /**
-     * @param transactionType Transaction type.
-     */
-    public void setTransactionType(TransactionType transactionType) {
-        this.transactionType = transactionType;
-    }
-
-    /**
-     * Returns the operation names for the wire.
-     * 
-     * @return the operation names for the wire
-     */
-    public Set<String> getOneWayOperations() {
-        return oneWayOperations;
     }
 
 }

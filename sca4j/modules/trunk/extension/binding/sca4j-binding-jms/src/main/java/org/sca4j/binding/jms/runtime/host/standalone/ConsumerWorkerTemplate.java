@@ -52,11 +52,12 @@
  */
 package org.sca4j.binding.jms.runtime.host.standalone;
 
+import org.sca4j.binding.jms.common.JmsBindingMetadata;
 import org.sca4j.binding.jms.common.TransactionType;
 import org.sca4j.binding.jms.runtime.JMSObjectFactory;
 import org.sca4j.binding.jms.runtime.JMSRuntimeMonitor;
-import org.sca4j.binding.jms.runtime.ResponseMessageListener;
 import org.sca4j.binding.jms.runtime.tx.TransactionHandler;
+import org.sca4j.spi.wire.Wire;
 
 /**
  * A thread pull message from destination and invoke Message listener.
@@ -66,13 +67,13 @@ import org.sca4j.binding.jms.runtime.tx.TransactionHandler;
 public class ConsumerWorkerTemplate {
 
     public TransactionHandler transactionHandler;
-    public ResponseMessageListener messageListener;
     public int pollingInterval;
     public int exceptionTimeout;
     public TransactionType transactionType;
-    public ClassLoader cl;
     public JMSObjectFactory responseFactory;
     public JMSObjectFactory requestFactory;
     public JMSRuntimeMonitor monitor;
+    public Wire wire;
+    public JmsBindingMetadata metadata;
 
 }

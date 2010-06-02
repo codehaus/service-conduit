@@ -60,15 +60,14 @@ import java.util.Map;
 
 import org.oasisopen.sca.annotation.Destroy;
 import org.oasisopen.sca.annotation.Reference;
-import org.sca4j.api.annotation.Monitor;
 import org.sca4j.binding.jms.common.JmsBindingMetadata;
 import org.sca4j.binding.jms.common.TransactionType;
 import org.sca4j.binding.jms.runtime.JMSObjectFactory;
 import org.sca4j.binding.jms.runtime.JMSRuntimeMonitor;
-import org.sca4j.binding.jms.runtime.ResponseMessageListener;
 import org.sca4j.binding.jms.runtime.host.JmsHost;
 import org.sca4j.binding.jms.runtime.tx.TransactionHandler;
 import org.sca4j.host.work.WorkScheduler;
+import org.sca4j.spi.wire.Wire;
 
 /**
  * Service handler for JMS.
@@ -77,59 +76,39 @@ import org.sca4j.host.work.WorkScheduler;
  */
 public class StandalonePullJmsHost implements JmsHost {
 
-    private WorkScheduler workScheduler;
-    private JMSRuntimeMonitor monitor;
+    @Reference public WorkScheduler workScheduler;
+    @Reference public JMSRuntimeMonitor monitor;
+    @Reference public TransactionHandler transactionHandler;
+    
     private Map<URI, List<ConsumerWorker>> consumerWorkerMap = new HashMap<URI, List<ConsumerWorker>>();
 
-    /**
-     * Injects the monitor.
-     * 
-     * @param monitor Monitor used for logging.
-     */
-    public StandalonePullJmsHost(@Monitor JMSRuntimeMonitor monitor) {
-        this.monitor = monitor;
-    }
-
-    /**
-     * Injects the work scheduler.
-     * 
-     * @param workScheduler Work scheduler to be used.
-     */
-    @Reference
-    public void setWorkScheduler(WorkScheduler workScheduler) {
-        this.workScheduler = workScheduler;
-    }
-
-    public void registerResponseListener(JMSObjectFactory requestJMSObjectFactory, 
-                                         JMSObjectFactory responseJMSObjectFactory, 
-                                         ResponseMessageListener messageListener,
-                                         TransactionType transactionType, 
-                                         TransactionHandler transactionHandler, 
-                                         ClassLoader cl, 
-                                         URI serviceUri,
-                                         JmsBindingMetadata metadata) {
+    public void registerHandler(JMSObjectFactory requestFactory, 
+                                JMSObjectFactory responseFactory, 
+                                TransactionType transactionType, 
+                                Wire wire, 
+                                JmsBindingMetadata metadata,
+                                URI serviceUri) {
 
         List<ConsumerWorker> consumerWorkers = new ArrayList<ConsumerWorker>();
 
         ConsumerWorkerTemplate template = new ConsumerWorkerTemplate();
         template.transactionHandler = transactionHandler;
         template.transactionType = transactionType;
-        template.messageListener = messageListener; 
-        template.responseFactory = responseJMSObjectFactory;
-        template.requestFactory = requestJMSObjectFactory; 
-        template.pollingInterval = metadata.getPollingInterval();
-        template.exceptionTimeout = metadata.getExceptionTimeout();
-        template.cl = cl;
+        template.responseFactory = responseFactory;
+        template.requestFactory = requestFactory; 
+        template.pollingInterval = metadata.pollingInterval;
+        template.exceptionTimeout = metadata.exceptionTimeout;
         template.monitor = monitor;
+        template.metadata = metadata;
 
-        for (int i = 0; i < metadata.getConsumerCount(); i++) {
+        for (int i = 0; i < metadata.consumerCount; i++) {
             ConsumerWorker work = new ConsumerWorker(template);
             workScheduler.scheduleWork(work);
             consumerWorkers.add(work);
         }
 
         consumerWorkerMap.put(serviceUri, consumerWorkers);
-        monitor.registerListener(requestJMSObjectFactory.getDestination());
+        monitor.registerListener(requestFactory.getDestinationName());
 
     }
     
@@ -142,7 +121,6 @@ public class StandalonePullJmsHost implements JmsHost {
             for (ConsumerWorker consumerWorker : consumerWorkers) {
                 consumerWorker.stop();
             }
-            
         }
     }
 

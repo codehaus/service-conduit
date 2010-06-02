@@ -76,6 +76,6 @@ package org.sca4j.binding.jms.common;
  */
 public enum CorrelationScheme {
 
-    None, RequestMsgIDToCorrelID, RequestCorrelIDToCorrelID;
+    messageID, correlationID;
 
 }

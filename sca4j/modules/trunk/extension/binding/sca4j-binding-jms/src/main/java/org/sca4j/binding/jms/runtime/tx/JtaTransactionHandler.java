@@ -83,12 +83,22 @@ import org.oasisopen.sca.annotation.Reference;
  */
 public class JtaTransactionHandler implements TransactionHandler {
 
-    private TransactionManager transactionManager;
+    @Reference(required = false) public TransactionManager transactionManager;
+    
+    public Transaction getTransaction() {
 
-    @Reference
-    public void setTransactionManager(TransactionManager transactionManager) {
-        this.transactionManager = transactionManager;
+        if (transactionManager == null) {
+            throw new IllegalStateException("No transaction manager available");
+        }
+
+        try {
+            return transactionManager.getTransaction();
+        } catch (Exception e) {
+            throw new JmsTxException(e);
+        }
+
     }
+    
 
     /**
      * @see org.sca4j.binding.jms.runtime.tx.TransactionHandler#begin(javax.jms.Session)
@@ -101,11 +111,6 @@ public class JtaTransactionHandler implements TransactionHandler {
 
         try {
 
-            Transaction transaction = transactionManager.getTransaction();
-            if (transaction == null) {
-                transactionManager.begin();
-            }
-
             if (!(session instanceof XASession)) {
                 throw new JmsTxException("XA session required for global transactions");
             }
@@ -114,6 +119,32 @@ public class JtaTransactionHandler implements TransactionHandler {
             XAResource xaResource = xaSession.getXAResource();
 
             transactionManager.getTransaction().enlistResource(xaResource);
+
+        } catch (Exception e) {
+            throw new JmsTxException(e);
+        }
+
+    }
+
+    /**
+     * @see org.sca4j.binding.jms.runtime.tx.TransactionHandler#begin(javax.jms.Session)
+     */
+    public void delist(Session session, int status) throws JmsTxException {
+
+        if (transactionManager == null) {
+            throw new IllegalStateException("No transaction manager available");
+        }
+
+        try {
+
+            if (!(session instanceof XASession)) {
+                throw new JmsTxException("XA session required for global transactions");
+            }
+
+            XASession xaSession = (XASession) session;
+            XAResource xaResource = xaSession.getXAResource();
+
+            transactionManager.getTransaction().delistResource(xaResource, status);
 
         } catch (Exception e) {
             throw new JmsTxException(e);
@@ -132,6 +163,23 @@ public class JtaTransactionHandler implements TransactionHandler {
 
         try {
             transactionManager.commit();
+        } catch (Exception e) {
+            throw new JmsTxException(e);
+        }
+
+    }
+
+    /**
+     * @see org.sca4j.binding.jms.runtime.tx.TransactionHandler#begin()
+     */
+    public void begin() throws JmsTxException {
+
+        if (transactionManager == null) {
+            throw new IllegalStateException("No transaction manager available");
+        }
+
+        try {
+            transactionManager.begin();
         } catch (Exception e) {
             throw new JmsTxException(e);
         }

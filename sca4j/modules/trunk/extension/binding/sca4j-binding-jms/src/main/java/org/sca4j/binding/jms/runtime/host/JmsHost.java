@@ -54,33 +54,20 @@ package org.sca4j.binding.jms.runtime.host;
 
 import java.net.URI;
 
-import org.sca4j.binding.jms.common.JmsBindingMetadata;
 import org.sca4j.binding.jms.common.TransactionType;
+import org.sca4j.binding.jms.common.JmsBindingMetadata;
 import org.sca4j.binding.jms.runtime.JMSObjectFactory;
-import org.sca4j.binding.jms.runtime.ResponseMessageListener;
-import org.sca4j.binding.jms.runtime.tx.TransactionHandler;
+import org.sca4j.spi.wire.Wire;
 
 /**
  * @version $Revision$ $Date$
  */
 public interface JmsHost {
-
-    /**
-     * @param requestJMSObjectFactory
-     * @param responseJMSObjectFactory
-     * @param messageListener
-     * @param transactionType
-     * @param transactionHandler
-     * @param cl
-     * @param serviceUri
-     * @param metadata
-     */
-    public void registerResponseListener(JMSObjectFactory requestJMSObjectFactory, 
-                                         JMSObjectFactory responseJMSObjectFactory, 
-                                         ResponseMessageListener messageListener,
-                                         TransactionType transactionType, 
-                                         TransactionHandler transactionHandler, 
-                                         ClassLoader cl, 
-                                         URI serviceUri,
-                                         JmsBindingMetadata metadata);
+    
+    void registerHandler(JMSObjectFactory requestFactory, 
+                         JMSObjectFactory responseFactory, 
+                         TransactionType transactionType, 
+                         Wire wire, 
+                         JmsBindingMetadata metadata,
+                         URI serviceUri);
 }

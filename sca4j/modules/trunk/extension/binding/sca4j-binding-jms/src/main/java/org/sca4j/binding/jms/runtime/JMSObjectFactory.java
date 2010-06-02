@@ -56,9 +56,7 @@ import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 import javax.jms.JMSException;
-import javax.jms.Queue;
 import javax.jms.Session;
-import javax.jms.Topic;
 
 import org.sca4j.binding.jms.common.TransactionType;
 
@@ -72,14 +70,10 @@ public class JMSObjectFactory {
     private final Destination destination;
     private final String destinationName;
 
-    public JMSObjectFactory(ConnectionFactory connectionFactory, Destination destination, int cacheLevel) {
-        try {
-            this.connectionFactory = connectionFactory;
-            this.destination = destination;
-            destinationName = (destination instanceof Queue) ? ((Queue)  destination).getQueueName() : ((Topic)  destination).getTopicName();
-        } catch (JMSException e) {
-            throw new AssertionError(e);
-        }
+    public JMSObjectFactory(ConnectionFactory connectionFactory, Destination destination, String destinationName) {
+        this.connectionFactory = connectionFactory;
+        this.destination = destination;
+        this.destinationName = destinationName;
     }
     
     public String getDestinationName() {
@@ -99,7 +93,7 @@ public class JMSObjectFactory {
     }
 
     public Session getSession(Connection connection, TransactionType transactionType) throws JMSException {
-        return connection.createSession(transactionType == TransactionType.LOCAL? true : false, Session.SESSION_TRANSACTED);
+        return connection.createSession(transactionType == TransactionType.LOCAL ? true : false, Session.SESSION_TRANSACTED);
     }
 
 }
