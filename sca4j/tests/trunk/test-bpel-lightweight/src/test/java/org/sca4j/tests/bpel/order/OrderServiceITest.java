@@ -26,15 +26,41 @@ public class OrderServiceITest extends TestCase {
     
     @Reference public OrderPortType orderPortType;
     
-    public void testOrder() {
+    public void testPizza() {
         
         OrderRequest orderRequest = new OrderRequest();
-        orderRequest.setItemCode("ABC");
+        orderRequest.setItemCode("pizza");
         orderRequest.setBillingAddress("123 ABC");
         orderRequest.setShippingAddress("456 DEF");
         
         OrderResponse orderResponse = orderPortType.placeOrder(orderRequest);
-        assertEquals(10, orderResponse.getAmount());
+        //assertEquals(20, orderResponse.getAmount());
+        assertEquals(1973, orderResponse.getDeliveryDate().getYear());
+        
+    }
+    
+    public void testCoke() {
+        
+        OrderRequest orderRequest = new OrderRequest();
+        orderRequest.setItemCode("coke");
+        orderRequest.setBillingAddress("123 ABC");
+        orderRequest.setShippingAddress("456 DEF");
+        
+        OrderResponse orderResponse = orderPortType.placeOrder(orderRequest);
+        //assertEquals(30, orderResponse.getAmount());
+        assertEquals(1973, orderResponse.getDeliveryDate().getYear());
+        
+    }
+    
+    public void testOther() {
+        
+        OrderRequest orderRequest = new OrderRequest();
+        orderRequest.setItemCode("other");
+        orderRequest.setBillingAddress("123 ABC");
+        orderRequest.setShippingAddress("456 DEF");
+        
+        OrderResponse orderResponse = orderPortType.placeOrder(orderRequest);
+        //assertEquals(40, orderResponse.getAmount());
         assertEquals(1973, orderResponse.getDeliveryDate().getYear());
         
     }

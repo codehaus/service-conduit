@@ -47,11 +47,33 @@
         </assign>
         <invoke operation="bill" partnerLink="billing" inputVariable="billingRequest" outputVariable="billingResponse" />
         <invoke operation="ship" partnerLink="shipping" inputVariable="shippingRequest" outputVariable="shippingResponse" />
+        <if>
+            <condition>$orderRequest/itemCode = 'pizza'</condition>
+	        <assign>
+	            <copy>
+	                <from>$billingResponse * 2</from>
+	                <to>$orderResponse/amount</to>
+	            </copy>
+	        </assign>
+	        <elseif>
+            	<condition>$orderRequest/itemCode = 'coke'</condition>
+		        <assign>
+		            <copy>
+		                <from>$billingResponse * 3</from>
+		                <to>$orderResponse/amount</to>
+		            </copy>
+		        </assign>
+	        </elseif>
+	        <else>
+		        <assign>
+		            <copy>
+		                <from>$billingResponse * 4</from>
+		                <to>$orderResponse/amount</to>
+		            </copy>
+		        </assign>
+	        </else>
+        </if>
         <assign>
-            <copy>
-                <from>$billingResponse</from>
-                <to>$orderResponse/amount</to>
-            </copy>
             <copy>
                 <from>$shippingResponse</from>
                 <to>$orderResponse/deliveryDate</to>
