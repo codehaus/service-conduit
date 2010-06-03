@@ -16,30 +16,25 @@
  * This project contains code licensed from the Apache Software Foundation under
  * the Apache License, Version 2.0 and original code from project contributors.
  */
-package org.sca4j.bpel.lightweight.model;
+package org.sca4j.bpel.lightweight.introspection;
 
 import javax.xml.namespace.QName;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 
-/**
- * Created by IntelliJ IDEA. User: meerajk Date: May 29, 2010 Time: 10:38:44 AM
- * To change this template use File | Settings | File Templates.
- */
-public class VariableDefinition {
+import org.sca4j.bpel.lightweight.model.VariableDefinition;
+import org.sca4j.introspection.IntrospectionContext;
+import org.sca4j.introspection.xml.LoaderUtil;
+import org.sca4j.introspection.xml.TypeLoader;
 
-    private String name;
-    private QName type;
+public class VariableLoader implements TypeLoader<VariableDefinition> {
 
-    public VariableDefinition(String name, QName type) {
-        this.name = name;
-        this.type = type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public QName getType() {
-        return type;
+    @Override
+    public VariableDefinition load(XMLStreamReader reader, IntrospectionContext context) throws XMLStreamException {
+        String name = reader.getAttributeValue(null, "name");
+        String type = reader.getAttributeValue(null, "type");
+        QName messageType = LoaderUtil.getQName(type, null, reader.getNamespaceContext());
+        return new VariableDefinition(name, messageType);
     }
 
 }

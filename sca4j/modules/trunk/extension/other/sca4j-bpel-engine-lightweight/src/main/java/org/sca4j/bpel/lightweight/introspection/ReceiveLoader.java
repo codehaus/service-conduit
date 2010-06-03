@@ -16,25 +16,23 @@
  * This project contains code licensed from the Apache Software Foundation under
  * the Apache License, Version 2.0 and original code from project contributors.
  */
-package org.sca4j.bpel.lightweight.model;
+package org.sca4j.bpel.lightweight.introspection;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 
-/**
- * Created by IntelliJ IDEA. User: meerajk Date: May 29, 2010 Time: 10:39:00 AM
- * To change this template use File | Settings | File Templates.
- */
-public class SequenceDefinition {
+import org.sca4j.bpel.lightweight.model.ReceiveDefinition;
+import org.sca4j.introspection.IntrospectionContext;
+import org.sca4j.introspection.xml.TypeLoader;
 
-    private List<AbstractActivity> activities = new ArrayList<AbstractActivity>();
+public class ReceiveLoader implements TypeLoader<ReceiveDefinition> {
 
-    public List<AbstractActivity> getActivities() {
-        return activities;
-    }
-
-    public AssignDefinition getLastAssignActivity() {
-        return (AssignDefinition) getActivities().get(getActivities().size() - 1);
+    @Override
+    public ReceiveDefinition load(XMLStreamReader reader, IntrospectionContext context) throws XMLStreamException {
+        String operation = reader.getAttributeValue(null, "operation");
+        String partnerLink = reader.getAttributeValue(null, "partnerLink");
+        String variable = reader.getAttributeValue(null, "variable");
+        return new ReceiveDefinition(operation, partnerLink, variable);
     }
 
 }

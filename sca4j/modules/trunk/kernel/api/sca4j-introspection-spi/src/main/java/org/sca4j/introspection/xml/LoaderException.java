@@ -88,6 +88,14 @@ public class LoaderException extends IntrospectionException {
     private final int line;
     private final int column;
 
+    public LoaderException(String message, XMLStreamReader reader, Throwable cause) {
+        super(message, cause);
+        Location location = reader.getLocation();
+        line = location.getLineNumber();
+        column = location.getColumnNumber();
+        resourceURI = location.getSystemId();
+    }
+
     public LoaderException(String message, XMLStreamReader reader) {
         super(message);
         Location location = reader.getLocation();
