@@ -75,14 +75,17 @@ import java.util.Hashtable;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 import javax.naming.Context;
+import javax.transaction.TransactionManager;
 
 import org.oasisopen.sca.annotation.Reference;
-import org.sca4j.binding.jms.common.CorrelationScheme;
 import org.sca4j.binding.jms.common.JmsBindingMetadata;
 import org.sca4j.binding.jms.common.TransactionType;
 import org.sca4j.binding.jms.provision.JmsWireTargetDefinition;
 import org.sca4j.binding.jms.runtime.helper.JndiHelper;
-import org.sca4j.binding.jms.runtime.tx.TransactionHandler;
+import org.sca4j.binding.jms.runtime.interceptor.OneWayGlobalInterceptor;
+import org.sca4j.binding.jms.runtime.interceptor.OneWayLocalInterceptor;
+import org.sca4j.binding.jms.runtime.interceptor.TwoWayGlobalInterceptor;
+import org.sca4j.binding.jms.runtime.interceptor.TwoWayLocalInterceptor;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.TargetWireAttacher;
@@ -98,7 +101,7 @@ import org.sca4j.spi.wire.Wire;
  */
 public class JmsTargetWireAttacher implements TargetWireAttacher<JmsWireTargetDefinition> {
     
-    @Reference(required = false) public TransactionHandler transactionHandler;
+    @Reference(required = false) public TransactionManager transactionManager;
 
     public void attachToTarget(PhysicalWireSourceDefinition sourceDefinition, JmsWireTargetDefinition targetDefinition, Wire wire) throws WiringException {
 
@@ -107,27 +110,28 @@ public class JmsTargetWireAttacher implements TargetWireAttacher<JmsWireTargetDe
         Hashtable<String, String> env = new Hashtable<String, String>();
         env.put(Context.PROVIDER_URL, metadata.jndiUrl);
         env.put(Context.INITIAL_CONTEXT_FACTORY, metadata.initialContextFactory);
-        CorrelationScheme correlationScheme = metadata.correlationScheme;
         TransactionType transactionType = targetDefinition.getTransactionType();
 
         String connectionFactoryName = metadata.connectionFactoryName;
         String destinationName = metadata.destinationName;
-        JMSObjectFactory requestFactory = buildObjectFactory(connectionFactoryName, destinationName, env);
-
-        String responseConnectionFactoryName = metadata.responseConnectionFactoryName;
         String responseDestinationName = metadata.responseDestinationName;
-        JMSObjectFactory responseFactory = null;
-        if (responseConnectionFactoryName != null && responseDestinationName != null) {
-            responseFactory = buildObjectFactory(responseConnectionFactoryName, responseDestinationName, env);
+        JMSObjectFactory jmsFactory = buildObjectFactory(connectionFactoryName, destinationName, responseDestinationName, env);
+
+        Interceptor interceptor = null;
+        boolean twoWay = wire.getInvocationChains().entrySet().iterator().next().getKey().getSourceOperation().getReturnType() != null;
+        if (twoWay) {
+            if (transactionType == TransactionType.GLOBAL) {
+                interceptor = new TwoWayGlobalInterceptor(jmsFactory, transactionManager, metadata.correlation, wire);
+            } else {
+                interceptor = new TwoWayLocalInterceptor(jmsFactory, metadata.correlation, wire);
+            }
+        } else {
+            if (transactionType == TransactionType.GLOBAL) {
+                interceptor = new OneWayGlobalInterceptor(jmsFactory, transactionManager, wire);
+            } else {
+                interceptor = new OneWayLocalInterceptor(jmsFactory, wire);
+            }
         }
-
-        Interceptor interceptor = new JmsTargetInterceptor(requestFactory,
-                                                           responseFactory,
-                                                           transactionType,
-                                                           transactionHandler,
-                                                           correlationScheme,
-                                                           wire);
-
         wire.getInvocationChains().entrySet().iterator().next().getValue().addInterceptor(interceptor);
 
     }
@@ -136,9 +140,11 @@ public class JmsTargetWireAttacher implements TargetWireAttacher<JmsWireTargetDe
         throw new UnsupportedOperationException();
     }
 
-    private JMSObjectFactory buildObjectFactory(String connectionFactoryName, String destinationName, Hashtable<String, String> env) {
+    private JMSObjectFactory buildObjectFactory(String connectionFactoryName, String destinationName, String responseDestinationName, Hashtable<String, String> env) {
         ConnectionFactory connectionFactory = JndiHelper.lookup(connectionFactoryName, env);
         Destination destination = JndiHelper.lookup(destinationName, env);
-        return new JMSObjectFactory(connectionFactory, destination, destinationName);
+        Destination responseDestination = JndiHelper.lookup(responseDestinationName, env);
+        return new JMSObjectFactory(connectionFactory, destination, responseDestination);
     }
+    
 }

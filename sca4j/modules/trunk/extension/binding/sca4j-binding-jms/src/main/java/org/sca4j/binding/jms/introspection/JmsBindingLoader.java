@@ -52,11 +52,8 @@
  */
 package org.sca4j.binding.jms.introspection;
 
-import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
-import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
-
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
@@ -65,12 +62,13 @@ import javax.xml.stream.XMLStreamReader;
 import org.oasisopen.sca.Constants;
 import org.oasisopen.sca.annotation.EagerInit;
 import org.oasisopen.sca.annotation.Reference;
-import org.sca4j.binding.jms.common.CorrelationScheme;
+import org.sca4j.binding.jms.common.Correlation;
 import org.sca4j.binding.jms.common.JmsBindingMetadata;
 import org.sca4j.binding.jms.scdl.JmsBindingDefinition;
 import org.sca4j.host.Namespaces;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.LoaderHelper;
+import org.sca4j.introspection.xml.LoaderUtil;
 import org.sca4j.introspection.xml.TypeLoader;
 import org.sca4j.introspection.xml.UnrecognizedAttribute;
 
@@ -85,29 +83,21 @@ public class JmsBindingLoader implements TypeLoader<JmsBindingDefinition> {
      * Qualified name for the binding element.
      */
     public static final QName BINDING_QNAME = new QName(Constants.SCA_NS, "binding.jms");
-    private static final Map<String, String> ATTRIBUTES = new HashMap<String, String>();
+    private static final Set<String> ATTRIBUTES = new HashSet<String>();
 
     static {
-        ATTRIBUTES.put("uri", "uri");
-        ATTRIBUTES.put("correlationScheme", "correlationScheme");
-        ATTRIBUTES.put("jndiURL", "jndiURL");
-        ATTRIBUTES.put("initialContextFactory", "initialContextFactory");
-        ATTRIBUTES.put("requires", "requires");
-        ATTRIBUTES.put("policySets", "policySets");
-        ATTRIBUTES.put("name", "name");
-        ATTRIBUTES.put("create", "create");
-        ATTRIBUTES.put("type", "type");
-        ATTRIBUTES.put("destination", "destination");
-        ATTRIBUTES.put("connectionFactory", "connectionFactory");
-        ATTRIBUTES.put("JMSType", "JMSType");
-        ATTRIBUTES.put("JMSTimeToLive", "JMSTimeToLive");
-        ATTRIBUTES.put("JMSPriority", "JMSPriority");
-        ATTRIBUTES.put("JMSDeliveryMode", "JMSDeliveryMode");
-        ATTRIBUTES.put("JMSCorrelationId", "JMSCorrelationId");
-        ATTRIBUTES.put("name", "name");
-        ATTRIBUTES.put("pollingInterval", "pollingInterval");
-        ATTRIBUTES.put("exceptionTimeout", "exceptionTimeout");
-        ATTRIBUTES.put("consumerCount", "consumerCount");
+        ATTRIBUTES.add("uri");
+        ATTRIBUTES.add("correlationScheme");
+        ATTRIBUTES.add("jndiURL");
+        ATTRIBUTES.add("initialContextFactory");
+        ATTRIBUTES.add("requires");
+        ATTRIBUTES.add("policySets");
+        ATTRIBUTES.add("destination");
+        ATTRIBUTES.add("responseDestination");
+        ATTRIBUTES.add("connectionFactory");
+        ATTRIBUTES.add("pollingInterval");
+        ATTRIBUTES.add("exceptionTimeout");
+        ATTRIBUTES.add("consumerCount");
     }
 
     private final LoaderHelper loaderHelper;
@@ -123,6 +113,7 @@ public class JmsBindingLoader implements TypeLoader<JmsBindingDefinition> {
     }
 
     public JmsBindingDefinition load(XMLStreamReader reader, IntrospectionContext introspectionContext) throws XMLStreamException {
+        
         validateAttributes(reader, introspectionContext);
 
         JmsBindingMetadata metadata = new JmsBindingMetadata();
@@ -130,11 +121,15 @@ public class JmsBindingLoader implements TypeLoader<JmsBindingDefinition> {
         
         final String correlationScheme = reader.getAttributeValue(null, "correlationScheme");
         if (correlationScheme != null) {
-            metadata.correlationScheme = CorrelationScheme.valueOf(correlationScheme);
+            metadata.correlation = Correlation.valueOf(correlationScheme);
         }
         
         metadata.jndiUrl = reader.getAttributeValue(null, "jndiURL");
         metadata.initialContextFactory = reader.getAttributeValue(null, "initialContextFactory");
+        metadata.destinationName = reader.getAttributeValue(null, "destination");
+        metadata.connectionFactoryName = reader.getAttributeValue(null, "connectionFactory");
+        metadata.responseDestinationName = reader.getAttributeValue(null, "responseDestination");
+        
         loaderHelper.loadPolicySetsAndIntents(bd, reader, introspectionContext);
         
         String pollingInterval = reader.getAttributeValue(Namespaces.SCA4J_NS, "pollingInterval");
@@ -150,65 +145,15 @@ public class JmsBindingLoader implements TypeLoader<JmsBindingDefinition> {
             metadata.consumerCount = Integer.parseInt(consumerCount);
         }
         
-        String name;
-        while (true) {
-
-            switch (reader.next()) {
-            case START_ELEMENT:
-                name = reader.getName().getLocalPart();
-                if ("destination".equals(name)) {
-                    metadata.destinationName = reader.getAttributeValue(null, "name");
-                } else if ("connectionFactory".equals(name)) {
-                    metadata.connectionFactoryName = reader.getAttributeValue(null, "name");
-                } else if ("response".equals(name)) {
-                   loadResponse(reader, metadata);
-                }
-                break;
-            case END_ELEMENT:
-                name = reader.getName().getLocalPart();
-                if ("binding.jms".equals(name)) {
-                    return bd;
-                }
-                break;
-            }
-
-        }
-
-    }
-
-    /*
-     * Loads response definition.
-     */
-    private void loadResponse(XMLStreamReader reader, JmsBindingMetadata metadata) throws XMLStreamException {
-
-        String name;
-        while (true) {
-
-            switch (reader.next()) {
-            case START_ELEMENT:
-                name = reader.getName().getLocalPart();
-                if ("destination".equals(name)) {
-                    metadata.responseDestinationName = reader.getAttributeValue(null, "name");
-                } else if ("connectionFactory".equals(name)) {
-                    metadata.responseConnectionFactoryName = reader.getAttributeValue(null, "name");
-                }
-                break;
-            case END_ELEMENT:
-                name = reader.getName().getLocalPart();
-                if ("response".equals(name)) {
-                    return;
-                }
-                break;
-            }
-
-        }
+        LoaderUtil.skipToEndElement(reader);
+        return bd;
 
     }
 
     private void validateAttributes(XMLStreamReader reader, IntrospectionContext context) {
         for (int i = 0; i < reader.getAttributeCount(); i++) {
             String name = reader.getAttributeLocalName(i);
-            if (!ATTRIBUTES.containsKey(name)) {
+            if (!ATTRIBUTES.contains(name)) {
                 context.addError(new UnrecognizedAttribute(name, reader));
             }
         }

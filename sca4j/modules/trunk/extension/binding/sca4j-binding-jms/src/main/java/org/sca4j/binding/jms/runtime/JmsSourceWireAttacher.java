@@ -95,16 +95,10 @@ public class JmsSourceWireAttacher implements SourceWireAttacher<JmsWireSourceDe
 
         String connectionFactoryName = metadata.connectionFactoryName;
         String destinationName = metadata.destinationName;
-        JMSObjectFactory requestFactory = buildObjectFactory(connectionFactoryName, destinationName, env);
-
-        String responseConnectionFactoryName = metadata.responseConnectionFactoryName;
         String responseDestinationName = metadata.responseDestinationName;
-        JMSObjectFactory responseFactory = null;
-        if (responseConnectionFactoryName != null && responseDestinationName != null) {
-            responseFactory = buildObjectFactory(responseConnectionFactoryName, responseDestinationName, env);
-        }
+        JMSObjectFactory jmsFactory = buildObjectFactory(connectionFactoryName, destinationName, responseDestinationName, env);
         
-        jmsHost.registerHandler(requestFactory, responseFactory, transactionType, wire, metadata, serviceUri);
+        jmsHost.register(jmsFactory, transactionType, wire, metadata, serviceUri);
 
     }
 
@@ -115,10 +109,11 @@ public class JmsSourceWireAttacher implements SourceWireAttacher<JmsWireSourceDe
         throw new UnsupportedOperationException();
     }
 
-    private JMSObjectFactory buildObjectFactory(String connectionFactoryName, String destinationName, Hashtable<String, String> env) {
+    private JMSObjectFactory buildObjectFactory(String connectionFactoryName, String destinationName, String responseDestinationName, Hashtable<String, String> env) {
         ConnectionFactory connectionFactory = JndiHelper.lookup(connectionFactoryName, env);
         Destination destination = JndiHelper.lookup(destinationName, env);
-        return new JMSObjectFactory(connectionFactory, destination, destinationName);
+        Destination responseDestination = JndiHelper.lookup(responseDestinationName, env);
+        return new JMSObjectFactory(connectionFactory, destination, responseDestination);
     }
 
 }

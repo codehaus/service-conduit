@@ -70,7 +70,6 @@
  */
 package org.sca4j.binding.jms.runtime.tx;
 
-import javax.jms.JMSException;
 import javax.jms.Session;
 import javax.transaction.Transaction;
 
@@ -81,7 +80,7 @@ public interface TransactionHandler {
 
     void enlist(Session session) throws JmsTxException;
 
-    void delist(Session session, int status) throws JmsTxException;
+    void _delist(Session session, int status) throws JmsTxException;
 
     void commit() throws JmsTxException;
 
@@ -89,6 +88,10 @@ public interface TransactionHandler {
 
     void begin() throws JmsTxException;
     
-    Transaction getTransaction() throws JMSException;
+    Transaction getTransaction() throws JmsTxException;
+    
+    void suspend() throws JmsTxException;
+    
+    void resume(Transaction transaction) throws JmsTxException;
 
 }

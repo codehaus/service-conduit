@@ -68,16 +68,16 @@ public class JMSObjectFactory {
     
     private final ConnectionFactory connectionFactory;
     private final Destination destination;
-    private final String destinationName;
+    private final Destination responseDestination;
 
-    public JMSObjectFactory(ConnectionFactory connectionFactory, Destination destination, String destinationName) {
+    public JMSObjectFactory(ConnectionFactory connectionFactory, Destination destination, Destination responseDestination) {
         this.connectionFactory = connectionFactory;
         this.destination = destination;
-        this.destinationName = destinationName;
+        this.responseDestination = responseDestination;
     }
     
-    public String getDestinationName() {
-        return destinationName;
+    public Destination getResponseDestination() {
+        return responseDestination;
     }
 
     public ConnectionFactory getConnectionFactory() {
@@ -93,7 +93,11 @@ public class JMSObjectFactory {
     }
 
     public Session getSession(Connection connection, TransactionType transactionType) throws JMSException {
-        return connection.createSession(transactionType == TransactionType.LOCAL ? true : false, Session.SESSION_TRANSACTED);
+        if (transactionType == TransactionType.LOCAL) {
+            return connection.createSession(true, Session.AUTO_ACKNOWLEDGE);
+        } else {
+            return connection.createSession(true, Session.SESSION_TRANSACTED);
+        }
     }
 
 }

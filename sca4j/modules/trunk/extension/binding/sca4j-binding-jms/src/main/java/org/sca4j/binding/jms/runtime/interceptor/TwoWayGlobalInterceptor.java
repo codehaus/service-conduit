@@ -50,137 +50,131 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.binding.jms.runtime.host.standalone;
+package org.sca4j.binding.jms.runtime.interceptor;
 
 import javax.jms.Connection;
-import javax.jms.Message;
+import javax.jms.JMSException;
 import javax.jms.MessageConsumer;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
+import javax.transaction.Transaction;
+import javax.transaction.TransactionManager;
 
+import org.sca4j.binding.jms.common.Correlation;
 import org.sca4j.binding.jms.common.SCA4JJmsException;
 import org.sca4j.binding.jms.common.TransactionType;
+import org.sca4j.binding.jms.runtime.JMSObjectFactory;
 import org.sca4j.binding.jms.runtime.helper.JmsHelper;
-import org.sca4j.binding.jms.runtime.tx.JmsTransactionHandler;
 import org.sca4j.binding.jms.runtime.tx.JtaTransactionHandler;
 import org.sca4j.binding.jms.runtime.tx.TransactionHandler;
 import org.sca4j.binding.jms.runtime.wireformat.DataBinder;
-import org.sca4j.host.work.DefaultPausableWork;
+import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.MessageImpl;
-import org.sca4j.spi.invocation.WorkContext;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
-import org.sca4j.spi.wire.InvocationChain;
+import org.sca4j.spi.wire.Interceptor;
+import org.sca4j.spi.wire.Wire;
 
 /**
- * A thread pull message from destination and invoke Message listener.
- * 
- * @version $Revision$ $Date$
+ * Dispatches a service invocation to a JMS queue.
  */
-public class ConsumerWorker extends DefaultPausableWork {
+public class TwoWayGlobalInterceptor implements Interceptor {
 
-    private ConsumerWorkerTemplate template;
-    private boolean exception;
-    private InvocationChain invocationChain;
-    private boolean twoWay;
+    private Interceptor next;
+    
+    private Correlation correlation;
+    private JMSObjectFactory jmsFactory;
+    private TransactionManager transactionManager;
+    
     private Class<?> inputType;
     private Class<?> outputType;
-    
     private DataBinder dataBinder = new DataBinder();
+    
 
-    /**
-     * @param template
-     * @throws ClassNotFoundException 
-     */
-    public ConsumerWorker(ConsumerWorkerTemplate template) {
-        super(true);
+    public TwoWayGlobalInterceptor(JMSObjectFactory jmsFactory, TransactionManager transactionManager, Correlation correlation, Wire wire) {
         try {
-            this.template = template;
-            PhysicalOperationDefinition pod = template.wire.getInvocationChains().entrySet().iterator().next().getKey().getTargetOperation();
-            this.invocationChain = template.wire.getInvocationChains().entrySet().iterator().next().getValue();
+            PhysicalOperationDefinition pod = wire.getInvocationChains().entrySet().iterator().next().getKey().getTargetOperation();
             inputType = Class.forName(pod.getParameters().get(0));
-            String outputTypeName = pod.getReturnType();
-            if (outputTypeName != null) {
-                outputType = Class.forName(outputTypeName);
-            }
-            twoWay = outputType != null;
+            outputType = Class.forName(pod.getReturnType());
+            this.jmsFactory = jmsFactory;
+            this.correlation = correlation;
+            this.transactionManager = transactionManager;
         } catch (ClassNotFoundException e) {
             throw new SCA4JJmsException("Unable to load operation types", e);
         }
     }
 
-    /**
-     * @see java.lang.Runnable#run()
-     */
-    public void execute() {
+    public Message invoke(Message sca4jRequest) {
+
+        Message sca4jResponse = new MessageImpl();
         
         Connection connection = null;
         Session session = null;
-        MessageConsumer consumer = null;
-        MessageProducer producer = null;
-        TransactionHandler transactionHandler = null;
+        MessageProducer messageProducer = null;
+        MessageConsumer messageConsumer = null;
+        
+        Transaction transaction = null;
+        TransactionHandler transactionHandler = new JtaTransactionHandler(transactionManager);
         
         try {
             
-            if (exception) {
-                exception = false;
-                Thread.sleep(template.exceptionTimeout);
-            }
-            
-            connection =  template.jmsFactory.getConnection();
-            session =  template.jmsFactory.getSession(connection, template.transactionType);
+            connection = jmsFactory.getConnection();
+            session = jmsFactory.getSession(connection, TransactionType.GLOBAL);
             connection.start();
             
-            if (template.transactionType == TransactionType.GLOBAL) {
-                transactionHandler = new JtaTransactionHandler(template.transactionManager);
-            } else {
-                transactionHandler = new JmsTransactionHandler(session);
+            transaction = transactionHandler.getTransaction();
+            if (transaction != null) {
+                transactionHandler.suspend();
             }
-            
             transactionHandler.begin();
             transactionHandler.enlist(session);
+
+            messageProducer = session.createProducer(jmsFactory.getDestination());
+            Object[] payload = (Object[]) sca4jRequest.getBody();
+
+            javax.jms.Message jmsRequest = dataBinder.marshal(payload[0], inputType, session);
+            messageProducer.send(jmsRequest);
+            transactionHandler.commit();
             
-            consumer = session.createConsumer(template.jmsFactory.getDestination());
-            Message jmsRequest = consumer.receive(template.pollingInterval);
-            if (jmsRequest != null) {
-                Object payload = dataBinder.unmarshal(jmsRequest, inputType);
-                org.sca4j.spi.invocation.Message sca4jRequest = new MessageImpl(new Object[] {payload}, false, new WorkContext());
-                org.sca4j.spi.invocation.Message sca4jResponse = invocationChain.getHeadInterceptor().invoke(sca4jRequest);
-                if (twoWay) {
-                    Message jmsResponse = dataBinder.marshal(sca4jResponse.getBody(), outputType, session);
-                    switch (template.metadata.correlation) {
-                        case messageID: 
-                            jmsResponse.setJMSCorrelationID(jmsRequest.getJMSMessageID());
-                            break;
-                        case correlationID: 
-                            jmsResponse.setJMSCorrelationID(jmsRequest.getJMSCorrelationID());
-                            break;
-                    }
-                    producer = session.createProducer(template.jmsFactory.getResponseDestination());
-                    producer.send(jmsResponse);
-                }
-                
-                transactionHandler.commit();
-                
+            String selector = null;
+            switch (correlation) {
+                case messageID: 
+                    selector = "JMSCorrelationID = '" + jmsRequest.getJMSMessageID() + "'";
+                    break;
+                case correlationID: 
+                    selector = "JMSCorrelationID = '" + jmsRequest.getJMSCorrelationID() + "'";
+                    break;
             }
+            messageConsumer = session.createConsumer(jmsFactory.getResponseDestination(), selector);
+            transactionHandler.begin();
+            transactionHandler.enlist(session);
+            javax.jms.Message jmsResponse = messageConsumer.receive();
+            sca4jResponse.setBody(dataBinder.unmarshal(jmsResponse, outputType));
+            transactionHandler.commit();
             
-        } catch (Exception ex) {  
-            reportException(ex);    
+            if (transaction != null) {
+                transactionHandler.resume(transaction);
+            }
+
+            return sca4jResponse;
+
+        } catch (JMSException ex) {
             transactionHandler.rollback();
+            throw new SCA4JJmsException("Unable to receive response", ex);
         } finally {
-            JmsHelper.closeQuietly(producer);
-            JmsHelper.closeQuietly(consumer);
+            JmsHelper.closeQuietly(messageProducer);
+            JmsHelper.closeQuietly(messageConsumer);
             JmsHelper.closeQuietly(session);
             JmsHelper.closeQuietly(connection);
         }
-
+        
     }
 
-    /*
-     * Report an exception.
-     */
-    private void reportException(Exception e) {
-        template.monitor.jmsListenerError(template.jmsFactory.getDestination().toString(), e);
-        exception = true;
+    public Interceptor getNext() {
+        return next;
+    }
+
+    public void setNext(Interceptor next) {
+        this.next = next;
     }
 
 }

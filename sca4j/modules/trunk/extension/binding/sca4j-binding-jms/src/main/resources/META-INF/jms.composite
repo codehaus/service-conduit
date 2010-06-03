@@ -79,10 +79,6 @@
         <sca4j:implementation.system class="org.sca4j.binding.jms.control.JmsBindingGenerator"/>
     </component>
 
-    <component name="MessageTypeIntrospector">
-        <sca4j:implementation.system class="org.sca4j.binding.jms.control.PayloadTypeIntrospectorImpl"/>
-    </component>
-
     <!-- JMS Source Wire Attacher -->
     <component sca4j:key="org.sca4j.binding.jms.provision.JmsWireSourceDefinition" name="JmsSourceWireAttacher">
         <sca4j:implementation.system class="org.sca4j.binding.jms.runtime.JmsSourceWireAttacher"/>
@@ -92,38 +88,5 @@
     <component sca4j:key="org.sca4j.binding.jms.provision.JmsWireTargetDefinition" name="JmsTargetWireAttacher">
         <sca4j:implementation.system class="org.sca4j.binding.jms.runtime.JmsTargetWireAttacher"/>
     </component>
-
-    <!-- Always create destination strategy -->
-    <component name="AlwaysCreateDestination" sca4j:key="always">
-        <sca4j:implementation.system class="org.sca4j.binding.jms.runtime.lookup.destination.AlwaysDestinationStrategy"/>
-    </component>
-
-    <!-- Never create destination strategy -->
-    <component name="NeverCreateDestination" sca4j:key="never">
-        <sca4j:implementation.system class="org.sca4j.binding.jms.runtime.lookup.destination.NeverDestinationStrategy"/>
-    </component>
-
-    <!-- If not exists create destination stragey -->
-    <component name="IfNotExistCreateDestination" sca4j:key="ifnotexist">
-        <sca4j:implementation.system class="org.sca4j.binding.jms.runtime.lookup.destination.IfNotExistDestinationStrategy"/>
-    </component>
-
-    <!-- Always create connection factory strategy -->
-    <component name="AlwaysCreateConnectionFactory" sca4j:key="always">
-        <sca4j:implementation.system class="org.sca4j.binding.jms.runtime.lookup.connectionfactory.AlwaysConnectionFactoryStrategy"/>
-    </component>
-
-    <!-- Never create connection factory strategy -->
-    <component name="NeverCreateConnectionFactory" sca4j:key="never">
-        <sca4j:implementation.system class="org.sca4j.binding.jms.runtime.lookup.connectionfactory.NeverConnectionFactoryStrategy"/>
-    </component>
-
-    <!-- If not exists create connection factory stragey -->
-    <component name="IfNotExistCreateConnectionFactory" sca4j:key="ifnotexist">
-        <sca4j:implementation.system class="org.sca4j.binding.jms.runtime.lookup.connectionfactory.IfNotExistConnectionFactoryStrategy"/>
-    </component>
-
-    <!-- Feature -->
-    <sca4j:feature name="JmsBindingFeature">{http://sca4j.org/xmlns/binding}jms</sca4j:feature>
 
 </composite>

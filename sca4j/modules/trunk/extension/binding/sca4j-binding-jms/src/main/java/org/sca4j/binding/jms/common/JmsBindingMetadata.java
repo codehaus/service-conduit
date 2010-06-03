@@ -86,13 +86,12 @@ import org.sca4j.scdl.ModelObject;
  */
 public class JmsBindingMetadata extends ModelObject {
     
-    public CorrelationScheme correlationScheme = CorrelationScheme.correlationID;
+    public Correlation correlation = Correlation.correlationID;
     public String initialContextFactory;
     public String jndiUrl;
     public String destinationName;
     public String connectionFactoryName;
     public String responseDestinationName;
-    public String responseConnectionFactoryName;
     
     public int pollingInterval = 1000;
     public int exceptionTimeout = 60000;

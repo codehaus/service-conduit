@@ -58,14 +58,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.transaction.TransactionManager;
+
 import org.oasisopen.sca.annotation.Destroy;
 import org.oasisopen.sca.annotation.Reference;
+import org.sca4j.api.annotation.Monitor;
 import org.sca4j.binding.jms.common.JmsBindingMetadata;
 import org.sca4j.binding.jms.common.TransactionType;
 import org.sca4j.binding.jms.runtime.JMSObjectFactory;
 import org.sca4j.binding.jms.runtime.JMSRuntimeMonitor;
 import org.sca4j.binding.jms.runtime.host.JmsHost;
-import org.sca4j.binding.jms.runtime.tx.TransactionHandler;
 import org.sca4j.host.work.WorkScheduler;
 import org.sca4j.spi.wire.Wire;
 
@@ -77,29 +79,24 @@ import org.sca4j.spi.wire.Wire;
 public class StandalonePullJmsHost implements JmsHost {
 
     @Reference public WorkScheduler workScheduler;
-    @Reference public JMSRuntimeMonitor monitor;
-    @Reference public TransactionHandler transactionHandler;
+    @Monitor public JMSRuntimeMonitor monitor;
+    @Reference public TransactionManager transactionManager;
     
     private Map<URI, List<ConsumerWorker>> consumerWorkerMap = new HashMap<URI, List<ConsumerWorker>>();
 
-    public void registerHandler(JMSObjectFactory requestFactory, 
-                                JMSObjectFactory responseFactory, 
-                                TransactionType transactionType, 
-                                Wire wire, 
-                                JmsBindingMetadata metadata,
-                                URI serviceUri) {
+    public void register(JMSObjectFactory jmsFactory, TransactionType transactionType, Wire wire, JmsBindingMetadata metadata, URI serviceUri) {
 
         List<ConsumerWorker> consumerWorkers = new ArrayList<ConsumerWorker>();
 
         ConsumerWorkerTemplate template = new ConsumerWorkerTemplate();
-        template.transactionHandler = transactionHandler;
+        template.transactionManager = transactionManager;
         template.transactionType = transactionType;
-        template.responseFactory = responseFactory;
-        template.requestFactory = requestFactory; 
+        template.jmsFactory = jmsFactory;; 
         template.pollingInterval = metadata.pollingInterval;
         template.exceptionTimeout = metadata.exceptionTimeout;
         template.monitor = monitor;
         template.metadata = metadata;
+        template.wire = wire;
 
         for (int i = 0; i < metadata.consumerCount; i++) {
             ConsumerWorker work = new ConsumerWorker(template);
@@ -108,7 +105,6 @@ public class StandalonePullJmsHost implements JmsHost {
         }
 
         consumerWorkerMap.put(serviceUri, consumerWorkers);
-        monitor.registerListener(requestFactory.getDestinationName());
 
     }
     

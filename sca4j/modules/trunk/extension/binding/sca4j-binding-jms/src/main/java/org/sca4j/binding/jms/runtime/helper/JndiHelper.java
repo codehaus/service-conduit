@@ -96,6 +96,10 @@ public class JndiHelper {
      */
     @SuppressWarnings("unchecked")
     public static <T> T lookup(String name, Hashtable<String, String> env) {
+        
+        if (name == null) {
+            return null;
+        }
 
         ClassLoader oldCl = Thread.currentThread().getContextClassLoader();
 

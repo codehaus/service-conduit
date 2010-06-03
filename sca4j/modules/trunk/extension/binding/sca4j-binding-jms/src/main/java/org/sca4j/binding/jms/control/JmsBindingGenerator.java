@@ -119,9 +119,6 @@ public class JmsBindingGenerator implements BindingGenerator<JmsWireSourceDefini
             throw new GenerationException("References with JMS binding can have only one operation with one parameter");
         }
         TransactionType transactionType = getTransactionType(policy, serviceContract);
-        if (transactionType == TransactionType.GLOBAL && serviceContract.getOperations().get(0).getOutputType() != null) {
-            throw new GenerationException("Global transaction not allowed on references with two-way operations");
-        }
         URI classloaderId = logicalBinding.getParent().getParent().getClassLoaderId();
         URI uri = logicalBinding.getBinding().getTargetUri();
         JmsBindingMetadata metadata = logicalBinding.getBinding().getMetadata();

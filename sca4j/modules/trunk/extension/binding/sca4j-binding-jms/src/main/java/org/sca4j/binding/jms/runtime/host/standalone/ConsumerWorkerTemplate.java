@@ -52,11 +52,12 @@
  */
 package org.sca4j.binding.jms.runtime.host.standalone;
 
+import javax.transaction.TransactionManager;
+
 import org.sca4j.binding.jms.common.JmsBindingMetadata;
 import org.sca4j.binding.jms.common.TransactionType;
 import org.sca4j.binding.jms.runtime.JMSObjectFactory;
 import org.sca4j.binding.jms.runtime.JMSRuntimeMonitor;
-import org.sca4j.binding.jms.runtime.tx.TransactionHandler;
 import org.sca4j.spi.wire.Wire;
 
 /**
@@ -66,12 +67,11 @@ import org.sca4j.spi.wire.Wire;
  */
 public class ConsumerWorkerTemplate {
 
-    public TransactionHandler transactionHandler;
+    public TransactionManager transactionManager;
     public int pollingInterval;
     public int exceptionTimeout;
     public TransactionType transactionType;
-    public JMSObjectFactory responseFactory;
-    public JMSObjectFactory requestFactory;
+    public JMSObjectFactory jmsFactory;
     public JMSRuntimeMonitor monitor;
     public Wire wire;
     public JmsBindingMetadata metadata;

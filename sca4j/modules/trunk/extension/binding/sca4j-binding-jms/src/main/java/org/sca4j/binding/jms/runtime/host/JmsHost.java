@@ -64,10 +64,5 @@ import org.sca4j.spi.wire.Wire;
  */
 public interface JmsHost {
     
-    void registerHandler(JMSObjectFactory requestFactory, 
-                         JMSObjectFactory responseFactory, 
-                         TransactionType transactionType, 
-                         Wire wire, 
-                         JmsBindingMetadata metadata,
-                         URI serviceUri);
+    void register(JMSObjectFactory jmsFactory, TransactionType transactionType, Wire wire, JmsBindingMetadata metadata, URI serviceUri);
 }

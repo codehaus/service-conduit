@@ -74,7 +74,7 @@ package org.sca4j.binding.jms.common;
  * @version $Revision: 3140 $ $Date: 2008-03-17 21:24:49 +0000 (Mon, 17 Mar
  *          2008) $
  */
-public enum CorrelationScheme {
+public enum Correlation {
 
     messageID, correlationID;
 
