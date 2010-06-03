@@ -32,6 +32,7 @@ import org.sca4j.bpel.lightweight.model.AbstractActivity;
 import org.sca4j.bpel.lightweight.model.AssignDefinition;
 import org.sca4j.bpel.lightweight.model.BpelProcessDefinition;
 import org.sca4j.bpel.lightweight.model.CopyDefinition;
+import org.sca4j.bpel.lightweight.model.IfDefinition;
 import org.sca4j.bpel.lightweight.model.InvokeDefinition;
 import org.sca4j.bpel.lightweight.model.ReceiveDefinition;
 import org.sca4j.bpel.lightweight.model.ReplyDefinition;
@@ -49,6 +50,7 @@ public class BpelProcess {
     private List<SequenceExecutor> sequenceExecutors = new ArrayList<SequenceExecutor>();
     private Map<String, InvocationChain> invokers = new HashMap<String, InvocationChain>();
     private QName processName;
+    private JXPathContext context = JXPathContext.newContext(variableContext);
     
     private static final String PROCESS_OUTPUT_VARIABLE = "process.output.variable";
     
@@ -103,7 +105,6 @@ public class BpelProcess {
     public class AssignActivityExecutor implements ActivityExecutor {
         
         private AssignDefinition assignDefinition;
-        JXPathContext context = JXPathContext.newContext(variableContext);
         
         public AssignActivityExecutor(AssignDefinition assignDefinition) {
             this.assignDefinition = assignDefinition;
@@ -182,6 +183,50 @@ public class BpelProcess {
         
     }
     
+    public class IfActivityExecutor implements ActivityExecutor {
+        
+        private IfDefinition ifDefinition;      
+        private ActivityExecutor ifExecutor;
+        private ActivityExecutor elseExecutor;
+        private List<IfActivityExecutor> elseIfExecutors = new ArrayList<IfActivityExecutor>();
+        
+        public IfActivityExecutor(IfDefinition ifDefinition) {
+            this.ifDefinition = ifDefinition;
+            ifExecutor = getExecutor(ifDefinition.getAction());
+            for (IfDefinition elseIfDefinition : ifDefinition.getElseIfs()) {
+                elseIfExecutors.add(new IfActivityExecutor(elseIfDefinition));
+            }
+            if (ifDefinition.getElseActivity() != null) {
+                elseExecutor = getExecutor(ifDefinition.getElseActivity());
+            }
+        }
+
+        @Override
+        public void executeActivity(Message input) {
+            
+            if (evaluate()) {
+                ifExecutor.executeActivity(input);
+                return;
+            }
+            for (IfActivityExecutor elseIfExecutor : elseIfExecutors) {
+                if (elseIfExecutor.evaluate()) {
+                    elseIfExecutor.executeActivity(input);
+                    return;
+                }
+            }
+            if (elseExecutor != null) {
+                elseExecutor.executeActivity(input);
+            }
+            
+        }
+        
+        private boolean evaluate() {
+            String condition = ifDefinition.getCondition();
+            return (Boolean) context.getValue(condition, Boolean.class);
+        }
+        
+    }
+    
     private class SequenceExecutor {
         
         private List<ActivityExecutor> executors = new LinkedList<ActivityExecutor>();
@@ -189,8 +234,12 @@ public class BpelProcess {
         private Message execute(Message input) {
             for (ActivityExecutor executor : executors) {
                 executor.executeActivity(input);
+                if (variableContext.get(PROCESS_OUTPUT_VARIABLE) != null) {
+                    // A reply has been executed
+                    return new MessageImpl(variableContext.get(PROCESS_OUTPUT_VARIABLE), false, input.getWorkContext());
+                }
             }
-            return new MessageImpl(variableContext.get(PROCESS_OUTPUT_VARIABLE), false, input.getWorkContext());
+            throw new IllegalStateException("No reply activity defined for process " + processName);
         }
         
         private boolean match(String partnerLinkName, String operationName) {
@@ -200,23 +249,28 @@ public class BpelProcess {
         }
         
         private void addActivity(AbstractActivity abstractActivity) {
-            switch(abstractActivity.getType()) {
-            case ASSIGN:
-                executors.add(new AssignActivityExecutor((AssignDefinition) abstractActivity));
-                break;
-            case REPLY:
-                executors.add(new ReplyActivityExecutor((ReplyDefinition) abstractActivity));
-                break;
-            case RECEIVE:
-                executors.add(new ReceiveActivityExecutor((ReceiveDefinition) abstractActivity));
-                break;
-            case INVOKE:
-                executors.add(new InvokeActivityExecutor((InvokeDefinition) abstractActivity));
-                break;
-            }
+            ActivityExecutor activityExecutor = getExecutor(abstractActivity);
+            executors.add(activityExecutor);
         }
         
         
     } 
+    
+    private ActivityExecutor getExecutor(AbstractActivity abstractActivity) {
+        switch(abstractActivity.getType()) {
+        case ASSIGN:
+            return new AssignActivityExecutor((AssignDefinition) abstractActivity);
+        case REPLY:
+            return new ReplyActivityExecutor((ReplyDefinition) abstractActivity);
+        case RECEIVE:
+            return new ReceiveActivityExecutor((ReceiveDefinition) abstractActivity);
+        case INVOKE:
+            return new InvokeActivityExecutor((InvokeDefinition) abstractActivity);
+        case IF:
+            return new IfActivityExecutor((IfDefinition) abstractActivity);
+        default:
+            throw new IllegalArgumentException("Unknown activity type " + abstractActivity.getType());
+        }
+    }
 
 }

@@ -45,5 +45,9 @@ public class Constants {
 	public static final Object FROM_ELEMENT = new QName(BPEL_NS, "from");
 	public static final Object TO_ELEMENT = new QName(BPEL_NS, "to");
 	public static final Object REPLY_ELEMENT = new QName(BPEL_NS, "reply");
+    public static final Object IF_ELEMENT = new QName(BPEL_NS, "if");
+    public static final Object ELSEIF_ELEMENT = new QName(BPEL_NS, "elseif");
+    public static final Object ELSE_ELEMENT = new QName(BPEL_NS, "else");
+    public static final Object CONDITION_ELEMENT = new QName(BPEL_NS, "condition");
 
 }

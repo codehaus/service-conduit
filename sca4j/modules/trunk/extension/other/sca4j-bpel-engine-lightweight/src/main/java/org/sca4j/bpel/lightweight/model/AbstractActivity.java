@@ -25,7 +25,7 @@ package org.sca4j.bpel.lightweight.model;
 public abstract class AbstractActivity {
     
     public enum Type {
-        RECEIVE, REPLY, INVOKE, ASSIGN;
+        RECEIVE, REPLY, INVOKE, ASSIGN, IF;
     }
     
     public abstract Type getType();
