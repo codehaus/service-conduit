@@ -58,149 +58,56 @@
            xmlns:sca4j="urn:sca4j.org"
            name="JMSTestComposite">
 
-    <component name="ObjectWeatherTest">
-        <sca4j:junit class="org.sca4j.binding.jms.test.object.ObjectWeatherTest"/>
-        <reference name="weatherService">
-            <binding.jms correlationScheme="RequestMsgIDToCorrelID">
-                <destination name="objectServiceQueue" type="queue" create="always"/>
-                <connectionFactory name="org.apache.activemq.ActiveMQConnectionFactory" create="always">
-                    <property name="brokerURL">vm://broker</property>
-                </connectionFactory>
-                <response>
-                    <destination name="clientQueue" type="queue" create="always"/>
-                    <connectionFactory name="org.apache.activemq.ActiveMQConnectionFactory" create="always">
-                        <property name="brokerURL">vm://broker</property>
-                    </connectionFactory>
-                </response>
-            </binding.jms>
-        </reference>
-    </component>
-
-    <component name="ObjectWeatherService">
-        <implementation.java class="org.sca4j.binding.jms.test.object.WeatherServiceImpl"/>
-        <service name="WeatherService">
-            <binding.jms correlationScheme="RequestMsgIDToCorrelID" requires="sca:transactedOneWay.global">
-                <destination name="objectServiceQueue" type="queue" create="always"/>
-                <connectionFactory name="org.apache.activemq.ActiveMQXAConnectionFactory" create="always">
-                    <property name="brokerURL">vm://broker</property>
-                </connectionFactory>
-                <response>
-                    <destination name="clientQueue" type="queue" create="always"/>
-                    <connectionFactory name="org.apache.activemq.ActiveMQXAConnectionFactory" create="always">
-                        <property name="brokerURL">vm://broker</property>
-                    </connectionFactory>
-                </response>
-            </binding.jms>
-        </service>
-    </component>
-
-
-    <component name="JAXBWeatherTest">
+    <component name="JAXBGlobalWeatherTest">
         <sca4j:junit class="org.sca4j.binding.jms.test.jaxb.JAXBWeatherTest"/>
         <reference name="weatherService">
-            <binding.jms correlationScheme="RequestMsgIDToCorrelID">
-                <destination name="jaxbServiceQueue" type="queue" create="always"/>
-                <connectionFactory name="org.apache.activemq.ActiveMQConnectionFactory" create="always">
-                    <property name="brokerURL">vm://broker</property>
-                </connectionFactory>
-                <response>
-                    <destination name="clientQueue" type="queue" create="always"/>
-                    <connectionFactory name="org.apache.activemq.ActiveMQConnectionFactory" create="always">
-                        <property name="brokerURL">vm://broker</property>
-                    </connectionFactory>
-                </response>
-            </binding.jms>
+            <binding.jms correlationScheme="messageID" 
+                         destination="serviceGlobalQueue" 
+                         connectionFactory="xaConnectionFactory" 
+                         responseDestination="clientGlobalQueue" 
+                         requires="sca:transactedOneWay.global" 
+                         initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
+                         jndiURL="vm://localhost" />
         </reference>
-        <reference name="collocatedWeatherService" target="VMJAXBWeatherService"/>
     </component>
 
-    <component name="JAXBWeatherService">
+    <component name="JAXBGlobalWeatherService">
         <implementation.java class="org.sca4j.binding.jms.test.jaxb.WeatherServiceImpl"/>
         <service name="WeatherService">
-            <binding.jms correlationScheme="RequestMsgIDToCorrelID" requires="sca:transactedOneWay.global">
-                <destination name="jaxbServiceQueue" type="queue" create="always"/>
-                <connectionFactory name="org.apache.activemq.ActiveMQXAConnectionFactory" create="always">
-                    <property name="brokerURL">vm://broker</property>
-                </connectionFactory>
-                <response>
-                    <destination name="clientQueue" type="queue" create="always"/>
-                    <connectionFactory name="org.apache.activemq.ActiveMQXAConnectionFactory" create="always">
-                        <property name="brokerURL">vm://broker</property>
-                    </connectionFactory>
-                </response>
-            </binding.jms>
+            <binding.jms correlationScheme="messageID" 
+                         destination="serviceGlobalQueue" 
+                         connectionFactory="xaConnectionFactory" 
+                         responseDestination="clientGlobalQueue" 
+                         requires="sca:transactedOneWay.global" 
+                         initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
+                         jndiURL="vm://localhost" />
         </service>
     </component>
 
-    <component name="VMJAXBWeatherService">
+    <component name="JAXBLocalWeatherTest">
+        <sca4j:junit class="org.sca4j.binding.jms.test.jaxb.JAXBWeatherTest"/>
+        <reference name="weatherService">
+            <binding.jms correlationScheme="messageID" 
+                         destination="serviceLocalQueue" 
+                         connectionFactory="connectionFactory" 
+                         responseDestination="clientLocalQueue" 
+                         requires="sca:transactedOneWay.local" 
+                         initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
+                         jndiURL="vm://localhost" />
+        </reference>
+    </component>
+
+    <component name="JAXBLocalWeatherService">
         <implementation.java class="org.sca4j.binding.jms.test.jaxb.WeatherServiceImpl"/>
-    </component>
-
-    <component name="PrimitiveTest">
-        <sca4j:junit class="org.sca4j.binding.jms.test.primitives.PrimitiveTest"/>
-        <reference name="service">
-            <binding.jms correlationScheme="RequestMsgIDToCorrelID">
-                <destination name="primitiveServiceQueue" type="queue" create="always"/>
-                <connectionFactory name="org.apache.activemq.ActiveMQConnectionFactory" create="always">
-                    <property name="brokerURL">vm://broker</property>
-                </connectionFactory>
-                <response>
-                    <destination name="primitiveResponseQueue" type="queue" create="always"/>
-                    <connectionFactory name="org.apache.activemq.ActiveMQConnectionFactory" create="always">
-                        <property name="brokerURL">vm://broker</property>
-                    </connectionFactory>
-                </response>
-            </binding.jms>
-        </reference>
-    </component>
-
-    <component name="PrimitveService">
-        <implementation.java class="org.sca4j.binding.jms.test.primitives.PrimitiveServiceImpl"/>
-        <service name="PrimitiveService">
-            <binding.jms correlationScheme="RequestMsgIDToCorrelID" requires="sca:transactedOneWay.global">
-                <destination name="primitiveServiceQueue" type="queue" create="always"/>
-                <connectionFactory name="org.apache.activemq.ActiveMQXAConnectionFactory" create="always">
-                    <property name="brokerURL">vm://broker</property>
-                </connectionFactory>
-                <response>
-                    <destination name="primitiveResponseQueue" type="queue" create="always"/>
-                    <connectionFactory name="org.apache.activemq.ActiveMQXAConnectionFactory" create="always">
-                        <property name="brokerURL">vm://broker</property>
-                    </connectionFactory>
-                </response>
-            </binding.jms>
+        <service name="WeatherService">
+            <binding.jms correlationScheme="messageID" 
+                         destination="serviceLocalQueue" 
+                         connectionFactory="connectionFactory" 
+                         responseDestination="clientLocalQueue" 
+                         requires="sca:transactedOneWay.local" 
+                         initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
+                         jndiURL="vm://localhost" />
         </service>
-    </component>
-
-    <component name="OneWayServiceTest">
-        <sca4j:junit class="org.sca4j.binding.jms.test.oneway.OneWayServiceTest"/>
-        <reference name="service">
-            <binding.jms correlationScheme="RequestMsgIDToCorrelID">
-                <destination name="onewayServiceQueue" type="queue" create="always"/>
-                <connectionFactory name="org.apache.activemq.ActiveMQConnectionFactory" create="always">
-                    <property name="brokerURL">vm://broker</property>
-                </connectionFactory>
-            </binding.jms>
-        </reference>
-		<reference name="parameterHolder" target="ParameterHolder"/>
-    </component>
-    
-    <!--  Common service -->
-	<component name="ParameterHolder">
-        <implementation.java class="org.sca4j.binding.jms.test.oneway.ParameterHolderImpl" />
-	</component>
-    
-    <component name="OneWayService">
-        <implementation.java class="org.sca4j.binding.jms.test.oneway.OneWayServiceImpl"/>
-        <service name="OneWayService">
-            <binding.jms correlationScheme="RequestMsgIDToCorrelID" requires="sca:transactedOneWay.global">
-                <destination name="onewayServiceQueue" type="queue" create="always"/>
-                <connectionFactory name="org.apache.activemq.ActiveMQXAConnectionFactory" create="always">
-                    <property name="brokerURL">vm://broker</property>
-                </connectionFactory>
-            </binding.jms>
-        </service>
-		<reference name="parameterHolder" target="ParameterHolder"/>
     </component>
     
 </composite>
