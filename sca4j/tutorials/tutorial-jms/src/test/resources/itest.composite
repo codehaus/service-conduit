@@ -27,36 +27,26 @@
     <component name="OrderITest">
         <sca4j:junit class="org.sca4j.tutorial.order.OrderComponentITest"/>
         <reference name="orderService">
-            <binding.jms correlationScheme="RequestMsgIDToCorrelID">
-                <destination name="orderRequestQueue" type="queue" create="always"/>
-                <connectionFactory name="org.apache.activemq.ActiveMQConnectionFactory" create="always">
-                    <property name="brokerURL">vm://broker</property>
-                </connectionFactory>
-                <response>
-                    <destination name="orderResponseQueue" type="queue" create="always"/>
-                    <connectionFactory name="org.apache.activemq.ActiveMQConnectionFactory" create="always">
-                        <property name="brokerURL">vm://broker</property>
-                    </connectionFactory>
-                </response>
-            </binding.jms>
+            <binding.jms correlationScheme="messageID" 
+                         destination="orderRequestQueue" 
+                         connectionFactory="connectionFactory" 
+                         responseDestination="orderResponseQueue" 
+                         requires="sca:transactedOneWay.local" 
+                         initialContextFactory="org.apache.activemq.jndi.ActiveMQInitialContextFactory"
+                         jndiURL="vm://localhost" />
         </reference>
     </component>
     
     <component name="OrderComponent">
         <implementation.java class="org.sca4j.tutorial.order.OrderComponent"/>
         <service name="OrderService">
-            <binding.jms correlationScheme="RequestMsgIDToCorrelID" requires="sca:transactedOneWay.global">
-                <destination name="orderRequestQueue" type="queue" create="always"/>
-                <connectionFactory name="org.apache.activemq.ActiveMQXAConnectionFactory" create="always">
-                    <property name="brokerURL">vm://broker</property>
-                </connectionFactory>
-                <response>
-                    <destination name="orderResponseQueue" type="queue" create="always"/>
-                    <connectionFactory name="org.apache.activemq.ActiveMQXAConnectionFactory" create="always">
-                        <property name="brokerURL">vm://broker</property>
-                    </connectionFactory>
-                </response>
-            </binding.jms>
+            <binding.jms correlationScheme="messageID" 
+                         destination="orderRequestQueue" 
+                         connectionFactory="connectionFactory" 
+                         responseDestination="orderResponseQueue" 
+                         requires="sca:transactedOneWay.local" 
+                         initialContextFactory="org.apache.activemq.jndi.ActiveMQInitialContextFactory"
+                         jndiURL="vm://localhost" />
         </service>
     </component>
     
