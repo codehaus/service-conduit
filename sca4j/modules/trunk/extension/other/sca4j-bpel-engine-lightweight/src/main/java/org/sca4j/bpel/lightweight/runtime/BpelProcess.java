@@ -221,7 +221,7 @@ public class BpelProcess {
         }
         
         private boolean evaluate() {
-            String condition = ifDefinition.getCondition();
+            String condition = ifDefinition.getCondition().substring(1); // Strip the leading $
             return (Boolean) context.getValue(condition, Boolean.class);
         }
         
