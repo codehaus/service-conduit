@@ -46,7 +46,7 @@ public class JmsTransactionHandler implements TransactionHandler {
     }
 
     @Override
-    public void _delist(Session session, int status) throws JmsTxException {
+    public void delist(Session session, int status) throws JmsTxException {
     }
 
     @Override

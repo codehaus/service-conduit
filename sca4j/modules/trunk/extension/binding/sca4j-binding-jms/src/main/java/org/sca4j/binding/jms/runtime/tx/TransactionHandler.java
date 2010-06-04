@@ -80,7 +80,7 @@ public interface TransactionHandler {
 
     void enlist(Session session) throws JmsTxException;
 
-    void _delist(Session session, int status) throws JmsTxException;
+    void delist(Session session, int status) throws JmsTxException;
 
     void commit() throws JmsTxException;
 

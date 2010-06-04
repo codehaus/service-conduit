@@ -115,7 +115,7 @@ public class JtaTransactionHandler implements TransactionHandler {
     /**
      * @see org.sca4j.binding.jms.runtime.tx.TransactionHandler#delist(javax.jms.Session, int)
      */
-    public void _delist(Session session, int status) throws JmsTxException {
+    public void delist(Session session, int status) throws JmsTxException {
         try {
             XASession xaSession = (XASession) session;
             XAResource xaResource = xaSession.getXAResource();

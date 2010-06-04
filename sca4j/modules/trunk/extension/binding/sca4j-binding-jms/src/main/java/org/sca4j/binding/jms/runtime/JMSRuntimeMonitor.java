@@ -52,6 +52,7 @@
  */
 package org.sca4j.binding.jms.runtime;
 
+import org.sca4j.api.annotation.logging.Finest;
 import org.sca4j.api.annotation.logging.Info;
 
 /**
@@ -87,7 +88,7 @@ public interface JMSRuntimeMonitor {
     /**
      * Generic Message
      */
-    @Info
+    @Finest
     void mssg(String mssg);
 
 }

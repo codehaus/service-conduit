@@ -125,8 +125,6 @@ public class ConsumerWorker extends DefaultPausableWork {
 
         try {
 
-            template.monitor.mssg("CONSUMER WORKER BEGIN");
-
             if (exception) {
                 exception = false;
                 Thread.sleep(template.exceptionTimeout);
@@ -168,10 +166,9 @@ public class ConsumerWorker extends DefaultPausableWork {
 
             }
 
-            if (template.transactionType == TransactionType.GLOBAL) {transactionHandler._delist(session, TMSUCCESS);}
+            transactionHandler.delist(session, TMSUCCESS);
 
             transactionHandler.commit();
-            template.monitor.mssg("CONSUMER WORKER COMPLETE");
 
         } catch (Exception ex) {
             reportException(ex);
