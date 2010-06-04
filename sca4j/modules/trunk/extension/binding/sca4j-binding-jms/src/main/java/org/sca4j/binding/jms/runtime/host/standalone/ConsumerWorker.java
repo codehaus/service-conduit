@@ -52,6 +52,8 @@
  */
 package org.sca4j.binding.jms.runtime.host.standalone;
 
+import static javax.transaction.xa.XAResource.TMSUCCESS;
+
 import javax.jms.Connection;
 import javax.jms.Message;
 import javax.jms.MessageConsumer;
@@ -73,10 +75,12 @@ import org.sca4j.spi.wire.InvocationChain;
 
 /**
  * A thread pull message from destination and invoke Message listener.
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class ConsumerWorker extends DefaultPausableWork {
+
+    private static long WAIT_TIME = 3000L;
 
     private ConsumerWorkerTemplate template;
     private boolean exception;
@@ -84,18 +88,19 @@ public class ConsumerWorker extends DefaultPausableWork {
     private boolean twoWay;
     private Class<?> inputType;
     private Class<?> outputType;
-    
+
     private DataBinder dataBinder = new DataBinder();
 
     /**
      * @param template
-     * @throws ClassNotFoundException 
+     * @throws ClassNotFoundException
      */
     public ConsumerWorker(ConsumerWorkerTemplate template) {
         super(true);
         try {
             this.template = template;
-            PhysicalOperationDefinition pod = template.wire.getInvocationChains().entrySet().iterator().next().getKey().getTargetOperation();
+            PhysicalOperationDefinition pod = template.wire.getInvocationChains().entrySet().iterator().next().getKey()
+                    .getTargetOperation();
             this.invocationChain = template.wire.getInvocationChains().entrySet().iterator().next().getValue();
             inputType = Class.forName(pod.getParameters().get(0));
             String outputTypeName = pod.getReturnType();
@@ -111,60 +116,68 @@ public class ConsumerWorker extends DefaultPausableWork {
     /**
      * @see java.lang.Runnable#run()
      */
+    @Override
     public void execute() {
-        
+
         Connection connection = null;
         Session session = null;
         MessageConsumer consumer = null;
         MessageProducer producer = null;
         TransactionHandler transactionHandler = null;
-        
+
         try {
-            
+
+            template.monitor.mssg("CONSUMER WORKER BEGIN");
+            Thread.sleep(WAIT_TIME);
+
             if (exception) {
                 exception = false;
                 Thread.sleep(template.exceptionTimeout);
             }
-            
-            connection =  template.jmsFactory.getConnection();
-            session =  template.jmsFactory.getSession(connection, template.transactionType);
+
+            connection = template.jmsFactory.getConnection();
+            session = template.jmsFactory.getSession(connection, template.transactionType);
             connection.start();
-            
+
             if (template.transactionType == TransactionType.GLOBAL) {
                 transactionHandler = new JtaTransactionHandler(template.transactionManager);
             } else {
                 transactionHandler = new JmsTransactionHandler(session);
             }
-            
+
             transactionHandler.begin();
             transactionHandler.enlist(session);
-            
+
             consumer = session.createConsumer(template.jmsFactory.getDestination());
             Message jmsRequest = consumer.receive(template.pollingInterval);
+
             if (jmsRequest != null) {
                 Object payload = dataBinder.unmarshal(jmsRequest, inputType);
-                org.sca4j.spi.invocation.Message sca4jRequest = new MessageImpl(new Object[] {payload}, false, new WorkContext());
+                org.sca4j.spi.invocation.Message sca4jRequest = new MessageImpl(new Object[] { payload }, false, new WorkContext());
                 org.sca4j.spi.invocation.Message sca4jResponse = invocationChain.getHeadInterceptor().invoke(sca4jRequest);
                 if (twoWay) {
                     Message jmsResponse = dataBinder.marshal(sca4jResponse.getBody(), outputType, session);
                     switch (template.metadata.correlation) {
-                        case messageID: 
-                            jmsResponse.setJMSCorrelationID(jmsRequest.getJMSMessageID());
-                            break;
-                        case correlationID: 
-                            jmsResponse.setJMSCorrelationID(jmsRequest.getJMSCorrelationID());
-                            break;
+                    case messageID:
+                        jmsResponse.setJMSCorrelationID(jmsRequest.getJMSMessageID());
+                        break;
+                    case correlationID:
+                        jmsResponse.setJMSCorrelationID(jmsRequest.getJMSCorrelationID());
+                        break;
                     }
                     producer = session.createProducer(template.jmsFactory.getResponseDestination());
                     producer.send(jmsResponse);
                 }
-                
-                transactionHandler.commit();
-                
+
             }
-            
-        } catch (Exception ex) {  
-            reportException(ex);    
+
+            if (template.transactionType == TransactionType.GLOBAL) {transactionHandler._delist(session, TMSUCCESS);}
+
+            transactionHandler.commit();
+            template.monitor.mssg("CONSUMER WORKER COMPLETE");
+
+        } catch (Exception ex) {
+            reportException(ex);
             transactionHandler.rollback();
         } finally {
             JmsHelper.closeQuietly(producer);

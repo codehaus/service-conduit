@@ -56,14 +56,14 @@ import org.sca4j.api.annotation.logging.Info;
 
 /**
  * Monitor interface for JMS Host.
- * 
+ *
  * @version $Rev: 3137 $ $Date: 2008-03-18 02:31:06 +0800 (Tue, 18 Mar 2008) $
  */
 public interface JMSRuntimeMonitor {
 
     /**
      * Callback when a service has been provisioned as a Hessian endpoint
-     * 
+     *
      * @param address the endpoint address
      */
     @Info
@@ -71,7 +71,7 @@ public interface JMSRuntimeMonitor {
 
     /**
      * Callback when an error happens when handle message.
-     * 
+     *
      * @param destination Name of the destination
      * @param exception Underlying exception
      */
@@ -83,5 +83,11 @@ public interface JMSRuntimeMonitor {
      */
     @Info
     void jmsRuntimeStop();
+
+    /**
+     * Generic Message
+     */
+    @Info
+    void mssg(String mssg);
 
 }
