@@ -80,8 +80,6 @@ import org.sca4j.spi.wire.InvocationChain;
  */
 public class ConsumerWorker extends DefaultPausableWork {
 
-    private static long WAIT_TIME = 3000L;
-
     private ConsumerWorkerTemplate template;
     private boolean exception;
     private InvocationChain invocationChain;
@@ -128,7 +126,6 @@ public class ConsumerWorker extends DefaultPausableWork {
         try {
 
             template.monitor.mssg("CONSUMER WORKER BEGIN");
-            Thread.sleep(WAIT_TIME);
 
             if (exception) {
                 exception = false;
