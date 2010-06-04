@@ -52,8 +52,6 @@
  */
 package org.sca4j.binding.jms.runtime.host.standalone;
 
-import static javax.transaction.xa.XAResource.TMSUCCESS;
-
 import javax.jms.Connection;
 import javax.jms.Message;
 import javax.jms.MessageConsumer;
@@ -125,6 +123,8 @@ public class ConsumerWorker extends DefaultPausableWork {
 
         try {
 
+            Thread.sleep(3000L); //will remove as MK's advice
+
             if (exception) {
                 exception = false;
                 Thread.sleep(template.exceptionTimeout);
@@ -165,8 +165,6 @@ public class ConsumerWorker extends DefaultPausableWork {
                 }
 
             }
-
-            transactionHandler.delist(session, TMSUCCESS);
 
             transactionHandler.commit();
 
