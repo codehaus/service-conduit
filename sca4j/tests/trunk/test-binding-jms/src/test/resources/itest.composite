@@ -58,7 +58,7 @@
            xmlns:sca4j="urn:sca4j.org"
            name="JMSTestComposite">
 
-    <component name="JAXBGlobalWeatherTest">
+    <component name="JaxbXAGlobalWeatherTest">
         <sca4j:junit class="org.sca4j.binding.jms.test.jaxb.JAXBWeatherTest"/>
         <reference name="weatherService">
             <binding.jms correlationScheme="messageID" 
@@ -71,7 +71,7 @@
         </reference>
     </component>
 
-    <component name="JAXBGlobalWeatherService">
+    <component name="JaxbXAGlobalWeatherService">
         <implementation.java class="org.sca4j.binding.jms.test.jaxb.WeatherServiceImpl"/>
         <service name="WeatherService">
             <binding.jms correlationScheme="messageID" 
@@ -84,7 +84,7 @@
         </service>
     </component>
 
-    <component name="JAXBLocalWeatherTest">
+       <component name="JaxbLocalWeatherTest">
         <sca4j:junit class="org.sca4j.binding.jms.test.jaxb.JAXBWeatherTest"/>
         <reference name="weatherService">
             <binding.jms correlationScheme="messageID" 
@@ -97,7 +97,7 @@
         </reference>
     </component>
 
-    <component name="JAXBLocalWeatherService">
+    <component name="JaxbLocalWeatherService">
         <implementation.java class="org.sca4j.binding.jms.test.jaxb.WeatherServiceImpl"/>
         <service name="WeatherService">
             <binding.jms correlationScheme="messageID" 
