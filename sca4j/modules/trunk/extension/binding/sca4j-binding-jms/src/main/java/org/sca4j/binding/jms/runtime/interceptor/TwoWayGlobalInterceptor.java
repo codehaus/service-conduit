@@ -52,6 +52,11 @@
  */
 package org.sca4j.binding.jms.runtime.interceptor;
 
+import static javax.transaction.xa.XAResource.TMFAIL;
+import static javax.transaction.xa.XAResource.TMRESUME;
+import static javax.transaction.xa.XAResource.TMSUCCESS;
+import static javax.transaction.xa.XAResource.TMSUSPEND;
+
 import javax.jms.Connection;
 import javax.jms.JMSException;
 import javax.jms.MessageConsumer;
@@ -80,15 +85,15 @@ import org.sca4j.spi.wire.Wire;
 public class TwoWayGlobalInterceptor implements Interceptor {
 
     private Interceptor next;
-    
+
     private Correlation correlation;
     private JMSObjectFactory jmsFactory;
     private TransactionManager transactionManager;
-    
+
     private Class<?> inputType;
     private Class<?> outputType;
     private DataBinder dataBinder = new DataBinder();
-    
+
 
     public TwoWayGlobalInterceptor(JMSObjectFactory jmsFactory, TransactionManager transactionManager, Correlation correlation, Wire wire) {
         try {
@@ -106,23 +111,24 @@ public class TwoWayGlobalInterceptor implements Interceptor {
     public Message invoke(Message sca4jRequest) {
 
         Message sca4jResponse = new MessageImpl();
-        
+
         Connection connection = null;
         Session session = null;
         MessageProducer messageProducer = null;
         MessageConsumer messageConsumer = null;
-        
+
         Transaction transaction = null;
         TransactionHandler transactionHandler = new JtaTransactionHandler(transactionManager);
-        
+
         try {
-            
+
             connection = jmsFactory.getConnection();
             session = jmsFactory.getSession(connection, TransactionType.GLOBAL);
             connection.start();
-            
+
             transaction = transactionHandler.getTransaction();
             if (transaction != null) {
+                transactionHandler.delist(session, TMSUSPEND);
                 transactionHandler.suspend();
             }
             transactionHandler.begin();
@@ -133,14 +139,15 @@ public class TwoWayGlobalInterceptor implements Interceptor {
 
             javax.jms.Message jmsRequest = dataBinder.marshal(payload[0], inputType, session);
             messageProducer.send(jmsRequest);
+            transactionHandler.delist(session, TMSUCCESS);
             transactionHandler.commit();
-            
+
             String selector = null;
             switch (correlation) {
-                case messageID: 
+                case messageID:
                     selector = "JMSCorrelationID = '" + jmsRequest.getJMSMessageID() + "'";
                     break;
-                case correlationID: 
+                case correlationID:
                     selector = "JMSCorrelationID = '" + jmsRequest.getJMSCorrelationID() + "'";
                     break;
             }
@@ -149,15 +156,18 @@ public class TwoWayGlobalInterceptor implements Interceptor {
             transactionHandler.enlist(session);
             javax.jms.Message jmsResponse = messageConsumer.receive();
             sca4jResponse.setBody(dataBinder.unmarshal(jmsResponse, outputType));
+            transactionHandler.delist(session, TMSUCCESS);
             transactionHandler.commit();
-            
+
             if (transaction != null) {
+                transactionHandler.delist(session, TMRESUME);
                 transactionHandler.resume(transaction);
             }
 
             return sca4jResponse;
 
         } catch (JMSException ex) {
+            transactionHandler.delist(session, TMFAIL);
             transactionHandler.rollback();
             throw new SCA4JJmsException("Unable to receive response", ex);
         } finally {
@@ -166,7 +176,7 @@ public class TwoWayGlobalInterceptor implements Interceptor {
             JmsHelper.closeQuietly(session);
             JmsHelper.closeQuietly(connection);
         }
-        
+
     }
 
     public Interceptor getNext() {

@@ -52,6 +52,9 @@
  */
 package org.sca4j.binding.jms.runtime.interceptor;
 
+import static javax.transaction.xa.XAResource.TMFAIL;
+import static javax.transaction.xa.XAResource.TMSUCCESS;
+
 import javax.jms.Connection;
 import javax.jms.JMSException;
 import javax.jms.MessageConsumer;
@@ -78,13 +81,13 @@ import org.sca4j.spi.wire.Wire;
 public class OneWayGlobalInterceptor implements Interceptor {
 
     private Interceptor next;
-    
+
     private JMSObjectFactory jmsFactory;
     private TransactionManager transactionManager;
-    
+
     private Class<?> inputType;
     private DataBinder dataBinder = new DataBinder();
-    
+
 
     public OneWayGlobalInterceptor(JMSObjectFactory jmsFactory, TransactionManager transactionManager, Wire wire) {
         try {
@@ -98,23 +101,23 @@ public class OneWayGlobalInterceptor implements Interceptor {
     }
 
     public Message invoke(Message sca4jRequest) {
-        
+
         TransactionHandler transactionHandler = new JtaTransactionHandler(transactionManager);
         Message sca4jResponse = new MessageImpl();
-        
+
         Connection connection = null;
         Session session = null;
         MessageProducer messageProducer = null;
         MessageConsumer messageConsumer = null;
-        
+
         boolean txStarted = false;
-        
+
         try {
-            
+
             connection = jmsFactory.getConnection();
             session = jmsFactory.getSession(connection, TransactionType.GLOBAL);
             connection.start();
-            
+
             if (transactionHandler.getTransaction() == null) {
                 transactionHandler.begin();
                 txStarted = true;
@@ -123,18 +126,20 @@ public class OneWayGlobalInterceptor implements Interceptor {
 
             messageProducer = session.createProducer(jmsFactory.getDestination());
             Object[] payload = (Object[]) sca4jRequest.getBody();
-            
+
 
             javax.jms.Message jmsRequest = dataBinder.marshal(payload[0], inputType, session);
             messageProducer.send(jmsRequest);
-            
+
             if (txStarted) {
+               transactionHandler.delist(session, TMSUCCESS);
                transactionHandler.commit();
             }
 
             return sca4jResponse;
 
         } catch (JMSException ex) {
+            transactionHandler.delist(session, TMFAIL);
             transactionHandler.rollback();
             throw new SCA4JJmsException("Unable to receive response", ex);
         } finally {
@@ -143,7 +148,7 @@ public class OneWayGlobalInterceptor implements Interceptor {
             JmsHelper.closeQuietly(session);
             JmsHelper.closeQuietly(connection);
         }
-        
+
     }
 
     public Interceptor getNext() {

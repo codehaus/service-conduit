@@ -52,6 +52,9 @@
  */
 package org.sca4j.binding.jms.runtime.host.standalone;
 
+import static javax.transaction.xa.XAResource.TMFAIL;
+import static javax.transaction.xa.XAResource.TMSUCCESS;
+
 import javax.jms.Connection;
 import javax.jms.Message;
 import javax.jms.MessageConsumer;
@@ -164,10 +167,12 @@ public class ConsumerWorker extends DefaultPausableWork {
 
             }
 
+            transactionHandler.delist(session, TMSUCCESS);
             transactionHandler.commit();
 
         } catch (Exception ex) {
             reportException(ex);
+            transactionHandler.delist(session, TMFAIL);
             transactionHandler.rollback();
         } finally {
             JmsHelper.closeQuietly(producer);
