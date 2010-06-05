@@ -84,7 +84,7 @@
         </service>
     </component>
 
-       <component name="JaxbLocalWeatherTest">
+    <component name="JaxbLocalWeatherTest">
         <sca4j:junit class="org.sca4j.binding.jms.test.jaxb.JAXBWeatherTest"/>
         <reference name="weatherService">
             <binding.jms correlationScheme="messageID" 
@@ -104,6 +104,29 @@
                          destination="serviceLocalQueue" 
                          connectionFactory="connectionFactory" 
                          responseDestination="clientLocalQueue" 
+                         requires="sca:transactedOneWay.local" 
+                         initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
+                         jndiURL="vm://localhost" />
+        </service>
+    </component>
+
+    <component name="LocalOneWayServiceTest">
+        <sca4j:junit class="org.sca4j.binding.jms.test.oneway.OneWayTest"/>
+        <reference name="oneWayService">
+            <binding.jms destination="oneWayServiceLocalQueue" 
+                         connectionFactory="oneWayConnectionFactory" 
+                         requires="sca:transactedOneWay.local" 
+                         initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
+                         jndiURL="vm://localhost" />
+        </reference>
+        <reference name="oneWayServiceAssert" target="LocalOneWayService/OneWayServiceImpl"/>
+    </component>
+
+    <component name="LocalOneWayService">
+        <implementation.java class="org.sca4j.binding.jms.test.oneway.OneWayServiceImpl"/>
+        <service name="OneWayService">
+            <binding.jms destination="oneWayServiceLocalQueue" 
+                         connectionFactory="oneWayConnectionFactory"
                          requires="sca:transactedOneWay.local" 
                          initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
                          jndiURL="vm://localhost" />
