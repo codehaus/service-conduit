@@ -132,5 +132,51 @@
                          jndiURL="vm://localhost" />
         </service>
     </component>
+
+     <component name="GlobalOneWayServiceTest">
+        <sca4j:junit class="org.sca4j.binding.jms.test.oneway.OneWayTest"/>
+        <reference name="oneWayService">
+            <binding.jms destination="oneWayServiceGlobalQueue" 
+                         connectionFactory="xaOneWayConnectionFactory" 
+                         requires="sca:transactedOneWay.global" 
+                         initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
+                         jndiURL="vm://localhost" />
+        </reference>
+        <reference name="oneWayServiceAssert" target="GlobalOneWayService/OneWayServiceImpl"/>
+    </component>
+
+   <component name="GlobalOneWayService">
+        <implementation.java class="org.sca4j.binding.jms.test.oneway.OneWayServiceImpl"/>
+        <service name="OneWayService">
+            <binding.jms destination="oneWayServiceGlobalQueue" 
+                         connectionFactory="xaOneWayConnectionFactory"
+                         requires="sca:transactedOneWay.global" 
+                         initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
+                         jndiURL="vm://localhost" />
+        </service>
+    </component>
+
+    <component name="LocalGlobalOneWayServiceTest">
+        <sca4j:junit class="org.sca4j.binding.jms.test.oneway.OneWayTest"/>
+        <reference name="oneWayService">
+            <binding.jms destination="oneWayServiceLocalGlobalQueue" 
+                         connectionFactory="xaOneWayConnectionFactory" 
+                         requires="sca:transactedOneWay.global" 
+                         initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
+                         jndiURL="vm://localhost" />
+        </reference>
+        <reference name="oneWayServiceAssert" target="GlobalOneWayService/OneWayServiceImpl"/>
+    </component>
+
+   <component name="LocalGlobalOneWayService">
+        <implementation.java class="org.sca4j.binding.jms.test.oneway.OneWayServiceImpl"/>
+        <service name="OneWayService">
+            <binding.jms destination="oneWayServiceLocalGlobalQueue" 
+                         connectionFactory="oneWayConnectionFactory"
+                         requires="sca:transactedOneWay.local" 
+                         initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
+                         jndiURL="vm://localhost" />
+        </service>
+    </component>
     
 </composite>
