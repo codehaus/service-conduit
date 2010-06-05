@@ -17,7 +17,7 @@ public class OneWayServiceImpl implements OneWayService {
      * {@inheritDoc}
      */
     @Override
-    public void echo(String val) { value = val; mon.mssg("Info Sent : " + value);  }
+    public void echo(String val) { value = val; mon.mssg("Info Rec : " + value);  }
 
     /**
      * {@inheritDoc}

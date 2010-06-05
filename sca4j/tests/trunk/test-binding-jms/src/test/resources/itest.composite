@@ -133,7 +133,7 @@
         </service>
     </component>
 
-     <component name="GlobalOneWayServiceTest">
+     <component name="XAGlobalOneWayServiceTest">
         <sca4j:junit class="org.sca4j.binding.jms.test.oneway.OneWayTest"/>
         <reference name="oneWayService">
             <binding.jms destination="oneWayServiceGlobalQueue" 
@@ -142,10 +142,10 @@
                          initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
                          jndiURL="vm://localhost" />
         </reference>
-        <reference name="oneWayServiceAssert" target="GlobalOneWayService/OneWayServiceImpl"/>
+        <reference name="oneWayServiceAssert" target="XAGlobalOneWayService/OneWayServiceImpl"/>
     </component>
 
-   <component name="GlobalOneWayService">
+   <component name="XAGlobalOneWayService">
         <implementation.java class="org.sca4j.binding.jms.test.oneway.OneWayServiceImpl"/>
         <service name="OneWayService">
             <binding.jms destination="oneWayServiceGlobalQueue" 
