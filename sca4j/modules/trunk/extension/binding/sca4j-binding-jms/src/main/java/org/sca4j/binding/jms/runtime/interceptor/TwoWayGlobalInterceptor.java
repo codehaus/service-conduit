@@ -54,7 +54,6 @@ package org.sca4j.binding.jms.runtime.interceptor;
 
 import static javax.transaction.xa.XAResource.TMFAIL;
 import static javax.transaction.xa.XAResource.TMSUCCESS;
-import static javax.transaction.xa.XAResource.TMSUSPEND;
 
 import javax.jms.Connection;
 import javax.jms.JMSException;
@@ -127,7 +126,6 @@ public class TwoWayGlobalInterceptor implements Interceptor {
 
             transaction = transactionHandler.getTransaction();
             if (transaction != null) {
-                transactionHandler.delist(session, TMSUSPEND);
                 transactionHandler.suspend();
             }
             transactionHandler.begin();

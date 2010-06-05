@@ -131,8 +131,8 @@ public class OneWayGlobalInterceptor implements Interceptor {
             javax.jms.Message jmsRequest = dataBinder.marshal(payload[0], inputType, session);
             messageProducer.send(jmsRequest);
 
+            transactionHandler.delist(session, TMSUCCESS);
             if (txStarted) {
-               transactionHandler.delist(session, TMSUCCESS);
                transactionHandler.commit();
             }
 
