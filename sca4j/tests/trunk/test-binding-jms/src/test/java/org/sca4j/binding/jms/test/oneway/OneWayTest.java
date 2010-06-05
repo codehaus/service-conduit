@@ -91,7 +91,7 @@ public class OneWayTest extends TestCase {
       String val = "Hello All";
 
       oneWayService.echo(val);
-      Thread.sleep(2500);
+      Thread.sleep(3000);
 
       assertNotNull(oneWayServiceAssert.getEchoVal());
       assertEquals("Wrong Echo Statement ", val, oneWayServiceAssert.getEchoVal());
