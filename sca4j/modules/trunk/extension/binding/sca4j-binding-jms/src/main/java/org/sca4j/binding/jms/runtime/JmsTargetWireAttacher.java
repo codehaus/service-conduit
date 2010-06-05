@@ -58,15 +58,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 package org.sca4j.binding.jms.runtime;
 
@@ -89,18 +89,19 @@ import org.sca4j.binding.jms.runtime.interceptor.TwoWayLocalInterceptor;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.TargetWireAttacher;
+import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
 import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.wire.Wire;
 
 /**
  * Attaches the reference end of a wire to a JMS queue.
- * 
+ *
  * @version $Revision: 5322 $ $Date: 2008-09-02 20:15:34 +0100 (Tue, 02 Sep
  *          2008) $
  */
 public class JmsTargetWireAttacher implements TargetWireAttacher<JmsWireTargetDefinition> {
-    
+
     @Reference(required = false) public TransactionManager transactionManager;
 
     public void attachToTarget(PhysicalWireSourceDefinition sourceDefinition, JmsWireTargetDefinition targetDefinition, Wire wire) throws WiringException {
@@ -118,7 +119,8 @@ public class JmsTargetWireAttacher implements TargetWireAttacher<JmsWireTargetDe
         JMSObjectFactory jmsFactory = buildObjectFactory(connectionFactoryName, destinationName, responseDestinationName, env);
 
         Interceptor interceptor = null;
-        boolean twoWay = wire.getInvocationChains().entrySet().iterator().next().getKey().getSourceOperation().getReturnType() != null;
+
+        boolean twoWay = isTwoWay(wire);
         if (twoWay) {
             if (transactionType == TransactionType.GLOBAL) {
                 interceptor = new TwoWayGlobalInterceptor(jmsFactory, transactionManager, metadata.correlation, wire);
@@ -146,5 +148,12 @@ public class JmsTargetWireAttacher implements TargetWireAttacher<JmsWireTargetDe
         Destination responseDestination = JndiHelper.lookup(responseDestinationName, env);
         return new JMSObjectFactory(connectionFactory, destination, responseDestination);
     }
-    
+
+    private boolean isTwoWay(Wire wire) {
+        PhysicalOperationDefinition operationDef = wire.getInvocationChains().entrySet().iterator().next().getKey().getSourceOperation();
+        String returnType = operationDef.getReturnType();
+
+        return returnType != null && returnType != "void";
+    }
+
 }

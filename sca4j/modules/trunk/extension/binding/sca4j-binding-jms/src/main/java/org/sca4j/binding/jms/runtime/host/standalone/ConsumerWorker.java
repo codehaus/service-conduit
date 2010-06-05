@@ -100,7 +100,7 @@ public class ConsumerWorker extends DefaultPausableWork {
             this.invocationChain = template.wire.getInvocationChains().entrySet().iterator().next().getValue();
             inputType = Class.forName(pod.getParameters().get(0));
             String outputTypeName = pod.getReturnType();
-            if (outputTypeName != null) {
+            if (outputTypeName != null && outputTypeName != "void") {
                 outputType = Class.forName(outputTypeName);
             }
             twoWay = outputType != null;
@@ -122,8 +122,6 @@ public class ConsumerWorker extends DefaultPausableWork {
         TransactionHandler transactionHandler = null;
 
         try {
-
-            Thread.sleep(3000L); //will remove as MK's advice
 
             if (exception) {
                 exception = false;

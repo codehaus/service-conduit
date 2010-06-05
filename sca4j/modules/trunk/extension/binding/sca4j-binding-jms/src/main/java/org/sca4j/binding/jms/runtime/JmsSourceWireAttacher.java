@@ -74,7 +74,7 @@ import org.sca4j.spi.wire.Wire;
 
 /**
  * Attaches the target end of a wire (a service) to a JMS queue.
- * 
+ *
  * @version $Revision: 5363 $ $Date: 2008-09-09 01:39:36 +0100 (Tue, 09 Sep
  *          2008) $
  */
@@ -84,7 +84,7 @@ public class JmsSourceWireAttacher implements SourceWireAttacher<JmsWireSourceDe
     @Reference (required = false) public TransactionManager transactionManager;
 
     public void attachToSource(JmsWireSourceDefinition source, PhysicalWireTargetDefinition target, Wire wire) throws WiringException {
-        
+
         URI serviceUri = target.getUri();
 
         JmsBindingMetadata metadata = source.getMetadata();
@@ -97,7 +97,7 @@ public class JmsSourceWireAttacher implements SourceWireAttacher<JmsWireSourceDe
         String destinationName = metadata.destinationName;
         String responseDestinationName = metadata.responseDestinationName;
         JMSObjectFactory jmsFactory = buildObjectFactory(connectionFactoryName, destinationName, responseDestinationName, env);
-        
+
         jmsHost.register(jmsFactory, transactionType, wire, metadata, serviceUri);
 
     }
@@ -110,9 +110,10 @@ public class JmsSourceWireAttacher implements SourceWireAttacher<JmsWireSourceDe
     }
 
     private JMSObjectFactory buildObjectFactory(String connectionFactoryName, String destinationName, String responseDestinationName, Hashtable<String, String> env) {
+        Destination responseDestination = null;
         ConnectionFactory connectionFactory = JndiHelper.lookup(connectionFactoryName, env);
         Destination destination = JndiHelper.lookup(destinationName, env);
-        Destination responseDestination = JndiHelper.lookup(responseDestinationName, env);
+        if(responseDestinationName != null) { responseDestination = JndiHelper.lookup(responseDestinationName, env);}
         return new JMSObjectFactory(connectionFactory, destination, responseDestination);
     }
 
