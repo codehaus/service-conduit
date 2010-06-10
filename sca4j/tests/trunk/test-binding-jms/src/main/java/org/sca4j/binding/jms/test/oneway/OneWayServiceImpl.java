@@ -11,7 +11,7 @@ public class OneWayServiceImpl implements OneWayService {
 
     @Monitor protected PrintOut mon;
 
-    private String value;
+    String value;
 
     /**
      * {@inheritDoc}
@@ -19,10 +19,6 @@ public class OneWayServiceImpl implements OneWayService {
     @Override
     public void echo(String val) { value = val; mon.mssg("Info Rec : " + value);  }
 
-    /**
-     * {@inheritDoc}
-     */
-    public String getEchoVal() { return value; }
 
     public interface PrintOut { @Info void mssg(String msg); }
 
