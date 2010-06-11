@@ -35,8 +35,7 @@
  */
 package org.sca4j.binding.oracle.aq.provision;
 
-import java.net.URI;
-
+import org.sca4j.binding.oracle.aq.scdl.AQBindingDefinition;
 import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
 
 
@@ -44,30 +43,5 @@ import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
  * Target definition that is used by the AQTargetWireAttacher.
  */
 public class AQWireTargetDefinition extends PhysicalWireTargetDefinition {
-
-    private final String destination;
-    private final String dataSourceKey;
-    private final URI calssLoaderURI;
-    private final String correlationId;
-
-    /**
-     * Create a AQWireTargetDefinition.
-     *
-     * @param destination the destination
-     * @param dataSourceKey the data source key
-     * @param calssLoaderURI the calss loader uri
-     * @param correlationId correlation id.
-     */
-    public AQWireTargetDefinition(String destination, String dataSourceKey, URI calssLoaderURI, String correlationId) {
-        super();
-        this.destination = destination;
-        this.dataSourceKey = dataSourceKey;
-        this.calssLoaderURI = calssLoaderURI;
-        this.correlationId = correlationId;
-    }
-
-    public String getDestination() {return destination;}
-    public String getDataSourceKey() {return dataSourceKey;}
-    public URI getCalssLoaderURI() {return calssLoaderURI;}
-	public String getCorrelationId() {return correlationId;}
+    public AQBindingDefinition bindingDefinition;
 }

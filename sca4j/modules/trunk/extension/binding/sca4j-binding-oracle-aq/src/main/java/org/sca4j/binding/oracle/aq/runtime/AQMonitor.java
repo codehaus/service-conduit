@@ -33,7 +33,7 @@
  * specific language governing permissions and limitations
  * under the License.    
  */
-package org.sca4j.binding.oracle.aq.runtime.monitor;
+package org.sca4j.binding.oracle.aq.runtime;
 
 import org.sca4j.api.annotation.logging.Fine;
 import org.sca4j.api.annotation.logging.Info;
@@ -67,7 +67,7 @@ public interface AQMonitor{
      * @param message stack trace of the exception 
      */
     @Severe
-    void onException(String message, String stackTrace);
+    void onException(String message, Exception e);
     
     /**
      * Message Fault

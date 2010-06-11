@@ -35,65 +35,12 @@
  */
 package org.sca4j.binding.oracle.aq.provision;
 
-import java.net.URI;
-
-import org.sca4j.binding.oracle.aq.common.InitialState;
+import org.sca4j.binding.oracle.aq.scdl.AQBindingDefinition;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
 
 /**
  * Target definition that is used by the AQSourceWireAttacher.
  */
 public class AQWireSourceDefinition extends PhysicalWireSourceDefinition {
-   
-
-    private final String destination;
-    private final InitialState initialState;
-    private final int consumerCount;
-    private final long consumerDelay;
-    private final String dataSourceKey;
-    private final URI classLoaderId;
-    private final int delay;
-    private final String correlationId;
-    
-
-
-    /**
-     * Create a AQWireSoureDefinition.
-     *
-     * @param destination the destination
-     * @param initialState the initial state
-     * @param consumerCount the consumer count
-     * @param consumerDelay the delay consumer
-     * @param dataSourceKey the data source key
-     * @param classLoaderId the class loader id
-     * @param delay the delay
-     * @param correlationId correlation id
-     */
-    public AQWireSourceDefinition(String destination,
-                                  InitialState initialState,
-                                  String dataSourceKey,
-                                  int consumerCount,
-                                  long consumerDelay,
-                                  URI classLoaderId,
-                                  int delay,
-                                  String correlationId) {
-        this.destination = destination;
-        this.initialState = initialState;
-        this.dataSourceKey = dataSourceKey;
-        this.consumerCount = consumerCount;
-        this.consumerDelay = consumerDelay;
-        this.classLoaderId = classLoaderId;
-        this.delay = delay;
-        this.correlationId = correlationId;
-    }
-
-    
-    public String getDestination() {return destination;}
-    public InitialState getInitialState() {return initialState;}
-    public String getDataSourceKey() {return dataSourceKey;}
-    public int getConsumerCount() {return consumerCount;}
-    public long getConsumerDelay() {return consumerDelay;}
-    public URI getClassLoaderId() {return classLoaderId;}
-    public int getDelay() {return delay;}
-    public String getCorrelationId() {return this.correlationId;}
+    public AQBindingDefinition bindingDefinition;
 }

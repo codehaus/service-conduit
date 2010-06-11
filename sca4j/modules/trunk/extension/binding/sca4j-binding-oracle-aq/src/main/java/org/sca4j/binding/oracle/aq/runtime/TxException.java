@@ -33,7 +33,7 @@
  * specific language governing permissions and limitations
  * under the License.    
  */
-package org.sca4j.binding.oracle.aq.runtime.transaction;
+package org.sca4j.binding.oracle.aq.runtime;
 
 /**
  * The class to represent transaction Exception.

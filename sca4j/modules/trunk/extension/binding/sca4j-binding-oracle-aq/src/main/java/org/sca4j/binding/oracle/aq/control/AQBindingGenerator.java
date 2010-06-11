@@ -35,8 +35,6 @@
  */
 package org.sca4j.binding.oracle.aq.control;
 
-import java.net.URI;
-
 import org.sca4j.binding.oracle.aq.provision.AQWireSourceDefinition;
 import org.sca4j.binding.oracle.aq.provision.AQWireTargetDefinition;
 import org.sca4j.binding.oracle.aq.scdl.AQBindingDefinition;
@@ -63,18 +61,10 @@ public class AQBindingGenerator implements BindingGenerator<AQWireSourceDefiniti
      *
      * @throws GenerationException the generation exception
      */
-    public AQWireSourceDefinition generateWireSource(LogicalBinding<AQBindingDefinition> logicalBinding,
-                                                     Policy policy,
-                                                     ServiceDefinition service) throws GenerationException {        
-
-        final URI classLoaderId = logicalBinding.getParent().getParent().getParent().getUri();
-        final AQBindingDefinition bd = logicalBinding.getBinding();
-        final String correlationId = bd.getCorrelationId();
-
-        return new AQWireSourceDefinition(bd.getDestinationName(), bd.getInitialState(),
-                                          bd.getDataSourceKey(), bd.getConsumerCount(), bd.getConsumerDelay(),
-                                          classLoaderId, bd.getDelay(),correlationId);
-
+    public AQWireSourceDefinition generateWireSource(LogicalBinding<AQBindingDefinition> logicalBinding, Policy policy, ServiceDefinition service) { 
+        AQWireSourceDefinition wireSourceDefinition = new AQWireSourceDefinition();
+        wireSourceDefinition.bindingDefinition = logicalBinding.getBinding();
+        return wireSourceDefinition;
     }
 
     /**
@@ -88,15 +78,9 @@ public class AQBindingGenerator implements BindingGenerator<AQWireSourceDefiniti
      *
      * @throws GenerationException the generation exception
      */
-    public AQWireTargetDefinition generateWireTarget(LogicalBinding<AQBindingDefinition> logicalBinding,
-                                                     Policy policy,
-                                                     ReferenceDefinition reference) throws GenerationException {       
-
-        URI classLoaderId = logicalBinding.getParent().getParent().getParent().getUri();
-        AQBindingDefinition bd = logicalBinding.getBinding();
-
-        return new AQWireTargetDefinition(bd.getDestinationName(), bd.getDataSourceKey(),
-        		                          classLoaderId, bd.getCorrelationId());
-
+    public AQWireTargetDefinition generateWireTarget(LogicalBinding<AQBindingDefinition> logicalBinding, Policy policy, ReferenceDefinition reference) {       
+        AQWireTargetDefinition targetDefinition = new AQWireTargetDefinition();
+        targetDefinition.bindingDefinition = logicalBinding.getBinding();
+        return targetDefinition;
     }
 }

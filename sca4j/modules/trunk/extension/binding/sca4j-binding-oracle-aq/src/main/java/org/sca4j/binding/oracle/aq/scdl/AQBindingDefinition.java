@@ -37,6 +37,8 @@ package org.sca4j.binding.oracle.aq.scdl;
 
 import javax.xml.namespace.QName;
 
+import oracle.AQ.AQOracleDriver;
+
 import org.oasisopen.sca.Constants;
 import org.sca4j.binding.oracle.aq.common.InitialState;
 import org.sca4j.scdl.BindingDefinition;
@@ -46,87 +48,33 @@ import org.w3c.dom.Document;
  * AQBinding Definition.
  */
 public class AQBindingDefinition extends BindingDefinition {
-
+    
+	private static final QName BINDING_QNAME  =  new QName(Constants.SCA_NS, "binding.oracle.aq");
 	
-	private static final long serialVersionUID = 2794070984101035255L;
-	private static final QName BINDING_QNAME  =  new QName(Constants.SCA_NS, "binding.oracle.aq");    
+	static {
+	    try {
+	        Class.forName(AQOracleDriver.class.getName());
+	    } catch (ClassNotFoundException e) {
+	        throw new ExceptionInInitializerError(e);
+	    }
+	}
 
-    private final String destinationName;
-    private final InitialState initialState;
-    private final int consumerCount;
-    private final long consumerDelay;
-	private final String dataSourceKey;
-    private final int delay;
-    private final String correlationId;
-
-    /**
-     * Creates AQBindingDefinition.
-     *
-     * @param destinationName the destination name
-     * @param initialState the initial state
-     * @param dataSourceKey the data source key
-     * @param consumerCount the consumer count
-     * @param delay the delay
-     * @param correlationId correlation id
-     */
-    public AQBindingDefinition(String destinationName, InitialState initialState, 
-    		                   String dataSourceKey, int consumerCount, 
-    		                   long consumerDelay, int delay,
-    		                   String correlationId, 
-    		                   Document documentKey) {
-    	
-        super(null, BINDING_QNAME, documentKey);
-        
-        this.destinationName = destinationName;
-        this.initialState = initialState;
-        this.dataSourceKey = dataSourceKey;
-        this.consumerCount = consumerCount;
-        this.consumerDelay = consumerDelay;
-        this.delay = delay;
-        this.correlationId = correlationId;
-    }    
-
-	/**
-     * Gets the name of where the message will be enqueued.
-     * @return destination
-     */
-    public String getDestinationName() {return destinationName;}
-
-    /**
-     * State the binding should be started in.
-     * @return initialState}
-     */
-    public InitialState getInitialState() {return initialState;}
-
-    /**
-     * Gets the count of the number of consumers.
-     * @return count
-     */
-    public int getConsumerCount() {return consumerCount;}
+    public String destinationName;
+    public String responseDestinationName;
+    public String dataSourceKey;
+    public String correlationId;
+    
+    public InitialState initialState = InitialState.STARTED;
+    public int consumerCount = 2;
+    public long exceptionTimeout = 60 * 1000L;
+    public int delay = 0;
+    public long consumerDelay = 5 * 1000L;
     
     /**
-     * This is the delay related to the consumer,
-     * it is different from the normal delay, as the normal
-     * delay is related to the Physical Queue
-     * @return Consumer Delay
+     * @param documentKey If the binding is used with a key.
      */
-    public long getConsumerDelay() {return consumerDelay;}
-
-    /**
-     * Gets the DataSource Key.
-     * @return dataSource Key
-     */
-    public String getDataSourceKey() {return dataSourceKey;}
-
-    /**
-     * Gets the timeout on dequeue.
-     * @return Dequeue timeout.
-     */
-    public int getDelay() {return delay;}
-
-    /**
-     * Returns the correlation Id
-     * @return correlation id
-     */
-    public String getCorrelationId() {return this.correlationId;}
+    public AQBindingDefinition(Document documentKey) {
+        super(null, BINDING_QNAME, documentKey);
+    }   
+    
 }

@@ -33,7 +33,9 @@
  * specific language governing permissions and limitations
  * under the License.    
  */
-package org.sca4j.binding.oracle.aq.runtime.transaction;
+package org.sca4j.binding.oracle.aq.runtime;
+
+import javax.transaction.Transaction;
 
 
 /**
@@ -41,22 +43,9 @@ package org.sca4j.binding.oracle.aq.runtime.transaction;
  */
 public interface TransactionHandler {
         
-    /**
-     * Starts the Transactions
-     * @throws TxException - Exception is thrown when begin
-     */
+    Transaction getTransaction() throws TxException;
     void begin() throws TxException;
-    
-    /**
-     * Commits the transaction
-     * @throws TxException - Exception is thrown when commit fails
-     */
-    void commit() throws TxException, TxCommitException;
-    
-    /**
-     * Rolls back the transaction 
-     * @throws TxException - Exception is thrown when Rollback fails
-     */
+    void commit() throws TxException;
     void rollback() throws TxException;
 
 }

@@ -32,17 +32,17 @@
     
       <!-- AQ Source Wire Attachers -->
     <component sca4j:key="org.sca4j.binding.oracle.aq.provision.AQWireSourceDefinition" name="org.sca4j.binding.oracle.aq.runtime.wire.AQSourceWireAttacher">
-        <sca4j:implementation.system class="org.sca4j.binding.oracle.aq.runtime.wire.AQSourceWireAttacher"/>
+        <sca4j:implementation.system class="org.sca4j.binding.oracle.aq.runtime.AQSourceWireAttacher"/>
     </component>
     
      <!-- AQ Target Wire Attacher -->        
     <component sca4j:key="org.sca4j.binding.oracle.aq.provision.AQWireTargetDefinition" name="org.sca4j.binding.oracle.aq.runtime.wire.AQTargetWireAttacher">
-        <sca4j:implementation.system class="org.sca4j.binding.oracle.aq.runtime.wire.AQTargetWireAttacher"/>
+        <sca4j:implementation.system class="org.sca4j.binding.oracle.aq.runtime.AQTargetWireAttacher"/>
     </component>  
     
     <!-- Transaction Handler -->
     <component name="TransactionHandler">
-        <sca4j:implementation.system class="org.sca4j.binding.oracle.aq.runtime.transaction.DefaultTransactionHandler"/>
+        <sca4j:implementation.system class="org.sca4j.binding.oracle.aq.runtime.DefaultTransactionHandler"/>
     </component>
 
 

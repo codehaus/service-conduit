@@ -57,23 +57,8 @@ import org.w3c.dom.Document;
 
 @EagerInit
 public class AQBindingLoader implements TypeLoader<AQBindingDefinition> {
-
     
-    private static final int DEFAULT_DELAY = 10;
-    private static final int DEFAULT_CONSUMERS = 1;
-    private static final long DEFAULT_CONSUMER_DELAY = 0L;
-
-    /** The loader helper. */
-    private final LoaderHelper loaderHelper;
-
-    /**
-     * Constructor.
-     *
-     * @param loaderHelper the loader helper
-     */
-    public AQBindingLoader(final @Reference LoaderHelper loaderHelper) {
-          this.loaderHelper = loaderHelper;
-    }
+    @Reference public LoaderHelper loaderHelper;
 
     /**
      * Introspect the XML.
@@ -88,33 +73,45 @@ public class AQBindingLoader implements TypeLoader<AQBindingDefinition> {
      */
     public AQBindingDefinition load(final XMLStreamReader reader, final IntrospectionContext loaderContext) throws XMLStreamException {
         
-    	final Document documentKey = loaderHelper.loadKey(reader);
+        Document documentKey = loaderHelper.loadKey(reader);
+        AQBindingDefinition bindingDefinition = new AQBindingDefinition(documentKey);
         
-        String destinationName = reader.getAttributeValue(null, "destinationName");
+        bindingDefinition.destinationName = reader.getAttributeValue(null, "destinationName");
+        bindingDefinition.responseDestinationName = reader.getAttributeValue(null, "responseDestinationName");
+        bindingDefinition.dataSourceKey = reader.getAttributeValue(null, "dataSourceKey");
+        bindingDefinition.correlationId = reader.getAttributeValue(null, "correlationId");
+        
         String sInitialState = reader.getAttributeValue(null, "initialState");
-        String sConsumerCount = reader.getAttributeValue(null, "consumerCount");
-        String sConsumerDelay = reader.getAttributeValue(null, "consumerDelay");
-        String dataSourceKey = reader.getAttributeValue(null, "dataSourceKey");
-        String correlationId = reader.getAttributeValue(null, "correlationId");
-        String sDelay = reader.getAttributeValue(null, "delay");
-
-        int consumerCount = sConsumerCount != null ? Integer.parseInt(sConsumerCount) : DEFAULT_CONSUMERS;
-        long consumerDelay = sConsumerDelay != null ? Long.parseLong(sConsumerDelay) : DEFAULT_CONSUMER_DELAY;
-        int delay = sDelay != null ? Integer.parseInt(sDelay) : DEFAULT_DELAY;
-        InitialState initialState = sInitialState != null ? InitialState.valueOf(sInitialState) : InitialState.STARTED;
-        
-        if(dataSourceKey == null || dataSourceKey.equals("")){
-            throw new IllegalArgumentException(" DataSource Key For AQ Binding is Not Configured ");
+        if (sInitialState != null) {
+            bindingDefinition.initialState = InitialState.valueOf(sInitialState);
         }
-
-        AQBindingDefinition bindingDefinition = new AQBindingDefinition(destinationName, initialState, 
-            		                                                    dataSourceKey, consumerCount, consumerDelay, 
-            		                                                    delay, correlationId, documentKey);
+        
+        String sConsumerCount = reader.getAttributeValue(null, "consumerCount");
+        if (sConsumerCount != null) {
+            bindingDefinition.consumerCount = Integer.parseInt(sConsumerCount);
+        }
+        
+        String sConsumerDelay = reader.getAttributeValue(null, "consumerDelay");
+        if (sConsumerDelay != null) {
+            bindingDefinition.consumerDelay = Long.parseLong(sConsumerCount);
+        }
+        
+        String sDelay = reader.getAttributeValue(null, "delay");
+        if (sDelay != null) {
+            bindingDefinition.delay = Integer.parseInt(sDelay);
+        }
+        
+        String sExceptionTimeout = reader.getAttributeValue(null, "exceptionTimeout");
+        if (sExceptionTimeout != null) {
+            bindingDefinition.exceptionTimeout = Long.parseLong(sExceptionTimeout);
+        }
 
         loaderHelper.loadPolicySetsAndIntents(bindingDefinition, reader, loaderContext);
 
         LoaderUtil.skipToEndElement(reader);
 
         return bindingDefinition;
+        
     }
+    
 }
