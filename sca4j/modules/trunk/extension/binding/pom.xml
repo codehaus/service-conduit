@@ -40,7 +40,6 @@
             <module>sca4j-binding-ftp</module>
             <module>sca4j-binding-tcp</module>
             <module>sca4j-binding-http</module>
-            <module>sca4j-binding-oracle-queue-spi</module>
             <module>sca4j-binding-oracle-aq</module>
 	</modules>
 </project>
