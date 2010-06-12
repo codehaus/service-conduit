@@ -65,14 +65,37 @@
             <artifactId>sca4j-tx</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc5</artifactId>
+            <version>11.1.0.6.0</version>
+        </dependency>
     </dependencies>
 
-    <!--build>
+    <build>
         <defaultGoal>verify</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.service-conduit</groupId>
                 <artifactId>sca4j-itest-plugin</artifactId>
+                <configuration>
+                    <!-- Set the Jetty Listen Port for Integration Tests -->
+                    <systemConfig>
+                        <![CDATA[
+                            <config>
+							   <datasources>
+							       <datasource id="testDs">
+							           <driver>oracle.jdbc.driver.OracleDriver</driver>
+							           <url>jdbc:oracle:thin:@172.16.232.214:1521:XE</url>
+							           <keys>testDs</keys>
+							           <user>meerajk</user>
+							           <password>password</password>
+							       </datasource>
+							   </datasources>
+                            </config>
+                        ]]>
+                    </systemConfig>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -82,6 +105,6 @@
                 </executions>
             </plugin>
         </plugins>
-    </build-->
+    </build>
 
 </project>
