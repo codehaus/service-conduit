@@ -76,7 +76,7 @@ import org.sca4j.spi.wire.Wire;
  */
 public class AQTargetWireAttacher implements TargetWireAttacher<AQWireTargetDefinition> {
 
-    @Reference ResourceRegistry resourceRegistry;
+    @Reference public ResourceRegistry resourceRegistry;
     
     @Monitor public AQMonitor monitor;
 
@@ -133,20 +133,22 @@ public class AQTargetWireAttacher implements TargetWireAttacher<AQWireTargetDefi
             
             Connection con = null;
             AQSession aqSession = null;
+            AQQueue requestQueue = null;
+            AQQueue responseQueue = null;
             
             try {
                 
                 DataSource dataSource = resourceRegistry.getResource(DataSource.class, bindingDefinition.dataSourceKey);
                 con = dataSource.getConnection();
                 aqSession = AQDriverManager.createAQSession(con);
-                AQQueue requestQueue = aqSession.getQueue(null, bindingDefinition.destinationName);
+                requestQueue = aqSession.getQueue(null, bindingDefinition.destinationName);
                 
                 AQMessage inputAqMessage = requestQueue.createMessage();
                 AQMessageProperty aqMessageProperty = inputAqMessage.getMessageProperty();
                 
                 Envelope envelope = new Envelope();
                 envelope.setOperationName(operationMetadata.getName());
-                envelope.setBody(inputScaMessage.getBody());
+                envelope.setBody(((Object[])inputScaMessage.getBody())[0]);
                 
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 jaxbContext.createMarshaller().marshal(envelope, byteArrayOutputStream);
@@ -167,7 +169,7 @@ public class AQTargetWireAttacher implements TargetWireAttacher<AQWireTargetDefi
                 requestQueue.enqueue(enqueueOption, inputAqMessage);
                 
                 if (operationMetadata.isTwoWay()) {
-                    AQQueue responseQueue = aqSession.getQueue(null, bindingDefinition.responseDestinationName);
+                    responseQueue = aqSession.getQueue(null, bindingDefinition.responseDestinationName);
                     AQDequeueOption aqDequeueOption = new AQDequeueOption();
                     aqDequeueOption.setCorrelation(new String(inputAqMessage.getMessageId()));
                     AQMessage outputAqMessage = responseQueue.dequeue(aqDequeueOption);
@@ -182,6 +184,12 @@ public class AQTargetWireAttacher implements TargetWireAttacher<AQWireTargetDefi
             } catch (Exception e) {
                 throw new ServiceUnavailableException(e);
             } finally {
+                if (requestQueue != null) {
+                    requestQueue.close();
+                }
+                if (responseQueue != null) {
+                    responseQueue.close();
+                }
                 if (aqSession != null) {
                     aqSession.close();
                 }

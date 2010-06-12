@@ -56,6 +56,7 @@ import oracle.AQ.AQQueue;
 import oracle.AQ.AQSession;
 
 import org.oasisopen.sca.ServiceUnavailableException;
+import org.oasisopen.sca.annotation.Destroy;
 import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.binding.oracle.aq.provision.AQWireSourceDefinition;
@@ -85,6 +86,7 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
 	@Reference public ResourceRegistry resourceRegistry;
 	
 	@Monitor public AQMonitor monitor;
+	private List<ConsumerWorker> workers = new LinkedList<ConsumerWorker>();
 
 	/**
 	 * {@inheritDoc}
@@ -99,6 +101,7 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
     		for (int i = 0; i < sourceDefinition.bindingDefinition.consumerCount; i++) {
     			ConsumerWorker consumerWorker = new ConsumerWorker(sourceDefinition.bindingDefinition, operations);
     			workScheduler.scheduleWork(consumerWorker);
+    			workers.add(consumerWorker);
     		}
 	    } catch (ClassNotFoundException e) {
 	        throw new WiringException(e);
@@ -124,6 +127,13 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
      */
     public void detachObjectFactory(AQWireSourceDefinition sourceDefinition, PhysicalWireTargetDefinition targetDefinition) {	
     }	
+    
+    @Destroy
+    public void stop() {
+        for (ConsumerWorker consumerWorker : workers) {
+            consumerWorker.stop();
+        }
+    }
     
     public class ConsumerWorker extends DefaultPausableWork {
         
@@ -152,6 +162,8 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
             
             Connection con = null;
             AQSession aqSession = null;
+            AQQueue requestQueue = null;
+            AQQueue responseQueue = null;
             
             try {
 
@@ -164,14 +176,15 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
                 
                 transactionHandler.begin();
                 
-                DataSource ds = resourceRegistry.getResource(DataSource.class, definition.destinationName);
+                DataSource ds = resourceRegistry.getResource(DataSource.class, definition.dataSourceKey);
                 con = ds.getConnection();
                 aqSession = AQDriverManager.createAQSession(con);
-                AQQueue queue = aqSession.getQueue(null, definition.destinationName);
+                requestQueue = aqSession.getQueue(null, definition.destinationName);
                 
                 AQDequeueOption dequeueOption = new AQDequeueOption();
-                AQMessage inputAqMessage = queue.dequeue(dequeueOption);
+                AQMessage inputAqMessage = requestQueue.dequeue(dequeueOption);
                 if (inputAqMessage == null) {
+                    transactionHandler.commit();
                     return;
                 }
                 
@@ -186,18 +199,19 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
                     throw new ServiceUnavailableException("Requested operation not found on service " + operationName);
                 }
                 Interceptor interceptor = operationMetadata.getInvocationChain().getHeadInterceptor();
-                Message inputScaMessage = new MessageImpl(body, false, new WorkContext());
+                Message inputScaMessage = new MessageImpl(new Object[] {body}, false, new WorkContext());
                 Message outputScaMessage = interceptor.invoke(inputScaMessage);
                 
                 if (operationMetadata.isTwoWay()) {
                     Object result = outputScaMessage.getBody();
                     envelope.setBody(result);
-                    AQQueue responseQueue = aqSession.getQueue(null, definition.responseDestinationName);
+                    responseQueue = aqSession.getQueue(null, definition.responseDestinationName);
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                     AQMessage outputAqMessage = responseQueue.createMessage();
                     jaxbContext.createMarshaller().marshal(envelope, byteArrayOutputStream);
                     payload = byteArrayOutputStream.toByteArray();
                     outputAqMessage.getRawPayload().setStream(payload, payload.length);
+                    outputAqMessage.getMessageProperty().setCorrelation(new String(inputAqMessage.getMessageId()));
                     responseQueue.enqueue(new AQEnqueueOption(), outputAqMessage);
                 }
                 
@@ -209,6 +223,12 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
                     transactionHandler.rollback();
                 }
             } finally {
+                if (requestQueue != null) {
+                    requestQueue.close();
+                }
+                if (responseQueue != null) {
+                    responseQueue.close();
+                }
                 if (aqSession != null) {
                     aqSession.close();
                 }

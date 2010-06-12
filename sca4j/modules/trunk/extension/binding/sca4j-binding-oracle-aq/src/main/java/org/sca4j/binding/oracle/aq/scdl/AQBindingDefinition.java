@@ -65,7 +65,7 @@ public class AQBindingDefinition extends BindingDefinition {
     public String correlationId;
     
     public InitialState initialState = InitialState.STARTED;
-    public int consumerCount = 2;
+    public int consumerCount = 1;
     public long exceptionTimeout = 60 * 1000L;
     public int delay = 0;
     public long consumerDelay = 5 * 1000L;

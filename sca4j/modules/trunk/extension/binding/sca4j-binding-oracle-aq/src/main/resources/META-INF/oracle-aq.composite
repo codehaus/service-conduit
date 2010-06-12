@@ -21,7 +21,7 @@
            name="OracleAqBindingExtension">
 
        <!-- AQ Binding Loader -->
-    <component name="AQBindingLoader" sca4j:key="sca:binding.oracle.aq" >
+    <component name="AQBindingLoader" sca4j:key="sca4j:binding.oracle.aq" >
         <sca4j:implementation.system class="org.sca4j.binding.oracle.aq.introspection.AQBindingLoader"/>
     </component>
 

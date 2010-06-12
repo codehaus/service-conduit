@@ -76,8 +76,8 @@ public class AQBindingLoader implements TypeLoader<AQBindingDefinition> {
         Document documentKey = loaderHelper.loadKey(reader);
         AQBindingDefinition bindingDefinition = new AQBindingDefinition(documentKey);
         
-        bindingDefinition.destinationName = reader.getAttributeValue(null, "destinationName");
-        bindingDefinition.responseDestinationName = reader.getAttributeValue(null, "responseDestinationName");
+        bindingDefinition.destinationName = reader.getAttributeValue(null, "destination");
+        bindingDefinition.responseDestinationName = reader.getAttributeValue(null, "responseDestination");
         bindingDefinition.dataSourceKey = reader.getAttributeValue(null, "dataSourceKey");
         bindingDefinition.correlationId = reader.getAttributeValue(null, "correlationId");
         
