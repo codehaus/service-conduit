@@ -52,9 +52,7 @@
  */
 package org.sca4j.jpa.hibernate;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import javax.naming.NamingException;
 import javax.persistence.EntityManagerFactory;
@@ -65,7 +63,8 @@ import org.hibernate.ejb.Ejb3Configuration;
 import org.hibernate.ejb.EntityManagerFactoryImpl;
 import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.jpa.spi.delegate.EmfBuilderDelegate;
-import org.sca4j.resource.jndi.proxy.jdbc.DataSourceProxy;
+import org.sca4j.jndi.datasource.JndiDataSourceProxy;
+import org.sca4j.jndi.config.JndiResourceConfig;
 import org.sca4j.spi.resource.ResourceRegistry;
 import org.sca4j.spi.services.synthesize.ComponentRegistrationException;
 import org.sca4j.spi.services.synthesize.ComponentSynthesizer;
@@ -91,9 +90,9 @@ public class HibernateDelegate implements EmfBuilderDelegate {
     public EntityManagerFactory build(PersistenceUnitInfo info, ClassLoader classLoader, String dataSourceName) {
 
     	Ejb3Configuration cfg = new Ejb3Configuration();
-	
+
         if (dataSourceName != null) {
-            DataSource dataSource = resourceRegistry.getResource(DataSource.class, dataSourceName);
+            DataSource dataSource = searchResources(dataSourceName);
             if (dataSource == null) {
                 dataSource = mapDataSource(dataSourceName, dataSourceName);
             }
@@ -111,14 +110,15 @@ public class HibernateDelegate implements EmfBuilderDelegate {
     }
     
     private DataSource mapDataSource(String datasource, String persistenceUnit) {
-        DataSourceProxy proxy = new DataSourceProxy();
+        JndiDataSourceProxy proxy = new JndiDataSourceProxy();         
         proxy.setResourceRegistry(resourceRegistry);
         try {
-            proxy.setJndiName(datasource);
+            JndiResourceConfig resourceConfig = new JndiResourceConfig();
+            resourceConfig.jndiName = datasource;
             List<String> keys = new ArrayList<String>();
             keys.add(datasource);
             proxy.setDataSourceKeys(keys);
-            proxy.init();
+            proxy.init(proxy.getResourceConfig());
             synthesizer.registerComponent(datasource + "Component", DataSource.class, proxy, false);
             return proxy;
         } catch (NamingException e) {
@@ -128,6 +128,30 @@ public class HibernateDelegate implements EmfBuilderDelegate {
         } catch (ComponentRegistrationException e) {
             throw new AssertionError("Error registering datasource " + datasource + " specified in persistent unit " + persistenceUnit);
         }
+    }
+
+    /**
+     * Retrieve data source registered is resource repository under dataSourceName, if not found perform JNDI lookup using
+     * dataSourceName as JNDI name and register in resource repository
+     * @param dataSourceName  data source name or JNDI name
+     * @return DataSource data source
+     */
+    private DataSource searchResources(String dataSourceName) {
+        DataSource dataSource = resourceRegistry.getResource(DataSource.class, dataSourceName);
+
+        if (dataSource == null) {
+            Collection<DataSource> dataSources = resourceRegistry.getResources(DataSource.class);
+            for (DataSource ds : dataSources) {
+                if (ds instanceof JndiDataSourceProxy) {
+                   if (((JndiDataSourceProxy) ds).getResourceConfig().jndiName.equals(dataSourceName)) {
+                       dataSource = ds;
+                       break;
+                   }
+                }
+            }
+        }
+
+        return dataSource;
     }
 
 }

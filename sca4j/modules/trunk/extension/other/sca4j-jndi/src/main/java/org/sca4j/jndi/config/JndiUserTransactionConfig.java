@@ -12,37 +12,18 @@
  * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
  * CONDITIONS OF ANY KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations under the License.
+ *
+ * This project contains code licensed from the Apache Software Foundation under
+ * the Apache License, Version 2.0 and original code from project contributors.
  */
-package org.sca4j.spi.resource;
+package org.sca4j.jndi.config;
 
-import java.util.Collection;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
-
-/**
- * @version $Revision$ $Date$
- */
-public interface ResourceRegistry {
-    
-    /**
-     * @param resourceType
-     * @param name
-     * @param resource
-     */
-    void registerResource(Class<?> resourceType, String name, Object resource);
-    
-    /**
-     * @param <T>
-     * @param resourceType
-     * @param name
-     * @return
-     */
-    <T> T getResource(Class<T> resourceType, String name);
-
-    /**
-     * @param <T>
-     * @param resourceType
-     * @return
-     */
-    <T> Collection<T> getResources(Class<T> resourceType);
+@XmlRootElement(name = "user.transaction.jndi")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class JndiUserTransactionConfig extends JndiResourceConfig {
 
 }

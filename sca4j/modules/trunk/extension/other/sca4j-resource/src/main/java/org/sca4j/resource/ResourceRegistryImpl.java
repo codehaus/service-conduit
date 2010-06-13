@@ -52,7 +52,9 @@
  */
 package org.sca4j.resource;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.sca4j.spi.resource.ResourceRegistry;
@@ -83,6 +85,11 @@ public class ResourceRegistryImpl implements ResourceRegistry {
         }
         resourceCache.put(name, resource);
         
+    }
+
+    @Override
+    public <T> Collection<T> getResources(Class<T> resourceType) {
+        return (Collection<T>) cache.get(resourceType).values();
     }
 
 }
