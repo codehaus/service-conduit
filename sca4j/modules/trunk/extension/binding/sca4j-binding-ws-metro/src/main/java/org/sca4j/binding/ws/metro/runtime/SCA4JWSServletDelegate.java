@@ -18,6 +18,7 @@
  */
 package org.sca4j.binding.ws.metro.runtime;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,29 +32,28 @@ import com.sun.xml.ws.transport.http.servlet.WSServlet;
 import com.sun.xml.ws.transport.http.servlet.WSServletDelegate;
 
 /**
- * Delegate for JAX-WS end-points, called from {@link WSServlet}. 
- * It keeps map of registered end-points wrapped in {@link ServletAdapter} keyed on end-point URI specified WS-Binding.
+ * Delegate for JAX-WS end-points, called from {@link WSServlet}. It keeps map of registered end-points wrapped in {@link ServletAdapter} keyed on end-point URI specified WS-Binding.
  * 
  */
 public class SCA4JWSServletDelegate extends WSServletDelegate {
 
     private Map<String, ServletAdapter> fixedUrlPatternEndpoints = new HashMap<String, ServletAdapter>();
     private ServletAdapterList servletAdaptorFactory;
-  
+
     public SCA4JWSServletDelegate(ServletContext context) {
-	super(null, context);
-	servletAdaptorFactory = new ServletAdapterList(context);
+        super(new ArrayList<ServletAdapter>(), context);
+        servletAdaptorFactory = new ServletAdapterList(context);
     }
-    
+
     public void registerEndPoint(String endPointUrl, WSEndpoint<?> wsEndPoint) {
-	fixedUrlPatternEndpoints.put(endPointUrl, servletAdaptorFactory.createAdapter(endPointUrl, endPointUrl, wsEndPoint));
+        fixedUrlPatternEndpoints.put(endPointUrl, servletAdaptorFactory.createAdapter(endPointUrl, endPointUrl, wsEndPoint));
     }
 
     @Override
-    protected ServletAdapter getTarget(HttpServletRequest request) {	
-	String requestURI = request.getRequestURI();
-	String endPointUrl = requestURI.substring(requestURI.lastIndexOf("/"));
-	return fixedUrlPatternEndpoints.get(endPointUrl);	
+    protected ServletAdapter getTarget(HttpServletRequest request) {
+        String requestURI = request.getRequestURI();
+        String endPointUrl = requestURI.substring(requestURI.lastIndexOf("/") + 1);
+        return fixedUrlPatternEndpoints.get(endPointUrl);
     }
 
 }

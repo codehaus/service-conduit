@@ -19,16 +19,20 @@
 package org.sca4j.binding.ws.metro.control;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
 import org.sca4j.binding.ws.metro.provision.MetroWireSourceDefinition;
 import org.sca4j.binding.ws.metro.provision.MetroWireTargetDefinition;
+import org.sca4j.binding.ws.metro.provision.EndPointPolicy;
 import org.sca4j.binding.ws.provision.WsdlElement;
 import org.sca4j.binding.ws.scdl.WsBindingDefinition;
+import org.sca4j.scdl.Operation;
 import org.sca4j.scdl.ReferenceDefinition;
 import org.sca4j.scdl.ServiceContract;
 import org.sca4j.scdl.ServiceDefinition;
+import org.sca4j.scdl.definitions.PolicySet;
 import org.sca4j.spi.generator.BindingGeneratorDelegate;
 import org.sca4j.spi.generator.GenerationException;
 import org.sca4j.spi.model.instance.LogicalBinding;
@@ -37,7 +41,6 @@ import org.sca4j.spi.policy.Policy;
 /**
  * @version $Revision$ $Date$
  * 
- * TODO Add support for WSDL Contract
  */
 public class MetroBindingGeneratorDelegate implements BindingGeneratorDelegate<WsBindingDefinition> {
     
@@ -48,18 +51,19 @@ public class MetroBindingGeneratorDelegate implements BindingGeneratorDelegate<W
         MetroWireSourceDefinition hwsd = new MetroWireSourceDefinition();
         hwsd.setUri(binding.getBinding().getTargetUri());
         
-        ServiceContract<?> contract = serviceDefinition.getServiceContract();
+        ServiceContract contract = serviceDefinition.getServiceContract();
         hwsd.setServiceInterface(contract.getQualifiedInterfaceName());
         
         URI classloaderId = binding.getParent().getParent().getClassLoaderId();
         hwsd.setClassLoaderId(classloaderId);
-        
+
+		hwsd.setPolicyDefinition(createPolicyDefinition(contract, policy));
                 
         return hwsd;
         
     }
 
-    public MetroWireTargetDefinition generateWireTarget(LogicalBinding<WsBindingDefinition> binding,
+	public MetroWireTargetDefinition generateWireTarget(LogicalBinding<WsBindingDefinition> binding,
                                                         Policy policy,
                                                         ReferenceDefinition referenceDefinition) throws GenerationException {
 
@@ -69,7 +73,7 @@ public class MetroBindingGeneratorDelegate implements BindingGeneratorDelegate<W
         hwtd.setWsdlLocation(binding.getBinding().getWsdlLocation());
         hwtd.setUri(binding.getBinding().getTargetUri());
         
-        ServiceContract<?> contract = referenceDefinition.getServiceContract();
+        ServiceContract contract = referenceDefinition.getServiceContract();
         hwtd.setReferenceInterface(contract.getQualifiedInterfaceName());
         
         URI classloaderId = binding.getParent().getParent().getClassLoaderId();
@@ -77,6 +81,8 @@ public class MetroBindingGeneratorDelegate implements BindingGeneratorDelegate<W
         
         //Set config
         hwtd.setConfig(binding.getBinding().getConfig());
+        
+		hwtd.setPolicyDefinition(createPolicyDefinition(contract, policy));
         
         return hwtd;
     }
@@ -99,5 +105,14 @@ public class MetroBindingGeneratorDelegate implements BindingGeneratorDelegate<W
         
         return new WsdlElement(serviceName, portName);        
     }
+
+	private EndPointPolicy createPolicyDefinition(ServiceContract contract, Policy policy) {
+		EndPointPolicy policyDefinition = new EndPointPolicy();
+		for (Operation operation : contract.getOperations()) {
+			List<PolicySet> providedPolicySets = policy.getProvidedPolicySets(operation);
+			policyDefinition.addPolicySets(operation.getName(), providedPolicySets);
+		}
+		return policyDefinition;
+	}
 
 }

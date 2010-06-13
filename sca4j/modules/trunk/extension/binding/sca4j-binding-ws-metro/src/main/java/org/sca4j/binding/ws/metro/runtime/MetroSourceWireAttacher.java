@@ -29,29 +29,30 @@ import org.sca4j.spi.wire.Wire;
 
 /**
  * @version $Revision$ $Date$
- * 
  */
 @EagerInit
 public class MetroSourceWireAttacher implements SourceWireAttacher<MetroWireSourceDefinition> {
 
-    private final MetroServiceProvisioner serviceProvisioner;
+	private final MetroServiceProvisioner serviceProvisioner;
 
-    /**
-     * @param serviceProvisioner axis service provisioner
-     */
-    public MetroSourceWireAttacher(@Reference MetroServiceProvisioner serviceProvisioner) {
-        this.serviceProvisioner = serviceProvisioner;
-    }
+	/**
+	 * @param serviceProvisioner axis service provisioner
+	 */
+	public MetroSourceWireAttacher(@Reference MetroServiceProvisioner serviceProvisioner) {
+		this.serviceProvisioner = serviceProvisioner;
+	}
 
-    public void attachToSource(MetroWireSourceDefinition source, PhysicalWireTargetDefinition target, Wire wire) throws WiringException {
-        serviceProvisioner.provision(source, wire);
-    }
+	public void attachToSource(MetroWireSourceDefinition source, PhysicalWireTargetDefinition target, Wire wire) throws WiringException {
+		serviceProvisioner.provision(source, wire);
+	}
 
-    public void detachFromSource(MetroWireSourceDefinition source, PhysicalWireTargetDefinition target, Wire wire) throws WiringException {
-        throw new AssertionError();        
-    }
+	public void detachFromSource(MetroWireSourceDefinition source, PhysicalWireTargetDefinition target, Wire wire) throws WiringException {
+		throw new AssertionError();
+	}
 
-    public void attachObjectFactory(MetroWireSourceDefinition source, ObjectFactory<?> objectFactory, PhysicalWireTargetDefinition definition) throws WiringException {
-        throw new AssertionError();
-    }
+	public void attachObjectFactory(MetroWireSourceDefinition source, ObjectFactory<?> objectFactory, PhysicalWireTargetDefinition definition)
+	        throws WiringException {
+		throw new AssertionError();
+	}
+	
 }

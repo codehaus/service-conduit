@@ -18,35 +18,30 @@
  */
 package org.sca4j.binding.ws.metro.provision;
 
-import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
+import javax.xml.namespace.QName;
 
-/**
- * @version $Revision$ $Date$
- */
-public class MetroWireSourceDefinition extends PhysicalWireSourceDefinition {
-    private String serviceInterface;
-    private EndPointPolicy policyDefinition;
-
-    /**
-     * @return Service interface for the wire source.
-     */
-    public String getServiceInterface() {
-        return serviceInterface;
+public enum EndPointIntent {
+	SOAP_V1_1("{http://docs.oasis-open.org/ns/opencsa/sca/200912}SOAP.v1_1"),
+	SOAP_V1_2("{http://docs.oasis-open.org/ns/opencsa/sca/200912}SOAP.v1_1"),
+	MessageOptimisation("{http://docs.oasis-open.org/ns/opencsa/sca/200912}messageOptimisation");
+	
+	private QName qName;
+    EndPointIntent(String qName) {
+    	this.qName = QName.valueOf(qName);
+	}
+    
+	public QName getqName() {
+    	return qName;
     }
+	
+	public EndPointIntent fromQName(QName qName) {
 
-    /**
-     * @param serviceInterface Service interface for the wire source.
-     */
-    public void setServiceInterface(String serviceInterface) {
-        this.serviceInterface = serviceInterface;
-    }
-
-	public EndPointPolicy getPolicyDefinition() {
-    	return policyDefinition;
-    }
-
-	public void setPolicyDefinition(EndPointPolicy policyDefinition) {
-    	this.policyDefinition = policyDefinition;
-    }
+		for (EndPointIntent endPointIntent : EndPointIntent.values()) {
+			if (endPointIntent.qName.equals(qName)) {
+				return endPointIntent;
+			}
+		}
+		throw new IllegalArgumentException("No values defined for " + qName);
+	}
 	
 }

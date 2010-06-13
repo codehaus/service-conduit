@@ -36,6 +36,7 @@ public class MetroWireTargetDefinition extends PhysicalWireTargetDefinition {
     private URI classloaderURI;
     private String wsdlLocation;
     private WsdlElement wsdlElement;
+    private EndPointPolicy policyDefinition;
 
     /**
      * @return Reference interface for the wire target.
@@ -86,8 +87,6 @@ public class MetroWireTargetDefinition extends PhysicalWireTargetDefinition {
     public void setConfig(Map<String, String> config) {
         this.config = config;
     }
-
-    
     
     public String getWsdlLocation() {
         return wsdlLocation;
@@ -103,6 +102,14 @@ public class MetroWireTargetDefinition extends PhysicalWireTargetDefinition {
 
     public void setWsdlElement(WsdlElement wsdlElement) {
         this.wsdlElement = wsdlElement;
+    }
+    
+    public EndPointPolicy getPolicyDefinition() {
+    	return policyDefinition;
+    }
+
+	public void setPolicyDefinition(EndPointPolicy policyDefinition) {
+    	this.policyDefinition = policyDefinition;
     }
 
 }

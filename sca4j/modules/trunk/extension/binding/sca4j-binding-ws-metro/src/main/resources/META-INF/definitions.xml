@@ -53,12 +53,33 @@
     The Apache Software Foundation (http://www.apache.org/).
 
 -->
-<definitions 
-    xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
-    xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912"     
-    targetNamespace="http://docs.oasis-open.org/ns/opencsa/sca/2009122" 
-    xmlns:sca4j="urn:sca4j.org">
+<definitions  xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912" 
+              xmlns:sca4j="urn:sca4j.org"
+              targetNamespace="urn:sca4j.org">
+
+    <intent name="dataBinding" constrains="binding">
+        <description>
+            Unqualified intent for daat binding.
+        </description>
+    </intent>
+
+    <intent name="dataBinding.jaxb" constrains="binding">
+        <description>
+            Data binding using Jaxb.
+        </description>
+    </intent>
     
-    <bindingType name="binding.ws" mayProvide="sca:SOAP.v1_1 sca:SOAP.v1_2 sca4j:messageOptimisation"/>
+    <intent name="messageOptimisation" constrains="binding">
+        <description>
+            Enables MTOM for the binary messages
+        </description>
+     </intent>
+    
+    <!-- Databinding policy for services -->
+    <policySet name="jaxbPolicyService" provides="sca4j:dataBinding.jaxb">
+    </policySet>
+    
+    <policySet name="mtomPolicyService" provides="sca4j:messageOptimisation">
+    </policySet>
     
 </definitions>

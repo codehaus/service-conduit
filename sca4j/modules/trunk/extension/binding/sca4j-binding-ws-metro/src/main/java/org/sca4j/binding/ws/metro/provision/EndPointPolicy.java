@@ -18,35 +18,37 @@
  */
 package org.sca4j.binding.ws.metro.provision;
 
-import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.sca4j.scdl.definitions.PolicySet;
 
 /**
- * @version $Revision$ $Date$
+ * Contains PolicySets for the EndPoint keyed on operation names
+ *
  */
-public class MetroWireSourceDefinition extends PhysicalWireSourceDefinition {
-    private String serviceInterface;
-    private EndPointPolicy policyDefinition;
+public class EndPointPolicy {
+	
+	private Map<String, List<PolicySet>> policyMap = new HashMap<String, List<PolicySet>>();
 
-    /**
-     * @return Service interface for the wire source.
-     */
-    public String getServiceInterface() {
-        return serviceInterface;
-    }
+	public void addPolicySets(String operation, List<PolicySet> providedPolicySets) {
+		policyMap.put(operation, providedPolicySets);
+	}
 
-    /**
-     * @param serviceInterface Service interface for the wire source.
-     */
-    public void setServiceInterface(String serviceInterface) {
-        this.serviceInterface = serviceInterface;
-    }
+	public List<PolicySet> getPolicySets(String operation) {
+		return policyMap.get(operation);
+	}
 
-	public EndPointPolicy getPolicyDefinition() {
-    	return policyDefinition;
-    }
-
-	public void setPolicyDefinition(EndPointPolicy policyDefinition) {
-    	this.policyDefinition = policyDefinition;
-    }
+	/**
+	 * Returns Policies applied at EndPoint level. currently it is assumed that 
+	 * 
+	 */
+	public List<PolicySet> getEndPointLevelPolicies() {
+		return policyMap.values().iterator().hasNext() ? policyMap.values().iterator().next() : null;
+	}
+	
+	
+	
 	
 }
