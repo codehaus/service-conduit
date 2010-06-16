@@ -239,7 +239,7 @@ public class BpelProcess {
                     return new MessageImpl(variableContext.get(PROCESS_OUTPUT_VARIABLE), false, input.getWorkContext());
                 }
             }
-            throw new IllegalStateException("No reply activity defined for process " + processName);
+            return new MessageImpl(null, false, input.getWorkContext());
         }
         
         private boolean match(String partnerLinkName, String operationName) {

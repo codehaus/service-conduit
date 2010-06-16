@@ -43,6 +43,7 @@ import javax.xml.namespace.QName;
 
 import org.apache.ws.commons.schema.XmlSchemaCollection;
 import org.apache.ws.commons.schema.XmlSchemaElement;
+import org.apache.ws.commons.schema.resolver.URIResolver;
 import org.oasisopen.sca.annotation.EagerInit;
 import org.oasisopen.sca.annotation.Init;
 import org.oasisopen.sca.annotation.Reference;
@@ -57,6 +58,7 @@ import org.sca4j.spi.services.contribution.Contribution;
 import org.sca4j.spi.services.contribution.Resource;
 import org.sca4j.spi.services.contribution.ResourceProcessor;
 import org.w3c.dom.Element;
+import org.xml.sax.InputSource;
 
 @EagerInit
 public class WsdlResourceProcessor implements ResourceProcessor {
@@ -89,7 +91,7 @@ public class WsdlResourceProcessor implements ResourceProcessor {
         contribution.addResource(resource);
         
         try {
-        
+
             Definition definition = reader.readWSDL(resource.getUrl().toExternalForm());
             
             for (Object object : definition.getPortTypes().keySet()) {
@@ -203,7 +205,7 @@ public class WsdlResourceProcessor implements ResourceProcessor {
      */
     private DataType getOutputType(Output output, XmlSchemaCollection xmlSchema) {
         
-        if(output == null) return null;
+        if(output == null) return new XSDElement(null);
         
         Message message = output.getMessage();
         Part part = (Part) message.getOrderedParts(null).get(0);
@@ -243,6 +245,13 @@ public class WsdlResourceProcessor implements ResourceProcessor {
         
         XmlSchemaCollection collection = new XmlSchemaCollection();
         Types types = definition.getTypes();
+        collection.setSchemaResolver(new URIResolver( ) {
+            
+            @Override
+            public InputSource resolveEntity(String targetNamespace, String schemaLocation, String baseUri) {
+                return new InputSource(getClass().getClassLoader().getResourceAsStream(schemaLocation));
+            }
+        });
         for(Object obj : types.getExtensibilityElements()) {
             if(obj instanceof Schema) {
                 Schema schema = (Schema) obj;

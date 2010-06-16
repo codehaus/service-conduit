@@ -266,7 +266,7 @@ public abstract class ServiceContract extends ModelObject {
     private boolean compareTypes(DataType mine, DataType theirs) {
         QName myType = mine.getXsdType();
         QName theirType = theirs.getXsdType();
-        return myType != null && theirType != null && myType.equals(theirType);
+        return (myType == null && theirType == null) || (myType != null && theirType != null && myType.equals(theirType));
     }
 
     public Operation mapOperation(Operation sourceOperation, ServiceContract sourceServiceContract) {

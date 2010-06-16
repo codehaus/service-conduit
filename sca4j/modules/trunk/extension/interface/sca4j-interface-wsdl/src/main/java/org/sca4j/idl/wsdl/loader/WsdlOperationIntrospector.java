@@ -101,6 +101,9 @@ public class WsdlOperationIntrospector implements OperationIntrospector {
         QName xsdType = xsdTypes.get(javaType);
         if (xsdType == null) {
             XmlType xmlType = javaType.getAnnotation(XmlType.class);
+            if (xmlType == null) {
+                return null;
+            }
             XmlSchema xmlSchema = javaType.getPackage().getAnnotation(XmlSchema.class);
             if (xmlType != null && xmlSchema != null) {
                 xsdType = new QName(xmlSchema.namespace(), xmlType.name());
