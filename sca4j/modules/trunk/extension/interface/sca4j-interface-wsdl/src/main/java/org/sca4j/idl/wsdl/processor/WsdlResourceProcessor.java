@@ -246,18 +246,19 @@ public class WsdlResourceProcessor implements ResourceProcessor {
         XmlSchemaCollection collection = new XmlSchemaCollection();
         Types types = definition.getTypes();
         collection.setSchemaResolver(new URIResolver( ) {
-            
             @Override
             public InputSource resolveEntity(String targetNamespace, String schemaLocation, String baseUri) {
                 return new InputSource(getClass().getClassLoader().getResourceAsStream(schemaLocation));
             }
         });
-        for(Object obj : types.getExtensibilityElements()) {
-            if(obj instanceof Schema) {
-                Schema schema = (Schema) obj;
-                Element element = schema.getElement();
-                collection.setBaseUri(schema.getDocumentBaseURI());
-                collection.read(element);
+        if (types != null) {
+            for(Object obj : types.getExtensibilityElements()) {
+                if(obj instanceof Schema) {
+                    Schema schema = (Schema) obj;
+                    Element element = schema.getElement();
+                    collection.setBaseUri(schema.getDocumentBaseURI());
+                    collection.read(element);
+                }
             }
         }
         return collection;

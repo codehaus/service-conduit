@@ -106,7 +106,7 @@ public class ConsumerWorker extends DefaultPausableWork {
             if (outputTypeName != null && outputTypeName != "void") {
                 outputType = Class.forName(outputTypeName);
             }
-            twoWay = outputType != null;
+            twoWay = outputType != null || outputType.equals(void.class) || outputType.equals(Void.class) ;
         } catch (ClassNotFoundException e) {
             throw new SCA4JJmsException("Unable to load operation types", e);
         }
@@ -151,7 +151,7 @@ public class ConsumerWorker extends DefaultPausableWork {
                 Object payload = dataBinder.unmarshal(jmsRequest, inputType);
                 org.sca4j.spi.invocation.Message sca4jRequest = new MessageImpl(new Object[] { payload }, false, new WorkContext());
                 org.sca4j.spi.invocation.Message sca4jResponse = invocationChain.getHeadInterceptor().invoke(sca4jRequest);
-                if (twoWay) {
+                if (twoWay && sca4jResponse.getBody() != null) {
                     Message jmsResponse = dataBinder.marshal(sca4jResponse.getBody(), outputType, session);
                     switch (template.metadata.correlation) {
                     case messageID:

@@ -43,6 +43,8 @@ public class DataBinder {
             } else if (type.getAnnotation(XmlRootElement.class) != null) {
                 String text = ((TextMessage) jmsMessage).getText();
                 return JAXBContext.newInstance(type).createUnmarshaller().unmarshal(new StringReader(text)); // TODO MKU Optimize
+            } else if (Object.class.equals(type)) {
+                return ((TextMessage) jmsMessage).getText();
             }
             throw new IllegalArgumentException("Type not supported " + type);
         } catch (JMSException e) {
@@ -64,6 +66,8 @@ public class DataBinder {
                 StringWriter stringWriter = new StringWriter();
                 JAXBContext.newInstance(type).createMarshaller().marshal(value, stringWriter); // TODO MKU Optimize
                 return session.createTextMessage(stringWriter.toString());
+            } else if (Object.class.equals(type)) {
+                return session.createTextMessage(value.toString());
             }
             throw new IllegalArgumentException("Type not supported " + type);
         } catch (JMSException e) {
