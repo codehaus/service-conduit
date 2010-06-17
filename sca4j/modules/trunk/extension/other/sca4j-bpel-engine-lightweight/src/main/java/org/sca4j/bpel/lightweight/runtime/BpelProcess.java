@@ -151,7 +151,11 @@ public class BpelProcess {
 
         @Override
         public void executeActivity(Message input) {
-            variableContext.put(PROCESS_OUTPUT_VARIABLE, variableContext.get(replyDefinition.getVariable()));
+            if (replyDefinition.getVariable() != null) {
+                variableContext.put(PROCESS_OUTPUT_VARIABLE, variableContext.get(replyDefinition.getVariable()));
+            } else {
+                variableContext.put(PROCESS_OUTPUT_VARIABLE, null);
+            }
         }
         
     }
@@ -234,7 +238,7 @@ public class BpelProcess {
         private Message execute(Message input) {
             for (ActivityExecutor executor : executors) {
                 executor.executeActivity(input);
-                if (variableContext.get(PROCESS_OUTPUT_VARIABLE) != null) {
+                if (variableContext.containsKey(PROCESS_OUTPUT_VARIABLE)) {
                     // A reply has been executed
                     return new MessageImpl(variableContext.get(PROCESS_OUTPUT_VARIABLE), false, input.getWorkContext());
                 }
