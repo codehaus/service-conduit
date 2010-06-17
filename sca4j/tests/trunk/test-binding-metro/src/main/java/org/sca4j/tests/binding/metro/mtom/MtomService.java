@@ -16,19 +16,16 @@
  * This project contains code licensed from the Apache Software Foundation under
  * the Apache License, Version 2.0 and original code from project contributors.
  */
-package org.sca4j.tests.binding.metro;
+package org.sca4j.tests.binding.metro.mtom;
 
-import org.oasisopen.sca.annotation.Reference;
+import javax.activation.DataHandler;
+import javax.jws.WebService;
 
-import junit.framework.TestCase;
+@WebService(serviceName = "mtomService", name = "mtomService", targetNamespace = "urn:org.sca4j:tests")
+public interface MtomService {
 
-public class EchoServiceTest extends TestCase {
-    @Reference protected EchoService echoService;
-    
-    public void testSimpleEcho() throws InterruptedException {
-        final String greeting = "Hello World";
-        final String response = echoService.echoSimple(greeting);
-        assertEquals(greeting, response);
-    }
+	String uploadFile(String name, DataHandler data);
+
+	FileUploadResponse uploadJaxb(FileUploadRequest request);
 
 }

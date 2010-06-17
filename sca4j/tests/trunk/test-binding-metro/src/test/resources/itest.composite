@@ -24,17 +24,37 @@
            xmlns:sca4j="urn:sca4j.org"
            name="MetroTestComposite">
 
-    <component name="EchoTest">
-        <sca4j:junit class="org.sca4j.tests.binding.metro.EchoServiceTest"/>
-        <reference name="echoService">
-             <binding.ws uri="http://localhost:8900/metro/echoService" wsdli:wsdlLocation="echoService.wsdl"/>
+    <component name="JaxwsTest">
+        <sca4j:junit class="org.sca4j.tests.binding.metro.jaxws.JaxwsServiceTest"/>
+        <reference name="simpleService">
+             <binding.ws uri="http://localhost:8900/metro/simpleService" wsdli:wsdlLocation="simpleService.wsdl"/>
+        </reference>
+        <reference name="jaxbService">
+             <binding.ws uri="http://localhost:8900/metro/jaxbService" wsdli:wsdlLocation="jaxbService.wsdl"/>
+        </reference>
+        <reference name="mtomService" requires="sca4j:messageOptimisation">
+             <binding.ws uri="http://localhost:8900/metro/mtomService" wsdli:wsdlLocation="mtomService.wsdl"/>
         </reference>
     </component>
 
-    <component name="EchoService">
-        <implementation.java class="org.sca4j.tests.binding.metro.EchoServiceImpl"/>
-        <service name="EchoService">
-            <binding.ws uri="echoService" requires="sca4j:messageOptimisation"/>
+    <component name="SimpleService">
+        <implementation.java class="org.sca4j.tests.binding.metro.simple.SimpleServiceImpl"/>
+        <service name="SimpleService">
+            <binding.ws uri="simpleService"/>
+        </service>
+    </component>
+    
+    <component name="JaxbService">
+        <implementation.java class="org.sca4j.tests.binding.metro.jaxb.JaxbServiceImpl"/>
+        <service name="JaxbService">
+            <binding.ws uri="jaxbService" />
+        </service>
+    </component>
+    
+    <component name="MtomService">
+        <implementation.java class="org.sca4j.tests.binding.metro.mtom.MtomServiceImpl"/>
+        <service name="MtomService">
+            <binding.ws uri="mtomService" requires="sca4j:messageOptimisation"/>
         </service>
     </component>
     

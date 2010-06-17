@@ -16,15 +16,12 @@
  * This project contains code licensed from the Apache Software Foundation under
  * the Apache License, Version 2.0 and original code from project contributors.
  */
-package org.sca4j.tests.binding.metro;
+package org.sca4j.tests.binding.metro.simple;
 
-/**
- * Sample Echo service to test Metro binding
- */
-public class EchoServiceImpl implements EchoService {
+import javax.jws.WebService;
 
-    public String echoSimple(String req) {
-        return req;
-    }
-
+@WebService(serviceName = "simpleService", name = "simpleService", targetNamespace = "urn:org.sca4j:tests")
+public interface SimpleService {
+	
+	String echoSimple(String req);
 }

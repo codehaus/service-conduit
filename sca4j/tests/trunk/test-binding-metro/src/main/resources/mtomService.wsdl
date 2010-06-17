@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+
+    SCA4J
+    Copyright (c) 2009 - 2099 Service Symphony Ltd
+
+    Licensed to you under the Apache License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License.  A copy of the license
+    is included in this distrubtion or you may obtain a copy at
+
+       http://www.opensource.org/licenses/apache2.0.php
+
+    Unless required by applicable law or agreed to in writing, software distributed
+    under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+    CONDITIONS OF ANY KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations under the License.
+
+    This project contains code licensed from the Apache Software Foundation under
+    the Apache License, Version 2.0 and original code from project contributors.
+-->
+<definitions
+	xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+	xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy"
+	xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="urn:org.sca4j:tests" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="urn:org.sca4j:tests"
+	name="mtomService">
+	<types>
+		<xs:schema>
+			<xs:element name="fileUploadRequest" type="tns:fileUploadRequest" />
+			<xs:element name="fileUploadResponse" type="tns:fileUploadResponse" />
+			<xs:element name="uploadFile" type="tns:uploadFile" />
+			<xs:element name="uploadFileResponse" type="tns:uploadFileResponse" />
+			<xs:element name="uploadJaxb" type="tns:uploadJaxb" />
+			<xs:element name="uploadJaxbResponse" type="tns:uploadJaxbResponse" />
+
+			<xs:complexType name="uploadJaxb">
+				<xs:sequence>
+					<xs:element name="arg0" type="tns:fileUploadRequest"
+						minOccurs="0" />
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="fileUploadRequest">
+				<xs:sequence />
+			</xs:complexType>
+
+			<xs:complexType name="uploadJaxbResponse">
+				<xs:sequence>
+					<xs:element name="return" type="tns:fileUploadResponse"
+						minOccurs="0" />
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="fileUploadResponse">
+				<xs:sequence />
+			</xs:complexType>
+
+			<xs:complexType name="uploadFile">
+				<xs:sequence>
+					<xs:element name="arg0" type="xs:string" minOccurs="0" />
+					<xs:element name="arg1" type="xs:base64Binary"
+						minOccurs="0" />
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="uploadFileResponse">
+				<xs:sequence>
+					<xs:element name="return" type="xs:string" minOccurs="0" />
+				</xs:sequence>
+			</xs:complexType>
+		</xs:schema>
+	</types>
+	<message name="uploadFile">
+		<part name="parameters" element="tns:uploadFile" />
+	</message>
+	<message name="uploadFileResponse">
+		<part name="parameters" element="tns:uploadFileResponse" />
+	</message>
+	<message name="uploadJaxb">
+		<part name="parameters" element="tns:uploadJaxb" />
+	</message>
+	<message name="uploadJaxbResponse">
+		<part name="parameters" element="tns:uploadJaxbResponse" />
+	</message>
+	<portType name="mtomService">
+		<operation name="uploadFile">
+			<input wsam:Action="urn:org.sca4j:tests:mtomService:uploadFileRequest"
+				message="tns:uploadFile" />
+			<output wsam:Action="urn:org.sca4j:tests:mtomService:uploadFileResponse"
+				message="tns:uploadFileResponse" />
+		</operation>
+		<operation name="uploadJaxb">
+			<input wsam:Action="urn:org.sca4j:tests:mtomService:uploadJaxbRequest"
+				message="tns:uploadJaxb" />
+			<output wsam:Action="urn:org.sca4j:tests:mtomService:uploadJaxbResponse"
+				message="tns:uploadJaxbResponse" />
+		</operation>
+	</portType>
+	<binding name="Binding" type="tns:mtomService">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"
+			style="document" />
+		<operation name="uploadFile">
+			<soap:operation soapAction="" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="uploadJaxb">
+			<soap:operation soapAction="" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+	<service name="mtomService">
+		<port name="" binding="tns:Binding">
+			<soap:address location="http://localhost:8900/mtomService" />
+		</port>
+	</service>
+</definitions>
