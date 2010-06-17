@@ -136,7 +136,11 @@ public class BpelProcess {
         
         @Override
         public void executeActivity(Message input) {
-            variableContext.put(receiveDefinition.getVariable(), input.getBody());
+            if (input.getBody() instanceof Object[]) {
+                variableContext.put(receiveDefinition.getVariable(), ((Object[]) input.getBody())[0]);
+            } else {
+                variableContext.put(receiveDefinition.getVariable(), input.getBody());
+            }
         }
         
     }
