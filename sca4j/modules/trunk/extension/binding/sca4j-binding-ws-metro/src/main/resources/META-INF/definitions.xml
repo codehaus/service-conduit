@@ -54,6 +54,7 @@
 
 -->
 <definitions  xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912" 
+              xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912"
               xmlns:sca4j="urn:sca4j.org"
               targetNamespace="urn:sca4j.org">
 
@@ -80,6 +81,12 @@
     </policySet>
     
     <policySet name="mtomPolicyService" provides="sca4j:messageOptimisation">
+    </policySet>
+    
+    <policySet name="soapV11PolicyService" provides="sca:SOAP.v1_1">
+    </policySet>
+    
+    <policySet name="soapV12PolicyService" provides="sca:SOAP.v1_2">
     </policySet>
     
 </definitions>

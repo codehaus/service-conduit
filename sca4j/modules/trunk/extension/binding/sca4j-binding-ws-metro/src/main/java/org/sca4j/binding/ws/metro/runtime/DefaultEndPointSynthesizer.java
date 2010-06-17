@@ -20,17 +20,29 @@ package org.sca4j.binding.ws.metro.runtime;
 
 import javax.jws.WebService;
 import javax.xml.namespace.QName;
+import javax.xml.ws.WebServiceFeature;
 
+import org.oasisopen.sca.annotation.Reference;
+import org.sca4j.binding.ws.metro.provision.EndPointPolicy;
 import org.sca4j.binding.ws.metro.provision.MetroWireSourceDefinition;
+import org.sca4j.binding.ws.metro.runtime.policy.PolicyHelper;
 import org.xml.sax.EntityResolver;
 
+import com.sun.xml.ws.api.BindingID;
 import com.sun.xml.ws.api.WSBinding;
 import com.sun.xml.ws.api.server.Container;
 import com.sun.xml.ws.api.server.Invoker;
 import com.sun.xml.ws.api.server.SDDocumentSource;
 import com.sun.xml.ws.api.server.WSEndpoint;
+import com.sun.xml.ws.binding.BindingImpl;
 
 public class DefaultEndPointSynthesizer implements EndPointSynthesizer {
+	private PolicyHelper policyHelper;	
+
+	public DefaultEndPointSynthesizer(@Reference PolicyHelper policyHelper) {
+	    super();
+	    this.policyHelper = policyHelper;
+    }
 
 	@Override
 	public WSEndpoint<?> synthesize(Invoker invoker, MetroWireSourceDefinition pwsd) {
@@ -39,9 +51,14 @@ public class DefaultEndPointSynthesizer implements EndPointSynthesizer {
 
 			QName serviceName = getServiceName(sei);
 			QName portName = getPortName(sei);
-			Container container = null; // TODO
-			WSBinding binding = null; // TODO
+			EndPointPolicy policyDefinition = pwsd.getPolicyDefinition();			
+			final BindingID bindingId = policyHelper.getBindingId(policyDefinition);
+			final WebServiceFeature[] wsFeatures = policyHelper.getWSFeatures(policyDefinition);
+			
+			WSBinding binding = BindingImpl.create(bindingId, wsFeatures);
+			
 			SDDocumentSource primaryWsdl = null; // TODO
+			Container container = null; // TODO
 
 			EntityResolver entityresolver = null; // TODO
 			boolean isTransportSynchronous = true;
@@ -61,5 +78,7 @@ public class DefaultEndPointSynthesizer implements EndPointSynthesizer {
 		final WebService ws = sei.getAnnotation(WebService.class);
 		return new QName(ws.targetNamespace(), ws.portName());
 	}
+	
+	
 
 }

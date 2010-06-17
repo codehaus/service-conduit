@@ -30,7 +30,7 @@ public enum EndPointIntent {
     	this.qName = QName.valueOf(qName);
 	}
     
-	public QName getqName() {
+	public QName qName() {
     	return qName;
     }
 	
