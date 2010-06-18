@@ -27,6 +27,7 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.jxpath.JXPathContext;
+import org.oasisopen.sca.ServiceUnavailableException;
 import org.sca4j.bpel.lightweight.Sca4jBpelException;
 import org.sca4j.bpel.lightweight.model.AbstractActivity;
 import org.sca4j.bpel.lightweight.model.AssignDefinition;
@@ -183,6 +184,9 @@ public class BpelProcess {
             
             Interceptor interceptor = invokers.get(partnerLink + "/" + operation).getHeadInterceptor();
             Message output = interceptor.invoke(new MessageImpl(new Object[] {param}, false, input.getWorkContext()));
+            if (output.isFault()) {
+                throw new ServiceUnavailableException((Throwable) output.getBody());
+            }
             if (output.getBody() != null && outputVariable != null) {
                 variableContext.put(outputVariable, output.getBody());
             }

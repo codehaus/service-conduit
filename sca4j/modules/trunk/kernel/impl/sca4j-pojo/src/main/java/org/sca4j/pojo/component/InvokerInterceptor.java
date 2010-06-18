@@ -186,10 +186,10 @@ public class InvokerInterceptor<T, CONTEXT> implements Interceptor {
      */
     private Message invoke(Message msg, WorkContext workContext, Object instance) {
         WorkContext oldWorkContext = PojoWorkContextTunnel.setThreadWorkContext(workContext);
+        Object[] body = (Object[]) msg.getBody();
         try {
-            Object body = msg.getBody();
             if (targetTCCLClassLoader == null) {
-                msg.setBody(operation.invoke(instance, (Object[]) body));
+                msg.setBody(operation.invoke(instance, body));
             } else {
                 ClassLoader old = Thread.currentThread().getContextClassLoader();
                 try {

@@ -154,15 +154,24 @@ public class BpelResourceProcessor implements ResourceProcessor {
         
         QName partnerLinkName = new QName(componentType.getProcessName().getNamespaceURI(), reader.getAttributeValue(null, "partnerLink"));
         PartnerLink partnerLink = partnerLinks.get(partnerLinkName);
+        if (partnerLink == null) {
+            throw new MetaDataStoreException("Specified partner link not found in the process " + partnerLinkName);
+        }
         QName partnerLinkTypeName = partnerLink.getType();
         String role = service ? partnerLink.getMyRole() : partnerLink.getPartnerRole();
         
         PartnerLinkType partnerLinkType = metaDataStore.resolve(contributionUri, PartnerLinkType.class, partnerLinkTypeName, validationContext);
+        if (partnerLinkType == null) {
+            throw new MetaDataStoreException("Specified partner link type not resolved " + partnerLinkTypeName);
+        }
         QName portTypeName = partnerLinkType.getPortTypes().get(role);
         
         componentType.getPortTypeToPartnerLinks().put(portTypeName, partnerLinkName.getLocalPart());
         
         PortTypeResourceElement portTypeResourceElement = metaDataStore.resolve(contributionUri, PortTypeResourceElement.class, portTypeName, validationContext);
+        if (partnerLinkType == null) {
+            throw new MetaDataStoreException("Specified port type not resolved " + portTypeName);
+        }
         WsdlContract wsdlContract = new WsdlContract();
         wsdlContract.setPortTypeName(portTypeName);
         wsdlContract.setOperations(portTypeResourceElement.getOperations());
