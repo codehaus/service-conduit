@@ -68,7 +68,6 @@ import org.sca4j.binding.jms.runtime.JMSObjectFactory;
 import org.sca4j.binding.jms.runtime.helper.JmsHelper;
 import org.sca4j.binding.jms.runtime.tx.JtaTransactionHandler;
 import org.sca4j.binding.jms.runtime.tx.TransactionHandler;
-import org.sca4j.binding.jms.runtime.wireformat.DataBinder;
 import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
@@ -78,15 +77,12 @@ import org.sca4j.spi.wire.Wire;
 /**
  * Dispatches a service invocation to a JMS queue.
  */
-public class OneWayGlobalInterceptor implements Interceptor {
-
-    private Interceptor next;
+public class OneWayGlobalInterceptor extends AbstractInterceptor implements Interceptor {
 
     private JMSObjectFactory jmsFactory;
     private TransactionManager transactionManager;
 
     private Class<?> inputType;
-    private DataBinder dataBinder = new DataBinder();
 
 
     public OneWayGlobalInterceptor(JMSObjectFactory jmsFactory, TransactionManager transactionManager, Wire wire) {
@@ -129,6 +125,8 @@ public class OneWayGlobalInterceptor implements Interceptor {
 
 
             javax.jms.Message jmsRequest = dataBinder.marshal(payload[0], inputType, session);
+            copyHeaders(sca4jRequest.getWorkContext(), jmsRequest);
+            
             messageProducer.send(jmsRequest);
 
             transactionHandler.delist(session, TMSUCCESS);
@@ -149,14 +147,6 @@ public class OneWayGlobalInterceptor implements Interceptor {
             JmsHelper.closeQuietly(connection);
         }
 
-    }
-
-    public Interceptor getNext() {
-        return next;
-    }
-
-    public void setNext(Interceptor next) {
-        this.next = next;
     }
 
 }

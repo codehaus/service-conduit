@@ -75,9 +75,7 @@ import org.sca4j.spi.wire.Wire;
 /**
  * Dispatches a service invocation to a JMS queue.
  */
-public class TwoWayLocalInterceptor implements Interceptor {
-
-    private Interceptor next;
+public class TwoWayLocalInterceptor extends AbstractInterceptor implements Interceptor {
     
     private Correlation correlation;
     private JMSObjectFactory jmsFactory;
@@ -120,6 +118,7 @@ public class TwoWayLocalInterceptor implements Interceptor {
             Object[] payload = (Object[]) sca4jRequest.getBody();
 
             javax.jms.Message jmsRequest = dataBinder.marshal(payload[0], inputType, session);
+            copyHeaders(sca4jRequest.getWorkContext(), jmsRequest);
             messageProducer.send(jmsRequest);
             transactionHandler.commit();
             
@@ -149,14 +148,6 @@ public class TwoWayLocalInterceptor implements Interceptor {
             JmsHelper.closeQuietly(session);
             JmsHelper.closeQuietly(connection);
         }
-    }
-
-    public Interceptor getNext() {
-        return next;
-    }
-
-    public void setNext(Interceptor next) {
-        this.next = next;
     }
 
 }

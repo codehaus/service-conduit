@@ -90,7 +90,7 @@ import javax.security.auth.Subject;
 public class WorkContext {
     private Subject subject;
     private List<CallFrame> callStack;
-    private Map<String, Object> headers;
+    private Map<String, Object> headers = new HashMap<String, Object>();
 
     public void setSubject(Subject subject) {
         this.subject = subject;

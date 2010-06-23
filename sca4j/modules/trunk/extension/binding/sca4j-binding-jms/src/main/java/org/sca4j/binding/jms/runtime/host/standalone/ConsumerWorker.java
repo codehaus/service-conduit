@@ -55,7 +55,11 @@ package org.sca4j.binding.jms.runtime.host.standalone;
 import static javax.transaction.xa.XAResource.TMFAIL;
 import static javax.transaction.xa.XAResource.TMSUCCESS;
 
+import java.util.Enumeration;
+import java.util.Map;
+
 import javax.jms.Connection;
+import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageConsumer;
 import javax.jms.MessageProducer;
@@ -106,7 +110,7 @@ public class ConsumerWorker extends DefaultPausableWork {
             if (outputTypeName != null && outputTypeName != "void") {
                 outputType = Class.forName(outputTypeName);
             }
-            twoWay = outputType != null || outputType.equals(void.class) || outputType.equals(Void.class) ;
+            twoWay = outputType != null || !void.class.equals(outputType) || !Void.class.equals(outputType) ;
         } catch (ClassNotFoundException e) {
             throw new SCA4JJmsException("Unable to load operation types", e);
         }
@@ -149,7 +153,9 @@ public class ConsumerWorker extends DefaultPausableWork {
 
             if (jmsRequest != null) {
                 Object payload = dataBinder.unmarshal(jmsRequest, inputType);
-                org.sca4j.spi.invocation.Message sca4jRequest = new MessageImpl(new Object[] { payload }, false, new WorkContext());
+                WorkContext workContext = new WorkContext();
+                copyHeaders(jmsRequest, workContext);
+                org.sca4j.spi.invocation.Message sca4jRequest = new MessageImpl(new Object[] { payload }, false, workContext);
                 org.sca4j.spi.invocation.Message sca4jResponse = invocationChain.getHeadInterceptor().invoke(sca4jRequest);
                 if (twoWay && sca4jResponse.getBody() != null) {
                     Message jmsResponse = dataBinder.marshal(sca4jResponse.getBody(), outputType, session);
@@ -181,6 +187,19 @@ public class ConsumerWorker extends DefaultPausableWork {
             JmsHelper.closeQuietly(connection);
         }
 
+    }
+
+    private void copyHeaders(Message jmsRequest, WorkContext workContext) throws JMSException {
+        Map<String, Object> headers = workContext.getHeaders();
+        headers.put("JMSCorrelationId", jmsRequest.getJMSCorrelationID());
+        headers.put("JMSMessageId", jmsRequest.getJMSMessageID());
+        headers.put("JMSRedelivered", jmsRequest.getJMSRedelivered());
+        headers.put("JMSType", jmsRequest.getJMSType());
+        Enumeration<?> propertyNames = jmsRequest.getPropertyNames();
+        while (propertyNames.hasMoreElements()) {
+            String propertyName = propertyNames.nextElement().toString();
+            headers.put(propertyName, jmsRequest.getObjectProperty(propertyName));
+        }
     }
 
     /*
