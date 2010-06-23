@@ -70,10 +70,15 @@
  */
 package org.sca4j.binding.jms.test.jaxb;
 
+import org.oasisopen.sca.annotation.Context;
+import org.sca4j.api.SCA4JRequestContext;
+
 /**
  * @version $Revision$ $Date$
  */
 public class WeatherServiceImpl implements WeatherService {
+    
+    @Context public SCA4JRequestContext requestContext;
 
     public WeatherResponse getWeather(WeatherRequest weatherRequest) {
 

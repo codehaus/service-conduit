@@ -74,7 +74,9 @@ import java.util.Date;
 
 import junit.framework.TestCase;
 
+import org.oasisopen.sca.annotation.Context;
 import org.oasisopen.sca.annotation.Reference;
+import org.sca4j.api.SCA4JRequestContext;
 
 
 /**
@@ -83,12 +85,15 @@ import org.oasisopen.sca.annotation.Reference;
 public class JAXBWeatherTest extends TestCase {
     
     @Reference public WeatherService weatherService;
+    @Context public SCA4JRequestContext requestContext;
 
     public void testWeather() {
 
         WeatherRequest weatherRequest = new WeatherRequest();
         weatherRequest.setCity("London");
         weatherRequest.setDate(new Date());
+        
+        requestContext.setHeader("user.header", "foo");
 
         WeatherResponse weatherResponse = weatherService.getWeather(weatherRequest);
 
