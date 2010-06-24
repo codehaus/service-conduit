@@ -34,7 +34,7 @@ public class OrderServiceITest extends TestCase {
         orderRequest.setShippingAddress("456 DEF");
         
         OrderResponse orderResponse = orderPortType.placeOrder(orderRequest);
-        assertEquals(20, orderResponse.getAmount());
+        assertEquals(22, orderResponse.getAmount());
         assertEquals(1973, orderResponse.getDeliveryDate().getYear());
         
     }
@@ -47,7 +47,7 @@ public class OrderServiceITest extends TestCase {
         orderRequest.setShippingAddress("456 DEF");
         
         OrderResponse orderResponse = orderPortType.placeOrder(orderRequest);
-        assertEquals(30, orderResponse.getAmount());
+        assertEquals(32, orderResponse.getAmount());
         assertEquals(1973, orderResponse.getDeliveryDate().getYear());
         
     }
@@ -60,7 +60,7 @@ public class OrderServiceITest extends TestCase {
         orderRequest.setShippingAddress("456 DEF");
         
         OrderResponse orderResponse = orderPortType.placeOrder(orderRequest);
-        assertEquals(40, orderResponse.getAmount());
+        assertEquals(42, orderResponse.getAmount());
         assertEquals(1973, orderResponse.getDeliveryDate().getYear());
         
     }

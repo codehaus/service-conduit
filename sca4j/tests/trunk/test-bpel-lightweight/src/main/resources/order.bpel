@@ -23,6 +23,7 @@
         <variable name="billingResponse" type="xsd:int" />
         <variable name="shippingRequest" type="shipping:ShippingRequest" />
         <variable name="shippingResponse" type="xsd:dateTime" />
+        <variable name="counter" type="xsd:int" />
     </variables>
     
     <sequence>
@@ -73,6 +74,27 @@
 		        </assign>
 	        </else>
         </if>
+        <assign>
+            <copy>
+                <from>0</from>
+                <to>$counter</to>
+            </copy>
+        </assign>
+        <while>
+            <condition>$counter != 2</condition>
+	        <assign>
+	            <copy>
+	                <from>$counter + 1</from>
+	                <to>$counter</to>
+	            </copy>
+	        </assign>
+	        <assign>
+	            <copy>
+	                <from>$orderResponse/amount + 1</from>
+	                <to>$orderResponse/amount</to>
+	            </copy>
+	        </assign>
+        </while>
         <assign>
             <copy>
                 <from>$shippingResponse</from>
