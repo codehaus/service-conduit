@@ -278,7 +278,7 @@ public abstract class ServiceContract extends ModelObject {
         for (Operation o : getOperations()) {
             
             if (o.getWsdlName() == null || !o.getWsdlName().equals(sourceOperation.getWsdlName())) {
-                return null;
+                continue;
             }
             
             List<DataType> myParams = o.getInputTypes();
