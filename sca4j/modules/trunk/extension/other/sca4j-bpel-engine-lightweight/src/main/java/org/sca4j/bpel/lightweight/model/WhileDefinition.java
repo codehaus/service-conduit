@@ -18,15 +18,30 @@
  */
 package org.sca4j.bpel.lightweight.model;
 
-/**
- * Created by IntelliJ IDEA. User: meerajk Date: May 29, 2010 Time: 12:10:19 PM
- * To change this template use File | Settings | File Templates.
- */
-public abstract class AbstractActivity {
-    
-    public enum Type {
-        RECEIVE, REPLY, INVOKE, ASSIGN, IF, WHILE;
+import java.util.LinkedList;
+import java.util.List;
+
+
+public class WhileDefinition extends AbstractActivity {
+
+    private String condition;
+    private List<AbstractActivity> actions = new LinkedList<AbstractActivity>();
+
+    public String getCondition() {
+        return condition;
     }
-    
-    public abstract Type getType();
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
+
+    public List<AbstractActivity> getActions() {
+        return actions;
+    }
+
+    @Override
+    public Type getType() {
+        return Type.WHILE;
+    }
+
 }

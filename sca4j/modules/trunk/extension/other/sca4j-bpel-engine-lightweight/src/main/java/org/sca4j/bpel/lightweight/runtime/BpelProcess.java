@@ -39,6 +39,7 @@ import org.sca4j.bpel.lightweight.model.ReceiveDefinition;
 import org.sca4j.bpel.lightweight.model.ReplyDefinition;
 import org.sca4j.bpel.lightweight.model.SequenceDefinition;
 import org.sca4j.bpel.lightweight.model.VariableDefinition;
+import org.sca4j.bpel.lightweight.model.WhileDefinition;
 import org.sca4j.idl.wsdl.spi.WsdlTypeMapper;
 import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.MessageImpl;
@@ -114,7 +115,10 @@ public class BpelProcess {
         @Override
         public void executeActivity(Message input) {
             for (CopyDefinition copyDefinition : assignDefinition.getCopies()) {
-                String from = copyDefinition.getFrom().substring(1); // Strip the leading $
+                String from = copyDefinition.getFrom();
+                if (from.startsWith("$")) {
+                    from = from.substring(1); // Strip the leading $
+                }
                 String to = copyDefinition.getTo().substring(1); // Strip the leading $
                 Object value = context.getValue(from);
                 context.setValue(to, value);
@@ -232,6 +236,36 @@ public class BpelProcess {
         
     }
     
+    public class WhileActivityExecutor implements ActivityExecutor {
+        
+        private WhileDefinition whileDefinition;   
+        
+        public WhileActivityExecutor(WhileDefinition whileDefinition) {
+            this.whileDefinition = whileDefinition;
+        }
+
+        @Override
+        public void executeActivity(Message input) {
+            
+            while (evaluate()) {
+                for (AbstractActivity abstractActivity : whileDefinition.getActions()) {
+                    getExecutor(abstractActivity).executeActivity(input);
+                    if (variableContext.containsKey(PROCESS_OUTPUT_VARIABLE)) {
+                        return;
+                    }
+                }
+            }
+            return;
+            
+        }
+        
+        private boolean evaluate() {
+            String condition = whileDefinition.getCondition().substring(1); // Strip the leading $
+            return (Boolean) context.getValue(condition, Boolean.class);
+        }
+        
+    }
+    
     private class SequenceExecutor {
         
         private List<ActivityExecutor> executors = new LinkedList<ActivityExecutor>();
@@ -273,6 +307,8 @@ public class BpelProcess {
             return new InvokeActivityExecutor((InvokeDefinition) abstractActivity);
         case IF:
             return new IfActivityExecutor((IfDefinition) abstractActivity);
+        case WHILE:
+            return new WhileActivityExecutor((WhileDefinition) abstractActivity);
         default:
             throw new IllegalArgumentException("Unknown activity type " + abstractActivity.getType());
         }

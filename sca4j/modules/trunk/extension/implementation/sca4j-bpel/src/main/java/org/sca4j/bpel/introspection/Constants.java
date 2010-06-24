@@ -49,5 +49,6 @@ public class Constants {
     public static final Object ELSEIF_ELEMENT = new QName(BPEL_NS, "elseif");
     public static final Object ELSE_ELEMENT = new QName(BPEL_NS, "else");
     public static final Object CONDITION_ELEMENT = new QName(BPEL_NS, "condition");
+    public static final Object WHILE_ELEMENT = new QName(BPEL_NS, "while");
 
 }

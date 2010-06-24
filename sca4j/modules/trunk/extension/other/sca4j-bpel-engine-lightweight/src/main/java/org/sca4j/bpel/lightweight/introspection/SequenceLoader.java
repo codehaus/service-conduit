@@ -32,6 +32,7 @@ import org.sca4j.bpel.lightweight.model.InvokeDefinition;
 import org.sca4j.bpel.lightweight.model.ReceiveDefinition;
 import org.sca4j.bpel.lightweight.model.ReplyDefinition;
 import org.sca4j.bpel.lightweight.model.SequenceDefinition;
+import org.sca4j.bpel.lightweight.model.WhileDefinition;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.TypeLoader;
 
@@ -42,6 +43,7 @@ public class SequenceLoader implements TypeLoader<SequenceDefinition> {
     private ReplyLoader replyLoader = new ReplyLoader();
     private ReceiveLoader receiveLoader = new ReceiveLoader();
     private IfLoader ifLoader = new IfLoader();
+    private WhileLoader whileLoader = new WhileLoader();
 
     @Override
     public SequenceDefinition load(XMLStreamReader reader, IntrospectionContext context) throws XMLStreamException {
@@ -67,6 +69,9 @@ public class SequenceLoader implements TypeLoader<SequenceDefinition> {
                     } else if (elementName.equals(Constants.IF_ELEMENT)) {
                         IfDefinition ifDefinition = ifLoader.load(reader, context);
                         sequenceDefinition.getActivities().add(ifDefinition);
+                    } else if (elementName.equals(Constants.WHILE_ELEMENT)) {
+                        WhileDefinition whileDefinition = whileLoader.load(reader, context);
+                        sequenceDefinition.getActivities().add(whileDefinition);
                     } else {
                         throw new XMLStreamException("Unexpected element within sequence " + elementName);
                     }
