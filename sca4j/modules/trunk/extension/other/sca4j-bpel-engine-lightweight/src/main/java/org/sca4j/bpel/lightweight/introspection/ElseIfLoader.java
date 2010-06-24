@@ -46,25 +46,15 @@ public class ElseIfLoader implements TypeLoader<IfDefinition> {
             switch (reader.next()) {
                 case START_ELEMENT:
                     QName elementName = reader.getName();
-                    AbstractActivity abstractActivity = null;
                     if (elementName.equals(Constants.INVOKE_ELEMENT)) {
-                        if (abstractActivity != null) {
-                            throw new XMLStreamException("Action for the condition already specified " + elementName);
-                        }
-                        abstractActivity = invokeLoader.load(reader, context);
-                        ifDefinition.setAction(abstractActivity);
+                        AbstractActivity abstractActivity = invokeLoader.load(reader, context);
+                        ifDefinition.getActions().add(abstractActivity);
                     } else if (elementName.equals(Constants.ASSIGN_ELEMENT)) {
-                        if (abstractActivity != null) {
-                            throw new XMLStreamException("Action for the condition already specified " + elementName);
-                        }
-                        abstractActivity = assignLoader.load(reader, context);
-                        ifDefinition.setAction(abstractActivity);
+                        AbstractActivity abstractActivity = assignLoader.load(reader, context);
+                        ifDefinition.getActions().add(abstractActivity);
                     } else if (elementName.equals(Constants.REPLY_ELEMENT)) {
-                        if (abstractActivity != null) {
-                            throw new XMLStreamException("Action for the condition already specified " + elementName);
-                        }
-                        abstractActivity = replyLoader.load(reader, context);
-                        ifDefinition.setAction(abstractActivity);
+                        AbstractActivity abstractActivity = replyLoader.load(reader, context);
+                        ifDefinition.getActions().add(abstractActivity);
                     } else if (elementName.equals(Constants.CONDITION_ELEMENT)) {
                         String condition = reader.getElementText();
                         ifDefinition.setCondition(condition);

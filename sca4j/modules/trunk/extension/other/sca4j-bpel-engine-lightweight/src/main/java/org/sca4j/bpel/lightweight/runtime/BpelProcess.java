@@ -197,37 +197,30 @@ public class BpelProcess {
     
     public class IfActivityExecutor implements ActivityExecutor {
         
-        private IfDefinition ifDefinition;      
-        private ActivityExecutor ifExecutor;
-        private ActivityExecutor elseExecutor;
-        private List<IfActivityExecutor> elseIfExecutors = new ArrayList<IfActivityExecutor>();
+        private IfDefinition ifDefinition;   
         
         public IfActivityExecutor(IfDefinition ifDefinition) {
             this.ifDefinition = ifDefinition;
-            ifExecutor = getExecutor(ifDefinition.getAction());
-            for (IfDefinition elseIfDefinition : ifDefinition.getElseIfs()) {
-                elseIfExecutors.add(new IfActivityExecutor(elseIfDefinition));
-            }
-            if (ifDefinition.getElseActivity() != null) {
-                elseExecutor = getExecutor(ifDefinition.getElseActivity());
-            }
         }
 
         @Override
         public void executeActivity(Message input) {
             
             if (evaluate()) {
-                ifExecutor.executeActivity(input);
+                for (AbstractActivity abstractActivity : ifDefinition.getActions()) {
+                    getExecutor(abstractActivity).executeActivity(input);
+                }
                 return;
             }
-            for (IfActivityExecutor elseIfExecutor : elseIfExecutors) {
+            for (IfDefinition elseIfDefinition : ifDefinition.getElseIfs()) {
+                IfActivityExecutor elseIfExecutor = new IfActivityExecutor(elseIfDefinition);
                 if (elseIfExecutor.evaluate()) {
                     elseIfExecutor.executeActivity(input);
                     return;
                 }
             }
-            if (elseExecutor != null) {
-                elseExecutor.executeActivity(input);
+            for (AbstractActivity abstractActivity : ifDefinition.getElseActivities()) {
+                getExecutor(abstractActivity).executeActivity(input);
             }
             
         }

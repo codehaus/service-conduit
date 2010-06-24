@@ -25,16 +25,12 @@ import java.util.List;
 public class IfDefinition extends AbstractActivity {
 
     private String condition;
-    private AbstractActivity action;
+    private List<AbstractActivity> actions = new LinkedList<AbstractActivity>();
     private List<IfDefinition> elseIfs = new LinkedList<IfDefinition>();
-    private AbstractActivity elseActivity;
+    private List<AbstractActivity> elseActivities = new LinkedList<AbstractActivity>();
 
-    public AbstractActivity getElseActivity() {
-        return elseActivity;
-    }
-
-    public void setElseActivity(AbstractActivity elseActivity) {
-        this.elseActivity = elseActivity;
+    public List<AbstractActivity> getElseActivities() {
+        return elseActivities;
     }
 
     public List<IfDefinition> getElseIfs() {
@@ -49,12 +45,8 @@ public class IfDefinition extends AbstractActivity {
         this.condition = condition;
     }
 
-    public AbstractActivity getAction() {
-        return action;
-    }
-
-    public void setAction(AbstractActivity action) {
-        this.action = action;
+    public List<AbstractActivity> getActions() {
+        return actions;
     }
 
     @Override

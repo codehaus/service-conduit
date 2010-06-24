@@ -21,6 +21,9 @@ package org.sca4j.bpel.lightweight.introspection;
 import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
 import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -30,35 +33,29 @@ import org.sca4j.bpel.lightweight.model.AbstractActivity;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.TypeLoader;
 
-public class ElseLoader implements TypeLoader<AbstractActivity> {
+public class ElseLoader implements TypeLoader<List<AbstractActivity>> {
     
     private InvokeLoader invokeLoader = new InvokeLoader();
     private AssignLoader assignLoader = new AssignLoader();
     private ReplyLoader replyLoader = new ReplyLoader();
 
     @Override
-    public AbstractActivity load(XMLStreamReader reader, IntrospectionContext context) throws XMLStreamException {
+    public List<AbstractActivity> load(XMLStreamReader reader, IntrospectionContext context) throws XMLStreamException {
         
-        AbstractActivity abstractActivity = null;
+        List<AbstractActivity> abstractActivities = new LinkedList<AbstractActivity>();
         while (true) {
             switch (reader.next()) {
                 case START_ELEMENT:
                     QName elementName = reader.getName();
                     if (elementName.equals(Constants.INVOKE_ELEMENT)) {
-                        if (abstractActivity != null) {
-                            throw new XMLStreamException("Action for the condition already specified " + elementName);
-                        }
-                        abstractActivity = invokeLoader.load(reader, context);
+                        AbstractActivity abstractActivity = invokeLoader.load(reader, context);
+                        abstractActivities.add(abstractActivity);
                     } else if (elementName.equals(Constants.ASSIGN_ELEMENT)) {
-                        if (abstractActivity != null) {
-                            throw new XMLStreamException("Action for the condition already specified " + elementName);
-                        }
-                        abstractActivity = assignLoader.load(reader, context);
+                        AbstractActivity abstractActivity = assignLoader.load(reader, context);
+                        abstractActivities.add(abstractActivity);
                     } else if (elementName.equals(Constants.REPLY_ELEMENT)) {
-                        if (abstractActivity != null) {
-                            throw new XMLStreamException("Action for the condition already specified " + elementName);
-                        }
-                        abstractActivity = replyLoader.load(reader, context);
+                        AbstractActivity abstractActivity = replyLoader.load(reader, context);
+                        abstractActivities.add(abstractActivity);
                     } else {
                         throw new XMLStreamException("Unexpected element within assign " + elementName);
                     }
@@ -66,7 +63,7 @@ public class ElseLoader implements TypeLoader<AbstractActivity> {
                 case END_ELEMENT:
                     elementName = reader.getName();
                     if (elementName.equals(Constants.ELSE_ELEMENT)) {
-                        return abstractActivity;
+                        return abstractActivities;
                     }
             }
             
