@@ -50,61 +50,29 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.timer.quartz;
+package org.sca4j.timer.quartz.spi;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
-import javax.transaction.TransactionManager;
-
-import junit.framework.TestCase;
-
-import org.sca4j.host.work.DefaultPausableWork;
-import org.sca4j.host.work.WorkScheduler;
-import org.sca4j.timer.quartz.runtime.QuartzTimerService;
+import java.text.ParseException;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 
 /**
+ * Provides facilities for execution of tasks at some later time.
+ *
  * @version $Revision$ $Date$
  */
-public class QuartzTimerServiceTestCase extends TestCase {
-    private QuartzTimerService timerService;
-    private TransactionManager tm;
+public interface TimerService extends ScheduledExecutorService {
 
-    public void testNonTransactionalScheduler() throws Exception {
-        TestRunnable runnable = new TestRunnable(2);
-        timerService.scheduleWithFixedDelay(runnable, 0, 10, TimeUnit.MILLISECONDS);
-        runnable.await();
-    }
-
-    protected void setUp() throws Exception {
-        super.setUp();
-        // TODO mock transaction manager
-        WorkScheduler workScheduler = new WorkScheduler() {
-            public <T extends DefaultPausableWork> void scheduleWork(T work) {
-                work.run();
-            }
-        };
-        timerService = new QuartzTimerService(workScheduler, tm);
-        timerService.setTransactional(false);
-        timerService.init();
-    }
-
-
-    private class TestRunnable implements Runnable {
-        private CountDownLatch latch;
-
-        private TestRunnable(int num) {
-            latch = new CountDownLatch(num);
-        }
-
-        public void run() {
-            latch.countDown();
-        }
-
-        public void await() throws InterruptedException {
-            latch.await();
-        }
-
-    }
+    /**
+     * Schedules a task for execution according to the cron expression.
+     *
+     * @param command    the runnable to execute
+     * @param expression a valid cron expression
+     * @return a future that can be used for synchronization
+     * @throws ParseException if an error occurs parsing the cron expression
+     * @throws java.util.concurrent.RejectedExecutionException
+     *                        if an error occurs scheduling the task
+     */
+    ScheduledFuture<?> schedule(Runnable command, String expression) throws ParseException;
 
 }

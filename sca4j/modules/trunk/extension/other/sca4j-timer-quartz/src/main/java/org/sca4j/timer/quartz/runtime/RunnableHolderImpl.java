@@ -50,61 +50,72 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.timer.quartz;
+package org.sca4j.timer.quartz.runtime;
 
-import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Delayed;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 
-import javax.transaction.TransactionManager;
-
-import junit.framework.TestCase;
-
-import org.sca4j.host.work.DefaultPausableWork;
-import org.sca4j.host.work.WorkScheduler;
-import org.sca4j.timer.quartz.runtime.QuartzTimerService;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.quartz.SchedulerException;
 
 /**
+ * Default implementation of a RunnableHolder.
+ *
  * @version $Revision$ $Date$
  */
-public class QuartzTimerServiceTestCase extends TestCase {
+public class RunnableHolderImpl<T> extends FutureTask<T> implements RunnableHolder<T> {
+    private String id;
     private QuartzTimerService timerService;
-    private TransactionManager tm;
 
-    public void testNonTransactionalScheduler() throws Exception {
-        TestRunnable runnable = new TestRunnable(2);
-        timerService.scheduleWithFixedDelay(runnable, 0, 10, TimeUnit.MILLISECONDS);
-        runnable.await();
+    public RunnableHolderImpl(String id, Runnable runnable, QuartzTimerService timerService) {
+        super(runnable, null);
+        this.id = id;
+        this.timerService = timerService;
     }
 
-    protected void setUp() throws Exception {
-        super.setUp();
-        // TODO mock transaction manager
-        WorkScheduler workScheduler = new WorkScheduler() {
-            public <T extends DefaultPausableWork> void scheduleWork(T work) {
-                work.run();
+    public String getId() {
+        return id;
+    }
+
+    public void execute(JobExecutionContext context) throws JobExecutionException {
+        boolean result = runAndReset();
+        if (!result) {
+            try {
+                get();
+            } catch (ExecutionException e) {
+                // unwrap the exception
+                JobExecutionException jex = new JobExecutionException(e.getCause());
+                jex.setUnscheduleAllTriggers(true);  // unschedule the job
+                throw jex;
+            } catch (InterruptedException e) {
+                JobExecutionException jex = new JobExecutionException(e);
+                jex.setUnscheduleAllTriggers(true);  // unschedule the job
+                throw jex;
             }
-        };
-        timerService = new QuartzTimerService(workScheduler, tm);
-        timerService.setTransactional(false);
-        timerService.init();
+        }
     }
 
-
-    private class TestRunnable implements Runnable {
-        private CountDownLatch latch;
-
-        private TestRunnable(int num) {
-            latch = new CountDownLatch(num);
+    public boolean cancel(boolean mayInterruptIfRunning) {
+        try {
+            boolean val = super.cancel(mayInterruptIfRunning);
+            // cancel against the timer service
+            timerService.cancel(id);
+            return val;
+        } catch (SchedulerException e) {
+            e.printStackTrace(System.err);
+            return false;
         }
+    }
 
-        public void run() {
-            latch.countDown();
-        }
+    public long getDelay(TimeUnit unit) {
+        throw new UnsupportedOperationException("Not implemented");
+    }
 
-        public void await() throws InterruptedException {
-            latch.await();
-        }
-
+    public int compareTo(Delayed o) {
+        throw new UnsupportedOperationException("Not implemented");
     }
 
 }

@@ -36,8 +36,5 @@
             <module>sca4j-mock</module>
             <module>sca4j-web</module>
             <module>sca4j-rs</module>
-            <module>sca4j-timer-provision</module>
-            <module>sca4j-timer-loader</module>
-            <module>sca4j-timer-runtime</module>
 	</modules>
 </project>

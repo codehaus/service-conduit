@@ -50,61 +50,63 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.timer.quartz;
+package org.sca4j.timer.quartz.runtime;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
-import javax.transaction.TransactionManager;
-
-import junit.framework.TestCase;
-
-import org.sca4j.host.work.DefaultPausableWork;
-import org.sca4j.host.work.WorkScheduler;
-import org.sca4j.timer.quartz.runtime.QuartzTimerService;
+import org.sca4j.pojo.PojoWorkContextTunnel;
+import org.sca4j.spi.component.InstanceDestructionException;
+import org.sca4j.spi.component.InstanceLifecycleException;
+import org.sca4j.spi.component.InstanceWrapper;
+import org.sca4j.spi.component.ScopeContainer;
+import org.sca4j.spi.invocation.CallFrame;
+import org.sca4j.spi.invocation.WorkContext;
+import org.sca4j.spi.wire.InvocationRuntimeException;
 
 /**
+ * Implementation registered with the runtime TimerService to receive notifications and invoke a component instance when a trigger has fired.
+ *
  * @version $Revision$ $Date$
  */
-public class QuartzTimerServiceTestCase extends TestCase {
-    private QuartzTimerService timerService;
-    private TransactionManager tm;
+public class TimerComponentInvoker<T> implements Runnable {
+    private TimerComponent<T> component;
+    private ScopeContainer<?> scopeContainer;
 
-    public void testNonTransactionalScheduler() throws Exception {
-        TestRunnable runnable = new TestRunnable(2);
-        timerService.scheduleWithFixedDelay(runnable, 0, 10, TimeUnit.MILLISECONDS);
-        runnable.await();
+    public TimerComponentInvoker(TimerComponent<T> component) {
+        this.component = component;
+        this.scopeContainer = component.getScopeContainer();
     }
 
-    protected void setUp() throws Exception {
-        super.setUp();
-        // TODO mock transaction manager
-        WorkScheduler workScheduler = new WorkScheduler() {
-            public <T extends DefaultPausableWork> void scheduleWork(T work) {
-                work.run();
+    public void run() {
+        // create a new work context
+        WorkContext workContext = new WorkContext();
+        CallFrame frame = new CallFrame();
+        workContext.addCallFrame(frame);
+        InstanceWrapper<T> wrapper;
+        try {
+            // TODO handle conversations
+            //startOrJoinContext(workContext);
+            wrapper = scopeContainer.getWrapper(component, workContext);
+        } catch (InstanceLifecycleException e) {
+            throw new InvocationRuntimeException(e);
+        }
+
+        try {
+            Object instance = wrapper.getInstance();
+            assert instance instanceof Runnable;  // all timer components must implement java.lang.Runnable
+            WorkContext oldWorkContext = PojoWorkContextTunnel.setThreadWorkContext(workContext);
+            try {
+                ((Runnable) instance).run();
+            } finally {
+                PojoWorkContextTunnel.setThreadWorkContext(oldWorkContext);
             }
-        };
-        timerService = new QuartzTimerService(workScheduler, tm);
-        timerService.setTransactional(false);
-        timerService.init();
-    }
-
-
-    private class TestRunnable implements Runnable {
-        private CountDownLatch latch;
-
-        private TestRunnable(int num) {
-            latch = new CountDownLatch(num);
-        }
-
-        public void run() {
-            latch.countDown();
-        }
-
-        public void await() throws InterruptedException {
-            latch.await();
+        } finally {
+            try {
+                scopeContainer.returnWrapper(component, workContext, wrapper);
+                // TODO handle conversations
+            } catch (InstanceDestructionException e) {
+                //noinspection ThrowFromFinallyBlock
+                throw new InvocationRuntimeException(e);
+            }
         }
 
     }
-
 }

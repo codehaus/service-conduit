@@ -56,19 +56,17 @@
 <composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
            xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912"
            xmlns:sca4j="urn:sca4j.org"
-           name="QuartzTimerExtension"
+           name="TimerLoaderExtension"
            targetNamespace="urn:sca4j.org"
            autowire="true">
 
-    <component name="TransactionalTimerService">
-        <sca4j:implementation.system class="org.sca4j.timer.quartz.runtime.QuartzTimerService"/>
-        <property name="schedulerName">TransactionalScheduler</property>
+
+    <component name="TimerImplementationLoader" sca4j:key="sca4j:implementation.timer">
+        <sca4j:implementation.system class="org.sca4j.timer.quartz.introspection.TimerImplementationLoader"/>
     </component>
 
-    <component name="NonTransactionalTimerService">
-        <sca4j:implementation.system class="org.sca4j.timer.quartz.runtime.QuartzTimerService"/>
-        <property name="transactional">false</property>
-        <property name="schedulerName">NonTransactionalScheduler</property>
+    <component name="TimerComponentGenerator">
+        <sca4j:implementation.system class="org.sca4j.timer.quartz.control.TimerComponentGenerator"/>
     </component>
 
 </composite>

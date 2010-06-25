@@ -50,61 +50,31 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.timer.quartz;
+package org.sca4j.timer.quartz.provision;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
-import javax.transaction.TransactionManager;
-
-import junit.framework.TestCase;
-
-import org.sca4j.host.work.DefaultPausableWork;
-import org.sca4j.host.work.WorkScheduler;
-import org.sca4j.timer.quartz.runtime.QuartzTimerService;
+import org.sca4j.java.provision.JavaComponentDefinition;
 
 /**
  * @version $Revision$ $Date$
  */
-public class QuartzTimerServiceTestCase extends TestCase {
-    private QuartzTimerService timerService;
-    private TransactionManager tm;
+public class TimerComponentDefinition extends JavaComponentDefinition {
+    public static final long UNSPECIFIED = -1;
+    private boolean transactional;
+    private TriggerData triggerData;
 
-    public void testNonTransactionalScheduler() throws Exception {
-        TestRunnable runnable = new TestRunnable(2);
-        timerService.scheduleWithFixedDelay(runnable, 0, 10, TimeUnit.MILLISECONDS);
-        runnable.await();
+    public boolean isTransactional() {
+        return transactional;
     }
 
-    protected void setUp() throws Exception {
-        super.setUp();
-        // TODO mock transaction manager
-        WorkScheduler workScheduler = new WorkScheduler() {
-            public <T extends DefaultPausableWork> void scheduleWork(T work) {
-                work.run();
-            }
-        };
-        timerService = new QuartzTimerService(workScheduler, tm);
-        timerService.setTransactional(false);
-        timerService.init();
+    public void setTransactional(boolean transactional) {
+        this.transactional = transactional;
     }
 
-
-    private class TestRunnable implements Runnable {
-        private CountDownLatch latch;
-
-        private TestRunnable(int num) {
-            latch = new CountDownLatch(num);
-        }
-
-        public void run() {
-            latch.countDown();
-        }
-
-        public void await() throws InterruptedException {
-            latch.await();
-        }
-
+    public TriggerData getTriggerData() {
+        return triggerData;
     }
 
+    public void setTriggerData(TriggerData triggerData) {
+        this.triggerData = triggerData;
+    }
 }

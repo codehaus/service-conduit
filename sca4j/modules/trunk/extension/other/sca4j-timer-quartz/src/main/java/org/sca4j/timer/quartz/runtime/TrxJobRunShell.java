@@ -50,61 +50,86 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.timer.quartz;
+package org.sca4j.timer.quartz.runtime;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.Status;
+import javax.transaction.SystemException;
 import javax.transaction.TransactionManager;
 
-import junit.framework.TestCase;
-
-import org.sca4j.host.work.DefaultPausableWork;
-import org.sca4j.host.work.WorkScheduler;
-import org.sca4j.timer.quartz.runtime.QuartzTimerService;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.core.JobRunShellFactory;
+import org.quartz.core.SchedulingContext;
 
 /**
+ * JobRunShell that wraps job invocations in a transaction.
+ *
  * @version $Revision$ $Date$
  */
-public class QuartzTimerServiceTestCase extends TestCase {
-    private QuartzTimerService timerService;
+public class TrxJobRunShell extends SCA4JJobRunShell {
     private TransactionManager tm;
 
-    public void testNonTransactionalScheduler() throws Exception {
-        TestRunnable runnable = new TestRunnable(2);
-        timerService.scheduleWithFixedDelay(runnable, 0, 10, TimeUnit.MILLISECONDS);
-        runnable.await();
+    public TrxJobRunShell(JobRunShellFactory shellFactory, Scheduler scheduler, TransactionManager tm, SchedulingContext context) {
+        super(shellFactory, scheduler, context);
+        this.tm = tm;
     }
 
-    protected void setUp() throws Exception {
-        super.setUp();
-        // TODO mock transaction manager
-        WorkScheduler workScheduler = new WorkScheduler() {
-            public <T extends DefaultPausableWork> void scheduleWork(T work) {
-                work.run();
+    protected void begin() throws SchedulerException {
+        beginTransaction();
+        super.begin();
+    }
+
+    protected void complete(boolean successfull) throws SchedulerException {
+        super.complete(successfull);
+        if (successfull) {
+            commitTransaction();
+        } else {
+            rollbackTransaction();
+        }
+    }
+
+    private void beginTransaction() throws SchedulerException {
+        try {
+            tm.begin();
+        } catch (NotSupportedException e) {
+            throw new SchedulerException(e);
+        } catch (SystemException e) {
+            throw new SchedulerException(e);
+        }
+    }
+
+    private void commitTransaction() throws SchedulerException {
+        try {
+            if (tm.getStatus() != Status.STATUS_MARKED_ROLLBACK) {
+                tm.commit();
+            } else {
+                tm.rollback();
             }
-        };
-        timerService = new QuartzTimerService(workScheduler, tm);
-        timerService.setTransactional(false);
-        timerService.init();
+        } catch (SystemException e) {
+            throw new SchedulerException(e);
+        } catch (IllegalStateException e) {
+            throw new SchedulerException(e);
+        } catch (SecurityException e) {
+            throw new SchedulerException(e);
+        } catch (HeuristicMixedException e) {
+            throw new SchedulerException(e);
+        } catch (HeuristicRollbackException e) {
+            throw new SchedulerException(e);
+        } catch (RollbackException e) {
+            throw new SchedulerException(e);
+        }
     }
 
-
-    private class TestRunnable implements Runnable {
-        private CountDownLatch latch;
-
-        private TestRunnable(int num) {
-            latch = new CountDownLatch(num);
+    private void rollbackTransaction() throws SchedulerException {
+        try {
+            tm.rollback();
+        } catch (SystemException e) {
+            throw new SchedulerException(e);
         }
-
-        public void run() {
-            latch.countDown();
-        }
-
-        public void await() throws InterruptedException {
-            latch.await();
-        }
-
     }
 
 }

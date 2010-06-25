@@ -50,61 +50,32 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.timer.quartz;
+package org.sca4j.timer.quartz.runtime;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
-import javax.transaction.TransactionManager;
-
-import junit.framework.TestCase;
-
-import org.sca4j.host.work.DefaultPausableWork;
-import org.sca4j.host.work.WorkScheduler;
-import org.sca4j.timer.quartz.runtime.QuartzTimerService;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerConfigException;
+import org.quartz.SchedulerException;
+import org.quartz.core.JobRunShell;
+import org.quartz.core.JobRunShellFactory;
+import org.quartz.core.SchedulingContext;
 
 /**
+ * Factory for the standard JobRunShell that wraps job invocations.
+ *
  * @version $Revision$ $Date$
  */
-public class QuartzTimerServiceTestCase extends TestCase {
-    private QuartzTimerService timerService;
-    private TransactionManager tm;
+public class SCA4JJobRunShellFactory implements JobRunShellFactory {
+    private JobRunShell shell;
 
-    public void testNonTransactionalScheduler() throws Exception {
-        TestRunnable runnable = new TestRunnable(2);
-        timerService.scheduleWithFixedDelay(runnable, 0, 10, TimeUnit.MILLISECONDS);
-        runnable.await();
+    public void initialize(Scheduler scheduler, SchedulingContext context) throws SchedulerConfigException {
+        shell = new SCA4JJobRunShell(this, scheduler, context);
     }
 
-    protected void setUp() throws Exception {
-        super.setUp();
-        // TODO mock transaction manager
-        WorkScheduler workScheduler = new WorkScheduler() {
-            public <T extends DefaultPausableWork> void scheduleWork(T work) {
-                work.run();
-            }
-        };
-        timerService = new QuartzTimerService(workScheduler, tm);
-        timerService.setTransactional(false);
-        timerService.init();
+    public JobRunShell borrowJobRunShell() throws SchedulerException {
+        return shell;
     }
 
-
-    private class TestRunnable implements Runnable {
-        private CountDownLatch latch;
-
-        private TestRunnable(int num) {
-            latch = new CountDownLatch(num);
-        }
-
-        public void run() {
-            latch.countDown();
-        }
-
-        public void await() throws InterruptedException {
-            latch.await();
-        }
+    public void returnJobRunShell(JobRunShell jobRunShell) {
 
     }
-
 }

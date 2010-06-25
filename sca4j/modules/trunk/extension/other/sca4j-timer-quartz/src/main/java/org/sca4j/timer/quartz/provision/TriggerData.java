@@ -50,61 +50,88 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.timer.quartz;
+package org.sca4j.timer.quartz.provision;
 
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import javax.transaction.TransactionManager;
-
-import junit.framework.TestCase;
-
-import org.sca4j.host.work.DefaultPausableWork;
-import org.sca4j.host.work.WorkScheduler;
-import org.sca4j.timer.quartz.runtime.QuartzTimerService;
-
 /**
+ * Encapsulates data for a timer trigger.
+ *
  * @version $Revision$ $Date$
  */
-public class QuartzTimerServiceTestCase extends TestCase {
-    private QuartzTimerService timerService;
-    private TransactionManager tm;
+public class TriggerData {
+    public static final long UNSPECIFIED = -1;
 
-    public void testNonTransactionalScheduler() throws Exception {
-        TestRunnable runnable = new TestRunnable(2);
-        timerService.scheduleWithFixedDelay(runnable, 0, 10, TimeUnit.MILLISECONDS);
-        runnable.await();
+    private TriggerType type = TriggerType.INTERVAL;
+    private TimeUnit timeUnit = TimeUnit.MILLISECONDS;
+    private String cronExpression;
+    private long fixedRate = UNSPECIFIED;
+    private long repeatInterval = UNSPECIFIED;
+    private long startTime = UNSPECIFIED;
+    private long endTime = UNSPECIFIED;
+    private long fireOnce = UNSPECIFIED;
+
+    public TriggerType getType() {
+        return type;
     }
 
-    protected void setUp() throws Exception {
-        super.setUp();
-        // TODO mock transaction manager
-        WorkScheduler workScheduler = new WorkScheduler() {
-            public <T extends DefaultPausableWork> void scheduleWork(T work) {
-                work.run();
-            }
-        };
-        timerService = new QuartzTimerService(workScheduler, tm);
-        timerService.setTransactional(false);
-        timerService.init();
+    public void setType(TriggerType type) {
+        this.type = type;
     }
 
-
-    private class TestRunnable implements Runnable {
-        private CountDownLatch latch;
-
-        private TestRunnable(int num) {
-            latch = new CountDownLatch(num);
-        }
-
-        public void run() {
-            latch.countDown();
-        }
-
-        public void await() throws InterruptedException {
-            latch.await();
-        }
-
+    public String getCronExpression() {
+        return cronExpression;
     }
 
+    public void setCronExpression(String cronExpression) {
+        this.cronExpression = cronExpression;
+    }
+
+    public long getFixedRate() {
+        return fixedRate;
+    }
+
+    public void setFixedRate(long fixedRate) {
+        this.fixedRate = fixedRate;
+    }
+
+    public long getRepeatInterval() {
+        return repeatInterval;
+    }
+
+    public void setRepeatInterval(long repeatInterval) {
+        this.repeatInterval = repeatInterval;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    public long getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(long endTime) {
+        this.endTime = endTime;
+    }
+
+    public long getFireOnce() {
+        return fireOnce;
+    }
+
+    public void setFireOnce(long fireOnce) {
+        this.fireOnce = fireOnce;
+    }
+
+    public TimeUnit getTimeUnit() {
+        return timeUnit;
+    }
+
+    public void setTimeUnit(TimeUnit timeUnit) {
+        this.timeUnit = timeUnit;
+    }
 }

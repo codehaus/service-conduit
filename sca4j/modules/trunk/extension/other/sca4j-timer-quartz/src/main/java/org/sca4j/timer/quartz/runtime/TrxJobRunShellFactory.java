@@ -50,61 +50,39 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.timer.quartz;
-
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
+package org.sca4j.timer.quartz.runtime;
 
 import javax.transaction.TransactionManager;
 
-import junit.framework.TestCase;
-
-import org.sca4j.host.work.DefaultPausableWork;
-import org.sca4j.host.work.WorkScheduler;
-import org.sca4j.timer.quartz.runtime.QuartzTimerService;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerConfigException;
+import org.quartz.SchedulerException;
+import org.quartz.core.JobRunShell;
+import org.quartz.core.JobRunShellFactory;
+import org.quartz.core.SchedulingContext;
 
 /**
+ * Factory for the standard JobRunShell that wraps job invocations in a transaction.
+ *
  * @version $Revision$ $Date$
  */
-public class QuartzTimerServiceTestCase extends TestCase {
-    private QuartzTimerService timerService;
+public class TrxJobRunShellFactory implements JobRunShellFactory {
     private TransactionManager tm;
+    private TrxJobRunShell shell;
 
-    public void testNonTransactionalScheduler() throws Exception {
-        TestRunnable runnable = new TestRunnable(2);
-        timerService.scheduleWithFixedDelay(runnable, 0, 10, TimeUnit.MILLISECONDS);
-        runnable.await();
+    public TrxJobRunShellFactory(TransactionManager tm) {
+        this.tm = tm;
     }
 
-    protected void setUp() throws Exception {
-        super.setUp();
-        // TODO mock transaction manager
-        WorkScheduler workScheduler = new WorkScheduler() {
-            public <T extends DefaultPausableWork> void scheduleWork(T work) {
-                work.run();
-            }
-        };
-        timerService = new QuartzTimerService(workScheduler, tm);
-        timerService.setTransactional(false);
-        timerService.init();
+    public void initialize(Scheduler scheduler, SchedulingContext context) throws SchedulerConfigException {
+        shell = new TrxJobRunShell(this, scheduler, tm, context);
     }
 
-
-    private class TestRunnable implements Runnable {
-        private CountDownLatch latch;
-
-        private TestRunnable(int num) {
-            latch = new CountDownLatch(num);
-        }
-
-        public void run() {
-            latch.countDown();
-        }
-
-        public void await() throws InterruptedException {
-            latch.await();
-        }
-
+    public JobRunShell borrowJobRunShell() throws SchedulerException {
+        return shell;
     }
 
+    public void returnJobRunShell(JobRunShell jobRunShell) {
+        // no-op
+    }
 }
