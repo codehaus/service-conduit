@@ -89,8 +89,12 @@ public class JmsSourceWireAttacher implements SourceWireAttacher<JmsWireSourceDe
 
         JmsBindingMetadata metadata = source.getMetadata();
         Hashtable<String, String> env = new Hashtable<String, String>();
-        env.put(Context.PROVIDER_URL, metadata.jndiUrl);
-        env.put(Context.INITIAL_CONTEXT_FACTORY, metadata.initialContextFactory);
+        if (metadata.jndiUrl != null && !"".equals(metadata.jndiUrl)) {
+            env.put(Context.PROVIDER_URL, metadata.jndiUrl);
+        }
+        if (metadata.initialContextFactory != null && !"".equals(metadata.initialContextFactory)) {
+            env.put(Context.INITIAL_CONTEXT_FACTORY, metadata.initialContextFactory);
+        }
         TransactionType transactionType = source.getTransactionType();
 
         String connectionFactoryName = metadata.connectionFactoryName;

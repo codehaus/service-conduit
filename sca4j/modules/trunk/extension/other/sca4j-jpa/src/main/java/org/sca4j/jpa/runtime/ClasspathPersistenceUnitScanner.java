@@ -96,6 +96,7 @@ public class ClasspathPersistenceUnitScanner implements PersistenceUnitScanner {
 
                 DocumentBuilder db = dbf.newDocumentBuilder();
 
+                // JEE 5 servers seem to auto-deploy persistence units
                 Enumeration<URL> persistenceUnitUrls = classLoader.getResources("META-INF/persistence.xml");
                 
                 while (persistenceUnitUrls.hasMoreElements()) {
@@ -108,6 +109,26 @@ public class ClasspathPersistenceUnitScanner implements PersistenceUnitScanner {
                     URL rootUrl = getRootJarUrl(persistenceUnitUrl);
                     for (PersistenceUnitInfo info : PersistenceUnitInfoImpl.parse(persistenceDom, classLoader, rootUrl)) {
                     	persistenceUnitInfos.put(info.getPersistenceUnitName(), info);
+                    }
+                    parsedUrls.add(persistenceUnitUrl);
+                    if (persistenceUnitInfos.containsKey(unitName)) {
+                        return persistenceUnitInfos.get(unitName);
+                    }
+                    
+                }
+                
+                persistenceUnitUrls = classLoader.getResources("META-INF/sca4j-persistence.xml");
+                
+                while (persistenceUnitUrls.hasMoreElements()) {
+
+                    URL persistenceUnitUrl = persistenceUnitUrls.nextElement();
+                    if (parsedUrls.contains(persistenceUnitUrl)) {
+                        continue;
+                    }
+                    Document persistenceDom = db.parse(persistenceUnitUrl.openStream());
+                    URL rootUrl = getRootJarUrl(persistenceUnitUrl);
+                    for (PersistenceUnitInfo info : PersistenceUnitInfoImpl.parse(persistenceDom, classLoader, rootUrl)) {
+                        persistenceUnitInfos.put(info.getPersistenceUnitName(), info);
                     }
                     parsedUrls.add(persistenceUnitUrl);
                     if (persistenceUnitInfos.containsKey(unitName)) {
