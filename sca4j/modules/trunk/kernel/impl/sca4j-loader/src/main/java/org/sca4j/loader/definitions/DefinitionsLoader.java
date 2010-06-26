@@ -182,11 +182,6 @@ public class DefinitionsLoader implements XmlResourceElementLoader {
                 break;
             case END_ELEMENT:
                 assert DEFINITIONS.equals(reader.getName());
-                if (System.getProperty("sca4j.debug") != null) {
-                    for (AbstractDefinition candidate : definitions) {
-                        System.err.println("Registered definition " + candidate.getName() + " of type " + candidate.getClass());
-                    }
-                }
                 // update indexed elements with the loaded definitions
                 for (AbstractDefinition candidate : definitions) {
                     boolean found = false;

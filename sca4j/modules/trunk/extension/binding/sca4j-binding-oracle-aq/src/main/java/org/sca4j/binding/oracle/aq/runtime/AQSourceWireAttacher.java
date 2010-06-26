@@ -88,6 +88,7 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
 	@Monitor public AQMonitor monitor;
 	private List<ConsumerWorker> workers = new LinkedList<ConsumerWorker>();
 
+	private static final String EXLUDED_OPS = "equals|hashCode|toString|wait|notify|notifyAll|getClass";
 	/**
 	 * {@inheritDoc}
 	 */
@@ -95,8 +96,11 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
 	    try {
     	    Map<String, OperationMetadata> operations = new HashMap<String, OperationMetadata>();
     	    for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
-    	        OperationMetadata operationMetadata = new OperationMetadata(entry.getKey().getTargetOperation(), entry.getValue());
-    	        operations.put(operationMetadata.getName(), operationMetadata);
+    	        // TODO Add more rigor here, this happens when the interface is inferred from the class
+    	        if (EXLUDED_OPS.indexOf(entry.getKey().getTargetOperation().getName()) == -1) { 
+        	        OperationMetadata operationMetadata = new OperationMetadata(entry.getKey().getTargetOperation(), entry.getValue());
+        	        operations.put(operationMetadata.getName(), operationMetadata);
+    	        }
     	    }
     		for (int i = 0; i < sourceDefinition.bindingDefinition.consumerCount; i++) {
     			ConsumerWorker consumerWorker = new ConsumerWorker(sourceDefinition.bindingDefinition, operations);
@@ -144,6 +148,7 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
         private JAXBContext jaxbContext;
         
         public ConsumerWorker(AQBindingDefinition definition, Map<String, OperationMetadata> operations) throws JAXBException {
+            super(true);
             this.definition = definition;
             this.operations = operations;
             List<Class<?>> classes = new LinkedList<Class<?>>();
@@ -219,9 +224,7 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
                 
             } catch (Exception e) {
                 monitor.onException(e.getMessage(), e);
-                if (transactionHandler.getTransaction() != null) {
-                    transactionHandler.rollback();
-                }
+                transactionHandler.rollback();
             } finally {
                 if (requestQueue != null) {
                     requestQueue.close();

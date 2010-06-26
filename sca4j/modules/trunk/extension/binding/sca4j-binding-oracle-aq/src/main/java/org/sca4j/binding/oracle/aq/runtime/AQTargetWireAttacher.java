@@ -64,6 +64,7 @@ import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.TargetWireAttacher;
 import org.sca4j.spi.invocation.Message;
+import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
 import org.sca4j.spi.resource.ResourceRegistry;
@@ -80,6 +81,8 @@ public class AQTargetWireAttacher implements TargetWireAttacher<AQWireTargetDefi
     
     @Monitor public AQMonitor monitor;
 
+    private static final String EXLUDED_OPS = "equals|hashCode|toString|wait|notify|notifyAll|getClass";
+
     /**
      * @see org.sca4j.spi.builder.component.TargetWireAttacher#attachToTarget(org.sca4j.spi.model.physical.PhysicalWireSourceDefinition, org.sca4j.spi.model.physical.PhysicalWireTargetDefinition, org.sca4j.spi.wire.Wire)
      */
@@ -87,9 +90,12 @@ public class AQTargetWireAttacher implements TargetWireAttacher<AQWireTargetDefi
         
         try {
             for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
-                OperationMetadata operationMetadata = new OperationMetadata(entry.getKey().getTargetOperation(), entry.getValue());
-                Interceptor interceptor =  new AQTargetInterceptor(operationMetadata, targetDefinition.bindingDefinition);
-                entry.getValue().addInterceptor(interceptor);
+                // TODO Add more rigor here, this happens when the interface is inferred from the class
+                if (EXLUDED_OPS.indexOf(entry.getKey().getTargetOperation().getName()) == -1) {
+                    OperationMetadata operationMetadata = new OperationMetadata(entry.getKey().getTargetOperation(), entry.getValue());
+                    Interceptor interceptor =  new AQTargetInterceptor(operationMetadata, targetDefinition.bindingDefinition);
+                    entry.getValue().addInterceptor(interceptor);
+                }
             }
         } catch (ClassNotFoundException e) {
             throw new WiringException(e);
@@ -178,7 +184,7 @@ public class AQTargetWireAttacher implements TargetWireAttacher<AQWireTargetDefi
                     inputScaMessage.setBody(envelope.getBody());
                     return inputScaMessage;
                 } else {
-                    return null;
+                    return new MessageImpl();
                 }
                 
             } catch (Exception e) {

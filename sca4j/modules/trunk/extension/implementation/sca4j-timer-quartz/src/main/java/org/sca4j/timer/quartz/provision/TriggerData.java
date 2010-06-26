@@ -63,7 +63,7 @@ public class TriggerData {
     public static final long UNSPECIFIED = -1;
 
     private TriggerType type = TriggerType.INTERVAL;
-    private TimeUnit timeUnit = TimeUnit.MILLISECONDS;
+    private TimeUnit timeUnit = TimeUnit.SECONDS;
     private String cronExpression;
     private long fixedRate = UNSPECIFIED;
     private long repeatInterval = UNSPECIFIED;

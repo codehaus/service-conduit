@@ -32,7 +32,7 @@ public class OperationMetadata {
         this.invocationChain = invocationChain;
         this.name = operation.getName();
         inputType = Class.forName(operation.getParameters().get(0));
-        if (operation.getReturnType() != null) {
+        if (operation.getReturnType() != null && !"void".equals(operation.getReturnType())) {
             outputType = Class.forName(operation.getReturnType());
         }
     }
