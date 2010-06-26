@@ -57,34 +57,27 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import org.oasisopen.sca.annotation.Destroy;
 import org.oasisopen.sca.annotation.EagerInit;
 import org.oasisopen.sca.annotation.Init;
 import org.oasisopen.sca.annotation.Property;
 import org.sca4j.host.work.DefaultPausableWork;
 import org.sca4j.host.work.PausableWork;
 import org.sca4j.host.work.WorkScheduler;
-import org.sca4j.management.WorkSchedulerMBean;
 
 /**
  * Thread pool based implementation of the work scheduler.
  *
  */
 @EagerInit
-public class ThreadPoolWorkScheduler implements WorkScheduler, WorkSchedulerMBean {
+public class ThreadPoolWorkScheduler implements WorkScheduler {
     
     @Property(required=false) public int size = 20;
     @Property(required=false) public boolean pauseOnStart = false;
 
     private ThreadPoolExecutor executor;
     private final Set<DefaultPausableWork> daemonWork = new CopyOnWriteArraySet<DefaultPausableWork>(); 
-    private final Set<DefaultPausableWork> nonDaemonWork = new CopyOnWriteArraySet<DefaultPausableWork>();
-    private final AtomicBoolean paused = new AtomicBoolean();
-    private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
     /**
      * Initializes the thread-pool. Supports unbounded work with a fixed pool size. If all the workers 
@@ -93,82 +86,24 @@ public class ThreadPoolWorkScheduler implements WorkScheduler, WorkSchedulerMBea
     @Init
     public void init() {
         executor = new ThreadPoolExecutor(size, size, Long.MAX_VALUE, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
-        paused.set(pauseOnStart);
     }
 
     public <T extends DefaultPausableWork> void scheduleWork(T work) {
 		
-		Lock lock = readWriteLock.readLock();
-		lock.lock();
-		try {
-		    if (work.isDaemon()) {
-                daemonWork.add(work);
-		    }
-		    if (paused.get()) {
-		        if (!work.isDaemon()) {
-		            nonDaemonWork.add(work);
-		        }
-		    } else {
-		        executor.submit(work);
-		    }
-		} finally {
-			lock.unlock();
-		}
+		if (work.isDaemon()) {
+            daemonWork.add(work);
+	    }
+	    executor.submit(work);
         
 	}
-	
-	// ------------------ Management operations
 
-	public void start() {
-		
-		if (!paused.get()) {
-			return;
+    @Destroy
+	public void stop() throws InterruptedException {
+		for (PausableWork pausableWork : daemonWork) {
+			pausableWork.stop(500); // TODO Make this configurable and also support force shutdown.
 		}
-		
-		Lock lock = readWriteLock.writeLock();
-		try {
-
-	        lock.lock();
-		    executor = new ThreadPoolExecutor(size, size, Long.MAX_VALUE, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
-            paused.set(false);
-            
-			for (PausableWork pausableWork : daemonWork) {
-				executor.submit(pausableWork);
-			}
-			
-            for (PausableWork pausableWork : nonDaemonWork) {
-                executor.submit(pausableWork);
-            }
-            
-		} finally {
-			lock.unlock();
-		}
-		
-	}
-
-	public void stop() {
-        
-        if (paused.get()) {
-            return;
-        }
-		
-		Lock lock = readWriteLock.writeLock();
-		try {
-
-	        lock.lock();
-            paused.set(true);
-            
-			for (PausableWork pausableWork : daemonWork) {
-				pausableWork.stop();
-			}
-			
-			executor.shutdown();
-			executor = null;
-			
-		} finally {
-			lock.unlock();
-		}
-		
+		executor.shutdown();
+		executor = null;
 	}
 	
 }

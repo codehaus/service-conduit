@@ -178,8 +178,12 @@ public class ConsumerWorker extends DefaultPausableWork {
 
         } catch (Exception ex) {
             reportException(ex);
-            transactionHandler.delist(session, TMFAIL);
-            transactionHandler.rollback();
+            try {
+                transactionHandler.delist(session, TMFAIL);
+                transactionHandler.rollback();
+            } catch (Exception e1) {
+                reportException(e1);
+            }
         } finally {
             JmsHelper.closeQuietly(producer);
             JmsHelper.closeQuietly(consumer);

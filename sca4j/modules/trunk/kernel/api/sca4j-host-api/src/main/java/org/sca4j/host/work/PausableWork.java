@@ -81,6 +81,6 @@ public interface PausableWork extends Runnable {
 	/**
 	 * Stop the work.
 	 */
-	void stop();
+	void stop(long timeout) throws InterruptedException;
 
 }

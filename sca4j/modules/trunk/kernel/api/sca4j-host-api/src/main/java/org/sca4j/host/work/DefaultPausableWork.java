@@ -80,7 +80,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public abstract class DefaultPausableWork implements PausableWork {
 	
-	private AtomicBoolean active = new AtomicBoolean(true);
+	protected AtomicBoolean active = new AtomicBoolean(true);
+    private AtomicBoolean stopped = new AtomicBoolean(false);
 	private boolean daemon;
 	
 	/**
@@ -101,7 +102,7 @@ public abstract class DefaultPausableWork implements PausableWork {
 	/**
 	 * Terminates the job.
 	 */
-	public final void stop() {
+	public final void stop(long timeout) throws InterruptedException{
 		active.set(false);
 	}
 	
@@ -110,9 +111,13 @@ public abstract class DefaultPausableWork implements PausableWork {
 	 */
 	public final void run() {
 		if (daemon) {
-			while (active.get()) {
-				execute();
-			}
+		    try {
+    			while (active.get()) {
+    				execute();
+    			}
+		    } finally {
+		        stopped.set(true);
+		    }
 		} else {
 			execute();
 		}

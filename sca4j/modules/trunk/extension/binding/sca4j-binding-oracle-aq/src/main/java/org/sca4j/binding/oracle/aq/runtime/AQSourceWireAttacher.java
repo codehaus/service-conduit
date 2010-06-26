@@ -56,7 +56,6 @@ import oracle.AQ.AQQueue;
 import oracle.AQ.AQSession;
 
 import org.oasisopen.sca.ServiceUnavailableException;
-import org.oasisopen.sca.annotation.Destroy;
 import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.binding.oracle.aq.provision.AQWireSourceDefinition;
@@ -132,13 +131,6 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
     public void detachObjectFactory(AQWireSourceDefinition sourceDefinition, PhysicalWireTargetDefinition targetDefinition) {	
     }	
     
-    @Destroy
-    public void stop() {
-        for (ConsumerWorker consumerWorker : workers) {
-            consumerWorker.stop();
-        }
-    }
-    
     public class ConsumerWorker extends DefaultPausableWork {
         
         private AQBindingDefinition definition;
@@ -178,6 +170,10 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
                 }
                 
                 Thread.sleep(definition.consumerDelay);
+                
+                if (!active.get()) {
+                    return;
+                }
                 
                 transactionHandler.begin();
                 
@@ -224,7 +220,11 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
                 
             } catch (Exception e) {
                 monitor.onException(e.getMessage(), e);
-                transactionHandler.rollback();
+                try {
+                    transactionHandler.rollback();
+                } catch (Exception e1) {
+                    monitor.onException(e1.getMessage(), e1);
+                }
             } finally {
                 if (requestQueue != null) {
                     requestQueue.close();

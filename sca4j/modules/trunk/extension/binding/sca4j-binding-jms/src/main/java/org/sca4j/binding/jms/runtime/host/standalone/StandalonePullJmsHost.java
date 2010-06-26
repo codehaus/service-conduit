@@ -60,7 +60,6 @@ import java.util.Map;
 
 import javax.transaction.TransactionManager;
 
-import org.oasisopen.sca.annotation.Destroy;
 import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.binding.jms.common.JmsBindingMetadata;
@@ -106,18 +105,6 @@ public class StandalonePullJmsHost implements JmsHost {
 
         consumerWorkerMap.put(serviceUri, consumerWorkers);
 
-    }
-    
-    /**
-     * Stops all the consumers.
-     */
-    @Destroy
-    public void destroy() {
-        for (List<ConsumerWorker> consumerWorkers : consumerWorkerMap.values()) {
-            for (ConsumerWorker consumerWorker : consumerWorkers) {
-                consumerWorker.stop();
-            }
-        }
     }
 
 }
