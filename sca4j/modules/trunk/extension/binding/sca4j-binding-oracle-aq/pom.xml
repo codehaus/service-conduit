@@ -31,7 +31,7 @@
 	        <id>sca4j.third.party</id>
 	        <releases><enabled>true</enabled></releases>
 	        <snapshots><enabled>false</enabled></snapshots>
-	        <url>http://www.sca4j.org:8180/nexus/content/repositories/thirdparty</url>
+	        <url>http://www.service-conduit.org/nexus/content/repositories/thirdparty</url>
 	    </repository>
 	</repositories>
 
