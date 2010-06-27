@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained
+  at: http://www.servicesymphony.com/licenses/license.html.
+
+  Software distributed under the License is distributed on an as is basis, without
+  warranties or conditions of any kind.  See the License for the specific language
+  governing permissions and limitations of use of the software. This software is
+  distributed in conjunction with other software licensed under different terms.
+  See the separate licenses for those programs included in the distribution for the
+  permitted and restricted uses of such software.
+ -->
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+           xmlns:sca4j="urn:sca4j.org"
+           xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+           targetNamespace="urn:sca4j.org"
+           name="OracleAqBindingExtension">
+
+       <!-- AQ Binding Loader -->
+    <component name="AQBindingLoader" sca4j:key="sca4j:binding.oracle.aq" >
+        <sca4j:implementation.system class="org.sca4j.binding.oracle.aq.introspection.AQBindingLoader"/>
+    </component>
+
+    <!-- AQ Binding Generator -->
+    <component name="AQBindingGenerator"  sca4j:key="org.sca4j.binding.oracle.aq.scdl.AQBindingDefinition">
+        <sca4j:implementation.system class="org.sca4j.binding.oracle.aq.control.AQBindingGenerator"/>
+    </component>
+    
+      <!-- AQ Source Wire Attachers -->
+    <component sca4j:key="org.sca4j.binding.oracle.aq.provision.AQWireSourceDefinition" name="org.sca4j.binding.oracle.aq.runtime.wire.AQSourceWireAttacher">
+        <sca4j:implementation.system class="org.sca4j.binding.oracle.aq.runtime.AQSourceWireAttacher"/>
+    </component>
+    
+     <!-- AQ Target Wire Attacher -->        
+    <component sca4j:key="org.sca4j.binding.oracle.aq.provision.AQWireTargetDefinition" name="org.sca4j.binding.oracle.aq.runtime.wire.AQTargetWireAttacher">
+        <sca4j:implementation.system class="org.sca4j.binding.oracle.aq.runtime.AQTargetWireAttacher"/>
+    </component>  
+    
+    <!-- Transaction Handler -->
+    <component name="TransactionHandler">
+        <sca4j:implementation.system class="org.sca4j.binding.oracle.aq.runtime.DefaultTransactionHandler"/>
+    </component>
+
+
+</composite>
+
