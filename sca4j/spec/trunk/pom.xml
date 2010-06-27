@@ -24,7 +24,7 @@
 
 	<groupId>org.codehaus.service-conduit.spec</groupId>
 	<artifactId>sca-caa-apis</artifactId>
-	<version>1.1-CD04</version>
+	<version>1.1-CD04-SNAPSHOT</version>
 
     <packaging>jar</packaging>
     <name>SCA API Version 1.1-CD04</name>
