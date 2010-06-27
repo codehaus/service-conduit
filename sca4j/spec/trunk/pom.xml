@@ -24,16 +24,16 @@
 
 	<groupId>org.codehaus.service-conduit.spec</groupId>
 	<artifactId>sca-caa-apis</artifactId>
-	<version>1.1-CD04</version>
+	<version>1.1-CD05-SNAPSHOT</version>
 
     <packaging>jar</packaging>
     <name>SCA API Version 1.1-CD04</name>
     <description>Service Component Architecture V1.1 (release candidate 4) Java API and Annotations</description>
 
     <scm>
-        <connection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/spec/tags/sca-caa-apis-1.1-CD04</connection>
-        <developerConnection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/spec/tags/sca-caa-apis-1.1-CD04</developerConnection>
-        <url>https://svn.codehaus.org/service-conduit/sca4j/spec/tags/sca-caa-apis-1.1-CD04</url>
+        <connection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/spec/trunk</connection>
+        <developerConnection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/spec/trunk</developerConnection>
+        <url>https://svn.codehaus.org/service-conduit/sca4j/spec/trunk</url>
     </scm>
 
 </project>
