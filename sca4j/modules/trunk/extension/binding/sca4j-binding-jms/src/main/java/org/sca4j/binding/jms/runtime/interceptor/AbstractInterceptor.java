@@ -18,8 +18,6 @@
  */
 package org.sca4j.binding.jms.runtime.interceptor;
 
-import java.util.Map;
-
 import javax.jms.JMSException;
 
 import org.sca4j.binding.jms.runtime.wireformat.DataBinder;
@@ -43,9 +41,11 @@ public abstract class AbstractInterceptor implements Interceptor {
     }
     
     protected void copyHeaders(WorkContext workContext, javax.jms.Message jmsMessage) throws JMSException {
-        for (Map.Entry<String, Object> entry : workContext.getHeaders().entrySet()) {
-            jmsMessage.setObjectProperty(entry.getKey(), entry.getValue());
-        }
+        /*for (Map.Entry<String, Object> entry : workContext.getHeaders().entrySet()) {
+            if (!"JMSType".equals(entry.getKey())) {
+                jmsMessage.setObjectProperty(entry.getKey(), entry.getValue());
+            }
+        }*/
     }
 
 }
