@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.codehaus.service-conduit</groupId>
         <artifactId>sca4j-extension-other-parent-pom</artifactId>
-        <version>0.9.1-SNAPSHOT</version>
+        <version>0.9.1</version>
     </parent>
 
     <groupId>org.codehaus.service-conduit</groupId>
@@ -43,13 +43,13 @@
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-spi</artifactId>
-            <version>0.9.1-SNAPSHOT</version>
+            <version>0.9.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-ftp-spi</artifactId>
-            <version>0.9.1-SNAPSHOT</version>
+            <version>0.9.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
