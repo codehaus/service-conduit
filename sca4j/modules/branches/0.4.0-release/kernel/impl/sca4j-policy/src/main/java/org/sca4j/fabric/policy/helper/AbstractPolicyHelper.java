@@ -70,10 +70,10 @@ import org.w3c.dom.Element;
  * @version $Revision$ $Date$
  */
 public class AbstractPolicyHelper {
-    
+
     private final PolicySetEvaluator policySetEvaluator;
     protected final DefinitionsRegistry definitionsRegistry;
-    
+
     protected AbstractPolicyHelper(DefinitionsRegistry definitionsRegistry, PolicySetEvaluator policySetEvaluator) {
         this.definitionsRegistry = definitionsRegistry;
         this.policySetEvaluator = policySetEvaluator;
@@ -87,6 +87,7 @@ public class AbstractPolicyHelper {
         List<PolicySet> policies = new LinkedList<PolicySet>();
 
         Iterator<Intent> iterator = requiredIntents.iterator();
+        boolean doRemove = false;
         while(iterator.hasNext()) {
             Intent intent = iterator.next();
             for (PolicySet policySet : definitionsRegistry.getAllDefinitions(PolicySet.class)) {
@@ -96,12 +97,18 @@ public class AbstractPolicyHelper {
                         if (!policies.contains(policySet)) {
                             policies.add(policySet);
                         }
-                        iterator.remove();
+
+                        doRemove = true;
                     }
                 }
             }
+
+            if(doRemove) {
+                iterator.remove();
+                doRemove = false;
+            }
         }
-        
+
         for (QName policy : requestedPolicies) {
             PolicySet policySet = definitionsRegistry.getDefinition(policy, PolicySet.class);
             if (policySet == null) {
@@ -109,7 +116,7 @@ public class AbstractPolicyHelper {
             }
             policies.add(policySet);
         }
-        
+
         return policies;
 
     }
@@ -120,7 +127,7 @@ public class AbstractPolicyHelper {
     protected void filterInvalidIntents(QName type, List<Intent> requiredIntents) throws PolicyResolutionException {
 
         for (Iterator<Intent> it = requiredIntents.iterator();it.hasNext();) {
-            
+
             Intent intent = it.next();
 
             QName intentName = intent.getName();
