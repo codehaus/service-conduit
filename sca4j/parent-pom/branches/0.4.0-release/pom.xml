@@ -85,12 +85,12 @@
         <repository>
             <id>dav.codehaus.org</id>
             <name>Service Conduit Release Repository</name>
-            <url>dav:https://dav.codehaus.org/repository/service-conduit/</url>
+            <url>dav:http://www.service-conduit.org/nexus/content/repositories/releases/</url>
         </repository>
         <snapshotRepository>
             <id>dav.codehaus.org</id>
             <name>Service Conduit Snapshot Repository</name>
-            <url>dav:https://dav.codehaus.org/snapshots.repository/service-conduit/</url>
+            <url>dav:http://www.service-conduit.org/nexus/content/repositories/snapshots/</url>
             <uniqueVersion>false</uniqueVersion>
         </snapshotRepository>
     </distributionManagement>
