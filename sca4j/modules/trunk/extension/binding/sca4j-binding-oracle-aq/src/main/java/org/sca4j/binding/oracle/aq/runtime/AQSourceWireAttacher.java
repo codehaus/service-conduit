@@ -52,6 +52,7 @@ import oracle.AQ.AQDequeueOption;
 import oracle.AQ.AQDriverManager;
 import oracle.AQ.AQEnqueueOption;
 import oracle.AQ.AQMessage;
+import oracle.AQ.AQOracleSQLException;
 import oracle.AQ.AQQueue;
 import oracle.AQ.AQSession;
 
@@ -88,6 +89,8 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
 	private List<ConsumerWorker> workers = new LinkedList<ConsumerWorker>();
 
 	private static final String EXLUDED_OPS = "equals|hashCode|toString|wait|notify|notifyAll|getClass";
+	private static final int DEQUEUE_TIMEOUT_CODE = 25228;
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -169,8 +172,6 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
                     Thread.sleep(definition.exceptionTimeout);
                 }
                 
-                Thread.sleep(definition.consumerDelay);
-                
                 if (!active.get()) {
                     return;
                 }
@@ -183,6 +184,7 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
                 requestQueue = aqSession.getQueue(null, definition.destinationName);
                 
                 AQDequeueOption dequeueOption = new AQDequeueOption();
+                dequeueOption.setWaitTime(definition.consumerDelay);
                 AQMessage inputAqMessage = requestQueue.dequeue(dequeueOption);
                 if (inputAqMessage == null) {
                     transactionHandler.commit();
@@ -218,12 +220,21 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
                 
                 transactionHandler.commit();
                 
-            } catch (Exception e) {
-                monitor.onException(e.getMessage(), e);
+            } catch (AQOracleSQLException e) {
+                if (DEQUEUE_TIMEOUT_CODE != e.getErrorCode()) {
+                    reportException(e);
+                }
                 try {
                     transactionHandler.rollback();
                 } catch (Exception e1) {
-                    monitor.onException(e1.getMessage(), e1);
+                    reportException(e);
+                }
+            } catch (Exception e) {
+                reportException(e);
+                try {
+                    transactionHandler.rollback();
+                } catch (Exception e1) {
+                    reportException(e);
                 }
             } finally {
                 if (requestQueue != null) {
@@ -240,10 +251,16 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
                         con.close();
                     }
                 } catch (SQLException e) {
-                    monitor.onException(e.getMessage(), e);
+                    reportException(e);
                 }
             }
             
+        }
+
+        private void reportException(Exception e) {
+            if (active.get()) {
+                monitor.onException(e.getMessage(), e);
+            }
         }
         
     }

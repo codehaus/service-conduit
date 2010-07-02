@@ -94,7 +94,7 @@ public class JmsBindingMetadata extends ModelObject {
     public String responseDestinationName;
     
     public int pollingInterval = 1000;
-    public int exceptionTimeout = 60000;
+    public int exceptionTimeout = pollingInterval;
     public int consumerCount = 1;
 
 }

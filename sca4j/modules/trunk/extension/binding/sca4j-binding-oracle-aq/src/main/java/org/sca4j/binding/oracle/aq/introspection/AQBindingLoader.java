@@ -93,7 +93,7 @@ public class AQBindingLoader implements TypeLoader<AQBindingDefinition> {
         
         String sConsumerDelay = reader.getAttributeValue(null, "consumerDelay");
         if (sConsumerDelay != null) {
-            bindingDefinition.consumerDelay = Long.parseLong(sConsumerCount);
+            bindingDefinition.consumerDelay = Integer.parseInt(sConsumerCount);
         }
         
         String sDelay = reader.getAttributeValue(null, "delay");

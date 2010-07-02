@@ -66,9 +66,9 @@ public class AQBindingDefinition extends BindingDefinition {
     
     public InitialState initialState = InitialState.STARTED;
     public int consumerCount = 1;
-    public long exceptionTimeout = 60 * 1000L;
     public int delay = 0;
-    public long consumerDelay = 1 * 1000L;
+    public int consumerDelay = 5;
+    public long exceptionTimeout = 1 * 1000L;
     
     /**
      * @param documentKey If the binding is used with a key.

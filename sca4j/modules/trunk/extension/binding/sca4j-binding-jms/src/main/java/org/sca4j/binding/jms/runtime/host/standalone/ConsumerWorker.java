@@ -179,8 +179,10 @@ public class ConsumerWorker extends DefaultPausableWork {
         } catch (Exception ex) {
             reportException(ex);
             try {
-                transactionHandler.delist(session, TMFAIL);
-                transactionHandler.rollback();
+                if (transactionHandler != null) {
+                    transactionHandler.delist(session, TMFAIL);
+                    transactionHandler.rollback();
+                }
             } catch (Exception e1) {
                 reportException(e1);
             }
@@ -210,8 +212,10 @@ public class ConsumerWorker extends DefaultPausableWork {
      * Report an exception.
      */
     private void reportException(Exception e) {
-        template.monitor.jmsListenerError(template.jmsFactory.getDestination().toString(), e);
-        exception = true;
+        if (active.get()) {
+            template.monitor.jmsListenerError(template.jmsFactory.getDestination().toString(), e);
+            exception = true;
+        }
     }
 
 }
