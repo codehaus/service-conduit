@@ -61,6 +61,7 @@ import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.binding.oracle.aq.provision.AQWireSourceDefinition;
 import org.sca4j.binding.oracle.aq.scdl.AQBindingDefinition;
+import org.sca4j.host.runtime.RuntimeLifecycle;
 import org.sca4j.host.work.DefaultPausableWork;
 import org.sca4j.host.work.WorkScheduler;
 import org.sca4j.spi.ObjectFactory;
@@ -84,6 +85,7 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
 	@Reference public WorkScheduler workScheduler;
 	@Reference public TransactionHandler transactionHandler;
 	@Reference public ResourceRegistry resourceRegistry;
+	@Reference public RuntimeLifecycle runtimeLifecycle;
 	
 	@Monitor public AQMonitor monitor;
 	private List<ConsumerWorker> workers = new LinkedList<ConsumerWorker>();
@@ -166,14 +168,14 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
             AQQueue responseQueue = null;
             
             try {
+                
+                if (runtimeLifecycle.isShutdown()) {
+                    return;
+                }
 
                 if (exception) {
                     exception = false;
                     Thread.sleep(definition.exceptionTimeout);
-                }
-                
-                if (!active.get()) {
-                    return;
                 }
                 
                 transactionHandler.begin();
@@ -258,7 +260,7 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
         }
 
         private void reportException(Exception e) {
-            if (active.get()) {
+            if (!runtimeLifecycle.isShutdown()) {
                 monitor.onException(e.getMessage(), e);
             }
         }

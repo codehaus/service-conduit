@@ -67,6 +67,7 @@ import org.sca4j.binding.jms.common.TransactionType;
 import org.sca4j.binding.jms.runtime.JMSObjectFactory;
 import org.sca4j.binding.jms.runtime.JMSRuntimeMonitor;
 import org.sca4j.binding.jms.runtime.host.JmsHost;
+import org.sca4j.host.runtime.RuntimeLifecycle;
 import org.sca4j.host.work.WorkScheduler;
 import org.sca4j.spi.wire.Wire;
 
@@ -80,6 +81,7 @@ public class StandalonePullJmsHost implements JmsHost {
     @Reference public WorkScheduler workScheduler;
     @Monitor public JMSRuntimeMonitor monitor;
     @Reference public TransactionManager transactionManager;
+    @Reference public RuntimeLifecycle runtimeLifecycle;
     
     private Map<URI, List<ConsumerWorker>> consumerWorkerMap = new HashMap<URI, List<ConsumerWorker>>();
 
@@ -98,7 +100,7 @@ public class StandalonePullJmsHost implements JmsHost {
         template.wire = wire;
 
         for (int i = 0; i < metadata.consumerCount; i++) {
-            ConsumerWorker work = new ConsumerWorker(template);
+            ConsumerWorker work = new ConsumerWorker(template, runtimeLifecycle);
             workScheduler.scheduleWork(work);
             consumerWorkers.add(work);
         }

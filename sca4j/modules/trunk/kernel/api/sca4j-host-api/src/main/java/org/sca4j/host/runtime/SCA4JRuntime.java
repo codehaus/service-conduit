@@ -81,7 +81,7 @@ import org.sca4j.monitor.MonitorFactory;
  *
  * @version $Rev: 5395 $ $Date: 2008-09-13 14:35:47 +0100 (Sat, 13 Sep 2008) $
  */
-public interface SCA4JRuntime<HI extends HostInfo> {
+public interface SCA4JRuntime<HI extends HostInfo> extends RuntimeLifecycle {
 
     /**
      * Returns the host ClassLoader that is parent to all SCA4J classloaders.

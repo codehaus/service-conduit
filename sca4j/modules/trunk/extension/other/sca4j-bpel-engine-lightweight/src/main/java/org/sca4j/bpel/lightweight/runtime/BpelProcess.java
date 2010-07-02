@@ -313,15 +313,5 @@ public class BpelProcess {
             throw new IllegalArgumentException("Unknown activity type " + abstractActivity.getType());
         }
     }
-
-    public static void main(String[] args) {
-        
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("flag", true);
-        JXPathContext context = JXPathContext.newContext(map);
-        context.setLenient(false);
-        System.err.println(context.getValue("flag = false()"));
-        
-    }
     
 }

@@ -156,6 +156,7 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
     private ScopeRegistry scopeRegistry;
     private ClassLoader hostClassLoader;
     private ContributionScanner contributionScanner = new ContributionScanner();
+    private boolean shutdown;
 
     protected AbstractRuntime(Class<HI> runtimeInfoType) {
         this.hostInfoType = runtimeInfoType;
@@ -217,9 +218,14 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
     }
 
     public void shutdown() {
+        shutdown = true;
         if (scopeContainer != null) {
             scopeContainer.stopAllContexts(new WorkContext());
         }
+    }
+    
+    public boolean isShutdown() {
+        return shutdown;
     }
 
     public <I> I getSystemComponent(Class<I> service, URI uri) {

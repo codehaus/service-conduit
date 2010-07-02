@@ -72,6 +72,7 @@ import org.sca4j.binding.jms.runtime.tx.JmsTransactionHandler;
 import org.sca4j.binding.jms.runtime.tx.JtaTransactionHandler;
 import org.sca4j.binding.jms.runtime.tx.TransactionHandler;
 import org.sca4j.binding.jms.runtime.wireformat.DataBinder;
+import org.sca4j.host.runtime.RuntimeLifecycle;
 import org.sca4j.host.work.DefaultPausableWork;
 import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.invocation.WorkContext;
@@ -93,12 +94,13 @@ public class ConsumerWorker extends DefaultPausableWork {
     private Class<?> outputType;
 
     private DataBinder dataBinder = new DataBinder();
+    private RuntimeLifecycle runtimeLifecycle;
 
     /**
      * @param template
      * @throws ClassNotFoundException
      */
-    public ConsumerWorker(ConsumerWorkerTemplate template) {
+    public ConsumerWorker(ConsumerWorkerTemplate template, RuntimeLifecycle runtimeLifecycle) {
         super(true);
         try {
             this.template = template;
@@ -111,6 +113,7 @@ public class ConsumerWorker extends DefaultPausableWork {
                 outputType = Class.forName(outputTypeName);
             }
             twoWay = outputType != null || !void.class.equals(outputType) || !Void.class.equals(outputType) ;
+            this.runtimeLifecycle = runtimeLifecycle;
         } catch (ClassNotFoundException e) {
             throw new SCA4JJmsException("Unable to load operation types", e);
         }
@@ -129,6 +132,10 @@ public class ConsumerWorker extends DefaultPausableWork {
         TransactionHandler transactionHandler = null;
 
         try {
+            
+            if (runtimeLifecycle.isShutdown()) {
+                return;
+            }
 
             if (exception) {
                 exception = false;
@@ -212,7 +219,7 @@ public class ConsumerWorker extends DefaultPausableWork {
      * Report an exception.
      */
     private void reportException(Exception e) {
-        if (active.get()) {
+        if (!runtimeLifecycle.isShutdown()) {
             template.monitor.jmsListenerError(template.jmsFactory.getDestination().toString(), e);
             exception = true;
         }

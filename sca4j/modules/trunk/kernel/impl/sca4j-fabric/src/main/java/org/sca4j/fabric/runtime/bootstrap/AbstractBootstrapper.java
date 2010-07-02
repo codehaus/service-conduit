@@ -71,6 +71,7 @@ import org.sca4j.host.domain.DeploymentException;
 import org.sca4j.host.runtime.Bootstrapper;
 import org.sca4j.host.runtime.HostInfo;
 import org.sca4j.host.runtime.InitializationException;
+import org.sca4j.host.runtime.RuntimeLifecycle;
 import org.sca4j.host.runtime.SCA4JRuntime;
 import org.sca4j.introspection.IntrospectionHelper;
 import org.sca4j.introspection.contract.ContractProcessor;
@@ -228,6 +229,8 @@ public abstract class AbstractBootstrapper implements Bootstrapper {
         registerComponent("ScopeRegistry", ScopeRegistry.class, scopeRegistry, true);
 
         registerComponent("MetaDataStore", MetaDataStore.class, metaDataStore, true);
+
+        registerComponent("SCA4JRuntime", RuntimeLifecycle.class, (RuntimeLifecycle) runtime, true);
     }
 
     private void registerDomain(SCA4JRuntime<?> runtime) throws InitializationException {

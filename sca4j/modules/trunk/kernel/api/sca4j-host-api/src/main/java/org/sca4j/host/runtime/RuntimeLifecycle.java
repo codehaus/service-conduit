@@ -16,16 +16,15 @@
  * This project contains code licensed from the Apache Software Foundation under
  * the Apache License, Version 2.0 and original code from project contributors.
  */
-package org.sca4j.bpel.lightweight.runtime;
+package org.sca4j.host.runtime;
 
-public class Result {
-    private boolean flag = true;
+public interface RuntimeLifecycle {
+    
+    /**
+     * Checks whether the runtime is shutdown.
+     * 
+     * @return True if the runtime is shutdown.
+     */
+    boolean isShutdown();
 
-    public boolean isFlag() {
-        return flag;
-    }
-
-    public void setFlag(boolean flag) {
-        this.flag = flag;
-    }
 }

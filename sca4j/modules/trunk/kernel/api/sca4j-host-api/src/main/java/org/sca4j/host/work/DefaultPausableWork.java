@@ -80,8 +80,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public abstract class DefaultPausableWork implements PausableWork {
 	
-	protected AtomicBoolean active = new AtomicBoolean(true);
-    private AtomicBoolean stopped = new AtomicBoolean(false);
+	private AtomicBoolean active = new AtomicBoolean(true);
 	private boolean daemon;
 	
 	/**
@@ -111,13 +110,9 @@ public abstract class DefaultPausableWork implements PausableWork {
 	 */
 	public final void run() {
 		if (daemon) {
-		    try {
-    			while (active.get()) {
-    				execute();
-    			}
-		    } finally {
-		        stopped.set(true);
-		    }
+			while (active.get()) {
+				execute();
+			}
 		} else {
 			execute();
 		}
