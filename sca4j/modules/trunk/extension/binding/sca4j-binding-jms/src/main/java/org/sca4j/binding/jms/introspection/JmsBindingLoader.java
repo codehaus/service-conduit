@@ -98,6 +98,8 @@ public class JmsBindingLoader implements TypeLoader<JmsBindingDefinition> {
         ATTRIBUTES.add("pollingInterval");
         ATTRIBUTES.add("exceptionTimeout");
         ATTRIBUTES.add("consumerCount");
+        ATTRIBUTES.add("batched");
+        ATTRIBUTES.add("batchSize");
     }
 
     private final LoaderHelper loaderHelper;
@@ -143,6 +145,14 @@ public class JmsBindingLoader implements TypeLoader<JmsBindingDefinition> {
         String consumerCount = reader.getAttributeValue(Namespaces.SCA4J_NS, "consumerCount");
         if (consumerCount != null) {
             metadata.consumerCount = Integer.parseInt(consumerCount);
+        }
+        String batched = reader.getAttributeValue(Namespaces.SCA4J_NS, "batched");
+        if (batched != null) {
+            metadata.batched = Boolean.valueOf(batched);
+        }
+        String batchSize = reader.getAttributeValue(Namespaces.SCA4J_NS, "batchSize");
+        if (consumerCount != null) {
+            metadata.batchSize = Integer.parseInt(batchSize);
         }
         
         LoaderUtil.skipToEndElement(reader);

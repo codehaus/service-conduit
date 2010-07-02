@@ -99,8 +99,11 @@ public class StandalonePullJmsHost implements JmsHost {
         template.metadata = metadata;
         template.wire = wire;
 
+        String returnType = wire.getInvocationChains().entrySet().iterator().next().getKey().getTargetOperation().getReturnType();
+        boolean twoWay = returnType != null && !"void".equalsIgnoreCase(returnType);
         for (int i = 0; i < metadata.consumerCount; i++) {
-            ConsumerWorker work = new ConsumerWorker(template, runtimeLifecycle);
+            
+            ConsumerWorker work = twoWay ? new TwoWayConsumer(template, runtimeLifecycle) : new OneWayConsumer(template, runtimeLifecycle);
             workScheduler.scheduleWork(work);
             consumerWorkers.add(work);
         }

@@ -121,14 +121,12 @@ public class OneWayGlobalInterceptor extends AbstractInterceptor implements Inte
             transactionHandler.enlist(session);
 
             messageProducer = session.createProducer(jmsFactory.getDestination());
-            Object[] payload = (Object[]) sca4jRequest.getBody();
-
-
-            javax.jms.Message jmsRequest = dataBinder.marshal(payload[0], inputType, session);
-            copyHeaders(sca4jRequest.getWorkContext(), jmsRequest);
+            for (Object payload : (Object[]) sca4jRequest.getBody()) {
+                javax.jms.Message jmsRequest = dataBinder.marshal(payload, inputType, session);
+                copyHeaders(sca4jRequest.getWorkContext(), jmsRequest);
+                messageProducer.send(jmsRequest);
+            }
             
-            messageProducer.send(jmsRequest);
-
             transactionHandler.delist(session, TMSUCCESS);
             if (txStarted) {
                transactionHandler.commit();

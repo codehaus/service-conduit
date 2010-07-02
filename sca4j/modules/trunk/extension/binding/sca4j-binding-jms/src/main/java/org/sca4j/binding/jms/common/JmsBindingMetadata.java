@@ -96,5 +96,7 @@ public class JmsBindingMetadata extends ModelObject {
     public int pollingInterval = 1000;
     public int exceptionTimeout = pollingInterval;
     public int consumerCount = 1;
+    public int batchSize = 100;
+    public boolean batched = false;
 
 }
