@@ -58,7 +58,31 @@
            xmlns:sca4j="urn:sca4j.org"
            name="JMSTestComposite">
 
-    <component name="JaxbXAGlobalWeatherTest">
+    <component name="BatchTest">
+        <sca4j:junit class="org.sca4j.binding.jms.test.batch.BatchITest"/>
+        <reference name="batchService">
+            <binding.jms destination="batchQueue" 
+                         connectionFactory="connectionFactory" 
+                         requires="sca:transactedOneWay.local" 
+                         initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
+                         jndiURL="vm://localhost" 
+                         batched="true"/>
+        </reference>
+    </component>
+
+    <component name="BatchService">
+        <implementation.java class="org.sca4j.binding.jms.test.batch.BatchServiceImpl"/>
+        <service name="BatchService">
+            <binding.jms destination="batchQueue" 
+                         connectionFactory="connectionFactory" 
+                         requires="sca:transactedOneWay.local" 
+                         initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
+                         jndiURL="vm://localhost" 
+                         batched="true"/>
+        </service>
+    </component>
+
+    <!--component name="JaxbXAGlobalWeatherTest">
         <sca4j:junit class="org.sca4j.binding.jms.test.jaxb.JAXBWeatherTest"/>
         <reference name="weatherService">
             <binding.jms correlationScheme="messageID" 
@@ -154,6 +178,6 @@
                          initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
                          jndiURL="vm://localhost" />
         </service>
-    </component>
+    </component-->
     
 </composite>
