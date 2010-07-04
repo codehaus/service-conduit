@@ -88,11 +88,11 @@ public class NonBlockingInterceptor implements Interceptor {
             newStack = new ArrayList<CallFrame>(stack);
         }
         msg.setWorkContext(null);
-        Map<String, Object> newHeaders = null;
-        Map<String, Object> headers = workContext.getHeaders();
+        Map<String, List<Object>> newHeaders = null;
+        Map<String, List<Object>> headers = workContext.getHeaders();
         if (headers != null && !headers.isEmpty()) {
             // clone the headers to avoid multiple threads seeing changes
-            newHeaders = new HashMap<String, Object>(headers);
+            newHeaders = new HashMap<String, List<Object>>(headers);
         }
         AsyncRequest request = new AsyncRequest(next, msg, newStack, newHeaders);
         workScheduler.scheduleWork(request);

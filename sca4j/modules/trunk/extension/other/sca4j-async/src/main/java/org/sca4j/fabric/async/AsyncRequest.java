@@ -70,9 +70,9 @@ public class AsyncRequest extends DefaultPausableWork {
     private final Interceptor next;
     private final Message message;
     private List<CallFrame> stack;
-    private Map<String, Object> headers;
+    private Map<String,List<Object>> headers;
 
-    public AsyncRequest(Interceptor next, Message message, List<CallFrame> stack, Map<String, Object> headers) {
+    public AsyncRequest(Interceptor next, Message message, List<CallFrame> stack, Map<String, List<Object>> headers) {
         this.next = next;
         this.message = message;
         this.stack = stack;

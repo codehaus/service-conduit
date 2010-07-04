@@ -52,6 +52,8 @@
  */
 package org.sca4j.pojo.component;
 
+import java.util.List;
+
 import javax.security.auth.Subject;
 
 import org.oasisopen.sca.ServiceReference;
@@ -97,5 +99,18 @@ public class PojoRequestContext implements SCA4JRequestContext {
     public void removeHeader(String name) {
         WorkContext workContext = PojoWorkContextTunnel.getThreadWorkContext();
         workContext.removeHeader(name);
+    }
+
+    @Override
+    public void addHeader(String name, Object value) {
+        WorkContext workContext = PojoWorkContextTunnel.getThreadWorkContext();
+        workContext.addHeader(name, value);
+        
+    }
+
+    @Override
+    public <T> List<T> getHeaders(Class<T> type, String name) {
+        WorkContext workContext = PojoWorkContextTunnel.getThreadWorkContext();
+        return workContext.getHeaders(type, name);
     }
 }

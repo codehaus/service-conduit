@@ -72,6 +72,7 @@ package org.sca4j.spi.invocation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -90,7 +91,7 @@ import javax.security.auth.Subject;
 public class WorkContext {
     private Subject subject;
     private List<CallFrame> callStack;
-    private Map<String, Object> headers = new HashMap<String, Object>();
+    private Map<String, List<Object>> headers = new HashMap<String, List<Object>>();
 
     public void setSubject(Subject subject) {
         this.subject = subject;
@@ -175,7 +176,27 @@ public class WorkContext {
         if (headers == null) {
             return null;
         }
-        return type.cast(headers.get(name));
+        List<Object> list = headers.get(name);
+        if (list != null && list.size() > 0) {
+            return type.cast(list.get(0));
+        }
+        return null;
+    }
+
+    /**
+     * Returns the header value for the given name associated with the current request context.
+     *
+     * @param type the expected header value type
+     * @param name the header name
+     * @return the header value or null if no header exists
+     */
+    @SuppressWarnings("unchecked")
+    public <T> List<T> getHeaders(Class<T> type, String name) {
+        if (headers == null) {
+            return null;
+        }
+        List<Object> list = headers.get(name);
+        return (List<T>) list;
     }
 
     /**
@@ -186,9 +207,11 @@ public class WorkContext {
      */
     public void setHeader(String name, Object value) {
         if (headers == null) {
-            headers = new HashMap<String, Object>();
+            headers = new HashMap<String, List<Object>>();
         }
-        headers.put(name, value);
+        List<Object> list = new LinkedList<Object>();
+        list.add(value);
+        headers.put(name, list);
     }
 
     /**
@@ -208,15 +231,27 @@ public class WorkContext {
      *
      * @return the map of header names and values
      */
-    public Map<String, Object> getHeaders() {
+    public Map<String, List<Object>> getHeaders() {
         return headers;
     }
 
-    public void addHeaders(Map<String, Object> newheaders) {
+    public void addHeaders(Map<String, List<Object>> newheaders) {
         if (headers == null) {
             headers = newheaders;
             return;
         }
         headers.putAll(newheaders);
+    }
+
+    public void addHeader(String name, Object value) {
+        if (headers == null) {
+            headers = new HashMap<String, List<Object>>();
+        }
+        List<Object> list = headers.get(name);
+        if (list == null) {
+            list = new LinkedList<Object>();
+            headers.put(name, list);
+        }
+        list.add(value);
     }
 }

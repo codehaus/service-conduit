@@ -52,6 +52,8 @@
  */
 package org.sca4j.api;
 
+import java.util.List;
+
 import org.oasisopen.sca.RequestContext;
 
 /**
@@ -69,6 +71,15 @@ import org.oasisopen.sca.RequestContext;
  * @version $Revision$ $Date$
  */
 public interface SCA4JRequestContext extends RequestContext {
+
+    /**
+     * Returns all the header values corresponding to a name for the current request message.
+     *
+     * @param type the value type
+     * @param name the header name
+     * @return the header value or null if not found
+     */
+    <T> List<T> getHeaders(Class<T> type, String name);
 
     /**
      * Returns the header value corresponding to a name for the current request message.
@@ -91,6 +102,19 @@ public interface SCA4JRequestContext extends RequestContext {
      * @param value the header value
      */
     void setHeader(String name, Object value);
+
+    /**
+     * Adds a header value for the current request context. Headers will be propagated across threads for non-blocking invocations made by a component
+     * when processing a request. However, headers propagation across process boundaries is binding-specific. Some bindings may propagate headers
+     * while others may ignore them.
+     * <p/>
+     * Note that header values should be immutable since, unlike purely synchronous programming models, SCA's asynchronous model may result in
+     * multiple threads simultaneously accessing a header. For example, two non-blocking invocations to local services may access the same header.
+     *
+     * @param name  the header name
+     * @param value the header value
+     */
+    void addHeader(String name, Object value);
 
     /**
      * Clears a header for the current request context.
