@@ -18,6 +18,9 @@ package org.sca4j.binding.jms.runtime.host.standalone;
 import static javax.transaction.xa.XAResource.TMFAIL;
 import static javax.transaction.xa.XAResource.TMSUCCESS;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.jms.Connection;
 import javax.jms.Message;
 import javax.jms.MessageConsumer;
@@ -85,14 +88,31 @@ public class OneWayConsumer extends ConsumerWorker {
             transactionHandler.enlist(session);
 
             consumer = session.createConsumer(template.jmsFactory.getDestination());
-            Message jmsRequest = consumer.receive(template.pollingInterval);
+            
+            int batchSize = template.metadata.batched ? template.metadata.batchSize : 1;
+            List<Message> jmsRequests = new LinkedList<Message>();
+            
+            for (int i = 0;i < batchSize;i++) {
+                jmsRequests.add(consumer.receive(template.pollingInterval));
+            }
 
-            if (jmsRequest != null) {
-                Object payload = dataBinder.unmarshal(jmsRequest, inputType);
-                WorkContext workContext = new WorkContext();
-                copyHeaders(jmsRequest, workContext);
-                org.sca4j.spi.invocation.Message sca4jRequest = new MessageImpl(new Object[] { payload }, false, workContext);
-                invocationChain.getHeadInterceptor().invoke(sca4jRequest);
+            if (jmsRequests.size() > 0) {
+                if (!template.metadata.batched) {
+                    Object payload = dataBinder.unmarshal(jmsRequests.get(0), inputType);
+                    WorkContext workContext = new WorkContext();
+                    copyHeaders(jmsRequests.get(0), workContext);
+                    org.sca4j.spi.invocation.Message sca4jRequest = new MessageImpl(new Object[] { payload }, false, workContext);
+                    invocationChain.getHeadInterceptor().invoke(sca4jRequest);
+                } else {
+                    Object[] payload = new Object [jmsRequests.size()];
+                    WorkContext workContext = new WorkContext();
+                    for (int i = 0;i < payload.length;i++) {
+                        payload[i] = dataBinder.unmarshal(jmsRequests.get(i), inputType);
+                        copyHeaders(jmsRequests.get(i), workContext);
+                    }
+                    org.sca4j.spi.invocation.Message sca4jRequest = new MessageImpl(new Object[] { payload }, false, workContext);
+                    invocationChain.getHeadInterceptor().invoke(sca4jRequest);
+                }
             }
 
             transactionHandler.delist(session, TMSUCCESS);

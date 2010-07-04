@@ -70,7 +70,6 @@ import org.sca4j.binding.jms.runtime.JMSObjectFactory;
 import org.sca4j.binding.jms.runtime.helper.JmsHelper;
 import org.sca4j.binding.jms.runtime.tx.JtaTransactionHandler;
 import org.sca4j.binding.jms.runtime.tx.TransactionHandler;
-import org.sca4j.binding.jms.runtime.wireformat.DataBinder;
 import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
@@ -83,20 +82,15 @@ import org.sca4j.spi.wire.Wire;
 public class TwoWayGlobalInterceptor extends AbstractInterceptor implements Interceptor {
 
     private Correlation correlation;
-    private JMSObjectFactory jmsFactory;
     private TransactionManager transactionManager;
-
-    private Class<?> inputType;
     private Class<?> outputType;
-    private DataBinder dataBinder = new DataBinder();
 
 
     public TwoWayGlobalInterceptor(JMSObjectFactory jmsFactory, TransactionManager transactionManager, Correlation correlation, Wire wire) {
+        super(jmsFactory, wire);
         try {
             PhysicalOperationDefinition pod = wire.getInvocationChains().entrySet().iterator().next().getKey().getTargetOperation();
-            inputType = Class.forName(pod.getParameters().get(0));
             outputType = Class.forName(pod.getReturnType());
-            this.jmsFactory = jmsFactory;
             this.correlation = correlation;
             this.transactionManager = transactionManager;
         } catch (ClassNotFoundException e) {

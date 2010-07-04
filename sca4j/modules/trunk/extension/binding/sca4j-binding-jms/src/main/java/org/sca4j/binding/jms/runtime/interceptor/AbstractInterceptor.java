@@ -18,17 +18,36 @@
  */
 package org.sca4j.binding.jms.runtime.interceptor;
 
+import java.util.Map;
+
 import javax.jms.JMSException;
 
+import org.sca4j.binding.jms.common.SCA4JJmsException;
+import org.sca4j.binding.jms.runtime.JMSObjectFactory;
 import org.sca4j.binding.jms.runtime.wireformat.DataBinder;
 import org.sca4j.spi.invocation.WorkContext;
+import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.wire.Interceptor;
+import org.sca4j.spi.wire.Wire;
 
 public abstract class AbstractInterceptor implements Interceptor {
     
     private Interceptor next;
     
-    protected DataBinder dataBinder = new DataBinder();
+    protected final DataBinder dataBinder = new DataBinder();
+    protected final JMSObjectFactory jmsFactory;
+    protected final Class<?> inputType;
+    
+
+    public AbstractInterceptor(JMSObjectFactory jmsFactory, Wire wire) {
+        try {
+            PhysicalOperationDefinition pod = wire.getInvocationChains().entrySet().iterator().next().getKey().getTargetOperation();
+            inputType = Class.forName(pod.getParameters().get(0));
+            this.jmsFactory = jmsFactory;
+        } catch (ClassNotFoundException e) {
+            throw new SCA4JJmsException("Unable to load operation types", e);
+        }
+    }
 
     @Override
     public final Interceptor getNext() {
@@ -40,12 +59,14 @@ public abstract class AbstractInterceptor implements Interceptor {
         this.next = next;
     }
     
+    @SuppressWarnings("unchecked")
     protected void copyHeaders(WorkContext workContext, javax.jms.Message jmsMessage) throws JMSException {
-        /*for (Map.Entry<String, Object> entry : workContext.getHeaders().entrySet()) {
-            if (!"JMSType".equals(entry.getKey())) {
+        Map<String, Object> headers = workContext.getHeader(Map.class, "sca4j.jms.outbound");
+        if (headers != null) {
+            for (Map.Entry<String, Object> entry : headers.entrySet()) {
                 jmsMessage.setObjectProperty(entry.getKey(), entry.getValue());
             }
-        }*/
+        }
     }
 
 }

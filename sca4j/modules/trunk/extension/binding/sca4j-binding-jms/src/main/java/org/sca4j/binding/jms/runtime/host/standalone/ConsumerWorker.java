@@ -16,6 +16,7 @@
 package org.sca4j.binding.jms.runtime.host.standalone;
 
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.jms.JMSException;
@@ -61,15 +62,20 @@ public abstract class ConsumerWorker extends DefaultPausableWork {
     }
 
     protected void copyHeaders(Message jmsRequest, WorkContext workContext) throws JMSException {
-        workContext.addHeader("JMSCorrelationId", jmsRequest.getJMSCorrelationID());
-        workContext.addHeader("JMSMessageId", jmsRequest.getJMSMessageID());
-        workContext.addHeader("JMSRedelivered", jmsRequest.getJMSRedelivered());
-        workContext.addHeader("JMSType", jmsRequest.getJMSType());
+        
+        Map<String, Object> headers = new HashMap<String, Object>();
+        headers.put("JMSCorrelationId", jmsRequest.getJMSCorrelationID());
+        headers.put("JMSMessageId", jmsRequest.getJMSMessageID());
+        headers.put("JMSRedelivered", jmsRequest.getJMSRedelivered());
+        headers.put("JMSType", jmsRequest.getJMSType());
         Enumeration<?> propertyNames = jmsRequest.getPropertyNames();
         while (propertyNames.hasMoreElements()) {
             String propertyName = propertyNames.nextElement().toString();
-            workContext.addHeader(propertyName, jmsRequest.getObjectProperty(propertyName));
+            headers.put(propertyName, jmsRequest.getObjectProperty(propertyName));
         }
+        
+        workContext.addHeader("sca4j.jms.inbound", headers);
+        
     }
 
     /*

@@ -70,7 +70,6 @@ import org.sca4j.binding.jms.runtime.tx.JtaTransactionHandler;
 import org.sca4j.binding.jms.runtime.tx.TransactionHandler;
 import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.MessageImpl;
-import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.wire.Wire;
 
@@ -79,21 +78,12 @@ import org.sca4j.spi.wire.Wire;
  */
 public class OneWayGlobalInterceptor extends AbstractInterceptor implements Interceptor {
 
-    private JMSObjectFactory jmsFactory;
     private TransactionManager transactionManager;
-
-    private Class<?> inputType;
 
 
     public OneWayGlobalInterceptor(JMSObjectFactory jmsFactory, TransactionManager transactionManager, Wire wire) {
-        try {
-            PhysicalOperationDefinition pod = wire.getInvocationChains().entrySet().iterator().next().getKey().getTargetOperation();
-            inputType = Class.forName(pod.getParameters().get(0));
-            this.jmsFactory = jmsFactory;
-            this.transactionManager = transactionManager;
-        } catch (ClassNotFoundException e) {
-            throw new SCA4JJmsException("Unable to load operation types", e);
-        }
+        super(jmsFactory, wire);
+        this.transactionManager = transactionManager;
     }
 
     public Message invoke(Message sca4jRequest) {
@@ -121,8 +111,16 @@ public class OneWayGlobalInterceptor extends AbstractInterceptor implements Inte
             transactionHandler.enlist(session);
 
             messageProducer = session.createProducer(jmsFactory.getDestination());
-            for (Object payload : (Object[]) sca4jRequest.getBody()) {
-                javax.jms.Message jmsRequest = dataBinder.marshal(payload, inputType, session);
+            Object body = ((Object[]) sca4jRequest.getBody()) [0];
+            
+            if (body.getClass().isArray()) {
+                for (Object component : (Object[]) body) {
+                    javax.jms.Message jmsRequest = dataBinder.marshal(component, inputType, session);
+                    copyHeaders(sca4jRequest.getWorkContext(), jmsRequest);
+                    messageProducer.send(jmsRequest);
+                }
+            } else {
+                javax.jms.Message jmsRequest = dataBinder.marshal(body, inputType, session);
                 copyHeaders(sca4jRequest.getWorkContext(), jmsRequest);
                 messageProducer.send(jmsRequest);
             }
