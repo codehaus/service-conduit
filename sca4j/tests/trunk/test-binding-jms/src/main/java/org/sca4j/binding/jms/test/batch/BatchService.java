@@ -20,6 +20,6 @@ package org.sca4j.binding.jms.test.batch;
 
 public interface BatchService {
     
-    void send(String ... messages);
+    void send(String[] messages);
 
 }

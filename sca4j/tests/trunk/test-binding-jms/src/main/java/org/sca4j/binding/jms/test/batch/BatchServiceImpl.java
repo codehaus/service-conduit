@@ -21,7 +21,7 @@ package org.sca4j.binding.jms.test.batch;
 public class BatchServiceImpl implements BatchService {
 
     @Override
-    public void send(String... messages) {
+    public void send(String[] messages) {
         
         System.err.println("*********** I was called with " + messages.length);
         System.setProperty("count", String.valueOf(messages.length + Integer.parseInt(System.getProperty("count"))));

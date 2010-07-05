@@ -29,7 +29,7 @@ public class BatchITest extends TestCase {
     public void testBatch() throws InterruptedException {
         
         System.setProperty("count", "0");
-        batchService.send("one", "two", "three", "four", "five");
+        batchService.send(new String[] {"one", "two", "three", "four", "five"});
         
         int counter = 0;
         while (true) {

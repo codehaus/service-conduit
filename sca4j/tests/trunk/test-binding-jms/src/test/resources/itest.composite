@@ -66,7 +66,7 @@
                          requires="sca:transactedOneWay.local" 
                          initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
                          jndiURL="vm://localhost" 
-                         batched="true"/>
+                         sca4j:batched="true"/>
         </reference>
     </component>
 
@@ -78,11 +78,12 @@
                          requires="sca:transactedOneWay.local" 
                          initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
                          jndiURL="vm://localhost" 
-                         batched="true"/>
+                         sca4j:batched="true"
+                         sca4j:batchSize="5"/>
         </service>
     </component>
 
-    <!--component name="JaxbXAGlobalWeatherTest">
+    <component name="JaxbXAGlobalWeatherTest">
         <sca4j:junit class="org.sca4j.binding.jms.test.jaxb.JAXBWeatherTest"/>
         <reference name="weatherService">
             <binding.jms correlationScheme="messageID" 
@@ -178,6 +179,6 @@
                          initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
                          jndiURL="vm://localhost" />
         </service>
-    </component-->
+    </component>
     
 </composite>
