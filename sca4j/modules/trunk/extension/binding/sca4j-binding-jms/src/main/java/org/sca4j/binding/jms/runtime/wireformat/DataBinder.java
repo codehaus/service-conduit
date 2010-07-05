@@ -36,6 +36,9 @@ public class DataBinder {
     public Object unmarshal(Message jmsMessage, Class<?> type) {
         
         try {
+            if (type.isArray()) {
+                type = type.getComponentType();
+            }
             if (String.class.equals(type)) {
                 return ((TextMessage) jmsMessage).getText();
             } else if (Message.class.isAssignableFrom(type)) {
@@ -58,6 +61,9 @@ public class DataBinder {
     public Message marshal(Object value, Class<?> type, Session session) {
         
         try {
+            if (type.isArray()) {
+                type = type.getComponentType();
+            }
             if (String.class.equals(type)) {
                 return session.createTextMessage(value.toString());
             } else if (Message.class.isAssignableFrom(type)) {

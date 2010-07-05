@@ -18,6 +18,7 @@ package org.sca4j.binding.jms.runtime.host.standalone;
 import static javax.transaction.xa.XAResource.TMFAIL;
 import static javax.transaction.xa.XAResource.TMSUCCESS;
 
+import java.lang.reflect.Array;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -93,7 +94,10 @@ public class OneWayConsumer extends ConsumerWorker {
             List<Message> jmsRequests = new LinkedList<Message>();
             
             for (int i = 0;i < batchSize;i++) {
-                jmsRequests.add(consumer.receive(template.pollingInterval));
+                Message jmsRequest = consumer.receive(template.pollingInterval);
+                if (jmsRequest != null) {
+                    jmsRequests.add(jmsRequest);
+                }
             }
 
             if (jmsRequests.size() > 0) {
@@ -104,7 +108,7 @@ public class OneWayConsumer extends ConsumerWorker {
                     org.sca4j.spi.invocation.Message sca4jRequest = new MessageImpl(new Object[] { payload }, false, workContext);
                     invocationChain.getHeadInterceptor().invoke(sca4jRequest);
                 } else {
-                    Object[] payload = new Object [jmsRequests.size()];
+                    Object[] payload = (Object[]) Array.newInstance(inputType.getComponentType(), jmsRequests.size());
                     WorkContext workContext = new WorkContext();
                     for (int i = 0;i < payload.length;i++) {
                         payload[i] = dataBinder.unmarshal(jmsRequests.get(i), inputType);

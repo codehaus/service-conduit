@@ -150,8 +150,9 @@ public class JmsBindingLoader implements TypeLoader<JmsBindingDefinition> {
         if (batched != null) {
             metadata.batched = Boolean.valueOf(batched);
         }
+        
         String batchSize = reader.getAttributeValue(Namespaces.SCA4J_NS, "batchSize");
-        if (consumerCount != null) {
+        if (batchSize != null) {
             metadata.batchSize = Integer.parseInt(batchSize);
         }
         
