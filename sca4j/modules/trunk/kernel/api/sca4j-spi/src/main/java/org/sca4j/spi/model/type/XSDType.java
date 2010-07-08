@@ -52,6 +52,8 @@
  */
 package org.sca4j.spi.model.type;
 
+import java.lang.reflect.Type;
+
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
@@ -70,4 +72,10 @@ public class XSDType extends DataType {
         super(Object.class);
         setXsdType(qname);
     }
+
+    public XSDType(QName qname, Type javaType) {
+        super(javaType);
+        setXsdType(qname);
+    }
+    
 }

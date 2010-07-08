@@ -52,6 +52,8 @@
  */
 package org.sca4j.spi.model.type;
 
+import java.lang.reflect.Type;
+
 import javax.xml.namespace.QName;
 
 /**
@@ -63,5 +65,9 @@ public class XSDElement extends XSDType {
 
     public XSDElement(QName physical) {
         super(physical);
+    }
+
+    public XSDElement(Type javaType, QName physical) {
+        super(physical, javaType);
     }
 }

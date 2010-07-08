@@ -205,7 +205,7 @@ public class WsdlResourceProcessor implements ResourceProcessor {
      */
     private DataType getOutputType(Output output, XmlSchemaCollection xmlSchema) {
         
-        if(output == null) return new XSDElement(null);
+        if(output == null) return new XSDElement(null, null);
         
         Message message = output.getMessage();
         Part part = (Part) message.getOrderedParts(null).get(0);

@@ -90,6 +90,10 @@ public class PhysicalOperationHelperImpl implements PhysicalOperationHelper {
 
     @SuppressWarnings({"unchecked"})
     public String getClassName(Type paramType) {
+        
+        if (paramType == null) {
+            return null;
+        }
 
         // TODO this needs to be fixed
         if (paramType instanceof Class) {
