@@ -57,7 +57,7 @@ public class OneWayConsumer extends ConsumerWorker {
      */
     @Override
     public void execute() {
-
+        
         Connection connection = null;
         Session session = null;
         MessageConsumer consumer = null;
@@ -97,6 +97,8 @@ public class OneWayConsumer extends ConsumerWorker {
                 Message jmsRequest = consumer.receive(template.pollingInterval);
                 if (jmsRequest != null) {
                     jmsRequests.add(jmsRequest);
+                } else {
+                    break;
                 }
             }
 

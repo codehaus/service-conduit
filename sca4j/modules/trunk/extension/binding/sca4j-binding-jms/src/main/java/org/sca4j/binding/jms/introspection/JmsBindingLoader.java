@@ -100,6 +100,7 @@ public class JmsBindingLoader implements TypeLoader<JmsBindingDefinition> {
         ATTRIBUTES.add("consumerCount");
         ATTRIBUTES.add("batched");
         ATTRIBUTES.add("batchSize");
+        ATTRIBUTES.add("key");
     }
 
     private final LoaderHelper loaderHelper;
