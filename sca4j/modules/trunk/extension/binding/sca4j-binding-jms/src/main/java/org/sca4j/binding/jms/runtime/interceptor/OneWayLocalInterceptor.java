@@ -105,7 +105,6 @@ public class OneWayLocalInterceptor extends AbstractInterceptor implements Inter
                     javax.jms.Message jmsRequest = dataBinder.marshal(component, inputType, session);
                     copyHeaders(sca4jRequest.getWorkContext(), jmsRequest);
                     messageProducer.send(jmsRequest);
-                    System.err.println("Sent message");
                 }
             } else {
                 javax.jms.Message jmsRequest = dataBinder.marshal(body, inputType, session);

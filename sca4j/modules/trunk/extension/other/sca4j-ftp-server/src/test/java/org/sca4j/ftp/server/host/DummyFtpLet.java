@@ -85,7 +85,6 @@ public class DummyFtpLet implements FtpLet {
 
         int data = uploadData.read();
         while (data != -1) {
-            System.err.print((char) data);
             data = uploadData.read();
         }
         return true;

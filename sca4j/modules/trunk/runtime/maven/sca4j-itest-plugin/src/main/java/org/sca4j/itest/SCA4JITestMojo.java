@@ -318,10 +318,6 @@ public class SCA4JITestMojo extends AbstractMojo {
             classpath.add(new File(project.getBuild().getOutputDirectory()).toURI().toURL());
             classpath.add(new File(project.getBuild().getTestOutputDirectory()).toURI().toURL());
             
-            if (System.getProperty("sca4j.debug") != null) {
-                System.err.println(classpath);
-            }
-            
             return classpath;
             
         } catch (MalformedURLException e) {

@@ -105,7 +105,7 @@ public class RunnableHolderImpl<T> extends FutureTask<T> implements RunnableHold
             timerService.cancel(id);
             return val;
         } catch (SchedulerException e) {
-            e.printStackTrace(System.err);
+            e.printStackTrace();
             return false;
         }
     }

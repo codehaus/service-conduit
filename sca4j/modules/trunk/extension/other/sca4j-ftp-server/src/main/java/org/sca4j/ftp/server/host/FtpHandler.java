@@ -88,7 +88,6 @@ import org.sca4j.ftp.server.protocol.Response;
 import org.sca4j.ftp.server.security.User;
 
 /**
- * TODO Use monitor instead of System.err.
  *
  * @version $Revision$ $Date$
  */
