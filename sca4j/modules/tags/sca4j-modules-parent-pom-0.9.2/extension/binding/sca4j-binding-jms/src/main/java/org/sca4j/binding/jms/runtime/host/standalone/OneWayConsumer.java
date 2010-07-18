@@ -1,0 +1,146 @@
+/**
+ * SCA4J
+ * Copyright (c) 2009 - 2099 Service Symphony Ltd
+ *
+ * Licensed to you under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.  A copy of the license
+ * is included in this distrubtion or you may obtain a copy at
+ *
+ *    http://www.opensource.org/licenses/apache2.0.php
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed
+ * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+ * CONDITIONS OF ANY KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+package org.sca4j.binding.jms.runtime.host.standalone;
+
+import static javax.transaction.xa.XAResource.TMFAIL;
+import static javax.transaction.xa.XAResource.TMSUCCESS;
+
+import java.lang.reflect.Array;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.jms.Connection;
+import javax.jms.Message;
+import javax.jms.MessageConsumer;
+import javax.jms.MessageProducer;
+import javax.jms.Session;
+
+import org.sca4j.binding.jms.common.TransactionType;
+import org.sca4j.binding.jms.runtime.helper.JmsHelper;
+import org.sca4j.binding.jms.runtime.tx.JmsTransactionHandler;
+import org.sca4j.binding.jms.runtime.tx.JtaTransactionHandler;
+import org.sca4j.binding.jms.runtime.tx.TransactionHandler;
+import org.sca4j.host.runtime.RuntimeLifecycle;
+import org.sca4j.spi.invocation.MessageImpl;
+import org.sca4j.spi.invocation.WorkContext;
+
+/**
+ * A thread pull message from destination and invoke Message listener.
+ *
+ * @version $Revision$ $Date$
+ */
+public class OneWayConsumer extends ConsumerWorker {
+
+    /**
+     * @param template
+     * @throws ClassNotFoundException
+     */
+    public OneWayConsumer(ConsumerWorkerTemplate template, RuntimeLifecycle runtimeLifecycle) {
+        super(template, runtimeLifecycle);
+    }
+
+    /**
+     * @see java.lang.Runnable#run()
+     */
+    @Override
+    public void execute() {
+        
+        Connection connection = null;
+        Session session = null;
+        MessageConsumer consumer = null;
+        MessageProducer producer = null;
+        TransactionHandler transactionHandler = null;
+
+        try {
+            
+            if (runtimeLifecycle.isShutdown()) {
+                return;
+            }
+
+            if (exception) {
+                exception = false;
+                Thread.sleep(template.exceptionTimeout);
+            }
+
+            connection = template.jmsFactory.getConnection();
+            session = template.jmsFactory.getSession(connection, template.transactionType);
+            connection.start();
+
+            if (template.transactionType == TransactionType.GLOBAL) {
+                transactionHandler = new JtaTransactionHandler(template.transactionManager);
+            } else {
+                transactionHandler = new JmsTransactionHandler(session);
+            }
+
+            transactionHandler.begin();
+            transactionHandler.enlist(session);
+
+            consumer = session.createConsumer(template.jmsFactory.getDestination());
+            
+            int batchSize = template.metadata.batched ? template.metadata.batchSize : 1;
+            List<Message> jmsRequests = new LinkedList<Message>();
+            
+            for (int i = 0;i < batchSize;i++) {
+                Message jmsRequest = consumer.receive(template.pollingInterval);
+                if (jmsRequest != null) {
+                    jmsRequests.add(jmsRequest);
+                } else {
+                    break;
+                }
+            }
+
+            if (jmsRequests.size() > 0) {
+                if (!template.metadata.batched) {
+                    Object payload = dataBinder.unmarshal(jmsRequests.get(0), inputType);
+                    WorkContext workContext = new WorkContext();
+                    copyHeaders(jmsRequests.get(0), workContext);
+                    org.sca4j.spi.invocation.Message sca4jRequest = new MessageImpl(new Object[] { payload }, false, workContext);
+                    invocationChain.getHeadInterceptor().invoke(sca4jRequest);
+                } else {
+                    Object[] payload = (Object[]) Array.newInstance(inputType.getComponentType(), jmsRequests.size());
+                    WorkContext workContext = new WorkContext();
+                    for (int i = 0;i < payload.length;i++) {
+                        payload[i] = dataBinder.unmarshal(jmsRequests.get(i), inputType);
+                        copyHeaders(jmsRequests.get(i), workContext);
+                    }
+                    org.sca4j.spi.invocation.Message sca4jRequest = new MessageImpl(new Object[] { payload }, false, workContext);
+                    invocationChain.getHeadInterceptor().invoke(sca4jRequest);
+                }
+            }
+
+            transactionHandler.delist(session, TMSUCCESS);
+            transactionHandler.commit();
+
+        } catch (Exception ex) {
+            reportException(ex);
+            try {
+                if (transactionHandler != null) {
+                    transactionHandler.delist(session, TMFAIL);
+                    transactionHandler.rollback();
+                }
+            } catch (Exception e1) {
+                reportException(e1);
+            }
+        } finally {
+            JmsHelper.closeQuietly(producer);
+            JmsHelper.closeQuietly(consumer);
+            JmsHelper.closeQuietly(session);
+            JmsHelper.closeQuietly(connection);
+        }
+
+    }
+
+}
