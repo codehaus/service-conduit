@@ -20,8 +20,9 @@
     <parent>
         <groupId>org.sca4j</groupId>
         <artifactId>parent</artifactId>
-        <version>6.1</version>
+        <version>6.3</version>
     </parent>
+
     <groupId>org.sca4j</groupId>
     <artifactId>sca4j-plugins-parent-pom</artifactId>
     <name>SCA4J Plugins Parent POM</name>
