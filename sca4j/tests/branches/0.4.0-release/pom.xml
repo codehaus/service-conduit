@@ -21,22 +21,22 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.codehaus.service-conduit</groupId>
+        <groupId>org.sca4j</groupId>
         <artifactId>parent</artifactId>
-        <version>6</version>
+        <version>6.4-SNAPSHOT</version>
     </parent>
         
     <groupId>org.sca4j</groupId>
     <artifactId>ci</artifactId>
-    <version>0.4.4-SNAPSHOT</version>
+    <version>0.4.6-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>SCA4J Continuous Integration Tests</name>
     <description>POM to run the integration tests depending on available resources.</description>
 
     <properties>
-        <runtime.version>0.4.4-SNAPSHOT</runtime.version>
-        <sca4j.version>0.4.4-SNAPSHOT</sca4j.version>
+        <runtime.version>0.4.6-SNAPSHOT</runtime.version>
+        <sca4j.version>0.4.6-SNAPSHOT</sca4j.version>
     </properties>
 
     <repositories>
@@ -84,12 +84,12 @@
                 <plugin>
                     <groupId>org.sca4j</groupId>
                     <artifactId>sca4j-contribution-plugin</artifactId>
-                    <version>0.4.4</version>
+                    <version>0.4.6-SNAPSHOT</version>
                 </plugin>
                 <plugin>
                     <groupId>org.sca4j</groupId>
                     <artifactId>sca4j-itest-plugin</artifactId>
-                    <version>0.4.4-SNAPSHOT</version>
+                    <version>0.4.6-SNAPSHOT</version>
                 </plugin>                
             </plugins>
         </pluginManagement>
