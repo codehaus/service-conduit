@@ -84,6 +84,12 @@
             <artifactId>sca4j-introspection</artifactId>
             <version>0.9.3-SNAPSHOT</version>
         </dependency>
+        
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-introspection-cdi</artifactId>
+            <version>0.9.3-SNAPSHOT</version>
+        </dependency>        
 
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>

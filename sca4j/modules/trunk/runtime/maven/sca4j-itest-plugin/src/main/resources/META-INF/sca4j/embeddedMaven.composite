@@ -84,6 +84,7 @@
     <!-- Introspection Components -->
     <include name="Helper" scdlResource="org/sca4j/introspection/impl/helper.composite"/>
     <include name="AnnotationProcessors" scdlResource="org/sca4j/introspection/impl/annotation/processors.composite"/>
+    <include name="CdiAnnotationProcessors" scdlResource="org/sca4j/introspection/impl/cdi/annotation/cdi-processors.composite"/>
     <include name="Loader" scdlResource="org/sca4j/loader/loader.composite"/>
 
     <!-- include deployment configuration -->
