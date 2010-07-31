@@ -60,24 +60,14 @@
     
     <component name="TestClient">
         <sca4j:junit class="tests.rs.TestClient"/>
-        <reference name="cardService">
-            <sca4j:binding.rs uri="http://localhost:8900/esb"/>
-        </reference>
-        <reference name="outboundProxy" target="MockComponent/CardService" />
+        <property name="url">http://localhost:8900/services/books</property>
     </component>
     
-    <component name="CardService">
-        <implementation.composite scdlResource="card.composite" />
-        <service name="cardService">
-            <sca4j:binding.rs uri="/esb"/>
+    <component name="BookResource">
+        <implementation.java class="tests.rs.BookResource" />
+        <service name="BookResource">
+            <sca4j:binding.rs uri="/services"/>
         </service>
-        <reference name="outboundProxy" target="MockComponent/CardService" />
-    </component>
-    
-    <component name="MockComponent">
-        <sca4j:implementation.mock>
-            tests.rs.CardService
-        </sca4j:implementation.mock>
     </component>
     
 </composite>

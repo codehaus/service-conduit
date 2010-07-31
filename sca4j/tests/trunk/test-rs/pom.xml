@@ -89,6 +89,11 @@
         </dependency>
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-api</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-jetty</artifactId>
             <version>${sca4j.version}</version>
             <scope>test</scope>

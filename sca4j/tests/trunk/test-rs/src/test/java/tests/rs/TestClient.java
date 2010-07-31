@@ -54,34 +54,51 @@ package tests.rs;
 
 import junit.framework.TestCase;
 
-import org.easymock.EasyMock;
-import org.easymock.IMocksControl;
-import org.oasisopen.sca.annotation.Reference;
+import org.oasisopen.sca.annotation.Property;
+
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.WebResource;
 
 /**
  * @version $Rev: 5444 $ $Date: 2008-09-19 15:57:03 +0100 (Fri, 19 Sep 2008) $
  */
 public class TestClient extends TestCase {
     
-    @Reference protected CardService cardService;
-    @Reference protected IMocksControl control;
-    @Reference protected CardService outboundProxy;
+    @Property public String url;
     
-    public void testUpload() throws Exception {
-    	Thread.sleep(30000);
-        control.reset();
-        EasyMock.expect(outboundProxy.upload("ABCD", 1234)).andReturn("ABCD uploaded with amount 1234.0");
-        control.replay();
-        assertEquals("ABCD uploaded with amount 1234.0", cardService.upload("ABCD", 1234));
-        control.verify();
-    }
+    public void testOperations() throws Exception {
+        
+        Client client = Client.create();
+        WebResource webResource = client.resource(url);
+        
+        Book book = new Book();
+        book.isbn = "1234";
+        book.name = "Some book";
+        
+        webResource.put(book);
+        
+        BookList bookList = webResource.get(BookList.class);
+        assertEquals(1, bookList.books.size());
+        
+        book = bookList.books.iterator().next();
+        assertEquals("1234", book.isbn);
+        assertEquals("Some book", book.name);
+        
+        book.name = "Some other book";
+        webResource.post(book);
+        
+        webResource = client.resource(url + "/1234");
+        book = webResource.get(Book.class);
+        assertEquals("1234", book.isbn);
+        assertEquals("Some other book", book.name);
+        
+        webResource.delete();
 
-    public void testDisable() {
-        control.reset();
-        EasyMock.expect(outboundProxy.disable("ABCD")).andReturn("ABCD disabled");
-        control.replay();
-        assertEquals("ABCD disabled", cardService.disable("ABCD"));
-        control.verify();
+        webResource = client.resource(url);
+        bookList = webResource.get(BookList.class);
+        assertEquals(0, bookList.books.size());
+        
+        
     }
    
 }
