@@ -80,10 +80,7 @@ public class RsBindingGenerator implements BindingGenerator<RsWireSourceDefiniti
     }
 
     public RsWireTargetDefinition generateWireTarget(LogicalBinding<RsBindingDefinition> binding, Policy policy, ReferenceDefinition definition) {
-        URI classloaderId = binding.getParent().getParent().getParent().getUri();
-        URI endpointUri = binding.getBinding().getTargetUri();
-        String interfaze = definition.getServiceContract().getQualifiedInterfaceName();
-        return new RsWireTargetDefinition(classloaderId, endpointUri, interfaze);
+        throw new UnsupportedOperationException("REST services not supported on reference bindings");
     }
     
 }

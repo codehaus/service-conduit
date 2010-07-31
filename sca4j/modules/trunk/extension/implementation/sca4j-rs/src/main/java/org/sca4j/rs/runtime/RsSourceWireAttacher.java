@@ -56,8 +56,13 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.net.URI;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
 
 import org.oasisopen.sca.annotation.EagerInit;
 import org.oasisopen.sca.annotation.Reference;
@@ -73,6 +78,7 @@ import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.invocation.WorkContext;
 import org.sca4j.spi.model.physical.PhysicalOperationPair;
 import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
+import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.wire.InvocationChain;
 import org.sca4j.spi.wire.Wire;
 
@@ -126,21 +132,45 @@ public class RsSourceWireAttacher implements SourceWireAttacher<RsWireSourceDefi
         ClassLoader classLoader = getClass().getClassLoader();
         Class<?> serviceInterface = classLoader.loadClass(sourceDefinition.getInterfaze());
 
-        Object instance = Proxy.newProxyInstance(classLoader, new Class[] {serviceInterface}, new InvocationHandler() {
-            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                String methodName = method.getName();
-                for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
-                    if (entry.getKey().getSourceOperation().getName().equals(methodName)) {
-                        Message message = new MessageImpl(args, false, new WorkContext());
-                        message = entry.getValue().getHeadInterceptor().invoke(message);
-                        return message.getBody();
-                    }
+        Map<String, InvocationChain> invocationChains = new HashMap<String, InvocationChain>();
+        for (InvocationChain chain : wire.getInvocationChains().values()) {
+            PhysicalOperationPair operation = chain.getPhysicalOperation();
+            invocationChains.put(operation.getSourceOperation().getName(), chain);
+        }
+
+        MethodInterceptor methodInterceptor = new RsMethodInterceptor(invocationChains);
+        Enhancer enhancer = new Enhancer();
+        enhancer.setSuperclass(serviceInterface);
+        enhancer.setCallback(methodInterceptor);
+        
+        application.addServiceHandler(serviceInterface, enhancer.create());
+        
+    }    
+    
+    private class RsMethodInterceptor implements MethodInterceptor {
+
+        private Map<String, InvocationChain> invocationChains;
+
+        private RsMethodInterceptor(Map<String, InvocationChain> invocationChains) {
+            this.invocationChains = invocationChains;
+        }
+
+        public Object intercept(Object object, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+            Message message = new MessageImpl(args, false, new WorkContext());
+            InvocationChain invocationChain = invocationChains.get(method.getName());
+            if (invocationChain != null) {
+                Interceptor headInterceptor = invocationChain.getHeadInterceptor();
+                Message ret = headInterceptor.invoke(message);
+                if (ret.isFault()) {
+                    throw (Throwable) ret.getBody();
+                } else {
+                    return ret.getBody();
                 }
+            } else {
                 return null;
             }
-        });
-        
-        application.addServiceHandler(instance.getClass(), instance);
-        
+        }
+
     }
+
 }
