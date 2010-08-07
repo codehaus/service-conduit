@@ -57,7 +57,7 @@ import org.sca4j.scdl.ValidationContext;
 public class InjectProcessorBasicTestCase extends TestCase {
 	
     private InjectProcessor<Implementation<? extends InjectingComponentType>> processor;
-    
+       
     /**
      * Tests that for an annotated method with an unsupported access modifier, a correctly 
      * populated error type is put into the introspection context  
@@ -166,7 +166,7 @@ public class InjectProcessorBasicTestCase extends TestCase {
      * The class reflected on by the tests.     
      */
     @SuppressWarnings("unused")
-    public static class TestPrivateClass {
+    private static class TestPrivateClass {
     	
         @Inject
         private void setErrorReference(TestPrivateClass instance) {}

@@ -31,19 +31,25 @@
 
     <dependencies>
 
+	<!--  Third party dependencies -->
+	<dependency> <!--  CDI api -->
+	    <groupId>javax.enterprise</groupId>
+	    <artifactId>cdi-api</artifactId>
+	    <version>1.0-SP1</version>
+	</dependency>
+		
+       <dependency> <!-- JSR-330 api -->
+	    <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+       </dependency> 		
+
         <!-- Internal project dependencies -->
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-introspection</artifactId>            
             <version>0.9.3-SNAPSHOT</version>
         </dependency>
-        
-        <!-- Third party dependencies -->                       
-        <dependency> <!-- JSR-330 spec group api (part of JEE6 but only this much is needed) -->
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-            <version>1</version>
-        </dependency>        
 
         <!-- Test only dependencies -->
         <dependency>

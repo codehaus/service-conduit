@@ -34,11 +34,13 @@ import org.sca4j.introspection.IntrospectionHelper;
 import org.sca4j.introspection.TypeMapping;
 import org.sca4j.introspection.contract.ContractProcessor;
 import org.sca4j.introspection.impl.annotation.InvalidAccessor;
+import org.sca4j.introspection.impl.cdi.InjectionDefinition;
 import org.sca4j.introspection.java.AbstractAnnotationProcessor;
 import org.sca4j.scdl.ConstructorInjectionSite;
 import org.sca4j.scdl.FieldInjectionSite;
 import org.sca4j.scdl.Implementation;
 import org.sca4j.scdl.InjectingComponentType;
+import org.sca4j.scdl.InjectionSite;
 import org.sca4j.scdl.MethodInjectionSite;
 import org.sca4j.scdl.Multiplicity;
 import org.sca4j.scdl.ReferenceDefinition;
@@ -57,8 +59,19 @@ public class InjectProcessor<I extends Implementation<? extends InjectingCompone
     
     /**********************************************************
      
+     **** Interim commit ****
+     
      TODO: 
-    	Add qualifier support.
+    	Add qualifier support.    		
+    		Type safe resolution of qualifiers (spec 5.2)
+    		Deferred: Qualifier types are also used as event selectors by event consumers..and to bind decorators to beans.. (spec 2.3)
+    		Autowire and explicit wire
+    		Test qualifier missing on either end of wire.
+    		
+			Ignore @Any: DONE
+			Ignore @Default ("assumed for any injection point that does not explicitly declare a qualifier" spec 2.3): DONE
+			An injection point may even specify multiple qualifiers (spec 2.3): DONE    		    	
+    		
       	Only edited ./modules/runtime/maven/sca4j-itest-plugin/src/main/resources/META-INF/sca4j/embeddedMaven.composite
       	
  	**********************************************************/      
@@ -88,12 +101,12 @@ public class InjectProcessor<I extends Implementation<? extends InjectingCompone
         if (contextError != null) {        
         	context.addError(contextError);
         } else {
-          FieldInjectionSite site = new FieldInjectionSite(field);          
-          ReferenceDefinition definition = createDefinition(member, context);
-          implementation.getComponentType().add(definition, site);        	
+        	FieldInjectionSite site = new FieldInjectionSite(field);
+        	QualifiedInjectionSite injectionQualifier = new QualifiedInjectionSite(field);                    
+        	registerInjectionSite(site, member, context, implementation, injectionQualifier);
         }
     }
-
+    
     /**
      * Process the annotated method encountered when walking a class.
      * @param annotation the annotation on the method.
@@ -107,10 +120,12 @@ public class InjectProcessor<I extends Implementation<? extends InjectingCompone
         if (contextError != null) {        
         	context.addError(contextError);
         } else {
-        	final int parameterIndexZero = 0; //It's a setter method so always inject at index 0.
+        	//It's a setter method so always inject at index 0. JSR-299 allows any method, even with multiple params, to be
+        	//annotated @Inject but the convention in this runtime is a per setter so adopt that.
+        	final int parameterIndexZero = 0; 
         	MethodInjectionSite site = new MethodInjectionSite(method, parameterIndexZero);
-        	ReferenceDefinition definition = createDefinition(member, context);
-        	implementation.getComponentType().add(definition, site);
+            QualifiedInjectionSite injectionQualifier = new QualifiedInjectionSite(method, parameterIndexZero);
+            registerInjectionSite(site, member, context, implementation, injectionQualifier);
         }
     }
 
@@ -125,27 +140,42 @@ public class InjectProcessor<I extends Implementation<? extends InjectingCompone
     	//The constructor as a whole (not individual parameters) is the only allowed @Inject target. As per the CDI spec., this is
     	//interpreted as every parameter being an injection target. JSR-299 spec section 7.1: 
     	//"A bean constructor may have any number of parameters. All parameters of a bean constructor are injection points."    	    	
-    	int parameterCount = constructor.getParameterTypes().length;
+    	int parameterCount = constructor.getParameterTypes().length;    	
 		for(int index = 0; index < parameterCount; index ++) {
         	Member member = new Member(constructor, index);    	
             ConstructorInjectionSite site = new ConstructorInjectionSite(constructor, index);
-            ReferenceDefinition definition = createDefinition(member, context);
-            implementation.getComponentType().add(definition, site);    		
+            QualifiedInjectionSite injectionQualifier = new QualifiedInjectionSite(constructor, index);
+            registerInjectionSite(site, member, context, implementation, injectionQualifier);            
     	}
     }
+    
+    /**
+     * Creates and registers, with the component type definition, a (possibly qualified) injection target.
+     * @param site the typed target injection site.
+     * @param member abstraction of the reflection type which is the target.  
+     * @param context the broader context within which the introspection is happening.
+     * @param implementation the component implementation being processed. 
+     * @param injectionQualifier abstraction of the qualifiers applied to the site. 
+     */
+	private void registerInjectionSite(InjectionSite site, Member member, IntrospectionContext context, 
+										I implementation, QualifiedInjectionSite injectionQualifier) {
+		InjectionDefinition definition = createDefinition(member, context, injectionQualifier);
+		implementation.getComponentType().add(definition, site);    	
+	}    
 
     /**
      * Create a {@link ReferenceDefinition} instance. This is added to the component type definition.
      * @param member the annotated component member.  
      * @param context the broader context within which the introspection is happening. 
+     * @param injectionQualifier 
      * @return a populated reference definition.
      */
-    private ReferenceDefinition createDefinition(Member member, IntrospectionContext context) {        
+    private InjectionDefinition createDefinition(Member member, IntrospectionContext context, QualifiedInjectionSite injectionQualifier) {        
         TypeMapping typeMapping = context.getTypeMapping();
         Type baseType = helper.getBaseType(member.genericType, typeMapping);
         ServiceContract contract = contractProcessor.introspect(typeMapping, baseType, context);
         Multiplicity multiplicity = multiplicity(member.genericType, typeMapping);
-        return new ReferenceDefinition(member.name, contract, multiplicity);
+        return new InjectionDefinition(member.name, contract, multiplicity, injectionQualifier);
     }
 
     /**
