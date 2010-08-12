@@ -17,30 +17,40 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>org.codehaus.service-conduit</groupId>
-        <artifactId>sca4j-extension-parent-pom</artifactId>
-		<version>0.9.3-SNAPSHOT</version>
+        <artifactId>sca4j-extension-binding-parent-pom</artifactId>
+        <version>0.9.3-SNAPSHOT</version>
     </parent>
-    <groupId>org.codehaus.service-conduit</groupId>
-    <artifactId>sca4j-extension-binding-parent-pom</artifactId>
-    <name>SCA4J Extension Binding Parent POM</name>
-    <description>SCA4J Extension Binding Parent POM.</description>
-	<packaging>pom</packaging>
 
-	<modules>
-		<module>sca4j-binding-test-harness</module>
-		<module>sca4j-binding-burlap</module>
-		<module>sca4j-binding-hessian</module>
-		<module>sca4j-binding-jms</module>
-		<module>sca4j-binding-test</module>
-		<module>sca4j-binding-ws</module>
-		<module>sca4j-binding-ws-axis2</module>
-		<module>sca4j-binding-ws-metro</module>
-		<module>sca4j-binding-ftp</module>
-		<module>sca4j-binding-tcp</module>
-		<module>sca4j-binding-http</module>
-		<module>sca4j-binding-oracle-aq</module>
-		<module>sca4j-binding-file</module>
-	</modules>
+    <groupId>org.codehaus.service-conduit</groupId>
+    <artifactId>sca4j-binding-file</artifactId>
+    <packaging>jar</packaging>
+    <name>SCA4J File Binding</name>
+    <description>SCA4J File Binding to read/write files</description>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-spi</artifactId>
+            <version>0.9.3-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-transform</artifactId>
+            <version>0.9.3-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+		
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+	
 </project>
