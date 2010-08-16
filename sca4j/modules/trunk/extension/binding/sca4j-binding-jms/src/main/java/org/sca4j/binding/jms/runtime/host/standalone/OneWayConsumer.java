@@ -87,8 +87,12 @@ public class OneWayConsumer extends ConsumerWorker {
 
             transactionHandler.begin();
             transactionHandler.enlist(session);
-
-            consumer = session.createConsumer(template.jmsFactory.getDestination());
+            
+            if (template.metadata.selector != null) {
+                consumer = session.createConsumer(template.jmsFactory.getDestination(), template.metadata.selector);
+            } else {
+                consumer = session.createConsumer(template.jmsFactory.getDestination());
+            }
             
             int batchSize = template.metadata.batched ? template.metadata.batchSize : 1;
             List<Message> jmsRequests = new LinkedList<Message>();

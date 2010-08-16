@@ -100,8 +100,11 @@ public class TwoWayConsumer extends ConsumerWorker {
 
             transactionHandler.begin();
             transactionHandler.enlist(session);
-
-            consumer = session.createConsumer(template.jmsFactory.getDestination());
+            if (template.metadata.selector != null) {
+                consumer = session.createConsumer(template.jmsFactory.getDestination(), template.metadata.selector);
+            } else {
+                consumer = session.createConsumer(template.jmsFactory.getDestination());
+            }
             Message jmsRequest = consumer.receive(template.pollingInterval);
 
             if (jmsRequest != null) {

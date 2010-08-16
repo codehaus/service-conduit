@@ -56,6 +56,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
@@ -68,7 +69,6 @@ import org.sca4j.binding.jms.scdl.JmsBindingDefinition;
 import org.sca4j.host.Namespaces;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.xml.LoaderHelper;
-import org.sca4j.introspection.xml.LoaderUtil;
 import org.sca4j.introspection.xml.TypeLoader;
 import org.sca4j.introspection.xml.UnrecognizedAttribute;
 
@@ -157,9 +157,27 @@ public class JmsBindingLoader implements TypeLoader<JmsBindingDefinition> {
             metadata.batchSize = Integer.parseInt(batchSize);
         }
         
-        LoaderUtil.skipToEndElement(reader);
+        loadOptionalElements(reader, metadata);
+        
         return bd;
 
+    }
+
+    private void loadOptionalElements(XMLStreamReader reader, JmsBindingMetadata metadata) throws XMLStreamException {
+        while (true) {
+            final int event = reader.next();
+            if (event == XMLStreamConstants.START_ELEMENT) {
+                String name = reader.getName().getLocalPart();
+                if ("selector".equals(name)) {
+                    metadata.selector = reader.getElementText();
+                }
+            } else if (event == XMLStreamConstants.END_ELEMENT) {
+                String name = reader.getName().getLocalPart();
+                if ("binding.jms".equals(name)) {
+                    return;
+                }
+            }
+        }
     }
 
     private void validateAttributes(XMLStreamReader reader, IntrospectionContext context) {
