@@ -181,4 +181,35 @@
         </service>
     </component>
     
+    <component name="SelectorServiceTest">
+        <sca4j:junit class="org.sca4j.binding.jms.test.selector.SelectorTest"/>
+        <reference name="greetingServiceWithSelector">
+            <binding.jms destination="greetingQueue" 
+                         connectionFactory="connectionFactory" 
+                         requires="sca:transactedOneWay.local" 
+                         initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
+                         jndiURL="vm://localhost">
+            </binding.jms>
+        </reference>
+        <reference name="latchService" target="LatchService"/>        
+    </component>
+    
+    <component name="GreetingService">
+        <implementation.java class="org.sca4j.binding.jms.test.selector.GreetingServiceImpl"/>
+        <service name="GreetingService">
+            <binding.jms destination="greetingQueue" 
+                         connectionFactory="connectionFactory" 
+                         requires="sca:transactedOneWay.local" 
+                         initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
+                         jndiURL="vm://localhost">                
+                <selector>receiver='foo'</selector>
+            </binding.jms>
+        </service>
+        <reference name="latchService" target="LatchService"/>
+    </component>
+    
+    <component name="LatchService">
+        <implementation.java class="org.sca4j.binding.jms.test.selector.LatchService"/>
+    </component>
+    
 </composite>

@@ -63,7 +63,7 @@
         <module>test-binding-metro</module>
         <module>test-binding-burlap</module>
         <module>test-binding-hessian</module>
-        <!--module>test-binding-jms</module-->
+        <module>test-binding-jms</module>
         <module>test-cdi</module>
 		<module>test-binding-file</module>
     </modules>
