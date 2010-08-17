@@ -25,14 +25,14 @@ import org.apache.commons.io.IOUtils;
 import org.oasisopen.sca.annotation.Reference;
 
 /**
- * 
- * @version $Revision$ $Date$
+ * Latch Service to support file service tests
  */
 public class FileServiceImpl implements FileService {
     @Reference protected LatchService latchService;
     
-    public void receive(String fileName, InputStream payload) throws IOException {
-        System.out.println("File received with fileName: " + fileName);
-        latchService.setPayload(IOUtils.toString(payload));
+    public void receive(String filename, InputStream payload) throws IOException {
+        final String fileContents = IOUtils.toString(payload);
+        System.out.println(String.format("File %s received with '%s'" , filename, fileContents));
+        latchService.setPayload(fileContents);
     }
 }

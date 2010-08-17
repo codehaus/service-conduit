@@ -64,8 +64,10 @@
                         <![CDATA[
                             <config>
                              <host.properties>
-                                 <file.polling.dir>${basedir}</file.polling.dir>                                      
+                                 <file.polling.dir>${project.build.directory}/files</file.polling.dir>
+                                 <file.archive.dir>${project.build.directory}/files/archive</file.archive.dir>
                              </host.properties>
+                             <file.archive.dir>${project.build.directory}/files/archive</file.archive.dir>
                             </config>
                         ]]>
                     </systemConfig>
@@ -79,6 +81,23 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                  <execution>
+                    <phase>initialize</phase>
+                    <configuration>
+                      <tasks>
+                         <mkdir dir="${project.build.directory}/files"/>
+                         <mkdir dir="${project.build.directory}/files/archive"/>
+                       </tasks>
+                     </configuration>
+                     <goals>
+                       <goal>run</goal>
+                     </goals>
+                   </execution>
+                 </executions>
+            </plugin>
 		</plugins>
 	</build>
 

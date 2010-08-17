@@ -19,6 +19,7 @@
 package org.sca4j.tests.binding.file;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import org.oasisopen.sca.annotation.Scope;
 
@@ -35,7 +36,7 @@ public class LatchServiceImpl implements LatchService {
     }
 
     public void await() throws InterruptedException {
-        latch.await();
+        latch.await(4, TimeUnit.SECONDS);
     }    
 
     public String getPayload() {

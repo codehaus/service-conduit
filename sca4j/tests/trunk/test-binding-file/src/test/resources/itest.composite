@@ -21,26 +21,45 @@
 <composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
            xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912"
            xmlns:sca4j="urn:sca4j.org"
-           name="FileServiceTestComposite"
-           autowire="true">
+           name="FileServiceTestComposite">
 
     <component name="FileServiceTest">
         <sca4j:junit class="org.sca4j.tests.binding.file.FileServiceITest"/>
+        <property name="archiveFileLocation" source="$config/file.archive.dir" />
         <reference name="fileService">
-            <sca4j:binding.file uri="file:///${file.polling.dir}/target" />
-        </reference>         
+            <sca4j:binding.file uri="file:///${file.polling.dir}" />
+        </reference>
+        <reference name="latchService1" target="LatchService1" />
+        <reference name="latchService2" target="LatchService2" />
     </component>
 
-    <component name="FileService">
+    <component name="FileDeleteService">
         <implementation.java class="org.sca4j.tests.binding.file.FileServiceImpl"/>
         <service name="FileService">
-            <sca4j:binding.file uri="file:///${file.polling.dir}/target"                                
+            <sca4j:binding.file uri="file:///${file.polling.dir}"                                
                                 acquireLock="true"
-                                filenamePattern="filebinding\.text" />
-        </service>        
+                                pollingFrequency="1000"
+                                filenamePattern="filebinding\.text" />                                
+        </service>
+        <reference name="latchService" target="LatchService1" />
+    </component>
+    <component name="LatchService1">
+        <implementation.java class="org.sca4j.tests.binding.file.LatchServiceImpl"/>
     </component>
     
-    <component name="LatchService">
+    <component name="FileArchiveService">
+        <implementation.java class="org.sca4j.tests.binding.file.FileServiceImpl"/>
+        <service name="FileService">
+            <sca4j:binding.file uri="file:///${file.polling.dir}"
+                                archiveUri="file:///${file.archive.dir}"
+                                acquireLock="true"
+                                filenamePattern="archivefile\.text"
+                                pollingFrequency="1000"
+                                archiveFileTimestampPattern="yyyyMMdd'T'HHmmssSSSz" />
+        </service>
+        <reference name="latchService" target="LatchService2" />
+    </component>
+    <component name="LatchService2">
         <implementation.java class="org.sca4j.tests.binding.file.LatchServiceImpl"/>
     </component>
     

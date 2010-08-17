@@ -18,28 +18,48 @@
  */
 package org.sca4j.tests.binding.file;
 
-import org.apache.commons.io.IOUtils;
-import org.oasisopen.sca.annotation.Reference;
+import java.io.File;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.io.IOUtils;
+import org.oasisopen.sca.annotation.Property;
+import org.oasisopen.sca.annotation.Reference;
+
 /**
  * ITest for File binding
- * TODO: Add more tests involving locking
  */
 public class FileServiceITest extends TestCase {
     @Reference protected FileService fileService;
-    @Reference protected LatchService latchService;
+    @Reference protected LatchService latchService1;
+    @Reference protected LatchService latchService2;
+    @Property protected String archiveFileLocation;
 
     /**
-     * Test simple write and read operation.
+     * Test file service write and read operation.
      */
-    public void testSimpleWriteAndRead() throws Exception {
+    public void testSimpleWriteReadDelete() throws Exception {
         String testData = "File binding test";
         fileService.receive("filebinding.text", IOUtils.toInputStream(testData));
-        latchService.await();
-        assertEquals(testData, latchService.getPayload());
+        latchService1.await();
+        assertEquals(testData, latchService1.getPayload());
     }
     
-    
+    /**
+     * Test file service write, read and archive operation
+     */
+    public void testFileWriteReadArchive() throws Exception {
+        String testData = "file archive test";
+        final String fileName = "archivefile.text";
+        fileService.receive(fileName, IOUtils.toInputStream(testData));
+        latchService2.await();
+        //Check Archive file and read contents
+        assertEquals(testData, latchService2.getPayload());
+        
+        //Check if file is archived okay
+        Thread.sleep(2000); //TODO: wait for 2 seconds before runtime archives the file
+        final File archivedFile = new File(archiveFileLocation);
+        final String[] archivedFiles = archivedFile.list();
+        assertTrue("File not archived", archivedFiles.length == 1);
+    }
 }
