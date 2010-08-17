@@ -26,6 +26,7 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 
 import org.apache.commons.io.IOUtils;
+import org.oasisopen.sca.ServiceUnavailableException;
 import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.invocation.WorkContext;
@@ -56,10 +57,10 @@ public class FileServiceInvoker {
      * Read the file from file system and pass it to the bound service.
      * 
      * @param file file to be read
-     * @param archiveDir directory where file to be archived after it's read
+     * @param archiveFile directory where file to be archived after it's read
      * @param acquireLock flag to indicate if lock must be acquired before reading the file
      */
-    public void invoke(File file, File archiveDir, boolean acquireLock) throws IOException {
+    public void invoke(File file, File archiveFile, boolean acquireLock) throws IOException {
         FileInputStream fis = null;
         try {
             fis = new FileInputStream(file);
@@ -69,8 +70,8 @@ public class FileServiceInvoker {
                 Message input = new MessageImpl(args, false, new WorkContext());
                 final Message output = interceptor.invoke(input);
                 if (output.isFault()) {
-                    Throwable fault = (Throwable) output.getBody();                   
-                    monitor.onException("error reported from underlying service invocation", fault);
+                    Throwable fault = (Throwable) output.getBody();
+                    throw new ServiceUnavailableException(fault);
                 }
             } else {
                 monitor.unableToAcquireLock(file.getName());
@@ -78,16 +79,16 @@ public class FileServiceInvoker {
         } finally {
             IOUtils.closeQuietly(fis);
         }
-        archiveOrDelete(file, archiveDir);
+        archiveOrDelete(file, archiveFile);
     }
 
-    private void archiveOrDelete(File file, File archiveDir) {
-        if (archiveDir != null) {
-            final boolean archived = file.renameTo(new File(archiveDir, file.getName()));
+    private void archiveOrDelete(File file, File archiveFile) {
+        if (archiveFile != null) {
+            final boolean archived = file.renameTo(archiveFile);
             if (archived) {
-                monitor.fileArchived(file, archiveDir);
+                monitor.fileArchived(file, archiveFile);
             } else {
-                monitor.unableToArchive(file, archiveDir);
+                monitor.unableToArchive(file, archiveFile);
             }
         } else {
             final boolean deleted = file.delete();

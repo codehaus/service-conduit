@@ -21,8 +21,7 @@
 <composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
            xmlns:sca4j="urn:sca4j.org"
            targetNamespace="urn:sca4j.org"
-           name="FileBindingExtension"
-           autowire="true">
+           name="FileBindingExtension">
 
     <!-- File Binding Loader -->
     <component name="FileBindingLoader" sca4j:key="sca4j:binding.file">

@@ -56,6 +56,9 @@ public class FileBindingLoader implements TypeLoader<FileBindingDefinition> {
         bindingMetadata.archiveUri = getUri(reader, introspectionContext, "archiveUri", false);
         bindingMetadata.filenamePattern = reader.getAttributeValue(null, "filenamePattern");
         bindingMetadata.acquireLock = Boolean.valueOf(reader.getAttributeValue(null, "acquireLock"));
+        final String pollingFreqString = reader.getAttributeValue(null, "pollingFrequency");
+        bindingMetadata.pollingFrequency = pollingFreqString != null ? Long.valueOf(pollingFreqString) : 0L;
+        bindingMetadata.archiveFileTimestampPattern = reader.getAttributeValue(null, "archiveFileTimestampPattern");
         
         final FileBindingDefinition bd = new FileBindingDefinition(endpointUri, bindingMetadata, loaderHelper.loadKey(reader));
         LoaderUtil.skipToEndElement(reader);

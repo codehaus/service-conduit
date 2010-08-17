@@ -42,7 +42,7 @@ import org.sca4j.spi.wire.Wire;
 public class FileSourceWireAttacher implements SourceWireAttacher<FileWireSourceDefinition> {
     @Monitor protected FileBindingMonitor monitor;
     @Reference protected WorkScheduler workScheduler;
-
+    
     /**
      * {@inheritDoc} 
      */
@@ -60,7 +60,11 @@ public class FileSourceWireAttacher implements SourceWireAttacher<FileWireSource
             directoryWatcher.setAcquireLock(bindingMetaData.acquireLock);
             directoryWatcher.setFileNamePattern(bindingMetaData.filenamePattern);
             directoryWatcher.setArchiveDir(archiveDir);
+            directoryWatcher.setPollingFrequency(bindingMetaData.pollingFrequency);
+            directoryWatcher.setArchiveFileTSPattern((bindingMetaData.archiveFileTimestampPattern));
+            monitor.fileExtensionStarted(endpointDir.toString());
             workScheduler.scheduleWork(directoryWatcher);
+            
         } else {
             throw new WiringException("file binding service requires 2 arguments - <String filename, InputStream payload>");
         }
@@ -90,7 +94,7 @@ public class FileSourceWireAttacher implements SourceWireAttacher<FileWireSource
             if (dir.exists() && dir.canRead() && dir.isDirectory()) {
                 return dir;
             } else {
-                throw new WiringException("Error in accessing directory: ensure directory exists and can be read.");
+                throw new WiringException("Error in accessing directory: ensure directory exists and can be read:" + dir);
             }
         } catch (UnsupportedEncodingException e) {
             throw new WiringException(e);

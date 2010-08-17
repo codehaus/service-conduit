@@ -20,6 +20,8 @@ package org.sca4j.binding.file.runtime;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 import org.sca4j.host.work.DefaultPausableWork;
@@ -29,6 +31,7 @@ import org.sca4j.spi.wire.Wire;
 /**
  * Polls the directory to list the files and passes them to {@link FileServiceInvoker} for processing. Once file is
  * processed it will be either archived or deleted.
+ * TODO: <A HREF="http://jira.codehaus.org/browse/SERVICECONDUIT-26">SERVICECONDUIT-26</A>
  * 
  * @author dhillonn
  * 
@@ -41,6 +44,8 @@ public class DirectoryWatcher extends DefaultPausableWork {
     private File archiveDir;
     private Pattern fileNamePattern;
     private boolean acquireLock;
+    private long pollingFrequency;
+    private SimpleDateFormat archiveFileTimestampFormat;
 
     /**
      * Constructor with mandatory fields
@@ -77,11 +82,29 @@ public class DirectoryWatcher extends DefaultPausableWork {
     }
 
     /**
+     * Sets directory polling frequency
+     * @param pollingFrequency polling frequency
+     */
+    public void setPollingFrequency(long pollingFrequency) {
+        this.pollingFrequency = pollingFrequency;
+    }
+
+    /**
      * Sets the flag to specify if lock must be acquired before reading the file.
      * @param acquireLock flag to indicate if lock to be acquired
      */
     public void setAcquireLock(boolean acquireLock) {
         this.acquireLock = acquireLock;
+    }
+    
+    /**
+     * Set timestamp suffix pattern for the archived file
+     * @param archiveTimestampPattern time stamp pattern for archived file
+     */
+    public void setArchiveFileTSPattern(String archiveFileTimestampPattern) {
+        if (archiveFileTimestampPattern != null) {
+            this.archiveFileTimestampFormat = new SimpleDateFormat(archiveFileTimestampPattern);
+        }        
     }
 
     /**
@@ -89,6 +112,7 @@ public class DirectoryWatcher extends DefaultPausableWork {
      */
     @Override
     protected void execute() {
+        
         try {
             final File[] fileList = endpointDir.listFiles(new FilenameFilter() {
 
@@ -96,7 +120,7 @@ public class DirectoryWatcher extends DefaultPausableWork {
                 public boolean accept(File dir, String name) {
                     final File file = new File(dir, name);
 
-                    if (!(file.canRead() && file.exists() && file.isFile())) {
+                    if (!(file.canRead() && file.exists() && file.isFile())) {                        
                         monitor.fileSkipped(file.getName());
                         return false;
                     }
@@ -108,14 +132,43 @@ public class DirectoryWatcher extends DefaultPausableWork {
                     }
                 }
             });
-
+            
             if (fileList != null && fileList.length > 0) {
                 for (File file : fileList) {
-                    serviceInvoker.invoke(file, archiveDir, acquireLock);
+                    final File archiveFile = getArchiveFile(file);
+                    serviceInvoker.invoke(file, archiveFile, acquireLock);
                 }
             }
-        } catch (Exception e) {
+
+        } catch (Throwable e) {
             monitor.onException("Unexpected error occured", e);
+        } finally {
+            delay();
         }
     }
+    
+    private File getArchiveFile(File file) {
+        if (archiveDir != null) {
+            String archiveFilename = file.getName();
+            if (archiveFileTimestampFormat != null) {
+                archiveFilename = archiveFilename + "." + archiveFileTimestampFormat.format(new Date());
+            }
+            return new File(archiveDir, archiveFilename);
+            
+        } else {
+            return null;
+        }
+    }
+
+    /* TODO: Replace with proper scheduler provided delay */
+    private void delay() {
+        if (pollingFrequency > 0) {
+            try {
+                Thread.sleep(pollingFrequency);
+            } catch (InterruptedException e) {
+                // Restore the interrupted status and allow thread to exit, Executor will take care of rest.
+                Thread.currentThread().interrupt();
+            }
+        }
+    }   
 }

@@ -68,13 +68,6 @@ public interface FileBindingMonitor {
     void unableToAcquireLock(String fileName);
     
     /**
-     * Log the event when file is skipped during the polling
-     * @param fileName
-     */
-    @Info
-    void fileSkipped(String fileName);
-    
-    /**
      * Log when file successfully deleted
      * @param file
      */
@@ -88,4 +81,11 @@ public interface FileBindingMonitor {
      */
     @Fine
     void fileArchived(File file, File archiveDir);
+    
+    /**
+     * Log the event when file is skipped during the polling
+     * @param fileName
+     */
+    @Fine
+    void fileSkipped(String fileName);
 }

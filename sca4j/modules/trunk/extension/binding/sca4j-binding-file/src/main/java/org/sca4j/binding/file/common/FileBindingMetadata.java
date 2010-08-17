@@ -34,5 +34,11 @@ public class FileBindingMetadata {
     
     /** lock the file during read/write operation */
     public boolean acquireLock;
+    
+    /** polling frequency */
+    public long pollingFrequency;
+    
+    /** Timestamp pattern for archived file */
+    public String archiveFileTimestampPattern;
 
 }
