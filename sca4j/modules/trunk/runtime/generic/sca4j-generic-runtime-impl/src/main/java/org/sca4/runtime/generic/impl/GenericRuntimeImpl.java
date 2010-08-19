@@ -140,6 +140,7 @@ public class GenericRuntimeImpl extends AbstractRuntime<GenericHostInfo> impleme
             CallFrame frame = new CallFrame(URI.create("test"));
             workContext.addCallFrame(frame);
             getScopeContainer().startContext(workContext);
+            publishRuntimeStartedEvent();
             
         } catch (Exception e) {
             throw new AssertionError(e);

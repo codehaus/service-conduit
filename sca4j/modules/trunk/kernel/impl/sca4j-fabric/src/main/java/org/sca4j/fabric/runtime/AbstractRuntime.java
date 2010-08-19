@@ -212,8 +212,6 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
     }
 
     public void start() throws StartException {
-        EventService eventService = getSystemComponent(EventService.class, EVENT_SERVICE_URI);
-        eventService.publish(new RuntimeStart());
         scanUserContributions();
     }
 
@@ -313,6 +311,14 @@ public abstract class AbstractRuntime<HI extends HostInfo> implements SCA4JRunti
 
     public ScopeRegistry getScopeRegistry() {
         return scopeRegistry;
+    }
+    
+    /**
+     * Publishes {@link RuntimeStart} event. This is called when Runtime is ready to take requests.
+     */
+    protected void publishRuntimeStartedEvent() {
+        EventService eventService = getSystemComponent(EventService.class, EVENT_SERVICE_URI);
+        eventService.publish(new RuntimeStart());
     }
 
     private void scanUserContributions() throws StartException {

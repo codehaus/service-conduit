@@ -147,6 +147,7 @@ public class MavenEmbeddedRuntimeImpl extends AbstractRuntime<MavenHostInfo> imp
         workContext.addCallFrame(frame);
         try {
             getScopeContainer().startContext(workContext);
+            publishRuntimeStartedEvent();
         } catch (GroupInitializationException e) {
             throw new ContextStartException(e);
         }

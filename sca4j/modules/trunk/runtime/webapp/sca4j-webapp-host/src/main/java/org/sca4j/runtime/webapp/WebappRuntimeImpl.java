@@ -125,6 +125,7 @@ public class WebappRuntimeImpl extends AbstractRuntime<WebappHostInfo> implement
             contributionService.contribute(source);
             // activate the deployable composite in the domain
             domain.include(qName);
+            publishRuntimeStartedEvent();
         } catch (MalformedURLException e) {
             throw new DeploymentException("Invalid web archive", e);
         } catch (URISyntaxException e) {

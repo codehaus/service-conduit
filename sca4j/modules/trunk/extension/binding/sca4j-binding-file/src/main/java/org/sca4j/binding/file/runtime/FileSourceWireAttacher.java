@@ -34,6 +34,8 @@ import org.sca4j.spi.builder.WiringException;
 import org.sca4j.spi.builder.component.SourceWireAttacher;
 import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
+import org.sca4j.spi.services.event.EventService;
+import org.sca4j.spi.services.event.RuntimeStart;
 import org.sca4j.spi.wire.Wire;
 
 /**
@@ -42,6 +44,7 @@ import org.sca4j.spi.wire.Wire;
 public class FileSourceWireAttacher implements SourceWireAttacher<FileWireSourceDefinition> {
     @Monitor protected FileBindingMonitor monitor;
     @Reference protected WorkScheduler workScheduler;
+    @Reference protected EventService eventService;
     
     /**
      * {@inheritDoc} 
@@ -63,6 +66,7 @@ public class FileSourceWireAttacher implements SourceWireAttacher<FileWireSource
             directoryWatcher.setPollingFrequency(bindingMetaData.pollingFrequency);
             directoryWatcher.setArchiveFileTSPattern((bindingMetaData.archiveFileTimestampPattern));
             monitor.fileExtensionStarted(endpointDir.toString());
+            eventService.subscribe(RuntimeStart.class, directoryWatcher);
             workScheduler.scheduleWork(directoryWatcher);
             
         } else {

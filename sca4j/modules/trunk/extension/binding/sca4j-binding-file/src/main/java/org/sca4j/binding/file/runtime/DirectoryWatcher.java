@@ -22,9 +22,13 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 
 import org.sca4j.host.work.DefaultPausableWork;
+import org.sca4j.spi.services.event.RuntimeStart;
+import org.sca4j.spi.services.event.SCA4JEvent;
+import org.sca4j.spi.services.event.SCA4JEventListener;
 import org.sca4j.spi.wire.Interceptor;
 import org.sca4j.spi.wire.Wire;
 
@@ -36,7 +40,8 @@ import org.sca4j.spi.wire.Wire;
  * @author dhillonn
  * 
  */
-public class DirectoryWatcher extends DefaultPausableWork {
+public class DirectoryWatcher extends DefaultPausableWork implements SCA4JEventListener {
+    private AtomicBoolean runtimeStarted;
     private FileBindingMonitor monitor;
     private FileServiceInvoker serviceInvoker;
 
@@ -59,6 +64,7 @@ public class DirectoryWatcher extends DefaultPausableWork {
         this.monitor = monitor;
         Interceptor interceptor = wire.getInvocationChains().values().iterator().next().getHeadInterceptor();
         this.serviceInvoker = new FileServiceInvoker(interceptor, monitor);
+        this.runtimeStarted = new AtomicBoolean();
     }
 
     /**
@@ -112,6 +118,9 @@ public class DirectoryWatcher extends DefaultPausableWork {
      */
     @Override
     protected void execute() {
+        if (!runtimeStarted.get()) {
+            return;
+        }
         
         try {
             final File[] fileList = endpointDir.listFiles(new FilenameFilter() {
@@ -140,7 +149,7 @@ public class DirectoryWatcher extends DefaultPausableWork {
                 }
             }
 
-        } catch (Throwable e) {
+        } catch (Exception e) {
             monitor.onException("Unexpected error occured", e);
         } finally {
             delay();
@@ -160,15 +169,23 @@ public class DirectoryWatcher extends DefaultPausableWork {
         }
     }
 
-    /* TODO: Replace with proper scheduler provided delay */
+    /* Pause for the duration of polling frequenc */
     private void delay() {
         if (pollingFrequency > 0) {
             try {
                 Thread.sleep(pollingFrequency);
             } catch (InterruptedException e) {
                 // Restore the interrupted status and allow thread to exit, Executor will take care of rest.
-                Thread.currentThread().interrupt();
+                //Thread.currentThread().interrupt();
             }
         }
+    }
+
+    @Override
+    public void onEvent(SCA4JEvent event) {
+        if (RuntimeStart.class.isInstance(event)) {
+            this.runtimeStarted.set(true);
+        }
+        
     }   
 }
