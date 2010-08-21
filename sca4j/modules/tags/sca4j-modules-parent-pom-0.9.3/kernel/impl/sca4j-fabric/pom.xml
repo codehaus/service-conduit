@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.codehaus.service-conduit</groupId>
+        <artifactId>sca4j-kernel-impl-parent-pom</artifactId>
+        <version>0.9.3</version>
+    </parent>
+    <groupId>org.codehaus.service-conduit</groupId>
+    <artifactId>sca4j-fabric</artifactId>
+    <name>SCA4J Fabric</name>
+    <description>SCA4J Core Fabric.</description>
+
+    <repositories>
+        <!-- repo needed for the Apache Tuscany version of the commonj API -->
+        <repository>
+            <id>apache.incubator</id>
+            <name>Apache Incubator Repository</name>
+            <url>http://people.apache.org/repo/m2-incubating-repository</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-standard-intents</artifactId>
+            <version>0.9.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-spi</artifactId>
+            <version>0.9.3</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-monitor</artifactId>
+            <version>0.9.3</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-pojo</artifactId>
+            <version>0.9.3</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-transform</artifactId>
+            <version>0.9.3</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-loader</artifactId>
+            <version>0.9.3</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-introspection</artifactId>
+            <version>0.9.3</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-introspection-cdi</artifactId>
+            <version>0.9.3</version>
+        </dependency>        
+
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-system</artifactId>
+            <version>0.9.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-annotation_1.0_spec</artifactId>
+            <version>1.1</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-j2ee-connector_1.5_spec</artifactId>
+            <version>1.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.tuscany</groupId>
+            <artifactId>commonj-api_r1.1</artifactId>
+            <version>1.0-incubator-M2</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <!--dependency>
+            <groupId>org.codehaus.woodstox</groupId>
+            <artifactId>wstx-asl</artifactId>
+            <scope>test</scope>
+            <version>3.2.2</version>
+        </dependency-->
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymockclassextension</artifactId>
+        </dependency>
+		
+    </dependencies>
+
+</project>
