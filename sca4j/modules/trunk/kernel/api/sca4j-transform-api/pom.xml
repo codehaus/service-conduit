@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.codehaus.service-conduit</groupId>
         <artifactId>sca4j-kernel-api-parent-pom</artifactId>
-        <version>0.9.3</version>
+        <version>0.9.4-SNAPSHOT</version>
     </parent>
     <groupId>org.codehaus.service-conduit</groupId>
     <artifactId>sca4j-transform-api</artifactId>
@@ -30,7 +30,7 @@
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-scdl</artifactId>
-            <version>0.9.3</version>
+            <version>0.9.4-SNAPSHOT</version>
         </dependency>
 
         <dependency>
