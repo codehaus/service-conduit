@@ -66,6 +66,7 @@
         <module>test-binding-jms</module>
         <module>test-cdi</module>
 		<module>test-binding-file</module>
+		<module>test-timer-implementation</module>
     </modules>
 
     <repositories>

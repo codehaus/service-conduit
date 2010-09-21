@@ -32,75 +32,63 @@
     <description>SCA4J Timer Component Tests.</description>
 
     <dependencies>
-	<dependency>
-	    <groupId>org.codehaus.service-conduit.spec</groupId>
-	    <artifactId>sca-caa-apis</artifactId>
-	    <version>1.1-CD04</version>
-	</dependency>
-        <dependency>
+	   <dependency>
+	       <groupId>org.codehaus.service-conduit.spec</groupId>
+	       <artifactId>sca-caa-apis</artifactId>
+	       <version>1.1-CD04</version>
+	   </dependency>
+       <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+       </dependency>
+       <dependency>
+           <groupId>org.codehaus.service-conduit</groupId>
+           <artifactId>sca4j-resource</artifactId>
+           <version>${sca4j.version}</version>
+       </dependency>
+       <dependency>
+           <groupId>org.codehaus.service-conduit</groupId>
+           <artifactId>sca4j-tx-jotm</artifactId>
+           <version>${sca4j.version}</version>
+       </dependency>
+       <dependency>
+           <groupId>org.codehaus.service-conduit</groupId>
+           <artifactId>sca4j-timer-quartz</artifactId>
+           <version>${sca4j.version}</version>
+       </dependency>
+       <dependency>
+           <groupId>geronimo-spec</groupId>
+           <artifactId>geronimo-spec-jta</artifactId>
+           <version>1.0.1B-rc4</version>
+       </dependency>
+       <dependency>
+           <groupId>geronimo-spec</groupId>
+           <artifactId>geronimo-spec-j2ee-connector</artifactId>
+           <version>1.5-rc4</version>
+       </dependency>
+       <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-maven-host</artifactId>
+            <version>${sca4j.version}</version>
         </dependency>
     </dependencies>
-
+    
     <build>
         <defaultGoal>verify</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.service-conduit</groupId>
                 <artifactId>sca4j-itest-plugin</artifactId>
-                <version>${sca4j.version}</version>
                 <configuration>
-                    <runtimeVersion>${sca4j.version}</runtimeVersion>
-                    <extensions>
-                        <dependency>
-                            <groupId>org.codehaus.service-conduit</groupId>
-                            <artifactId>sca4j-resource</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.codehaus.service-conduit</groupId>
-                            <artifactId>sca4j-timer-spi</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.codehaus.service-conduit</groupId>
-                            <artifactId>sca4j-tx-jotm</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.codehaus.service-conduit</groupId>
-                            <artifactId>sca4j-timer-quartz</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.codehaus.service-conduit</groupId>
-                            <artifactId>sca4j-timer-loader</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.codehaus.service-conduit</groupId>
-                            <artifactId>sca4j-timer-provision</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.codehaus.service-conduit</groupId>
-                            <artifactId>sca4j-timer-runtime</artifactId>
-                            <version>${sca4j.version}</version>
-                        </dependency>
-                    </extensions>
-                    <shared>
-                        <dependency>
-                            <groupId>geronimo-spec</groupId>
-                            <artifactId>geronimo-spec-jta</artifactId>
-                            <version>1.0.1B-rc4</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>geronimo-spec</groupId>
-                            <artifactId>geronimo-spec-j2ee-connector</artifactId>
-                            <version>1.5-rc4</version>
-                        </dependency>
-                    </shared>
+                    <systemConfig>
+                        <![CDATA[
+                            <config>
+                                <web.server>
+                                    <http port="8900"/>
+                                </web.server>
+                            </config>
+                        ]]>
+                    </systemConfig>
                 </configuration>
                 <executions>
                     <execution>
@@ -112,4 +100,5 @@
             </plugin>
         </plugins>
     </build>
+                    
 </project>

@@ -54,13 +54,13 @@
 
 -->
 <composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
-           xmlns:f3="http://sca4j.org/xmlns/sca/2.0-alpha"
+           xmlns:sca4j="urn:sca4j.org"
            xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912"
            name="QuartzTestHarnessComposite"
            autowire="true">
 
     <component name="TimerTestComponent">
-        <f3:junit class="org.sca4j.tests.timer.TimedComponentTest"/>
+        <sca4j:junit class="org.sca4j.tests.timer.TimedComponentTest"/>
         <reference name="latchService" target="LatchService"/>
     </component>
 
@@ -70,7 +70,7 @@
     </component>
 
     <component name="TimerComponent">
-        <f3:implementation.timer class="org.sca4j.tests.timer.TimedComponent" requires="sca:managedTransaction" repeatInterval="10"/>
+        <sca4j:implementation.timer class="org.sca4j.tests.timer.TimedComponent" repeatInterval="10"/>
         <reference name="latchService" target="LatchService"/>
     </component>
 
