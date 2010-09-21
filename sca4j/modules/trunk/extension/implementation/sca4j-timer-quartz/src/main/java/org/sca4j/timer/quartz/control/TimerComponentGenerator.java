@@ -101,7 +101,9 @@ public class TimerComponentGenerator implements ComponentGenerator<LogicalCompon
         TimerComponentDefinition physical = new TimerComponentDefinition();
         generationHelper.generate(component, physical);
         TimerImplementation implementation = component.getDefinition().getImplementation();
-        physical.setTransactional(implementation.getIntents().contains(MANAGED_TRANSACTION));
+        boolean isTransactional = component.getDefinition().getIntents().contains(MANAGED_TRANSACTION) || 
+                                  implementation.getIntents().contains(MANAGED_TRANSACTION);
+        physical.setTransactional(isTransactional);
         TriggerData data = implementation.getTriggerData();
         physical.setTriggerData(data);
         return physical;
