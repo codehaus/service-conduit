@@ -28,6 +28,7 @@ import javax.jms.MessageConsumer;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
 
+import org.oasisopen.sca.ServiceUnavailableException;
 import org.sca4j.binding.jms.common.TransactionType;
 import org.sca4j.binding.jms.runtime.helper.JmsHelper;
 import org.sca4j.binding.jms.runtime.tx.JmsTransactionHandler;
@@ -112,7 +113,8 @@ public class OneWayConsumer extends ConsumerWorker {
                     WorkContext workContext = new WorkContext();
                     copyHeaders(jmsRequests.get(0), workContext);
                     org.sca4j.spi.invocation.Message sca4jRequest = new MessageImpl(new Object[] { payload }, false, workContext);
-                    invocationChain.getHeadInterceptor().invoke(sca4jRequest);
+                    org.sca4j.spi.invocation.Message sca4jResponse = invocationChain.getHeadInterceptor().invoke(sca4jRequest);
+                    checkForFault(sca4jResponse);
                 } else {
                     Object[] payload = (Object[]) Array.newInstance(inputType.getComponentType(), jmsRequests.size());
                     WorkContext workContext = new WorkContext();
@@ -121,7 +123,8 @@ public class OneWayConsumer extends ConsumerWorker {
                         copyHeaders(jmsRequests.get(i), workContext);
                     }
                     org.sca4j.spi.invocation.Message sca4jRequest = new MessageImpl(new Object[] { payload }, false, workContext);
-                    invocationChain.getHeadInterceptor().invoke(sca4jRequest);
+                    org.sca4j.spi.invocation.Message sca4jResponse = invocationChain.getHeadInterceptor().invoke(sca4jRequest);
+                    checkForFault(sca4jResponse);
                 }
             }
 
@@ -147,4 +150,9 @@ public class OneWayConsumer extends ConsumerWorker {
 
     }
 
+    private void checkForFault(org.sca4j.spi.invocation.Message sca4jResponse) {
+        if (sca4jResponse.isFault()) {
+            throw new ServiceUnavailableException((Throwable) sca4jResponse.getBody());
+        }
+    }
 }
