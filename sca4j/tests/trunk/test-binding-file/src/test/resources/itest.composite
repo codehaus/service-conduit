@@ -26,8 +26,11 @@
     <component name="FileServiceTest">
         <sca4j:junit class="org.sca4j.tests.binding.file.FileServiceITest"/>
         <property name="archiveFileLocation" source="$config/file.archive.dir" />
-        <reference name="fileService">
-            <sca4j:binding.file uri="file:///${file.polling.dir}" />
+        <reference name="staticFileService">
+            <sca4j:binding.file uri="file:///${file.polling.dir}" acquireLock="true"/>
+        </reference>
+        <reference name="dynamicFileService">
+            <sca4j:binding.file acquireLock="true"/>
         </reference>
         <reference name="latchService1" target="LatchService1" />
         <reference name="latchService2" target="LatchService2" />
@@ -36,7 +39,7 @@
     <component name="FileDeleteService">
         <implementation.java class="org.sca4j.tests.binding.file.FileServiceImpl"/>
         <service name="FileService">
-            <sca4j:binding.file uri="file:///${file.polling.dir}"                                
+            <sca4j:binding.file uri="${file.polling.dir}"                                
                                 acquireLock="true"
                                 pollingFrequency="1000"
                                 filenamePattern="filebinding\.text" />                                

@@ -19,6 +19,8 @@
 package org.sca4j.tests.binding.file;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 import junit.framework.TestCase;
 
@@ -30,7 +32,8 @@ import org.oasisopen.sca.annotation.Reference;
  * ITest for File binding
  */
 public class FileServiceITest extends TestCase {
-    @Reference protected FileService fileService;
+    @Reference protected FileService staticFileService;
+    @Reference protected FileService dynamicFileService;
     @Reference protected LatchService latchService1;
     @Reference protected LatchService latchService2;
     @Property protected String archiveFileLocation;
@@ -40,7 +43,7 @@ public class FileServiceITest extends TestCase {
      */
     public void testSimpleWriteReadDelete() throws Exception {
         String testData = "File binding test";
-        fileService.receive("filebinding.text", IOUtils.toInputStream(testData));
+        staticFileService.receive("filebinding.text", IOUtils.toInputStream(testData));
         latchService1.await();
         assertEquals(testData, latchService1.getPayload());
     }
@@ -51,7 +54,7 @@ public class FileServiceITest extends TestCase {
     public void testFileWriteReadArchive() throws Exception {
         String testData = "file archive test";
         final String fileName = "archivefile.text";
-        fileService.receive(fileName, IOUtils.toInputStream(testData));
+        staticFileService.receive(fileName, IOUtils.toInputStream(testData));
         latchService2.await();
         //Check Archive file and read contents
         assertEquals(testData, latchService2.getPayload());
@@ -61,5 +64,17 @@ public class FileServiceITest extends TestCase {
         final File archivedFile = new File(archiveFileLocation);
         final String[] archivedFiles = archivedFile.list();
         assertTrue("File not archived", archivedFiles.length == 1);
+    }
+    
+    /**
+     * Test that file could be written using Reference with dynamic endpoint.
+     */
+    public void testReferenceWithDynamicEndPoint() throws IOException {
+        String testData = "File binding test";
+        dynamicFileService.receive("target/dynamic.txt", IOUtils.toInputStream(testData));
+        
+        //Check if file has been created with the contents.
+        String actualData = IOUtils.toString(new FileInputStream("target/dynamic.txt"));
+        assertEquals(testData, actualData);
     }
 }
