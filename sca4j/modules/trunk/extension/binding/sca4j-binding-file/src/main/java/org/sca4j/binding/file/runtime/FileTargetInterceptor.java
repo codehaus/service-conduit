@@ -40,9 +40,12 @@ public class FileTargetInterceptor implements Interceptor {
     private Interceptor next;
     private File rootDir;
     private boolean acquireLock;
-
+    
     /**
-     * Interceptor with the directory where file will be written to
+     * Constructor with rootDir and lock flag.
+     * 
+     * @param rootDir root directory for file-drops specified in binding definition. could be <b>null</b> for Dynamic endpoints.
+     * @param acquireLock indicates if lock must be acquired during write operation.
      */
     public FileTargetInterceptor(File rootDir, boolean acquireLock) {
         this.rootDir = rootDir;
@@ -54,13 +57,12 @@ public class FileTargetInterceptor implements Interceptor {
      */
     public Message invoke(Message msg) {
         final Object[] args = (Object[]) msg.getBody();
-        final String fileName = (String) args[0];
+        final File file = getTargetFile(args[0]);
         final InputStream source = (InputStream) args[1];
         FileOutputStream target = null;
         FileLock fileLock = null;
 
         try {
-            final File file = new File(rootDir, fileName);
             target = new FileOutputStream(file);
             if (acquireLock) {
                 fileLock = target.getChannel().tryLock();
@@ -68,11 +70,10 @@ public class FileTargetInterceptor implements Interceptor {
                     throw new IOException("Unable to acquire the lock on: " + file);
                 }
             }
-
             IOUtils.copy(source, target);
 
         } catch (FileNotFoundException e) {
-            throw new ServiceUnavailableException(e);
+            throw new ServiceUnavailableException("Unable to create the file", e);
         } catch (IOException e) {
             throw new ServiceUnavailableException(e);
         } finally {
@@ -96,5 +97,13 @@ public class FileTargetInterceptor implements Interceptor {
      */
     public Interceptor getNext() {
         return next;
+    }
+    
+    private File getTargetFile(Object file) {
+        if (rootDir == null) {
+            return new File(file.toString());
+        } else {
+            return new File(rootDir, file.toString());
+        }
     }
 }

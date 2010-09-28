@@ -42,17 +42,9 @@ public class FileTargetWireAttacher implements TargetWireAttacher<FileWireTarget
      * {@inheritDoc} 
      */
     public void attachToTarget(PhysicalWireSourceDefinition source, FileWireTargetDefinition target, Wire wire) throws WiringException {
-        try {
-            final URI uri = URI.create(URLDecoder.decode(target.getUri().toString(), "UTF-8"));
-            final File fileRoot = new File(uri);
-            if (!fileRoot.isDirectory()) {
-                throw new WiringException("Location specified is not a valid directory - " + uri);
-            }
-            final FileTargetInterceptor interceptor = new FileTargetInterceptor(fileRoot, target.getBindingMetaData().acquireLock);
-            wire.getInvocationChains().entrySet().iterator().next().getValue().addInterceptor(interceptor);
-        } catch (UnsupportedEncodingException e) {
-            throw new WiringException(e);
-        }
+        final File rootDir = getRootDirIfExists(target.getUri());
+        final FileTargetInterceptor interceptor = new FileTargetInterceptor(rootDir, target.getBindingMetaData().acquireLock);
+        wire.getInvocationChains().entrySet().iterator().next().getValue().addInterceptor(interceptor);
     }
 
     /**
@@ -67,6 +59,28 @@ public class FileTargetWireAttacher implements TargetWireAttacher<FileWireTarget
      */
     public ObjectFactory<?> createObjectFactory(FileWireTargetDefinition target) throws WiringException {
         throw new AssertionError();
+    }
+    
+    private File getRootDirIfExists(URI targetUri) throws WiringException {
+        if (targetUri != null) {
+            try {
+                final URI decodedUri = URI.create(URLDecoder.decode(targetUri.toString(), "UTF-8"));
+                File fileRoot;
+                if (decodedUri.getScheme() != null && decodedUri.getScheme().equalsIgnoreCase("file")) {//valid file URL
+                    fileRoot = new File(decodedUri);
+                } else { //URN
+                    fileRoot = new File(decodedUri.toString());
+                }
+                
+                if (!fileRoot.isDirectory()) {
+                    throw new WiringException("Location specified is not a valid directory - " + decodedUri);
+                }
+                return fileRoot;
+            } catch (UnsupportedEncodingException e) {
+                throw new WiringException(e);
+            }
+        }
+        return null;
     }
 
 }

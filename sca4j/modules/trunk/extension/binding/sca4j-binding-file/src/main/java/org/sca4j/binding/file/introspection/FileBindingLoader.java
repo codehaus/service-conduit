@@ -51,7 +51,7 @@ public class FileBindingLoader implements TypeLoader<FileBindingDefinition> {
 
     public FileBindingDefinition load(XMLStreamReader reader, IntrospectionContext introspectionContext) throws XMLStreamException {
         FileBindingMetadata bindingMetadata = new FileBindingMetadata();
-        URI endpointUri = getUri(reader, introspectionContext, "uri", true);
+        URI endpointUri = getUri(reader, introspectionContext, "uri", false);
         
         bindingMetadata.archiveUri = getUri(reader, introspectionContext, "archiveUri", false);
         bindingMetadata.filenamePattern = reader.getAttributeValue(null, "filenamePattern");
@@ -72,10 +72,10 @@ public class FileBindingLoader implements TypeLoader<FileBindingDefinition> {
         if (mandatory && uriString == null) {
             MissingAttribute failure = new MissingAttribute("A binding URI must be specified ", attributeName, reader);
             introspectionContext.addError(failure);
-        } else if (uriString != null) {
-            if (!uriString.startsWith("file:///") && !uriString.startsWith("FILE:///")) {
+        } else if (uriString != null) {           
+           /* if (!uriString.startsWith("file:///") && !uriString.startsWith("FILE:///")) {
                 uriString = "file:///" + uriString;
-            }
+            }*/
 
             try {
                 uri = new URI(URLEncoder.encode(uriString.replace('\\', '/'), "UTF-8"));

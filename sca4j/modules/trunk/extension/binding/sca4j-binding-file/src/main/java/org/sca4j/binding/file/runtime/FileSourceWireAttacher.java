@@ -94,7 +94,15 @@ public class FileSourceWireAttacher implements SourceWireAttacher<FileWireSource
             return null;
         }
         try {
-            File dir = new File(URI.create(URLDecoder.decode(uri.toString(), "UTF-8")));
+            final URI decodedUri = URI.create(URLDecoder.decode(uri.toString(), "UTF-8"));
+            
+            File dir;
+            if(decodedUri.getScheme() != null && decodedUri.getScheme().equalsIgnoreCase("file")) { //valid file URL
+                dir = new File(decodedUri);
+            } else { //URN
+                dir = new File(decodedUri.toString());
+            }
+            
             if (dir.exists() && dir.canRead() && dir.isDirectory()) {
                 return dir;
             } else {
