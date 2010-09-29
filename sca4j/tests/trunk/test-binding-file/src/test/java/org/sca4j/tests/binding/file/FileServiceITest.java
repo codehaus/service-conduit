@@ -71,10 +71,11 @@ public class FileServiceITest extends TestCase {
      */
     public void testReferenceWithDynamicEndPoint() throws IOException {
         String testData = "File binding test";
-        dynamicFileService.receive("target/dynamic.txt", IOUtils.toInputStream(testData));
+        File tempFile = new File("dynamic.txt");
+        dynamicFileService.receive(tempFile.getPath(), IOUtils.toInputStream(testData));
         
-        //Check if file has been created with the contents.
-        String actualData = IOUtils.toString(new FileInputStream("target/dynamic.txt"));
-        assertEquals(testData, actualData);
+        //Check if file has been created
+        assertTrue("Dynamic file is not created", tempFile.exists());
+        tempFile.delete();
     }
 }
