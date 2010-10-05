@@ -58,6 +58,7 @@ import javax.jms.MessageConsumer;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
 
+import org.sca4j.binding.jms.common.JmsBindingMetadata;
 import org.sca4j.binding.jms.common.SCA4JJmsException;
 import org.sca4j.binding.jms.common.TransactionType;
 import org.sca4j.binding.jms.runtime.JMSObjectFactory;
@@ -75,8 +76,8 @@ import org.sca4j.spi.wire.Wire;
 public class OneWayLocalInterceptor extends AbstractInterceptor implements Interceptor {
     
 
-    public OneWayLocalInterceptor(JMSObjectFactory jmsFactory, Wire wire) {
-        super(jmsFactory, wire);
+    public OneWayLocalInterceptor(JMSObjectFactory jmsFactory, Wire wire, JmsBindingMetadata metadata) {
+        super(jmsFactory, wire, metadata);
     }
 
     public Message invoke(Message sca4jRequest) {

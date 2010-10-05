@@ -70,6 +70,9 @@
  */
 package org.sca4j.binding.jms.common;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.sca4j.scdl.ModelObject;
 
 /**
@@ -99,5 +102,12 @@ public class JmsBindingMetadata extends ModelObject {
     public int consumerCount = 1;
     public int batchSize = 100;
     public boolean batched = false;
+    
+    public List<Property> properties = new ArrayList<Property>();
+    
+    public static class Property {
+        public String name;
+        public Object value;
+    }
 
 }

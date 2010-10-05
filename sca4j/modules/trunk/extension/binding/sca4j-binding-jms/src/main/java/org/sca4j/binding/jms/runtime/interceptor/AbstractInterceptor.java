@@ -22,6 +22,7 @@ import java.util.Map;
 
 import javax.jms.JMSException;
 
+import org.sca4j.binding.jms.common.JmsBindingMetadata;
 import org.sca4j.binding.jms.common.SCA4JJmsException;
 import org.sca4j.binding.jms.runtime.JMSObjectFactory;
 import org.sca4j.binding.jms.runtime.wireformat.DataBinder;
@@ -33,17 +34,18 @@ import org.sca4j.spi.wire.Wire;
 public abstract class AbstractInterceptor implements Interceptor {
     
     private Interceptor next;
-    
+    private JmsBindingMetadata metadata;
     protected final DataBinder dataBinder = new DataBinder();
     protected final JMSObjectFactory jmsFactory;
     protected final Class<?> inputType;
     
 
-    public AbstractInterceptor(JMSObjectFactory jmsFactory, Wire wire) {
+    public AbstractInterceptor(JMSObjectFactory jmsFactory, Wire wire, JmsBindingMetadata metadata) {
         try {
             PhysicalOperationDefinition pod = wire.getInvocationChains().entrySet().iterator().next().getKey().getTargetOperation();
             inputType = Class.forName(pod.getParameters().get(0));
             this.jmsFactory = jmsFactory;
+            this.metadata = metadata;
         } catch (ClassNotFoundException e) {
             throw new SCA4JJmsException("Unable to load operation types", e);
         }
@@ -66,6 +68,9 @@ public abstract class AbstractInterceptor implements Interceptor {
             for (Map.Entry<String, Object> entry : headers.entrySet()) {
                 jmsMessage.setObjectProperty(entry.getKey(), entry.getValue());
             }
+        }
+        for (JmsBindingMetadata.Property property : metadata.properties) {
+            jmsMessage.setObjectProperty(property.name, property.value);
         }
     }
 

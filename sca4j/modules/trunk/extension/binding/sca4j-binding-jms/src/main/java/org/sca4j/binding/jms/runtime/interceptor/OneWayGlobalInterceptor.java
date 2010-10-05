@@ -62,6 +62,7 @@ import javax.jms.MessageProducer;
 import javax.jms.Session;
 import javax.transaction.TransactionManager;
 
+import org.sca4j.binding.jms.common.JmsBindingMetadata;
 import org.sca4j.binding.jms.common.SCA4JJmsException;
 import org.sca4j.binding.jms.common.TransactionType;
 import org.sca4j.binding.jms.runtime.JMSObjectFactory;
@@ -81,8 +82,8 @@ public class OneWayGlobalInterceptor extends AbstractInterceptor implements Inte
     private TransactionManager transactionManager;
 
 
-    public OneWayGlobalInterceptor(JMSObjectFactory jmsFactory, TransactionManager transactionManager, Wire wire) {
-        super(jmsFactory, wire);
+    public OneWayGlobalInterceptor(JMSObjectFactory jmsFactory, TransactionManager transactionManager, Wire wire, JmsBindingMetadata metadata) {
+        super(jmsFactory, wire, metadata);
         this.transactionManager = transactionManager;
     }
 

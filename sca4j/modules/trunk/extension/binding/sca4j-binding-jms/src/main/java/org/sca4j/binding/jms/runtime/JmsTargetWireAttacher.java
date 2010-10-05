@@ -127,15 +127,15 @@ public class JmsTargetWireAttacher implements TargetWireAttacher<JmsWireTargetDe
         boolean twoWay = isTwoWay(wire);
         if (twoWay) {
             if (transactionType == TransactionType.GLOBAL) {
-                interceptor = new TwoWayGlobalInterceptor(jmsFactory, transactionManager, metadata.correlation, wire);
+                interceptor = new TwoWayGlobalInterceptor(jmsFactory, transactionManager, wire, targetDefinition.getMetadata());
             } else {
-                interceptor = new TwoWayLocalInterceptor(jmsFactory, metadata.correlation, wire);
+                interceptor = new TwoWayLocalInterceptor(jmsFactory, wire, targetDefinition.getMetadata());
             }
         } else {
             if (transactionType == TransactionType.GLOBAL) {
-                interceptor = new OneWayGlobalInterceptor(jmsFactory, transactionManager, wire);
+                interceptor = new OneWayGlobalInterceptor(jmsFactory, transactionManager, wire, targetDefinition.getMetadata());
             } else {
-                interceptor = new OneWayLocalInterceptor(jmsFactory, wire);
+                interceptor = new OneWayLocalInterceptor(jmsFactory, wire, targetDefinition.getMetadata());
             }
         }
         wire.getInvocationChains().entrySet().iterator().next().getValue().addInterceptor(interceptor);

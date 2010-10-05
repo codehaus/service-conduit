@@ -52,7 +52,11 @@
  */
 package org.sca4j.binding.jms.introspection;
 
+import java.beans.PropertyEditor;
+import java.beans.PropertyEditorManager;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
@@ -68,7 +72,9 @@ import org.sca4j.binding.jms.common.JmsBindingMetadata;
 import org.sca4j.binding.jms.scdl.JmsBindingDefinition;
 import org.sca4j.host.Namespaces;
 import org.sca4j.introspection.IntrospectionContext;
+import org.sca4j.introspection.xml.InvalidValue;
 import org.sca4j.introspection.xml.LoaderHelper;
+import org.sca4j.introspection.xml.MissingAttribute;
 import org.sca4j.introspection.xml.TypeLoader;
 import org.sca4j.introspection.xml.UnrecognizedAttribute;
 
@@ -84,8 +90,10 @@ public class JmsBindingLoader implements TypeLoader<JmsBindingDefinition> {
      */
     public static final QName BINDING_QNAME = new QName(Constants.SCA_NS, "binding.jms");
     private static final Set<String> ATTRIBUTES = new HashSet<String>();
+    private static final Map<String, Class<?>> TYPE_MAPPINGS = new HashMap<String, Class<?>>();
 
     static {
+        
         ATTRIBUTES.add("uri");
         ATTRIBUTES.add("correlationScheme");
         ATTRIBUTES.add("jndiURL");
@@ -101,6 +109,16 @@ public class JmsBindingLoader implements TypeLoader<JmsBindingDefinition> {
         ATTRIBUTES.add("batched");
         ATTRIBUTES.add("batchSize");
         ATTRIBUTES.add("key");
+
+        TYPE_MAPPINGS.put("boolean", boolean.class);
+        TYPE_MAPPINGS.put("byte", byte.class);
+        TYPE_MAPPINGS.put("short", short.class);
+        TYPE_MAPPINGS.put("int", int.class);
+        TYPE_MAPPINGS.put("float", float.class);
+        TYPE_MAPPINGS.put("long", long.class);
+        TYPE_MAPPINGS.put("double", double.class);
+        TYPE_MAPPINGS.put("string", String.class);
+        
     }
 
     private final LoaderHelper loaderHelper;
@@ -157,19 +175,21 @@ public class JmsBindingLoader implements TypeLoader<JmsBindingDefinition> {
             metadata.batchSize = Integer.parseInt(batchSize);
         }
         
-        loadOptionalElements(reader, metadata);
+        loadOptionalElements(reader, metadata, introspectionContext);
         
         return bd;
 
     }
 
-    private void loadOptionalElements(XMLStreamReader reader, JmsBindingMetadata metadata) throws XMLStreamException {
+    private void loadOptionalElements(XMLStreamReader reader, JmsBindingMetadata metadata, IntrospectionContext context) throws XMLStreamException {
         while (true) {
             final int event = reader.next();
             if (event == XMLStreamConstants.START_ELEMENT) {
                 String name = reader.getName().getLocalPart();
                 if ("selector".equals(name)) {
                     metadata.selector = reader.getElementText();
+                } else if ("property".equals(name)) {
+                    loadProperty(reader, metadata, context);
                 }
             } else if (event == XMLStreamConstants.END_ELEMENT) {
                 String name = reader.getName().getLocalPart();
@@ -187,6 +207,36 @@ public class JmsBindingLoader implements TypeLoader<JmsBindingDefinition> {
                 context.addError(new UnrecognizedAttribute(name, reader));
             }
         }
+    }
+    
+    private void loadProperty(XMLStreamReader reader, JmsBindingMetadata metadata, IntrospectionContext context) throws XMLStreamException {
+        JmsBindingMetadata.Property property = new JmsBindingMetadata.Property();
+        property.name = reader.getAttributeValue(null, "name");
+        if (property.name == null) {
+            context.addError(new MissingAttribute("Property name should be specified", "name", reader));
+        }
+        String type = reader.getAttributeValue(null, "type");
+        if (type == null) {
+            context.addError(new MissingAttribute("Property type should be specified", "type", reader));
+            return;
+        }
+        Class<?> clazz = TYPE_MAPPINGS.get(type);
+        if (clazz == null) {
+            context.addError(new InvalidValue("Unknown property type", type, reader));
+            return;
+        }
+        PropertyEditor propertyEditor = PropertyEditorManager.findEditor(clazz);
+        if (propertyEditor == null) {
+            context.addError(new InvalidValue("Unknown property type", type, reader));
+            return;
+        }
+        String value = reader.getElementText();
+        if (value == null) {
+            context.addError(new MissingAttribute("Property value should be specified", "type", reader));
+        }
+        propertyEditor.setAsText(value);
+        property.value = propertyEditor.getValue();
+        metadata.properties.add(property);
     }
 
 }

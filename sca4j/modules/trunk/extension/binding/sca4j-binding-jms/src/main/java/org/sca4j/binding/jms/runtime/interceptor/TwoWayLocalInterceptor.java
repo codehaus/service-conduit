@@ -59,6 +59,7 @@ import javax.jms.MessageProducer;
 import javax.jms.Session;
 
 import org.sca4j.binding.jms.common.Correlation;
+import org.sca4j.binding.jms.common.JmsBindingMetadata;
 import org.sca4j.binding.jms.common.SCA4JJmsException;
 import org.sca4j.binding.jms.common.TransactionType;
 import org.sca4j.binding.jms.runtime.JMSObjectFactory;
@@ -80,12 +81,12 @@ public class TwoWayLocalInterceptor extends AbstractInterceptor implements Inter
     private Class<?> outputType;
     
 
-    public TwoWayLocalInterceptor(JMSObjectFactory jmsFactory, Correlation correlation, Wire wire) {
-        super(jmsFactory, wire);
+    public TwoWayLocalInterceptor(JMSObjectFactory jmsFactory, Wire wire, JmsBindingMetadata metadata) {
+        super(jmsFactory, wire, metadata);
         try {
             PhysicalOperationDefinition pod = wire.getInvocationChains().entrySet().iterator().next().getKey().getTargetOperation();
             outputType = Class.forName(pod.getReturnType());
-            this.correlation = correlation;
+            this.correlation = metadata.correlation;
         } catch (ClassNotFoundException e) {
             throw new SCA4JJmsException("Unable to load operation types", e);
         }
