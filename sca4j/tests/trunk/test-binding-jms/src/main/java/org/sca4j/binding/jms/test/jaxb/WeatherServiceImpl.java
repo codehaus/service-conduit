@@ -70,6 +70,8 @@
  */
 package org.sca4j.binding.jms.test.jaxb;
 
+import java.util.Map;
+
 import org.oasisopen.sca.annotation.Context;
 import org.sca4j.api.SCA4JRequestContext;
 
@@ -80,12 +82,18 @@ public class WeatherServiceImpl implements WeatherService {
     
     @Context public SCA4JRequestContext requestContext;
 
+    @SuppressWarnings("unchecked")
     public WeatherResponse getWeather(WeatherRequest weatherRequest) {
 
         WeatherResponse weatherResponse = new WeatherResponse();
         weatherResponse.setCondition(WeatherCondition.SUNNY);
         weatherResponse.setTemperatureMinimum(25);
         weatherResponse.setTemperatureMaximum(40);
+        
+        Map<String, Object> headers = requestContext.getHeader(Map.class, "sca4j.jms.inbound");
+        if (!"REPLY_QUEUE".equals(headers.get("ReplyToQ"))) {
+            throw new RuntimeException("Request header not found");
+        }
 
         return weatherResponse;
 

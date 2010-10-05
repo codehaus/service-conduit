@@ -58,28 +58,33 @@
            xmlns:sca4j="urn:sca4j.org"
            name="JMSTestComposite">
 
-    <component name="BatchTest">
-        <sca4j:junit class="org.sca4j.binding.jms.test.batch.BatchITest"/>
-        <reference name="batchService">
-            <binding.jms destination="batchQueue" 
+    <component name="JaxbLocalWeatherTest">
+        <sca4j:junit class="org.sca4j.binding.jms.test.jaxb.JAXBWeatherTest"/>
+        <reference name="weatherService">
+            <binding.jms correlationScheme="messageID" 
+                         destination="serviceLocalQueue" 
                          connectionFactory="connectionFactory" 
+                         responseDestination="clientLocalQueue" 
                          requires="sca:transactedOneWay.local" 
                          initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
-                         jndiURL="vm://localhost" 
-                         sca4j:batched="true"/>
-        </reference>
+                         jndiURL="vm://localhost">
+	             <headers>
+	                 <property name="ReplyToQ" type="string">REPLY_QUEUE</property>
+	             </headers>
+             </binding.jms>
+         </reference>
     </component>
 
-    <component name="BatchService">
-        <implementation.java class="org.sca4j.binding.jms.test.batch.BatchServiceImpl"/>
-        <service name="BatchService">
-            <binding.jms destination="batchQueue" 
+    <component name="JaxbLocalWeatherService">
+        <implementation.java class="org.sca4j.binding.jms.test.jaxb.WeatherServiceImpl"/>
+        <service name="WeatherService">
+            <binding.jms correlationScheme="messageID" 
+                         destination="serviceLocalQueue" 
                          connectionFactory="connectionFactory" 
+                         responseDestination="clientLocalQueue" 
                          requires="sca:transactedOneWay.local" 
                          initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
-                         jndiURL="vm://localhost" 
-                         sca4j:batched="true"
-                         sca4j:batchSize="5"/>
+                         jndiURL="vm://localhost" />
         </service>
     </component>
 
@@ -92,7 +97,11 @@
                          responseDestination="clientGlobalQueue" 
                          requires="sca:transactedOneWay.global" 
                          initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
-                         jndiURL="vm://localhost" />
+                         jndiURL="vm://localhost" >
+	             <headers>
+	                 <property name="ReplyToQ" type="string">REPLY_QUEUE</property>
+	             </headers>
+        	</binding.jms>
         </reference>
     </component>
 
@@ -104,32 +113,6 @@
                          connectionFactory="xaConnectionFactory" 
                          responseDestination="clientGlobalQueue" 
                          requires="sca:transactedOneWay.global" 
-                         initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
-                         jndiURL="vm://localhost" />
-        </service>
-    </component>
-
-    <component name="JaxbLocalWeatherTest">
-        <sca4j:junit class="org.sca4j.binding.jms.test.jaxb.JAXBWeatherTest"/>
-        <reference name="weatherService">
-            <binding.jms correlationScheme="messageID" 
-                         destination="serviceLocalQueue" 
-                         connectionFactory="connectionFactory" 
-                         responseDestination="clientLocalQueue" 
-                         requires="sca:transactedOneWay.local" 
-                         initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
-                         jndiURL="vm://localhost" />
-        </reference>
-    </component>
-
-    <component name="JaxbLocalWeatherService">
-        <implementation.java class="org.sca4j.binding.jms.test.jaxb.WeatherServiceImpl"/>
-        <service name="WeatherService">
-            <binding.jms correlationScheme="messageID" 
-                         destination="serviceLocalQueue" 
-                         connectionFactory="connectionFactory" 
-                         responseDestination="clientLocalQueue" 
-                         requires="sca:transactedOneWay.local" 
                          initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
                          jndiURL="vm://localhost" />
         </service>
@@ -210,6 +193,31 @@
     
     <component name="LatchService">
         <implementation.java class="org.sca4j.binding.jms.test.selector.LatchService"/>
+    </component>
+
+    <component name="BatchTest">
+        <sca4j:junit class="org.sca4j.binding.jms.test.batch.BatchITest"/>
+        <reference name="batchService">
+            <binding.jms destination="batchQueue" 
+                         connectionFactory="connectionFactory" 
+                         requires="sca:transactedOneWay.local" 
+                         initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
+                         jndiURL="vm://localhost" 
+                         sca4j:batched="true"/>
+        </reference>
+    </component>
+
+    <component name="BatchService">
+        <implementation.java class="org.sca4j.binding.jms.test.batch.BatchServiceImpl"/>
+        <service name="BatchService">
+            <binding.jms destination="batchQueue" 
+                         connectionFactory="connectionFactory" 
+                         requires="sca:transactedOneWay.local" 
+                         initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
+                         jndiURL="vm://localhost" 
+                         sca4j:batched="true"
+                         sca4j:batchSize="5"/>
+        </service>
     </component>
     
 </composite>
