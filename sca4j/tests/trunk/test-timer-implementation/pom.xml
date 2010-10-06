@@ -32,14 +32,19 @@
     <description>SCA4J Timer Component Tests.</description>
 
     <dependencies>
-	   <dependency>
-	       <groupId>org.codehaus.service-conduit.spec</groupId>
-	       <artifactId>sca-caa-apis</artifactId>
-	       <version>1.1-CD04</version>
-	   </dependency>
        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+           <groupId>org.codehaus.service-conduit.spec</groupId>
+           <artifactId>sca-caa-apis</artifactId>
+           <version>1.1-CD04</version>
+       </dependency>
+       <dependency>
+           <groupId>junit</groupId>
+           <artifactId>junit</artifactId>
+       </dependency>
+       <dependency>
+           <groupId>org.slf4j</groupId>
+           <artifactId>slf4j-jdk14</artifactId>
+           <version>1.5.6</version>
        </dependency>
        <dependency>
            <groupId>org.codehaus.service-conduit</groupId>

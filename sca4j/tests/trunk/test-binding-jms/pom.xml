@@ -77,6 +77,11 @@
             <artifactId>sca4j-tx</artifactId>
             <version>${sca4j.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>test-jms-policy</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -85,6 +90,17 @@
             <plugin>
                 <groupId>org.codehaus.service-conduit</groupId>
                 <artifactId>sca4j-itest-plugin</artifactId>
+                <configuration>
+                    <systemConfig>
+                        <![CDATA[
+                            <config>
+                                <host.properties>
+                                    <repeatInterval>15</repeatInterval>
+                                </host.properties>
+                            </config>
+                         ]]>       
+                    </systemConfig>
+                </configuration>         
                 <executions>
                     <execution>
                         <goals>
@@ -99,6 +115,13 @@
                     <filesets>
                         <fileset>
                             <directory>activemq-data</directory>
+                            <includes>
+                                <include>**/**</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                        <fileset>
+                            <directory>T_LOGS</directory>
                             <includes>
                                 <include>**/**</include>
                             </includes>

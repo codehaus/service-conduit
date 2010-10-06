@@ -59,7 +59,7 @@
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>test-ftp-security-policy</artifactId>
-            <version>${sca4j.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>

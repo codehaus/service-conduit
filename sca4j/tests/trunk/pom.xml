@@ -63,10 +63,11 @@
         <module>test-binding-metro</module>
         <module>test-binding-burlap</module>
         <module>test-binding-hessian</module>
+        <module>test-jms-policy</module>
         <module>test-binding-jms</module>
         <module>test-cdi</module>
-		<module>test-binding-file</module>
-		<module>test-timer-implementation</module>
+        <module>test-binding-file</module>
+        <module>test-timer-implementation</module>
     </modules>
 
     <repositories>

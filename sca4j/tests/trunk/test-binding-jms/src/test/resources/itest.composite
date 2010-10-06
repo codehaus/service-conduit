@@ -174,10 +174,9 @@
                          jndiURL="vm://localhost">
             </binding.jms>
         </reference>
-        <reference name="latchService" target="LatchService"/>        
-    </component>
-    
-    <component name="GreetingService">
+        <reference name="latchService" target="SelectorLatchService"/>        
+    </component>    
+    <component name="SelectorGreetingService">
         <implementation.java class="org.sca4j.binding.jms.test.selector.GreetingServiceImpl"/>
         <service name="GreetingService">
             <binding.jms destination="greetingQueue" 
@@ -188,10 +187,37 @@
                 <selector>receiver='foo'</selector>
             </binding.jms>
         </service>
-        <reference name="latchService" target="LatchService"/>
-    </component>
+        <reference name="latchService" target="SelectorLatchService"/>
+    </component>    
+    <component name="SelectorLatchService">
+        <implementation.java class="org.sca4j.binding.jms.test.selector.LatchService"/>
+    </component> 
     
-    <component name="LatchService">
+    <component name="AvailabilityServiceTest">
+        <sca4j:junit class="org.sca4j.binding.jms.test.availability.ServiceAvailabilityTest"/>
+        <reference name="greetingService">
+            <binding.jms destination="availabilityTestQueue" 
+                         connectionFactory="connectionFactory" 
+                         requires="sca:transactedOneWay.local" 
+                         initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
+                         jndiURL="vm://localhost">
+            </binding.jms>
+        </reference>
+        <reference name="latchService" target="AvailabilityLatchService"/>        
+    </component>    
+    <component name="AvailabilityGreetingService">
+        <implementation.java class="org.sca4j.binding.jms.test.selector.GreetingServiceImpl"/>
+        <service name="GreetingService">
+            <binding.jms destination="availabilityTestQueue" 
+                         connectionFactory="connectionFactory" 
+                         requires="sca:transactedOneWay.local sca4j:availability" 
+                         initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
+                         jndiURL="vm://localhost">
+            </binding.jms>
+        </service>
+        <reference name="latchService" target="AvailabilityLatchService"/>
+    </component>    
+    <component name="AvailabilityLatchService">
         <implementation.java class="org.sca4j.binding.jms.test.selector.LatchService"/>
     </component>
 
