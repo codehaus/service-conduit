@@ -54,6 +54,8 @@ package org.sca4j.timer.quartz.runtime;
 
 import java.net.URI;
 
+import javax.transaction.TransactionManager;
+
 import org.oasisopen.sca.annotation.EagerInit;
 import org.oasisopen.sca.annotation.Init;
 import org.oasisopen.sca.annotation.Reference;
@@ -72,9 +74,9 @@ import org.sca4j.spi.component.InstanceFactoryProvider;
 import org.sca4j.spi.component.ScopeContainer;
 import org.sca4j.spi.component.ScopeRegistry;
 import org.sca4j.spi.services.proxy.ProxyService;
+import org.sca4j.spi.services.timer.TimerService;
 import org.sca4j.timer.quartz.provision.TimerComponentDefinition;
 import org.sca4j.timer.quartz.provision.TriggerData;
-import org.sca4j.timer.quartz.spi.TimerService;
 import org.sca4j.transform.PullTransformer;
 import org.sca4j.transform.TransformerRegistry;
 
@@ -83,21 +85,21 @@ import org.sca4j.transform.TransformerRegistry;
  */
 @EagerInit
 public class TimerComponentBuilder<T> extends PojoComponentBuilder<T, TimerComponentDefinition, TimerComponent<?>> {
-    private TimerService nonTrxTimerService;
-    private TimerService trxTimerService;
+    private TimerService timerService;
     private ProxyService proxyService;
+    private TransactionManager transactionManager;
 
     public TimerComponentBuilder(@Reference ComponentBuilderRegistry builderRegistry,
                                  @Reference ScopeRegistry scopeRegistry,
+                                 @Reference TransactionManager transactionManager,
                                  @Reference InstanceFactoryBuilderRegistry providerBuilders,
                                  @Reference(name = "transformerRegistry")TransformerRegistry<PullTransformer<?, ?>> transformerRegistry,
                                  @Reference ProxyService proxyService,
-                                 @Reference(name = "nonTrxTimerService")TimerService nonTrxTimerService,
-                                 @Reference(name = "trxTimerService")TimerService trxTimerService) {
+                                 @Reference TimerService timerService) {
         super(builderRegistry, scopeRegistry, providerBuilders, transformerRegistry);
         this.proxyService = proxyService;
-        this.nonTrxTimerService = nonTrxTimerService;
-        this.trxTimerService = trxTimerService;
+        this.timerService = timerService;
+        this.transactionManager = transactionManager;
     }
 
     @Init
@@ -123,13 +125,7 @@ public class TimerComponentBuilder<T> extends PojoComponentBuilder<T, TimerCompo
         InstanceFactoryProvider<T> provider = providerBuilders.build(providerDefinition, classLoader);
 
         createPropertyFactories(definition, provider);
-        TriggerData data = definition.getTriggerData();
-        TimerService timerService;
-        if (definition.isTransactional()) {
-            timerService = trxTimerService;
-        } else {
-            timerService = nonTrxTimerService;
-        }
+        TriggerData data = definition.getTriggerData();        
         TimerComponent<T> component = new TimerComponent<T>(componentId,
                                                             provider,
                                                             scopeContainer,
@@ -139,7 +135,9 @@ public class TimerComponentBuilder<T> extends PojoComponentBuilder<T, TimerCompo
                                                             definition.getMaxAge(),
                                                             proxyService,
                                                             data,
-                                                            timerService);
+                                                            timerService, 
+                                                            transactionManager,
+                                                            definition.isTransactional());
 
         PojoRequestContext requestContext = new PojoRequestContext();
         provider.setObjectFactory(InjectableAttribute.REQUEST_CONTEXT, new SingletonObjectFactory<PojoRequestContext>(requestContext));

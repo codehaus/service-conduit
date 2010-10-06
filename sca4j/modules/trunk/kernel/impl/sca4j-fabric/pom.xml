@@ -123,6 +123,17 @@
             <version>1.0-incubator-M2</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>1.8.3</version>
+            <exclusions>
+                <exclusion> <!-- Shouldn't force log4j binding -->
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         
         <!--dependency>
             <groupId>org.codehaus.woodstox</groupId>

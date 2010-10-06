@@ -50,72 +50,29 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.timer.quartz.runtime;
+package org.sca4j.spi.services.timer;
 
-import java.util.concurrent.Delayed;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.TimeUnit;
-
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.quartz.SchedulerException;
+import java.text.ParseException;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 
 /**
- * Default implementation of a RunnableHolder.
+ * Provides facilities for execution of tasks at some later time.
  *
  * @version $Revision$ $Date$
  */
-public class RunnableHolderImpl<T> extends FutureTask<T> implements RunnableHolder<T> {
-    private String id;
-    private QuartzTimerService timerService;
+public interface TimerService extends ScheduledExecutorService {
 
-    public RunnableHolderImpl(String id, Runnable runnable, QuartzTimerService timerService) {
-        super(runnable, null);
-        this.id = id;
-        this.timerService = timerService;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void execute(JobExecutionContext context) throws JobExecutionException {
-        boolean result = runAndReset();
-        if (!result) {
-            try {
-                get();
-            } catch (ExecutionException e) {
-                // unwrap the exception
-                JobExecutionException jex = new JobExecutionException(e.getCause());
-                jex.setUnscheduleAllTriggers(true);  // unschedule the job
-                throw jex;
-            } catch (InterruptedException e) {
-                JobExecutionException jex = new JobExecutionException(e);
-                jex.setUnscheduleAllTriggers(true);  // unschedule the job
-                throw jex;
-            }
-        }
-    }
-
-    public boolean cancel(boolean mayInterruptIfRunning) {
-        try {
-            boolean val = super.cancel(mayInterruptIfRunning);
-            // cancel against the timer service
-            timerService.cancel(id);
-            return val;
-        } catch (SchedulerException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public long getDelay(TimeUnit unit) {
-        throw new UnsupportedOperationException("Not implemented");
-    }
-
-    public int compareTo(Delayed o) {
-        throw new UnsupportedOperationException("Not implemented");
-    }
+    /**
+     * Schedules a task for execution according to the cron expression.
+     *
+     * @param command    the runnable to execute
+     * @param expression a valid cron expression
+     * @return a future that can be used for synchronization
+     * @throws ParseException if an error occurs parsing the cron expression
+     * @throws java.util.concurrent.RejectedExecutionException
+     *                        if an error occurs scheduling the task
+     */
+    ScheduledFuture<?> schedule(Runnable command, String expression) throws ParseException;
 
 }

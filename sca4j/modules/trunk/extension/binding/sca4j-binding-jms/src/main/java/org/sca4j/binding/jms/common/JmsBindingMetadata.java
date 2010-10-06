@@ -101,9 +101,9 @@ public class JmsBindingMetadata extends ModelObject {
     public int exceptionTimeout = pollingInterval;
     public int consumerCount = 1;
     public int batchSize = 100;
-    public boolean batched = false;
-    
+    public boolean batched = false; 
     public List<Property> properties = new ArrayList<Property>();
+    public JmsPolicy jmsPolicy;
     
     public static class Property {
         public String name;

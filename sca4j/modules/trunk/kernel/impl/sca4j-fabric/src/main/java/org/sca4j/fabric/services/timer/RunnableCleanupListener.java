@@ -50,86 +50,25 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.timer.quartz.runtime;
+package org.sca4j.fabric.services.timer;
 
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.Status;
-import javax.transaction.SystemException;
-import javax.transaction.TransactionManager;
-
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.core.JobRunShellFactory;
-import org.quartz.core.SchedulingContext;
+import org.quartz.Trigger;
+import org.quartz.listeners.SchedulerListenerSupport;
 
 /**
- * JobRunShell that wraps job invocations in a transaction.
+ * Removes references to a registered holder after a job trigger has completed.
  *
  * @version $Revision$ $Date$
  */
-public class TrxJobRunShell extends SCA4JJobRunShell {
-    private TransactionManager tm;
+public class RunnableCleanupListener extends SchedulerListenerSupport {
+    private RunnableJobFactory jobFactory;
 
-    public TrxJobRunShell(JobRunShellFactory shellFactory, Scheduler scheduler, TransactionManager tm, SchedulingContext context) {
-        super(shellFactory, scheduler, context);
-        this.tm = tm;
+    public RunnableCleanupListener(RunnableJobFactory jobFactory) {
+        this.jobFactory = jobFactory;
     }
 
-    protected void begin() throws SchedulerException {
-        beginTransaction();
-        super.begin();
-    }
-
-    protected void complete(boolean successfull) throws SchedulerException {
-        super.complete(successfull);
-        if (successfull) {
-            commitTransaction();
-        } else {
-            rollbackTransaction();
-        }
-    }
-
-    private void beginTransaction() throws SchedulerException {
-        try {
-            tm.begin();
-        } catch (NotSupportedException e) {
-            throw new SchedulerException(e);
-        } catch (SystemException e) {
-            throw new SchedulerException(e);
-        }
-    }
-
-    private void commitTransaction() throws SchedulerException {
-        try {
-            if (tm.getStatus() != Status.STATUS_MARKED_ROLLBACK) {
-                tm.commit();
-            } else {
-                tm.rollback();
-            }
-        } catch (SystemException e) {
-            throw new SchedulerException(e);
-        } catch (IllegalStateException e) {
-            throw new SchedulerException(e);
-        } catch (SecurityException e) {
-            throw new SchedulerException(e);
-        } catch (HeuristicMixedException e) {
-            throw new SchedulerException(e);
-        } catch (HeuristicRollbackException e) {
-            throw new SchedulerException(e);
-        } catch (RollbackException e) {
-            throw new SchedulerException(e);
-        }
-    }
-
-    private void rollbackTransaction() throws SchedulerException {
-        try {
-            tm.rollback();
-        } catch (SystemException e) {
-            throw new SchedulerException(e);
-        }
+    public void triggerFinalized(Trigger trigger) {
+        jobFactory.remove(trigger.getJobName());
     }
 
 }

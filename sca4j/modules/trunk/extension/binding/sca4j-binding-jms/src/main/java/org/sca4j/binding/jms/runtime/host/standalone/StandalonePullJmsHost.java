@@ -53,22 +53,28 @@
 package org.sca4j.binding.jms.runtime.host.standalone;
 
 import java.net.URI;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.transaction.TransactionManager;
 
+import org.oasisopen.sca.ServiceRuntimeException;
 import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.binding.jms.common.JmsBindingMetadata;
+import org.sca4j.binding.jms.common.JmsPolicy;
 import org.sca4j.binding.jms.common.TransactionType;
+import org.sca4j.binding.jms.common.JmsPolicy.AvailabilityJmsPolicy;
 import org.sca4j.binding.jms.runtime.JMSObjectFactory;
 import org.sca4j.binding.jms.runtime.JMSRuntimeMonitor;
 import org.sca4j.binding.jms.runtime.host.JmsHost;
 import org.sca4j.host.runtime.RuntimeLifecycle;
 import org.sca4j.host.work.WorkScheduler;
+import org.sca4j.spi.services.timer.TimerService;
 import org.sca4j.spi.wire.Wire;
 
 /**
@@ -79,6 +85,7 @@ import org.sca4j.spi.wire.Wire;
 public class StandalonePullJmsHost implements JmsHost {
 
     @Reference public WorkScheduler workScheduler;
+    @Reference public TimerService timerService;
     @Monitor public JMSRuntimeMonitor monitor;
     @Reference public TransactionManager transactionManager;
     @Reference public RuntimeLifecycle runtimeLifecycle;
@@ -92,24 +99,62 @@ public class StandalonePullJmsHost implements JmsHost {
         ConsumerWorkerTemplate template = new ConsumerWorkerTemplate();
         template.transactionManager = transactionManager;
         template.transactionType = transactionType;
-        template.jmsFactory = jmsFactory;; 
+        template.jmsFactory = jmsFactory;
         template.pollingInterval = metadata.pollingInterval;
         template.exceptionTimeout = metadata.exceptionTimeout;
         template.monitor = monitor;
         template.metadata = metadata;
         template.wire = wire;
+        AvailabilityJmsPolicy availabilityPolicy = JmsPolicy.resolveAvailabilityPolicy(metadata.jmsPolicy);
 
         String returnType = wire.getInvocationChains().entrySet().iterator().next().getKey().getTargetOperation().getReturnType();
         boolean twoWay = returnType != null && !"void".equalsIgnoreCase(returnType);
         for (int i = 0; i < metadata.consumerCount; i++) {
-            
-            ConsumerWorker work = twoWay ? new TwoWayConsumer(template, runtimeLifecycle) : new OneWayConsumer(template, runtimeLifecycle);
-            workScheduler.scheduleWork(work);
-            consumerWorkers.add(work);
+
+            if (availabilityPolicy != null) {
+                scheduleWithTimerService(template, twoWay, availabilityPolicy, consumerWorkers);
+            } else {
+                scheduleWithWorkScheduler(template, twoWay, consumerWorkers);
+            }
         }
 
         consumerWorkerMap.put(serviceUri, consumerWorkers);
+    }    
 
+    private void scheduleWithTimerService(ConsumerWorkerTemplate template, boolean twoWay, AvailabilityJmsPolicy policy,
+            List<ConsumerWorker> consumerWorkers) {
+        
+        final ConsumerWorker worker = twoWay ? new TwoWayConsumer(template, runtimeLifecycle, false) : 
+                                               new OneWayConsumer(template, runtimeLifecycle, false);
+        Runnable command = new Runnable() {
+            @Override
+            public void run() {
+                while (!Thread.currentThread().isInterrupted()) {
+                    worker.run();
+                    if (!worker.isMoreMessages()) {
+                        break;
+                    }
+                }
+            }
+        };
+        if (policy.getCronExpression() != null) {
+            try {
+                timerService.schedule(command, policy.getCronExpression());
+            } catch (ParseException e) {
+                throw new ServiceRuntimeException(e);
+            }
+        } else {
+            timerService.scheduleWithFixedDelay(command, -1, policy.getRepeatInterval(), TimeUnit.SECONDS);
+        }
+        consumerWorkers.add(worker);
+        monitor.registerListener(template.metadata.destinationName, "TimerService");
+    }
+    
+    private void scheduleWithWorkScheduler(ConsumerWorkerTemplate template, boolean twoWay, List<ConsumerWorker> consumerWorkers) {
+        ConsumerWorker worker = twoWay ? new TwoWayConsumer(template, runtimeLifecycle) : new OneWayConsumer(template, runtimeLifecycle);
+        workScheduler.scheduleWork(worker);
+        consumerWorkers.add(worker);
+        monitor.registerListener(template.metadata.destinationName, "WorkScheduler");
     }
 
 }

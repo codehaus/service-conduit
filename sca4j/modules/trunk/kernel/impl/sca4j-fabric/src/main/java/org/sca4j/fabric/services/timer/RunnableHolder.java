@@ -50,28 +50,24 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.timer.quartz.runtime;
+package org.sca4j.fabric.services.timer;
 
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.core.JobRunShell;
-import org.quartz.core.JobRunShellFactory;
-import org.quartz.core.SchedulingContext;
+import java.util.concurrent.ScheduledFuture;
+
+import org.quartz.Job;
 
 /**
- * Placeholder shell for monitoring events.
+ * Manages a Runnable scheduled for execution.
  *
  * @version $Revision$ $Date$
  */
-public class SCA4JJobRunShell extends JobRunShell {
-    public SCA4JJobRunShell(JobRunShellFactory jobRunShellFactory, Scheduler scheduler, SchedulingContext schedulingContext) {
-        super(jobRunShellFactory, scheduler, schedulingContext);
-    }
+public interface RunnableHolder<T> extends ScheduledFuture<T>, Job {
 
-    protected void begin() throws SchedulerException {
-    }
-
-    protected void complete(boolean successfull) throws SchedulerException {
-    }
+    /**
+     * Returns the job id associated with the holder.
+     *
+     * @return the job id
+     */
+    String getId();
 
 }

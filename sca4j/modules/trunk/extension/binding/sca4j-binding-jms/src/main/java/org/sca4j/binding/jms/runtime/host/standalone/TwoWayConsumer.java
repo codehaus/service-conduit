@@ -46,13 +46,13 @@ import org.sca4j.spi.model.physical.PhysicalOperationDefinition;
 public class TwoWayConsumer extends ConsumerWorker {
     
     private Class<?> outputType;
-
-    /**
-     * @param template
-     * @throws ClassNotFoundException
-     */
+    
     public TwoWayConsumer(ConsumerWorkerTemplate template, RuntimeLifecycle runtimeLifecycle) {
-        super(template, runtimeLifecycle);
+        this(template, runtimeLifecycle, true);
+    }
+
+    public TwoWayConsumer(ConsumerWorkerTemplate template, RuntimeLifecycle runtimeLifecycle, boolean isDeamon) {
+        super(template, runtimeLifecycle, isDeamon);
         try {
             PhysicalOperationDefinition pod = template.wire.getInvocationChains().entrySet().iterator().next().getKey().getTargetOperation();
             this.invocationChain = template.wire.getInvocationChains().entrySet().iterator().next().getValue();
@@ -124,6 +124,9 @@ public class TwoWayConsumer extends ConsumerWorker {
                 }
                 producer = session.createProducer(template.jmsFactory.getResponseDestination());
                 producer.send(jmsResponse);
+                moreMessages = true;
+            } else {
+                moreMessages = false;
             }
 
             transactionHandler.delist(session, TMSUCCESS);

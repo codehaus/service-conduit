@@ -23,6 +23,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.nio.channels.FileLock;
 
 import org.apache.commons.io.IOUtils;
@@ -101,8 +102,12 @@ public class FileTargetInterceptor implements Interceptor {
     
     private File getTargetFile(Object file) {
         if (rootDir == null) {
-            return new File(file.toString());
-        } else {
+            if (URI.class.isInstance(file) && URI.class.cast(file).getScheme().equalsIgnoreCase("file")) {
+                return new File(URI.class.cast(file));
+            } else {
+                return new File(file.toString());
+            }
+        } else {//Root directory had been provided statically
             return new File(rootDir, file.toString());
         }
     }

@@ -56,12 +56,14 @@ import java.net.URI;
 import java.text.ParseException;
 import java.util.concurrent.ScheduledFuture;
 
+import javax.transaction.TransactionManager;
+
 import org.sca4j.java.runtime.JavaComponent;
 import org.sca4j.spi.component.InstanceFactoryProvider;
 import org.sca4j.spi.component.ScopeContainer;
 import org.sca4j.spi.services.proxy.ProxyService;
+import org.sca4j.spi.services.timer.TimerService;
 import org.sca4j.timer.quartz.provision.TriggerData;
-import org.sca4j.timer.quartz.spi.TimerService;
 
 /**
  * A timer component implementation.
@@ -72,6 +74,8 @@ public class TimerComponent<T> extends JavaComponent<T> {
     private TriggerData data;
     private TimerService timerService;
     private ScheduledFuture<?> future;
+    private boolean transactional;
+    private TransactionManager transactionManager;
 
     /**
      * Constructor for a timer component.
@@ -86,6 +90,8 @@ public class TimerComponent<T> extends JavaComponent<T> {
      * @param proxyService            the service used to create reference proxies
      * @param data                    timer fire data
      * @param timerService            the timer service
+     * @param transactionManager      the transaction manager
+     * @param transactional           flag to indicate if component is transactional
      */
     public TimerComponent(URI componentId,
                           InstanceFactoryProvider<T> instanceFactoryProvider,
@@ -96,7 +102,9 @@ public class TimerComponent<T> extends JavaComponent<T> {
                           long maxAge,
                           ProxyService proxyService,
                           TriggerData data,
-                          TimerService timerService) {
+                          TimerService timerService, 
+                          TransactionManager transactionManager, 
+                          boolean transactional) {
         super(componentId,
               instanceFactoryProvider,
               scopeContainer,
@@ -107,11 +115,19 @@ public class TimerComponent<T> extends JavaComponent<T> {
               proxyService);
         this.data = data;
         this.timerService = timerService;
+        this.transactional = transactional;
+        this.transactionManager = transactionManager;
     }
 
     public void start() {
         super.start();
-        TimerComponentInvoker<T> invoker = new TimerComponentInvoker<T>(this);
+        Runnable invoker = null;
+        if (transactional) {
+            invoker = new TxTimerComponentInvoker<T>(this, transactionManager);
+        } else {
+            invoker = new TimerComponentInvoker<T>(this);
+        }
+        
         switch (data.getType()) {
         case CRON:
             try {

@@ -50,29 +50,29 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.timer.quartz.spi;
+package org.sca4j.fabric.services.timer;
 
-import java.text.ParseException;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
+import org.quartz.spi.JobFactory;
 
 /**
- * Provides facilities for execution of tasks at some later time.
+ * JobFactory that allows Runnable instances to be used to execute jobs.
  *
  * @version $Revision$ $Date$
  */
-public interface TimerService extends ScheduledExecutorService {
+public interface RunnableJobFactory extends JobFactory {
 
     /**
-     * Schedules a task for execution according to the cron expression.
+     * Register the holder that contains the Runnable to be executed.
      *
-     * @param command    the runnable to execute
-     * @param expression a valid cron expression
-     * @return a future that can be used for synchronization
-     * @throws ParseException if an error occurs parsing the cron expression
-     * @throws java.util.concurrent.RejectedExecutionException
-     *                        if an error occurs scheduling the task
+     * @param holder the holder
      */
-    ScheduledFuture<?> schedule(Runnable command, String expression) throws ParseException;
+    void register(RunnableHolder<?> holder);
 
+    /**
+     * Removes a registered holder.
+     *
+     * @param id the id of the holder
+     * @return the holder or null if no holder is registered
+     */
+    RunnableHolder<?> remove(String id);
 }

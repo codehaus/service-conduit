@@ -53,12 +53,17 @@
 package org.sca4j.binding.jms.control;
 
 import static org.oasisopen.sca.Constants.SCA_NS;
+import static org.sca4j.host.Namespaces.SCA4J_NS;
 
 import java.net.URI;
+import java.text.ParseException;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
 import org.oasisopen.sca.annotation.EagerInit;
+import org.quartz.CronExpression;
+import org.sca4j.binding.jms.common.JmsPolicy;
 import org.sca4j.binding.jms.common.JmsBindingMetadata;
 import org.sca4j.binding.jms.common.TransactionType;
 import org.sca4j.binding.jms.provision.JmsWireSourceDefinition;
@@ -69,10 +74,12 @@ import org.sca4j.scdl.ReferenceDefinition;
 import org.sca4j.scdl.ServiceContract;
 import org.sca4j.scdl.ServiceDefinition;
 import org.sca4j.scdl.definitions.Intent;
+import org.sca4j.scdl.definitions.PolicySet;
 import org.sca4j.spi.generator.BindingGenerator;
 import org.sca4j.spi.generator.GenerationException;
 import org.sca4j.spi.model.instance.LogicalBinding;
 import org.sca4j.spi.policy.Policy;
+import org.w3c.dom.Element;
 
 /**
  * Binding generator that creates the physical source and target definitions for
@@ -92,6 +99,7 @@ public class JmsBindingGenerator implements BindingGenerator<JmsWireSourceDefini
     private static final QName TRANSACTED_ONEWAY = new QName(SCA_NS, "transactedOneWay");
     private static final QName TRANSACTED_ONEWAY_LOCAL = new QName(SCA_NS, "transactedOneWay.local");
     private static final QName TRANSACTED_ONEWAY_GLOBAL = new QName(SCA_NS, "transactedOneWay.global");
+    private static final QName AVAILABILITY = new QName(SCA4J_NS, "availability");
 
     public JmsWireSourceDefinition generateWireSource(LogicalBinding<JmsBindingDefinition> logicalBinding, Policy policy, ServiceDefinition serviceDefinition) 
         throws GenerationException {
@@ -105,9 +113,12 @@ public class JmsBindingGenerator implements BindingGenerator<JmsWireSourceDefini
         TransactionType transactionType = getTransactionType(policy, serviceContract);
         URI classloaderId = logicalBinding.getParent().getParent().getClassLoaderId();
         JmsBindingMetadata metadata = logicalBinding.getBinding().getMetadata();
+        JmsPolicy jmsPolicy = processPolicies(policy, serviceContract.getOperations().iterator().next());
+        metadata.jmsPolicy = jmsPolicy;
+        
         URI uri = logicalBinding.getBinding().getTargetUri();
         return new JmsWireSourceDefinition(uri, metadata, transactionType, classloaderId);
-    }
+    }    
 
     public JmsWireTargetDefinition generateWireTarget(LogicalBinding<JmsBindingDefinition> logicalBinding, Policy policy, ReferenceDefinition referenceDefinition) 
         throws GenerationException {
@@ -144,7 +155,52 @@ public class JmsBindingGenerator implements BindingGenerator<JmsWireSourceDefini
         }
         // no transaction policy specified, use local
         return TransactionType.LOCAL;
+    }
+    
+    private JmsPolicy processPolicies(Policy policy, Operation operation) throws GenerationException {
+        List<PolicySet> policySets = policy.getProvidedPolicySets(operation);
+        if (policySets == null || policySets.size() == 0) {
+            return null;
+        }
+        if (policySets.size() != 1) {
+            throw new GenerationException("Invalid policy configuration, only supports security policy " + policySets);
+        }
 
+        PolicySet policySet = policySets.iterator().next();
+
+        QName policyQName = policySet.getExtensionName();
+        if (!policyQName.equals(AVAILABILITY)) {
+            throw new GenerationException("Unexpected policy element " + policyQName);
+        }
+
+        Element policyElement = policySet.getExtension();
+        String cronExpression = policyElement.getAttribute("cronExpression");
+        String repeatInterval = policyElement.getAttribute("repeatInterval");
+
+        if (!"".equals(cronExpression)) {
+            return JmsPolicy.createAvailabilityPolicy(parseCronExpression(cronExpression));
+        } else if (!"".equals(repeatInterval)) {
+            return JmsPolicy.createAvailabilityPolicy(parseRepeatInterval(repeatInterval));
+        } else {
+            throw new GenerationException("cronExpression or repeatInterval must be provided in sca4j:availability policySet");
+        }
+    }
+    
+    private String parseCronExpression(String cronExp) throws GenerationException {
+        try {
+            new CronExpression(cronExp);
+            return cronExp;
+        } catch (ParseException e) {
+            throw new GenerationException("Invalid cronExpression:" + cronExp);
+        }
+    }
+    
+    private long parseRepeatInterval(String repeatInterval) throws GenerationException {
+        try {
+            return Long.parseLong(repeatInterval);
+        } catch (NumberFormatException e) {
+            throw new GenerationException("Invalid repeatInterval:" + repeatInterval);
+        }
     }
     
 }

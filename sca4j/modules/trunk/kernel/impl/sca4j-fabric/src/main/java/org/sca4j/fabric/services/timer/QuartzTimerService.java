@@ -50,7 +50,7 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.timer.quartz.runtime;
+package org.sca4j.fabric.services.timer;
 
 import java.text.ParseException;
 import java.util.Collection;
@@ -64,8 +64,6 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import javax.transaction.TransactionManager;
-
 import org.oasisopen.sca.annotation.Destroy;
 import org.oasisopen.sca.annotation.Init;
 import org.oasisopen.sca.annotation.Property;
@@ -78,11 +76,11 @@ import org.quartz.SchedulerConfigException;
 import org.quartz.SchedulerException;
 import org.quartz.SimpleTrigger;
 import org.quartz.Trigger;
-import org.quartz.core.JobRunShellFactory;
 import org.quartz.core.QuartzScheduler;
 import org.quartz.core.QuartzSchedulerResources;
 import org.quartz.core.SchedulingContext;
 import org.quartz.impl.SchedulerRepository;
+import org.quartz.impl.StdJobRunShellFactory;
 import org.quartz.impl.StdScheduler;
 import org.quartz.simpl.RAMJobStore;
 import org.quartz.spi.JobFactory;
@@ -90,7 +88,7 @@ import org.quartz.spi.JobStore;
 import org.quartz.spi.ThreadPool;
 import org.sca4j.host.work.DefaultPausableWork;
 import org.sca4j.host.work.WorkScheduler;
-import org.sca4j.timer.quartz.spi.TimerService;
+import org.sca4j.spi.services.timer.TimerService;
 
 /**
  * Implementation of the TimerService that is backed by Quartz.
@@ -101,31 +99,22 @@ public class QuartzTimerService implements TimerService {
     public static final String GROUP = "default";
 
     private final WorkScheduler workScheduler;
-    private TransactionManager tm;
     private RunnableJobFactory jobFactory;
     private Scheduler scheduler;
     private long waitTime = -1;  // default Quartz value
-    private boolean transactional = true;
     private String schedulerName = "SCA4JScheduler";
     private long counter;
 
-    public QuartzTimerService(@Reference WorkScheduler workScheduler, @Reference TransactionManager tm) {
+    public QuartzTimerService(@Reference WorkScheduler workScheduler) {
         this.workScheduler = workScheduler;
-        this.tm = tm;
     }
 
     @Init
     public void init() throws SchedulerException {
         JobStore store = new RAMJobStore();
         F3ThreadPool pool = new F3ThreadPool();
-        jobFactory = new RunnableJobFactoryImpl();
-        JobRunShellFactory shellFactory;
-        if (transactional) {
-            shellFactory = new TrxJobRunShellFactory(tm);
-        } else {
-            shellFactory = new SCA4JJobRunShellFactory();
-        }
-        scheduler = createScheduler(schedulerName, "default", store, pool, shellFactory, jobFactory);
+        jobFactory = new RunnableJobFactoryImpl();        
+        scheduler = createScheduler(schedulerName, "default", store, pool, jobFactory);
         RunnableCleanupListener listener = new RunnableCleanupListener(jobFactory);
         scheduler.addSchedulerListener(listener);
         scheduler.start();
@@ -141,11 +130,6 @@ public class QuartzTimerService implements TimerService {
     @Property(required=false)
     public void setWaitTime(long waitTime) {
         this.waitTime = waitTime;
-    }
-
-    @Property(required=false)
-    public void setTransactional(boolean transactional) {
-        this.transactional = transactional;
     }
 
     @Property(required=false)
@@ -237,17 +221,18 @@ public class QuartzTimerService implements TimerService {
         });
     }
 
-    private Scheduler createScheduler(String name, String id, JobStore store, ThreadPool pool, JobRunShellFactory shellFactory, JobFactory jobFactory)
+    private Scheduler createScheduler(String name, String id, JobStore store, ThreadPool pool, JobFactory jobFactory)
             throws SchedulerException {
         SchedulingContext context = new SchedulingContext();
         context.setInstanceId(id);
 
         QuartzSchedulerResources resources = new QuartzSchedulerResources();
+        StdJobRunShellFactory shellFactory = new StdJobRunShellFactory();
         resources.setName(name);
-        resources.setInstanceId(id);
-        resources.setJobRunShellFactory(shellFactory);
+        resources.setInstanceId(id);        
         resources.setThreadPool(pool);
         resources.setJobStore(store);
+        resources.setJobRunShellFactory(shellFactory);
 
         QuartzScheduler quartzScheduler = new QuartzScheduler(resources, context, waitTime, -1);
         quartzScheduler.setJobFactory(jobFactory);
@@ -307,6 +292,14 @@ public class QuartzTimerService implements TimerService {
 
         public int getPoolSize() {
             return 5;  // TODO WorkScheduler doesn't provide this functionality
+        }
+
+        @Override
+        public void setInstanceId(String arg0) {
+        }
+
+        @Override
+        public void setInstanceName(String arg0) {
         }
     }
 

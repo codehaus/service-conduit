@@ -44,28 +44,22 @@
             <version>0.9.4-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>opensymphony</groupId>
-            <artifactId>quartz</artifactId>
-            <version>1.6.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <!-- Quartz 1.6.0 depends on clogging -->
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-collections</groupId>
-            <artifactId>commons-collections</artifactId>
-            <version>3.2</version>
-        </dependency>
-        <!-- Quartz 1.6.0 requires JTA -->
-        <dependency>
             <groupId>geronimo-spec</groupId>
             <artifactId>geronimo-spec-jta</artifactId>
             <version>1.0.1B-rc4</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency> <!-- Keeping it for now for backward compatibility -->
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>1.8.3</version>
+            <!--scope>provided</scope-->
+            <exclusions>
+                <exclusion> <!-- Shouldn't dictate log4j binding -->
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

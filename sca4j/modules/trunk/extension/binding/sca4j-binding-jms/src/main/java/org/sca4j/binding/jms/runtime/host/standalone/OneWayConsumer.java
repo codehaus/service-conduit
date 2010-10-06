@@ -50,7 +50,11 @@ public class OneWayConsumer extends ConsumerWorker {
      * @throws ClassNotFoundException
      */
     public OneWayConsumer(ConsumerWorkerTemplate template, RuntimeLifecycle runtimeLifecycle) {
-        super(template, runtimeLifecycle);
+        this(template, runtimeLifecycle, true);
+    }
+    
+    public OneWayConsumer(ConsumerWorkerTemplate template, RuntimeLifecycle runtimeLifecycle, boolean isDeamon) {
+        super(template, runtimeLifecycle, isDeamon);
     }
 
     /**
@@ -126,6 +130,9 @@ public class OneWayConsumer extends ConsumerWorker {
                     org.sca4j.spi.invocation.Message sca4jResponse = invocationChain.getHeadInterceptor().invoke(sca4jRequest);
                     checkForFault(sca4jResponse);
                 }
+                moreMessages = true;
+            } else {
+                moreMessages = false;
             }
 
             transactionHandler.delist(session, TMSUCCESS);

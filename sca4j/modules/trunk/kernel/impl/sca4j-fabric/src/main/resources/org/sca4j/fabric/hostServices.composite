@@ -69,5 +69,9 @@
     <component name="FederatedRoutingService">
         <sca4j:implementation.system class="org.sca4j.fabric.services.routing.FederatedRoutingService"/>
     </component>
+    
+    <component name="TimerService">
+        <sca4j:implementation.system class="org.sca4j.fabric.services.timer.QuartzTimerService"/>
+    </component>
 
 </composite>

@@ -50,29 +50,72 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.timer.quartz.runtime;
+package org.sca4j.fabric.services.timer;
 
-import org.quartz.spi.JobFactory;
+import java.util.concurrent.Delayed;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.TimeUnit;
+
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.quartz.SchedulerException;
 
 /**
- * JobFactory that allows Runnable instances to be used to execute jobs.
+ * Default implementation of a RunnableHolder.
  *
  * @version $Revision$ $Date$
  */
-public interface RunnableJobFactory extends JobFactory {
+public class RunnableHolderImpl<T> extends FutureTask<T> implements RunnableHolder<T> {
+    private String id;
+    private QuartzTimerService timerService;
 
-    /**
-     * Register the holder that contains the Runnable to be executed.
-     *
-     * @param holder the holder
-     */
-    void register(RunnableHolder<?> holder);
+    public RunnableHolderImpl(String id, Runnable runnable, QuartzTimerService timerService) {
+        super(runnable, null);
+        this.id = id;
+        this.timerService = timerService;
+    }
 
-    /**
-     * Removes a registered holder.
-     *
-     * @param id the id of the holder
-     * @return the holder or null if no holder is registered
-     */
-    RunnableHolder<?> remove(String id);
+    public String getId() {
+        return id;
+    }
+
+    public void execute(JobExecutionContext context) throws JobExecutionException {
+        boolean result = runAndReset();
+        if (!result) {
+            try {
+                get();
+            } catch (ExecutionException e) {
+                // unwrap the exception
+                JobExecutionException jex = new JobExecutionException(e.getCause());
+                jex.setUnscheduleAllTriggers(true);  // unschedule the job
+                throw jex;
+            } catch (InterruptedException e) {
+                JobExecutionException jex = new JobExecutionException(e);
+                jex.setUnscheduleAllTriggers(true);  // unschedule the job
+                throw jex;
+            }
+        }
+    }
+
+    public boolean cancel(boolean mayInterruptIfRunning) {
+        try {
+            boolean val = super.cancel(mayInterruptIfRunning);
+            // cancel against the timer service
+            timerService.cancel(id);
+            return val;
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public long getDelay(TimeUnit unit) {
+        throw new UnsupportedOperationException("Not implemented");
+    }
+
+    public int compareTo(Delayed o) {
+        throw new UnsupportedOperationException("Not implemented");
+    }
+
 }

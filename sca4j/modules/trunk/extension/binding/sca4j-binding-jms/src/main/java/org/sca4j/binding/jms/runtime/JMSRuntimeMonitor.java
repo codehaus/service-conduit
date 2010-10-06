@@ -63,12 +63,10 @@ import org.sca4j.api.annotation.logging.Info;
 public interface JMSRuntimeMonitor {
 
     /**
-     * Callback when a service has been provisioned as a Hessian endpoint
-     *
-     * @param address the endpoint address
+     * Log the event when service registers with the destination.
      */
     @Info
-    void registerListener(Object destination);
+    void registerListener(String destination, String listenerType);
 
     /**
      * Callback when an error happens when handle message.

@@ -50,25 +50,42 @@
  * This product includes software developed by
  * The Apache Software Foundation (http://www.apache.org/).
  */
-package org.sca4j.timer.quartz.runtime;
+package org.sca4j.fabric.services.timer;
 
-import org.quartz.Trigger;
-import org.quartz.listeners.SchedulerListenerSupport;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.quartz.Job;
+import org.quartz.SchedulerException;
+import org.quartz.spi.TriggerFiredBundle;
 
 /**
- * Removes references to a registered holder after a job trigger has completed.
+ * Default implementation of a RunnableJobFactory.
  *
  * @version $Revision$ $Date$
  */
-public class RunnableCleanupListener extends SchedulerListenerSupport {
-    private RunnableJobFactory jobFactory;
+public class RunnableJobFactoryImpl implements RunnableJobFactory {
+    private final Map<String, RunnableHolder<?>> runnables;
 
-    public RunnableCleanupListener(RunnableJobFactory jobFactory) {
-        this.jobFactory = jobFactory;
+    public RunnableJobFactoryImpl() {
+        runnables = new ConcurrentHashMap<String, RunnableHolder<?>>();
     }
 
-    public void triggerFinalized(Trigger trigger) {
-        jobFactory.remove(trigger.getJobName());
+    public Job newJob(TriggerFiredBundle bundle) throws SchedulerException {
+        String id = bundle.getJobDetail().getName();
+        RunnableHolder<?> runnable = runnables.get(id);
+        if (runnable == null) {
+            throw new AssertionError("Runnable not found for id: " + id);
+        }
+        return runnable;
+    }
+
+    public void register(RunnableHolder<?> holder) {
+        runnables.put(holder.getId(), holder);
+    }
+
+    public RunnableHolder<?> remove(String id) {
+        return runnables.remove(id);
     }
 
 }
