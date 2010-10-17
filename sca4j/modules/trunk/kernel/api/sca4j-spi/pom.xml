@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.codehaus.service-conduit</groupId>
         <artifactId>sca4j-kernel-api-parent-pom</artifactId>
-        <version>0.9.4-SNAPSHOT</version>
+        <version>0.9.4</version>
     </parent>
     <groupId>org.codehaus.service-conduit</groupId>
     <artifactId>sca4j-spi</artifactId>
@@ -31,37 +31,37 @@
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-api</artifactId>
-            <version>0.9.4-SNAPSHOT</version>
+            <version>0.9.4</version>
         </dependency>
 
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-host-api</artifactId>
-            <version>0.9.4-SNAPSHOT</version>
+            <version>0.9.4</version>
         </dependency>
 
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-introspection-spi</artifactId>
-            <version>0.9.4-SNAPSHOT</version>
+            <version>0.9.4</version>
         </dependency>
 
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-transform-api</artifactId>
-            <version>0.9.4-SNAPSHOT</version>
+            <version>0.9.4</version>
         </dependency>
 
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-xmlfactory</artifactId>
-            <version>0.9.4-SNAPSHOT</version>
+            <version>0.9.4</version>
         </dependency>
 
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-scdl</artifactId>
-            <version>0.9.4-SNAPSHOT</version>
+            <version>0.9.4</version>
         </dependency>
 
         <dependency>
