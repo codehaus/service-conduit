@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.codehaus.service-conduit</groupId>
+        <artifactId>parent</artifactId>
+        <version>7</version>
+    </parent>
+
+    <groupId>org.codehaus.service-conduit</groupId>
+    <artifactId>sca4j-modules-parent-pom</artifactId>
+    <version>0.9.4</version>
+    <name>SCA4J Modules Parent POM</name>
+    <description>SCA4J Modules Parent POM.</description>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>extension</module>
+        <module>kernel</module>
+        <module>runtime</module>
+        <module>test-autowire</module>
+    </modules>
+
+    <build>
+        <defaultGoal>install</defaultGoal>
+    </build>
+
+    <scm>
+        <connection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/modules/tags/sca4j-modules-parent-pom-0.9.4</connection>
+        <developerConnection>scm:svn:https://svn.codehaus.org/service-conduit/sca4j/modules/tags/sca4j-modules-parent-pom-0.9.4</developerConnection>
+        <url>https://svn.codehaus.org/service-conduit/sca4j/modules/tags/sca4j-modules-parent-pom-0.9.4</url>
+    </scm>
+    
+</project>
