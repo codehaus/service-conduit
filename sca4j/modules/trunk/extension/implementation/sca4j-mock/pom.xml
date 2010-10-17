@@ -20,7 +20,7 @@
     <parent>
         <groupId>org.codehaus.service-conduit</groupId>
         <artifactId>sca4j-extension-implementation-parent-pom</artifactId>
-        <version>0.9.4</version>
+        <version>0.9.5-SNAPSHOT</version>
     </parent>
     <groupId>org.codehaus.service-conduit</groupId>
     <artifactId>sca4j-mock</artifactId>
@@ -33,14 +33,14 @@
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-pojo</artifactId>
-            <version>0.9.4</version>
+            <version>0.9.5-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-introspection-spi</artifactId>
-            <version>0.9.4</version>
+            <version>0.9.5-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!--dependency>
@@ -53,7 +53,7 @@
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-introspection</artifactId>
-            <version>0.9.4</version>
+            <version>0.9.5-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
 
