@@ -69,7 +69,7 @@
                          initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
                          jndiURL="vm://localhost">
 	             <headers>
-	                 <property name="ReplyToQ" type="string">REPLY_QUEUE</property>
+	                 <property name="JMSReplyTo" type="string">REPLY_QUEUE</property>
 	             </headers>
              </binding.jms>
          </reference>
@@ -99,7 +99,7 @@
                          initialContextFactory="org.sca4j.binding.jms.test.activemq.Sca4jActiveMQInitialContextFactory"
                          jndiURL="vm://localhost" >
 	             <headers>
-	                 <property name="ReplyToQ" type="string">REPLY_QUEUE</property>
+	                 <property name="JMSReplyTo" type="string">REPLY_QUEUE</property>
 	             </headers>
         	</binding.jms>
         </reference>

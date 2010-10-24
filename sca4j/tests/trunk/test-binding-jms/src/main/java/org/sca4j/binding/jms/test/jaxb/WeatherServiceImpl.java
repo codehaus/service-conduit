@@ -91,8 +91,13 @@ public class WeatherServiceImpl implements WeatherService {
         weatherResponse.setTemperatureMaximum(40);
         
         Map<String, Object> headers = requestContext.getHeader(Map.class, "sca4j.jms.inbound");
-        if (!"REPLY_QUEUE".equals(headers.get("ReplyToQ"))) {
-            throw new RuntimeException("Request header not found");
+        
+        try {
+            if (headers.get("JMSReplyTo") == null) {
+                throw new RuntimeException("Request header not found");
+            }
+        } catch (RuntimeException e) {
+            e.printStackTrace();
         }
 
         return weatherResponse;
