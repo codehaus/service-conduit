@@ -77,6 +77,7 @@ public abstract class ConsumerWorker extends DefaultPausableWork {
         headers.put("JMSMessageId", jmsRequest.getJMSMessageID());
         headers.put("JMSRedelivered", jmsRequest.getJMSRedelivered());
         headers.put("JMSType", jmsRequest.getJMSType());
+        headers.put("JMSReplyTo", jmsRequest.getJMSReplyTo());
         Enumeration<?> propertyNames = jmsRequest.getPropertyNames();
         while (propertyNames.hasMoreElements()) {
             String propertyName = propertyNames.nextElement().toString();

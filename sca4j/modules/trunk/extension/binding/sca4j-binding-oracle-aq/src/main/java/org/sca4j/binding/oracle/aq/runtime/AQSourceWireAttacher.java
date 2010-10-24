@@ -110,6 +110,7 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
     			ConsumerWorker consumerWorker = new ConsumerWorker(sourceDefinition.bindingDefinition, operations);
     			workScheduler.scheduleWork(consumerWorker);
     			workers.add(consumerWorker);
+    			monitor.generalMessage("Consumer provisioned on queue " + sourceDefinition.bindingDefinition.destinationName);
     		}
 	    } catch (ClassNotFoundException e) {
 	        throw new WiringException(e);
