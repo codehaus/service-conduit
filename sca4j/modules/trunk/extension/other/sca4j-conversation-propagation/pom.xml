@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.codehaus.service-conduit</groupId>
         <artifactId>sca4j-extension-other-parent-pom</artifactId>
-        <version>0.9.5-SNAPSHOT</version>
+        <version>0.9.5</version>
     </parent>
     <groupId>org.codehaus.service-conduit</groupId>
     <artifactId>sca4j-conversation-propagation</artifactId>
@@ -32,7 +32,7 @@
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-spi</artifactId>
-            <version>0.9.5-SNAPSHOT</version>
+            <version>0.9.5</version>
             <scope>provided</scope>
         </dependency>
 
