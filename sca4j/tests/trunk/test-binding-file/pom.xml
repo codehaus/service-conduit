@@ -64,10 +64,11 @@
                         <![CDATA[
                             <config>
                              <host.properties>
-                                 <file.polling.dir>${project.build.directory}/files</file.polling.dir>
-                                 <file.archive.dir>${project.build.directory}/files/archive</file.archive.dir>
+                                 <service1.file.polling.dir>${project.build.directory}/fileService1</service1.file.polling.dir>
+                                 <service2.file.polling.dir>${project.build.directory}/fileService2</service2.file.polling.dir>
+                                 <service2.file.archive.dir>${project.build.directory}/fileService2/archive</service2.file.archive.dir>
                              </host.properties>
-                             <file.archive.dir>${project.build.directory}/files/archive</file.archive.dir>
+                             <service2.file.archive.dir>${project.build.directory}/fileService2/archive</service2.file.archive.dir>
                             </config>
                         ]]>
                     </systemConfig>
@@ -88,8 +89,9 @@
                     <phase>initialize</phase>
                     <configuration>
                       <tasks>
-                         <mkdir dir="${project.build.directory}/files"/>
-                         <mkdir dir="${project.build.directory}/files/archive"/>
+                         <mkdir dir="${project.build.directory}/fileService1"/>
+                         <mkdir dir="${project.build.directory}/fileService2"/>
+                         <mkdir dir="${project.build.directory}/fileService2/archive"/>
                        </tasks>
                      </configuration>
                      <goals>

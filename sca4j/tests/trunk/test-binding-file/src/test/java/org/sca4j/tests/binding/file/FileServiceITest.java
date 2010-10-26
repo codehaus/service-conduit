@@ -19,7 +19,6 @@
 package org.sca4j.tests.binding.file;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 import junit.framework.TestCase;
@@ -32,7 +31,8 @@ import org.oasisopen.sca.annotation.Reference;
  * ITest for File binding
  */
 public class FileServiceITest extends TestCase {
-    @Reference protected FileService staticFileService;
+    @Reference protected FileService staticFileService1;
+    @Reference protected FileService staticFileService2;
     @Reference protected FileService dynamicFileService;
     @Reference protected LatchService latchService1;
     @Reference protected LatchService latchService2;
@@ -43,7 +43,7 @@ public class FileServiceITest extends TestCase {
      */
     public void testSimpleWriteReadDelete() throws Exception {
         String testData = "File binding test";
-        staticFileService.receive("filebinding.text", IOUtils.toInputStream(testData));
+        staticFileService1.receive("filebinding.text", IOUtils.toInputStream(testData));
         latchService1.await();
         assertEquals(testData, latchService1.getPayload());
     }
@@ -54,7 +54,7 @@ public class FileServiceITest extends TestCase {
     public void testFileWriteReadArchive() throws Exception {
         String testData = "file archive test";
         final String fileName = "archivefile.text";
-        staticFileService.receive(fileName, IOUtils.toInputStream(testData));
+        staticFileService2.receive(fileName, IOUtils.toInputStream(testData));
         latchService2.await();
         //Check Archive file and read contents
         assertEquals(testData, latchService2.getPayload());

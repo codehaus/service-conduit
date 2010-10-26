@@ -25,12 +25,15 @@
 
     <component name="FileServiceTest">
         <sca4j:junit class="org.sca4j.tests.binding.file.FileServiceITest"/>
-        <property name="archiveFileLocation" source="$config/file.archive.dir" />
-        <reference name="staticFileService">
-            <sca4j:binding.file uri="file:///${file.polling.dir}" acquireLock="true"/>
+        <property name="archiveFileLocation" source="$config/service2.file.archive.dir" />
+        <reference name="staticFileService1">
+            <sca4j:binding.file uri="file:///${service1.file.polling.dir}" acquireFileLock="true"/>
+        </reference>
+        <reference name="staticFileService2">
+            <sca4j:binding.file uri="file:///${service2.file.polling.dir}" acquireFileLock="true"/>
         </reference>
         <reference name="dynamicFileService">
-            <sca4j:binding.file acquireLock="true"/>
+            <sca4j:binding.file acquireFileLock="true"/>
         </reference>
         <reference name="latchService1" target="LatchService1" />
         <reference name="latchService2" target="LatchService2" />
@@ -39,8 +42,9 @@
     <component name="FileDeleteService">
         <implementation.java class="org.sca4j.tests.binding.file.FileServiceImpl"/>
         <service name="FileService">
-            <sca4j:binding.file uri="${file.polling.dir}"                                
-                                acquireLock="true"
+            <sca4j:binding.file uri="${service1.file.polling.dir}"                                
+                                acquireFileLock="true"
+                                acquireEndpointLock="true"
                                 pollingFrequency="1000"
                                 filenamePattern="filebinding\.text" />                                
         </service>
@@ -53,9 +57,10 @@
     <component name="FileArchiveService">
         <implementation.java class="org.sca4j.tests.binding.file.FileServiceImpl"/>
         <service name="FileService">
-            <sca4j:binding.file uri="file:///${file.polling.dir}"
-                                archiveUri="file:///${file.archive.dir}"
-                                acquireLock="true"
+            <sca4j:binding.file uri="file:///${service2.file.polling.dir}"
+                                archiveUri="file:///${service2.file.archive.dir}"
+                                acquireFileLock="true"
+                                acquireEndpointLock="true"
                                 filenamePattern="archivefile\.text"
                                 pollingFrequency="1000"
                                 archiveFileTimestampPattern="yyyyMMdd'T'HHmmssSSSz" />
