@@ -60,15 +60,16 @@ public class FileSourceWireAttacher implements SourceWireAttacher<FileWireSource
         List<?> parameters = pod.getParameters();
         if (parameters.size() == 2) {
             final DirectoryWatcher directoryWatcher = new DirectoryWatcher(endpointDir, wire, monitor);
-            directoryWatcher.setAcquireLock(bindingMetaData.acquireLock);
+            directoryWatcher.setAcquireFileLock(bindingMetaData.acquireFileLock);
+            directoryWatcher.setAcquireEndpointLock(bindingMetaData.acquireEndpointLock);
             directoryWatcher.setFileNamePattern(bindingMetaData.filenamePattern);
             directoryWatcher.setArchiveDir(archiveDir);
             directoryWatcher.setPollingFrequency(bindingMetaData.pollingFrequency);
             directoryWatcher.setArchiveFileTSPattern((bindingMetaData.archiveFileTimestampPattern));
-            monitor.fileExtensionStarted(endpointDir.toString());
+            monitor.fileExtensionStarted(endpointDir, bindingMetaData.acquireFileLock, bindingMetaData.acquireEndpointLock);
             eventService.subscribe(RuntimeStart.class, directoryWatcher);
             workScheduler.scheduleWork(directoryWatcher);
-            
+
         } else {
             throw new WiringException("file binding service requires 2 arguments - <String filename, InputStream payload>");
         }

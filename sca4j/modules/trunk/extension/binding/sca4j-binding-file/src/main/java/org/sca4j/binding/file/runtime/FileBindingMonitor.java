@@ -32,10 +32,9 @@ public interface FileBindingMonitor {
     
     /**
      * Log the event of file extension started
-     * @param msg
      */
     @Info
-    void fileExtensionStarted(String msg);
+    void fileExtensionStarted(File endpoint, boolean acquireFileLock, boolean acquireEndpointLock);
 
     /**
      * Log the exception
@@ -88,4 +87,20 @@ public interface FileBindingMonitor {
      */
     @Fine
     void fileSkipped(String fileName);
+    
+    /**
+     * Log the event of endpoint lock attempt event
+     * @param endpoint file endpoint
+     * @param lockAquired flag to indicate if lock is acquired or not
+     */
+    @Fine
+    void endpointLockAttempted(File endpoint, boolean lockAquired);
+    
+    /**
+     * Log the event of endpoint lock released
+     * @param endpoint
+     */
+    @Fine
+    void endpointLockReleased(File endpoint);
+    
 }

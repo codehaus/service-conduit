@@ -43,7 +43,7 @@ public class FileTargetWireAttacher implements TargetWireAttacher<FileWireTarget
      */
     public void attachToTarget(PhysicalWireSourceDefinition source, FileWireTargetDefinition target, Wire wire) throws WiringException {
         final File rootDir = getRootDirIfExists(target.getUri());
-        final FileTargetInterceptor interceptor = new FileTargetInterceptor(rootDir, target.getBindingMetaData().acquireLock);
+        final FileTargetInterceptor interceptor = new FileTargetInterceptor(rootDir, target.getBindingMetaData().acquireFileLock);
         wire.getInvocationChains().entrySet().iterator().next().getValue().addInterceptor(interceptor);
     }
 

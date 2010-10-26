@@ -48,7 +48,8 @@ public class DirectoryWatcher extends DefaultPausableWork implements SCA4JEventL
     private final File endpointDir;
     private File archiveDir;
     private Pattern fileNamePattern;
-    private boolean acquireLock;
+    private boolean acquireFileLock;
+    private boolean acquireEndpointLock;
     private long pollingFrequency;
     private SimpleDateFormat archiveFileTimestampFormat;
 
@@ -96,11 +97,20 @@ public class DirectoryWatcher extends DefaultPausableWork implements SCA4JEventL
     }
 
     /**
-     * Sets the flag to specify if lock must be acquired before reading the file.
-     * @param acquireLock flag to indicate if lock to be acquired
+     * Sets the flag to specify if lock must be acquired before reading the file. This is to protect against
+     * in-flight files.
+     * @param acquireFileLock flag to indicate if lock to be acquired
      */
-    public void setAcquireLock(boolean acquireLock) {
-        this.acquireLock = acquireLock;
+    public void setAcquireFileLock(boolean acquireFileLock) {
+        this.acquireFileLock = acquireFileLock;
+    }
+    
+    /**
+     * Sets the flag to specify if endpoint lock must be acquired for cluster-wide deployment.
+     * @param acquireEndpointLock flag to indicate if endpoint lock to be acquired
+     */
+    public void setAcquireEndpointLock(boolean acquireEndpointLock) {
+        this.acquireEndpointLock = acquireEndpointLock;
     }
     
     /**
@@ -114,22 +124,30 @@ public class DirectoryWatcher extends DefaultPausableWork implements SCA4JEventL
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}  
      */
     @Override
     protected void execute() {
         if (!runtimeStarted.get()) {
             return;
         }
-        
-        try {
+
+        FileEndpointLock endpointLock = null;
+        try {            
+            if (acquireEndpointLock) {
+                endpointLock = FileEndpointLock.acquireEndpointLock(endpointDir);
+                monitor.endpointLockAttempted(endpointDir, endpointLock != null);
+                if (endpointLock == null) { //Unable to acquire the lock
+                    return;
+                }
+            }
             final File[] fileList = endpointDir.listFiles(new FilenameFilter() {
 
                 @Override
                 public boolean accept(File dir, String name) {
                     final File file = new File(dir, name);
 
-                    if (!(file.canRead() && file.exists() && file.isFile())) {                        
+                    if (!(file.canRead() && file.exists() && file.isFile())) {
                         monitor.fileSkipped(file.getName());
                         return false;
                     }
@@ -141,17 +159,21 @@ public class DirectoryWatcher extends DefaultPausableWork implements SCA4JEventL
                     }
                 }
             });
-            
+
             if (fileList != null && fileList.length > 0) {
                 for (File file : fileList) {
                     final File archiveFile = getArchiveFile(file);
-                    serviceInvoker.invoke(file, archiveFile, acquireLock);
+                    serviceInvoker.invoke(file, archiveFile, acquireFileLock);
                 }
             }
 
         } catch (Exception e) {
             monitor.onException("Unexpected error occured", e);
         } finally {
+            if (endpointLock != null) {
+                endpointLock.releaseEndpointLock();
+                monitor.endpointLockReleased(endpointDir);
+            }
             delay();
         }
     }

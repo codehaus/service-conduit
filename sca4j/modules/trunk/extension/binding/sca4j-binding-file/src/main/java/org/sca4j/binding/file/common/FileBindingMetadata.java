@@ -32,8 +32,11 @@ public class FileBindingMetadata {
     /** pattern used to select file*/
     public String filenamePattern;
     
-    /** lock the file during read/write operation */
-    public boolean acquireLock;
+    /** lock the file during read/write operation to protect against in-flight files */
+    public boolean acquireFileLock;
+    
+    /** Acquire the lock on endpoint so that only one service polls the endpoint across cluster */
+    public boolean acquireEndpointLock;
     
     /** polling frequency */
     public long pollingFrequency;
