@@ -60,6 +60,7 @@ public class FileBindingLoader implements TypeLoader<FileBindingDefinition> {
         final String pollingFreqString = reader.getAttributeValue(null, "pollingFrequency");
         bindingMetadata.pollingFrequency = pollingFreqString != null ? Long.valueOf(pollingFreqString) : 0L;
         bindingMetadata.archiveFileTimestampPattern = reader.getAttributeValue(null, "archiveFileTimestampPattern");
+        bindingMetadata.tmpFileSuffix = reader.getAttributeValue(null, "tmpFileSuffix");
         
         final FileBindingDefinition bd = new FileBindingDefinition(endpointUri, bindingMetadata, loaderHelper.loadKey(reader));
         LoaderUtil.skipToEndElement(reader);

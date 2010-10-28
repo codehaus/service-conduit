@@ -163,7 +163,11 @@ public class DirectoryWatcher extends DefaultPausableWork implements SCA4JEventL
             if (fileList != null && fileList.length > 0) {
                 for (File file : fileList) {
                     final File archiveFile = getArchiveFile(file);
-                    serviceInvoker.invoke(file, archiveFile, acquireFileLock);
+                    try {
+                        serviceInvoker.invoke(file, archiveFile, acquireFileLock);
+                    } catch (Exception e) {
+                        monitor.onException("Unexpected error occured during processing file:" + file, e);
+                    }
                 }
             }
 

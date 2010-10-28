@@ -24,6 +24,7 @@ import java.net.URI;
 import java.net.URLDecoder;
 
 import org.sca4j.api.annotation.Monitor;
+import org.sca4j.binding.file.common.FileBindingMetadata;
 import org.sca4j.binding.file.provision.FileWireTargetDefinition;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;
@@ -43,7 +44,8 @@ public class FileTargetWireAttacher implements TargetWireAttacher<FileWireTarget
      */
     public void attachToTarget(PhysicalWireSourceDefinition source, FileWireTargetDefinition target, Wire wire) throws WiringException {
         final File rootDir = getRootDirIfExists(target.getUri());
-        final FileTargetInterceptor interceptor = new FileTargetInterceptor(rootDir, target.getBindingMetaData().acquireFileLock);
+        final FileBindingMetadata bindingMetaData = target.getBindingMetaData();
+        final FileTargetInterceptor interceptor = new FileTargetInterceptor(rootDir, bindingMetaData.acquireFileLock, bindingMetaData.tmpFileSuffix);
         wire.getInvocationChains().entrySet().iterator().next().getValue().addInterceptor(interceptor);
     }
 

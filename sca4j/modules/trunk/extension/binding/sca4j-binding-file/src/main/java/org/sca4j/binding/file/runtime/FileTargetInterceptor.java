@@ -27,7 +27,7 @@ import java.net.URI;
 import java.nio.channels.FileLock;
 
 import org.apache.commons.io.IOUtils;
-import org.oasisopen.sca.ServiceUnavailableException;
+import org.oasisopen.sca.ServiceRuntimeException;
 import org.sca4j.spi.invocation.Message;
 import org.sca4j.spi.invocation.MessageImpl;
 import org.sca4j.spi.wire.Interceptor;
@@ -41,16 +41,19 @@ public class FileTargetInterceptor implements Interceptor {
     private Interceptor next;
     private File rootDir;
     private boolean acquireLock;
+    private String tmpFileSuffix;
     
     /**
      * Constructor with rootDir and lock flag.
      * 
      * @param rootDir root directory for file-drops specified in binding definition. could be <b>null</b> for Dynamic endpoints.
      * @param acquireLock indicates if lock must be acquired during write operation.
+     * @param tmpFileSuffix temporary file suffix used during file upload, file is rename to original name on completion.
      */
-    public FileTargetInterceptor(File rootDir, boolean acquireLock) {
+    public FileTargetInterceptor(File rootDir, boolean acquireLock, String tmpFileSuffix) {
         this.rootDir = rootDir;
         this.acquireLock = acquireLock;
+        this.tmpFileSuffix = tmpFileSuffix;
     }
 
     /**
@@ -58,29 +61,39 @@ public class FileTargetInterceptor implements Interceptor {
      */
     public Message invoke(Message msg) {
         final Object[] args = (Object[]) msg.getBody();
-        final File file = getTargetFile(args[0]);
+        final File targetFile = getTargetFile(args[0]);
+        File transitionFile = tmpFileSuffix != null ? new File(targetFile.getPath() + tmpFileSuffix) : targetFile;
+        
         final InputStream source = (InputStream) args[1];
         FileOutputStream target = null;
         FileLock fileLock = null;
 
         try {
-            target = new FileOutputStream(file);
+            target = new FileOutputStream(transitionFile);
             if (acquireLock) {
                 fileLock = target.getChannel().tryLock();
                 if (fileLock == null) {
-                    throw new IOException("Unable to acquire the lock on: " + file);
+                    throw new IOException("Unable to acquire the lock on: " + transitionFile);
                 }
             }
             IOUtils.copy(source, target);
 
         } catch (FileNotFoundException e) {
-            throw new ServiceUnavailableException("Unable to create the file", e);
+            throw new ServiceRuntimeException("Unable to create the file:" + transitionFile, e);
         } catch (IOException e) {
-            throw new ServiceUnavailableException(e);
+            throw new ServiceRuntimeException(e);
         } finally {
             FileUtils.closeQuietly(fileLock);
             IOUtils.closeQuietly(source);
             IOUtils.closeQuietly(target);
+        }
+        
+        // Rename to target file if tmpFileSuffix was used
+        if (tmpFileSuffix != null) {
+            boolean renameSucceeded = transitionFile.renameTo(targetFile);
+            if (!renameSucceeded) {
+                throw new ServiceRuntimeException(String.format("Unable to rename to originalFile[%s] from tmpFile[%s]", targetFile, transitionFile));
+            }
         }
 
         return new MessageImpl();

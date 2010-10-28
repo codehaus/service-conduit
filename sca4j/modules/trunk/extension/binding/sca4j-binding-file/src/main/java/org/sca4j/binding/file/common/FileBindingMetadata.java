@@ -43,5 +43,10 @@ public class FileBindingMetadata {
     
     /** Timestamp pattern for archived file */
     public String archiveFileTimestampPattern;
+    
+    /** Suffix used to create temp file during upload, which is then renamed 
+     * to original file on completion. This is to protect against in-flight files
+     */
+    public String tmpFileSuffix;
 
 }
