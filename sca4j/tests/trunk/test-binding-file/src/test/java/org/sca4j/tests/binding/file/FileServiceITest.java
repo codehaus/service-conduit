@@ -34,6 +34,7 @@ public class FileServiceITest extends TestCase {
     @Reference protected FileService staticFileService1;
     @Reference protected FileService staticFileService2;
     @Reference protected FileService dynamicFileService;
+    @Reference protected FileService fileServiceUsingTmpFile;
     @Reference protected LatchService latchService1;
     @Reference protected LatchService latchService2;
     @Property protected String archiveFileLocation;
@@ -77,5 +78,18 @@ public class FileServiceITest extends TestCase {
         //Check if file has been created
         assertTrue("Dynamic file is not created", tempFile.exists());
         tempFile.delete();
+    }
+    
+    /**
+     * Test that file could be written using Reference with dynamic endpoint.
+     */
+    public void testReferenceWithTmpSuffix() throws IOException {
+        String testData = "File binding test";
+        File targetFile = new File("dynamic.txt");
+        fileServiceUsingTmpFile.receive(targetFile.getPath(), IOUtils.toInputStream(testData));
+        
+        //Check if file has been created
+        assertTrue("Dynamic file is not created", targetFile.exists());        
+        assertTrue("Unable to delete target file", targetFile.delete());
     }
 }

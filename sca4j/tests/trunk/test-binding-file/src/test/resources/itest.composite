@@ -35,6 +35,9 @@
         <reference name="dynamicFileService">
             <sca4j:binding.file acquireFileLock="true"/>
         </reference>
+        <reference name="fileServiceUsingTmpFile">
+            <sca4j:binding.file tmpFileSuffix=".tmp"/>
+        </reference>
         <reference name="latchService1" target="LatchService1" />
         <reference name="latchService2" target="LatchService2" />
     </component>
