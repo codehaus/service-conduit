@@ -52,12 +52,14 @@ public class SftpBindingLoader implements TypeLoader<SftpBindingDefinition> {
     public SftpBindingDefinition load(XMLStreamReader reader, IntrospectionContext introspectionContext) throws XMLStreamException {
         SftpBindingMetadata bindingMetadata = new SftpBindingMetadata();
         URI endpointUri = getEndpointUri(reader, introspectionContext);
-
-        bindingMetadata.host = endpointUri.getHost();
-        bindingMetadata.port = endpointUri.getPort() == -1 ? DEFAULT_SFTP_PORT : endpointUri.getPort();
+        
+        if (endpointUri != null) {
+            bindingMetadata.host = endpointUri.getHost();
+            bindingMetadata.port = endpointUri.getPort() == -1 ? DEFAULT_SFTP_PORT : endpointUri.getPort();
+            bindingMetadata.remotePath = endpointUri.getPath();
+        }
+        
         bindingMetadata.tmpFileSuffix = reader.getAttributeValue(null, "tmpFileSuffix");
-        bindingMetadata.remotePath = endpointUri.getPath();
-
         final SftpBindingDefinition bd = new SftpBindingDefinition(endpointUri, bindingMetadata, loaderHelper.loadKey(reader));
         loaderHelper.loadPolicySetsAndIntents(bd, reader, introspectionContext);
         
