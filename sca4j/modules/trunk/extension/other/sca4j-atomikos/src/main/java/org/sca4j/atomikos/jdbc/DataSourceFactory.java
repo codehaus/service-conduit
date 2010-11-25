@@ -19,12 +19,15 @@
 package org.sca4j.atomikos.jdbc;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
 import javax.sql.DataSource;
 import javax.sql.XADataSource;
 
+import org.oasisopen.sca.annotation.Destroy;
 import org.oasisopen.sca.annotation.EagerInit;
 import org.oasisopen.sca.annotation.Init;
 import org.oasisopen.sca.annotation.Property;
@@ -46,12 +49,14 @@ public class DataSourceFactory {
 
     @Property(required=false) public DataSourceConfigCollection dataSourceConfigCollection;
     @Reference public ResourceRegistry resourceRegistry;
+    private List<AbstractDataSourceBean> dataSourceBeans;
     
     @Init 
     public void start() throws SQLException {
         
         if (dataSourceConfigCollection == null) return;
         
+        dataSourceBeans = new ArrayList<AbstractDataSourceBean>();        
         for (DataSourceConfig dataSourceConfig : dataSourceConfigCollection.dataSources) {
 
             boolean xa = XADataSource.class.isAssignableFrom(dataSourceConfig.driver);
@@ -88,9 +93,16 @@ public class DataSourceFactory {
             for (String key : dataSourceConfig.keys.split(" ")) {
                 resourceRegistry.registerResource(DataSource.class, key, abstractDataSourceBean);
             }
-            
+            dataSourceBeans.add(abstractDataSourceBean);
         }
         
+    }
+    
+    @Destroy
+    public void stop() {
+        for (AbstractDataSourceBean dataSourceBean : dataSourceBeans) {
+            dataSourceBean.close();
+        }
     }
     
     private Properties parseProperties(String properties) {
@@ -105,5 +117,7 @@ public class DataSourceFactory {
         }
         return prop;
     }
+    
+    
 
 }
