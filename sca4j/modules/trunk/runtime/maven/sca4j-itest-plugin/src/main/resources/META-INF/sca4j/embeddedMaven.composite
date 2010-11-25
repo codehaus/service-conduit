@@ -107,9 +107,6 @@
     <!-- Singleton implementation type -->
     <include name="org.sca4j.fabric.SingletonImplementation" scdlResource="org/sca4j/fabric/singletonImplementation.composite"/>
 
-    <!-- JMX components -->
-    <include name="JMXExtension" scdlResource="org/sca4j/jmx/jmx.composite"/>
-
     <!-- include JUnit implementation type -->
     <include name="junit:JUnitImplementation" scdlResource="org/sca4j/junit/junitImplementation.composite"/>
 

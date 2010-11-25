@@ -78,7 +78,7 @@ public class ExplicitTargetResolutionService implements TargetResolutionService 
         }
         // create the logical wires
         // xcv potentially remove if LogicalWires added to LogicalReference
-        LogicalComponent parent = logicalReference.getParent();
+        LogicalComponent<?> parent = logicalReference.getParent();
         LogicalCompositeComponent grandParent = (LogicalCompositeComponent) parent.getParent();
         Set<LogicalWire> wires = new LinkedHashSet<LogicalWire>();
         if (null != grandParent) {
@@ -124,9 +124,6 @@ public class ExplicitTargetResolutionService implements TargetResolutionService 
             }
         } else {
             for (LogicalService service : targetComponent.getServices()) {
-                if (service.getDefinition().isManagement()) {
-                    continue;
-                }
                 if (targetService != null) {
                     String msg = "More than one service available on component: " + targetUri
                             + ". Reference must explicitly specify a target service: " + reference.getUri();

@@ -27,12 +27,6 @@
     <description>SCA4J Webapp Runtime API.</description>
 
     <dependencies>
-
-        <dependency>
-            <groupId>org.codehaus.service-conduit</groupId>
-            <artifactId>sca4j-jmx-agent</artifactId>
-            <version>0.9.6-SNAPSHOT</version>
-        </dependency>
     
         <dependency>
             <groupId>javax.servlet</groupId>

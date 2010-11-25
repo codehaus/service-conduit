@@ -57,8 +57,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.management.MBeanServer;
-
 import org.sca4j.fabric.allocator.Allocator;
 import org.sca4j.fabric.allocator.LocalAllocator;
 import org.sca4j.fabric.builder.ConnectorImpl;
@@ -122,10 +120,6 @@ import org.sca4j.fabric.services.documentloader.DocumentLoaderImpl;
 import org.sca4j.fabric.services.routing.RuntimeRoutingService;
 import org.sca4j.host.runtime.HostInfo;
 import org.sca4j.host.runtime.InitializationException;
-import org.sca4j.jmx.control.JMXBindingGenerator;
-import org.sca4j.jmx.provision.JMXWireSourceDefinition;
-import org.sca4j.jmx.runtime.JMXWireAttacher;
-import org.sca4j.jmx.scdl.JMXBinding;
 import org.sca4j.monitor.MonitorFactory;
 import org.sca4j.pojo.control.GenerationHelperImpl;
 import org.sca4j.pojo.instancefactory.BuildHelperImpl;
@@ -175,8 +169,6 @@ public class BootstrapAssemblyFactory {
                                       ComponentManager componentManager,
                                       LogicalComponentManager logicalComponentManager,
                                       MetaDataStore metaDataStore,
-                                      MBeanServer mbServer,
-                                      String jmxSubDomain,
                                       HostInfo info) throws InitializationException {
 
         Allocator allocator = new LocalAllocator();
@@ -184,9 +176,7 @@ public class BootstrapAssemblyFactory {
                 createCommandExecutorRegistry(monitorFactory,
                                               scopeRegistry,
                                               componentManager,
-                                              mbServer,
                                               metaDataStore,
-                                              jmxSubDomain,
                                               info);
 
         RuntimeRoutingService routingService = new RuntimeRoutingService(commandRegistry, scopeRegistry);
@@ -232,9 +222,7 @@ public class BootstrapAssemblyFactory {
     private static CommandExecutorRegistry createCommandExecutorRegistry(MonitorFactory monitorFactory,
                                                                          ScopeRegistry scopeRegistry,
                                                                          ComponentManager componentManager,
-                                                                         MBeanServer mbeanServer,
                                                                          MetaDataStore metaDataStore,
-                                                                         String jmxSubDomain,
                                                                          HostInfo info) {
 
         InstanceFactoryBuilderRegistry providerRegistry = new DefaultInstanceFactoryBuilderRegistry();
@@ -266,8 +254,6 @@ public class BootstrapAssemblyFactory {
         sourceAttachers.put(SystemWireSourceDefinition.class,
                             new SystemSourceWireAttacher(componentManager, transformerRegistry));
         sourceAttachers.put(SingletonWireSourceDefinition.class, new SingletonSourceWireAttacher(componentManager));
-
-        sourceAttachers.put(JMXWireSourceDefinition.class, new JMXWireAttacher(mbeanServer, jmxSubDomain));
 
         Map<Class<? extends PhysicalWireTargetDefinition>, TargetWireAttacher<? extends PhysicalWireTargetDefinition>> targetAttachers =
                 new ConcurrentHashMap<Class<? extends PhysicalWireTargetDefinition>, TargetWireAttacher<? extends PhysicalWireTargetDefinition>>();
@@ -317,7 +303,6 @@ public class BootstrapAssemblyFactory {
         GenerationHelperImpl helper = new GenerationHelperImpl();
         new SystemComponentGenerator(registry, helper);
         new SingletonComponentGenerator(registry);
-        registry.register(JMXBinding.class, new JMXBindingGenerator());
         new MonitorWireGenerator(registry).init();
         return registry;
     }

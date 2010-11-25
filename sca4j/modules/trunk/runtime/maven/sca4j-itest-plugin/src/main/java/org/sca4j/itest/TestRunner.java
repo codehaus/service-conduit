@@ -65,7 +65,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-import javax.management.MBeanServerFactory;
 import javax.xml.namespace.QName;
 
 import org.apache.maven.surefire.report.BriefFileReporter;
@@ -249,11 +248,6 @@ public class TestRunner {
         Properties hostProperties = testMetadata.properties != null ? testMetadata.properties: System.getProperties();
         MavenHostInfoImpl hostInfo = new MavenHostInfoImpl(URI.create(testMetadata.testDomain), hostProperties, moduleDependencies);
         runtime.setHostInfo(hostInfo);
-
-        runtime.setJmxSubDomain(testMetadata.managementDomain);
-
-        // TODO Add better host JMX support from the next release
-        runtime.setMBeanServer(MBeanServerFactory.createMBeanServer());
 
         return runtime;
     }

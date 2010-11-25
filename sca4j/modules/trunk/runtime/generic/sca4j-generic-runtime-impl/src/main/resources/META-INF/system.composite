@@ -99,9 +99,6 @@
 
     <!-- Singleton implementation type -->
     <include name="org.sca4j.fabric.SingletonImplementation" scdlResource="org/sca4j/fabric/singletonImplementation.composite"/>
-
-    <!-- JMX components -->
-    <include name="org.sca4j.jmx.JMXExtension" scdlResource="org/sca4j/jmx/jmx.composite"/>
     
     <!-- include Java implementation type -->
     <include name="org.sca4j.JavaControl" scdlResource="META-INF/javaControl.composite"/>

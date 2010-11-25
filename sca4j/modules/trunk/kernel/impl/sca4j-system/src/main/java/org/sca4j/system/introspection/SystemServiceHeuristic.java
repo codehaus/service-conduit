@@ -55,13 +55,11 @@ package org.sca4j.system.introspection;
 import java.util.Set;
 
 import org.oasisopen.sca.annotation.Reference;
-import org.sca4j.api.annotation.Management;
 import org.sca4j.introspection.IntrospectionContext;
 import org.sca4j.introspection.IntrospectionHelper;
 import org.sca4j.introspection.TypeMapping;
 import org.sca4j.introspection.contract.ContractProcessor;
 import org.sca4j.introspection.java.HeuristicProcessor;
-import org.sca4j.jmx.scdl.JMXBinding;
 import org.sca4j.pojo.scdl.PojoComponentType;
 import org.sca4j.scdl.ServiceContract;
 import org.sca4j.scdl.ServiceDefinition;
@@ -104,20 +102,11 @@ public class SystemServiceHeuristic implements HeuristicProcessor<SystemImplemen
                 }
             }
         }
-
-        // Add the JMX Management binding to all services tagged as management
-        for (ServiceDefinition service : componentType.getServices().values()) {
-            if (service.isManagement()) {
-                JMXBinding binding = new JMXBinding();
-                service.addBinding(binding);
-            }
-        }
     }
 
     ServiceDefinition createServiceDefinition(Class<?> serviceInterface, TypeMapping typeMapping, IntrospectionContext context) {
         ServiceContract contract = contractProcessor.introspect(typeMapping, serviceInterface, context);
         ServiceDefinition service = new ServiceDefinition(contract.getInterfaceName(), contract);
-        service.setManagement(serviceInterface.isAnnotationPresent(Management.class));
         return service;
     }
 }

@@ -72,8 +72,6 @@ package org.sca4j.host.runtime;
 
 import java.net.URI;
 
-import javax.management.MBeanServer;
-
 import org.sca4j.monitor.MonitorFactory;
 
 /**
@@ -124,38 +122,6 @@ public interface SCA4JRuntime<HI extends HostInfo> extends RuntimeLifecycle {
      * @param monitorFactory the MonitorFactory that this runtime should use
      */
     void setMonitorFactory(MonitorFactory monitorFactory);
-
-    /**
-     * Returns the MBeanServer this runtime should use.
-     *
-     * @return the MBeanServer
-     */
-    MBeanServer getMBeanServer();
-
-    /**
-     * Sets the MBeanServer this runtime should use.
-     * <p/>
-     * This allows the host environment to specify an MBeanServer with which any manageable runtime components should be registered.
-     *
-     * @param mbServer the MBeanServer this runtime should use
-     */
-    void setMBeanServer(MBeanServer mbServer);
-
-    /**
-     * Returns the JMX sub domain this runtime should use.
-     *
-     * @return the JMX sub domain this runtime should use
-     */
-    String getJMXSubDomain();
-
-    /**
-     * Sets the JMX sub domain this runtime should use.
-     * <p/>
-     * This will be used as the sub domain portion of the ObjectName for all MBeans registered with the MBeanServer
-     *
-     * @param jmxSubDomain the JMX domain this runtime should use
-     */
-    void setJmxSubDomain(String jmxSubDomain);
 
     /**
      * Initialize a runtime. An initialized runtime has has completed core service initialization, recovery operations, and is ready to be started.

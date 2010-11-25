@@ -82,7 +82,6 @@ public class ServiceDefinition extends AbstractPolicyAware {
     private static final long serialVersionUID = -3331868180749278028L;
     private String name;
     private ServiceContract serviceContract;
-    private boolean management;
     private final List<BindingDefinition> bindings = new ArrayList<BindingDefinition>();
     private final List<BindingDefinition> callbackBindings = new ArrayList<BindingDefinition>();
     private final List<OperationDefinition> operations = new ArrayList<OperationDefinition>();
@@ -103,27 +102,6 @@ public class ServiceDefinition extends AbstractPolicyAware {
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     * Returns true if this is a management service.
-     * <p/>
-     * A management service is intended for administration of a component rather than normal interactions with it. As such, it is not considered a
-     * valid target for wiring (including autowire).
-     *
-     * @return true if this is a management service
-     */
-    public boolean isManagement() {
-        return management;
-    }
-
-    /**
-     * Sets whether this is a management service
-     *
-     * @param management true if this is a management service
-     */
-    public void setManagement(boolean management) {
-        this.management = management;
     }
 
     /**

@@ -135,7 +135,6 @@ public class SCA4JContextListener implements ServletContextListener {
             runtime.joinDomain(-1);
             runtime.start();
             servletContext.setAttribute(RUNTIME_ATTRIBUTE, runtime);
-            monitor.started(runtime.getJMXSubDomain());
             
             // deploy the application composite
             QName qName = new QName(compositeNamespace, compositeName);

@@ -72,14 +72,11 @@ package org.sca4j.runtime.webapp;
 
 import static org.sca4j.runtime.webapp.Constants.APPLICATION_SCDL_PATH_DEFAULT;
 import static org.sca4j.runtime.webapp.Constants.APPLICATION_SCDL_PATH_PARAM;
-import static org.sca4j.runtime.webapp.Constants.BASE_DIR;
-import static org.sca4j.runtime.webapp.Constants.DEFAULT_MANAGEMENT_DOMAIN;
 import static org.sca4j.runtime.webapp.Constants.DOMAIN_PARAM;
 import static org.sca4j.runtime.webapp.Constants.INTENTS_PATH_DEFAULT;
 import static org.sca4j.runtime.webapp.Constants.INTENTS_PATH_PARAM;
 import static org.sca4j.runtime.webapp.Constants.LOG_FORMATTER_DEFAULT;
 import static org.sca4j.runtime.webapp.Constants.LOG_FORMATTER_PARAM;
-import static org.sca4j.runtime.webapp.Constants.MANAGEMENT_DOMAIN_PARAM;
 import static org.sca4j.runtime.webapp.Constants.MONITOR_FACTORY_DEFAULT;
 import static org.sca4j.runtime.webapp.Constants.MONITOR_FACTORY_PARAM;
 import static org.sca4j.runtime.webapp.Constants.SYSTEM_MONITORING_DEFAULT;
@@ -88,19 +85,15 @@ import static org.sca4j.runtime.webapp.Constants.SYSTEM_SCDL_PATH_DEFAULT;
 import static org.sca4j.runtime.webapp.Constants.SYSTEM_SCDL_PATH_PARAM;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import javax.management.MBeanServer;
 import javax.servlet.ServletContext;
 
-import org.sca4j.jmx.agent.DefaultAgent;
 import org.sca4j.monitor.MonitorFactory;
 
 /**
@@ -117,14 +110,6 @@ public class WebappUtilImpl implements WebappUtil {
     public WebappRuntime getRuntime(ClassLoader webappClassLoader) throws SCA4JInitException {
 
         try {
-        
-            String baseDirParam = getInitParameter(BASE_DIR, null);
-            File baseDir;
-            if (baseDirParam == null) {
-                baseDir = new File(URLDecoder.decode(servletContext.getResource("/WEB-INF/lib/").getFile(), "UTF-8"));
-            } else {
-                baseDir = new File(baseDirParam);
-            }
     
             URI domain = new URI(getInitParameter(DOMAIN_PARAM, "sca4j://domain"));
             File tempDir = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
@@ -136,21 +121,13 @@ public class WebappUtilImpl implements WebappUtil {
             WebappRuntime runtime = (WebappRuntime) webappClassLoader.loadClass("org.sca4j.runtime.webapp.WebappRuntimeImpl").newInstance();
     
             MonitorFactory factory = createMonitorFactory(webappClassLoader);
-            MBeanServer mBeanServer = new DefaultAgent().getMBeanServer();
     
             runtime.setMonitorFactory(factory);
-            runtime.setMBeanServer(mBeanServer);
             runtime.setHostInfo(info);
-            String managementDomain = getInitParameter(MANAGEMENT_DOMAIN_PARAM, DEFAULT_MANAGEMENT_DOMAIN);
-            runtime.setJmxSubDomain(managementDomain);
     
             return runtime;
 
         } catch (URISyntaxException e) {
-            throw new SCA4JInitException(e);
-        } catch (UnsupportedEncodingException e) {
-            throw new SCA4JInitException(e);
-        } catch (MalformedURLException e) {
             throw new SCA4JInitException(e);
         } catch (InstantiationException e) {
             throw new SCA4JInitException(e);

@@ -160,9 +160,6 @@ public class WireInstantiatorImpl implements WireInstantiator {
         } else {
             LogicalService target = null;
             for (LogicalService service : targetComponent.getServices()) {
-                if (service.getDefinition().isManagement()) {
-                    continue;
-                }
                 if (target != null) {
                     AmbiguousWireTargetService error = new AmbiguousWireTargetService(targetUri, parent.getUri());
                     change.addError(error);

@@ -58,8 +58,6 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URI;
 
-import javax.management.MBeanServer;
-
 import org.sca4j.fabric.config.ConfigServiceImpl;
 import org.sca4j.fabric.instantiator.component.AtomicComponentInstantiator;
 import org.sca4j.fabric.instantiator.component.ComponentInstantiator;
@@ -160,8 +158,6 @@ public abstract class AbstractBootstrapper implements Bootstrapper {
                                                               componentManager,
                                                               logicalComponetManager,
                                                               metaDataStore,
-                                                              runtime.getMBeanServer(),
-                                                              runtime.getJMXSubDomain(),
                                                               hostInfo);
 
         // create and register bootstrap components provided by this bootstrapper
@@ -216,10 +212,6 @@ public abstract class AbstractBootstrapper implements Bootstrapper {
         // services available through the outward facing SCA4JRuntime API
         registerComponent("MonitorFactory", MonitorFactory.class, monitorFactory, true);
         registerComponent("HostInfo", runtime.getHostInfoType(), runtime.getHostInfo(), true);
-        MBeanServer mbServer = runtime.getMBeanServer();
-        if (mbServer != null) {
-            registerComponent("MBeanServer", MBeanServer.class, mbServer, false);
-        }
 
         // services available through the inward facing RuntimeServices SPI
         registerComponent("ComponentManager", ComponentManager.class, componentManager, true);

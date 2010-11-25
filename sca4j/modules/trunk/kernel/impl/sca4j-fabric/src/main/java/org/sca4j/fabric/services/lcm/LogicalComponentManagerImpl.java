@@ -67,7 +67,6 @@ import org.sca4j.spi.model.instance.LogicalCompositeComponent;
 import org.sca4j.spi.model.instance.LogicalReference;
 import org.sca4j.spi.model.instance.LogicalService;
 import org.sca4j.spi.services.lcm.LogicalComponentManager;
-import org.sca4j.spi.services.lcm.LogicalComponentManagerMBean;
 import org.sca4j.spi.services.lcm.LogicalComponentStore;
 import org.sca4j.spi.services.lcm.RecoveryException;
 import org.sca4j.spi.services.lcm.StoreException;
@@ -76,7 +75,7 @@ import org.sca4j.spi.util.UriHelper;
 /**
  * @version $Revision$ $Date$
  */
-public class LogicalComponentManagerImpl implements LogicalComponentManager, LogicalComponentManagerMBean {
+public class LogicalComponentManagerImpl implements LogicalComponentManager {
 
     private LogicalCompositeComponent domain;
     private final LogicalComponentStore logicalComponentStore;

@@ -42,11 +42,6 @@
             <artifactId>sca4j-pojo</artifactId>
             <version>0.9.6-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>org.codehaus.service-conduit</groupId>
-            <artifactId>sca4j-jmx</artifactId>
-            <version>0.9.6-SNAPSHOT</version>
-        </dependency>
 
         <dependency>
             <groupId>org.easymock</groupId>
