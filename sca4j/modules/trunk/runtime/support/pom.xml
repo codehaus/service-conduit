@@ -29,7 +29,6 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>sca4j-jmx-agent</module>
 		<module>sca4j-monitor</module>
                 <module>sca4j-thread-pool</module>
 	</modules>

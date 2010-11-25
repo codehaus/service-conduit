@@ -32,7 +32,6 @@
 		<module>sca4j-fabric</module>
 		<module>sca4j-introspection</module>
 		<module>sca4j-introspection-cdi</module>
-		<module>sca4j-jmx</module>
 		<module>sca4j-loader</module>
 		<module>sca4j-pojo</module>
 		<module>sca4j-policy</module>
