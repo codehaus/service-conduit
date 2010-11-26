@@ -100,8 +100,10 @@ public class DataSourceFactory {
     
     @Destroy
     public void stop() {
-        for (AbstractDataSourceBean dataSourceBean : dataSourceBeans) {
-            dataSourceBean.close();
+        if (dataSourceBeans != null) {
+            for (AbstractDataSourceBean dataSourceBean : dataSourceBeans) {
+                dataSourceBean.close();
+            }
         }
     }
     
