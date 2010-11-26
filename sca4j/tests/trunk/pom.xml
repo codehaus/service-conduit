@@ -68,6 +68,8 @@
         <module>test-cdi</module>
         <module>test-binding-file</module>
         <module>test-timer-implementation</module>
+        <module>test-sftp-security-policy</module>
+        <module>test-binding-sftp</module>
     </modules>
 
     <repositories>

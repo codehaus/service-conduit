@@ -39,7 +39,7 @@ public class SftpITest extends TestCase {
 
     @Override
     protected void setUp() throws Exception {
-        sftpServer.start();
+        sftpServer.start(targetLocation);
     }
 
     public void testTransferWithUsernamePwd() throws IOException, InterruptedException {

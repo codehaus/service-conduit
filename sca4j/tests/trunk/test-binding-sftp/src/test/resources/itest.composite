@@ -27,10 +27,10 @@
     <component name="SftpITest">
         <sca4j:junit class="org.sca4j.tests.binding.sftp.SftpITest"/>
         <reference name="sftpUserPwdService">
-            <sca4j:binding.sftp uri="sftp://localhost:2000/~/target"/>
+            <sca4j:binding.sftp uri="sftp://localhost:2000/~/"/>
         </reference>
         <reference name="sftpPkiService">
-            <sca4j:binding.sftp uri="sftp://localhost:2000/~/target"/>
+            <sca4j:binding.sftp uri="sftp://localhost:2000/~/"/>
         </reference>
         <property name="targetLocation" source="$config/sftp.targetlocation" />
     </component>

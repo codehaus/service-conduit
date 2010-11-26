@@ -49,9 +49,10 @@ public class TestSftpServer {
     private SshServer sshd;
 
     @SuppressWarnings("unchecked")
-    public void start() throws IOException {
+    public void start(String currentDir) throws IOException {
         sshd = SshServer.setUpDefaultServer();
         sshd.setPort(2000);
+        sshd.setFileSystemFactory(new MockFileSystemFactory(currentDir));
         sshd.setKeyPairProvider(new FileKeyPairProvider(new String[] { serverIdentityKey }));
         final NamedFactory<Command> factory = new SftpSubsystem.Factory();
         sshd.setSubsystemFactories(Arrays.asList(factory));
