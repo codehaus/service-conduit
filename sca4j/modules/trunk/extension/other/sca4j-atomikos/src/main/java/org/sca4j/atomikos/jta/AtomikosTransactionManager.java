@@ -59,6 +59,7 @@ public class AtomikosTransactionManager implements TransactionManager {
     
     @Destroy
     public void stop() {
+        delegate.setForceShutdown(true);
         delegate.close();
     }
 
