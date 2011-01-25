@@ -15,29 +15,46 @@
   permitted and restricted uses of such software.
  -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.codehaus.service-conduit</groupId>
-        <artifactId>sca4j-kernel-parent-pom</artifactId>
-	<version>0.9.7-SNAPSHOT</version>
+        <artifactId>sca4j-kernel-impl-parent-pom</artifactId>
+        <version>0.9.7-SNAPSHOT</version>
     </parent>
     <groupId>org.codehaus.service-conduit</groupId>
-    <artifactId>sca4j-kernel-impl-parent-pom</artifactId>
-    <name>SCA4J Kernel Impl Parent POM</name>
-    <description>SCA4J Kernel Impl Parent POM.</description>
-	<packaging>pom</packaging>
+    <artifactId>sca4j-management</artifactId>
+    <name>SCA4J Management</name>
 
-	<modules>
-		<module>sca4j-fabric</module>
-		<module>sca4j-introspection</module>
-		<module>sca4j-introspection-cdi</module>
-		<module>sca4j-loader</module>
-		<module>sca4j-pojo</module>
-		<module>sca4j-policy</module>
-		<module>sca4j-system</module>
-		<module>sca4j-transform</module>
-		<module>sca4j-util</module>
-                <module>sca4j-management</module>
-	</modules>
+    <repositories>
+        <!-- repo needed for the Apache Tuscany version of the commonj API -->
+        <repository>
+            <id>apache.incubator</id>
+            <name>Apache Incubator Repository</name>
+            <url>http://people.apache.org/repo/m2-incubating-repository</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-spi</artifactId>
+            <version>0.9.7-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.4</version>
+            <scope>provided</scope>
+        </dependency>
+        
+    </dependencies>
+
 </project>

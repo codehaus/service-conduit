@@ -18,6 +18,8 @@
  */
 package org.sca4j.spi.management;
 
+import java.net.URI;
+
 /**
  * Main entry into the management infrastructure.
  * 
@@ -25,5 +27,13 @@ package org.sca4j.spi.management;
  *
  */
 public interface ManagementService {
+    
+    /**
+     * Registers a management unit with the management service.
+     * 
+     * @param uri URI of the management unit.
+     * @param managementUnit The management unit that is registered.
+     */
+    public void register(URI uri, ManagementUnit<?> managementUnit);
 
 }

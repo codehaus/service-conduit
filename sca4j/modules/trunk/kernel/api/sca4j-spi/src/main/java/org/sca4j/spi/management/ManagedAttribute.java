@@ -19,16 +19,21 @@
 package org.sca4j.spi.management;
 
 /**
- * Management information.
- * 
- * Implementation of this class is required to have the following.
- * 
- * 1. A public no argument constructor.
- * 2. One or more protected fields annotated with <code>ManagedAttribute</code>
+ * Describes a managed attribute.
  * 
  * @author meerajk
  *
  */
-public interface ManagementInfo {
+public @interface ManagedAttribute {
+    
+    public Type type();
+    public String description();
+    public boolean readonly();
+    
+    public enum Type {
+        INTEGER, FLOAT, ALHPANUMERIC;
+    }
+    
+    
 
 }
