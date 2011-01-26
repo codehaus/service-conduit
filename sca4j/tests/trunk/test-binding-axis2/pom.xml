@@ -69,6 +69,11 @@
         </dependency>
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-management</artifactId>
+            <version>${sca4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-binding-ws</artifactId>
             <version>${sca4j.version}</version>
         </dependency>

@@ -98,6 +98,9 @@ public class Axis2EchoTest extends TestCase {
         OMElement message = getInputText();
         OMElement response = service.echoNoSecurity(message);
         verifyOutputText(response);
+        //while(true) {
+        //    
+        //}
     }
     
     /**
