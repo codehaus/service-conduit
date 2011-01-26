@@ -116,8 +116,6 @@ public class AQTargetWireAttacher implements TargetWireAttacher<AQWireTargetDefi
 
         private OperationMetadata operationMetadata;
         private AQBindingDefinition bindingDefinition;
-        
-        private JAXBContext jaxbContext;
         private Interceptor next; 
         
         public AQTargetInterceptor(OperationMetadata operationMetadata, AQBindingDefinition bindingDefinition) throws JAXBException {
@@ -129,7 +127,6 @@ public class AQTargetWireAttacher implements TargetWireAttacher<AQWireTargetDefi
             if (operationMetadata.getOutputType() != null) {
                 classes.add(operationMetadata.getOutputType());
             }
-            jaxbContext = JAXBContext.newInstance(classes.toArray(new Class<?>[classes.size()]));
         }
 
         /**
@@ -157,6 +154,8 @@ public class AQTargetWireAttacher implements TargetWireAttacher<AQWireTargetDefi
                 envelope.setBody(((Object[])inputScaMessage.getBody())[0]);
                 
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                
+                JAXBContext jaxbContext = JAXBContext.newInstance(envelope.getBody().getClass(), Envelope.class); // TODO maybe cache this
                 jaxbContext.createMarshaller().marshal(envelope, byteArrayOutputStream);
                 byte[] body = byteArrayOutputStream.toByteArray();
                 
