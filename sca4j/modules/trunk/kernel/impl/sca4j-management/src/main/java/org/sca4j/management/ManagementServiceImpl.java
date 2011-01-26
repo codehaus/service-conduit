@@ -77,9 +77,13 @@ public class ManagementServiceImpl extends HttpServlet implements ManagementServ
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
-        String pathInfo = req.getPathInfo();
+        String requestUri = req.getRequestURI();
+        String resourcePath = requestUri.substring(requestUri.indexOf("/management") + 11);
+        if (resourcePath != null) {
+            resourcePath = resourcePath.trim();
+        }
         PrintWriter printWriter = resp.getWriter();
-        if (pathInfo == null) {
+        if (resourcePath == null || "".equals(resourcePath)) {
             printWriter.println("Service Conduit Management Domain");
             printWriter.println("---------------------------------");
             for (Map.Entry<URI, ManagementUnit> managementUnit : managementUnits.entrySet()) {
@@ -87,7 +91,7 @@ public class ManagementServiceImpl extends HttpServlet implements ManagementServ
             }
             printWriter.println("---------------------------------");
         } else {
-            ManagementUnit managementUnit = managementUnits.get(URI.create(pathInfo));
+            ManagementUnit managementUnit = managementUnits.get(URI.create(resourcePath));
             if (managementUnit == null) {
                 printWriter.println("Requested resource not found");
             } else {
@@ -103,8 +107,8 @@ public class ManagementServiceImpl extends HttpServlet implements ManagementServ
                         if (managedAttribute == null) {
                             continue;
                         }
-                            Object value = readMethod.invoke(managementUnit);
-                            printWriter.println(propertyDescriptor.getName() + " (" + managedAttribute.value() + "): " + value);
+                        Object value = readMethod.invoke(managementUnit);
+                        printWriter.println(propertyDescriptor.getName() + " (" + managedAttribute.value() + "): " + value);
                     }
                 } catch (Exception e) {
                     throw new ServletException(e);
@@ -121,13 +125,20 @@ public class ManagementServiceImpl extends HttpServlet implements ManagementServ
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         
-        String pathInfo = req.getPathInfo();
+        String requestUri = req.getRequestURI();
+        String resourcePath = requestUri.substring(requestUri.indexOf("/management") + 11);
+        if (resourcePath != null) {
+            resourcePath = resourcePath.trim();
+        }
         PrintWriter printWriter = resp.getWriter();
-        if (pathInfo != null) {
-            ManagementUnit managementUnit = managementUnits.get(URI.create(pathInfo));
+        if (resourcePath != null && !"".equals(resourcePath)) {
+            ManagementUnit managementUnit = managementUnits.get(URI.create(resourcePath));
             if (managementUnit == null) {
                 printWriter.println("Requested resource not found");
+                printWriter.flush();
+                printWriter.close();
             } else {
                 try {
                     BeanInfo beanInfo = Introspector.getBeanInfo(managementUnit.getClass());

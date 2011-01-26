@@ -160,6 +160,7 @@ public class ThreadPoolWorkScheduler implements WorkScheduler, ManagementUnit {
         pausedWork.clear();
         for (DefaultPausableWork defaultPausableWork : daemonWork) {
             defaultPausableWork.start(true);
+            executor.submit(defaultPausableWork);
         }
         started = true;
     }
