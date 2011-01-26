@@ -52,6 +52,7 @@
  */
 package org.sca4j.threadpool;
 
+import java.net.URI;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -62,8 +63,12 @@ import org.oasisopen.sca.annotation.Destroy;
 import org.oasisopen.sca.annotation.EagerInit;
 import org.oasisopen.sca.annotation.Init;
 import org.oasisopen.sca.annotation.Property;
+import org.oasisopen.sca.annotation.Reference;
+import org.oasisopen.sca.annotation.Service;
+import org.sca4j.host.management.ManagedAttribute;
+import org.sca4j.host.management.ManagementService;
+import org.sca4j.host.management.ManagementUnit;
 import org.sca4j.host.work.DefaultPausableWork;
-import org.sca4j.host.work.PausableWork;
 import org.sca4j.host.work.WorkScheduler;
 
 /**
@@ -71,13 +76,20 @@ import org.sca4j.host.work.WorkScheduler;
  *
  */
 @EagerInit
-public class ThreadPoolWorkScheduler implements WorkScheduler {
+@Service({WorkScheduler.class})
+public class ThreadPoolWorkScheduler implements WorkScheduler, ManagementUnit {
     
     @Property(required=false) public int size = 20;
-    @Property(required=false) public boolean pauseOnStart = false;
+    @Property(required=false) public boolean started = true;
 
     private ThreadPoolExecutor executor;
-    private final Set<DefaultPausableWork> daemonWork = new CopyOnWriteArraySet<DefaultPausableWork>(); 
+    private final Set<DefaultPausableWork> daemonWork = new CopyOnWriteArraySet<DefaultPausableWork>();
+    private final Set<DefaultPausableWork> pausedWork = new CopyOnWriteArraySet<DefaultPausableWork>();
+    
+    @Reference(required = false)
+    public void setManagementService(ManagementService managementService) {
+        managementService.register(URI.create("/workScheduler"), this);
+    }
 
     /**
      * Initializes the thread-pool. Supports unbounded work with a fixed pool size. If all the workers 
@@ -88,22 +100,78 @@ public class ThreadPoolWorkScheduler implements WorkScheduler {
         executor = new ThreadPoolExecutor(size, size, Long.MAX_VALUE, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
     }
 
-    public <T extends DefaultPausableWork> void scheduleWork(T work) {
-		
-		if (work.isDaemon()) {
-            daemonWork.add(work);
-	    }
-	    executor.submit(work);
+    public synchronized <T extends DefaultPausableWork> void scheduleWork(T work) {
+        
+        if (started) {
+            if (work.isDaemon()) {
+                daemonWork.add(work);
+            }
+            executor.submit(work);
+        } else {
+            pausedWork.add(work);
+        }
         
 	}
 
     @Destroy
-	public void stop() throws InterruptedException {
-		for (PausableWork pausableWork : daemonWork) {
-			pausableWork.stop(500); // TODO Make this configurable and also support force shutdown.
+	public synchronized void stop() throws InterruptedException {
+		for (DefaultPausableWork pausableWork : daemonWork) {
+			pausableWork.start(false); 
 		}
 		executor.shutdown();
 		executor = null;
 	}
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getDescription() {
+        return "Service Conduit Work Scheduler";
+    }
+
+    @ManagedAttribute("Current state of the scheduler")
+    public boolean isStarted() {
+        return started;
+    }
+    
+    public void setStarted(boolean started) throws InterruptedException {
+        if (!this.started && started) {
+            start();
+        } else if (this.started && !started) {
+            pause();
+        }
+    }
+
+    @ManagedAttribute("Current size of the scheduler")
+    public int getSize() {
+        return size;
+    }
+    
+    public void setSize(int size) {
+        if (size != this.size) {
+            this.size = size;
+            executor.setCorePoolSize(size);
+        }
+    }
+    
+    private void start() throws InterruptedException {
+        daemonWork.addAll(pausedWork);
+        pausedWork.clear();
+        for (DefaultPausableWork defaultPausableWork : daemonWork) {
+            defaultPausableWork.start(true);
+        }
+        started = true;
+    }
+    
+    private void pause() throws InterruptedException {
+        pausedWork.clear();
+        for (DefaultPausableWork pausableWork : daemonWork) {
+            pausableWork.start(false); 
+        }
+        pausedWork.addAll(daemonWork);
+        daemonWork.clear();
+        started = false;
+    }
 	
 }

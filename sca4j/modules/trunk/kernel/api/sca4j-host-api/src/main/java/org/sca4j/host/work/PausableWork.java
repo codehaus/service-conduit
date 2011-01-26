@@ -77,10 +77,5 @@ package org.sca4j.host.work;
  *
  */
 public interface PausableWork extends Runnable {
-	
-	/**
-	 * Stop the work.
-	 */
-	void stop(long timeout) throws InterruptedException;
 
 }

@@ -31,7 +31,7 @@
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-host-api</artifactId>
             <version>0.9.7-SNAPSHOT</version>
-        </dependency>
+        </dependency>    
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

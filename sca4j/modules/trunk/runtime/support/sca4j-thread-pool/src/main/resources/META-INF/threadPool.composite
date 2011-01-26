@@ -62,7 +62,7 @@
     <component name="ThreadPool">
         <sca4j:implementation.system class="org.sca4j.threadpool.ThreadPoolWorkScheduler"/>
         <property name="size" source="$config/thread.pool/@size"/>
-        <property name="pauseOnStart" source="$config/thread.pool/@pauseOnStart"/>
+        <property name="started" source="$config/thread.pool/@started"/>
     </component>
 
 </composite>

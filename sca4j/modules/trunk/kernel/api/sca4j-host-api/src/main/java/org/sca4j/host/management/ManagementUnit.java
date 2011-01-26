@@ -16,24 +16,21 @@
  * This project contains code licensed from the Apache Software Foundation under
  * the Apache License, Version 2.0 and original code from project contributors.
  */
-package org.sca4j.spi.management;
-
-import java.net.URI;
+package org.sca4j.host.management;
 
 /**
- * Main entry into the management infrastructure.
+ * Represents a management unit.
  * 
  * @author meerajk
  *
  */
-public interface ManagementService {
+public interface ManagementUnit {
     
     /**
-     * Registers a management unit with the management service.
+     * Gets the description for the management unit.
      * 
-     * @param uri URI of the management unit.
-     * @param managementUnit The management unit that is registered.
+     * @return Description of the management unit.
      */
-    public void register(URI uri, ManagementUnit<?> managementUnit);
+    public String getDescription();
 
 }

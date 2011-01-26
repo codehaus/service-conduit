@@ -16,24 +16,24 @@
  * This project contains code licensed from the Apache Software Foundation under
  * the Apache License, Version 2.0 and original code from project contributors.
  */
-package org.sca4j.spi.management;
+package org.sca4j.host.management;
+
+import java.net.URI;
 
 /**
- * Describes a managed attribute.
+ * Main entry into the management infrastructure.
  * 
  * @author meerajk
  *
  */
-public @interface ManagedAttribute {
+public interface ManagementService {
     
-    public Type type();
-    public String description();
-    public boolean readonly();
-    
-    public enum Type {
-        INTEGER, FLOAT, ALHPANUMERIC;
-    }
-    
-    
+    /**
+     * Registers a management unit with the management service.
+     * 
+     * @param uri URI of the management unit.
+     * @param managementUnit The management unit that is registered.
+     */
+    public void register(URI uri, ManagementUnit managementUnit);
 
 }

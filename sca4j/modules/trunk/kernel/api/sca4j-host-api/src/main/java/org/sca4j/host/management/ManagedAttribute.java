@@ -16,19 +16,23 @@
  * This project contains code licensed from the Apache Software Foundation under
  * the Apache License, Version 2.0 and original code from project contributors.
  */
-package org.sca4j.spi.management;
+package org.sca4j.host.management;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Management information.
- * 
- * Implementation of this class is required to have the following.
- * 
- * 1. A public no argument constructor.
- * 2. One or more protected fields annotated with <code>ManagedAttribute</code>
+ * Describes a managed attribute.
  * 
  * @author meerajk
  *
  */
-public interface ManagementInfo {
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ManagedAttribute {
+    
+    public String value();
 
 }

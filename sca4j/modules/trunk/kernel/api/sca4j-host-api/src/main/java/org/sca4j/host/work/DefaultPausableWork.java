@@ -101,8 +101,8 @@ public abstract class DefaultPausableWork implements PausableWork {
 	/**
 	 * Terminates the job.
 	 */
-	public final void stop(long timeout) throws InterruptedException{
-		active.set(false);
+	public final void start(boolean flag) throws InterruptedException{
+		active.set(flag);
 	}
 	
 	/**
