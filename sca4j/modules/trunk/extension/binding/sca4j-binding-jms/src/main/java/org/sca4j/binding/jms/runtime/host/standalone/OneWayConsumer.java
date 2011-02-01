@@ -130,9 +130,6 @@ public class OneWayConsumer extends ConsumerWorker {
                     org.sca4j.spi.invocation.Message sca4jResponse = invocationChain.getHeadInterceptor().invoke(sca4jRequest);
                     checkForFault(sca4jResponse);
                 }
-                moreMessages = true;
-            } else {
-                moreMessages = false;
             }
 
             transactionHandler.delist(session, TMSUCCESS);

@@ -87,7 +87,8 @@ public class ManagementServiceImpl extends HttpServlet implements ManagementServ
             printWriter.println("Service Conduit Management Domain");
             printWriter.println("---------------------------------");
             for (Map.Entry<URI, ManagementUnit> managementUnit : managementUnits.entrySet()) {
-                printWriter.println(managementUnit.getKey() + ":" + managementUnit.getValue().getDescription());
+                printWriter.println(managementUnit.getKey());
+                printWriter.println("(" + managementUnit.getValue().getDescription() + ")");
             }
             printWriter.println("---------------------------------");
         } else {
@@ -100,6 +101,7 @@ public class ManagementServiceImpl extends HttpServlet implements ManagementServ
                     printWriter.println(managementUnit.getDescription());
                     for (PropertyDescriptor propertyDescriptor : beanInfo.getPropertyDescriptors()) {
                         Method readMethod = propertyDescriptor.getReadMethod();
+                        Method writeMethod = propertyDescriptor.getWriteMethod();
                         if (readMethod == null) {
                             continue;
                         }
@@ -108,7 +110,7 @@ public class ManagementServiceImpl extends HttpServlet implements ManagementServ
                             continue;
                         }
                         Object value = readMethod.invoke(managementUnit);
-                        printWriter.println(propertyDescriptor.getName() + " (" + managedAttribute.value() + "): " + value);
+                        printWriter.println(propertyDescriptor.getName() + " (" + managedAttribute.value() + (writeMethod == null ? "readonly" : "")  + "): " + value);
                     }
                 } catch (Exception e) {
                     throw new ServletException(e);

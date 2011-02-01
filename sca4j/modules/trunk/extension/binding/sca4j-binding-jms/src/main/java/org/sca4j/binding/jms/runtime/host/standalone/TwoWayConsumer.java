@@ -124,9 +124,6 @@ public class TwoWayConsumer extends ConsumerWorker {
                 }
                 producer = session.createProducer(template.jmsFactory.getResponseDestination());
                 producer.send(jmsResponse);
-                moreMessages = true;
-            } else {
-                moreMessages = false;
             }
 
             transactionHandler.delist(session, TMSUCCESS);

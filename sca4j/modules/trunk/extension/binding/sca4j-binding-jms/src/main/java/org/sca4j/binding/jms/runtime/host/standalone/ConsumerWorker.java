@@ -40,10 +40,6 @@ public abstract class ConsumerWorker extends DefaultPausableWork {
     protected ConsumerWorkerTemplate template;
     protected boolean exception;
     
-    /** Flag to indicate if there may be more messages available to consume in next run. 
-     * This flag is optimistically set to true if there are messages consumed in the current run.
-     */
-    protected boolean moreMessages = true;
     protected DataBinder dataBinder = new DataBinder();
     protected RuntimeLifecycle runtimeLifecycle;
     protected InvocationChain invocationChain;
@@ -96,14 +92,6 @@ public abstract class ConsumerWorker extends DefaultPausableWork {
             template.monitor.jmsListenerError(template.jmsFactory.getDestination().toString(), e);
             exception = true;
         }
-    }
-    
-    /**
-     * Indicates if there may be messages to consume in the next run.
-     * @return flag to indicate there may be messages to consume.
-     */
-    public boolean isMoreMessages() {
-        return moreMessages;
     }
 
 }

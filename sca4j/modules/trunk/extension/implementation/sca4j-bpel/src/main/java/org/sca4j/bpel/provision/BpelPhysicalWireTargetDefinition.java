@@ -42,6 +42,7 @@ public class BpelPhysicalWireTargetDefinition extends PhysicalWireTargetDefiniti
         this.portTypeName = portTypeName;
         this.partnerLinkName = partnerLinkName;
         this.componentId = componentId;
+        setUri(componentId);
     }
 
     public QName getProcessName() {

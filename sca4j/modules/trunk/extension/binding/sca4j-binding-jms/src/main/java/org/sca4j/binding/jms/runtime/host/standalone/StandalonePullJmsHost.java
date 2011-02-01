@@ -53,25 +53,22 @@
 package org.sca4j.binding.jms.runtime.host.standalone;
 
 import java.net.URI;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import javax.transaction.TransactionManager;
 
-import org.oasisopen.sca.ServiceRuntimeException;
 import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.binding.jms.common.JmsBindingMetadata;
-import org.sca4j.binding.jms.common.JmsPolicy;
 import org.sca4j.binding.jms.common.TransactionType;
-import org.sca4j.binding.jms.common.JmsPolicy.AvailabilityJmsPolicy;
 import org.sca4j.binding.jms.runtime.JMSObjectFactory;
 import org.sca4j.binding.jms.runtime.JMSRuntimeMonitor;
 import org.sca4j.binding.jms.runtime.host.JmsHost;
+import org.sca4j.host.management.ManagedAttribute;
+import org.sca4j.host.management.ManagementService;
+import org.sca4j.host.management.ManagementUnit;
 import org.sca4j.host.runtime.RuntimeLifecycle;
 import org.sca4j.host.work.WorkScheduler;
 import org.sca4j.spi.services.timer.TimerService;
@@ -89,8 +86,7 @@ public class StandalonePullJmsHost implements JmsHost {
     @Monitor public JMSRuntimeMonitor monitor;
     @Reference public TransactionManager transactionManager;
     @Reference public RuntimeLifecycle runtimeLifecycle;
-    
-    private Map<URI, List<ConsumerWorker>> consumerWorkerMap = new HashMap<URI, List<ConsumerWorker>>();
+    @Reference(required = false) public ManagementService managementService;
 
     public void register(JMSObjectFactory jmsFactory, TransactionType transactionType, Wire wire, JmsBindingMetadata metadata, URI serviceUri) {
 
@@ -105,56 +101,109 @@ public class StandalonePullJmsHost implements JmsHost {
         template.monitor = monitor;
         template.metadata = metadata;
         template.wire = wire;
-        AvailabilityJmsPolicy availabilityPolicy = JmsPolicy.resolveAvailabilityPolicy(metadata.jmsPolicy);
 
         String returnType = wire.getInvocationChains().entrySet().iterator().next().getKey().getTargetOperation().getReturnType();
         boolean twoWay = returnType != null && !"void".equalsIgnoreCase(returnType);
         for (int i = 0; i < metadata.consumerCount; i++) {
-
-            if (availabilityPolicy != null) {
-                scheduleWithTimerService(template, twoWay, availabilityPolicy, consumerWorkers);
-            } else {
-                scheduleWithWorkScheduler(template, twoWay, consumerWorkers);
-            }
+            scheduleWithWorkScheduler(template, twoWay, consumerWorkers, true);
         }
-
-        consumerWorkerMap.put(serviceUri, consumerWorkers);
-    }    
-
-    private void scheduleWithTimerService(ConsumerWorkerTemplate template, boolean twoWay, AvailabilityJmsPolicy policy,
-            List<ConsumerWorker> consumerWorkers) {
         
-        final ConsumerWorker worker = twoWay ? new TwoWayConsumer(template, runtimeLifecycle, false) : 
-                                               new OneWayConsumer(template, runtimeLifecycle, false);
-        Runnable command = new Runnable() {
-            @Override
-            public void run() {
-                while (!Thread.currentThread().isInterrupted()) {
-                    worker.run();
-                    if (!worker.isMoreMessages()) {
-                        break;
-                    }
-                }
-            }
-        };
-        if (policy.getCronExpression() != null) {
-            try {
-                timerService.schedule(command, policy.getCronExpression());
-            } catch (ParseException e) {
-                throw new ServiceRuntimeException(e);
-            }
-        } else {
-            timerService.scheduleWithFixedDelay(command, -1, policy.getRepeatInterval(), TimeUnit.SECONDS);
+        if (managementService != null) {
+            ManagementUnitImpl managementUnitImpl = new ManagementUnitImpl(serviceUri, consumerWorkers, twoWay, template);
+            managementService.register(URI.create("/binding.jms/" + serviceUri), managementUnitImpl);
         }
-        consumerWorkers.add(worker);
-        monitor.registerListener(template.metadata.destinationName, "TimerService");
-    }
+    }    
     
-    private void scheduleWithWorkScheduler(ConsumerWorkerTemplate template, boolean twoWay, List<ConsumerWorker> consumerWorkers) {
+    private void scheduleWithWorkScheduler(ConsumerWorkerTemplate template, boolean twoWay, List<ConsumerWorker> consumerWorkers, boolean start) {
         ConsumerWorker worker = twoWay ? new TwoWayConsumer(template, runtimeLifecycle) : new OneWayConsumer(template, runtimeLifecycle);
-        workScheduler.scheduleWork(worker);
+        if (start) {
+            workScheduler.scheduleWork(worker);
+        }
         consumerWorkers.add(worker);
         monitor.registerListener(template.metadata.destinationName, "WorkScheduler");
+    }
+    
+    public class ManagementUnitImpl implements ManagementUnit {
+        
+        private List<ConsumerWorker> consumerWorkers;
+        private boolean started = true;
+        private boolean twoWay;
+        private ConsumerWorkerTemplate template;
+        
+        public ManagementUnitImpl(URI serviceUri, List<ConsumerWorker> consumerWorkers, boolean twoWay, ConsumerWorkerTemplate template) {
+            this.consumerWorkers = consumerWorkers;
+            this.template = template;
+            this.twoWay = twoWay;
+        }
+
+        @Override
+        public String getDescription() {
+            return "JMS service endpoint";
+        }
+        
+        @ManagedAttribute("Blocking wait on the queue (milliseconds)")
+        public int getPollingInterval() {
+            return template.pollingInterval;
+        }
+        
+        public void setPollingInterval(int pollingInterval) {
+            template.pollingInterval = pollingInterval;
+        }
+        
+        @ManagedAttribute("Exception timeout in milliseconds")
+        public int getExceptionTimeout() {
+            return template.exceptionTimeout;
+        }
+        
+        public void setExceptionTimeout(int exceptionTimeout) {
+            template.exceptionTimeout = exceptionTimeout;
+        }
+        
+        @ManagedAttribute("Number of workers in the pool")
+        public int getSize() {
+            return consumerWorkers.size();
+        }
+        
+        public synchronized void setSize(int size) throws InterruptedException {
+            int currentSize = consumerWorkers.size();
+            if (currentSize == size) {
+                return;
+            }
+            if (currentSize < size) {
+                for (int i = 0;i < size - currentSize;i++) {
+                    scheduleWithWorkScheduler(template, twoWay, consumerWorkers, started);
+                }
+            } else if (currentSize > size) {
+                List<ConsumerWorker> removedWorkers = new LinkedList<ConsumerWorker>();
+                for (int i = 0;i < currentSize - size;i++) {
+                    ConsumerWorker consumerWorker = consumerWorkers.get(i);
+                    consumerWorker.start(false);
+                    removedWorkers.add(consumerWorker);
+                }
+                consumerWorkers.removeAll(removedWorkers);
+            }
+        }
+        
+        @ManagedAttribute("Whether the endpoint is active")
+        public boolean isStarted() {
+            return started;
+        }
+        
+        public synchronized void setStarted(boolean started) throws InterruptedException {
+            if (this.started && !started) {
+                for (ConsumerWorker consumerWorker : consumerWorkers) {
+                    consumerWorker.start(false);
+                }
+                this.started = false;
+            } else if (!this.started && started) {
+                for (ConsumerWorker consumerWorker : consumerWorkers) {
+                    consumerWorker.start(true);
+                    workScheduler.scheduleWork(consumerWorker);
+                }
+                this.started = true;
+            }
+        }
+        
     }
 
 }
