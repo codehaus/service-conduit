@@ -92,7 +92,7 @@ import org.sca4j.spi.services.timer.TimerService;
 
 /**
  * Implementation of the TimerService that is backed by Quartz.
- *
+ * 
  * @version $Revision$ $Date$
  */
 public class QuartzTimerService implements TimerService {
@@ -101,7 +101,7 @@ public class QuartzTimerService implements TimerService {
     private final WorkScheduler workScheduler;
     private RunnableJobFactory jobFactory;
     private Scheduler scheduler;
-    private long waitTime = -1;  // default Quartz value
+    private long waitTime = -1; // default Quartz value
     private String schedulerName = "SCA4JScheduler";
     private long counter;
 
@@ -113,7 +113,7 @@ public class QuartzTimerService implements TimerService {
     public void init() throws SchedulerException {
         JobStore store = new RAMJobStore();
         F3ThreadPool pool = new F3ThreadPool();
-        jobFactory = new RunnableJobFactoryImpl();        
+        jobFactory = new RunnableJobFactoryImpl();
         scheduler = createScheduler(schedulerName, "default", store, pool, jobFactory);
         RunnableCleanupListener listener = new RunnableCleanupListener(jobFactory);
         scheduler.addSchedulerListener(listener);
@@ -127,12 +127,12 @@ public class QuartzTimerService implements TimerService {
         }
     }
 
-    @Property(required=false)
+    @Property(required = false)
     public void setWaitTime(long waitTime) {
         this.waitTime = waitTime;
     }
 
-    @Property(required=false)
+    @Property(required = false)
     public void setSchedulerName(String schedulerName) {
         this.schedulerName = schedulerName;
     }
@@ -146,15 +146,15 @@ public class QuartzTimerService implements TimerService {
     }
 
     public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
-	long timeInMillis = TimeUnit.MILLISECONDS.convert(delay, unit);
+        long timeInMillis = TimeUnit.MILLISECONDS.convert(delay, unit);
         String id = createId();
         Trigger trigger = new SimpleTrigger(id, GROUP, new Date(System.currentTimeMillis() + timeInMillis));
         return schedule(id, command, trigger);
     }
 
     public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command, long initialDelay, long delay, TimeUnit unit) {
-	long timeInMillis = TimeUnit.MILLISECONDS.convert(delay, unit);
-	long delayInMillis = TimeUnit.MILLISECONDS.convert(initialDelay, unit);
+        long timeInMillis = TimeUnit.MILLISECONDS.convert(delay, unit);
+        long delayInMillis = TimeUnit.MILLISECONDS.convert(initialDelay, unit);
         String id = createId();
         SimpleTrigger trigger = new SimpleTrigger();
         trigger.setName(id);
@@ -215,21 +215,20 @@ public class QuartzTimerService implements TimerService {
 
     public void execute(final Runnable runnable) {
         workScheduler.scheduleWork(new DefaultPausableWork() {
-        	public void execute() {
-        		runnable.run();
-        	}
+            public void execute() {
+                runnable.run();
+            }
         });
     }
 
-    private Scheduler createScheduler(String name, String id, JobStore store, ThreadPool pool, JobFactory jobFactory)
-            throws SchedulerException {
+    private Scheduler createScheduler(String name, String id, JobStore store, ThreadPool pool, JobFactory jobFactory) throws SchedulerException {
         SchedulingContext context = new SchedulingContext();
         context.setInstanceId(id);
 
         QuartzSchedulerResources resources = new QuartzSchedulerResources();
         StdJobRunShellFactory shellFactory = new StdJobRunShellFactory();
         resources.setName(name);
-        resources.setInstanceId(id);        
+        resources.setInstanceId(id);
         resources.setThreadPool(pool);
         resources.setJobStore(store);
         resources.setJobRunShellFactory(shellFactory);
@@ -240,8 +239,11 @@ public class QuartzTimerService implements TimerService {
         Scheduler scheduler = new StdScheduler(quartzScheduler, context);
         shellFactory.initialize(scheduler, context);
         SchedulerRepository repository = SchedulerRepository.getInstance();
-        quartzScheduler.addNoGCObject(repository); // prevents the repository from being garbage collected
-        repository.bind(scheduler);    // no need to remove since it is handled in the scheduler shutdown method
+        quartzScheduler.addNoGCObject(repository); // prevents the repository
+                                                   // from being garbage
+                                                   // collected
+        repository.bind(scheduler); // no need to remove since it is handled in
+                                    // the scheduler shutdown method
         return scheduler;
     }
 
@@ -255,7 +257,7 @@ public class QuartzTimerService implements TimerService {
         JobDetail detail = new JobDetail();
         detail.setName(id);
         detail.setGroup(GROUP);
-        detail.setJobClass(Job.class);  // required by Quartz
+        detail.setJobClass(Job.class); // required by Quartz
         RunnableHolder holder = new RunnableHolderImpl(id, command, this);
         jobFactory.register(holder);
         try {
@@ -273,9 +275,9 @@ public class QuartzTimerService implements TimerService {
 
         public boolean runInThread(final Runnable runnable) {
             workScheduler.scheduleWork(new DefaultPausableWork() {
-            	public void execute() {
-            		runnable.run();
-            	}
+                public void execute() {
+                    runnable.run();
+                }
             });
             return true;
         }
@@ -291,7 +293,7 @@ public class QuartzTimerService implements TimerService {
         }
 
         public int getPoolSize() {
-            return 5;  // TODO WorkScheduler doesn't provide this functionality
+            return 5; // TODO WorkScheduler doesn't provide this functionality
         }
 
         @Override

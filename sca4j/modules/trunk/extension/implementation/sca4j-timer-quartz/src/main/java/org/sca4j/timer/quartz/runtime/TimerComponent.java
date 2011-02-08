@@ -58,6 +58,7 @@ import java.util.concurrent.ScheduledFuture;
 
 import javax.transaction.TransactionManager;
 
+import org.sca4j.host.management.ManagementService;
 import org.sca4j.java.runtime.JavaComponent;
 import org.sca4j.spi.component.InstanceFactoryProvider;
 import org.sca4j.spi.component.ScopeContainer;
@@ -76,6 +77,7 @@ public class TimerComponent<T> extends JavaComponent<T> {
     private ScheduledFuture<?> future;
     private boolean transactional;
     private TransactionManager transactionManager;
+    private ManagementService managementService;
 
     /**
      * Constructor for a timer component.
@@ -104,7 +106,8 @@ public class TimerComponent<T> extends JavaComponent<T> {
                           TriggerData data,
                           TimerService timerService, 
                           TransactionManager transactionManager, 
-                          boolean transactional) {
+                          boolean transactional,
+                          ManagementService managementService) {
         super(componentId,
               instanceFactoryProvider,
               scopeContainer,
@@ -117,15 +120,16 @@ public class TimerComponent<T> extends JavaComponent<T> {
         this.timerService = timerService;
         this.transactional = transactional;
         this.transactionManager = transactionManager;
+        this.managementService = managementService;
     }
 
     public void start() {
         super.start();
         Runnable invoker = null;
         if (transactional) {
-            invoker = new TxTimerComponentInvoker<T>(this, transactionManager);
+            invoker = new TxTimerComponentInvoker<T>(this, transactionManager, managementService);
         } else {
-            invoker = new TimerComponentInvoker<T>(this);
+            invoker = new TimerComponentInvoker<T>(this, managementService);
         }
         
         switch (data.getType()) {

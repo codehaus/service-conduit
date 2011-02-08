@@ -59,6 +59,7 @@ import javax.transaction.TransactionManager;
 import org.oasisopen.sca.annotation.EagerInit;
 import org.oasisopen.sca.annotation.Init;
 import org.oasisopen.sca.annotation.Reference;
+import org.sca4j.host.management.ManagementService;
 import org.sca4j.pojo.builder.PojoComponentBuilder;
 import org.sca4j.pojo.component.PojoComponentContext;
 import org.sca4j.pojo.component.PojoRequestContext;
@@ -88,6 +89,7 @@ public class TimerComponentBuilder<T> extends PojoComponentBuilder<T, TimerCompo
     private TimerService timerService;
     private ProxyService proxyService;
     private TransactionManager transactionManager;
+    private ManagementService managementService;
 
     public TimerComponentBuilder(@Reference ComponentBuilderRegistry builderRegistry,
                                  @Reference ScopeRegistry scopeRegistry,
@@ -95,11 +97,13 @@ public class TimerComponentBuilder<T> extends PojoComponentBuilder<T, TimerCompo
                                  @Reference InstanceFactoryBuilderRegistry providerBuilders,
                                  @Reference(name = "transformerRegistry")TransformerRegistry<PullTransformer<?, ?>> transformerRegistry,
                                  @Reference ProxyService proxyService,
-                                 @Reference TimerService timerService) {
+                                 @Reference TimerService timerService,
+                                 @Reference(required = false) ManagementService managementService) {
         super(builderRegistry, scopeRegistry, providerBuilders, transformerRegistry);
         this.proxyService = proxyService;
         this.timerService = timerService;
         this.transactionManager = transactionManager;
+        this.managementService = managementService;
     }
 
     @Init
@@ -137,7 +141,8 @@ public class TimerComponentBuilder<T> extends PojoComponentBuilder<T, TimerCompo
                                                             data,
                                                             timerService, 
                                                             transactionManager,
-                                                            definition.isTransactional());
+                                                            definition.isTransactional(),
+                                                            managementService);
 
         PojoRequestContext requestContext = new PojoRequestContext();
         provider.setObjectFactory(InjectableAttribute.REQUEST_CONTEXT, new SingletonObjectFactory<PojoRequestContext>(requestContext));

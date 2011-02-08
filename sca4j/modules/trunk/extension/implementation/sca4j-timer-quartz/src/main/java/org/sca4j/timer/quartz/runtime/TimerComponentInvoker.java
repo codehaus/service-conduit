@@ -52,6 +52,7 @@
  */
 package org.sca4j.timer.quartz.runtime;
 
+import org.sca4j.host.management.ManagementService;
 import org.sca4j.pojo.PojoWorkContextTunnel;
 import org.sca4j.spi.component.InstanceDestructionException;
 import org.sca4j.spi.component.InstanceLifecycleException;
@@ -66,16 +67,20 @@ import org.sca4j.spi.wire.InvocationRuntimeException;
  *
  * @version $Revision$ $Date$
  */
-public class TimerComponentInvoker<T> implements Runnable {
+public class TimerComponentInvoker<T> extends AbstractInvoker implements Runnable {
     private TimerComponent<T> component;
     private ScopeContainer<?> scopeContainer;
 
-    public TimerComponentInvoker(TimerComponent<T> component) {
+    public TimerComponentInvoker(TimerComponent<T> component, ManagementService managementService) {
+        super(component.getUri().toASCIIString(), managementService);
         this.component = component;
         this.scopeContainer = component.getScopeContainer();
     }
 
     public void run() {
+        if (!isStarted()) {
+            return;
+        }
         // create a new work context
         WorkContext workContext = new WorkContext();
         CallFrame frame = new CallFrame();

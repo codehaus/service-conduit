@@ -27,6 +27,7 @@ import javax.transaction.SystemException;
 import javax.transaction.TransactionManager;
 
 import org.oasisopen.sca.ServiceRuntimeException;
+import org.sca4j.host.management.ManagementService;
 
 /**
  * Adds Transactional support to {@link TimerComponentInvoker}
@@ -34,8 +35,8 @@ import org.oasisopen.sca.ServiceRuntimeException;
 public class TxTimerComponentInvoker<T> extends TimerComponentInvoker<T> {
     private TransactionManager transactionManager;
 
-    public TxTimerComponentInvoker(TimerComponent<T> component, TransactionManager transactionManager) {
-        super(component);
+    public TxTimerComponentInvoker(TimerComponent<T> component, TransactionManager transactionManager, ManagementService managementService) {
+        super(component, managementService);
         this.transactionManager = transactionManager;
     }
 
