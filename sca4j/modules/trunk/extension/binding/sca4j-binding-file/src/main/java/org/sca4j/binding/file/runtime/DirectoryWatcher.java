@@ -20,11 +20,15 @@ package org.sca4j.binding.file.runtime;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 
+import org.sca4j.host.management.ManagedAttribute;
+import org.sca4j.host.management.ManagementService;
+import org.sca4j.host.management.ManagementUnit;
 import org.sca4j.host.work.DefaultPausableWork;
 import org.sca4j.spi.services.event.RuntimeStart;
 import org.sca4j.spi.services.event.SCA4JEvent;
@@ -45,13 +49,15 @@ public class DirectoryWatcher extends DefaultPausableWork implements SCA4JEventL
     private FileBindingMonitor monitor;
     private FileServiceInvoker serviceInvoker;
 
-    private final File endpointDir;
+    private File endpointDir;
     private File archiveDir;
     private Pattern fileNamePattern;
     private boolean acquireFileLock;
     private boolean acquireEndpointLock;
     private long pollingFrequency;
     private SimpleDateFormat archiveFileTimestampFormat;
+    
+    private boolean started = true;
 
     /**
      * Constructor with mandatory fields
@@ -59,13 +65,16 @@ public class DirectoryWatcher extends DefaultPausableWork implements SCA4JEventL
      * @param wire wire to access the underlying service
      * @param monitor monitor for logging
      */
-    public DirectoryWatcher(File endpointDir, Wire wire, FileBindingMonitor monitor) {
+    public DirectoryWatcher(File endpointDir, Wire wire, FileBindingMonitor monitor, ManagementService managementService, URI serviceUri) {
         super(true);
         this.endpointDir = endpointDir;
         this.monitor = monitor;
         Interceptor interceptor = wire.getInvocationChains().values().iterator().next().getHeadInterceptor();
         this.serviceInvoker = new FileServiceInvoker(interceptor, monitor);
         this.runtimeStarted = new AtomicBoolean();
+        if (managementService != null) {
+            managementService.register(URI.create("binding.file/" + serviceUri), new ManagementUnitImpl());
+        }
     }
 
     /**
@@ -128,10 +137,16 @@ public class DirectoryWatcher extends DefaultPausableWork implements SCA4JEventL
      */
     @Override
     protected void execute() {
+
+        delay();
         if (!runtimeStarted.get()) {
             return;
         }
 
+        if (!started) {
+            return;
+        }
+        
         FileEndpointLock endpointLock = null;
         try {            
             if (acquireEndpointLock) {
@@ -178,7 +193,6 @@ public class DirectoryWatcher extends DefaultPausableWork implements SCA4JEventL
                 endpointLock.releaseEndpointLock();
                 monitor.endpointLockReleased(endpointDir);
             }
-            delay();
         }
     }
     
@@ -212,6 +226,50 @@ public class DirectoryWatcher extends DefaultPausableWork implements SCA4JEventL
         if (RuntimeStart.class.isInstance(event)) {
             this.runtimeStarted.set(true);
         }
+    }  
+    
+    public class ManagementUnitImpl implements ManagementUnit {
         
-    }   
+        @ManagedAttribute("Endpoint directory that is polled")
+        public String getEndpointDirectory() {
+            return DirectoryWatcher.this.endpointDir.toString();
+        }
+        
+        public void setEndpointDirectory(String endpointDir) {
+            DirectoryWatcher.this.endpointDir = new File(endpointDir);
+        }
+        
+        @ManagedAttribute("Archice directory")
+        public String getArchiveDirectory() {
+            return DirectoryWatcher.this.archiveDir.toString();
+        }
+        
+        public void setArchiveDirectory(String archiveDir) {
+            DirectoryWatcher.this.archiveDir = new File(archiveDir);
+        }
+        
+        @ManagedAttribute("Polling frequence")
+        public long getPollingFrequency() {
+            return DirectoryWatcher.this.pollingFrequency;
+        }
+        
+        public void setPollingFrequency(long pollingFrequency) {
+            DirectoryWatcher.this.pollingFrequency = pollingFrequency;
+        }
+        
+        @ManagedAttribute("Whether the endpoint is started")
+        public boolean isStarted() {
+            return started;
+        }
+        
+        public void setStarted(boolean started) {
+            DirectoryWatcher.this.started = started;
+        }
+
+        @Override
+        public String getDescription() {
+            return "File endpoint";
+        }
+        
+    }
 }

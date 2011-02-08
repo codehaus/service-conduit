@@ -28,6 +28,7 @@ import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.binding.file.common.FileBindingMetadata;
 import org.sca4j.binding.file.provision.FileWireSourceDefinition;
+import org.sca4j.host.management.ManagementService;
 import org.sca4j.host.work.WorkScheduler;
 import org.sca4j.spi.ObjectFactory;
 import org.sca4j.spi.builder.WiringException;
@@ -45,6 +46,7 @@ public class FileSourceWireAttacher implements SourceWireAttacher<FileWireSource
     @Monitor protected FileBindingMonitor monitor;
     @Reference protected WorkScheduler workScheduler;
     @Reference protected EventService eventService;
+    @Reference protected ManagementService managementService;
     
     /**
      * {@inheritDoc} 
@@ -59,7 +61,7 @@ public class FileSourceWireAttacher implements SourceWireAttacher<FileWireSource
 
         List<?> parameters = pod.getParameters();
         if (parameters.size() == 2) {
-            final DirectoryWatcher directoryWatcher = new DirectoryWatcher(endpointDir, wire, monitor);
+            final DirectoryWatcher directoryWatcher = new DirectoryWatcher(endpointDir, wire, monitor, managementService, target.getUri());
             directoryWatcher.setAcquireFileLock(bindingMetaData.acquireFileLock);
             directoryWatcher.setAcquireEndpointLock(bindingMetaData.acquireEndpointLock);
             directoryWatcher.setFileNamePattern(bindingMetaData.filenamePattern);
