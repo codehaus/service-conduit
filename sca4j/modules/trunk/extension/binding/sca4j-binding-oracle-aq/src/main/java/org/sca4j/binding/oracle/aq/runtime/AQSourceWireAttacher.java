@@ -37,6 +37,7 @@ package org.sca4j.binding.oracle.aq.runtime;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.net.URI;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -61,6 +62,9 @@ import org.oasisopen.sca.annotation.Reference;
 import org.sca4j.api.annotation.Monitor;
 import org.sca4j.binding.oracle.aq.provision.AQWireSourceDefinition;
 import org.sca4j.binding.oracle.aq.scdl.AQBindingDefinition;
+import org.sca4j.host.management.ManagedAttribute;
+import org.sca4j.host.management.ManagementService;
+import org.sca4j.host.management.ManagementUnit;
 import org.sca4j.host.runtime.RuntimeLifecycle;
 import org.sca4j.host.work.DefaultPausableWork;
 import org.sca4j.host.work.WorkScheduler;
@@ -86,9 +90,9 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
 	@Reference public TransactionHandler transactionHandler;
 	@Reference public ResourceRegistry resourceRegistry;
 	@Reference public RuntimeLifecycle runtimeLifecycle;
+    @Reference(required = false) public ManagementService managementService;
 	
 	@Monitor public AQMonitor monitor;
-	private List<ConsumerWorker> workers = new LinkedList<ConsumerWorker>();
 
 	private static final String EXLUDED_OPS = "equals|hashCode|toString|wait|notify|notifyAll|getClass";
 	private static final int DEQUEUE_TIMEOUT_CODE = 25228;
@@ -106,11 +110,16 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
         	        operations.put(operationMetadata.getName(), operationMetadata);
     	        }
     	    }
+    	    List<ConsumerWorker> workers = new LinkedList<ConsumerWorker>();
     		for (int i = 0; i < sourceDefinition.bindingDefinition.consumerCount; i++) {
     			ConsumerWorker consumerWorker = new ConsumerWorker(sourceDefinition.bindingDefinition, operations);
     			workScheduler.scheduleWork(consumerWorker);
     			workers.add(consumerWorker);
     			monitor.generalMessage("Consumer provisioned on queue " + sourceDefinition.bindingDefinition.destinationName);
+    		}
+    		if (managementService != null) {
+    		    ManagementUnitImpl managementUnitImpl = new ManagementUnitImpl(workers, sourceDefinition.bindingDefinition, operations);
+                managementService.register(URI.create("/binding.aq/" + targetDefinition.getUri()), managementUnitImpl);
     		}
 	    } catch (ClassNotFoundException e) {
 	        throw new WiringException(e);
@@ -263,6 +272,92 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
         private void reportException(Exception e) {
             if (!runtimeLifecycle.isShutdown()) {
                 monitor.onException(e.getMessage(), e);
+            }
+        }
+        
+    }
+    
+    public class ManagementUnitImpl implements ManagementUnit {
+        
+        private List<ConsumerWorker> consumerWorkers;
+        private boolean started = true;
+        private AQBindingDefinition bindingDefinition;
+        private Map<String, OperationMetadata> operations;
+        
+        public ManagementUnitImpl(List<ConsumerWorker> consumerWorkers, AQBindingDefinition bindingDefinition, Map<String, OperationMetadata> operations) {
+            this.consumerWorkers = consumerWorkers;
+            this.bindingDefinition = bindingDefinition;
+            this.operations = operations;
+        }
+
+        @Override
+        public String getDescription() {
+            return "AQ service endpoint";
+        }
+        
+        @ManagedAttribute("Blocking wait on the queue (seconds)")
+        public int getPollingInterval() {
+            return bindingDefinition.consumerDelay;
+        }
+        
+        public void setPollingInterval(int pollingInterval) {
+            bindingDefinition.consumerDelay = pollingInterval;
+        }
+        
+        @ManagedAttribute("Exception timeout in seconds")
+        public long getExceptionTimeout() {
+            return bindingDefinition.exceptionTimeout;
+        }
+        
+        public void setExceptionTimeout(long exceptionTimeout) {
+            bindingDefinition.exceptionTimeout = exceptionTimeout;
+        }
+        
+        @ManagedAttribute("Number of workers in the pool")
+        public int getSize() {
+            return consumerWorkers.size();
+        }
+        
+        public synchronized void setSize(int size) throws InterruptedException, JAXBException {
+            int currentSize = consumerWorkers.size();
+            if (currentSize == size) {
+                return;
+            }
+            if (currentSize < size) {
+                for (int i = 0;i < size - currentSize;i++) {
+                    ConsumerWorker consumerWorker = new ConsumerWorker(bindingDefinition, operations);
+                    if (started) {
+                        workScheduler.scheduleWork(consumerWorker);
+                    }
+                }
+            } else if (currentSize > size) {
+                List<ConsumerWorker> removedWorkers = new LinkedList<ConsumerWorker>();
+                for (int i = 0;i < currentSize - size;i++) {
+                    ConsumerWorker consumerWorker = consumerWorkers.get(i);
+                    consumerWorker.start(false);
+                    removedWorkers.add(consumerWorker);
+                }
+                consumerWorkers.removeAll(removedWorkers);
+            }
+        }
+        
+        @ManagedAttribute("Whether the endpoint is active")
+        public boolean isStarted() {
+            return started;
+        }
+        
+        public synchronized void setStarted(boolean started) throws InterruptedException {
+            if (this.started && !started) {
+                for (ConsumerWorker consumerWorker : consumerWorkers) {
+                    consumerWorker.start(false);
+                }
+                this.started = false;
+            } else if (!this.started && started) {
+                for (ConsumerWorker consumerWorker : consumerWorkers) {
+                    consumerWorker.start(true);
+                    workScheduler.scheduleWork(consumerWorker);
+                }
+                this.started = true;
             }
         }
         
