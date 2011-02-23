@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.codehaus.service-conduit</groupId>
         <artifactId>sca4j-runtime-maven-parent-pom</artifactId>
-        <version>0.9.8</version>
+        <version>0.9.9-SNAPSHOT</version>
     </parent>
     <groupId>org.codehaus.service-conduit</groupId>
     <artifactId>sca4j-maven-host</artifactId>
@@ -30,43 +30,43 @@
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-thread-pool</artifactId>
-            <version>0.9.8</version>
+            <version>0.9.9-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-maven-api</artifactId>
-            <version>0.9.8</version>
+            <version>0.9.9-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-proxy</artifactId>
-            <version>0.9.8</version>
+            <version>0.9.9-SNAPSHOT</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-fabric</artifactId>
-            <version>0.9.8</version>
+            <version>0.9.9-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-policy</artifactId>
-            <version>0.9.8</version>
+            <version>0.9.9-SNAPSHOT</version>
         </dependency>        
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-pojo</artifactId>
-            <version>0.9.8</version>
+            <version>0.9.9-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-java</artifactId>
-            <version>0.9.8</version>
+            <version>0.9.9-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-junit</artifactId>
-            <version>0.9.8</version>
+            <version>0.9.9-SNAPSHOT</version>
         </dependency>
 
         <dependency>
