@@ -46,7 +46,7 @@ public class FileSourceWireAttacher implements SourceWireAttacher<FileWireSource
     @Monitor protected FileBindingMonitor monitor;
     @Reference protected WorkScheduler workScheduler;
     @Reference protected EventService eventService;
-    @Reference protected ManagementService managementService;
+    @Reference(required = false) protected ManagementService managementService;
     
     /**
      * {@inheritDoc} 
