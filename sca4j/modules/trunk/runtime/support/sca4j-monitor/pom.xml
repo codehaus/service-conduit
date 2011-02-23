@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.codehaus.service-conduit</groupId>
         <artifactId>sca4j-runtime-support-parent-pom</artifactId>
-        <version>0.9.7</version>
+        <version>0.9.8-SNAPSHOT</version>
     </parent>
     <groupId>org.codehaus.service-conduit</groupId>
     <artifactId>sca4j-monitor</artifactId>
@@ -30,12 +30,12 @@
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-api</artifactId>
-            <version>0.9.7</version>
+            <version>0.9.8-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-monitor-api</artifactId>
-            <version>0.9.7</version>
+            <version>0.9.8-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
