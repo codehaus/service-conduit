@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.codehaus.service-conduit</groupId>
         <artifactId>sca4j-extension-other-parent-pom</artifactId>
-        <version>0.9.9</version>
+        <version>0.9.10-SNAPSHOT</version>
     </parent>
 
     <groupId>org.codehaus.service-conduit</groupId>
@@ -36,21 +36,21 @@
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-resource</artifactId>
-            <version>0.9.9</version>
+            <version>0.9.10-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-pojo</artifactId>
-            <version>0.9.9</version>
+            <version>0.9.10-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-java</artifactId>
-            <version>0.9.9</version>
+            <version>0.9.10-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
@@ -80,14 +80,14 @@
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-introspection</artifactId>
-            <version>0.9.9</version>
+            <version>0.9.10-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-introspection-spi</artifactId>
-            <version>0.9.9</version>
+            <version>0.9.10-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
@@ -138,7 +138,7 @@
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-jndi</artifactId>
-            <version>0.9.9</version>
+            <version>0.9.10-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
