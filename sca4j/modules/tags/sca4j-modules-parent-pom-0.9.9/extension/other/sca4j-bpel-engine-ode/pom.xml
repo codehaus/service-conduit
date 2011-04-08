@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SCA4J
+  Copyright (c) 2008-2012 Service Symphony Limited
+ 
+  This proprietary software may be used only in connection with the SCA4J license
+  (the ?License?), a copy of which is included in the software or may be obtained 
+  at: http://www.servicesymphony.com/licenses/license.html.
+ 
+  Software distributed under the License is distributed on an as is basis, without 
+  warranties or conditions of any kind.  See the License for the specific language 
+  governing permissions and limitations of use of the software. This software is 
+  distributed in conjunction with other software licensed under different terms. 
+  See the separate licenses for those programs included in the distribution for the 
+  permitted and restricted uses of such software.
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.codehaus.service-conduit</groupId>
+        <artifactId>sca4j-extension-other-parent-pom</artifactId>
+        <version>0.9.1-SNAPSHOT-SNAPSHOT</version>
+    </parent>
+    <groupId>org.codehaus.service-conduit</groupId>
+    <artifactId>sca4j-bpel-engine-ode</artifactId>
+    <name>SCA4J ODE Embedded BPEL Engine</name>
+    <packaging>jar</packaging>
+    
+    <properties>
+        <ode.version>1.3.2</ode.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-spi</artifactId>
+            <version>0.9.1-SNAPSHOT-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.service-conduit</groupId>
+            <artifactId>sca4j-bpel</artifactId>
+            <version>0.9.1-SNAPSHOT-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ode</groupId>
+            <artifactId>ode-bpel-api</artifactId>
+            <version>${ode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ode</groupId>
+            <artifactId>ode-bpel-runtime</artifactId>
+            <version>${ode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ode</groupId>
+            <artifactId>ode-bpel-epr</artifactId>
+            <version>${ode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ode</groupId>
+            <artifactId>ode-utils</artifactId>
+            <version>${ode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ode</groupId>
+            <artifactId>ode-bpel-dao</artifactId>
+            <version>${ode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ode</groupId>
+            <artifactId>ode-scheduler-simple</artifactId>
+            <version>${ode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ode</groupId>
+            <artifactId>ode-bpel-compiler</artifactId>
+            <version>${ode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ode</groupId>
+            <artifactId>ode-bpel-schemas</artifactId>
+            <version>${ode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ode</groupId>
+            <artifactId>ode-bpel-obj</artifactId>
+            <version>${ode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ode</groupId>
+            <artifactId>ode-jacob</artifactId>
+            <version>${ode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ode</groupId>
+            <artifactId>ode-agents</artifactId>
+            <version>${ode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.0.4</version>
+        </dependency>
+        <dependency>
+            <groupId>geronimo-spec</groupId>
+            <artifactId>geronimo-spec-jta</artifactId>
+            <version>1.0.1B-rc4</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jaxen</groupId>
+            <artifactId>jaxen</artifactId>
+            <version>1.1.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>xom</groupId>
+                    <artifactId>xom</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>xml-apis</groupId>
+                    <artifactId>xml-apis</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>xalan</groupId>
+            <artifactId>xalan</artifactId>
+            <version>2.7.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>xml-apis</groupId>
+                    <artifactId>xml-apis</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+            <version>2.8.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>xml-apis</groupId>
+                    <artifactId>xml-apis</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.saxon</groupId>
+            <artifactId>saxon</artifactId>
+            <version>9.x</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.saxon</groupId>
+            <artifactId>saxon-dom</artifactId>
+            <version>9.x</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.saxon</groupId>
+            <artifactId>saxon-xpath</artifactId>
+            <version>9.x</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.saxon</groupId>
+            <artifactId>saxon-xqj</artifactId>
+            <version>9.x</version>
+        </dependency>
+        <!-- dependency>
+            <groupId>geronimo-spec</groupId>
+            <artifactId>geronimo-spec-j2ee-connector</artifactId>
+            <version>1.5-rc4</version>
+            <scope>provided</scope>
+         </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.components</groupId>
+            <artifactId>geronimo-connector</artifactId>
+            <version>2.0.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.geronimo.specs</groupId>
+                    <artifactId>geronimo-jta_1.0.1B_spec</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.geronimo.specs</groupId>
+                    <artifactId>geronimo-j2ee-connector_1.5_spec</artifactId>
+                </exclusion>                
+                <exclusion>
+                    <groupId>xmlbeans</groupId>
+                    <artifactId>xbean</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>stax</groupId>
+                    <artifactId>stax-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency-->
+    </dependencies>
+
+</project>
