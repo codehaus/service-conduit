@@ -217,6 +217,10 @@ public class AQSourceWireAttacher implements SourceWireAttacher<AQWireSourceDefi
                 Message inputScaMessage = new MessageImpl(new Object[] {body}, false, new WorkContext());
                 Message outputScaMessage = interceptor.invoke(inputScaMessage);
                 
+                if (outputScaMessage.isFault()) {
+                    throw new ServiceUnavailableException((Throwable) outputScaMessage.getBody());
+                }
+                
                 if (operationMetadata.isTwoWay()) {
                     Object result = outputScaMessage.getBody();
                     envelope.setBody(result);
