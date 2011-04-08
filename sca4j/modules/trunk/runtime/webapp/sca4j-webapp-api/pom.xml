@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.codehaus.service-conduit</groupId>
         <artifactId>sca4j-runtime-webapp-parent-pom</artifactId>
-        <version>0.9.9-SNAPSHOT</version>
+        <version>0.9.9</version>
     </parent>
     <groupId>org.codehaus.service-conduit.webapp</groupId>
     <artifactId>sca4j-webapp-api</artifactId>
@@ -38,19 +38,19 @@
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-api</artifactId>
-            <version>0.9.9-SNAPSHOT</version>
+            <version>0.9.9</version>
         </dependency>
         
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-host-api</artifactId>
-            <version>0.9.9-SNAPSHOT</version>
+            <version>0.9.9</version>
         </dependency>
         
         <dependency>
             <groupId>org.codehaus.service-conduit</groupId>
             <artifactId>sca4j-monitor</artifactId>
-            <version>0.9.9-SNAPSHOT</version>
+            <version>0.9.9</version>
         </dependency>
         
         <dependency>
