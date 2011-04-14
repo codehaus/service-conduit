@@ -81,9 +81,9 @@ import org.sca4j.spi.model.physical.PhysicalWireTargetDefinition;
  */
 public class HttpTargetWireDefinition extends PhysicalWireTargetDefinition implements PolicyAware {
 
-    private String interfaze;
-    private long timeout;
-    private AuthenticationPolicy authenticationPolicy = NoAuthAuthenticationPolicy.INSTANCE;
+    public String interfaze;
+    public long timeout;
+    public AuthenticationPolicy authenticationPolicy = NoAuthAuthenticationPolicy.INSTANCE;
 
     /**
      * Construct by the following
@@ -99,10 +99,5 @@ public class HttpTargetWireDefinition extends PhysicalWireTargetDefinition imple
         this.interfaze = interfaze;
     }
 
-    public String getInterfaze() { return interfaze; }
-    public long getTimeout() { return timeout; }
-
-    public AuthenticationPolicy getAuthenticationPolicy() { return authenticationPolicy; }
     public void setAuthenticationPolicy(AuthenticationPolicy authenticationPolicy) { this.authenticationPolicy = authenticationPolicy; }
-
 }

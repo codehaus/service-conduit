@@ -83,15 +83,15 @@ public class HttpTargetWireAttacher extends AbstractWireAttacher implements Targ
     public void attachToTarget(PhysicalWireSourceDefinition source, HttpTargetWireDefinition target, Wire wire) throws WiringException {
 
         try {
-            Class<?> seiClass = getServiceInterface(target.getClassLoaderId(), target.getInterfaze());
+            Class<?> seiClass = getServiceInterface(target.getClassLoaderId(), target.interfaze);
             ServiceMetadata serviceMetadata = getServiceMetadata(seiClass);
             URI uri = target.getUri();
 
             for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
                 OperationMetadata operationMetadata = serviceMetadata.getOperation(entry.getKey().getSourceOperation().getName());
                 URL url = new URL(uri + serviceMetadata.getRootResourcePath() + operationMetadata.getSubResourcePath());
-                HttpBindingInterceptor<?> interceptor = createInterceptor(target.getAuthenticationPolicy(), url, operationMetadata, target.getClassLoaderId(),
-                                                                          target.getTimeout());
+                HttpBindingInterceptor<?> interceptor = createInterceptor(target.authenticationPolicy, url, operationMetadata, target.getClassLoaderId(),
+                                                                          target.timeout);
                 entry.getValue().addInterceptor(interceptor);
             }
         } catch (MalformedURLException e) {

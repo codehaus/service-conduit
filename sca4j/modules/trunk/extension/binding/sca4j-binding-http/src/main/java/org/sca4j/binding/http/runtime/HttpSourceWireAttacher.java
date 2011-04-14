@@ -82,14 +82,14 @@ public class HttpSourceWireAttacher extends AbstractWireAttacher implements Sour
 
     public void attachToSource(HttpSourceWireDefinition source, PhysicalWireTargetDefinition target, Wire wire) throws WiringException {
 
-        Class<?> serviceInterface = getServiceInterface(source.getClassloaderId(), source.getInterfaze());
+        Class<?> serviceInterface = getServiceInterface(source.classloaderId, source.interfaze);
         ServiceMetadata serviceMetadata = getServiceMetadata(serviceInterface);
-        String contextPath = source.getContextPath();
+        String contextPath = source.contextPath;
         for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
         	OperationMetadata operationMetadata = serviceMetadata.getOperation(entry.getKey().getSourceOperation().getName());
         	String path = serviceMetadata.getRootResourcePath() + operationMetadata.getSubResourcePath();
         	String absolutePath = contextPath == null || contextPath.equals("") ? path : contextPath + path;
-        	HttpBindingServlet servlet = new HttpBindingServlet(operationMetadata, entry.getValue(), inboundBinders, outboundBinders, source.isUrlCase());
+        	HttpBindingServlet servlet = new HttpBindingServlet(operationMetadata, entry.getValue(), inboundBinders, outboundBinders, source.urlCase);
         	servletHost.registerMapping(absolutePath, servlet);
         }
 
