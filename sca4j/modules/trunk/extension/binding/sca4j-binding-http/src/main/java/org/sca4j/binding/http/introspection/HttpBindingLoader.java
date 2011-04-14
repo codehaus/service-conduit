@@ -93,15 +93,19 @@ public class HttpBindingLoader implements TypeLoader<HttpBindingDefinition> {
 
         HttpBindingDefinition bd = null;
         String uri = null;
+        String contextPath;
         boolean urlIgnoreCase;
+        long timeout;
         try {
 
             uri = reader.getAttributeValue(null, "uri");
             urlIgnoreCase = ignoreUrlCase(reader.getAttributeValue(null, "urlIgnoreCase"));
+            contextPath = reader.getAttributeValue(null, "contextPath");
+            timeout = timeout(reader);
             if (uri != null) {
-                bd = new HttpBindingDefinition(new URI(uri), urlIgnoreCase, loaderHelper.loadKey(reader));
+                bd = new HttpBindingDefinition(new URI(uri), urlIgnoreCase, timeout, contextPath, loaderHelper.loadKey(reader));
             } else {
-                bd = new HttpBindingDefinition(null, urlIgnoreCase, loaderHelper.loadKey(reader));
+                bd = new HttpBindingDefinition(null, urlIgnoreCase, timeout, contextPath, loaderHelper.loadKey(reader));
             }
 
             loaderHelper.loadPolicySetsAndIntents(bd, reader, introspectionContext);
@@ -120,13 +124,22 @@ public class HttpBindingLoader implements TypeLoader<HttpBindingDefinition> {
         return Boolean.parseBoolean(attributeValue);
     }
 
+    /*
+     * Gets the time out
+     */
+    private long timeout(XMLStreamReader reader) {
+       final String time = reader.getAttributeValue(null, "timeout");
+       return time == null ? 0L : Long.parseLong(time);
+    }
+
     private void validateAttributes(XMLStreamReader reader, IntrospectionContext context) {
         for (int i = 0; i < reader.getAttributeCount(); i++) {
             String name = reader.getAttributeLocalName(i);
-            if (!"uri".equals(name) && !"urlIgnoreCase".equals(name) && !"requires".equals(name) && !"policySets".equals(name) && !"key".equals(name)) {
+            if (!"uri".equals(name) && !"urlIgnoreCase".equals(name) && !"timeout".equals(name) && !"contextPath".equals(name) &&
+                !"requires".equals(name) && !"policySets".equals(name) && !"key".equals(name)) {
                 context.addError(new UnrecognizedAttribute(name, reader));
             }
         }
     }
-    
+
 }

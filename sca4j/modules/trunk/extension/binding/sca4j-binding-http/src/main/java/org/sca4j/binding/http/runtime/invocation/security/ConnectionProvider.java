@@ -63,11 +63,24 @@ import org.sca4j.binding.http.provision.security.AuthenticationPolicy;
  *
  */
 public interface ConnectionProvider<T extends AuthenticationPolicy> {
-    
+
     /**
+     * Create without timeout
      * @param authenticationPolicy
+     * @param url
+     * @param classLoaderId
      * @return
      */
     HttpClient createClient(T authenticationPolicy, URL url, URI classLoaderId);
+
+    /**
+     * Create with timeout
+     * @param authenticationPolicy
+     * @param url
+     * @param classLoaderId
+     * @param timeout
+     * @return
+     */
+    HttpClient createClient(T authenticationPolicy, URL url, URI classLoaderId, long timeout);
 
 }

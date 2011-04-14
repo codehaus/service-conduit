@@ -89,21 +89,23 @@ public class HttpBindingInterceptor<T extends AuthenticationPolicy> implements I
 
     private Interceptor next;
     private URL url;
+    private long timeout;
     private OperationMetadata operationMetadata;
     private T authenticationPolicy;
     private ConnectionProvider<T> connectionProvider;
     private URI classLoaderId;
-    
-    public HttpBindingInterceptor(URL url, 
-                                  OperationMetadata operationMetadata, 
-                                  ConnectionProvider<T> connectionProvider, 
+
+    public HttpBindingInterceptor(URL url,
+                                  OperationMetadata operationMetadata,
+                                  ConnectionProvider<T> connectionProvider,
                                   T authenticationPolicy,
-                                  URI classLoaderId) {
+                                  URI classLoaderId, long timeout) {
         this.url = url;
         this.operationMetadata = operationMetadata;
         this.authenticationPolicy = authenticationPolicy;
         this.connectionProvider = connectionProvider;
         this.classLoaderId = classLoaderId;
+        this.timeout = timeout;
     }
 
     public Interceptor getNext() {
@@ -118,35 +120,36 @@ public class HttpBindingInterceptor<T extends AuthenticationPolicy> implements I
      * TODO Support form encoded as well as other entity bodies.
      */
     public Message invoke(Message message) {
-        
+
         HttpMethod httpMethod = null;
         HttpClient httpClient = null;
         ByteArrayOutputStream response = null;
-        
+
         try {
-            
-            httpClient = connectionProvider.createClient(authenticationPolicy, url, classLoaderId);
-            
+
+            httpClient = timeout == 0L ? connectionProvider.createClient(authenticationPolicy, url, classLoaderId) :
+                                         connectionProvider.createClient(authenticationPolicy, url, classLoaderId, timeout);
+
             if (operationMetadata.getHttpMethod() == org.sca4j.binding.http.runtime.introspection.HttpMethod.GET) {
                 httpMethod = new GetMethod(url.toExternalForm());
             } else {
                 httpMethod = new PostMethod(url.toExternalForm());
             }
-            
+
             Object[] payload = (Object[]) message.getBody();
             httpMethod.setQueryString(getQueryParameters(payload));
             for (Map.Entry<String, String> headerParameter : getHeaderParameters(payload).entrySet()) {
                 httpMethod.addRequestHeader(headerParameter.getKey(), headerParameter.getValue());
             }
-            
+
             httpClient.executeMethod(httpMethod);
             response = getResponse(httpMethod);
-            
+
             httpMethod.releaseConnection();
-            
+
             message.setBody(response.toString());
             return message;
-            
+
         } catch (IllegalAccessException e) {
             throw new ServiceUnavailableException(e);
         } catch (HttpException e) {
@@ -154,19 +157,19 @@ public class HttpBindingInterceptor<T extends AuthenticationPolicy> implements I
         } catch (IOException e) {
             throw new ServiceUnavailableException(e);
         }
-        
+
     }
 
-    
+
 	private ByteArrayOutputStream getResponse(HttpMethod httpMethod) throws IOException {
-		
+
 		ByteArrayOutputStream byteArrayResp = new ByteArrayOutputStream();
 		IOUtils.copy(httpMethod.getResponseBodyAsStream(), byteArrayResp);
 		return byteArrayResp;
 	}
 
     private Map<String, String> getHeaderParameters(Object[] payload) throws IllegalAccessException {
-        
+
         Map<String, String> headerParameters = new HashMap<String, String>();
         if (operationMetadata.getInBinding() == DataBinding.JAXRS) {
             for (int i = 0; i < payload.length;i++) {
@@ -185,19 +188,19 @@ public class HttpBindingInterceptor<T extends AuthenticationPolicy> implements I
                 }
             }
         }
-        
+
         return headerParameters;
-        
+
     }
 
     private NameValuePair[] getQueryParameters(Object[] payload) throws IllegalAccessException {
-        
+
         List<NameValuePair> nameValuePairs = new LinkedList<NameValuePair>();
-        
+
         if (operationMetadata.getInBinding() == DataBinding.JAXRS) {
             for (int i = 0; i < payload.length;i++) {
                 Annotation annotation = operationMetadata.getParameters().get(i).getAnnotation();
-                if (annotation == null) {	
+                if (annotation == null) {
                 	nameValuePairs.addAll(getFieldValues(payload[i].getClass(), payload[i]));
                 } else if (annotation.annotationType() == QueryParam.class) {
                     QueryParam queryParam = QueryParam.class.cast(annotation);
@@ -205,12 +208,12 @@ public class HttpBindingInterceptor<T extends AuthenticationPolicy> implements I
                 }
             }
         }
-        
+
         return nameValuePairs.toArray(new NameValuePair[nameValuePairs.size()]);
-        
+
     }
 
-    private List<NameValuePair> getFieldValues(Class<?> clazz, Object payloadObject) throws IllegalAccessException {    
+    private List<NameValuePair> getFieldValues(Class<?> clazz, Object payloadObject) throws IllegalAccessException {
     	List<NameValuePair> nameValuePairs = new LinkedList<NameValuePair>();
     	if(clazz != null && !clazz.equals(Object.class)) {
             for (Field field : clazz.getDeclaredFields()) {
@@ -223,12 +226,12 @@ public class HttpBindingInterceptor<T extends AuthenticationPolicy> implements I
                     }
                 }
             }
-            
+
             nameValuePairs.addAll(getFieldValues(clazz.getSuperclass(), payloadObject));
     	}
-    	
+
     	return nameValuePairs;
     }
-   
-    
+
+
 }

@@ -77,36 +77,38 @@ import org.sca4j.spi.wire.Wire;
  *
  */
 public class HttpTargetWireAttacher extends AbstractWireAttacher implements TargetWireAttacher<HttpTargetWireDefinition> {
-    
+
     @Reference public Map<Class<? extends AuthenticationPolicy>, ConnectionProvider<?>> connectionProviders;
 
     public void attachToTarget(PhysicalWireSourceDefinition source, HttpTargetWireDefinition target, Wire wire) throws WiringException {
-    
+
         try {
             Class<?> seiClass = getServiceInterface(target.getClassLoaderId(), target.getInterfaze());
             ServiceMetadata serviceMetadata = getServiceMetadata(seiClass);
             URI uri = target.getUri();
-            
+
             for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
                 OperationMetadata operationMetadata = serviceMetadata.getOperation(entry.getKey().getSourceOperation().getName());
                 URL url = new URL(uri + serviceMetadata.getRootResourcePath() + operationMetadata.getSubResourcePath());
-                HttpBindingInterceptor<?> interceptor = createInterceptor(target.getAuthenticationPolicy(), url, operationMetadata, target.getClassLoaderId());
+                HttpBindingInterceptor<?> interceptor = createInterceptor(target.getAuthenticationPolicy(), url, operationMetadata, target.getClassLoaderId(),
+                                                                          target.getTimeout());
                 entry.getValue().addInterceptor(interceptor);
             }
         } catch (MalformedURLException e) {
             throw new WiringException(e);
         }
-    
+
     }
 
     public ObjectFactory<?> createObjectFactory(HttpTargetWireDefinition target) throws WiringException {
         throw new UnsupportedOperationException();
     }
-    
+
     @SuppressWarnings("unchecked")
-    private <T extends AuthenticationPolicy> HttpBindingInterceptor<T> createInterceptor(T authenticationPolicy, URL url, OperationMetadata operationMetadata, URI classLoaderId) {
+    private <T extends AuthenticationPolicy> HttpBindingInterceptor<T> createInterceptor(T authenticationPolicy, URL url,
+                                                                                         OperationMetadata operationMetadata, URI classLoaderId, long timeout) {
         ConnectionProvider<T> connectionProvider = (ConnectionProvider<T>) connectionProviders.get(authenticationPolicy.getClass());
-        return new HttpBindingInterceptor<T>(url, operationMetadata, connectionProvider, authenticationPolicy, classLoaderId);
+        return new HttpBindingInterceptor<T>(url, operationMetadata, connectionProvider, authenticationPolicy, classLoaderId, timeout);
     }
 
 }

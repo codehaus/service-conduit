@@ -78,9 +78,9 @@ import org.w3c.dom.NodeList;
  */
 @EagerInit
 public class HttpBindingGenerator implements BindingGenerator<HttpSourceWireDefinition, HttpTargetWireDefinition, HttpBindingDefinition> {
-    
+
     private static final String HTTP_BINDING_POLICY = "httpBindingConfig";
-    
+
     @Reference protected Map<String, PolicyApplier> policyAppliers;
 
     /**
@@ -90,7 +90,7 @@ public class HttpBindingGenerator implements BindingGenerator<HttpSourceWireDefi
         URI classloaderId = binding.getParent().getParent().getParent().getUri();
         URI endpointUri = binding.getBinding().getTargetUri();
         String interfaze = definition.getServiceContract().getQualifiedInterfaceName();
-        HttpSourceWireDefinition source =  new HttpSourceWireDefinition(classloaderId, binding.getBinding().isUrlIgnoreCase(), endpointUri, interfaze);
+        HttpSourceWireDefinition source =  new HttpSourceWireDefinition(classloaderId, binding.getBinding().urlIgnoreCase, binding.getBinding().contextPath, endpointUri, interfaze);
         applyTargetPolicies(definition.getServiceContract(), policy, source);
         return source;
     }
@@ -102,36 +102,36 @@ public class HttpBindingGenerator implements BindingGenerator<HttpSourceWireDefi
         URI classloaderId = binding.getParent().getParent().getParent().getUri();
         URI endpointUri = binding.getBinding().getTargetUri();
         String interfaze = definition.getServiceContract().getQualifiedInterfaceName();
-        HttpTargetWireDefinition target = new HttpTargetWireDefinition(classloaderId, endpointUri, interfaze);
+        HttpTargetWireDefinition target = new HttpTargetWireDefinition(classloaderId, endpointUri, binding.getBinding().timeout, interfaze);
         applyTargetPolicies(definition.getServiceContract(), policy, target);
         return target;
     }
-    
+
     private void applyTargetPolicies(ServiceContract serviceContract, Policy policy, PolicyAware policyAware) throws GenerationException {
-        
+
         for (Operation operation : serviceContract.getOperations()) {
-            
+
             for (PolicySet policySet : policy.getProvidedPolicySets(operation)) {
-                
+
                 Element element = policySet.getExtension();
                 if (!HTTP_BINDING_POLICY.equals(element.getLocalName())) {
                     throw new GenerationException("Unknown policy " + element.getLocalName());
                 }
-                Element policyElement = getPolicyElement(element);                
+                Element policyElement = getPolicyElement(element);
                 PolicyApplier policyApplier = policyAppliers.get(policyElement.getLocalName());
                 if (policyApplier == null) {
                     throw new GenerationException("Unknown policy element " + element.getLocalName());
                 }
-                
+
                 policyApplier.applyPolicy(policyAware, policyElement);
-                
+
             }
         }
-        
+
     }
 
     private Element getPolicyElement(Element element) {
-        NodeList nodeList = element.getChildNodes();               
+        NodeList nodeList = element.getChildNodes();
         for (int i = 0; nodeList != null && i < nodeList.getLength();i++) {
             if (nodeList.item(i) instanceof Element) {
                 return (Element) nodeList.item(i);
@@ -139,5 +139,5 @@ public class HttpBindingGenerator implements BindingGenerator<HttpSourceWireDefi
         }
         return null;
     }
-    
+
 }

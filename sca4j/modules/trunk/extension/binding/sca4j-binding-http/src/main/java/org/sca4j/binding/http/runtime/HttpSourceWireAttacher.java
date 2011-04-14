@@ -75,23 +75,24 @@ import org.sca4j.spi.wire.Wire;
  *
  */
 public class HttpSourceWireAttacher extends AbstractWireAttacher implements SourceWireAttacher<HttpSourceWireDefinition> {
-    
+
     @Reference protected ServletHost servletHost;
     @Reference protected Map<DataBinding, DataBinder> inboundBinders;
     @Reference protected Map<DataBinding, DataBinder> outboundBinders;
-    
+
     public void attachToSource(HttpSourceWireDefinition source, PhysicalWireTargetDefinition target, Wire wire) throws WiringException {
-        
+
         Class<?> serviceInterface = getServiceInterface(source.getClassloaderId(), source.getInterfaze());
         ServiceMetadata serviceMetadata = getServiceMetadata(serviceInterface);
-        
+        String contextPath = source.getContextPath();
         for (Map.Entry<PhysicalOperationPair, InvocationChain> entry : wire.getInvocationChains().entrySet()) {
         	OperationMetadata operationMetadata = serviceMetadata.getOperation(entry.getKey().getSourceOperation().getName());
         	String path = serviceMetadata.getRootResourcePath() + operationMetadata.getSubResourcePath();
+        	String absolutePath = contextPath == null || contextPath.equals("") ? path : contextPath + path;
         	HttpBindingServlet servlet = new HttpBindingServlet(operationMetadata, entry.getValue(), inboundBinders, outboundBinders, source.isUrlCase());
-        	servletHost.registerMapping(path, servlet);
+        	servletHost.registerMapping(absolutePath, servlet);
         }
-        
+
     }
 
     public void detachFromSource(HttpSourceWireDefinition sourceDefsourceinition, PhysicalWireTargetDefinition target, Wire wire) {

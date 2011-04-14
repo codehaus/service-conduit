@@ -58,15 +58,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 package org.sca4j.binding.http.provision;
 
@@ -79,37 +79,32 @@ import org.sca4j.spi.model.physical.PhysicalWireSourceDefinition;
  * Physical wire source definition for Http binding.
  */
 public class HttpSourceWireDefinition extends PhysicalWireSourceDefinition implements PolicyAware {
-    
+
     private String interfaze;
     private final boolean urlCase;
-    private URI classloaderId;
+    private final String contextPath;
+    private final URI classloaderId;
     private AuthenticationPolicy authenticationPolicy;
 
-    public HttpSourceWireDefinition(URI classloaderId, boolean urlCase, URI endpointUri, String interfaze) {
+    /**
+     * Construct by the following attributes
+     * @param classloaderId
+     * @param urlCase
+     * @param endpointUri
+     * @param interfaze
+     */
+    public HttpSourceWireDefinition(URI classloaderId, boolean urlCase, String contextPath, URI endpointUri, String interfaze) {
         setUri(endpointUri);
         this.classloaderId = classloaderId;
         this.interfaze = interfaze;
         this.urlCase = urlCase;
-    }
-    
-    public String getInterfaze() {
-        return interfaze;
-    }
-    
-    public URI getClassloaderId() {
-        return classloaderId;
-    }
-    
-    public AuthenticationPolicy getAuthenticationPolicy() {
-        return authenticationPolicy;
-    }
-    
-    public void setAuthenticationPolicy(AuthenticationPolicy authenticationPolicy) {
-        this.authenticationPolicy = authenticationPolicy;
+        this.contextPath = contextPath;
     }
 
-    public boolean isUrlCase() {
-        return urlCase;
-    }
-
+    public String getInterfaze() { return interfaze; }
+    public URI getClassloaderId() { return classloaderId; }
+    public AuthenticationPolicy getAuthenticationPolicy() { return authenticationPolicy; }
+    public void setAuthenticationPolicy(AuthenticationPolicy authenticationPolicy) { this.authenticationPolicy = authenticationPolicy; }
+    public boolean isUrlCase() { return urlCase; }
+    public String getContextPath() { return contextPath; }
 }

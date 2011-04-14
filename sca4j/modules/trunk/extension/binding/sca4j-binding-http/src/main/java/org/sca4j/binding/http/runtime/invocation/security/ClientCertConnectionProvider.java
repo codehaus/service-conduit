@@ -54,55 +54,77 @@ package org.sca4j.binding.http.runtime.invocation.security;
 
 import java.io.File;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 
 import org.apache.commons.httpclient.HostConfiguration;
-import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.protocol.Protocol;
 import org.apache.commons.httpclient.protocol.ProtocolSocketFactory;
 import org.sca4j.binding.http.provision.security.ClientCertAuthenticationPolicy;
 
-public class ClientCertConnectionProvider implements ConnectionProvider<ClientCertAuthenticationPolicy> {
+public class ClientCertConnectionProvider extends AbstractConnectionProvider<ClientCertAuthenticationPolicy> {
 
-    public HttpClient createClient(ClientCertAuthenticationPolicy authenticationPolicy, URL url, URI classLoaderId) {
-        
-        try {
+	/**
+	 * Builds host configuration data
+	 */
+	@Override
+    HostConfiguration buildHostInfo(ClientCertAuthenticationPolicy authenticationPolicy, URL url) {
+		final String keyStorePassword = authenticationPolicy.getKeyStorePassword();
+		final String trustStorePassword = authenticationPolicy.getTrustStorePassword();
+		final KeyTrustStore keyTrustStore = createKeyAndTrustStore(authenticationPolicy);
 
-            String scheme = url.getProtocol();
-            int port = url.getPort();
-            URL keyStore = null;
-            URL trustStore = null;
-            
-            String keyStorePassword = authenticationPolicy.getKeyStorePassword();
-            String trustStorePassword = authenticationPolicy.getTrustStorePassword();
-            
-            // TODO Replace this with a custom protocol handler.
-            if (authenticationPolicy.isClasspath()) {
-                ClassLoader classLoader = getClass().getClassLoader();
-                keyStore = classLoader.getResource(authenticationPolicy.getKeyStore());
-                trustStore = classLoader.getResource(authenticationPolicy.getTrustStore());
-            } else {
-                keyStore = new File(authenticationPolicy.getKeyStore()).toURL();
-                trustStore = new File(authenticationPolicy.getTrustStore()).toURL();
-            }
-            
-            ProtocolSocketFactory protocolSocketFactory = new AuthSSLProtocolSocketFactory(keyStore, keyStorePassword, trustStore, trustStorePassword);
-            Protocol authHttps = new Protocol(scheme, protocolSocketFactory, port);
-            
-            HostConfiguration hostConfig = new HostConfiguration();
-			hostConfig.setHost(url.getHost(), port, authHttps);
-			SCA4jHttpConnectionManager httpConnMgr = new SCA4jHttpConnectionManager(hostConfig);
-                        
-            HttpClient httpClient = new HttpClient(httpConnMgr);
-            httpClient.getParams().setConnectionManagerClass(SCA4jHttpConnectionManager.class);
-            
-            return httpClient;
-            
-        } catch (MalformedURLException e) {
-            throw new AssertionError(e);
-        }
-        
-    }
+		HostConfiguration hostConfig = new HostConfiguration();
+		hostConfig.setHost(url.getHost(), url.getPort(), createAuthProtocol(keyTrustStore.keyStore, keyTrustStore.trustStore,
+				                                                            keyStorePassword, trustStorePassword, url));
+		return hostConfig;
+	}
 
+	/*
+	 * Assigns Key and Trust Store
+	 */
+	private KeyTrustStore createKeyAndTrustStore(ClientCertAuthenticationPolicy authPolicy) {
+
+		final KeyTrustStore keyTrustStore = new KeyTrustStore();
+
+		try {
+			if (authPolicy.isClasspath()) {
+				ClassLoader classLoader = getClass().getClassLoader();
+				keyTrustStore.keyStore = classLoader.getResource(authPolicy.getKeyStore());
+				keyTrustStore.trustStore = classLoader.getResource(authPolicy.getTrustStore());
+			} else {
+				keyTrustStore.keyStore = getURLFromFileLocation(new File(authPolicy.getKeyStore()));
+				keyTrustStore.trustStore = getURLFromFileLocation(new File(authPolicy.getTrustStore()));
+			}
+		} catch(MalformedURLException me){
+			throw new AssertionError(me);
+		}
+
+		return keyTrustStore;
+	}
+
+
+	/*
+	 * Return the URL location from the file Object, toURI has to be used see deprecation on toURL for File
+	 */
+	private URL getURLFromFileLocation(File file) throws MalformedURLException {
+	    return file.toURI().toURL();
+	}
+
+	/*
+	 * Creates Authentication Protocol
+	 */
+	private Protocol createAuthProtocol(URL keyStore, URL trustStore, String keyStorePassword, String trustStorePassword, URL url) {
+		final ProtocolSocketFactory protocolSocketFactory = new AuthSSLProtocolSocketFactory(keyStore, keyStorePassword,
+				                                                                             trustStore, trustStorePassword);
+		final Protocol authHttps = new Protocol(url.getProtocol(), protocolSocketFactory, url.getPort());
+
+		return authHttps;
+	}
+
+	/*
+	 * URL for Key Stores and Trust Stores
+	 */
+	private class KeyTrustStore {
+		private URL keyStore;
+		private URL trustStore;
+	}
 }

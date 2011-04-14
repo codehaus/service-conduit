@@ -52,16 +52,20 @@
  */
 package org.sca4j.binding.http.runtime.invocation.security;
 
-import java.net.URI;
 import java.net.URL;
 
-import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HostConfiguration;
 import org.sca4j.binding.http.provision.security.NoAuthAuthenticationPolicy;
 
-public class NoAuthConnectionProvider implements ConnectionProvider<NoAuthAuthenticationPolicy> {
+public class NoAuthConnectionProvider extends AbstractConnectionProvider<NoAuthAuthenticationPolicy> {
 
-    public HttpClient createClient(NoAuthAuthenticationPolicy authenticationPolicy, URL url, URI classLoaderId) {
-        return new HttpClient();
+    /*
+     * Returns Host Configuration Information
+     */
+    @Override
+    HostConfiguration buildHostInfo(NoAuthAuthenticationPolicy authPolicy, URL url) {
+        HostConfiguration hostConfig = new HostConfiguration();
+        hostConfig.setHost(url.getHost(), url.getPort());
+        return hostConfig;
     }
-
 }

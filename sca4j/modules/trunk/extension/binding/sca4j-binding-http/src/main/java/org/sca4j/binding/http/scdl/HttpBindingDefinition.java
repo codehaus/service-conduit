@@ -63,10 +63,12 @@ import org.w3c.dom.Document;
  *
  */
 public class HttpBindingDefinition extends BindingDefinition {
-    
+
     private static final long serialVersionUID = 1513550220360531646L;
 
-    private final boolean urlIgnoreCase;
+    public final boolean urlIgnoreCase;
+    public final String contextPath;
+    public final long timeout;
 
     /**
      * Default Constructor
@@ -74,15 +76,10 @@ public class HttpBindingDefinition extends BindingDefinition {
      * @param urlIgnoreCase
      * @param key
      */
-    public HttpBindingDefinition(URI targetUri, boolean urlIgnoreCase, Document key) {
+    public HttpBindingDefinition(URI targetUri, boolean urlIgnoreCase, long timeout, String contextPath, Document key) {
         super(targetUri, HttpBindingLoader.BINDING_QNAME, key);
         this.urlIgnoreCase = urlIgnoreCase;
-    }
-
-    /**
-     * url case sensitivity
-     */
-    public boolean isUrlIgnoreCase() {
-        return urlIgnoreCase;
+        this.timeout = timeout;
+        this.contextPath = contextPath;
     }
 }
