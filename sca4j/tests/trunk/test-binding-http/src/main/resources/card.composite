@@ -56,11 +56,16 @@
 <composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
            xmlns:sca4j="urn:sca4j.org"
            name="CardComposite">
-           
+               
     <service name="cardService" promote="CardResource" />
+    <service name="cardServiceTwo" promote="CardResourceTwo" />
     
     <component name="CardResource">
         <implementation.java class="tests.http.CardResource"/>
+    </component>
+    
+    <component name="CardResourceTwo">
+        <implementation.java class="tests.http.CardResourceTwo"/>
     </component>
     
 </composite>

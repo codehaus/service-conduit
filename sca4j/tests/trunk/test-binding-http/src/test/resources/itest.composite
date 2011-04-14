@@ -62,14 +62,28 @@
     <component name="TestClient">
         <sca4j:junit class="tests.http.TestClient"/>
         <reference name="cardService" requires="sca:authentication.message" >
-            <sca4j:binding.http uri="https://localhost:8901"/>
+            <sca4j:binding.http uri="https://localhost:8901/test" timeout="1500"/>
+        </reference>
+    </component>
+
+   <component name="TestClientTwo">
+        <sca4j:junit class="tests.http.TestClientTwo"/>
+        <reference name="cardServiceTwo">
+            <sca4j:binding.http uri="http://localhost:8900"  timeout="1000"/>
         </reference>
     </component>
     
     <component name="CardService">
         <implementation.composite scdlResource="card.composite" />
         <service name="cardService">
-            <sca4j:binding.http urlIgnoreCase="true" />
+            <sca4j:binding.http urlIgnoreCase="true" contextPath="/test"/>
+        </service>
+    </component>
+
+    <component name="CardServiceTwo">
+        <implementation.composite scdlResource="card.composite" />
+        <service name="cardServiceTwo">
+            <sca4j:binding.http />
         </service>
     </component>
     
