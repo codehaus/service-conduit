@@ -52,8 +52,11 @@
  */
 package org.sca4j.binding.ws.axis2.runtime.jaxb;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -68,37 +71,60 @@ import org.sca4j.spi.builder.interceptor.InterceptorBuilder;
  */
 public class JaxbInterceptorBuilder implements InterceptorBuilder<JaxbInterceptorDefinition, JaxbInterceptor> {
 
+    private static ConcurrentHashMap<String, CacheEntry> cache = new ConcurrentHashMap<String, CacheEntry>(); 
+    
     public JaxbInterceptor build(JaxbInterceptorDefinition definition) throws BuilderException {
-
-        ClassLoader classLoader = getClass().getClassLoader();
 
         try {
             
-            Class<?> interfaceClass = classLoader.loadClass(definition.getInterfaze());
-            Method interceptedMethod = null;
-            for (Method method : interfaceClass.getDeclaredMethods()) {
-                if (definition.getOperation().equals(method.getName())) {
-                    interceptedMethod = method;
-                }
+            String key = definition.getInterfaze() + definition.getOperation();
+            CacheEntry cacheEntry = cache.get(key);
+            if (cacheEntry == null) {
+                cacheEntry = createCacheEntry(definition);
+                cache.putIfAbsent(key, cacheEntry);
             }
             
-            JaxbMethodInfo jaxbMethodInfo = new JaxbMethodInfo(interceptedMethod);
-            List<Class<?>> jaxbClasses = jaxbMethodInfo.getJaxbClasses();
-            
-            if (jaxbClasses.size() > 0) {
-                JAXBContext context = JAXBContext.newInstance(jaxbClasses.toArray(new Class<?>[jaxbClasses.size()]));
-                return new JaxbInterceptor(context, definition.isService(), jaxbMethodInfo.getFaultConstructors(), interceptedMethod, true);
-            } else {
-                return new JaxbInterceptor(null, definition.isService(), null, interceptedMethod, false);
-            }
-            
-
+            return new JaxbInterceptor(cacheEntry.context, definition.isService(), cacheEntry.faultConstructors, cacheEntry.method, cacheEntry.isJaxb);
         } catch (ClassNotFoundException e) {
             throw new JaxbBuilderException(e);
         } catch (JAXBException e) {
             throw new JaxbBuilderException(e);
         }
 
+    }
+    
+    private CacheEntry createCacheEntry(JaxbInterceptorDefinition definition) throws ClassNotFoundException, JAXBException {
+        
+        ClassLoader classLoader = getClass().getClassLoader();
+        
+        Class<?> interfaceClass = classLoader.loadClass(definition.getInterfaze());
+        Method interceptedMethod = null;
+        for (Method method : interfaceClass.getDeclaredMethods()) {
+            if (definition.getOperation().equals(method.getName())) {
+                interceptedMethod = method;
+            }
+        }
+        
+        JaxbMethodInfo jaxbMethodInfo = new JaxbMethodInfo(interceptedMethod);
+        List<Class<?>> jaxbClasses = jaxbMethodInfo.getJaxbClasses();
+
+        CacheEntry result = new CacheEntry();
+        result.method = interceptedMethod;
+        if (jaxbClasses.size() > 0) {
+            //The JAXBContext is thread safe. 
+            result.context = JAXBContext.newInstance(jaxbClasses.toArray(new Class<?>[jaxbClasses.size()]));
+            result.faultConstructors = jaxbMethodInfo.getFaultConstructors();
+            result.isJaxb = true;
+        }
+         
+        return result;
+    }
+
+    private static class CacheEntry {
+        JAXBContext context;
+        Map<Class<?>, Constructor<?>> faultConstructors;
+        Method method;
+        boolean isJaxb;
     }
     
 }
